@@ -129,7 +129,7 @@ else
 endif
 
 # Rules that do not require scanning for dependencies
-RULES_NO_SCAN += dump diff extract clean tidy
+RULES_NO_SCAN += dump diff extract clean tidy check-synthetic
 
 # Generate tools before building anything
 SETUP_PREREQS ?= 1
@@ -151,6 +151,10 @@ endif
 check: all
 	$(MSG) SHA1SUM $(SHA1FILE)
 	$Q$(SHA1SUM) -c $(SHA1FILE)
+
+.PHONY: check-synthetic
+check-synthetic:
+	$Qtools/check_synthetic.sh
 
 .PHONY: dump
 dump: $(DUMPS)
@@ -201,6 +205,7 @@ help:
 	@echo 'Targets:'
 	@echo '  all: build the ROM'
 	@echo '  check: checksum the ROM'
+	@echo '  check-synthetic: build from a synthetic baserom and compare with mf_us_synthetic.sha1'
 	@echo '  dump: dump the ROMs'
 	@echo '  diff: compare the ROM with the original'
 	@echo '  clean: remove the ROM and intermediate files'
