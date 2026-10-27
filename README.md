@@ -45,6 +45,7 @@ The default built ROM is mf_us.gba
 - Install `git` by running this command: `sudo apt-get install git`
 - Install `make` by running this command: `sudo apt-get install make`
 
+- Alternatively, `tools/setup_toolchain.sh` clones, builds and installs agbcc in one step (to `/opt/agbcc`, with symlinks in `/usr/local/bin`; see the script for options)
 - Clone [agbcc](https://github.com/pret/agbcc) by running this command: `git clone https://github.com/pret/agbcc`
 - Enter the agbcc folder (run `cd agbcc`) and build it (run `./build.sh`)
 - Add agbcc to your path (`export PATH="<agbcc_path>:$PATH"`, where `<agbcc_path>` is the full path to the agbcc directory)
@@ -64,6 +65,10 @@ The default built ROM is mf_us.gba
   - Specify it directly (ex: `make us_debug` for the US ROM with debug features)
   - Specify the flags, REGION (takes the region name, defaults to `us`) and DEBUG (takes 0 or 1, defaults to 0)
 - Optionally, you can combine the commands to make it easier: `python3 tools/extractor.py && make -j`
+
+## Checking without a baserom
+
+`make check-synthetic` builds the ROM from a deterministic synthetic baserom and compares it with the golden sha1 in `mf_us_synthetic.sha1`. It catches code changes that would break matching without needing the real ROM. See [docs/synthetic_check.md](docs/synthetic_check.md) for what it covers and when the golden value may be updated.
 
 ## Contributing
 
