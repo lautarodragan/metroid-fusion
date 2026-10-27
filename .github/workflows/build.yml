@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  synthetic-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends binutils-arm-none-eabi build-essential git python3
+          # Install agbcc under $HOME (cached); setup_toolchain.sh adds it to $GITHUB_PATH
+          echo "AGBCC_PREFIX=$HOME/agbcc" >> "$GITHUB_ENV"
+          echo "AGBCC_LINK_DIR=" >> "$GITHUB_ENV"
+
+      - name: Cache agbcc
+        uses: actions/cache@v4
+        with:
+          path: ~/agbcc
+          key: agbcc-${{ runner.os }}-${{ hashFiles('tools/setup_toolchain.sh') }}
+
+      - name: Set up agbcc
+        run: tools/setup_toolchain.sh
+
+      - name: Build from synthetic baserom and check golden sha1
+        run: tools/check_synthetic.sh
