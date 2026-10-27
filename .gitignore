@@ -22,3 +22,6 @@ tools/agbcc
 .vscode
 
 err.log
+
+__pycache__/
+*.pyc
