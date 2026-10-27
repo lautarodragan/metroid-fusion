@@ -40,7 +40,7 @@ track_515:
 	.byte 0
 	.byte 251
 	.byte 128
-	.word 0x80a8554
+	.word sVoicegroup_a8554
 	.word track_515_0
 	.word track_515_1
 

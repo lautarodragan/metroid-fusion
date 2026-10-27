@@ -83,7 +83,7 @@ track_512:
 	.byte 0
 	.byte 251
 	.byte 128
-	.word 0x80a8554
+	.word sVoicegroup_a8554
 	.word track_512_0
 	.word track_512_1
 
