@@ -1478,7 +1478,7 @@ void AudioCommand_Repeat(struct TrackVariables* pVariables)
         pVariables->repeatCount = *pVariables->pRawData;
 
         // Start pattern
-        unk_4a7c(pVariables);
+        AudioCommand_PatternPlay(pVariables);
         return;
     }
 
@@ -1492,7 +1492,7 @@ void AudioCommand_Repeat(struct TrackVariables* pVariables)
     pVariables->pRawData++;
 
     // Replay pattern
-    unk_4a7c(pVariables);
+    AudioCommand_PatternPlay(pVariables);
 }
 
 /**

@@ -660,8 +660,8 @@ _08004A30:
 	.align 2, 0
 _08004A38: .4byte gMusicInfo
 
-	thumb_func_start unk_4a3c
-unk_4a3c: @ 0x08004A3C
+	thumb_func_start AudioCommand_Goto
+AudioCommand_Goto: @ 0x08004A3C
 	ldr r1, [r0, #0x24]
 	adds r1, #1
 	movs r2, #3
@@ -698,8 +698,8 @@ _08004A76:
 	bx lr
 	.align 2, 0
 
-	thumb_func_start unk_4a7c
-unk_4a7c: @ 0x08004A7C
+	thumb_func_start AudioCommand_PatternPlay
+AudioCommand_PatternPlay: @ 0x08004A7C
 	ldr r1, [r0, #0x24]
 	adds r1, #1
 	movs r2, #3
