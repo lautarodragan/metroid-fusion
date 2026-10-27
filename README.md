@@ -2,6 +2,8 @@
 
 This is a work in progress decompilation of Metroid Fusion.
 
+Documentation (in Spanish): https://lautarodragan.github.io/metroid-fusion/ (sources in [book/](book/))
+
 3256/3607 functions decompiled (90.27%, 351 left)
 
 0x5dca90/0x6f9d24 bytes of data not in blobs (84.03%, 0x11d294 left)
