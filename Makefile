@@ -1,6 +1,9 @@
 # Disable built-in rules
 .SUFFIXES:
 
+# Remove targets whose recipe failed (agbcc writes its output even on errors)
+.DELETE_ON_ERROR:
+
 REGION ?= us
 PAD_TO = 0x08800000
 
