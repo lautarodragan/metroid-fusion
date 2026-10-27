@@ -737,7 +737,7 @@ GunshipEndStartingEngine1: @ 0x080566A8
 	lsls r0, r0, #3
 	adds r0, r0, r1
 	strh r3, [r0]
-	ldr r0, _08056724 @ =0x082F474E
+	ldr r0, _08056724 @ =sGunshipFlashingPal+0x16
 	ldr r1, _08056728 @ =0x040000D4
 	str r0, [r1]
 	ldr r0, _0805672C @ =0x05000336
@@ -755,7 +755,7 @@ _08056712:
 _08056718: .4byte gCurrentSprite
 _0805671C: .4byte 0x0839EC68
 _08056720: .4byte gSpriteData
-_08056724: .4byte 0x082F474E
+_08056724: .4byte sGunshipFlashingPal+0x16
 _08056728: .4byte 0x040000D4
 _0805672C: .4byte 0x05000336
 _08056730: .4byte 0x80000005
@@ -968,7 +968,7 @@ GunshipEndBottomIdle: @ 0x0805689C
 	adds r3, #0x2e
 	ldrb r0, [r3]
 	lsls r0, r0, #5
-	ldr r1, _080568E4 @ =0x082F474E
+	ldr r1, _080568E4 @ =sGunshipFlashingPal+0x16
 	adds r0, r0, r1
 	ldr r1, _080568E8 @ =0x040000D4
 	str r0, [r1]
@@ -989,7 +989,7 @@ GunshipEndBottomIdle: @ 0x0805689C
 	b _0805690A
 	.align 2, 0
 _080568E0: .4byte gCurrentSprite
-_080568E4: .4byte 0x082F474E
+_080568E4: .4byte sGunshipFlashingPal+0x16
 _080568E8: .4byte 0x040000D4
 _080568EC: .4byte 0x05000336
 _080568F0: .4byte 0x80000005

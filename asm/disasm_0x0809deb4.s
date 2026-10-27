@@ -5135,7 +5135,7 @@ _080A0694:
 	ldr r4, _080A07FC @ =0x84000008
 	movs r2, #0x80
 	lsls r2, r2, #3
-	ldr r5, _080A0800 @ =0x08682FAC
+	ldr r5, _080A0800 @ =sCharactersGfx
 _080A0710:
 	lsls r0, r6, #2
 	add r0, sp
@@ -5254,7 +5254,7 @@ _080A07E2:
 _080A07F4: .4byte 0x03000011
 _080A07F8: .4byte 0x040000D4
 _080A07FC: .4byte 0x84000008
-_080A0800: .4byte 0x08682FAC
+_080A0800: .4byte sCharactersGfx
 _080A0804: .4byte 0x85000080
 _080A0808: .4byte 0x0873DB64
 _080A080C: .4byte 0xFFFFFB60
@@ -5343,7 +5343,7 @@ _080A088A:
 	bl DivArmMod
 	str r0, [sp, #8]
 	movs r6, #0
-	ldr r5, _080A0A30 @ =0x08682FAC
+	ldr r5, _080A0A30 @ =sCharactersGfx
 	ldr r1, _080A0A18 @ =0x040000D4
 	ldr r4, _080A0A20 @ =0x84000008
 	movs r2, #0x80
@@ -5526,7 +5526,7 @@ _080A0A20: .4byte 0x84000008
 _080A0A24: .4byte 0xFFFFFB60
 _080A0A28: .4byte 0x0873DB24
 _080A0A2C: .4byte 0x0873DAE4
-_080A0A30: .4byte 0x08682FAC
+_080A0A30: .4byte sCharactersGfx
 _080A0A34: .4byte gNonGameplayRam
 _080A0A38: .4byte 0x03000B94
 

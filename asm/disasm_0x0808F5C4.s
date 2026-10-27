@@ -34,7 +34,7 @@ unk_9209c: @ 0x0809209C
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
 	movs r4, #0
-	ldr r5, _080921D8 @ =0x0879C41C
+	ldr r5, _080921D8 @ =sIntroSamusSittingBgGfxPointers
 _080920DC:
 	lsls r0, r4, #2
 	adds r0, r0, r5
@@ -51,7 +51,7 @@ _080920DC:
 	ldr r0, _080921E0 @ =0x08658BE0
 	ldr r1, _080921E4 @ =0x0600E800
 	bl LZ77UncompVram
-	ldr r0, _080921E8 @ =0x08598898
+	ldr r0, _080921E8 @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080921EC @ =0x0600E000
 	bl LZ77UncompVram
 	ldr r4, _080921CC @ =0x040000D4
@@ -115,7 +115,7 @@ _080920DC:
 	bl SpecialCutsceneProcessOam
 	bl SpecialCutsceneDrawAllOam
 	ldr r1, _080921D0 @ =gNonGameplayRam
-	ldr r0, _0809222C @ =0x0863A19C
+	ldr r0, _0809222C @ =sCutsceneTextNone
 	str r0, [r1]
 	movs r0, #0
 	str r0, [sp]
@@ -148,11 +148,11 @@ _080921C8: .4byte unk_99940
 _080921CC: .4byte 0x040000D4
 _080921D0: .4byte gNonGameplayRam
 _080921D4: .4byte 0x85000150
-_080921D8: .4byte 0x0879C41C
+_080921D8: .4byte sIntroSamusSittingBgGfxPointers
 _080921DC: .4byte 0x06008000
 _080921E0: .4byte 0x08658BE0
 _080921E4: .4byte 0x0600E800
-_080921E8: .4byte 0x08598898
+_080921E8: .4byte sIntroSamusShipFlyingTextTilemap
 _080921EC: .4byte 0x0600E000
 _080921F0: .4byte 0x086591E4
 _080921F4: .4byte 0x84000080
@@ -169,7 +169,7 @@ _0809221C: .4byte 0x04000054
 _08092220: .4byte gWrittenToBldalpha_Eva
 _08092224: .4byte gWrittenToBldalpha_Evb
 _08092228: .4byte 0x04000052
-_0809222C: .4byte 0x0863A19C
+_0809222C: .4byte sCutsceneTextNone
 _08092230: .4byte 0x0600D000
 _08092234: .4byte 0x85000400
 _08092238: .4byte unk_93884
@@ -218,7 +218,7 @@ _08092290:
 	ldrh r0, [r4]
 	cmp r0, #5
 	bhi _080922BC
-	ldr r2, _080922B4 @ =0x0879C41C
+	ldr r2, _080922B4 @ =sIntroSamusSittingBgGfxPointers
 	adds r1, r0, #0
 	subs r1, #1
 	lsls r0, r1, #2
@@ -230,7 +230,7 @@ _08092290:
 	bl LZ77UncompVram
 	b _08092480
 	.align 2, 0
-_080922B4: .4byte 0x0879C41C
+_080922B4: .4byte sIntroSamusSittingBgGfxPointers
 _080922B8: .4byte 0x06008000
 _080922BC:
 	cmp r0, #6
@@ -317,8 +317,8 @@ _08092362:
 	beq _080923C0
 	cmp r0, #0x10
 	bne _080923A2
-	ldr r5, _080923B0 @ =0x080A8CDC
-	ldr r4, _080923B4 @ =0x080A8D3C
+	ldr r5, _080923B0 @ =sMusicTrackDataRom
+	ldr r4, _080923B4 @ =sSoundDataEntries
 	ldr r1, _080923B8 @ =0x00000F64
 	adds r0, r4, r1
 	ldrh r1, [r0]
@@ -346,8 +346,8 @@ _080923A2:
 	b _08092480
 	.align 2, 0
 _080923AC: .4byte gWrittenToBldalpha_Evb
-_080923B0: .4byte 0x080A8CDC
-_080923B4: .4byte 0x080A8D3C
+_080923B0: .4byte sMusicTrackDataRom
+_080923B4: .4byte sSoundDataEntries
 _080923B8: .4byte 0x00000F64
 _080923BC: .4byte 0x00000F6C
 _080923C0:
@@ -562,7 +562,7 @@ _0809253E:
 	ldr r0, _080926DC @ =0x086593E4
 	ldr r1, _080926E0 @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _080926E4 @ =0x08598898
+	ldr r0, _080926E4 @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080926E8 @ =0x0600E000
 	bl LZ77UncompVram
 	ldr r4, _080926B8 @ =0x040000D4
@@ -684,7 +684,7 @@ _0809253E:
 	bl SpecialCutsceneProcessOam
 	bl SpecialCutsceneDrawAllOam
 	ldr r1, _0809272C @ =gNonGameplayRam
-	ldr r0, _08092730 @ =0x0863A19C
+	ldr r0, _08092730 @ =sCutsceneTextNone
 	str r0, [r1]
 	str r5, [sp]
 	mov r0, sp
@@ -724,7 +724,7 @@ _080926D4: .4byte 0x84000080
 _080926D8: .4byte 0x0879C448
 _080926DC: .4byte 0x086593E4
 _080926E0: .4byte 0x0600F000
-_080926E4: .4byte 0x08598898
+_080926E4: .4byte sIntroSamusShipFlyingTextTilemap
 _080926E8: .4byte 0x0600E000
 _080926EC: .4byte 0x086599A4
 _080926F0: .4byte 0x84000040
@@ -743,7 +743,7 @@ _08092720: .4byte gWrittenToBldalpha_Eva
 _08092724: .4byte gWrittenToBldalpha_Evb
 _08092728: .4byte 0x04000052
 _0809272C: .4byte gNonGameplayRam
-_08092730: .4byte 0x0863A19C
+_08092730: .4byte sCutsceneTextNone
 _08092734: .4byte 0x0600D000
 _08092738: .4byte 0x85000400
 _0809273C: .4byte IntroShipAlertAndDraftingVblank
@@ -834,8 +834,8 @@ _080927D4:
 	bhi _08092814
 	cmp r0, #0
 	bne _080927FA
-	ldr r2, _08092808 @ =0x080A8CDC
-	ldr r0, _0809280C @ =0x080A8D3C
+	ldr r2, _08092808 @ =sMusicTrackDataRom
+	ldr r0, _0809280C @ =sSoundDataEntries
 	ldr r1, _08092810 @ =0x00000F5C
 	adds r0, r0, r1
 	ldrh r1, [r0]
@@ -853,8 +853,8 @@ _080927FA:
 	b _0809281C
 	.align 2, 0
 _08092804: .4byte gWrittenToBldy
-_08092808: .4byte 0x080A8CDC
-_0809280C: .4byte 0x080A8D3C
+_08092808: .4byte sMusicTrackDataRom
+_0809280C: .4byte sSoundDataEntries
 _08092810: .4byte 0x00000F5C
 _08092814:
 	movs r0, #0
@@ -908,24 +908,24 @@ IntroSamusDriftingOutInit: @ 0x08092830
 	ldr r0, _0809298C @ =0x086101B8
 	ldr r1, _08092990 @ =0x06010000
 	bl LZ77UncompVram
-	ldr r0, _08092994 @ =0x08612F48
+	ldr r0, _08092994 @ =sPal_612f48
 	str r0, [r5]
 	ldr r0, _08092998 @ =0x05000200
 	str r0, [r5, #4]
 	ldr r6, _0809299C @ =0x84000080
 	str r6, [r5, #8]
 	ldr r0, [r5, #8]
-	ldr r0, _080929A0 @ =0x08605D08
+	ldr r0, _080929A0 @ =sTitleScreenSpaceBackgroundGfx
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _080929A4 @ =0x08609220
+	ldr r0, _080929A4 @ =sTitleScreenSpaceBackgroundTilemap
 	ldr r1, _080929A8 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _080929AC @ =0x08598898
+	ldr r0, _080929AC @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080929B0 @ =0x0600E000
 	bl LZ77UncompVram
-	ldr r0, _080929B4 @ =0x08609020
+	ldr r0, _080929B4 @ =sPal_609020
 	str r0, [r5]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -993,7 +993,7 @@ IntroSamusDriftingOutInit: @ 0x08092830
 	bl SpecialCutsceneDrawAllOam
 	ldr r0, _080929EC @ =0xFFFFFDE4
 	add r8, r0
-	ldr r0, _080929F0 @ =0x0863A19C
+	ldr r0, _080929F0 @ =sCutsceneTextNone
 	mov r1, r8
 	str r0, [r1]
 	str r4, [sp]
@@ -1030,15 +1030,15 @@ _08092984: .4byte 0x030016A0
 _08092988: .4byte 0x850000B4
 _0809298C: .4byte 0x086101B8
 _08092990: .4byte 0x06010000
-_08092994: .4byte 0x08612F48
+_08092994: .4byte sPal_612f48
 _08092998: .4byte 0x05000200
 _0809299C: .4byte 0x84000080
-_080929A0: .4byte 0x08605D08
-_080929A4: .4byte 0x08609220
+_080929A0: .4byte sTitleScreenSpaceBackgroundGfx
+_080929A4: .4byte sTitleScreenSpaceBackgroundTilemap
 _080929A8: .4byte 0x0600F800
-_080929AC: .4byte 0x08598898
+_080929AC: .4byte sIntroSamusShipFlyingTextTilemap
 _080929B0: .4byte 0x0600E000
-_080929B4: .4byte 0x08609020
+_080929B4: .4byte sPal_609020
 _080929B8: .4byte 0x04000010
 _080929BC: .4byte 0x0300122C
 _080929C0: .4byte 0x0300122E
@@ -1053,7 +1053,7 @@ _080929E0: .4byte gWrittenToBldalpha_Eva
 _080929E4: .4byte gWrittenToBldalpha_Evb
 _080929E8: .4byte 0x04000052
 _080929EC: .4byte 0xFFFFFDE4
-_080929F0: .4byte 0x0863A19C
+_080929F0: .4byte sCutsceneTextNone
 _080929F4: .4byte 0x0600D000
 _080929F8: .4byte 0x85000400
 _080929FC: .4byte IntroShipAlertAndDraftingVblank
@@ -1250,8 +1250,8 @@ _08092B7C:
 	strh r0, [r2]
 	cmp r1, #0
 	bne _08092BB2
-	ldr r2, _08092BC0 @ =0x080A8CDC
-	ldr r0, _08092BC4 @ =0x080A8D3C
+	ldr r2, _08092BC0 @ =sMusicTrackDataRom
+	ldr r0, _08092BC4 @ =sSoundDataEntries
 	ldr r1, _08092BC8 @ =0x00000F64
 	adds r0, r0, r1
 	ldrh r1, [r0]
@@ -1269,8 +1269,8 @@ _08092BB2:
 	b _08092BDE
 	.align 2, 0
 _08092BBC: .4byte gWrittenToBldy
-_08092BC0: .4byte 0x080A8CDC
-_08092BC4: .4byte 0x080A8D3C
+_08092BC0: .4byte sMusicTrackDataRom
+_08092BC4: .4byte sSoundDataEntries
 _08092BC8: .4byte 0x00000F64
 _08092BCC:
 	movs r0, #0x84
@@ -1619,7 +1619,7 @@ _08092E78:
 	ldrb r1, [r3, #0x13]
 	adds r1, #1
 	strb r1, [r3, #0x13]
-	ldr r2, _08092EFC @ =0x080A4FA4
+	ldr r2, _08092EFC @ =sSineTable
 	ldrb r0, [r3, #0x13]
 	lsls r0, r0, #1
 	adds r0, r0, r2
@@ -1683,7 +1683,7 @@ _08092EDA:
 	bl SoundPlay
 	b _080930BA
 	.align 2, 0
-_08092EFC: .4byte 0x080A4FA4
+_08092EFC: .4byte sSineTable
 _08092F00:
 	cmp r0, #2
 	bne _08092F7C
@@ -1698,7 +1698,7 @@ _08092F00:
 	lsrs r1, r1, #0x13
 	ldrh r2, [r3, #2]
 	subs r2, r2, r1
-	ldr r1, _08092F78 @ =0x080A4FA4
+	ldr r1, _08092F78 @ =sSineTable
 	ldrb r0, [r3, #0x13]
 	lsls r0, r0, #1
 	adds r0, r0, r1
@@ -1748,7 +1748,7 @@ _08092F60:
 	strb r0, [r3, #0x14]
 	b _080930BA
 	.align 2, 0
-_08092F78: .4byte 0x080A4FA4
+_08092F78: .4byte sSineTable
 _08092F7C:
 	cmp r0, #3
 	bne _08092FE4
@@ -3104,18 +3104,18 @@ IntroSpaceViewInit: @ 0x08093980
 	ldr r0, _08093B34 @ =0x086101B8
 	ldr r1, _08093B38 @ =0x06010000
 	bl LZ77UncompVram
-	ldr r0, _08093B3C @ =0x08612F48
+	ldr r0, _08093B3C @ =sPal_612f48
 	str r0, [r4]
 	ldr r0, _08093B40 @ =0x05000200
 	str r0, [r4, #4]
 	ldr r0, _08093B44 @ =0x84000080
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08093B48 @ =0x0860BCA4
+	ldr r0, _08093B48 @ =sIntroBslSpaceBgGfx
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _08093B4C @ =0x0860B670
+	ldr r0, _08093B4C @ =sIntroBslTilemap
 	ldr r5, _08093B50 @ =0x02010000
 	adds r1, r5, #0
 	bl LZ77UncompWram
@@ -3135,10 +3135,10 @@ IntroSpaceViewInit: @ 0x08093980
 	ldr r0, _08093B64 @ =0x81000400
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08093B68 @ =0x0860B148
+	ldr r0, _08093B68 @ =sIntroSpaceTilemap
 	ldr r1, _08093B6C @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _08093B70 @ =0x08612E48
+	ldr r0, _08093B70 @ =sIntroBslSpaceBgPal
 	str r0, [r4]
 	ldr r0, _08093B74 @ =0x05000100
 	str r0, [r4, #4]
@@ -3148,7 +3148,7 @@ IntroSpaceViewInit: @ 0x08093980
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
 	strh r6, [r0]
-	ldr r0, _08093B7C @ =0x08598898
+	ldr r0, _08093B7C @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _08093B80 @ =0x0600E000
 	bl LZ77UncompVram
 	ldr r0, _08093B84 @ =0x04000010
@@ -3225,7 +3225,7 @@ _08093AA4:
 	bl SpecialCutsceneProcessOam
 	bl SpecialCutsceneDrawAllOam
 	ldr r1, _08093B2C @ =gNonGameplayRam
-	ldr r0, _08093BB0 @ =0x0863A19C
+	ldr r0, _08093BB0 @ =sCutsceneTextNone
 	str r0, [r1]
 	movs r0, #0
 	str r0, [sp]
@@ -3263,23 +3263,23 @@ _08093B2C: .4byte gNonGameplayRam
 _08093B30: .4byte 0x85000150
 _08093B34: .4byte 0x086101B8
 _08093B38: .4byte 0x06010000
-_08093B3C: .4byte 0x08612F48
+_08093B3C: .4byte sPal_612f48
 _08093B40: .4byte 0x05000200
 _08093B44: .4byte 0x84000080
-_08093B48: .4byte 0x0860BCA4
-_08093B4C: .4byte 0x0860B670
+_08093B48: .4byte sIntroBslSpaceBgGfx
+_08093B4C: .4byte sIntroBslTilemap
 _08093B50: .4byte 0x02010000
 _08093B54: .4byte 0x0600E800
 _08093B58: .4byte 0x84000200
 _08093B5C: .4byte 0x000001FF
 _08093B60: .4byte 0x0600F000
 _08093B64: .4byte 0x81000400
-_08093B68: .4byte 0x0860B148
+_08093B68: .4byte sIntroSpaceTilemap
 _08093B6C: .4byte 0x0600F800
-_08093B70: .4byte 0x08612E48
+_08093B70: .4byte sIntroBslSpaceBgPal
 _08093B74: .4byte 0x05000100
 _08093B78: .4byte 0x84000040
-_08093B7C: .4byte 0x08598898
+_08093B7C: .4byte sIntroSamusShipFlyingTextTilemap
 _08093B80: .4byte 0x0600E000
 _08093B84: .4byte 0x04000010
 _08093B88: .4byte gBg1XPosition
@@ -3292,7 +3292,7 @@ _08093BA0: .4byte 0x04000008
 _08093BA4: .4byte 0x00001C08
 _08093BA8: .4byte 0x00005D02
 _08093BAC: .4byte 0x00001F03
-_08093BB0: .4byte 0x0863A19C
+_08093BB0: .4byte sCutsceneTextNone
 _08093BB4: .4byte 0x0600D000
 _08093BB8: .4byte 0x85000400
 _08093BBC: .4byte IntroSpaceViewVblank
@@ -3504,8 +3504,8 @@ _08093D54:
 	bhi _08093D94
 	cmp r0, #0
 	bne _08093D7A
-	ldr r2, _08093D88 @ =0x080A8CDC
-	ldr r0, _08093D8C @ =0x080A8D3C
+	ldr r2, _08093D88 @ =sMusicTrackDataRom
+	ldr r0, _08093D8C @ =sSoundDataEntries
 	ldr r3, _08093D90 @ =0x00000F5C
 	adds r0, r0, r3
 	ldrh r1, [r0]
@@ -3523,8 +3523,8 @@ _08093D7A:
 	b _08093F00
 	.align 2, 0
 _08093D84: .4byte gWrittenToBldy
-_08093D88: .4byte 0x080A8CDC
-_08093D8C: .4byte 0x080A8D3C
+_08093D88: .4byte sMusicTrackDataRom
+_08093D8C: .4byte sSoundDataEntries
 _08093D90: .4byte 0x00000F5C
 _08093D94:
 	movs r7, #1
@@ -3536,7 +3536,7 @@ _08093D98:
 	ldrh r0, [r3]
 	cmp r0, #5
 	bhi _08093DC4
-	ldr r2, _08093DBC @ =0x0879C41C
+	ldr r2, _08093DBC @ =sIntroSamusSittingBgGfxPointers
 	adds r1, r0, #0
 	subs r1, #1
 	lsls r0, r1, #2
@@ -3548,7 +3548,7 @@ _08093D98:
 	bl LZ77UncompVram
 	b _08093F00
 	.align 2, 0
-_08093DBC: .4byte 0x0879C41C
+_08093DBC: .4byte sIntroSamusSittingBgGfxPointers
 _08093DC0: .4byte 0x06008000
 _08093DC4:
 	cmp r0, #6
@@ -3632,8 +3632,8 @@ _08093E5C:
 	bhi _08093EDC
 	cmp r0, #0
 	bne _08093EB0
-	ldr r5, _08093EC4 @ =0x080A8CDC
-	ldr r4, _08093EC8 @ =0x080A8D3C
+	ldr r5, _08093EC4 @ =sMusicTrackDataRom
+	ldr r4, _08093EC8 @ =sSoundDataEntries
 	ldr r3, _08093ECC @ =0x00000F4C
 	adds r0, r4, r3
 	ldrh r1, [r0]
@@ -3668,8 +3668,8 @@ _08093EB0:
 	b _08093F00
 	.align 2, 0
 _08093EC0: .4byte gWrittenToBldalpha_Eva
-_08093EC4: .4byte 0x080A8CDC
-_08093EC8: .4byte 0x080A8D3C
+_08093EC4: .4byte sMusicTrackDataRom
+_08093EC8: .4byte sSoundDataEntries
 _08093ECC: .4byte 0x00000F4C
 _08093ED0: .4byte 0x00000F54
 _08093ED4: .4byte 0x000001EB
@@ -3765,31 +3765,31 @@ IntroFlyingViewInit: @ 0x08093F4C
 	ldr r0, _080940A0 @ =0x086101B8
 	ldr r1, _080940A4 @ =0x06010000
 	bl LZ77UncompVram
-	ldr r0, _080940A8 @ =0x08612F48
+	ldr r0, _080940A8 @ =sPal_612f48
 	str r0, [r4]
 	ldr r0, _080940AC @ =0x05000200
 	str r0, [r4, #4]
 	ldr r6, _080940B0 @ =0x84000080
 	str r6, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _080940B4 @ =0x08605D08
+	ldr r0, _080940B4 @ =sTitleScreenSpaceBackgroundGfx
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _080940B8 @ =0x08609220
+	ldr r0, _080940B8 @ =sTitleScreenSpaceBackgroundTilemap
 	ldr r1, _080940BC @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _080940C0 @ =0x08598898
+	ldr r0, _080940C0 @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080940C4 @ =0x0600E000
 	bl LZ77UncompVram
-	ldr r0, _080940C8 @ =0x08609020
+	ldr r0, _080940C8 @ =sPal_609020
 	str r0, [r4]
 	movs r1, #0xa0
 	lsls r1, r1, #0x13
 	str r1, [r4, #4]
 	str r6, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _080940CC @ =0x08598A8C
+	ldr r0, _080940CC @ =sPal_598a8c
 	str r0, [r4]
 	ldr r0, _080940D0 @ =0x050001E0
 	str r0, [r4, #4]
@@ -3847,7 +3847,7 @@ IntroFlyingViewInit: @ 0x08093F4C
 	bl SpecialCutsceneDrawAllOam
 	ldr r0, _08094100 @ =0xFFFFFDE4
 	add r8, r0
-	ldr r0, _08094104 @ =0x0863A19C
+	ldr r0, _08094104 @ =sCutsceneTextNone
 	mov r1, r8
 	str r0, [r1]
 	str r5, [sp]
@@ -3884,16 +3884,16 @@ _08094098: .4byte 0x030016A0
 _0809409C: .4byte 0x850000B4
 _080940A0: .4byte 0x086101B8
 _080940A4: .4byte 0x06010000
-_080940A8: .4byte 0x08612F48
+_080940A8: .4byte sPal_612f48
 _080940AC: .4byte 0x05000200
 _080940B0: .4byte 0x84000080
-_080940B4: .4byte 0x08605D08
-_080940B8: .4byte 0x08609220
+_080940B4: .4byte sTitleScreenSpaceBackgroundGfx
+_080940B8: .4byte sTitleScreenSpaceBackgroundTilemap
 _080940BC: .4byte 0x0600F800
-_080940C0: .4byte 0x08598898
+_080940C0: .4byte sIntroSamusShipFlyingTextTilemap
 _080940C4: .4byte 0x0600E000
-_080940C8: .4byte 0x08609020
-_080940CC: .4byte 0x08598A8C
+_080940C8: .4byte sPal_609020
+_080940CC: .4byte sPal_598a8c
 _080940D0: .4byte 0x050001E0
 _080940D4: .4byte 0x84000008
 _080940D8: .4byte 0x04000010
@@ -3907,7 +3907,7 @@ _080940F4: .4byte 0x04000008
 _080940F8: .4byte 0x00001C08
 _080940FC: .4byte 0x00001F03
 _08094100: .4byte 0xFFFFFDE4
-_08094104: .4byte 0x0863A19C
+_08094104: .4byte sCutsceneTextNone
 _08094108: .4byte 0x0600D000
 _0809410C: .4byte 0x85000400
 _08094110: .4byte IntroSpaceViewVblank
@@ -4296,7 +4296,7 @@ _08094408:
 	bne _08094480
 	movs r0, #0
 	ldrsh r3, [r5, r0]
-	ldr r2, _08094478 @ =0x080A4FA4
+	ldr r2, _08094478 @ =sSineTable
 	ldrb r1, [r5, #0x13]
 	adds r0, r1, #0
 	adds r0, #0x40
@@ -4348,7 +4348,7 @@ _08094408:
 	movs r0, #4
 	b _080944D4
 	.align 2, 0
-_08094478: .4byte 0x080A4FA4
+_08094478: .4byte sSineTable
 _0809447C: .4byte 0x00007530
 _08094480:
 	cmp r0, #4
@@ -4612,7 +4612,7 @@ _0809465A:
 _08094676:
 	movs r2, #0
 	ldrsh r3, [r6, r2]
-	ldr r2, _080946D4 @ =0x080A4FA4
+	ldr r2, _080946D4 @ =sSineTable
 	ldrb r1, [r6, #0x13]
 	adds r0, r1, #0
 	adds r0, #0x40
@@ -4658,7 +4658,7 @@ _08094676:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080946D4: .4byte 0x080A4FA4
+_080946D4: .4byte sSineTable
 
 	thumb_func_start IntroProcessSplashText
 IntroProcessSplashText: @ 0x080946D8
@@ -4804,7 +4804,7 @@ _080947D2:
 	ldrb r0, [r2, #0x13]
 	adds r0, #1
 	strb r0, [r2, #0x13]
-	ldr r1, _080947F4 @ =0x080A4FA4
+	ldr r1, _080947F4 @ =sSineTable
 	ldrb r0, [r2, #0x13]
 	lsls r0, r0, #1
 	adds r0, r0, r1
@@ -4818,7 +4818,7 @@ _080947F0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080947F4: .4byte 0x080A4FA4
+_080947F4: .4byte sSineTable
 
 	thumb_func_start IntroProcessBslShipSpawning_2
 IntroProcessBslShipSpawning_2: @ 0x080947F8
@@ -5923,7 +5923,7 @@ EndingBslCrashingInit: @ 0x08094F74
 	bl EndingBslCrashingSetupOam
 	bl SpecialCutsceneProcessOam
 	bl SpecialCutsceneDrawAllOam
-	ldr r0, _08095168 @ =0x0863A19C
+	ldr r0, _08095168 @ =sCutsceneTextNone
 	mov r1, r8
 	str r0, [r1]
 	str r5, [sp]
@@ -5984,7 +5984,7 @@ _08095158: .4byte gWrittenToBldy
 _0809515C: .4byte 0x04000054
 _08095160: .4byte gWrittenToBldalpha_Eva
 _08095164: .4byte gWrittenToBldalpha_Evb
-_08095168: .4byte 0x0863A19C
+_08095168: .4byte sCutsceneTextNone
 _0809516C: .4byte 0x0600D000
 _08095170: .4byte 0x85000400
 _08095174: .4byte EndingBslCrashingVblank
@@ -6132,7 +6132,7 @@ EndingShipFrontViewInit: @ 0x08095178
 	bl SpecialCutsceneDrawAllOam
 	ldr r1, _08095364 @ =0xFFFFFDE4
 	adds r6, r6, r1
-	ldr r0, _08095368 @ =0x0863A19C
+	ldr r0, _08095368 @ =sCutsceneTextNone
 	str r0, [r6]
 	str r5, [sp]
 	mov r2, sp
@@ -6192,7 +6192,7 @@ _08095358: .4byte gWrittenToBldalpha_Eva
 _0809535C: .4byte gWrittenToBldalpha_Evb
 _08095360: .4byte 0x04000052
 _08095364: .4byte 0xFFFFFDE4
-_08095368: .4byte 0x0863A19C
+_08095368: .4byte sCutsceneTextNone
 _0809536C: .4byte 0x0600D000
 _08095370: .4byte 0x85000400
 _08095374: .4byte EndingShipFrontViewVblank
@@ -6929,7 +6929,7 @@ _080958EA:
 	ldrb r1, [r3, #0x13]
 	adds r1, #1
 	strb r1, [r3, #0x13]
-	ldr r2, _08095918 @ =0x080A4FA4
+	ldr r2, _08095918 @ =sSineTable
 	ldrb r0, [r3, #0x13]
 	lsls r0, r0, #1
 	adds r0, r0, r2
@@ -6948,7 +6948,7 @@ _080958EA:
 	strh r4, [r3, #0xa]
 	b _08095944
 	.align 2, 0
-_08095918: .4byte 0x080A4FA4
+_08095918: .4byte sSineTable
 _0809591C:
 	cmp r1, #2
 	bne _08095944
@@ -6961,7 +6961,7 @@ _0809591C:
 	adds r0, #1
 	strb r0, [r3, #0x13]
 _08095930:
-	ldr r1, _08095950 @ =0x080A4FA4
+	ldr r1, _08095950 @ =sSineTable
 	ldrb r0, [r3, #0x13]
 	lsls r0, r0, #1
 	adds r0, r0, r1
@@ -6979,7 +6979,7 @@ _08095944:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08095950: .4byte 0x080A4FA4
+_08095950: .4byte sSineTable
 _08095954: .4byte 0x0300122E
 
 	thumb_func_start EndingBslCrashingSetupOam
@@ -7630,7 +7630,7 @@ EndingMonologueInit: @ 0x08095E24
 	str r0, [r4, #4]
 	str r5, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08095FC4 @ =0x08662804
+	ldr r0, _08095FC4 @ =sIntroTilemap_662804
 	movs r5, #0x80
 	lsls r5, r5, #0x12
 	adds r1, r5, #0
@@ -7650,7 +7650,7 @@ EndingMonologueInit: @ 0x08095E24
 	ldr r0, _08095FD0 @ =0x85001200
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08095FD4 @ =0x08663820
+	ldr r0, _08095FD4 @ =sIntroPal_663820
 	str r0, [r4]
 	ldr r0, _08095FD8 @ =0x05000180
 	str r0, [r4, #4]
@@ -7719,7 +7719,7 @@ EndingMonologueInit: @ 0x08095E24
 	bl EndingDialogueSetupOam
 	bl SpecialCutsceneProcessOam
 	bl SpecialCutsceneDrawAllOam
-	ldr r0, _0809601C @ =0x0863A19C
+	ldr r0, _0809601C @ =sCutsceneTextNone
 	mov r1, r8
 	str r0, [r1]
 	movs r1, #0x80
@@ -7756,11 +7756,11 @@ _08095FB4: .4byte 0x06008000
 _08095FB8: .4byte 0x086377F8
 _08095FBC: .4byte 0x0600F800
 _08095FC0: .4byte 0x08636438
-_08095FC4: .4byte 0x08662804
+_08095FC4: .4byte sIntroTilemap_662804
 _08095FC8: .4byte 0x06004800
 _08095FCC: .4byte 0x84000200
 _08095FD0: .4byte 0x85001200
-_08095FD4: .4byte 0x08663820
+_08095FD4: .4byte sIntroPal_663820
 _08095FD8: .4byte 0x05000180
 _08095FDC: .4byte 0x84000020
 _08095FE0: .4byte gBg1XPosition
@@ -7778,7 +7778,7 @@ _0809600C: .4byte gWrittenToBldy
 _08096010: .4byte 0x04000054
 _08096014: .4byte gWrittenToBldalpha_Eva
 _08096018: .4byte gWrittenToBldalpha_Evb
-_0809601C: .4byte 0x0863A19C
+_0809601C: .4byte sCutsceneTextNone
 _08096020: .4byte EndingMonologueVblank
 
 	thumb_func_start EndingAdamConversationInit
@@ -7834,7 +7834,7 @@ EndingAdamConversationInit: @ 0x08096024
 	ldr r0, _080961B4 @ =0x08637238
 	ldr r1, _080961B8 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _080961BC @ =0x08598898
+	ldr r0, _080961BC @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080961C0 @ =0x0600E000
 	bl LZ77UncompVram
 	ldr r0, _080961C4 @ =0x08636438
@@ -7923,7 +7923,7 @@ EndingAdamConversationInit: @ 0x08096024
 	bl SpecialCutsceneDrawAllOam
 	ldr r0, _08096214 @ =0xFFFFFDE4
 	adds r6, r6, r0
-	ldr r0, _08096218 @ =0x0863A19C
+	ldr r0, _08096218 @ =sCutsceneTextNone
 	str r0, [r6]
 	str r5, [sp]
 	mov r1, sp
@@ -7962,7 +7962,7 @@ _080961AC: .4byte 0x086131C8
 _080961B0: .4byte 0x06008000
 _080961B4: .4byte 0x08637238
 _080961B8: .4byte 0x0600F800
-_080961BC: .4byte 0x08598898
+_080961BC: .4byte sIntroSamusShipFlyingTextTilemap
 _080961C0: .4byte 0x0600E000
 _080961C4: .4byte 0x08636438
 _080961C8: .4byte 0x84000080
@@ -7985,7 +7985,7 @@ _08096208: .4byte gWrittenToBldalpha_Eva
 _0809620C: .4byte gWrittenToBldalpha_Evb
 _08096210: .4byte 0x04000052
 _08096214: .4byte 0xFFFFFDE4
-_08096218: .4byte 0x0863A19C
+_08096218: .4byte sCutsceneTextNone
 _0809621C: .4byte 0x0600D000
 _08096220: .4byte 0x85000400
 _08096224: .4byte EndingConversationAndAnimalsVblank
@@ -8138,7 +8138,7 @@ EndingAnimalsInit: @ 0x08096228
 	bl SpecialCutsceneDrawAllOam
 	ldr r0, _08096434 @ =0xFFFFFDE4
 	add r8, r0
-	ldr r0, _08096438 @ =0x0863A19C
+	ldr r0, _08096438 @ =sCutsceneTextNone
 	mov r1, r8
 	str r0, [r1]
 	str r5, [sp]
@@ -8206,7 +8206,7 @@ _08096428: .4byte gWrittenToBldalpha_Eva
 _0809642C: .4byte gWrittenToBldalpha_Evb
 _08096430: .4byte 0x04000052
 _08096434: .4byte 0xFFFFFDE4
-_08096438: .4byte 0x0863A19C
+_08096438: .4byte sCutsceneTextNone
 _0809643C: .4byte 0x0600D000
 _08096440: .4byte 0x85000400
 _08096444: .4byte EndingConversationAndAnimalsVblank
@@ -8312,7 +8312,7 @@ _08096500:
 	ldr r1, _08096544 @ =0x00000212
 	adds r0, r5, r1
 	strb r4, [r0]
-	ldr r1, _08096548 @ =0x0879C5A4
+	ldr r1, _08096548 @ =sMonologueTextPointers
 	ldr r0, _0809654C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -8329,7 +8329,7 @@ _08096500:
 	b _080968D6
 	.align 2, 0
 _08096544: .4byte 0x00000212
-_08096548: .4byte 0x0879C5A4
+_08096548: .4byte sMonologueTextPointers
 _0809654C: .4byte 0x03000011
 _08096550:
 	ldr r0, [r5]
@@ -8707,8 +8707,8 @@ _08096828:
 	ldrh r0, [r1]
 	cmp r0, #1
 	bne _0809685C
-	ldr r2, _08096850 @ =0x080A8CDC
-	ldr r0, _08096854 @ =0x080A8D3C
+	ldr r2, _08096850 @ =sMusicTrackDataRom
+	ldr r0, _08096854 @ =sSoundDataEntries
 	ldr r1, _08096858 @ =0x00001264
 	adds r0, r0, r1
 	ldrh r1, [r0]
@@ -8721,8 +8721,8 @@ _08096828:
 	bl ApplyMusicSoundFading
 	b _080968D8
 	.align 2, 0
-_08096850: .4byte 0x080A8CDC
-_08096854: .4byte 0x080A8D3C
+_08096850: .4byte sMusicTrackDataRom
+_08096854: .4byte sSoundDataEntries
 _08096858: .4byte 0x00001264
 _0809685C:
 	cmp r0, #0xa
@@ -10475,7 +10475,7 @@ DiedOnSr388CollisionInit: @ 0x080974C4
 	bl DiedOnSr388CollisionSetupOam
 	bl SpecialCutsceneProcessOam
 	bl SpecialCutsceneDrawAllOam
-	ldr r0, _080976A8 @ =0x0863A19C
+	ldr r0, _080976A8 @ =sCutsceneTextNone
 	mov r1, r8
 	str r0, [r1]
 	str r5, [sp]
@@ -10537,7 +10537,7 @@ _08097698: .4byte 0x04000054
 _0809769C: .4byte gWrittenToBldalpha_Eva
 _080976A0: .4byte gWrittenToBldalpha_Evb
 _080976A4: .4byte 0x0000024D
-_080976A8: .4byte 0x0863A19C
+_080976A8: .4byte sCutsceneTextNone
 _080976AC: .4byte 0x0600D000
 _080976B0: .4byte 0x85000400
 _080976B4: .4byte DiedOnSr388CollisionVblank
@@ -13206,7 +13206,7 @@ _08098B02:
 	ble _08098B08
 	movs r7, #0xa0
 _08098B08:
-	ldr r0, _08098BBC @ =0x083E3294
+	ldr r0, _08098BBC @ =sHaze_PowerBomb_WindowValuesPointers
 	ldr r6, _08098BC0 @ =0x000001F3
 	adds r1, r1, r6
 	ldrb r1, [r1]
@@ -13305,7 +13305,7 @@ _08098BB2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08098BBC: .4byte 0x083E3294
+_08098BBC: .4byte sHaze_PowerBomb_WindowValuesPointers
 _08098BC0: .4byte 0x000001F3
 _08098BC4: .4byte 0x02001000
 _08098BC8: .4byte 0x03001678
@@ -14013,7 +14013,7 @@ _080990D0:
 	adds r0, r1, #0
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r5, _080993E8 @ =0x080A4FA4
+	ldr r5, _080993E8 @ =sSineTable
 	adds r0, r0, r5
 	movs r2, #0
 	ldrsh r5, [r0, r2]
@@ -14022,7 +14022,7 @@ _080990D0:
 	lsls r3, r3, #0x10
 	asrs r3, r3, #0x10
 	lsls r1, r1, #1
-	ldr r0, _080993E8 @ =0x080A4FA4
+	ldr r0, _080993E8 @ =sSineTable
 	adds r1, r1, r0
 	movs r0, #0
 	ldrsh r1, [r1, r0]
@@ -14192,7 +14192,7 @@ _0809925C:
 	ldrb r0, [r2, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r3, _080993E8 @ =0x080A4FA4
+	ldr r3, _080993E8 @ =sSineTable
 	adds r0, r0, r3
 	movs r5, #0
 	ldrsh r4, [r0, r5]
@@ -14213,7 +14213,7 @@ _0809925C:
 	mov r2, sb
 	ldrb r0, [r2, #0x15]
 	lsls r0, r0, #1
-	ldr r3, _080993E8 @ =0x080A4FA4
+	ldr r3, _080993E8 @ =sSineTable
 	adds r0, r0, r3
 	movs r5, #0
 	ldrsh r4, [r0, r5]
@@ -14231,7 +14231,7 @@ _0809925C:
 	mov r1, sb
 	ldrb r0, [r1, #0x15]
 	lsls r0, r0, #1
-	ldr r2, _080993E8 @ =0x080A4FA4
+	ldr r2, _080993E8 @ =sSineTable
 	adds r0, r0, r2
 	ldrh r4, [r0]
 	rsbs r4, r4, #0
@@ -14255,7 +14255,7 @@ _0809925C:
 	ldrb r0, [r4, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r5, _080993E8 @ =0x080A4FA4
+	ldr r5, _080993E8 @ =sSineTable
 	adds r0, r0, r5
 	movs r1, #0
 	ldrsh r4, [r0, r1]
@@ -14306,7 +14306,7 @@ _08099328:
 	mov r3, sb
 	ldrb r0, [r3, #0x15]
 	lsls r0, r0, #1
-	ldr r5, _080993E8 @ =0x080A4FA4
+	ldr r5, _080993E8 @ =sSineTable
 	adds r0, r0, r5
 	movs r1, #0
 	ldrsh r5, [r0, r1]
@@ -14324,7 +14324,7 @@ _08099328:
 	mov r2, sb
 	ldrb r0, [r2, #0x15]
 	lsls r0, r0, #1
-	ldr r3, _080993E8 @ =0x080A4FA4
+	ldr r3, _080993E8 @ =sSineTable
 	adds r0, r0, r3
 	ldrh r4, [r0]
 	rsbs r4, r4, #0
@@ -14345,7 +14345,7 @@ _08099328:
 	ldrb r0, [r4, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r5, _080993E8 @ =0x080A4FA4
+	ldr r5, _080993E8 @ =sSineTable
 	adds r0, r0, r5
 	movs r1, #0
 	ldrsh r4, [r0, r1]
@@ -14367,7 +14367,7 @@ _08099328:
 	b _0809975A
 	.align 2, 0
 _080993E4: .4byte gOamData
-_080993E8: .4byte 0x080A4FA4
+_080993E8: .4byte sSineTable
 _080993EC: .4byte 0x000001FF
 _080993F0: .4byte 0xFFFFFE00
 _080993F4: .4byte 0x03001238
@@ -14564,7 +14564,7 @@ _08099530:
 	adds r0, r1, #0
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r2, _08099790 @ =0x080A4FA4
+	ldr r2, _08099790 @ =sSineTable
 	adds r0, r0, r2
 	movs r2, #0
 	ldrsh r5, [r0, r2]
@@ -14573,7 +14573,7 @@ _08099530:
 	lsls r3, r3, #0x10
 	asrs r3, r3, #0x10
 	lsls r1, r1, #1
-	ldr r0, _08099790 @ =0x080A4FA4
+	ldr r0, _08099790 @ =sSineTable
 	adds r1, r1, r0
 	movs r0, #0
 	ldrsh r1, [r1, r0]
@@ -14724,7 +14724,7 @@ _08099696:
 	ldrb r0, [r2, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r3, _08099790 @ =0x080A4FA4
+	ldr r3, _08099790 @ =sSineTable
 	adds r0, r0, r3
 	movs r4, #0
 	ldrsh r5, [r0, r4]
@@ -14745,7 +14745,7 @@ _08099696:
 	mov r1, sb
 	ldrb r0, [r1, #0x15]
 	lsls r0, r0, #1
-	ldr r2, _08099790 @ =0x080A4FA4
+	ldr r2, _08099790 @ =sSineTable
 	adds r0, r0, r2
 	movs r3, #0
 	ldrsh r5, [r0, r3]
@@ -14763,7 +14763,7 @@ _08099696:
 	mov r4, sb
 	ldrb r0, [r4, #0x15]
 	lsls r0, r0, #1
-	ldr r5, _08099790 @ =0x080A4FA4
+	ldr r5, _08099790 @ =sSineTable
 	adds r0, r0, r5
 	ldrh r4, [r0]
 	rsbs r4, r4, #0
@@ -14787,7 +14787,7 @@ _08099696:
 	ldrb r0, [r1, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r2, _08099790 @ =0x080A4FA4
+	ldr r2, _08099790 @ =sSineTable
 	adds r0, r0, r2
 	movs r3, #0
 	ldrsh r4, [r0, r3]
@@ -14830,7 +14830,7 @@ _08099780: .4byte gOamData
 _08099784: .4byte 0x0863A184
 _08099788: .4byte 0x0863A190
 _0809978C: .4byte 0x000001FF
-_08099790: .4byte 0x080A4FA4
+_08099790: .4byte sSineTable
 _08099794: .4byte 0xFFFFFE00
 _08099798: .4byte 0x03001238
 _0809979C: .4byte 0x000003FF
@@ -15469,7 +15469,7 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	ldr r0, [r0]
 	ldr r1, _08099DD4 @ =0x0600D000
 	bl LZ77UncompVram
-	ldr r0, _08099DD8 @ =0x08662804
+	ldr r0, _08099DD8 @ =sIntroTilemap_662804
 	movs r5, #0x80
 	lsls r5, r5, #0x12
 	adds r1, r5, #0
@@ -15568,7 +15568,7 @@ _08099DC8: .4byte 0x84000030
 _08099DCC: .4byte 0x0879C4F0
 _08099DD0: .4byte 0x0879C538
 _08099DD4: .4byte 0x0600D000
-_08099DD8: .4byte 0x08662804
+_08099DD8: .4byte sIntroTilemap_662804
 _08099DDC: .4byte 0x08663598
 _08099DE0: .4byte 0x0600D800
 _08099DE4: .4byte 0x0600C800
@@ -15592,7 +15592,7 @@ _08099E16:
 	ldrb r0, [r0]
 	subs r0, #1
 	strh r0, [r2, #0xa]
-	ldr r1, _08099E58 @ =0x0879C5A4
+	ldr r1, _08099E58 @ =sMonologueTextPointers
 	ldr r0, _08099E5C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -15617,7 +15617,7 @@ _08099E16:
 	.align 2, 0
 _08099E50: .4byte gNonGameplayRam
 _08099E54: .4byte gCurrentCutscene
-_08099E58: .4byte 0x0879C5A4
+_08099E58: .4byte sMonologueTextPointers
 _08099E5C: .4byte 0x03000011
 _08099E60: .4byte CutsceneElevatorMonologueVblank
 
@@ -16324,7 +16324,7 @@ CutsceneInternalMonologueInit: @ 0x0809A3AC
 	ldr r0, _0809A4B0 @ =0x84000008
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809A4B4 @ =0x08662804
+	ldr r0, _0809A4B4 @ =sIntroTilemap_662804
 	movs r5, #0x80
 	lsls r5, r5, #0x12
 	adds r1, r5, #0
@@ -16369,7 +16369,7 @@ CutsceneInternalMonologueInit: @ 0x0809A3AC
 	ldrb r0, [r0]
 	subs r0, #1
 	strh r0, [r2, #0xa]
-	ldr r1, _0809A4DC @ =0x0879C5A4
+	ldr r1, _0809A4DC @ =sMonologueTextPointers
 	ldr r0, _0809A4E0 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -16403,7 +16403,7 @@ _0809A4A4: .4byte 0x040000D4
 _0809A4A8: .4byte 0x086638A0
 _0809A4AC: .4byte 0x050003E0
 _0809A4B0: .4byte 0x84000008
-_0809A4B4: .4byte 0x08662804
+_0809A4B4: .4byte sIntroTilemap_662804
 _0809A4B8: .4byte 0x0600C800
 _0809A4BC: .4byte 0x84000200
 _0809A4C0: .4byte 0x086636A0
@@ -16413,7 +16413,7 @@ _0809A4CC: .4byte 0x00001908
 _0809A4D0: .4byte gWrittenToBldy
 _0809A4D4: .4byte gNonGameplayRam
 _0809A4D8: .4byte gCurrentCutscene
-_0809A4DC: .4byte 0x0879C5A4
+_0809A4DC: .4byte sMonologueTextPointers
 _0809A4E0: .4byte 0x03000011
 _0809A4E4: .4byte CutsceneInternalMonologueVblank
 
@@ -16706,7 +16706,7 @@ CutsceneFederationMonologueInit: @ 0x0809A6CC
 	ldr r0, _0809A800 @ =0x08674AD8
 	ldr r1, _0809A804 @ =0x0600D000
 	bl LZ77UncompVram
-	ldr r0, _0809A808 @ =0x08662804
+	ldr r0, _0809A808 @ =sIntroTilemap_662804
 	movs r5, #0x80
 	lsls r5, r5, #0x12
 	adds r1, r5, #0
@@ -16725,7 +16725,7 @@ CutsceneFederationMonologueInit: @ 0x0809A6CC
 	ldr r0, _0809A818 @ =0x84000060
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809A81C @ =0x08663820
+	ldr r0, _0809A81C @ =sIntroPal_663820
 	str r0, [r4]
 	ldr r0, _0809A820 @ =0x05000180
 	str r0, [r4, #4]
@@ -16762,7 +16762,7 @@ CutsceneFederationMonologueInit: @ 0x0809A6CC
 	ldrb r0, [r0]
 	subs r0, #1
 	strh r0, [r2, #0xa]
-	ldr r1, _0809A83C @ =0x0879C5A4
+	ldr r1, _0809A83C @ =sMonologueTextPointers
 	ldr r0, _0809A840 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -16799,12 +16799,12 @@ _0809A7F8: .4byte 0x84000008
 _0809A7FC: .4byte 0x086724C0
 _0809A800: .4byte 0x08674AD8
 _0809A804: .4byte 0x0600D000
-_0809A808: .4byte 0x08662804
+_0809A808: .4byte sIntroTilemap_662804
 _0809A80C: .4byte 0x0600C800
 _0809A810: .4byte 0x84000200
 _0809A814: .4byte 0x08674958
 _0809A818: .4byte 0x84000060
-_0809A81C: .4byte 0x08663820
+_0809A81C: .4byte sIntroPal_663820
 _0809A820: .4byte 0x05000180
 _0809A824: .4byte 0x84000020
 _0809A828: .4byte 0x04000012
@@ -16812,7 +16812,7 @@ _0809A82C: .4byte 0x00001908
 _0809A830: .4byte gWrittenToBldy
 _0809A834: .4byte gNonGameplayRam
 _0809A838: .4byte gCurrentCutscene
-_0809A83C: .4byte 0x0879C5A4
+_0809A83C: .4byte sMonologueTextPointers
 _0809A840: .4byte 0x03000011
 _0809A844: .4byte CutsceneFederationMonologueVblank
 
@@ -22093,7 +22093,7 @@ _0809D0FA:
 	ble _0809D104
 	movs r7, #0xa0
 _0809D104:
-	ldr r0, _0809D1B8 @ =0x083E3294
+	ldr r0, _0809D1B8 @ =sHaze_PowerBomb_WindowValuesPointers
 	movs r4, #0xa
 	ldrsh r1, [r3, r4]
 	lsls r1, r1, #2
@@ -22191,7 +22191,7 @@ _0809D1AC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809D1B8: .4byte 0x083E3294
+_0809D1B8: .4byte sHaze_PowerBomb_WindowValuesPointers
 _0809D1BC: .4byte 0x02001000
 _0809D1C0: .4byte gNonGameplayRam
 
@@ -22820,7 +22820,7 @@ _0809D62A:
 	adds r0, r1, #0
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r2, _0809D7C0 @ =0x080A4FA4
+	ldr r2, _0809D7C0 @ =sSineTable
 	adds r0, r0, r2
 	movs r2, #0
 	ldrsh r5, [r0, r2]
@@ -22829,7 +22829,7 @@ _0809D62A:
 	lsls r3, r3, #0x10
 	asrs r3, r3, #0x10
 	lsls r1, r1, #1
-	ldr r0, _0809D7C0 @ =0x080A4FA4
+	ldr r0, _0809D7C0 @ =sSineTable
 	adds r1, r1, r0
 	movs r0, #0
 	ldrsh r1, [r1, r0]
@@ -22979,7 +22979,7 @@ _0809D78C:
 	ldrb r0, [r1, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r2, _0809D7C0 @ =0x080A4FA4
+	ldr r2, _0809D7C0 @ =sSineTable
 	adds r0, r0, r2
 	movs r3, #0
 	ldrsh r5, [r0, r3]
@@ -22992,7 +22992,7 @@ _0809D7B0: .4byte gOamData
 _0809D7B4: .4byte 0x0863A184
 _0809D7B8: .4byte 0x0863A190
 _0809D7BC: .4byte 0x000001FF
-_0809D7C0: .4byte 0x080A4FA4
+_0809D7C0: .4byte sSineTable
 _0809D7C4: .4byte 0xFFFFFE00
 _0809D7C8: .4byte 0x03001238
 _0809D7CC: .4byte 0x000003FF
@@ -23188,7 +23188,7 @@ _0809D904:
 	adds r0, r1, #0
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r2, _0809DB5C @ =0x080A4FA4
+	ldr r2, _0809DB5C @ =sSineTable
 	adds r0, r0, r2
 	movs r2, #0
 	ldrsh r5, [r0, r2]
@@ -23197,7 +23197,7 @@ _0809D904:
 	lsls r3, r3, #0x10
 	asrs r3, r3, #0x10
 	lsls r1, r1, #1
-	ldr r0, _0809DB5C @ =0x080A4FA4
+	ldr r0, _0809DB5C @ =sSineTable
 	adds r1, r1, r0
 	movs r0, #0
 	ldrsh r1, [r1, r0]
@@ -23344,7 +23344,7 @@ _0809DA62:
 	ldrb r0, [r4, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r1, _0809DB5C @ =0x080A4FA4
+	ldr r1, _0809DB5C @ =sSineTable
 	adds r0, r0, r1
 	movs r2, #0
 	ldrsh r5, [r0, r2]
@@ -23366,7 +23366,7 @@ _0809DA7E:
 	mov r1, r8
 	ldrb r0, [r1, #0x15]
 	lsls r0, r0, #1
-	ldr r2, _0809DB5C @ =0x080A4FA4
+	ldr r2, _0809DB5C @ =sSineTable
 	adds r0, r0, r2
 	movs r3, #0
 	ldrsh r5, [r0, r3]
@@ -23384,7 +23384,7 @@ _0809DA7E:
 	mov r4, r8
 	ldrb r0, [r4, #0x15]
 	lsls r0, r0, #1
-	ldr r1, _0809DB5C @ =0x080A4FA4
+	ldr r1, _0809DB5C @ =sSineTable
 	adds r0, r0, r1
 	ldrh r4, [r0]
 	rsbs r4, r4, #0
@@ -23408,7 +23408,7 @@ _0809DA7E:
 	ldrb r0, [r3, #0x15]
 	adds r0, #0x40
 	lsls r0, r0, #1
-	ldr r4, _0809DB5C @ =0x080A4FA4
+	ldr r4, _0809DB5C @ =sSineTable
 	adds r0, r0, r4
 	movs r1, #0
 	ldrsh r4, [r0, r1]
@@ -23451,7 +23451,7 @@ _0809DB4C: .4byte gOamData
 _0809DB50: .4byte 0x0863A184
 _0809DB54: .4byte 0x0863A190
 _0809DB58: .4byte 0x000001FF
-_0809DB5C: .4byte 0x080A4FA4
+_0809DB5C: .4byte sSineTable
 _0809DB60: .4byte 0xFFFFFE00
 _0809DB64: .4byte 0x03001238
 _0809DB68: .4byte 0x000003FF

@@ -257,7 +257,7 @@ _08079CC0:
 	bne _08079CE4
 	adds r3, #1
 _08079CE4:
-	ldr r1, _08079D28 @ =0x0879C0F0
+	ldr r1, _08079D28 @ =sNavConversationTextPointers
 	ldr r0, _08079D2C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -293,7 +293,7 @@ _08079D1A:
 	mov pc, r0
 	.align 2, 0
 _08079D24: .4byte gPreviousNavigationConversation
-_08079D28: .4byte 0x0879C0F0
+_08079D28: .4byte sNavConversationTextPointers
 _08079D2C: .4byte 0x03000011
 _08079D30: .4byte _08079D34
 _08079D34: @ jump table
@@ -836,7 +836,7 @@ _0807A124:
 	add r1, ip
 	mov r8, r1
 _0807A13A:
-	ldr r1, _0807A174 @ =0x0879CDF4
+	ldr r1, _0807A174 @ =sMessageTextPointers
 	ldr r0, _0807A178 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -865,7 +865,7 @@ _0807A13A:
 	mov r2, ip
 	b _0807A1D2
 	.align 2, 0
-_0807A174: .4byte 0x0879CDF4
+_0807A174: .4byte sMessageTextPointers
 _0807A178: .4byte 0x03000011
 _0807A17C: .4byte 0x06007000
 _0807A180:
@@ -1062,7 +1062,7 @@ NavigationConversationGetCurrentConversation: @ 0x0807A2DC
 	push {r4, r5, lr}
 	ldr r0, _0807A330 @ =gEventCounter
 	ldrb r2, [r0]
-	ldr r3, _0807A334 @ =0x08575A60
+	ldr r3, _0807A334 @ =sEventLocationAndNavigationInfo
 	ldr r4, _0807A338 @ =gNonGameplayRam
 	ldr r5, _0807A33C @ =gPreviousNavigationConversation
 	cmp r2, #0
@@ -1105,7 +1105,7 @@ _0807A310:
 	b _0807A34A
 	.align 2, 0
 _0807A330: .4byte gEventCounter
-_0807A334: .4byte 0x08575A60
+_0807A334: .4byte sEventLocationAndNavigationInfo
 _0807A338: .4byte gNonGameplayRam
 _0807A33C: .4byte gPreviousNavigationConversation
 _0807A340: .4byte 0x00000221
@@ -1256,7 +1256,7 @@ _0807A468:
 	beq _0807A4A6
 	adds r3, #1
 _0807A4A6:
-	ldr r1, _0807A4DC @ =0x0879C0F0
+	ldr r1, _0807A4DC @ =sNavConversationTextPointers
 	ldr r0, _0807A4E0 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -1282,7 +1282,7 @@ _0807A4A6:
 	.align 2, 0
 _0807A4D4: .4byte gNonGameplayRam
 _0807A4D8: .4byte 0x00000221
-_0807A4DC: .4byte 0x0879C0F0
+_0807A4DC: .4byte sNavConversationTextPointers
 _0807A4E0: .4byte 0x03000011
 _0807A4E4: .4byte 0x0000E201
 _0807A4E8:
@@ -1440,7 +1440,7 @@ _0807A5F2:
 	adds r1, r1, r0
 	lsls r1, r1, #2
 	adds r1, r1, r3
-	ldr r2, _0807A62C @ =0x085766E0
+	ldr r2, _0807A62C @ =sNavConversationTextBoxCursorYPositions
 	ldrb r0, [r3, #0x18]
 	lsls r0, r0, #1
 	adds r2, #1
@@ -1450,7 +1450,7 @@ _0807A5F2:
 	bl _0807AE42
 	.align 2, 0
 _0807A628: .4byte gNonGameplayRam
-_0807A62C: .4byte 0x085766E0
+_0807A62C: .4byte sNavConversationTextBoxCursorYPositions
 _0807A630:
 	movs r2, #0
 	strh r2, [r1, #0x2e]
@@ -1483,7 +1483,7 @@ _0807A630:
 	adds r1, r1, r0
 	lsls r1, r1, #2
 	adds r1, r1, r3
-	ldr r2, _0807A688 @ =0x085766E0
+	ldr r2, _0807A688 @ =sNavConversationTextBoxCursorYPositions
 	ldrb r0, [r3, #0x18]
 	lsls r0, r0, #1
 	adds r0, r0, r2
@@ -1495,7 +1495,7 @@ _0807A630:
 	bl _0807AE42
 	.align 2, 0
 _0807A684: .4byte 0x0000FF28
-_0807A688: .4byte 0x085766E0
+_0807A688: .4byte sNavConversationTextBoxCursorYPositions
 _0807A68C:
 	ldrb r1, [r3, #0x19]
 	lsls r0, r1, #1
@@ -1512,7 +1512,7 @@ _0807A68C:
 	adds r2, r2, r0
 	lsls r2, r2, #2
 	adds r2, r2, r3
-	ldr r0, _0807A6BC @ =0x085766E0
+	ldr r0, _0807A6BC @ =sNavConversationTextBoxCursorYPositions
 	ldrb r1, [r3, #0x18]
 	lsls r1, r1, #1
 	adds r1, r1, r0
@@ -1522,7 +1522,7 @@ _0807A68C:
 	strh r0, [r2, #0x2c]
 	b _0807AE42
 	.align 2, 0
-_0807A6BC: .4byte 0x085766E0
+_0807A6BC: .4byte sNavConversationTextBoxCursorYPositions
 _0807A6C0:
 	ldr r1, _0807A6F4 @ =gNonGameplayRam
 	movs r0, #0
@@ -2131,7 +2131,7 @@ _0807AB4A:
 	adds r1, r1, r0
 	lsls r1, r1, #2
 	adds r1, r1, r4
-	ldr r2, _0807ABB0 @ =0x085766E0
+	ldr r2, _0807ABB0 @ =sNavConversationTextBoxCursorYPositions
 	ldrb r0, [r4, #0x18]
 	lsls r0, r0, #1
 	adds r0, r0, r2
@@ -2165,7 +2165,7 @@ _0807AB4A:
 	b _0807AE42
 	.align 2, 0
 _0807ABAC: .4byte gNonGameplayRam
-_0807ABB0: .4byte 0x085766E0
+_0807ABB0: .4byte sNavConversationTextBoxCursorYPositions
 _0807ABB4:
 	ldr r5, _0807AC24 @ =gNonGameplayRam
 	movs r3, #0x9a
@@ -2472,7 +2472,7 @@ _0807ADE8:
 	adds r1, r1, r0
 	lsls r1, r1, #2
 	adds r1, r1, r2
-	ldr r3, _0807AE50 @ =0x085766E0
+	ldr r3, _0807AE50 @ =sNavConversationTextBoxCursorYPositions
 	ldrb r0, [r2, #0x18]
 	lsls r0, r0, #1
 	adds r0, r0, r3
@@ -2512,7 +2512,7 @@ _0807AE44:
 	bx r1
 	.align 2, 0
 _0807AE4C: .4byte gNonGameplayRam
-_0807AE50: .4byte 0x085766E0
+_0807AE50: .4byte sNavConversationTextBoxCursorYPositions
 
 	thumb_func_start NavigationConversationSetupOam
 NavigationConversationSetupOam: @ 0x0807AE54
@@ -2807,7 +2807,7 @@ _0807B086:
 	adds r2, r0, r6
 	ldrb r0, [r2, #1]
 	strb r0, [r7]
-	ldr r1, _0807B0C0 @ =0x08576066
+	ldr r1, _0807B0C0 @ =sNavigationTargetLocationAreas
 	ldrb r0, [r7]
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -2829,7 +2829,7 @@ _0807B086:
 	.align 2, 0
 _0807B0B8: .4byte 0x0300004C
 _0807B0BC: .4byte 0x085766E4
-_0807B0C0: .4byte 0x08576066
+_0807B0C0: .4byte sNavigationTargetLocationAreas
 _0807B0C4: .4byte 0x0000020E
 _0807B0C8: .4byte 0x00000212
 _0807B0CC: .4byte 0x0000020F
@@ -3872,7 +3872,7 @@ ProcessPauseScreenText: @ 0x0807B8D4
 	adds r2, r4, #0
 	bl BitFill
 	movs r6, #0
-	ldr r2, _0807B940 @ =0x0879C10C
+	ldr r2, _0807B940 @ =sPauseScreenTextPointers
 	ldr r0, _0807B944 @ =0x03000011
 	movs r1, #0
 	ldrsb r1, [r0, r1]
@@ -3910,7 +3910,7 @@ _0807B926:
 	b _0807B9C2
 	.align 2, 0
 _0807B93C: .4byte 0x0200C000
-_0807B940: .4byte 0x0879C10C
+_0807B940: .4byte sPauseScreenTextPointers
 _0807B944: .4byte 0x03000011
 _0807B948: .4byte gEventCounter
 _0807B94C:
@@ -4041,7 +4041,7 @@ _0807BA30:
 	ldr r1, _0807BA80 @ =0x0200D000
 	mov sl, r1
 _0807BA3C:
-	ldr r1, _0807BA8C @ =0x0879CDF4
+	ldr r1, _0807BA8C @ =sMessageTextPointers
 	ldr r0, _0807BA90 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -4080,7 +4080,7 @@ _0807BA66:
 _0807BA80: .4byte 0x0200D000
 _0807BA84: .4byte 0x0200E000
 _0807BA88: .4byte 0x0200F000
-_0807BA8C: .4byte 0x0879CDF4
+_0807BA8C: .4byte sMessageTextPointers
 _0807BA90: .4byte 0x03000011
 _0807BA94:
 	movs r0, #0x83
@@ -4166,7 +4166,7 @@ _0807BB24:
 	ble _0807BA30
 	ldr r2, _0807BB64 @ =0x0200F000
 	mov sl, r2
-	ldr r1, _0807BB68 @ =0x0879CDF4
+	ldr r1, _0807BB68 @ =sMessageTextPointers
 	ldr r0, _0807BB6C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -4194,7 +4194,7 @@ _0807BB24:
 	.align 2, 0
 _0807BB60: .4byte 0x000001BF
 _0807BB64: .4byte 0x0200F000
-_0807BB68: .4byte 0x0879CDF4
+_0807BB68: .4byte sMessageTextPointers
 _0807BB6C: .4byte 0x03000011
 _0807BB70:
 	ldrh r1, [r6]
@@ -4272,7 +4272,7 @@ GetFlashingSectorNumber: @ 0x0807BBF0
 	ldr r1, _0807BC84 @ =gEventCounter
 	ldrb r2, [r1]
 	adds r6, r0, #0
-	ldr r1, _0807BC88 @ =0x08575A60
+	ldr r1, _0807BC88 @ =sEventLocationAndNavigationInfo
 	ldr r7, _0807BC8C @ =gPreviousNavigationConversation
 	cmp r2, #0
 	ble _0807BC2A
@@ -4333,7 +4333,7 @@ _0807BC68:
 	lsls r0, r2, #3
 	adds r0, r0, r5
 	ldrb r2, [r0, #1]
-	ldr r0, _0807BC94 @ =0x08576066
+	ldr r0, _0807BC94 @ =sNavigationTargetLocationAreas
 	adds r0, r2, r0
 	ldrb r0, [r0]
 	strb r0, [r6]
@@ -4345,10 +4345,10 @@ _0807BC76:
 	.align 2, 0
 _0807BC80: .4byte 0x0300004D
 _0807BC84: .4byte gEventCounter
-_0807BC88: .4byte 0x08575A60
+_0807BC88: .4byte sEventLocationAndNavigationInfo
 _0807BC8C: .4byte gPreviousNavigationConversation
 _0807BC90: .4byte 0x085766E4
-_0807BC94: .4byte 0x08576066
+_0807BC94: .4byte sNavigationTargetLocationAreas
 
 	thumb_func_start NavigationConversationLoadPopUpGraphics
 NavigationConversationLoadPopUpGraphics: @ 0x0807BC98
@@ -5543,7 +5543,7 @@ _0807C614: .4byte 0x02007800
 _0807C618:
 	cmp r0, #0xe
 	bne _0807C626
-	ldr r0, _0807C62C @ =0x0872F2E0
+	ldr r0, _0807C62C @ =sSaXCloseUpGfx
 	movs r1, #0x80
 	lsls r1, r1, #0x12
 	bl LZ77UncompVram
@@ -5551,7 +5551,7 @@ _0807C626:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807C62C: .4byte 0x0872F2E0
+_0807C62C: .4byte sSaXCloseUpGfx
 
 	thumb_func_start unk_7c630
 unk_7c630: @ 0x0807C630
@@ -6067,21 +6067,21 @@ _0807CAF0: .4byte 0x00000266
 _0807CAF4: .4byte 0x0879C17C
 _0807CAF8: .4byte 0x00000265
 _0807CAFC:
-	ldr r0, _0807CB10 @ =0x087338C0
+	ldr r0, _0807CB10 @ =sSaXCloseUpTileTable1
 	ldr r1, _0807CB14 @ =0x06007800
 	bl LZ77UncompVram
-	ldr r0, _0807CB18 @ =0x08733D58
+	ldr r0, _0807CB18 @ =sSaXCloseUpTileTable2
 	ldr r1, _0807CB1C @ =0x0600B800
 	bl LZ77UncompVram
 	b _0807CDE8
 	.align 2, 0
-_0807CB10: .4byte 0x087338C0
+_0807CB10: .4byte sSaXCloseUpTileTable1
 _0807CB14: .4byte 0x06007800
-_0807CB18: .4byte 0x08733D58
+_0807CB18: .4byte sSaXCloseUpTileTable2
 _0807CB1C: .4byte 0x0600B800
 _0807CB20:
 	ldr r1, _0807CB40 @ =0x040000D4
-	ldr r0, _0807CB44 @ =0x0872F0E0
+	ldr r0, _0807CB44 @ =sSaXCloseUpPalGrayscale
 	str r0, [r1]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -6097,7 +6097,7 @@ _0807CB20:
 	b _0807CDEE
 	.align 2, 0
 _0807CB40: .4byte 0x040000D4
-_0807CB44: .4byte 0x0872F0E0
+_0807CB44: .4byte sSaXCloseUpPalGrayscale
 _0807CB48: .4byte 0x80000100
 _0807CB4C: .4byte PauseScreenVBlank_Unused
 _0807CB50: .4byte gNonGameplayRam
@@ -6148,7 +6148,7 @@ _0807CBB0:
 	ldrb r0, [r2]
 	adds r0, #1
 	strb r0, [r2]
-	ldr r1, _0807CBD8 @ =0x0873421C
+	ldr r1, _0807CBD8 @ =sSaXCloseUpDurations
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	ldrb r1, [r1]
@@ -6163,7 +6163,7 @@ _0807CBC8:
 	b _0807CC36
 	.align 2, 0
 _0807CBD4: .4byte 0x00000266
-_0807CBD8: .4byte 0x0873421C
+_0807CBD8: .4byte sSaXCloseUpDurations
 _0807CBDC: .4byte 0x00000265
 _0807CBE0:
 	ldr r1, _0807CBF8 @ =gWrittenToBldalpha_Eva
@@ -6198,7 +6198,7 @@ _0807CC18:
 	ldrb r0, [r2]
 	adds r0, #1
 	strb r0, [r2]
-	ldr r1, _0807CC44 @ =0x0873421C
+	ldr r1, _0807CC44 @ =sSaXCloseUpDurations
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	ldrb r1, [r1, #1]
@@ -6218,7 +6218,7 @@ _0807CC38:
 	b _0807CE56
 	.align 2, 0
 _0807CC40: .4byte 0x00000266
-_0807CC44: .4byte 0x0873421C
+_0807CC44: .4byte sSaXCloseUpDurations
 _0807CC48: .4byte 0x00000265
 _0807CC4C:
 	movs r2, #0x9a
@@ -6238,7 +6238,7 @@ _0807CC4C:
 _0807CC68: .4byte 0x00000265
 _0807CC6C: .4byte 0x00000266
 _0807CC70:
-	ldr r1, _0807CC8C @ =0x08561FA8
+	ldr r1, _0807CC8C @ =sMinimapTilesGfx
 	ldr r2, _0807CC90 @ =0x06008000
 	movs r3, #0x80
 	lsls r3, r3, #5
@@ -6251,12 +6251,12 @@ _0807CC70:
 	adds r1, r1, r2
 	b _0807CDEE
 	.align 2, 0
-_0807CC8C: .4byte 0x08561FA8
+_0807CC8C: .4byte sMinimapTilesGfx
 _0807CC90: .4byte 0x06008000
 _0807CC94: .4byte gNonGameplayRam
 _0807CC98: .4byte 0x00000265
 _0807CC9C:
-	ldr r1, _0807CCB8 @ =0x08562FA8
+	ldr r1, _0807CCB8 @ =sMinimapTilesGfx+0x1000
 	ldr r2, _0807CCBC @ =0x06009000
 	movs r3, #0x80
 	lsls r3, r3, #5
@@ -6269,12 +6269,12 @@ _0807CC9C:
 	adds r1, r1, r3
 	b _0807CDEE
 	.align 2, 0
-_0807CCB8: .4byte 0x08562FA8
+_0807CCB8: .4byte sMinimapTilesGfx+0x1000
 _0807CCBC: .4byte 0x06009000
 _0807CCC0: .4byte gNonGameplayRam
 _0807CCC4: .4byte 0x00000265
 _0807CCC8:
-	ldr r1, _0807CCDC @ =0x08563FA8
+	ldr r1, _0807CCDC @ =sMinimapTilesGfx+0x2000
 	ldr r2, _0807CCE0 @ =0x0600A000
 	movs r3, #0x80
 	lsls r3, r3, #5
@@ -6284,10 +6284,10 @@ _0807CCC8:
 	bl DmaTransfer
 	b _0807CDE8
 	.align 2, 0
-_0807CCDC: .4byte 0x08563FA8
+_0807CCDC: .4byte sMinimapTilesGfx+0x2000
 _0807CCE0: .4byte 0x0600A000
 _0807CCE4:
-	ldr r1, _0807CD10 @ =0x08564FA8
+	ldr r1, _0807CD10 @ =sMinimapTilesGfx+0x3000
 	ldr r2, _0807CD14 @ =0x0600B000
 	movs r3, #0x80
 	lsls r3, r3, #4
@@ -6308,7 +6308,7 @@ _0807CCE4:
 	adds r1, r1, r2
 	b _0807CDEE
 	.align 2, 0
-_0807CD10: .4byte 0x08564FA8
+_0807CD10: .4byte sMinimapTilesGfx+0x3000
 _0807CD14: .4byte 0x0600B000
 _0807CD18: .4byte 0x040000D4
 _0807CD1C: .4byte 0x06009800
@@ -6491,8 +6491,8 @@ _0807CE7A:
 	ldrb r0, [r3]
 	cmp r0, #0
 	beq _0807CED4
-	ldr r2, _0807CECC @ =0x0857607D
-	ldr r1, _0807CED0 @ =0x08576073
+	ldr r2, _0807CECC @ =sEvent_57607D
+	ldr r1, _0807CED0 @ =sEvent_576073
 	adds r0, r0, r1
 	ldrb r0, [r0]
 	adds r0, r0, r2
@@ -6506,10 +6506,10 @@ _0807CEBC: .4byte gCurrentArea
 _0807CEC0: .4byte gNonGameplayRam
 _0807CEC4: .4byte 0x08581500
 _0807CEC8: .4byte gPauseScreenFlag
-_0807CECC: .4byte 0x0857607D
-_0807CED0: .4byte 0x08576073
+_0807CECC: .4byte sEvent_57607D
+_0807CED0: .4byte sEvent_576073
 _0807CED4:
-	ldr r0, _0807CF48 @ =0x0857607D
+	ldr r0, _0807CF48 @ =sEvent_57607D
 	ldrb r1, [r0, #7]
 	movs r4, #0x91
 	lsls r4, r4, #2
@@ -6560,17 +6560,17 @@ _0807CEDE:
 	ldrb r0, [r2]
 	cmp r0, #0
 	beq _0807CF5C
-	ldr r1, _0807CF54 @ =0x08576073
+	ldr r1, _0807CF54 @ =sEvent_576073
 	adds r0, r0, r1
 	ldrb r1, [r0]
 	ldr r2, _0807CF58 @ =0x00000249
 	adds r0, r6, r2
 	b _0807CF6C
 	.align 2, 0
-_0807CF48: .4byte 0x0857607D
+_0807CF48: .4byte sEvent_57607D
 _0807CF4C: .4byte 0x0879C180
 _0807CF50: .4byte gCurrentArea
-_0807CF54: .4byte 0x08576073
+_0807CF54: .4byte sEvent_576073
 _0807CF58: .4byte 0x00000249
 _0807CF5C:
 	ldr r1, _0807CF94 @ =0x085760E8
@@ -6692,7 +6692,7 @@ _0807D04C: .4byte 0x0000024A
 _0807D050:
 	cmp r0, #3
 	bne _0807D0DA
-	ldr r0, _0807D090 @ =0x0857608A
+	ldr r0, _0807D090 @ =sEvent_57608A
 	ldr r1, _0807D094 @ =0x0300004C
 	ldrb r1, [r1]
 	adds r0, r1, r0
@@ -6724,7 +6724,7 @@ _0807D078:
 	adds r0, r0, r1
 	b _0807D0B2
 	.align 2, 0
-_0807D090: .4byte 0x0857608A
+_0807D090: .4byte sEvent_57608A
 _0807D094: .4byte 0x0300004C
 _0807D098: .4byte 0x0879C1A4
 _0807D09C:
@@ -7019,7 +7019,7 @@ _0807D2D0:
 	adds r0, r3, r1
 	strb r4, [r0]
 _0807D2D6:
-	ldr r1, _0807D328 @ =0x0857607D
+	ldr r1, _0807D328 @ =sEvent_57607D
 	ldrb r0, [r5]
 	adds r0, r0, r1
 	ldrb r1, [r0]
@@ -7060,7 +7060,7 @@ _0807D316:
 	b _0807D338
 	.align 2, 0
 _0807D324: .4byte 0x0000024A
-_0807D328: .4byte 0x0857607D
+_0807D328: .4byte sEvent_57607D
 _0807D32C: .4byte 0x00000245
 _0807D330:
 	cmp r1, #0x12

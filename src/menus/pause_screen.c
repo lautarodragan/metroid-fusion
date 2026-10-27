@@ -93,7 +93,7 @@ static u8 sPauseScreenTankCheckMarkOamInfo[TANK_NUM_COUNT][PAUSE_OAM_INFO_COUNT]
     }
 };
 
-static const u8* sPauseDebugItemFlagsPointers[5] = {
+const u8* sPauseDebugItemFlagsPointers[5] = {
     sPauseDebugBeamFlags,
     sPauseDebugMissileFlags,
     sPauseDebugBombFlags,
@@ -251,7 +251,7 @@ static const struct FrameData* sPauseScreenOamPointers[PAUSE_OAM_ID_COUNT] = {
     [PAUSE_OAM_ID_BSL_DIAGRAM_350_DEGREES] = sPauseScreenOam_BslDiagram350Degrees,
 };
 
-static u16** sNavConversationTextPointers[LANGUAGE_COUNT] = {
+u16** sNavConversationTextPointers[LANGUAGE_COUNT] = {
     [LANGUAGE_JAPANESE] = (u16**)0x879CE10,
     [LANGUAGE_HIRAGANA] = (u16**)0x879D194,
     [LANGUAGE_ENGLISH] = (u16**)0x879D50C,
@@ -261,7 +261,7 @@ static u16** sNavConversationTextPointers[LANGUAGE_COUNT] = {
     [LANGUAGE_SPANISH] = (u16**)0x879E31C
 };
 
-static u16** sPauseScreenTextPointers[LANGUAGE_COUNT] = {
+u16** sPauseScreenTextPointers[LANGUAGE_COUNT] = {
     [LANGUAGE_JAPANESE] = (u16**)0x879CFD8,
     [LANGUAGE_HIRAGANA] = (u16**)0x879D35C,
     [LANGUAGE_ENGLISH] = (u16**)0x879D6D4,

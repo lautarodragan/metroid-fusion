@@ -144,7 +144,7 @@ StatusScreenDrawNumber: @ 0x0807E754
 	adds r2, r2, r3
 	ldrb r0, [r2]
 	subs r6, r0, r4
-	ldr r1, _0807E7D8 @ =0x08576180
+	ldr r1, _0807E7D8 @ =sPauseDebugNumbersIncrementValues
 	lsls r0, r6, #1
 	adds r0, r0, r1
 	ldrh r4, [r0]
@@ -172,7 +172,7 @@ _0807E7AC:
 	.align 2, 0
 _0807E7D0: .4byte 0x0858217C
 _0807E7D4: .4byte 0x0600C800
-_0807E7D8: .4byte 0x08576180
+_0807E7D8: .4byte sPauseDebugNumbersIncrementValues
 _0807E7DC:
 	movs r2, #0x80
 	b _0807E7E8
@@ -242,7 +242,7 @@ StatusScreenDrawBeamOrSuit: @ 0x0807E834
 	movs r0, #0
 	mov sb, r0
 	movs r2, #0
-	ldr r0, _0807E964 @ =0x0857617A
+	ldr r0, _0807E964 @ =sStatusScreenSectionSizes
 	adds r1, r7, r0
 	ldrb r1, [r1]
 	cmp sb, r1
@@ -283,7 +283,7 @@ _0807E886:
 	lsls r0, r0, #5
 	ldr r1, [sp, #8]
 	adds r6, r0, r1
-	ldr r0, _0807E970 @ =0x0879BEA8
+	ldr r0, _0807E970 @ =sPauseDebugItemFlagsPointers
 	add r0, sl
 	ldr r0, [r0]
 	adds r0, r0, r2
@@ -324,7 +324,7 @@ _0807E8E0:
 	cmp r1, #0
 	bne _0807E8E0
 _0807E8EE:
-	ldr r6, _0807E964 @ =0x0857617A
+	ldr r6, _0807E964 @ =sStatusScreenSectionSizes
 	adds r0, r7, r6
 	ldrb r0, [r0]
 	cmp r2, r0
@@ -387,10 +387,10 @@ _0807E954:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807E964: .4byte 0x0857617A
+_0807E964: .4byte sStatusScreenSectionSizes
 _0807E968: .4byte 0x0858217C
 _0807E96C: .4byte 0x085821B3
-_0807E970: .4byte 0x0879BEA8
+_0807E970: .4byte sPauseDebugItemFlagsPointers
 _0807E974: .4byte 0x0858217F
 _0807E978: .4byte 0x0600C800
 
@@ -411,7 +411,7 @@ StatusScreenDrawMissileOrBomb: @ 0x0807E97C
 	rsbs r0, r0, #0
 	str r0, [sp, #4]
 	movs r2, #0
-	ldr r0, _0807EA30 @ =0x0857617A
+	ldr r0, _0807EA30 @ =sStatusScreenSectionSizes
 	adds r1, r7, r0
 	ldrb r1, [r1]
 	cmp r2, r1
@@ -449,7 +449,7 @@ _0807E9D0:
 	lsls r0, r0, #5
 	ldr r3, [sp, #8]
 	adds r6, r0, r3
-	ldr r0, _0807EA3C @ =0x0879BEA8
+	ldr r0, _0807EA3C @ =sPauseDebugItemFlagsPointers
 	add r0, sl
 	ldr r0, [r0]
 	adds r0, r0, r2
@@ -489,10 +489,10 @@ _0807EA20:
 	bne _0807EA20
 	b _0807EA4C
 	.align 2, 0
-_0807EA30: .4byte 0x0857617A
+_0807EA30: .4byte sStatusScreenSectionSizes
 _0807EA34: .4byte 0x0858217C
 _0807EA38: .4byte 0x085821B3
-_0807EA3C: .4byte 0x0879BEA8
+_0807EA3C: .4byte sPauseDebugItemFlagsPointers
 _0807EA40: .4byte 0x0858217F
 _0807EA44: .4byte 0x0600C800
 _0807EA48:
@@ -502,7 +502,7 @@ _0807EA4C:
 	movs r6, #0x20
 	add ip, r6
 	adds r2, #1
-	ldr r1, _0807EAC8 @ =0x0857617A
+	ldr r1, _0807EAC8 @ =sStatusScreenSectionSizes
 	adds r0, r7, r1
 	ldrb r0, [r0]
 	cmp r2, r0
@@ -565,7 +565,7 @@ _0807EAB8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807EAC8: .4byte 0x0857617A
+_0807EAC8: .4byte sStatusScreenSectionSizes
 _0807EACC: .4byte 0x0858217C
 _0807EAD0: .4byte 0x085821B3
 _0807EAD4: .4byte 0x0600C800
@@ -587,7 +587,7 @@ StatusScreenDrawMisc: @ 0x0807EAD8
 	movs r0, #0
 	str r0, [sp, #4]
 	movs r4, #0
-	ldr r0, _0807EBF8 @ =0x0857617A
+	ldr r0, _0807EBF8 @ =sStatusScreenSectionSizes
 	mov r2, r8
 	adds r1, r2, r0
 	ldrb r1, [r1]
@@ -629,7 +629,7 @@ _0807EB30:
 	lsls r0, r0, #5
 	ldr r1, [sp, #0xc]
 	adds r3, r0, r1
-	ldr r0, _0807EC04 @ =0x0879BEA8
+	ldr r0, _0807EC04 @ =sPauseDebugItemFlagsPointers
 	add r0, sb
 	ldr r0, [r0]
 	adds r0, r0, r4
@@ -668,7 +668,7 @@ _0807EB82:
 	bne _0807EB82
 _0807EB90:
 	adds r4, r5, #0
-	ldr r0, _0807EBF8 @ =0x0857617A
+	ldr r0, _0807EBF8 @ =sStatusScreenSectionSizes
 	add r0, r8
 	ldrb r0, [r0]
 	cmp r4, r0
@@ -721,10 +721,10 @@ _0807EBD0:
 	adds r3, r0, r1
 	b _0807EC2A
 	.align 2, 0
-_0807EBF8: .4byte 0x0857617A
+_0807EBF8: .4byte sStatusScreenSectionSizes
 _0807EBFC: .4byte 0x0858217C
 _0807EC00: .4byte 0x085821B3
-_0807EC04: .4byte 0x0879BEA8
+_0807EC04: .4byte sPauseDebugItemFlagsPointers
 _0807EC08: .4byte 0x0858217F
 _0807EC0C: .4byte 0x0600C800
 _0807EC10:
@@ -1403,10 +1403,10 @@ _0807F136:
 _0807F150: .4byte gDisableSoftReset
 _0807F154: .4byte 0x03000014
 _0807F158:
-	ldr r0, _0807F174 @ =0x0858225C
+	ldr r0, _0807F174 @ =sSaveDataEwramPointers
 	adds r0, r2, r0
 	ldr r1, [r0]
-	ldr r0, _0807F178 @ =0x08582268
+	ldr r0, _0807F178 @ =sSaveDataEwramBackupPointers
 	adds r0, r2, r0
 	ldr r2, [r0]
 	movs r3, #0x90
@@ -1417,8 +1417,8 @@ _0807F158:
 	bl DmaTransfer
 	b _0807F21C
 	.align 2, 0
-_0807F174: .4byte 0x0858225C
-_0807F178: .4byte 0x08582268
+_0807F174: .4byte sSaveDataEwramPointers
+_0807F178: .4byte sSaveDataEwramBackupPointers
 _0807F17C:
 	cmp r1, #1
 	beq _0807F1E4
@@ -1453,7 +1453,7 @@ _0807F194:
 	adds r0, r0, r6
 	ldrb r0, [r0, #0x10]
 	strb r0, [r3]
-	ldr r1, _0807F1E0 @ =0x0858225C
+	ldr r1, _0807F1E0 @ =sSaveDataEwramPointers
 	ldrb r0, [r4]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -1469,7 +1469,7 @@ _0807F194:
 	.align 2, 0
 _0807F1D8: .4byte gDisableSoftReset
 _0807F1DC: .4byte 0x03000014
-_0807F1E0: .4byte 0x0858225C
+_0807F1E0: .4byte sSaveDataEwramPointers
 _0807F1E4:
 	bl Sram_WriteHeaderAndGameInfo
 	b _0807F222
@@ -1477,10 +1477,10 @@ _0807F1EA:
 	bl WriteMostRecentFileToSram
 	b _0807F222
 _0807F1F0:
-	ldr r0, _0807F210 @ =0x0858225C
+	ldr r0, _0807F210 @ =sSaveDataEwramPointers
 	adds r0, r2, r0
 	ldr r1, [r0]
-	ldr r0, _0807F214 @ =0x08582268
+	ldr r0, _0807F214 @ =sSaveDataEwramBackupPointers
 	adds r0, r2, r0
 	ldr r2, [r0]
 	movs r3, #0x90
@@ -1493,8 +1493,8 @@ _0807F1F0:
 	strb r5, [r0]
 	b _0807F222
 	.align 2, 0
-_0807F210: .4byte 0x0858225C
-_0807F214: .4byte 0x08582268
+_0807F210: .4byte sSaveDataEwramPointers
+_0807F214: .4byte sSaveDataEwramBackupPointers
 _0807F218: .4byte gDisableSoftReset
 _0807F21C:
 	ldr r1, _0807F22C @ =gDisableSoftReset
@@ -1511,7 +1511,7 @@ _0807F22C: .4byte gDisableSoftReset
 	thumb_func_start Sram_WriteHeaderAndGameInfo
 Sram_WriteHeaderAndGameInfo: @ 0x0807F230
 	push {r4, r5, r6, lr}
-	ldr r5, _0807F2A0 @ =0x0858225C
+	ldr r5, _0807F2A0 @ =sSaveDataEwramPointers
 	ldr r4, _0807F2A4 @ =0x03000B8D
 	ldrb r0, [r4]
 	lsls r0, r0, #2
@@ -1566,7 +1566,7 @@ _0807F26E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807F2A0: .4byte 0x0858225C
+_0807F2A0: .4byte sSaveDataEwramPointers
 _0807F2A4: .4byte 0x03000B8D
 _0807F2A8: .4byte 0x08582200
 _0807F2AC: .4byte 0x03000014
@@ -1619,13 +1619,13 @@ _0807F304: .4byte 0x03000B94
 _0807F308: .4byte 0x03000B8D
 _0807F30C: .4byte 0x03000014
 _0807F310:
-	ldr r1, _0807F338 @ =0x0858225C
+	ldr r1, _0807F338 @ =sSaveDataEwramPointers
 	ldr r0, _0807F33C @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
 	adds r1, r0, r1
 	ldr r1, [r1]
-	ldr r2, _0807F340 @ =0x08582268
+	ldr r2, _0807F340 @ =sSaveDataEwramBackupPointers
 	adds r0, r0, r2
 	ldr r2, [r0]
 	movs r3, #0x90
@@ -1639,14 +1639,14 @@ _0807F330:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807F338: .4byte 0x0858225C
+_0807F338: .4byte sSaveDataEwramPointers
 _0807F33C: .4byte 0x03000B8D
-_0807F340: .4byte 0x08582268
+_0807F340: .4byte sSaveDataEwramBackupPointers
 
 	thumb_func_start Sram_CopyGameCompletion
 Sram_CopyGameCompletion: @ 0x0807F344
 	push {r4, lr}
-	ldr r2, _0807F3A0 @ =0x0858225C
+	ldr r2, _0807F3A0 @ =sSaveDataEwramPointers
 	ldr r1, _0807F3A4 @ =0x03000B8D
 	ldrb r0, [r1]
 	lsls r0, r0, #2
@@ -1692,7 +1692,7 @@ _0807F36C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807F3A0: .4byte 0x0858225C
+_0807F3A0: .4byte sSaveDataEwramPointers
 _0807F3A4: .4byte 0x03000B8D
 _0807F3A8: .4byte 0x03000014
 
@@ -1747,13 +1747,13 @@ _0807F3F2:
 _0807F40C: .4byte 0x03000B94
 _0807F410: .4byte 0x03000B8D
 _0807F414:
-	ldr r1, _0807F440 @ =0x0858225C
+	ldr r1, _0807F440 @ =sSaveDataEwramPointers
 	ldr r0, _0807F444 @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
 	adds r1, r0, r1
 	ldr r1, [r1]
-	ldr r2, _0807F448 @ =0x08582268
+	ldr r2, _0807F448 @ =sSaveDataEwramBackupPointers
 	adds r0, r0, r2
 	ldr r2, [r0]
 	movs r3, #0x90
@@ -1771,9 +1771,9 @@ _0807F43A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807F440: .4byte 0x0858225C
+_0807F440: .4byte sSaveDataEwramPointers
 _0807F444: .4byte 0x03000B8D
-_0807F448: .4byte 0x08582268
+_0807F448: .4byte sSaveDataEwramBackupPointers
 _0807F44C: .4byte gDisableSoftReset
 
 	thumb_func_start SramWrite_ToEwram
@@ -1813,7 +1813,7 @@ SramWrite_ToEwram: @ 0x0807F450
 	ands r0, r3
 	adds r6, r0, #0
 	orrs r6, r1
-	ldr r1, _0807F70C @ =0x0858225C
+	ldr r1, _0807F70C @ =sSaveDataEwramPointers
 	ldr r0, _0807F710 @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
@@ -2079,7 +2079,7 @@ _0807F5F4:
 	ldr r0, [sp, #0x34]
 	ldr r1, _0807F7BC @ =0x085821F8
 	bl Sram_StringCopy_SAVE_END
-	ldr r1, _0807F70C @ =0x0858225C
+	ldr r1, _0807F70C @ =sSaveDataEwramPointers
 	ldr r0, _0807F710 @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
@@ -2124,7 +2124,7 @@ _0807F6FC: .4byte 0xFFFF0000
 _0807F700: .4byte 0x0000FFFF
 _0807F704: .4byte 0xFFFFFF00
 _0807F708: .4byte 0xFFFF00FF
-_0807F70C: .4byte 0x0858225C
+_0807F70C: .4byte sSaveDataEwramPointers
 _0807F710: .4byte 0x03000B8D
 _0807F714: .4byte 0x08582200
 _0807F718: .4byte 0x03000014
@@ -2178,7 +2178,7 @@ SramRead_FromEwram: @ 0x0807F7C0
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x2c
-	ldr r1, _0807F9F8 @ =0x0858225C
+	ldr r1, _0807F9F8 @ =sSaveDataEwramPointers
 	ldr r0, _0807F9FC @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
@@ -2459,7 +2459,7 @@ _0807F920:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807F9F8: .4byte 0x0858225C
+_0807F9F8: .4byte sSaveDataEwramPointers
 _0807F9FC: .4byte 0x03000B8D
 _0807FA00: .4byte 0x03000014
 _0807FA04: .4byte 0x03000B90
@@ -2596,13 +2596,13 @@ _0807FB44: .4byte 0x0E007FE0
 Sram_BackupCurrentFile_Unused: @ 0x0807FB48
 	push {lr}
 	sub sp, #4
-	ldr r1, _0807FB78 @ =0x0858225C
+	ldr r1, _0807FB78 @ =sSaveDataEwramPointers
 	ldr r0, _0807FB7C @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
 	adds r1, r0, r1
 	ldr r1, [r1]
-	ldr r2, _0807FB80 @ =0x08582268
+	ldr r2, _0807FB80 @ =sSaveDataEwramBackupPointers
 	adds r0, r0, r2
 	ldr r2, [r0]
 	movs r3, #0x90
@@ -2616,9 +2616,9 @@ Sram_BackupCurrentFile_Unused: @ 0x0807FB48
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807FB78: .4byte 0x0858225C
+_0807FB78: .4byte sSaveDataEwramPointers
 _0807FB7C: .4byte 0x03000B8D
-_0807FB80: .4byte 0x08582268
+_0807FB80: .4byte sSaveDataEwramBackupPointers
 
 	thumb_func_start unk_7fb84
 unk_7fb84: @ 0x0807FB84
@@ -2661,7 +2661,7 @@ _0807FBC8:
 	movs r6, #0x10
 	ldr r0, _0807FC1C @ =0x03000B94
 	str r0, [sp, #0x18]
-	ldr r1, _0807FC2C @ =0x0858225C
+	ldr r1, _0807FC2C @ =sSaveDataEwramPointers
 	mov sl, r1
 	ldr r3, _0807FC30 @ =0x0000FFFF
 	mov sb, r3
@@ -2683,7 +2683,7 @@ _0807FBE0:
 	mov r3, sl
 	adds r0, r2, r3
 	ldr r1, [r0]
-	ldr r4, _0807FC34 @ =0x08582268
+	ldr r4, _0807FC34 @ =sSaveDataEwramBackupPointers
 	adds r0, r2, r4
 	ldr r2, [r0]
 	str r6, [sp]
@@ -2701,13 +2701,13 @@ _0807FC1C: .4byte 0x03000B94
 _0807FC20: .4byte 0x03000B8D
 _0807FC24: .4byte gIsLoadingFile
 _0807FC28: .4byte 0x03000B8E
-_0807FC2C: .4byte 0x0858225C
+_0807FC2C: .4byte sSaveDataEwramPointers
 _0807FC30: .4byte 0x0000FFFF
-_0807FC34: .4byte 0x08582268
+_0807FC34: .4byte sSaveDataEwramBackupPointers
 _0807FC38:
 	cmp r4, #1
 	bne _0807FC60
-	ldr r3, _0807FC5C @ =0x08582268
+	ldr r3, _0807FC5C @ =sSaveDataEwramBackupPointers
 	adds r0, r2, r3
 	ldr r1, [r0]
 	mov r3, sl
@@ -2722,7 +2722,7 @@ _0807FC38:
 	strb r4, [r0]
 	b _0807FCE6
 	.align 2, 0
-_0807FC5C: .4byte 0x08582268
+_0807FC5C: .4byte sSaveDataEwramBackupPointers
 _0807FC60:
 	cmp r4, #2
 	bne _0807FC94
@@ -2736,7 +2736,7 @@ _0807FC60:
 	bl BitFill
 	ldrb r0, [r7]
 	lsls r0, r0, #2
-	ldr r3, _0807FC90 @ =0x08582268
+	ldr r3, _0807FC90 @ =sSaveDataEwramBackupPointers
 	adds r0, r0, r3
 	ldr r2, [r0]
 	str r6, [sp]
@@ -2746,7 +2746,7 @@ _0807FC60:
 	bl BitFill
 	b _0807FCE6
 	.align 2, 0
-_0807FC90: .4byte 0x08582268
+_0807FC90: .4byte sSaveDataEwramBackupPointers
 _0807FC94:
 	cmp r4, #3
 	bne _0807FCE4
@@ -2761,7 +2761,7 @@ _0807FC94:
 	bl WriteMostRecentFileToSram
 	ldrb r0, [r7]
 	lsls r0, r0, #2
-	ldr r1, _0807FCDC @ =0x08582268
+	ldr r1, _0807FCDC @ =sSaveDataEwramBackupPointers
 	adds r0, r0, r1
 	ldr r2, [r0]
 	str r6, [sp]
@@ -2780,7 +2780,7 @@ _0807FC94:
 	strb r1, [r0, #1]
 	b _0807FCE6
 	.align 2, 0
-_0807FCDC: .4byte 0x08582268
+_0807FCDC: .4byte sSaveDataEwramBackupPointers
 _0807FCE0: .4byte 0x03000B94
 _0807FCE4:
 	b _0807FCE4
@@ -2900,12 +2900,12 @@ unk_7fdb0: @ 0x0807FDB0
 	movs r7, #0
 	cmp r0, #0
 	bne _0807FDC8
-	ldr r1, _0807FDC4 @ =0x0858225C
+	ldr r1, _0807FDC4 @ =sSaveDataEwramPointers
 	b _0807FDCA
 	.align 2, 0
-_0807FDC4: .4byte 0x0858225C
+_0807FDC4: .4byte sSaveDataEwramPointers
 _0807FDC8:
-	ldr r1, _0807FE50 @ =0x08582268
+	ldr r1, _0807FE50 @ =sSaveDataEwramBackupPointers
 _0807FDCA:
 	ldr r0, _0807FE54 @ =0x03000B8D
 	ldrb r0, [r0]
@@ -2980,7 +2980,7 @@ _0807FE46:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0807FE50: .4byte 0x08582268
+_0807FE50: .4byte sSaveDataEwramBackupPointers
 _0807FE54: .4byte 0x03000B8D
 _0807FE58: .4byte 0x08582200
 _0807FE5C: .4byte 0x0000FFFF
@@ -3027,7 +3027,7 @@ SramWrite_WorldData: @ 0x0807FEA4
 	mov r7, r8
 	push {r7}
 	sub sp, #4
-	ldr r1, _0807FF5C @ =0x08582274
+	ldr r1, _0807FF5C @ =sUnk_582274
 	ldr r0, _0807FF60 @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
@@ -3119,7 +3119,7 @@ _0807FF48:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807FF5C: .4byte 0x08582274
+_0807FF5C: .4byte sUnk_582274
 _0807FF60: .4byte 0x03000B8D
 _0807FF64: .4byte 0x02037C00
 _0807FF68: .4byte 0x03000033
@@ -3134,7 +3134,7 @@ SramRead_WorldData: @ 0x0807FF7C
 	mov r7, r8
 	push {r7}
 	sub sp, #4
-	ldr r1, _08080044 @ =0x08582274
+	ldr r1, _08080044 @ =sUnk_582274
 	ldr r0, _08080048 @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
@@ -3233,7 +3233,7 @@ _08080030:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08080044: .4byte 0x08582274
+_08080044: .4byte sUnk_582274
 _08080048: .4byte 0x03000B8D
 _0808004C: .4byte 0x02037C00
 _08080050: .4byte 0x0000FFFF
@@ -3512,7 +3512,7 @@ SramRead_Language: @ 0x08080264
 	sub sp, #4
 	movs r0, #0
 	mov r8, r0
-	ldr r1, _080802E8 @ =0x08582280
+	ldr r1, _080802E8 @ =sUnk_582280
 	mov sb, r1
 	ldr r6, _080802EC @ =0x040000D4
 	ldr r2, _080802F0 @ =0x81000020
@@ -3573,7 +3573,7 @@ _080802D2:
 	beq _080802FC
 	b _08080324
 	.align 2, 0
-_080802E8: .4byte 0x08582280
+_080802E8: .4byte sUnk_582280
 _080802EC: .4byte 0x040000D4
 _080802F0: .4byte 0x81000020
 _080802F4: .4byte 0x085822A8
@@ -3666,7 +3666,7 @@ _08080390:
 _0808039C: .4byte 0x03000011
 _080803A0:
 	ldr r1, _080803BC @ =0x040000D4
-	ldr r2, _080803C0 @ =0x08582280
+	ldr r2, _080803C0 @ =sUnk_582280
 	ldr r0, [r2, #4]
 	str r0, [r1]
 	ldr r0, [r2]
@@ -3679,7 +3679,7 @@ _080803A0:
 	b _08080390
 	.align 2, 0
 _080803BC: .4byte 0x040000D4
-_080803C0: .4byte 0x08582280
+_080803C0: .4byte sUnk_582280
 _080803C4: .4byte 0x80000020
 _080803C8:
 	ldr r1, _080803E0 @ =0x03000011
@@ -3775,7 +3775,7 @@ _08080424:
 	strb r1, [r0]
 	ldr r0, _08080518 @ =0x0300004D
 	strb r1, [r0]
-	ldr r0, _0808051C @ =0x0879B894
+	ldr r0, _0808051C @ =sAreaDoorPointers
 	ldr r2, [r0]
 	ldrb r0, [r2, #2]
 	movs r6, #7
@@ -3830,7 +3830,7 @@ _0808050C: .4byte gCurrentRoom
 _08080510: .4byte gLastDoorUsed
 _08080514: .4byte 0x0300004C
 _08080518: .4byte 0x0300004D
-_0808051C: .4byte 0x0879B894
+_0808051C: .4byte sAreaDoorPointers
 _08080520: .4byte gPreviousXPosition
 _08080524: .4byte gSamusData
 _08080528: .4byte gPreviousYPosition
@@ -4089,7 +4089,7 @@ Sram_EraseFile: @ 0x08080744
 	ldm r0!, {r2, r4}
 	stm r1!, {r2, r4}
 	ldr r1, _08080790 @ =0x0000FFFF
-	ldr r2, _08080794 @ =0x0858225C
+	ldr r2, _08080794 @ =sSaveDataEwramPointers
 	ldrb r0, [r3]
 	b _080807AE
 	.align 2, 0
@@ -4097,7 +4097,7 @@ _08080784: .4byte gDisableSoftReset
 _08080788: .4byte 0x03000B94
 _0808078C: .4byte 0x03000B8D
 _08080790: .4byte 0x0000FFFF
-_08080794: .4byte 0x0858225C
+_08080794: .4byte sSaveDataEwramPointers
 _08080798:
 	cmp r4, #1
 	bne _080807A2
@@ -4107,7 +4107,7 @@ _080807A2:
 	cmp r4, #2
 	bne _080807D0
 	ldr r1, _080807C4 @ =0x0000FFFF
-	ldr r2, _080807C8 @ =0x08582268
+	ldr r2, _080807C8 @ =sSaveDataEwramBackupPointers
 	ldr r0, _080807CC @ =0x03000B8D
 	ldrb r0, [r0]
 _080807AE:
@@ -4123,7 +4123,7 @@ _080807AE:
 	b _080807DE
 	.align 2, 0
 _080807C4: .4byte 0x0000FFFF
-_080807C8: .4byte 0x08582268
+_080807C8: .4byte sSaveDataEwramBackupPointers
 _080807CC: .4byte 0x03000B8D
 _080807D0:
 	cmp r5, #3
@@ -4171,7 +4171,7 @@ Sram_CopyFile: @ 0x080807EC
 	stm r1!, {r2, r4, r6}
 	ldm r0!, {r2, r4}
 	stm r1!, {r2, r4}
-	ldr r2, _08080840 @ =0x0858225C
+	ldr r2, _08080840 @ =sSaveDataEwramPointers
 	ldrb r0, [r5]
 	lsls r0, r0, #2
 	adds r0, r0, r2
@@ -4183,7 +4183,7 @@ Sram_CopyFile: @ 0x080807EC
 _08080834: .4byte gDisableSoftReset
 _08080838: .4byte 0x03000B94
 _0808083C: .4byte 0x03000B8D
-_08080840: .4byte 0x0858225C
+_08080840: .4byte sSaveDataEwramPointers
 _08080844:
 	cmp r1, #1
 	bne _0808085C
@@ -4198,7 +4198,7 @@ _08080858: .4byte 0x03000B8D
 _0808085C:
 	cmp r1, #2
 	bne _0808088C
-	ldr r2, _08080884 @ =0x08582268
+	ldr r2, _08080884 @ =sSaveDataEwramBackupPointers
 	ldr r0, _08080888 @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
@@ -4216,7 +4216,7 @@ _08080872:
 	bl DmaTransfer
 	b _080808A2
 	.align 2, 0
-_08080884: .4byte 0x08582268
+_08080884: .4byte sSaveDataEwramBackupPointers
 _08080888: .4byte 0x03000B8D
 _0808088C:
 	cmp r0, #3
@@ -4250,7 +4250,7 @@ _080808BC:
 	ldrb r0, [r2]
 	cmp r0, #1
 	bne _0808091A
-	ldr r0, _0808094C @ =0x0858225C
+	ldr r0, _0808094C @ =sSaveDataEwramPointers
 	adds r0, r1, r0
 	ldr r1, [r0]
 	ldrb r0, [r1, #0x1d]
@@ -4321,7 +4321,7 @@ _0808093A:
 	bx r0
 	.align 2, 0
 _08080948: .4byte 0x03000B94
-_0808094C: .4byte 0x0858225C
+_0808094C: .4byte sSaveDataEwramPointers
 
 	thumb_func_start Sram_LoadingfileVblank
 Sram_LoadingfileVblank: @ 0x08080950
