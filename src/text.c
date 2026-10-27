@@ -36,7 +36,13 @@ static u32 sArray_79c14c[9] = {
     [8] = UINT_MAX
 };
 
-static u8 sBlob_79c170_79c27c[] = INCBIN_U8("data/Blob_79c170_79c27c.bin");
+u8 sNavConversationUnk_79c170[] = INCBIN_U8("data/Blob_79c170_79c17c.bin");
+u8 sUnk_79c17c[] = INCBIN_U8("data/Blob_79c17c_79c180.bin");
+u8 sUnk_79c180[] = INCBIN_U8("data/Blob_79c180_79c1a4.bin");
+u8 sUnk_79c1a4[] = INCBIN_U8("data/Blob_79c1a4_79c210.bin");
+u8 sUnk_79c210[] = INCBIN_U8("data/Blob_79c210_79c228.bin");
+u8 sEraseSramUnk_79c228[] = INCBIN_U8("data/Blob_79c228_79c260.bin");
+u8 sEraseSramUnk_79c260[] = INCBIN_U8("data/Blob_79c260_79c27c.bin");
 
  /**
  * @brief 79118 | 24 | Gets the width of a text character

@@ -95,7 +95,8 @@ static const u16* sPalPointers_79c354[16] = {
 	(const u16*)sPal_5f7110
 };
 
-static u8 sBlob_79c394_79c3c8[] = INCBIN_U8("data/Blob_79c394_79c3c8.bin");
+u8 sIntroUnk_79c394[] = INCBIN_U8("data/Blob_79c394_79c3ac.bin");
+u8 sEndingUnk_79c3ac[] = INCBIN_U8("data/Blob_79c3ac_79c3c8.bin");
 
 static const u32* sIntroSr388SurfaceBgGfxPointers[8] = {
     sIntroSr388SurfaceBgGfx0,
@@ -144,7 +145,14 @@ static const u32* sIntroSamusHelmetCloseupBgGfxPointers[6] = {
     sIntroSamusHelmetCloseupBgGfx5
 };
 
-static u8 sBlob_79c448_79c5a4[] = INCBIN_U8("data/Blob_79c448_79c5a4.bin");
+u8 sIntroUnk_79c448[] = INCBIN_U8("data/Blob_79c448_79c45c.bin");
+u8 sIntroUnk_79c45c[] = INCBIN_U8("data/Blob_79c45c_79c4a8.bin");
+u8 sCutsceneUnk_79c4a8[] = INCBIN_U8("data/Blob_79c4a8_79c4cc.bin");
+u8 sCutsceneUnk_79c4cc[] = INCBIN_U8("data/Blob_79c4cc_79c4f0.bin");
+u8 sCutsceneUnk_79c4f0[] = INCBIN_U8("data/Blob_79c4f0_79c514.bin");
+u8 sCutsceneUnk_79c514[] = INCBIN_U8("data/Blob_79c514_79c538.bin");
+u8 sCutsceneUnk_79c538[] = INCBIN_U8("data/Blob_79c538_79c55c.bin");
+u8 sCutsceneUnk_79c55c[] = INCBIN_U8("data/Blob_79c55c_79c5a4.bin");
 
 u16** sMonologueTextPointers[LANGUAGE_COUNT] = {
     sMonologueTextPointersJapanese,
@@ -338,7 +346,14 @@ static u16* sMonologueTextPointersSpanish[19] = {
 	(u16*)sMonologueTextSpanish_18
 };
 
-static u8 sBlob_79e868_79eca0[] = INCBIN_U8("data/Blob_79e868_79eca0.bin");
+u8 sGameOverUnk_79e868[] = INCBIN_U8("data/Blob_79e868_79e874.bin");
+u8 sGameOverUnk_79e874[] = INCBIN_U8("data/Blob_79e874_79e890.bin");
+u8 sFileSelectUnk_79e890[] = INCBIN_U8("data/Blob_79e890_79e8a4.bin");
+u8 sFileSelectUnk_79e8a4[] = INCBIN_U8("data/Blob_79e8a4_79e928.bin");
+u8 sFileSelectUnk_79e928[] = INCBIN_U8("data/Blob_79e928_79e944.bin");
+u8 sFileSelectUnk_79e944[] = INCBIN_U8("data/Blob_79e944_79ec68.bin");
+u8 sFileSelectUnk_79ec68[] = INCBIN_U8("data/Blob_79ec68_79ec84.bin");
+u8 sFileSelectUnk_79ec84[] = INCBIN_U8("data/Blob_79ec84_79eca0.bin");
 
 /**
  * @brief 87610 | f8 | Handler for intro

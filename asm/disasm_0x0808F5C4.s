@@ -48,14 +48,14 @@ _080920DC:
 	lsrs r4, r0, #0x10
 	cmp r4, #4
 	bls _080920DC
-	ldr r0, _080921E0 @ =0x08658BE0
+	ldr r0, _080921E0 @ =sIntroUnk_658be0
 	ldr r1, _080921E4 @ =0x0600E800
 	bl LZ77UncompVram
 	ldr r0, _080921E8 @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080921EC @ =0x0600E000
 	bl LZ77UncompVram
 	ldr r4, _080921CC @ =0x040000D4
-	ldr r0, _080921F0 @ =0x086591E4
+	ldr r0, _080921F0 @ =sIntroUnk_6591e4
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -150,11 +150,11 @@ _080921D0: .4byte gNonGameplayRam
 _080921D4: .4byte 0x85000150
 _080921D8: .4byte sIntroSamusSittingBgGfxPointers
 _080921DC: .4byte 0x06008000
-_080921E0: .4byte 0x08658BE0
+_080921E0: .4byte sIntroUnk_658be0
 _080921E4: .4byte 0x0600E800
 _080921E8: .4byte sIntroSamusShipFlyingTextTilemap
 _080921EC: .4byte 0x0600E000
-_080921F0: .4byte 0x086591E4
+_080921F0: .4byte sIntroUnk_6591e4
 _080921F4: .4byte 0x84000080
 _080921F8: .4byte 0x04000010
 _080921FC: .4byte 0x0300122C
@@ -235,11 +235,11 @@ _080922B8: .4byte 0x06008000
 _080922BC:
 	cmp r0, #6
 	bne _08092320
-	ldr r0, _080922F8 @ =0x08658BE0
+	ldr r0, _080922F8 @ =sIntroUnk_658be0
 	ldr r1, _080922FC @ =0x0600E800
 	bl LZ77UncompVram
 	ldr r1, _08092300 @ =0x040000D4
-	ldr r0, _08092304 @ =0x086591E4
+	ldr r0, _08092304 @ =sIntroUnk_6591e4
 	str r0, [r1]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -263,10 +263,10 @@ _080922BC:
 	strh r0, [r1]
 	b _08092480
 	.align 2, 0
-_080922F8: .4byte 0x08658BE0
+_080922F8: .4byte sIntroUnk_658be0
 _080922FC: .4byte 0x0600E800
 _08092300: .4byte 0x040000D4
-_08092304: .4byte 0x086591E4
+_08092304: .4byte sIntroUnk_6591e4
 _08092308: .4byte 0x84000040
 _0809230C: .4byte gWrittenToBldalpha_Eva
 _08092310: .4byte gWrittenToBldalpha_Evb
@@ -521,7 +521,7 @@ IntroShipAlertInit: @ 0x080924D0
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
 	movs r4, #0
-	ldr r5, _080926C4 @ =0x0879C45C
+	ldr r5, _080926C4 @ =sIntroUnk_79c45c
 _08092510:
 	lsls r0, r4, #2
 	adds r0, r0, r5
@@ -536,7 +536,7 @@ _08092510:
 	cmp r4, #5
 	bls _08092510
 	ldr r1, _080926B8 @ =0x040000D4
-	ldr r0, _080926CC @ =0x0865C268
+	ldr r0, _080926CC @ =sIntroUnk_65c268
 	str r0, [r1]
 	ldr r0, _080926D0 @ =0x05000200
 	str r0, [r1, #4]
@@ -544,7 +544,7 @@ _08092510:
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
 	movs r4, #0
-	ldr r5, _080926D8 @ =0x0879C448
+	ldr r5, _080926D8 @ =sIntroUnk_79c448
 _0809253E:
 	lsls r0, r4, #2
 	adds r0, r0, r5
@@ -559,14 +559,14 @@ _0809253E:
 	lsrs r4, r0, #0x10
 	cmp r4, #4
 	bls _0809253E
-	ldr r0, _080926DC @ =0x086593E4
+	ldr r0, _080926DC @ =sIntroUnk_6593e4
 	ldr r1, _080926E0 @ =0x0600F000
 	bl LZ77UncompVram
 	ldr r0, _080926E4 @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080926E8 @ =0x0600E000
 	bl LZ77UncompVram
 	ldr r4, _080926B8 @ =0x040000D4
-	ldr r0, _080926EC @ =0x086599A4
+	ldr r0, _080926EC @ =sIntroUnk_6599a4
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -716,17 +716,17 @@ _080926B4: .4byte unk_99940
 _080926B8: .4byte 0x040000D4
 _080926BC: .4byte 0x030016A0
 _080926C0: .4byte 0x850000B4
-_080926C4: .4byte 0x0879C45C
+_080926C4: .4byte sIntroUnk_79c45c
 _080926C8: .4byte 0x06010000
-_080926CC: .4byte 0x0865C268
+_080926CC: .4byte sIntroUnk_65c268
 _080926D0: .4byte 0x05000200
 _080926D4: .4byte 0x84000080
-_080926D8: .4byte 0x0879C448
-_080926DC: .4byte 0x086593E4
+_080926D8: .4byte sIntroUnk_79c448
+_080926DC: .4byte sIntroUnk_6593e4
 _080926E0: .4byte 0x0600F000
 _080926E4: .4byte sIntroSamusShipFlyingTextTilemap
 _080926E8: .4byte 0x0600E000
-_080926EC: .4byte 0x086599A4
+_080926EC: .4byte sIntroUnk_6599a4
 _080926F0: .4byte 0x84000040
 _080926F4: .4byte 0x04000010
 _080926F8: .4byte 0x0300122C
@@ -905,7 +905,7 @@ IntroSamusDriftingOutInit: @ 0x08092830
 	ldr r0, _08092988 @ =0x850000B4
 	str r0, [r5, #8]
 	ldr r0, [r5, #8]
-	ldr r0, _0809298C @ =0x086101B8
+	ldr r0, _0809298C @ =sIntroUnk_6101b8
 	ldr r1, _08092990 @ =0x06010000
 	bl LZ77UncompVram
 	ldr r0, _08092994 @ =sPal_612f48
@@ -1028,7 +1028,7 @@ _0809297C: .4byte unk_99940
 _08092980: .4byte 0x040000D4
 _08092984: .4byte 0x030016A0
 _08092988: .4byte 0x850000B4
-_0809298C: .4byte 0x086101B8
+_0809298C: .4byte sIntroUnk_6101b8
 _08092990: .4byte 0x06010000
 _08092994: .4byte sPal_612f48
 _08092998: .4byte 0x05000200
@@ -1874,7 +1874,7 @@ _0809304A:
 	rsbs r0, r0, #0
 	ands r0, r1
 	strb r0, [r3, #0x18]
-	ldr r0, _08093088 @ =0x0860AD48
+	ldr r0, _08093088 @ =sIntroUnk_60ad48
 	str r0, [r3, #0x1c]
 	movs r0, #6
 	strb r0, [r3, #0x14]
@@ -1892,7 +1892,7 @@ _0809304A:
 	strb r0, [r1]
 	b _080930BA
 	.align 2, 0
-_08093088: .4byte 0x0860AD48
+_08093088: .4byte sIntroUnk_60ad48
 _0809308C: .4byte 0x000001F3
 _08093090: .4byte gNonGameplayRam
 _08093094:
@@ -2119,21 +2119,21 @@ _08093222:
 	bgt _080932A0
 	cmp r0, #0x19
 	bne _08093238
-	ldr r0, _08093234 @ =0x0860AC18
+	ldr r0, _08093234 @ =sIntroUnk_60ac18
 	b _0809324A
 	.align 2, 0
-_08093234: .4byte 0x0860AC18
+_08093234: .4byte sIntroUnk_60ac18
 _08093238:
 	cmp r0, #0x32
 	bne _08093244
-	ldr r0, _08093240 @ =0x0860AC28
+	ldr r0, _08093240 @ =sIntroUnk_60ac28
 	b _0809324A
 	.align 2, 0
-_08093240: .4byte 0x0860AC28
+_08093240: .4byte sIntroUnk_60ac28
 _08093244:
 	cmp r0, #0x46
 	bne _0809324C
-	ldr r0, _0809329C @ =0x0860AC38
+	ldr r0, _0809329C @ =sIntroUnk_60ac38
 _0809324A:
 	str r0, [r6, #0x1c]
 _0809324C:
@@ -2176,7 +2176,7 @@ _08093290:
 	subs r0, #2
 	b _080932AA
 	.align 2, 0
-_0809329C: .4byte 0x0860AC38
+_0809329C: .4byte sIntroUnk_60ac38
 _080932A0:
 	movs r0, #0
 	strb r0, [r6, #0x10]
@@ -2510,7 +2510,7 @@ _080934D8:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08093524 @ =0x0860ACD0
+	ldr r1, _08093524 @ =sIntroUnk_60acd0
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -2521,7 +2521,7 @@ _080934D8:
 	.align 2, 0
 _0809351C: .4byte 0x0000021E
 _08093520: .4byte 0x00000222
-_08093524: .4byte 0x0860ACD0
+_08093524: .4byte sIntroUnk_60acd0
 _08093528: .4byte IntroProcessDriftingShip
 _0809352C:
 	cmp r5, #0xb
@@ -2533,7 +2533,7 @@ _0809352C:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08093550 @ =0x0860ACD0
+	ldr r1, _08093550 @ =sIntroUnk_60acd0
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -2542,7 +2542,7 @@ _0809352C:
 	str r1, [r0]
 	b _0809382A
 	.align 2, 0
-_08093550: .4byte 0x0860ACD0
+_08093550: .4byte sIntroUnk_60acd0
 _08093554: .4byte IntroProcessBslShipSpawning
 _08093558:
 	cmp r5, #0xc
@@ -2555,11 +2555,11 @@ _08093558:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08093574 @ =0x0860AD28
+	ldr r1, _08093574 @ =sIntroUnk_60ad28
 	b _080935CE
 	.align 2, 0
 _08093570: .4byte 0x0000FFD8
-_08093574: .4byte 0x0860AD28
+_08093574: .4byte sIntroUnk_60ad28
 _08093578:
 	cmp r5, #0xd
 	bne _08093598
@@ -2571,11 +2571,11 @@ _08093578:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08093594 @ =0x0860AD18
+	ldr r1, _08093594 @ =sIntroUnk_60ad18
 	b _080935CE
 	.align 2, 0
 _08093590: .4byte 0x0000FFE2
-_08093594: .4byte 0x0860AD18
+_08093594: .4byte sIntroUnk_60ad18
 _08093598:
 	cmp r5, #0xe
 	bne _080935B8
@@ -2587,11 +2587,11 @@ _08093598:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _080935B4 @ =0x0860AD08
+	ldr r1, _080935B4 @ =sIntroUnk_60ad08
 	b _080935CE
 	.align 2, 0
 _080935B0: .4byte 0x0000FFEC
-_080935B4: .4byte 0x0860AD08
+_080935B4: .4byte sIntroUnk_60ad08
 _080935B8:
 	cmp r5, #0xf
 	bne _080935E8
@@ -2603,7 +2603,7 @@ _080935B8:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _080935E0 @ =0x0860ACF8
+	ldr r1, _080935E0 @ =sIntroUnk_60acf8
 _080935CE:
 	str r1, [r0]
 	adds r0, r3, #0
@@ -2614,7 +2614,7 @@ _080935CE:
 	b _0809382A
 	.align 2, 0
 _080935DC: .4byte 0x0000FFF6
-_080935E0: .4byte 0x0860ACF8
+_080935E0: .4byte sIntroUnk_60acf8
 _080935E4: .4byte IntroProcessBslShipBack
 _080935E8:
 	cmp r5, #0x10
@@ -2622,7 +2622,7 @@ _080935E8:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08093604 @ =0x0860AC08
+	ldr r1, _08093604 @ =sIntroUnk_60ac08
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -2631,7 +2631,7 @@ _080935E8:
 	str r1, [r0]
 	b _0809382A
 	.align 2, 0
-_08093604: .4byte 0x0860AC08
+_08093604: .4byte sIntroUnk_60ac08
 _08093608: .4byte IntroProcessDepthParticle
 _0809360C:
 	cmp r5, #0x13
@@ -2639,7 +2639,7 @@ _0809360C:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08093628 @ =0x0865BB38
+	ldr r1, _08093628 @ =sIntroUnk_65bb38
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -2648,7 +2648,7 @@ _0809360C:
 	str r1, [r0]
 	b _0809382A
 	.align 2, 0
-_08093628: .4byte 0x0865BB38
+_08093628: .4byte sIntroUnk_65bb38
 _0809362C: .4byte IntroProcessTimeAndDistanceOam
 _08093630:
 	cmp r5, #0x14
@@ -2656,14 +2656,14 @@ _08093630:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08093648 @ =0x0865BD00
+	ldr r1, _08093648 @ =sIntroUnk_65bd00
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
 	adds r0, r4, r0
 	b _0809366E
 	.align 2, 0
-_08093648: .4byte 0x0865BD00
+_08093648: .4byte sIntroUnk_65bd00
 _0809364C:
 	cmp r5, #0x15
 	bne _0809367C
@@ -2676,7 +2676,7 @@ _0809364C:
 	lsls r1, r1, #2
 	add r1, r8
 	adds r1, r0, r1
-	ldr r2, _08093674 @ =0x0865BD48
+	ldr r2, _08093674 @ =sIntroUnk_65bd48
 	str r2, [r1]
 	movs r1, #0x8f
 	lsls r1, r1, #2
@@ -2687,7 +2687,7 @@ _0809366E:
 	str r1, [r0]
 	b _0809382A
 	.align 2, 0
-_08093674: .4byte 0x0865BD48
+_08093674: .4byte sIntroUnk_65bd48
 _08093678: .4byte unk_9397c
 _0809367C:
 	cmp r5, #0x16
@@ -2701,7 +2701,7 @@ _0809367C:
 	lsls r1, r1, #2
 	add r1, r8
 	adds r1, r0, r1
-	ldr r2, _080936A4 @ =0x0865BD60
+	ldr r2, _080936A4 @ =sIntroUnk_65bd60
 	str r2, [r1]
 	movs r1, #0x8f
 	lsls r1, r1, #2
@@ -2711,7 +2711,7 @@ _0809367C:
 	str r1, [r0]
 	b _0809382A
 	.align 2, 0
-_080936A4: .4byte 0x0865BD60
+_080936A4: .4byte sIntroUnk_65bd60
 _080936A8: .4byte IntroProcessAsteroidsPopUp
 _080936AC:
 	cmp r5, #0x17
@@ -2725,7 +2725,7 @@ _080936AC:
 	lsls r1, r1, #2
 	add r1, r8
 	adds r1, r0, r1
-	ldr r2, _080936D4 @ =0x0865BE00
+	ldr r2, _080936D4 @ =sIntroUnk_65be00
 	str r2, [r1]
 	movs r1, #0x8f
 	lsls r1, r1, #2
@@ -2735,7 +2735,7 @@ _080936AC:
 	str r1, [r0]
 	b _0809382A
 	.align 2, 0
-_080936D4: .4byte 0x0865BE00
+_080936D4: .4byte sIntroUnk_65be00
 _080936D8: .4byte unk_93334
 _080936DC:
 	cmp r5, #0x18
@@ -2759,10 +2759,10 @@ _080936DC:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _0809370C @ =0x0865BF10
+	ldr r1, _0809370C @ =sIntroUnk_65bf10
 	b _0809381C
 	.align 2, 0
-_0809370C: .4byte 0x0865BF10
+_0809370C: .4byte sIntroUnk_65bf10
 _08093710:
 	cmp r5, #0x19
 	bne _08093754
@@ -2785,7 +2785,7 @@ _08093710:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _0809374C @ =0x0865C0D0
+	ldr r1, _0809374C @ =sIntroUnk_65c0d0
 	str r1, [r0]
 	movs r0, #0x8f
 	lsls r0, r0, #2
@@ -2794,7 +2794,7 @@ _08093710:
 	ldr r0, _08093750 @ =unk_93300
 	b _08093828
 	.align 2, 0
-_0809374C: .4byte 0x0865C0D0
+_0809374C: .4byte sIntroUnk_65c0d0
 _08093750: .4byte unk_93300
 _08093754:
 	cmp r5, #0x1a
@@ -2818,10 +2818,10 @@ _08093754:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _08093784 @ =0x0865C128
+	ldr r1, _08093784 @ =sIntroUnk_65c128
 	b _0809381C
 	.align 2, 0
-_08093784: .4byte 0x0865C128
+_08093784: .4byte sIntroUnk_65c128
 _08093788:
 	cmp r5, #0x1b
 	bne _080937BC
@@ -2844,10 +2844,10 @@ _08093788:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _080937B8 @ =0x0865C180
+	ldr r1, _080937B8 @ =sIntroUnk_65c180
 	b _0809381C
 	.align 2, 0
-_080937B8: .4byte 0x0865C180
+_080937B8: .4byte sIntroUnk_65c180
 _080937BC:
 	cmp r5, #0x1c
 	bne _080937F0
@@ -2870,10 +2870,10 @@ _080937BC:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _080937EC @ =0x0865C1D8
+	ldr r1, _080937EC @ =sIntroUnk_65c1d8
 	b _0809381C
 	.align 2, 0
-_080937EC: .4byte 0x0865C1D8
+_080937EC: .4byte sIntroUnk_65c1d8
 _080937F0:
 	cmp r5, #0x1d
 	bne _0809382A
@@ -2896,7 +2896,7 @@ _080937F0:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _08093840 @ =0x0865C230
+	ldr r1, _08093840 @ =sIntroUnk_65c230
 _0809381C:
 	str r1, [r0]
 	movs r0, #0x8f
@@ -2919,7 +2919,7 @@ _0809382E:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08093840: .4byte 0x0865C230
+_08093840: .4byte sIntroUnk_65c230
 _08093844: .4byte IntroOamProcessBigChangingNumber
 
 	thumb_func_start IntroSetupBigNumberOam
@@ -3101,7 +3101,7 @@ IntroSpaceViewInit: @ 0x08093980
 	ldr r0, _08093B30 @ =0x85000150
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08093B34 @ =0x086101B8
+	ldr r0, _08093B34 @ =sIntroUnk_6101b8
 	ldr r1, _08093B38 @ =0x06010000
 	bl LZ77UncompVram
 	ldr r0, _08093B3C @ =sPal_612f48
@@ -3261,7 +3261,7 @@ _08093B24: .4byte unk_99940
 _08093B28: .4byte 0x040000D4
 _08093B2C: .4byte gNonGameplayRam
 _08093B30: .4byte 0x85000150
-_08093B34: .4byte 0x086101B8
+_08093B34: .4byte sIntroUnk_6101b8
 _08093B38: .4byte 0x06010000
 _08093B3C: .4byte sPal_612f48
 _08093B40: .4byte 0x05000200
@@ -3553,11 +3553,11 @@ _08093DC0: .4byte 0x06008000
 _08093DC4:
 	cmp r0, #6
 	bne _08093E28
-	ldr r0, _08093E00 @ =0x08658BE0
+	ldr r0, _08093E00 @ =sIntroUnk_658be0
 	ldr r1, _08093E04 @ =0x0600E000
 	bl LZ77UncompVram
 	ldr r1, _08093E08 @ =0x040000D4
-	ldr r0, _08093E0C @ =0x086591E4
+	ldr r0, _08093E0C @ =sIntroUnk_6591e4
 	str r0, [r1]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -3581,10 +3581,10 @@ _08093DC4:
 	strh r0, [r1]
 	b _08093F00
 	.align 2, 0
-_08093E00: .4byte 0x08658BE0
+_08093E00: .4byte sIntroUnk_658be0
 _08093E04: .4byte 0x0600E000
 _08093E08: .4byte 0x040000D4
-_08093E0C: .4byte 0x086591E4
+_08093E0C: .4byte sIntroUnk_6591e4
 _08093E10: .4byte 0x84000040
 _08093E14: .4byte gWrittenToBldalpha_Eva
 _08093E18: .4byte gWrittenToBldalpha_Evb
@@ -3762,7 +3762,7 @@ IntroFlyingViewInit: @ 0x08093F4C
 	ldr r0, _0809409C @ =0x850000B4
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _080940A0 @ =0x086101B8
+	ldr r0, _080940A0 @ =sIntroUnk_6101b8
 	ldr r1, _080940A4 @ =0x06010000
 	bl LZ77UncompVram
 	ldr r0, _080940A8 @ =sPal_612f48
@@ -3882,7 +3882,7 @@ _08094090: .4byte unk_99940
 _08094094: .4byte 0x040000D4
 _08094098: .4byte 0x030016A0
 _0809409C: .4byte 0x850000B4
-_080940A0: .4byte 0x086101B8
+_080940A0: .4byte sIntroUnk_6101b8
 _080940A4: .4byte 0x06010000
 _080940A8: .4byte sPal_612f48
 _080940AC: .4byte 0x05000200
@@ -4702,7 +4702,7 @@ IntroProcessSpaceViewParticle: @ 0x08094704
 	movs r1, #3
 	ands r1, r0
 	strh r1, [r4, #4]
-	ldr r1, _0809473C @ =0x0879C394
+	ldr r1, _0809473C @ =sIntroUnk_79c394
 	movs r2, #4
 	ldrsh r0, [r4, r2]
 	lsls r0, r0, #2
@@ -4715,7 +4715,7 @@ IntroProcessSpaceViewParticle: @ 0x08094704
 	strb r0, [r4, #0x14]
 	b _08094792
 	.align 2, 0
-_0809473C: .4byte 0x0879C394
+_0809473C: .4byte sIntroUnk_79c394
 _08094740:
 	cmp r0, #1
 	bne _08094792
@@ -4750,7 +4750,7 @@ _0809477A:
 	movs r0, #0
 _0809477C:
 	strh r0, [r4, #4]
-	ldr r1, _080947B4 @ =0x0879C394
+	ldr r1, _080947B4 @ =sIntroUnk_79c394
 	movs r2, #4
 	ldrsh r0, [r4, r2]
 	lsls r0, r0, #2
@@ -4781,7 +4781,7 @@ _080947AE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080947B4: .4byte 0x0879C394
+_080947B4: .4byte sIntroUnk_79c394
 
 	thumb_func_start IntroProcessIdleShipBackview
 IntroProcessIdleShipBackview: @ 0x080947B8
@@ -5021,21 +5021,21 @@ _0809495E:
 	bgt _080949DC
 	cmp r0, #0x19
 	bne _08094974
-	ldr r0, _08094970 @ =0x0860AC18
+	ldr r0, _08094970 @ =sIntroUnk_60ac18
 	b _08094986
 	.align 2, 0
-_08094970: .4byte 0x0860AC18
+_08094970: .4byte sIntroUnk_60ac18
 _08094974:
 	cmp r0, #0x32
 	bne _08094980
-	ldr r0, _0809497C @ =0x0860AC28
+	ldr r0, _0809497C @ =sIntroUnk_60ac28
 	b _08094986
 	.align 2, 0
-_0809497C: .4byte 0x0860AC28
+_0809497C: .4byte sIntroUnk_60ac28
 _08094980:
 	cmp r0, #0x46
 	bne _08094988
-	ldr r0, _080949D8 @ =0x0860AC38
+	ldr r0, _080949D8 @ =sIntroUnk_60ac38
 _08094986:
 	str r0, [r6, #0x1c]
 _08094988:
@@ -5078,7 +5078,7 @@ _080949CC:
 	subs r0, #2
 	b _080949E6
 	.align 2, 0
-_080949D8: .4byte 0x0860AC38
+_080949D8: .4byte sIntroUnk_60ac38
 _080949DC:
 	movs r0, #0
 	strb r0, [r6, #0x10]
@@ -5290,7 +5290,7 @@ _08094B44:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094B88 @ =0x0860AC98
+	ldr r1, _08094B88 @ =sIntroUnk_60ac98
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -5301,7 +5301,7 @@ _08094B44:
 	.align 2, 0
 _08094B80: .4byte 0x00000222
 _08094B84: .4byte 0x00000236
-_08094B88: .4byte 0x0860AC98
+_08094B88: .4byte sIntroUnk_60ac98
 _08094B8C: .4byte IntroProcessSamusSHipEntering
 _08094B90:
 	cmp r6, #4
@@ -5309,7 +5309,7 @@ _08094B90:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094BAC @ =0x0860AF10
+	ldr r1, _08094BAC @ =sIntroUnk_60af10
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -5318,7 +5318,7 @@ _08094B90:
 	str r1, [r0]
 	b _08094DCC
 	.align 2, 0
-_08094BAC: .4byte 0x0860AF10
+_08094BAC: .4byte sIntroUnk_60af10
 _08094BB0: .4byte IntroProcessSplashText
 _08094BB4:
 	cmp r6, #5
@@ -5332,7 +5332,7 @@ _08094BB4:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094BE0 @ =0x0860AC38
+	ldr r1, _08094BE0 @ =sIntroUnk_60ac38
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -5342,7 +5342,7 @@ _08094BB4:
 	b _08094DCC
 	.align 2, 0
 _08094BDC: .4byte 0x00000236
-_08094BE0: .4byte 0x0860AC38
+_08094BE0: .4byte sIntroUnk_60ac38
 _08094BE4: .4byte IntroProcessSpaceViewParticle
 _08094BE8:
 	cmp r6, #0xa
@@ -5380,7 +5380,7 @@ _08094BE8:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094C4C @ =0x0860ACD0
+	ldr r1, _08094C4C @ =sIntroUnk_60acd0
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -5392,7 +5392,7 @@ _08094BE8:
 _08094C40: .4byte 0x0000021E
 _08094C44: .4byte 0x00000222
 _08094C48: .4byte 0x00000236
-_08094C4C: .4byte 0x0860ACD0
+_08094C4C: .4byte sIntroUnk_60acd0
 _08094C50: .4byte IntroProcessIdleShipBackview
 _08094C54:
 	cmp r6, #0xb
@@ -5404,7 +5404,7 @@ _08094C54:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094C78 @ =0x0860ACD0
+	ldr r1, _08094C78 @ =sIntroUnk_60acd0
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -5413,7 +5413,7 @@ _08094C54:
 	str r1, [r0]
 	b _08094DCC
 	.align 2, 0
-_08094C78: .4byte 0x0860ACD0
+_08094C78: .4byte sIntroUnk_60acd0
 _08094C7C: .4byte IntroProcessBslShipSpawning_2
 _08094C80:
 	cmp r6, #0xc
@@ -5435,12 +5435,12 @@ _08094C80:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094CB4 @ =0x0860AD28
+	ldr r1, _08094CB4 @ =sIntroUnk_60ad28
 	b _08094D18
 	.align 2, 0
 _08094CAC: .4byte 0x0000FFD8
 _08094CB0: .4byte 0x00000236
-_08094CB4: .4byte 0x0860AD28
+_08094CB4: .4byte sIntroUnk_60ad28
 _08094CB8:
 	cmp r6, #0xd
 	bne _08094CF0
@@ -5461,12 +5461,12 @@ _08094CB8:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094CEC @ =0x0860AD18
+	ldr r1, _08094CEC @ =sIntroUnk_60ad18
 	b _08094D18
 	.align 2, 0
 _08094CE4: .4byte 0x0000FFE2
 _08094CE8: .4byte 0x00000236
-_08094CEC: .4byte 0x0860AD18
+_08094CEC: .4byte sIntroUnk_60ad18
 _08094CF0:
 	cmp r6, #0xe
 	bne _08094D38
@@ -5487,7 +5487,7 @@ _08094CF0:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08094D30 @ =0x0860AD08
+	ldr r1, _08094D30 @ =sIntroUnk_60ad08
 _08094D18:
 	str r1, [r0]
 	adds r0, r3, #0
@@ -5499,7 +5499,7 @@ _08094D18:
 	.align 2, 0
 _08094D28: .4byte 0x0000FFEC
 _08094D2C: .4byte 0x00000236
-_08094D30: .4byte 0x0860AD08
+_08094D30: .4byte sIntroUnk_60ad08
 _08094D34: .4byte IntroProcessBslShipBackview
 _08094D38:
 	cmp r6, #0xf
@@ -5529,7 +5529,7 @@ _08094D38:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _08094D88 @ =0x0860ACF8
+	ldr r1, _08094D88 @ =sIntroUnk_60acf8
 	str r1, [r0]
 	movs r0, #0x8f
 	lsls r0, r0, #2
@@ -5540,7 +5540,7 @@ _08094D38:
 	.align 2, 0
 _08094D80: .4byte 0x0000FFF6
 _08094D84: .4byte 0x00000236
-_08094D88: .4byte 0x0860ACF8
+_08094D88: .4byte sIntroUnk_60acf8
 _08094D8C: .4byte IntroProcessBslShipBackview
 _08094D90:
 	cmp r6, #0x10
@@ -5565,7 +5565,7 @@ _08094D90:
 	lsls r0, r0, #2
 	add r0, r8
 	adds r0, r2, r0
-	ldr r1, _08094DE4 @ =0x0860AC08
+	ldr r1, _08094DE4 @ =sIntroUnk_60ac08
 	str r1, [r0]
 	movs r0, #0x8f
 	lsls r0, r0, #2
@@ -5588,7 +5588,7 @@ _08094DD0:
 	bx r1
 	.align 2, 0
 _08094DE0: .4byte 0x00000236
-_08094DE4: .4byte 0x0860AC08
+_08094DE4: .4byte sIntroUnk_60ac08
 _08094DE8: .4byte IntroProcessIdleDepthParticle
 
 	thumb_func_start IntroSpaceViewVblank
@@ -5814,27 +5814,27 @@ EndingBslCrashingInit: @ 0x08094F74
 	ldr r0, _080950FC @ =0x85000150
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08095100 @ =0x086238F4
+	ldr r0, _08095100 @ =sSr388CollisionUnk_6238f4
 	ldr r1, _08095104 @ =0x06010000
 	bl LZ77UncompVram
-	ldr r0, _08095108 @ =0x08636C38
+	ldr r0, _08095108 @ =sSr388CollisionUnk_636c38
 	str r0, [r4]
 	ldr r0, _0809510C @ =0x05000200
 	str r0, [r4, #4]
 	ldr r6, _08095110 @ =0x84000080
 	str r6, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08095114 @ =0x0862B5F4
+	ldr r0, _08095114 @ =sSr388CollisionUnk_62b5f4
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _08095118 @ =0x08638C14
+	ldr r0, _08095118 @ =sSr388CollisionUnk_638c14
 	ldr r1, _0809511C @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _08095120 @ =0x08639BC4
+	ldr r0, _08095120 @ =sSr388CollisionUnk_639bc4
 	ldr r1, _08095124 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _08095128 @ =0x08637038
+	ldr r0, _08095128 @ =sSr388CollisionUnk_637038
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -5958,17 +5958,17 @@ _080950F0: .4byte unk_99940
 _080950F4: .4byte 0x040000D4
 _080950F8: .4byte gNonGameplayRam
 _080950FC: .4byte 0x85000150
-_08095100: .4byte 0x086238F4
+_08095100: .4byte sSr388CollisionUnk_6238f4
 _08095104: .4byte 0x06010000
-_08095108: .4byte 0x08636C38
+_08095108: .4byte sSr388CollisionUnk_636c38
 _0809510C: .4byte 0x05000200
 _08095110: .4byte 0x84000080
-_08095114: .4byte 0x0862B5F4
-_08095118: .4byte 0x08638C14
+_08095114: .4byte sSr388CollisionUnk_62b5f4
+_08095118: .4byte sSr388CollisionUnk_638c14
 _0809511C: .4byte 0x0600F000
-_08095120: .4byte 0x08639BC4
+_08095120: .4byte sSr388CollisionUnk_639bc4
 _08095124: .4byte 0x0600F800
-_08095128: .4byte 0x08637038
+_08095128: .4byte sSr388CollisionUnk_637038
 _0809512C: .4byte gBg1XPosition
 _08095130: .4byte gBg1YPosition
 _08095134: .4byte 0x0300122C
@@ -6036,17 +6036,17 @@ EndingShipFrontViewInit: @ 0x08095178
 	str r0, [r4, #4]
 	str r2, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08095304 @ =0x08626738
+	ldr r0, _08095304 @ =sEndingUnk_626738
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _08095308 @ =0x0863929C
+	ldr r0, _08095308 @ =sEndingUnk_63929c
 	ldr r1, _0809530C @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _08095310 @ =0x086395B8
+	ldr r0, _08095310 @ =sEndingUnk_6395b8
 	ldr r1, _08095314 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _08095318 @ =0x08636E38
+	ldr r0, _08095318 @ =sEndingUnk_636e38
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -6167,12 +6167,12 @@ _080952F4: .4byte 0x850000B4
 _080952F8: .4byte 0xFFFFFDF8
 _080952FC: .4byte 0x8100007E
 _08095300: .4byte 0xFFFFFEF4
-_08095304: .4byte 0x08626738
-_08095308: .4byte 0x0863929C
+_08095304: .4byte sEndingUnk_626738
+_08095308: .4byte sEndingUnk_63929c
 _0809530C: .4byte 0x0600F000
-_08095310: .4byte 0x086395B8
+_08095310: .4byte sEndingUnk_6395b8
 _08095314: .4byte 0x0600F800
-_08095318: .4byte 0x08636E38
+_08095318: .4byte sEndingUnk_636e38
 _0809531C: .4byte 0x84000080
 _08095320: .4byte gBg1XPosition
 _08095324: .4byte gBg1YPosition
@@ -6699,7 +6699,7 @@ _08095744:
 	ldrb r0, [r4, #0x10]
 	cmp r0, #1
 	bne _0809578A
-	ldr r0, _08095768 @ =0x086362B8
+	ldr r0, _08095768 @ =sSr388CollisionUnk_6362b8
 	str r0, [r4, #0x1c]
 	strb r2, [r4, #0x12]
 	strb r2, [r4, #0x11]
@@ -6710,7 +6710,7 @@ _08095744:
 	strb r1, [r0]
 	b _08095796
 	.align 2, 0
-_08095768: .4byte 0x086362B8
+_08095768: .4byte sSr388CollisionUnk_6362b8
 _0809576C: .4byte gNonGameplayRam
 _08095770:
 	cmp r1, #3
@@ -7139,7 +7139,7 @@ _08095A04:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095AAC @ =0x08636020
+	ldr r1, _08095AAC @ =sSr388CollisionUnk_636020
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7153,7 +7153,7 @@ _08095A9C: .4byte 0x85000009
 _08095AA0: .4byte 0xFFFFFDE4
 _08095AA4: .4byte 0x00000222
 _08095AA8: .4byte 0x00000236
-_08095AAC: .4byte 0x08636020
+_08095AAC: .4byte sSr388CollisionUnk_636020
 _08095AB0: .4byte EndingProcessFallingBsl
 _08095AB4:
 	cmp r6, #2
@@ -7188,7 +7188,7 @@ _08095AB4:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095B0C @ =0x08636038
+	ldr r1, _08095B0C @ =sSr388CollisionUnk_636038
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7198,7 +7198,7 @@ _08095AB4:
 	.align 2, 0
 _08095B04: .4byte 0x00000222
 _08095B08: .4byte 0x00000236
-_08095B0C: .4byte 0x08636038
+_08095B0C: .4byte sSr388CollisionUnk_636038
 _08095B10: .4byte EndingProcessFallingBsl
 _08095B14:
 	cmp r6, #3
@@ -7215,7 +7215,7 @@ _08095B14:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095B44 @ =0x08636050
+	ldr r1, _08095B44 @ =sSr388CollisionUnk_636050
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7224,7 +7224,7 @@ _08095B14:
 	b _08095C3A
 	.align 2, 0
 _08095B40: .4byte 0x00000236
-_08095B44: .4byte 0x08636050
+_08095B44: .4byte sSr388CollisionUnk_636050
 _08095B48: .4byte unk_9579c
 _08095B4C:
 	cmp r6, #4
@@ -7244,7 +7244,7 @@ _08095B4C:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095B80 @ =0x08636288
+	ldr r1, _08095B80 @ =sEndingUnk_636288
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7253,7 +7253,7 @@ _08095B4C:
 	b _08095C3A
 	.align 2, 0
 _08095B7C: .4byte 0x00000236
-_08095B80: .4byte 0x08636288
+_08095B80: .4byte sEndingUnk_636288
 _08095B84: .4byte EndingProcessLeavingSmallShip
 _08095B88:
 	cmp r6, #5
@@ -7265,7 +7265,7 @@ _08095B88:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095BA8 @ =0x086362A0
+	ldr r1, _08095BA8 @ =sEndingUnk_6362a0
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7273,7 +7273,7 @@ _08095B88:
 	ldr r1, _08095BAC @ =EndingProcessLeavingBigShip
 	b _08095C3A
 	.align 2, 0
-_08095BA8: .4byte 0x086362A0
+_08095BA8: .4byte sEndingUnk_6362a0
 _08095BAC: .4byte EndingProcessLeavingBigShip
 _08095BB0:
 	cmp r6, #0xa
@@ -7293,7 +7293,7 @@ _08095BB0:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095BE4 @ =0x086363A0
+	ldr r1, _08095BE4 @ =sEndingUnk_6363a0
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7302,7 +7302,7 @@ _08095BB0:
 	b _08095C3A
 	.align 2, 0
 _08095BE0: .4byte 0x00000236
-_08095BE4: .4byte 0x086363A0
+_08095BE4: .4byte sEndingUnk_6363a0
 _08095BE8: .4byte unk_95e20
 _08095BEC:
 	cmp r6, #0xb
@@ -7316,7 +7316,7 @@ _08095BEC:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095C14 @ =0x086363B8
+	ldr r1, _08095C14 @ =sEndingUnk_6363b8
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7325,7 +7325,7 @@ _08095BEC:
 	b _08095C3A
 	.align 2, 0
 _08095C10: .4byte 0x00000236
-_08095C14: .4byte 0x086363B8
+_08095C14: .4byte sEndingUnk_6363b8
 _08095C18: .4byte EndingProcessFrontFacingShipThrusters
 _08095C1C:
 	cmp r6, #0xc
@@ -7337,7 +7337,7 @@ _08095C1C:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08095C4C @ =0x086363A0
+	ldr r1, _08095C4C @ =sEndingUnk_6363a0
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -7356,7 +7356,7 @@ _08095C3E:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08095C4C: .4byte 0x086363A0
+_08095C4C: .4byte sEndingUnk_6363a0
 _08095C50: .4byte EndingProcessFrontFacingShip
 
 	thumb_func_start EndingBslCrashingVblank
@@ -7420,7 +7420,7 @@ EndingBslCrashingVblank: @ 0x08095C54
 	adds r0, r1, r2
 	ldrb r0, [r0]
 	lsls r0, r0, #5
-	ldr r1, _08095D20 @ =0x08636A38
+	ldr r1, _08095D20 @ =sSr388CollisionUnk_636a38
 	adds r0, r0, r1
 	str r0, [r3]
 	ldr r0, _08095D24 @ =0x05000120
@@ -7448,7 +7448,7 @@ _08095D10: .4byte 0x03001230
 _08095D14: .4byte 0x03001232
 _08095D18: .4byte gNonGameplayRam
 _08095D1C: .4byte 0x00000111
-_08095D20: .4byte 0x08636A38
+_08095D20: .4byte sSr388CollisionUnk_636a38
 _08095D24: .4byte 0x05000120
 _08095D28: .4byte 0x84000008
 
@@ -7607,23 +7607,23 @@ EndingMonologueInit: @ 0x08095E24
 	ldr r0, _08095F98 @ =0x85000150
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08095F9C @ =0x086150E8
+	ldr r0, _08095F9C @ =sEndingUnk_6150e8
 	ldr r1, _08095FA0 @ =0x06010000
 	bl LZ77UncompVram
-	ldr r0, _08095FA4 @ =0x08636638
+	ldr r0, _08095FA4 @ =sEndingUnk_636638
 	str r0, [r4]
 	ldr r0, _08095FA8 @ =0x05000200
 	str r0, [r4, #4]
 	ldr r5, _08095FAC @ =0x84000080
 	str r5, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08095FB0 @ =0x086186A4
+	ldr r0, _08095FB0 @ =sEndingUnk_6186a4
 	ldr r1, _08095FB4 @ =0x06008000
 	bl LZ77UncompVram
-	ldr r0, _08095FB8 @ =0x086377F8
+	ldr r0, _08095FB8 @ =sEndingUnk_6377f8
 	ldr r1, _08095FBC @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _08095FC0 @ =0x08636438
+	ldr r0, _08095FC0 @ =sEndingUnk_636438
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -7746,16 +7746,16 @@ _08095F8C: .4byte unk_99940
 _08095F90: .4byte 0x040000D4
 _08095F94: .4byte gNonGameplayRam
 _08095F98: .4byte 0x85000150
-_08095F9C: .4byte 0x086150E8
+_08095F9C: .4byte sEndingUnk_6150e8
 _08095FA0: .4byte 0x06010000
-_08095FA4: .4byte 0x08636638
+_08095FA4: .4byte sEndingUnk_636638
 _08095FA8: .4byte 0x05000200
 _08095FAC: .4byte 0x84000080
-_08095FB0: .4byte 0x086186A4
+_08095FB0: .4byte sEndingUnk_6186a4
 _08095FB4: .4byte 0x06008000
-_08095FB8: .4byte 0x086377F8
+_08095FB8: .4byte sEndingUnk_6377f8
 _08095FBC: .4byte 0x0600F800
-_08095FC0: .4byte 0x08636438
+_08095FC0: .4byte sEndingUnk_636438
 _08095FC4: .4byte sIntroTilemap_662804
 _08095FC8: .4byte 0x06004800
 _08095FCC: .4byte 0x84000200
@@ -7828,16 +7828,16 @@ EndingAdamConversationInit: @ 0x08096024
 	str r0, [r4, #4]
 	str r2, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _080961AC @ =0x086131C8
+	ldr r0, _080961AC @ =sEndingUnk_6131c8
 	ldr r1, _080961B0 @ =0x06008000
 	bl LZ77UncompVram
-	ldr r0, _080961B4 @ =0x08637238
+	ldr r0, _080961B4 @ =sEndingUnk_637238
 	ldr r1, _080961B8 @ =0x0600F800
 	bl LZ77UncompVram
 	ldr r0, _080961BC @ =sIntroSamusShipFlyingTextTilemap
 	ldr r1, _080961C0 @ =0x0600E000
 	bl LZ77UncompVram
-	ldr r0, _080961C4 @ =0x08636438
+	ldr r0, _080961C4 @ =sEndingUnk_636438
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -7958,13 +7958,13 @@ _0809619C: .4byte 0x850000B4
 _080961A0: .4byte 0xFFFFFDF8
 _080961A4: .4byte 0x8100007E
 _080961A8: .4byte 0xFFFFFEF4
-_080961AC: .4byte 0x086131C8
+_080961AC: .4byte sEndingUnk_6131c8
 _080961B0: .4byte 0x06008000
-_080961B4: .4byte 0x08637238
+_080961B4: .4byte sEndingUnk_637238
 _080961B8: .4byte 0x0600F800
 _080961BC: .4byte sIntroSamusShipFlyingTextTilemap
 _080961C0: .4byte 0x0600E000
-_080961C4: .4byte 0x08636438
+_080961C4: .4byte sEndingUnk_636438
 _080961C8: .4byte 0x84000080
 _080961CC: .4byte 0x03001224
 _080961D0: .4byte 0x0000FFF8
@@ -8040,20 +8040,20 @@ EndingAnimalsInit: @ 0x08096228
 	str r0, [r4, #4]
 	str r1, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _080963C0 @ =0x0861B89C
+	ldr r0, _080963C0 @ =sEndingUnk_61b89c
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _080963C4 @ =0x086217A8
+	ldr r0, _080963C4 @ =sEndingUnk_6217a8
 	ldr r1, _080963C8 @ =0x06008000
 	bl LZ77UncompVram
-	ldr r0, _080963CC @ =0x08638654
+	ldr r0, _080963CC @ =sEndingUnk_638654
 	ldr r1, _080963D0 @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _080963D4 @ =0x08637DB8
+	ldr r0, _080963D4 @ =sEndingUnk_637db8
 	ldr r1, _080963D8 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _080963DC @ =0x08636838
+	ldr r0, _080963DC @ =sEndingUnk_636838
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -8176,14 +8176,14 @@ _080963B0: .4byte 0x850000B4
 _080963B4: .4byte 0xFFFFFDF8
 _080963B8: .4byte 0x8100007E
 _080963BC: .4byte 0xFFFFFEF4
-_080963C0: .4byte 0x0861B89C
-_080963C4: .4byte 0x086217A8
+_080963C0: .4byte sEndingUnk_61b89c
+_080963C4: .4byte sEndingUnk_6217a8
 _080963C8: .4byte 0x06008000
-_080963CC: .4byte 0x08638654
+_080963CC: .4byte sEndingUnk_638654
 _080963D0: .4byte 0x0600F000
-_080963D4: .4byte 0x08637DB8
+_080963D4: .4byte sEndingUnk_637db8
 _080963D8: .4byte 0x0600F800
-_080963DC: .4byte 0x08636838
+_080963DC: .4byte sEndingUnk_636838
 _080963E0: .4byte 0x84000080
 _080963E4: .4byte 0x000002FF
 _080963E8: .4byte 0x0600F500
@@ -8973,7 +8973,7 @@ EndingProcessSr388RadarView: @ 0x08096A08
 	bne _08096A34
 	strb r1, [r2, #0x12]
 	strb r1, [r2, #0x11]
-	ldr r0, _08096A38 @ =0x08633EC4
+	ldr r0, _08096A38 @ =sEndingUnk_633ec4
 	str r0, [r2, #0x1c]
 	movs r0, #1
 	strb r0, [r2, #0x14]
@@ -8981,7 +8981,7 @@ _08096A34:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08096A38: .4byte 0x08633EC4
+_08096A38: .4byte sEndingUnk_633ec4
 
 	thumb_func_start EndingProcessSamusViewRadarView
 EndingProcessSamusViewRadarView: @ 0x08096A3C
@@ -9003,7 +9003,7 @@ EndingProcessSamusViewRadarView: @ 0x08096A3C
 	bne _08096A68
 	strb r1, [r2, #0x12]
 	strb r1, [r2, #0x11]
-	ldr r0, _08096A6C @ =0x08633F0C
+	ldr r0, _08096A6C @ =sEndingUnk_633f0c
 	str r0, [r2, #0x1c]
 	movs r0, #1
 	strb r0, [r2, #0x14]
@@ -9011,7 +9011,7 @@ _08096A68:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08096A6C: .4byte 0x08633F0C
+_08096A6C: .4byte sEndingUnk_633f0c
 
 	thumb_func_start unk_96a70
 unk_96a70: @ 0x08096A70
@@ -9061,7 +9061,7 @@ _08096AB4:
 	cmp r0, #0xb
 	bne _08096B06
 	strb r1, [r4, #0x11]
-	ldr r0, _08096AE0 @ =0x08633244
+	ldr r0, _08096AE0 @ =sUnk_633244
 	str r0, [r4, #0x1c]
 	ldr r0, _08096AE4 @ =0x0000011D
 	bl SoundPlay
@@ -9070,7 +9070,7 @@ _08096AB4:
 	b _08096B06
 	.align 2, 0
 _08096ADC: .4byte gNonGameplayRam
-_08096AE0: .4byte 0x08633244
+_08096AE0: .4byte sUnk_633244
 _08096AE4: .4byte 0x0000011D
 _08096AE8:
 	cmp r5, #2
@@ -9125,11 +9125,11 @@ _08096B2C:
 	strh r1, [r2, #0xc]
 	strb r0, [r2, #0x12]
 	strb r0, [r2, #0x11]
-	ldr r0, _08096B50 @ =0x08633E8C
+	ldr r0, _08096B50 @ =sEndingUnk_633e8c
 	str r0, [r2, #0x1c]
 	b _08096B8E
 	.align 2, 0
-_08096B50: .4byte 0x08633E8C
+_08096B50: .4byte sEndingUnk_633e8c
 _08096B54:
 	movs r0, #0xfc
 	lsls r0, r0, #8
@@ -9139,11 +9139,11 @@ _08096B54:
 	strh r0, [r2, #0xc]
 	movs r0, #0x9a
 	strh r0, [r2, #0xe]
-	ldr r0, _08096B6C @ =0x08633E64
+	ldr r0, _08096B6C @ =sEndingUnk_633e64
 	str r0, [r2, #0x1c]
 	b _08096B8E
 	.align 2, 0
-_08096B6C: .4byte 0x08633E64
+_08096B6C: .4byte sEndingUnk_633e64
 _08096B70:
 	ldrh r0, [r3, #0xc]
 	ldr r4, _08096B94 @ =0x00000212
@@ -9255,7 +9255,7 @@ _08096C2A:
 	strb r0, [r1]
 	strh r0, [r2, #0xe]
 	strh r0, [r2, #0xc]
-	ldr r1, _08096C5C @ =0x0879C3AC
+	ldr r1, _08096C5C @ =sEndingUnk_79c3ac
 	ldr r0, _08096C60 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -9272,7 +9272,7 @@ _08096C2A:
 	.align 2, 0
 _08096C54: .4byte gNonGameplayRam
 _08096C58: .4byte 0x00000212
-_08096C5C: .4byte 0x0879C3AC
+_08096C5C: .4byte sEndingUnk_79c3ac
 _08096C60: .4byte 0x03000011
 _08096C64:
 	cmp r0, #2
@@ -9306,26 +9306,26 @@ _08096C82:
 	ldrb r0, [r4, #0x10]
 	cmp r0, #7
 	bne _08096CB8
-	ldr r0, _08096CB0 @ =0x086332FC
+	ldr r0, _08096CB0 @ =sEndingUnk_6332fc
 	str r0, [r4, #0x1c]
 	ldr r0, _08096CB4 @ =0x0000020B
 	bl SoundPlay
 	b _08096CC0
 	.align 2, 0
 _08096CAC: .4byte gNonGameplayRam
-_08096CB0: .4byte 0x086332FC
+_08096CB0: .4byte sEndingUnk_6332fc
 _08096CB4: .4byte 0x0000020B
 _08096CB8:
 	cmp r0, #9
 	bne _08096CC0
-	ldr r0, _08096CC8 @ =0x086333CC
+	ldr r0, _08096CC8 @ =sEndingUnk_6333cc
 	str r0, [r4, #0x1c]
 _08096CC0:
 	movs r0, #4
 	strb r0, [r4, #0x14]
 	b _08096D34
 	.align 2, 0
-_08096CC8: .4byte 0x086333CC
+_08096CC8: .4byte sEndingUnk_6333cc
 _08096CCC:
 	cmp r0, #4
 	bne _08096CFC
@@ -9402,7 +9402,7 @@ EndingProcessAdamIcon: @ 0x08096D40
 	bne _08096D62
 	strb r1, [r2, #0x12]
 	strb r1, [r2, #0x11]
-	ldr r0, _08096D78 @ =0x086338A4
+	ldr r0, _08096D78 @ =sEndingUnk_6338a4
 	str r0, [r2, #0x1c]
 	movs r0, #1
 	strb r0, [r2, #0x14]
@@ -9418,7 +9418,7 @@ _08096D62:
 	strb r1, [r2, #0x11]
 	b _08096D98
 	.align 2, 0
-_08096D78: .4byte 0x086338A4
+_08096D78: .4byte sEndingUnk_6338a4
 _08096D7C: .4byte gNonGameplayRam
 _08096D80:
 	cmp r1, #1
@@ -9434,14 +9434,14 @@ _08096D80:
 	strb r0, [r2, #0x12]
 	strb r0, [r2, #0x11]
 _08096D98:
-	ldr r0, _08096DA8 @ =0x0863345C
+	ldr r0, _08096DA8 @ =sEndingUnk_63345c
 	str r0, [r2, #0x1c]
 	movs r0, #2
 	strb r0, [r2, #0x14]
 	b _08096DC0
 	.align 2, 0
 _08096DA4: .4byte gNonGameplayRam
-_08096DA8: .4byte 0x0863345C
+_08096DA8: .4byte sEndingUnk_63345c
 _08096DAC:
 	cmp r1, #2
 	bne _08096DC0
@@ -9756,7 +9756,7 @@ _08096FB0:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08097024 @ =0x08633E64
+	ldr r1, _08097024 @ =sEndingUnk_633e64
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -9769,7 +9769,7 @@ _08097014: .4byte 0x040000D4
 _08097018: .4byte 0x030016A0
 _0809701C: .4byte 0x85000009
 _08097020: .4byte 0xFFFFFDE4
-_08097024: .4byte 0x08633E64
+_08097024: .4byte sEndingUnk_633e64
 _08097028: .4byte EndingProcessMonologueCursor
 _0809702C:
 	cmp r5, #2
@@ -9786,7 +9786,7 @@ _0809702C:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809705C @ =0x086338D4
+	ldr r1, _0809705C @ =sEndingUnk_6338d4
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -9796,7 +9796,7 @@ _0809702C:
 	b _08097270
 	.align 2, 0
 _08097058: .4byte 0x00000236
-_0809705C: .4byte 0x086338D4
+_0809705C: .4byte sEndingUnk_6338d4
 _08097060: .4byte unk_969e0
 _08097064:
 	cmp r5, #3
@@ -9813,7 +9813,7 @@ _08097064:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08097094 @ =0x086339D4
+	ldr r1, _08097094 @ =sEndingUnk_6339d4
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -9823,7 +9823,7 @@ _08097064:
 	b _08097270
 	.align 2, 0
 _08097090: .4byte 0x00000236
-_08097094: .4byte 0x086339D4
+_08097094: .4byte sEndingUnk_6339d4
 _08097098: .4byte EndingProcessSr388RadarView
 _0809709C:
 	cmp r5, #4
@@ -9840,7 +9840,7 @@ _0809709C:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _080970CC @ =0x08633C4C
+	ldr r1, _080970CC @ =sEndingUnk_633c4c
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -9850,7 +9850,7 @@ _0809709C:
 	b _08097270
 	.align 2, 0
 _080970C8: .4byte 0x00000236
-_080970CC: .4byte 0x08633C4C
+_080970CC: .4byte sEndingUnk_633c4c
 _080970D0: .4byte EndingProcessSamusViewRadarView
 _080970D4:
 	cmp r5, #5
@@ -9867,7 +9867,7 @@ _080970D4:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08097104 @ =0x086331EC
+	ldr r1, _08097104 @ =sEndingUnk_6331ec
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -9877,7 +9877,7 @@ _080970D4:
 	b _08097270
 	.align 2, 0
 _08097100: .4byte 0x00000236
-_08097104: .4byte 0x086331EC
+_08097104: .4byte sEndingUnk_6331ec
 _08097108: .4byte unk_96a70
 _0809710C:
 	cmp r5, #6
@@ -9885,7 +9885,7 @@ _0809710C:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08097128 @ =0x08633E8C
+	ldr r1, _08097128 @ =sEndingUnk_633e8c
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -9894,7 +9894,7 @@ _0809710C:
 	str r1, [r0]
 	b _08097270
 	.align 2, 0
-_08097128: .4byte 0x08633E8C
+_08097128: .4byte sEndingUnk_633e8c
 _0809712C: .4byte EndingProcessAdamTextCursor
 _08097130:
 	cmp r5, #7
@@ -9911,11 +9911,11 @@ _08097130:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08097154 @ =0x08633294
+	ldr r1, _08097154 @ =sEndingUnk_633294
 	b _080971AE
 	.align 2, 0
 _08097150: .4byte 0x00000236
-_08097154: .4byte 0x08633294
+_08097154: .4byte sEndingUnk_633294
 _08097158:
 	cmp r5, #8
 	bne _08097190
@@ -9931,7 +9931,7 @@ _08097158:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _08097188 @ =0x08633434
+	ldr r1, _08097188 @ =sEndingUnk_633434
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -9941,7 +9941,7 @@ _08097158:
 	b _08097270
 	.align 2, 0
 _08097184: .4byte 0x00000236
-_08097188: .4byte 0x08633434
+_08097188: .4byte sEndingUnk_633434
 _0809718C: .4byte EndingProcessAdamIcon
 _08097190:
 	cmp r5, #9
@@ -9958,7 +9958,7 @@ _08097190:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _080971C0 @ =0x08633364
+	ldr r1, _080971C0 @ =sEndingUnk_633364
 _080971AE:
 	str r1, [r0]
 	adds r0, r3, #0
@@ -9969,7 +9969,7 @@ _080971AE:
 	b _08097270
 	.align 2, 0
 _080971BC: .4byte 0x00000236
-_080971C0: .4byte 0x08633364
+_080971C0: .4byte sEndingUnk_633364
 _080971C4: .4byte EndingProcessAdamPanel
 _080971C8:
 	cmp r5, #0x14
@@ -10010,7 +10010,7 @@ _080971E4:
 	lsls r1, r1, #2
 	adds r0, r4, r1
 	adds r0, r2, r0
-	ldr r1, _08097230 @ =0x08633F24
+	ldr r1, _08097230 @ =sEndingUnk_633f24
 	str r1, [r0]
 	movs r3, #0x8f
 	lsls r3, r3, #2
@@ -10022,7 +10022,7 @@ _080971E4:
 _08097224: .4byte 0x0000012D
 _08097228: .4byte gNonGameplayRam
 _0809722C: .4byte 0x00000236
-_08097230: .4byte 0x08633F24
+_08097230: .4byte sEndingUnk_633f24
 _08097234: .4byte unk_97418
 _08097238:
 	cmp r5, #0xff
@@ -10045,7 +10045,7 @@ _08097238:
 	lsls r0, r0, #2
 	add r0, ip
 	adds r0, r2, r0
-	ldr r1, _08097280 @ =0x086331EC
+	ldr r1, _08097280 @ =sEndingUnk_6331ec
 	str r1, [r0]
 	movs r0, #0x8f
 	lsls r0, r0, #2
@@ -10064,7 +10064,7 @@ _08097272:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08097280: .4byte 0x086331EC
+_08097280: .4byte sEndingUnk_6331ec
 _08097284: .4byte unk_96f00
 
 	thumb_func_start EndingMonologueVblank
@@ -10375,27 +10375,27 @@ DiedOnSr388CollisionInit: @ 0x080974C4
 	ldr r0, _08097638 @ =0x85000150
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809763C @ =0x086238F4
+	ldr r0, _0809763C @ =sSr388CollisionUnk_6238f4
 	ldr r1, _08097640 @ =0x06010000
 	bl LZ77UncompVram
-	ldr r0, _08097644 @ =0x08636C38
+	ldr r0, _08097644 @ =sSr388CollisionUnk_636c38
 	str r0, [r4]
 	ldr r0, _08097648 @ =0x05000200
 	str r0, [r4, #4]
 	ldr r6, _0809764C @ =0x84000080
 	str r6, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08097650 @ =0x0862B5F4
+	ldr r0, _08097650 @ =sSr388CollisionUnk_62b5f4
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _08097654 @ =0x08638C14
+	ldr r0, _08097654 @ =sSr388CollisionUnk_638c14
 	ldr r1, _08097658 @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _0809765C @ =0x08639BC4
+	ldr r0, _0809765C @ =sSr388CollisionUnk_639bc4
 	ldr r1, _08097660 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _08097664 @ =0x08637038
+	ldr r0, _08097664 @ =sSr388CollisionUnk_637038
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -10510,17 +10510,17 @@ _0809762C: .4byte unk_99940
 _08097630: .4byte 0x040000D4
 _08097634: .4byte gNonGameplayRam
 _08097638: .4byte 0x85000150
-_0809763C: .4byte 0x086238F4
+_0809763C: .4byte sSr388CollisionUnk_6238f4
 _08097640: .4byte 0x06010000
-_08097644: .4byte 0x08636C38
+_08097644: .4byte sSr388CollisionUnk_636c38
 _08097648: .4byte 0x05000200
 _0809764C: .4byte 0x84000080
-_08097650: .4byte 0x0862B5F4
-_08097654: .4byte 0x08638C14
+_08097650: .4byte sSr388CollisionUnk_62b5f4
+_08097654: .4byte sSr388CollisionUnk_638c14
 _08097658: .4byte 0x0600F000
-_0809765C: .4byte 0x08639BC4
+_0809765C: .4byte sSr388CollisionUnk_639bc4
 _08097660: .4byte 0x0600F800
-_08097664: .4byte 0x08637038
+_08097664: .4byte sSr388CollisionUnk_637038
 _08097668: .4byte gBg1XPosition
 _0809766C: .4byte gBg1YPosition
 _08097670: .4byte 0x0300122C
@@ -10909,7 +10909,7 @@ _08097978:
 	ldrb r0, [r4, #0x10]
 	cmp r0, #1
 	bne _080979BE
-	ldr r0, _0809799C @ =0x086362B8
+	ldr r0, _0809799C @ =sSr388CollisionUnk_6362b8
 	str r0, [r4, #0x1c]
 	strb r2, [r4, #0x12]
 	strb r2, [r4, #0x11]
@@ -10920,7 +10920,7 @@ _08097978:
 	strb r1, [r0]
 	b _080979CA
 	.align 2, 0
-_0809799C: .4byte 0x086362B8
+_0809799C: .4byte sSr388CollisionUnk_6362b8
 _080979A0: .4byte gNonGameplayRam
 _080979A4:
 	cmp r1, #3
@@ -11133,7 +11133,7 @@ _08097AAC:
 	adds r0, r6, #0
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08097B50 @ =0x08636020
+	ldr r1, _08097B50 @ =sSr388CollisionUnk_636020
 	str r1, [r0]
 	adds r0, r6, #0
 	adds r0, #0x20
@@ -11146,7 +11146,7 @@ _08097B40: .4byte 0x030016A0
 _08097B44: .4byte 0x85000009
 _08097B48: .4byte 0xFFFFFDE4
 _08097B4C: .4byte 0x00000236
-_08097B50: .4byte 0x08636020
+_08097B50: .4byte sSr388CollisionUnk_636020
 _08097B54: .4byte DiedOnSr388CollisionProcessFallingBsl
 _08097B58:
 	cmp r7, #2
@@ -11181,7 +11181,7 @@ _08097B58:
 	adds r0, r6, #0
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08097BB0 @ =0x08636038
+	ldr r1, _08097BB0 @ =sSr388CollisionUnk_636038
 	str r1, [r0]
 	adds r0, r6, #0
 	adds r0, #0x20
@@ -11191,7 +11191,7 @@ _08097B58:
 	.align 2, 0
 _08097BA8: .4byte 0x00000222
 _08097BAC: .4byte 0x00000236
-_08097BB0: .4byte 0x08636038
+_08097BB0: .4byte sSr388CollisionUnk_636038
 _08097BB4: .4byte DiedOnSr388CollisionProcessFallingBsl
 _08097BB8:
 	cmp r7, #3
@@ -11208,7 +11208,7 @@ _08097BB8:
 	adds r0, r6, #0
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _08097BF8 @ =0x08636050
+	ldr r1, _08097BF8 @ =sSr388CollisionUnk_636050
 	str r1, [r0]
 	adds r0, r6, #0
 	adds r0, #0x20
@@ -11229,7 +11229,7 @@ _08097BE6:
 	bx r1
 	.align 2, 0
 _08097BF4: .4byte 0x00000236
-_08097BF8: .4byte 0x08636050
+_08097BF8: .4byte sSr388CollisionUnk_636050
 _08097BFC: .4byte unk_979d0
 
 	thumb_func_start DiedOnSr388CollisionVblank
@@ -11293,7 +11293,7 @@ DiedOnSr388CollisionVblank: @ 0x08097C00
 	adds r0, r1, r2
 	ldrb r0, [r0]
 	lsls r0, r0, #5
-	ldr r1, _08097CCC @ =0x08636A38
+	ldr r1, _08097CCC @ =sSr388CollisionUnk_636a38
 	adds r0, r0, r1
 	str r0, [r3]
 	ldr r0, _08097CD0 @ =0x05000120
@@ -11321,7 +11321,7 @@ _08097CBC: .4byte 0x03001230
 _08097CC0: .4byte 0x03001232
 _08097CC4: .4byte gNonGameplayRam
 _08097CC8: .4byte 0x00000111
-_08097CCC: .4byte 0x08636A38
+_08097CCC: .4byte sSr388CollisionUnk_636a38
 _08097CD0: .4byte 0x05000120
 _08097CD4: .4byte 0x84000008
 
@@ -13683,7 +13683,7 @@ _08098E18:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r0, _08098EA8 @ =0x0863A184
+	ldr r0, _08098EA8 @ =sCutsceneUnk_63a184
 	adds r1, r1, r0
 	ldrb r0, [r1]
 	lsls r0, r0, #3
@@ -13703,7 +13703,7 @@ _08098E18:
 _08098E9C: .4byte gNextOamSlot
 _08098EA0: .4byte gOamData
 _08098EA4: .4byte 0x000001FF
-_08098EA8: .4byte 0x0863A184
+_08098EA8: .4byte sCutsceneUnk_63a184
 _08098EAC:
 	mov r4, sb
 	ldrh r0, [r4, #0xe]
@@ -13896,12 +13896,12 @@ _08098FDC:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r4, _080990A0 @ =0x0863A184
+	ldr r4, _080990A0 @ =sCutsceneUnk_63a184
 	adds r0, r1, r4
 	ldrb r0, [r0]
 	lsls r0, r0, #2
 	str r0, [sp, #8]
-	ldr r0, _080990A4 @ =0x0863A190
+	ldr r0, _080990A4 @ =sCutsceneUnk_63a190
 	adds r1, r1, r0
 	ldrb r0, [r1]
 	lsls r0, r0, #2
@@ -13958,8 +13958,8 @@ _08098FDC:
 	.align 2, 0
 _08099098: .4byte gNextOamSlot
 _0809909C: .4byte gOamData
-_080990A0: .4byte 0x0863A184
-_080990A4: .4byte 0x0863A190
+_080990A0: .4byte sCutsceneUnk_63a184
+_080990A4: .4byte sCutsceneUnk_63a190
 _080990A8: .4byte 0x000001FF
 _080990AC:
 	movs r5, #0
@@ -14460,10 +14460,10 @@ _08099458:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r4, _08099784 @ =0x0863A184
+	ldr r4, _08099784 @ =sCutsceneUnk_63a184
 	adds r0, r1, r4
 	ldrb r2, [r0]
-	ldr r0, _08099788 @ =0x0863A190
+	ldr r0, _08099788 @ =sCutsceneUnk_63a190
 	adds r1, r1, r0
 	ldrb r3, [r1]
 	ldr r1, [sp, #4]
@@ -14827,8 +14827,8 @@ _0809975A:
 	.align 2, 0
 _0809977C: .4byte gNextOamSlot
 _08099780: .4byte gOamData
-_08099784: .4byte 0x0863A184
-_08099788: .4byte 0x0863A190
+_08099784: .4byte sCutsceneUnk_63a184
+_08099788: .4byte sCutsceneUnk_63a190
 _0809978C: .4byte 0x000001FF
 _08099790: .4byte sSineTable
 _08099794: .4byte 0xFFFFFE00
@@ -15420,7 +15420,7 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	lsls r1, r1, #0x13
 	mov sb, r1
 	strh r4, [r1]
-	ldr r1, _08099D9C @ =0x0879C514
+	ldr r1, _08099D9C @ =sCutsceneUnk_79c514
 	ldr r6, _08099DA0 @ =gCurrentCutscene
 	ldrb r0, [r6]
 	subs r0, #1
@@ -15429,18 +15429,18 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	ldr r0, [r0]
 	ldr r1, _08099DA4 @ =0x06012000
 	bl LZ77UncompVram
-	ldr r0, _08099DA8 @ =0x0865FB5C
+	ldr r0, _08099DA8 @ =sCutsceneUnk_65fb5c
 	ldr r1, _08099DAC @ =0x06017C00
 	bl LZ77UncompVram
 	ldr r4, _08099DB0 @ =0x040000D4
-	ldr r0, _08099DB4 @ =0x086638A0
+	ldr r0, _08099DB4 @ =sCutsceneUnk_6638a0
 	str r0, [r4]
 	ldr r0, _08099DB8 @ =0x050003E0
 	str r0, [r4, #4]
 	ldr r0, _08099DBC @ =0x84000008
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r1, _08099DC0 @ =0x0879C4CC
+	ldr r1, _08099DC0 @ =sCutsceneUnk_79c4cc
 	ldrb r0, [r6]
 	subs r0, #1
 	lsls r0, r0, #2
@@ -15452,7 +15452,7 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	ldr r0, _08099DC8 @ =0x84000030
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r1, _08099DCC @ =0x0879C4F0
+	ldr r1, _08099DCC @ =sCutsceneUnk_79c4f0
 	ldrb r0, [r6]
 	subs r0, #1
 	lsls r0, r0, #2
@@ -15461,7 +15461,7 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r1, _08099DD0 @ =0x0879C538
+	ldr r1, _08099DD0 @ =sCutsceneUnk_79c538
 	ldrb r0, [r6]
 	subs r0, #1
 	lsls r0, r0, #2
@@ -15474,7 +15474,7 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	lsls r5, r5, #0x12
 	adds r1, r5, #0
 	bl LZ77UncompWram
-	ldr r0, _08099DDC @ =0x08663598
+	ldr r0, _08099DDC @ =sCutsceneUnk_663598
 	ldr r1, _08099DE0 @ =0x0600D800
 	bl LZ77UncompVram
 	str r5, [r4]
@@ -15483,7 +15483,7 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	ldr r0, _08099DE8 @ =0x84000200
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _08099DEC @ =0x086636A0
+	ldr r0, _08099DEC @ =sCutsceneUnk_6636a0
 	str r0, [r4]
 	movs r2, #0xa0
 	lsls r2, r2, #0x13
@@ -15491,7 +15491,7 @@ CutsceneElevatorMonologueInit: @ 0x08099C38
 	ldr r0, _08099DF0 @ =0x84000080
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r1, _08099DF4 @ =0x0879C4A8
+	ldr r1, _08099DF4 @ =sCutsceneUnk_79c4a8
 	ldrb r0, [r6]
 	subs r0, #1
 	lsls r0, r0, #2
@@ -15553,29 +15553,29 @@ _08099D8C: .4byte 0x0000FFEF
 _08099D90: .4byte 0x04000200
 _08099D94: .4byte 0x0000FFFD
 _08099D98: .4byte unk_9a31c
-_08099D9C: .4byte 0x0879C514
+_08099D9C: .4byte sCutsceneUnk_79c514
 _08099DA0: .4byte gCurrentCutscene
 _08099DA4: .4byte 0x06012000
-_08099DA8: .4byte 0x0865FB5C
+_08099DA8: .4byte sCutsceneUnk_65fb5c
 _08099DAC: .4byte 0x06017C00
 _08099DB0: .4byte 0x040000D4
-_08099DB4: .4byte 0x086638A0
+_08099DB4: .4byte sCutsceneUnk_6638a0
 _08099DB8: .4byte 0x050003E0
 _08099DBC: .4byte 0x84000008
-_08099DC0: .4byte 0x0879C4CC
+_08099DC0: .4byte sCutsceneUnk_79c4cc
 _08099DC4: .4byte 0x05000200
 _08099DC8: .4byte 0x84000030
-_08099DCC: .4byte 0x0879C4F0
-_08099DD0: .4byte 0x0879C538
+_08099DCC: .4byte sCutsceneUnk_79c4f0
+_08099DD0: .4byte sCutsceneUnk_79c538
 _08099DD4: .4byte 0x0600D000
 _08099DD8: .4byte sIntroTilemap_662804
-_08099DDC: .4byte 0x08663598
+_08099DDC: .4byte sCutsceneUnk_663598
 _08099DE0: .4byte 0x0600D800
 _08099DE4: .4byte 0x0600C800
 _08099DE8: .4byte 0x84000200
-_08099DEC: .4byte 0x086636A0
+_08099DEC: .4byte sCutsceneUnk_6636a0
 _08099DF0: .4byte 0x84000080
-_08099DF4: .4byte 0x0879C4A8
+_08099DF4: .4byte sCutsceneUnk_79c4a8
 _08099DF8: .4byte 0x84000058
 _08099DFC: .4byte 0x04000012
 _08099E00: .4byte 0x00001908
@@ -15735,7 +15735,7 @@ _08099EF0:
 	lsls r1, r1, #2
 	adds r0, r3, r1
 	adds r0, r5, r0
-	ldr r1, _08099F60 @ =0x08663E5C
+	ldr r1, _08099F60 @ =sCutsceneUnk_663e5c
 	str r1, [r0]
 	movs r1, #0x8a
 	lsls r1, r1, #2
@@ -15748,7 +15748,7 @@ _08099F50: .4byte gNonGameplayRam
 _08099F54: .4byte 0x00000219
 _08099F58: .4byte 0x00000221
 _08099F5C: .4byte 0x00000222
-_08099F60: .4byte 0x08663E5C
+_08099F60: .4byte sCutsceneUnk_663e5c
 _08099F64: .4byte CutsceneMonologueProcessCursor
 _08099F68:
 	cmp r4, #2
@@ -15761,7 +15761,7 @@ _08099F68:
 	lsls r0, r0, #2
 	adds r1, r3, r0
 	adds r1, r5, r1
-	ldr r2, _08099F9C @ =0x0879C55C
+	ldr r2, _08099F9C @ =sCutsceneUnk_79c55c
 	ldr r0, _08099FA0 @ =gCurrentCutscene
 	ldrb r0, [r0]
 	subs r0, #1
@@ -15777,7 +15777,7 @@ _08099F68:
 	b _0809A068
 	.align 2, 0
 _08099F98: .4byte 0x0000021F
-_08099F9C: .4byte 0x0879C55C
+_08099F9C: .4byte sCutsceneUnk_79c55c
 _08099FA0: .4byte gCurrentCutscene
 _08099FA4: .4byte unk_9d09c
 _08099FA8:
@@ -15794,7 +15794,7 @@ _08099FA8:
 	lsls r0, r0, #2
 	adds r1, r3, r0
 	adds r1, r5, r1
-	ldr r2, _08099FE8 @ =0x0879C55C
+	ldr r2, _08099FE8 @ =sCutsceneUnk_79c55c
 	ldr r0, _08099FEC @ =gCurrentCutscene
 	ldrb r0, [r0]
 	subs r0, #1
@@ -15811,7 +15811,7 @@ _08099FA8:
 	.align 2, 0
 _08099FE0: .4byte 0x0000021E
 _08099FE4: .4byte 0x0000021F
-_08099FE8: .4byte 0x0879C55C
+_08099FE8: .4byte sCutsceneUnk_79c55c
 _08099FEC: .4byte gCurrentCutscene
 _08099FF0: .4byte unk_9d09c
 _08099FF4:
@@ -15825,7 +15825,7 @@ _08099FF4:
 	lsls r1, r1, #2
 	adds r2, r3, r1
 	adds r2, r5, r2
-	ldr r1, _0809A02C @ =0x0879C55C
+	ldr r1, _0809A02C @ =sCutsceneUnk_79c55c
 	ldr r0, _0809A030 @ =gCurrentCutscene
 	ldrb r0, [r0]
 	subs r0, #1
@@ -15842,7 +15842,7 @@ _08099FF4:
 	b _0809A068
 	.align 2, 0
 _0809A028: .4byte 0x0000021F
-_0809A02C: .4byte 0x0879C55C
+_0809A02C: .4byte sCutsceneUnk_79c55c
 _0809A030: .4byte gCurrentCutscene
 _0809A034: .4byte CutsceneProcessElevatorScrolling
 _0809A038:
@@ -15856,7 +15856,7 @@ _0809A038:
 	lsls r1, r1, #2
 	adds r2, r3, r1
 	adds r2, r5, r2
-	ldr r1, _0809A07C @ =0x0879C55C
+	ldr r1, _0809A07C @ =sCutsceneUnk_79c55c
 	ldr r0, _0809A080 @ =gCurrentCutscene
 	ldrb r0, [r0]
 	subs r0, #1
@@ -15882,7 +15882,7 @@ _0809A06C:
 	bx r1
 	.align 2, 0
 _0809A078: .4byte 0x0000021F
-_0809A07C: .4byte 0x0879C55C
+_0809A07C: .4byte sCutsceneUnk_79c55c
 _0809A080: .4byte gCurrentCutscene
 _0809A084: .4byte unk_9a1a8
 
@@ -16313,11 +16313,11 @@ CutsceneInternalMonologueInit: @ 0x0809A3AC
 	lsls r0, r0, #0x13
 	mov r8, r0
 	strh r6, [r0]
-	ldr r0, _0809A49C @ =0x0865FB5C
+	ldr r0, _0809A49C @ =sCutsceneUnk_65fb5c
 	ldr r1, _0809A4A0 @ =0x06017C00
 	bl LZ77UncompVram
 	ldr r4, _0809A4A4 @ =0x040000D4
-	ldr r0, _0809A4A8 @ =0x086638A0
+	ldr r0, _0809A4A8 @ =sCutsceneUnk_6638a0
 	str r0, [r4]
 	ldr r0, _0809A4AC @ =0x050003E0
 	str r0, [r4, #4]
@@ -16335,7 +16335,7 @@ CutsceneInternalMonologueInit: @ 0x0809A3AC
 	ldr r0, _0809A4BC @ =0x84000200
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809A4C0 @ =0x086636A0
+	ldr r0, _0809A4C0 @ =sCutsceneUnk_6636a0
 	str r0, [r4]
 	movs r1, #0xa0
 	lsls r1, r1, #0x13
@@ -16397,16 +16397,16 @@ _0809A48C: .4byte 0x0000FFEF
 _0809A490: .4byte 0x04000200
 _0809A494: .4byte 0x0000FFFD
 _0809A498: .4byte unk_9a63c
-_0809A49C: .4byte 0x0865FB5C
+_0809A49C: .4byte sCutsceneUnk_65fb5c
 _0809A4A0: .4byte 0x06017C00
 _0809A4A4: .4byte 0x040000D4
-_0809A4A8: .4byte 0x086638A0
+_0809A4A8: .4byte sCutsceneUnk_6638a0
 _0809A4AC: .4byte 0x050003E0
 _0809A4B0: .4byte 0x84000008
 _0809A4B4: .4byte sIntroTilemap_662804
 _0809A4B8: .4byte 0x0600C800
 _0809A4BC: .4byte 0x84000200
-_0809A4C0: .4byte 0x086636A0
+_0809A4C0: .4byte sCutsceneUnk_6636a0
 _0809A4C4: .4byte 0x84000080
 _0809A4C8: .4byte 0x04000012
 _0809A4CC: .4byte 0x00001908
@@ -16535,7 +16535,7 @@ _0809A574:
 	lsls r1, r1, #2
 	adds r0, r5, r1
 	adds r0, r3, r0
-	ldr r1, _0809A5FC @ =0x08663E5C
+	ldr r1, _0809A5FC @ =sCutsceneUnk_663e5c
 	str r1, [r0]
 	movs r1, #0x8a
 	lsls r1, r1, #2
@@ -16557,7 +16557,7 @@ _0809A5EC: .4byte 0x00000219
 _0809A5F0: .4byte 0x0000021F
 _0809A5F4: .4byte 0x00000221
 _0809A5F8: .4byte 0x00000222
-_0809A5FC: .4byte 0x08663E5C
+_0809A5FC: .4byte sCutsceneUnk_663e5c
 _0809A600: .4byte CutsceneMonologueProcessCursor
 
 	thumb_func_start CutsceneInternalMonologueVblank
@@ -16688,22 +16688,22 @@ CutsceneFederationMonologueInit: @ 0x0809A6CC
 	lsls r0, r0, #0x13
 	mov r8, r0
 	strh r6, [r0]
-	ldr r0, _0809A7E4 @ =0x0865FB5C
+	ldr r0, _0809A7E4 @ =sCutsceneUnk_65fb5c
 	ldr r1, _0809A7E8 @ =0x06017C00
 	bl LZ77UncompVram
 	ldr r4, _0809A7EC @ =0x040000D4
-	ldr r0, _0809A7F0 @ =0x086638A0
+	ldr r0, _0809A7F0 @ =sCutsceneUnk_6638a0
 	str r0, [r4]
 	ldr r0, _0809A7F4 @ =0x050003E0
 	str r0, [r4, #4]
 	ldr r0, _0809A7F8 @ =0x84000008
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809A7FC @ =0x086724C0
+	ldr r0, _0809A7FC @ =sCutsceneUnk_6724c0
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _0809A800 @ =0x08674AD8
+	ldr r0, _0809A800 @ =sCutsceneUnk_674ad8
 	ldr r1, _0809A804 @ =0x0600D000
 	bl LZ77UncompVram
 	ldr r0, _0809A808 @ =sIntroTilemap_662804
@@ -16717,7 +16717,7 @@ CutsceneFederationMonologueInit: @ 0x0809A6CC
 	ldr r0, _0809A810 @ =0x84000200
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809A814 @ =0x08674958
+	ldr r0, _0809A814 @ =sCutsceneUnk_674958
 	str r0, [r4]
 	movs r1, #0xa0
 	lsls r1, r1, #0x13
@@ -16790,19 +16790,19 @@ _0809A7D4: .4byte 0x0000FFEF
 _0809A7D8: .4byte 0x04000200
 _0809A7DC: .4byte 0x0000FFFD
 _0809A7E0: .4byte unk_9a99c
-_0809A7E4: .4byte 0x0865FB5C
+_0809A7E4: .4byte sCutsceneUnk_65fb5c
 _0809A7E8: .4byte 0x06017C00
 _0809A7EC: .4byte 0x040000D4
-_0809A7F0: .4byte 0x086638A0
+_0809A7F0: .4byte sCutsceneUnk_6638a0
 _0809A7F4: .4byte 0x050003E0
 _0809A7F8: .4byte 0x84000008
-_0809A7FC: .4byte 0x086724C0
-_0809A800: .4byte 0x08674AD8
+_0809A7FC: .4byte sCutsceneUnk_6724c0
+_0809A800: .4byte sCutsceneUnk_674ad8
 _0809A804: .4byte 0x0600D000
 _0809A808: .4byte sIntroTilemap_662804
 _0809A80C: .4byte 0x0600C800
 _0809A810: .4byte 0x84000200
-_0809A814: .4byte 0x08674958
+_0809A814: .4byte sCutsceneUnk_674958
 _0809A818: .4byte 0x84000060
 _0809A81C: .4byte sIntroPal_663820
 _0809A820: .4byte 0x05000180
@@ -16934,7 +16934,7 @@ _0809A8D4:
 	lsls r1, r1, #2
 	adds r0, r5, r1
 	adds r0, r3, r0
-	ldr r1, _0809A95C @ =0x08663E5C
+	ldr r1, _0809A95C @ =sCutsceneUnk_663e5c
 	str r1, [r0]
 	movs r1, #0x8a
 	lsls r1, r1, #2
@@ -16956,7 +16956,7 @@ _0809A94C: .4byte 0x00000219
 _0809A950: .4byte 0x0000021F
 _0809A954: .4byte 0x00000221
 _0809A958: .4byte 0x00000222
-_0809A95C: .4byte 0x08663E5C
+_0809A95C: .4byte sCutsceneUnk_663e5c
 _0809A960: .4byte CutsceneMonologueProcessCursor
 
 	thumb_func_start CutsceneFederationMonologueVblank
@@ -17087,27 +17087,27 @@ CutsceneSecretConversationInit: @ 0x0809AA2C
 	movs r5, #0x80
 	lsls r5, r5, #0x13
 	strh r4, [r5]
-	ldr r0, _0809AB0C @ =0x0867815C
+	ldr r0, _0809AB0C @ =sCutsceneUnk_67815c
 	ldr r1, _0809AB10 @ =0x06014000
 	bl LZ77UncompVram
 	ldr r4, _0809AB14 @ =0x040000D4
-	ldr r0, _0809AB18 @ =0x086788A8
+	ldr r0, _0809AB18 @ =sCutsceneUnk_6788a8
 	str r0, [r4]
 	ldr r0, _0809AB1C @ =0x05000300
 	str r0, [r4, #4]
 	ldr r0, _0809AB20 @ =0x84000010
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809AB24 @ =0x08675098
+	ldr r0, _0809AB24 @ =sCutsceneUnk_675098
 	ldr r1, _0809AB28 @ =0x06000800
 	bl LZ77UncompVram
-	ldr r0, _0809AB2C @ =0x08677914
+	ldr r0, _0809AB2C @ =sCutsceneUnk_677914
 	ldr r1, _0809AB30 @ =0x0600C000
 	bl LZ77UncompVram
-	ldr r0, _0809AB34 @ =0x08677C90
+	ldr r0, _0809AB34 @ =sCutsceneUnk_677c90
 	ldr r1, _0809AB38 @ =0x0600C800
 	bl LZ77UncompVram
-	ldr r0, _0809AB3C @ =0x08677874
+	ldr r0, _0809AB3C @ =sCutsceneUnk_677874
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -17115,7 +17115,7 @@ CutsceneSecretConversationInit: @ 0x0809AA2C
 	ldr r0, _0809AB40 @ =0x84000028
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809AB44 @ =0x08677C10
+	ldr r0, _0809AB44 @ =sCutsceneUnk_677c10
 	str r0, [r4]
 	ldr r0, _0809AB48 @ =0x050001E0
 	str r0, [r4, #4]
@@ -17163,21 +17163,21 @@ _0809AAFC: .4byte 0x0000FFEF
 _0809AB00: .4byte 0x04000200
 _0809AB04: .4byte 0x0000FFFD
 _0809AB08: .4byte unk_9ae0c
-_0809AB0C: .4byte 0x0867815C
+_0809AB0C: .4byte sCutsceneUnk_67815c
 _0809AB10: .4byte 0x06014000
 _0809AB14: .4byte 0x040000D4
-_0809AB18: .4byte 0x086788A8
+_0809AB18: .4byte sCutsceneUnk_6788a8
 _0809AB1C: .4byte 0x05000300
 _0809AB20: .4byte 0x84000010
-_0809AB24: .4byte 0x08675098
+_0809AB24: .4byte sCutsceneUnk_675098
 _0809AB28: .4byte 0x06000800
-_0809AB2C: .4byte 0x08677914
+_0809AB2C: .4byte sCutsceneUnk_677914
 _0809AB30: .4byte 0x0600C000
-_0809AB34: .4byte 0x08677C90
+_0809AB34: .4byte sCutsceneUnk_677c90
 _0809AB38: .4byte 0x0600C800
-_0809AB3C: .4byte 0x08677874
+_0809AB3C: .4byte sCutsceneUnk_677874
 _0809AB40: .4byte 0x84000028
-_0809AB44: .4byte 0x08677C10
+_0809AB44: .4byte sCutsceneUnk_677c10
 _0809AB48: .4byte 0x050001E0
 _0809AB4C: .4byte 0x84000008
 _0809AB50: .4byte 0x0400000A
@@ -17307,7 +17307,7 @@ _0809AC06:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809AC60 @ =0x086793B0
+	ldr r1, _0809AC60 @ =sCutsceneUnk_6793b0
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -17318,7 +17318,7 @@ _0809AC06:
 _0809AC54: .4byte 0x040000D4
 _0809AC58: .4byte 0x0300149C
 _0809AC5C: .4byte 0x85000009
-_0809AC60: .4byte 0x086793B0
+_0809AC60: .4byte sCutsceneUnk_6793b0
 _0809AC64: .4byte unk_9db70
 _0809AC68:
 	cmp r6, #2
@@ -17326,7 +17326,7 @@ _0809AC68:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809AC80 @ =0x08679280
+	ldr r1, _0809AC80 @ =sCutsceneUnk_679280
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -17334,7 +17334,7 @@ _0809AC68:
 	ldr r1, _0809AC84 @ =CutsceneSecretConversationProcessNavigationPanel
 	b _0809ACBE
 	.align 2, 0
-_0809AC80: .4byte 0x08679280
+_0809AC80: .4byte sCutsceneUnk_679280
 _0809AC84: .4byte CutsceneSecretConversationProcessNavigationPanel
 _0809AC88:
 	cmp r6, #3
@@ -17342,7 +17342,7 @@ _0809AC88:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809ACA0 @ =0x086793A0
+	ldr r1, _0809ACA0 @ =sCutsceneUnk_6793a0
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -17350,7 +17350,7 @@ _0809AC88:
 	ldr r1, _0809ACA4 @ =unk_9db70
 	b _0809ACBE
 	.align 2, 0
-_0809ACA0: .4byte 0x086793A0
+_0809ACA0: .4byte sCutsceneUnk_6793a0
 _0809ACA4: .4byte unk_9db70
 _0809ACA8:
 	cmp r6, #4
@@ -17358,7 +17358,7 @@ _0809ACA8:
 	adds r0, r3, #0
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809ACCC @ =0x086792D0
+	ldr r1, _0809ACCC @ =sCutsceneUnk_6792d0
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x20
@@ -17374,7 +17374,7 @@ _0809ACC2:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0809ACCC: .4byte 0x086792D0
+_0809ACCC: .4byte sCutsceneUnk_6792d0
 _0809ACD0: .4byte CutsceneSecretConversationProcessIncomingDispatch
 
 	thumb_func_start CutsceneSecretConversationProcessNavigationPanel
@@ -17388,13 +17388,13 @@ CutsceneSecretConversationProcessNavigationPanel: @ 0x0809ACD4
 	strb r0, [r2, #0x14]
 	strb r1, [r2, #0x12]
 	strb r1, [r2, #0x11]
-	ldr r0, _0809ACF0 @ =0x086792A8
+	ldr r0, _0809ACF0 @ =sCutsceneUnk_6792a8
 	str r0, [r2, #0x1c]
 _0809ACEA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809ACF0: .4byte 0x086792A8
+_0809ACF0: .4byte sCutsceneUnk_6792a8
 
 	thumb_func_start CutsceneSecretConversationProcessIncomingDispatch
 CutsceneSecretConversationProcessIncomingDispatch: @ 0x0809ACF4
@@ -17427,12 +17427,12 @@ _0809AD16:
 	strb r5, [r4, #0x13]
 	strb r5, [r4, #0x12]
 	strb r5, [r4, #0x11]
-	ldr r0, _0809AD38 @ =0x08679350
+	ldr r0, _0809AD38 @ =sCutsceneUnk_679350
 	str r0, [r4, #0x1c]
 	b _0809AD5A
 	.align 2, 0
 _0809AD34: .4byte 0x0000022F
-_0809AD38: .4byte 0x08679350
+_0809AD38: .4byte sCutsceneUnk_679350
 _0809AD3C:
 	cmp r5, #1
 	bne _0809AD5A
@@ -17498,17 +17498,17 @@ _0809ADB0:
 	beq _0809ADE8
 	b _0809ADFA
 _0809ADBA:
-	ldr r0, _0809ADC0 @ =0x08677C30
+	ldr r0, _0809ADC0 @ =sCutsceneUnk_677c30
 	b _0809ADCE
 	.align 2, 0
-_0809ADC0: .4byte 0x08677C30
+_0809ADC0: .4byte sCutsceneUnk_677c30
 _0809ADC4:
-	ldr r0, _0809ADC8 @ =0x08677C50
+	ldr r0, _0809ADC8 @ =sCutsceneUnk_677c50
 	b _0809ADCE
 	.align 2, 0
-_0809ADC8: .4byte 0x08677C50
+_0809ADC8: .4byte sCutsceneUnk_677c50
 _0809ADCC:
-	ldr r0, _0809ADDC @ =0x08677C70
+	ldr r0, _0809ADDC @ =sCutsceneUnk_677c70
 _0809ADCE:
 	str r0, [r2]
 	ldr r0, _0809ADE0 @ =0x050001E0
@@ -17518,11 +17518,11 @@ _0809ADCE:
 	ldr r0, [r2, #8]
 	b _0809ADFA
 	.align 2, 0
-_0809ADDC: .4byte 0x08677C70
+_0809ADDC: .4byte sCutsceneUnk_677c70
 _0809ADE0: .4byte 0x050001E0
 _0809ADE4: .4byte 0x84000008
 _0809ADE8:
-	ldr r0, _0809AE00 @ =0x08677C10
+	ldr r0, _0809AE00 @ =sCutsceneUnk_677c10
 	str r0, [r2]
 	ldr r0, _0809AE04 @ =0x050001E0
 	str r0, [r2, #4]
@@ -17535,7 +17535,7 @@ _0809ADFA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809AE00: .4byte 0x08677C10
+_0809AE00: .4byte sCutsceneUnk_677c10
 _0809AE04: .4byte 0x050001E0
 _0809AE08: .4byte 0x84000008
 
@@ -17646,28 +17646,28 @@ CutsceneRestrictedLabDetachingInit: @ 0x0809AEA4
 	lsls r0, r0, #0x13
 	mov r8, r0
 	strh r5, [r0]
-	ldr r0, _0809AFB4 @ =0x0867D7CC
+	ldr r0, _0809AFB4 @ =sCutsceneUnk_67d7cc
 	ldr r1, _0809AFB8 @ =0x06010000
 	bl LZ77UncompVram
 	ldr r4, _0809AFBC @ =0x040000D4
-	ldr r0, _0809AFC0 @ =0x0868121C
+	ldr r0, _0809AFC0 @ =sCutsceneUnk_68121c
 	str r0, [r4]
 	ldr r0, _0809AFC4 @ =0x05000200
 	str r0, [r4, #4]
 	ldr r6, _0809AFC8 @ =0x84000080
 	str r6, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809AFCC @ =0x08679420
+	ldr r0, _0809AFCC @ =sCutsceneUnk_679420
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _0809AFD0 @ =0x086820A4
+	ldr r0, _0809AFD0 @ =sCutsceneUnk_6820a4
 	ldr r1, _0809AFD4 @ =0x0600E000
 	bl LZ77UncompVram
-	ldr r0, _0809AFD8 @ =0x08681A1C
+	ldr r0, _0809AFD8 @ =sCutsceneUnk_681a1c
 	ldr r1, _0809AFDC @ =0x0600E800
 	bl LZ77UncompVram
-	ldr r0, _0809AFE0 @ =0x0868259C
+	ldr r0, _0809AFE0 @ =sCutsceneUnk_68259c
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -17717,7 +17717,7 @@ CutsceneRestrictedLabDetachingInit: @ 0x0809AEA4
 	movs r1, #0xc
 	ldrsh r0, [r0, r1]
 	lsls r0, r0, #5
-	ldr r1, _0809AFF0 @ =0x0868101C
+	ldr r1, _0809AFF0 @ =sCutsceneUnk_68101c
 	adds r0, r0, r1
 	str r0, [r4]
 	ldr r0, _0809AFF4 @ =0x05000120
@@ -17739,22 +17739,22 @@ _0809AFA4: .4byte 0x0000FFEF
 _0809AFA8: .4byte 0x04000200
 _0809AFAC: .4byte 0x0000FFFD
 _0809AFB0: .4byte unk_9c1bc
-_0809AFB4: .4byte 0x0867D7CC
+_0809AFB4: .4byte sCutsceneUnk_67d7cc
 _0809AFB8: .4byte 0x06010000
 _0809AFBC: .4byte 0x040000D4
-_0809AFC0: .4byte 0x0868121C
+_0809AFC0: .4byte sCutsceneUnk_68121c
 _0809AFC4: .4byte 0x05000200
 _0809AFC8: .4byte 0x84000080
-_0809AFCC: .4byte 0x08679420
-_0809AFD0: .4byte 0x086820A4
+_0809AFCC: .4byte sCutsceneUnk_679420
+_0809AFD0: .4byte sCutsceneUnk_6820a4
 _0809AFD4: .4byte 0x0600E000
-_0809AFD8: .4byte 0x08681A1C
+_0809AFD8: .4byte sCutsceneUnk_681a1c
 _0809AFDC: .4byte 0x0600E800
-_0809AFE0: .4byte 0x0868259C
+_0809AFE0: .4byte sCutsceneUnk_68259c
 _0809AFE4: .4byte 0x0400000A
 _0809AFE8: .4byte gWrittenToBldy
 _0809AFEC: .4byte gNonGameplayRam
-_0809AFF0: .4byte 0x0868101C
+_0809AFF0: .4byte sCutsceneUnk_68101c
 _0809AFF4: .4byte 0x05000120
 _0809AFF8: .4byte 0x84000008
 _0809AFFC: .4byte CutsceneRestrictedLabDetachingVblank
@@ -18403,13 +18403,13 @@ _0809B494:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B50C @ =0x08680D54
+	ldr r1, _0809B50C @ =sCutsceneUnk_680d54
 	b _0809B570
 	.align 2, 0
 _0809B500: .4byte 0x040000D4
 _0809B504: .4byte 0x0300149C
 _0809B508: .4byte 0x85000009
-_0809B50C: .4byte 0x08680D54
+_0809B50C: .4byte sCutsceneUnk_680d54
 _0809B510:
 	cmp r4, #2
 	bne _0809B544
@@ -18432,10 +18432,10 @@ _0809B510:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B540 @ =0x08680D64
+	ldr r1, _0809B540 @ =sCutsceneUnk_680d64
 	b _0809B570
 	.align 2, 0
-_0809B540: .4byte 0x08680D64
+_0809B540: .4byte sCutsceneUnk_680d64
 _0809B544:
 	cmp r4, #3
 	bne _0809B588
@@ -18458,7 +18458,7 @@ _0809B544:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B580 @ =0x08680D74
+	ldr r1, _0809B580 @ =sCutsceneUnk_680d74
 _0809B570:
 	str r1, [r0]
 	mov r0, ip
@@ -18468,7 +18468,7 @@ _0809B570:
 	str r1, [r0]
 	b _0809B894
 	.align 2, 0
-_0809B580: .4byte 0x08680D74
+_0809B580: .4byte sCutsceneUnk_680d74
 _0809B584: .4byte CutsceneRestrictedLabDetachingProcessBslPart
 _0809B588:
 	cmp r4, #4
@@ -18491,10 +18491,10 @@ _0809B5A4:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B5B4 @ =0x08680E2C
+	ldr r1, _0809B5B4 @ =sCutsceneUnk_680e2c
 	b _0809B5D6
 	.align 2, 0
-_0809B5B4: .4byte 0x08680E2C
+_0809B5B4: .4byte sCutsceneUnk_680e2c
 _0809B5B8:
 	cmp r4, #6
 	bne _0809B5EC
@@ -18510,7 +18510,7 @@ _0809B5B8:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B5E4 @ =0x08680E3C
+	ldr r1, _0809B5E4 @ =sCutsceneUnk_680e3c
 _0809B5D6:
 	str r1, [r0]
 	mov r0, ip
@@ -18520,7 +18520,7 @@ _0809B5D6:
 	str r1, [r0]
 	b _0809B894
 	.align 2, 0
-_0809B5E4: .4byte 0x08680E3C
+_0809B5E4: .4byte sCutsceneUnk_680e3c
 _0809B5E8: .4byte unk_9ba50
 _0809B5EC:
 	cmp r4, #7
@@ -18537,7 +18537,7 @@ _0809B5EC:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B618 @ =0x08680DA4
+	ldr r1, _0809B618 @ =sCutsceneUnk_680da4
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -18546,7 +18546,7 @@ _0809B5EC:
 	str r1, [r0]
 	b _0809B894
 	.align 2, 0
-_0809B618: .4byte 0x08680DA4
+_0809B618: .4byte sCutsceneUnk_680da4
 _0809B61C: .4byte unk_9bac0
 _0809B620:
 	cmp r4, #8
@@ -18563,7 +18563,7 @@ _0809B620:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B64C @ =0x08680D94
+	ldr r1, _0809B64C @ =sCutsceneUnk_680d94
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -18572,7 +18572,7 @@ _0809B620:
 	str r1, [r0]
 	b _0809B894
 	.align 2, 0
-_0809B64C: .4byte 0x08680D94
+_0809B64C: .4byte sCutsceneUnk_680d94
 _0809B650: .4byte unk_9bb30
 _0809B654:
 	cmp r4, #9
@@ -18599,7 +18599,7 @@ _0809B654:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r5, r0
-	ldr r1, _0809B694 @ =0x08680D84
+	ldr r1, _0809B694 @ =sCutsceneUnk_680d84
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -18608,7 +18608,7 @@ _0809B654:
 	str r1, [r0]
 	b _0809B894
 	.align 2, 0
-_0809B694: .4byte 0x08680D84
+_0809B694: .4byte sCutsceneUnk_680d84
 _0809B698: .4byte unk_9bc04
 _0809B69C:
 	cmp r4, #0xa
@@ -18633,7 +18633,7 @@ _0809B6B8:
 	adds r0, r7, #0
 	adds r0, #0x34
 	adds r0, r2, r0
-	ldr r1, _0809B6D4 @ =0x08680DCC
+	ldr r1, _0809B6D4 @ =sCutsceneUnk_680dcc
 	str r1, [r0]
 	adds r0, r7, #0
 	adds r0, #0x38
@@ -18641,7 +18641,7 @@ _0809B6B8:
 	ldr r0, _0809B6D8 @ =unk_9bac0
 	b _0809B892
 	.align 2, 0
-_0809B6D4: .4byte 0x08680DCC
+_0809B6D4: .4byte sCutsceneUnk_680dcc
 _0809B6D8: .4byte unk_9bac0
 _0809B6DC:
 	cmp r4, #0xc
@@ -18672,7 +18672,7 @@ _0809B6DC:
 	adds r0, r7, #0
 	adds r0, #0x34
 	adds r0, r2, r0
-	ldr r1, _0809B724 @ =0x08680FEC
+	ldr r1, _0809B724 @ =sCutsceneUnk_680fec
 	str r1, [r0]
 	adds r0, r7, #0
 	adds r0, #0x38
@@ -18680,7 +18680,7 @@ _0809B6DC:
 	ldr r0, _0809B728 @ =unk_9bd24
 	b _0809B892
 	.align 2, 0
-_0809B724: .4byte 0x08680FEC
+_0809B724: .4byte sCutsceneUnk_680fec
 _0809B728: .4byte unk_9bd24
 _0809B72C:
 	cmp r4, #0xd
@@ -18711,7 +18711,7 @@ _0809B72C:
 	adds r0, r7, #0
 	adds r0, #0x34
 	adds r0, r2, r0
-	ldr r1, _0809B774 @ =0x08680FC4
+	ldr r1, _0809B774 @ =sCutsceneUnk_680fc4
 	str r1, [r0]
 	adds r0, r7, #0
 	adds r0, #0x38
@@ -18719,7 +18719,7 @@ _0809B72C:
 	ldr r0, _0809B778 @ =unk_9bdf8
 	b _0809B892
 	.align 2, 0
-_0809B774: .4byte 0x08680FC4
+_0809B774: .4byte sCutsceneUnk_680fc4
 _0809B778: .4byte unk_9bdf8
 _0809B77C:
 	cmp r4, #0xe
@@ -18785,7 +18785,7 @@ _0809B7C4:
 	adds r0, r7, #0
 	adds r0, #0x34
 	adds r0, r2, r0
-	ldr r1, _0809B804 @ =0x08680F9C
+	ldr r1, _0809B804 @ =sCutsceneUnk_680f9c
 	str r1, [r0]
 	adds r0, r7, #0
 	adds r0, #0x38
@@ -18793,7 +18793,7 @@ _0809B7C4:
 	ldr r0, _0809B808 @ =unk_9bfb8
 	b _0809B892
 	.align 2, 0
-_0809B804: .4byte 0x08680F9C
+_0809B804: .4byte sCutsceneUnk_680f9c
 _0809B808: .4byte unk_9bfb8
 _0809B80C:
 	cmp r4, #0x11
@@ -18803,7 +18803,7 @@ _0809B80C:
 	adds r0, r7, #0
 	adds r0, #0x34
 	adds r0, r2, r0
-	ldr r1, _0809B828 @ =0x08680F74
+	ldr r1, _0809B828 @ =sCutsceneUnk_680f74
 	str r1, [r0]
 	adds r0, r7, #0
 	adds r0, #0x38
@@ -18811,7 +18811,7 @@ _0809B80C:
 	ldr r0, _0809B82C @ =unk_9bfb8
 	b _0809B892
 	.align 2, 0
-_0809B828: .4byte 0x08680F74
+_0809B828: .4byte sCutsceneUnk_680f74
 _0809B82C: .4byte unk_9bfb8
 _0809B830:
 	cmp r4, #0x12
@@ -18858,7 +18858,7 @@ _0809B854:
 	adds r0, r7, #0
 	adds r0, #0x34
 	adds r0, r2, r0
-	ldr r1, _0809B8A4 @ =0x08680F2C
+	ldr r1, _0809B8A4 @ =sCutsceneUnk_680f2c
 	str r1, [r0]
 	adds r0, r7, #0
 	adds r0, #0x38
@@ -18877,7 +18877,7 @@ _0809B896:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0809B8A4: .4byte 0x08680F2C
+_0809B8A4: .4byte sCutsceneUnk_680f2c
 _0809B8A8: .4byte CutsceneRestrictedLabDetachingProcessFallingLab
 
 	thumb_func_start CutsceneRestrictedLabDetachingProcessBslPart
@@ -19307,7 +19307,7 @@ _0809BBAE:
 	movs r1, #0xc
 	ldrsh r0, [r3, r1]
 	lsls r0, r0, #5
-	ldr r1, _0809BBF8 @ =0x0868161C
+	ldr r1, _0809BBF8 @ =sUnk_68161c
 	adds r0, r0, r1
 	str r0, [r2]
 	ldr r0, _0809BBFC @ =0x05000220
@@ -19343,7 +19343,7 @@ _0809BBF0:
 	bx r0
 	.align 2, 0
 _0809BBF4: .4byte 0x040000D4
-_0809BBF8: .4byte 0x0868161C
+_0809BBF8: .4byte sUnk_68161c
 _0809BBFC: .4byte 0x05000220
 _0809BC00: .4byte 0x84000008
 
@@ -19422,7 +19422,7 @@ _0809BC86:
 	movs r1, #0xc
 	ldrsh r0, [r3, r1]
 	lsls r0, r0, #5
-	ldr r1, _0809BCD0 @ =0x0868141C
+	ldr r1, _0809BCD0 @ =sUnk_68141c
 	adds r0, r0, r1
 	str r0, [r2]
 	ldr r0, _0809BCD4 @ =0x05000200
@@ -19458,7 +19458,7 @@ _0809BCC8:
 	bx r0
 	.align 2, 0
 _0809BCCC: .4byte 0x040000D4
-_0809BCD0: .4byte 0x0868141C
+_0809BCD0: .4byte sUnk_68141c
 _0809BCD4: .4byte 0x05000200
 _0809BCD8: .4byte 0x84000008
 
@@ -19574,7 +19574,7 @@ _0809BDA0:
 	movs r1, #0xc
 	ldrsh r0, [r3, r1]
 	lsls r0, r0, #5
-	ldr r1, _0809BDEC @ =0x0868181C
+	ldr r1, _0809BDEC @ =sUnk_68181c
 	adds r0, r0, r1
 	str r0, [r2]
 	ldr r0, _0809BDF0 @ =0x05000260
@@ -19610,7 +19610,7 @@ _0809BDE2:
 	bx r0
 	.align 2, 0
 _0809BDE8: .4byte 0x040000D4
-_0809BDEC: .4byte 0x0868181C
+_0809BDEC: .4byte sUnk_68181c
 _0809BDF0: .4byte 0x05000260
 _0809BDF4: .4byte 0x84000008
 
@@ -19704,7 +19704,7 @@ unk_9be8c: @ 0x0809BE8C
 	cmp r0, #0
 	bne _0809BEBC
 	ldr r1, _0809BEAC @ =0x040000D4
-	ldr r0, _0809BEB0 @ =0x0868101C
+	ldr r0, _0809BEB0 @ =sCutsceneUnk_68101c
 	str r0, [r1]
 	ldr r0, _0809BEB4 @ =0x05000120
 	str r0, [r1, #4]
@@ -19716,7 +19716,7 @@ unk_9be8c: @ 0x0809BE8C
 	b _0809BF46
 	.align 2, 0
 _0809BEAC: .4byte 0x040000D4
-_0809BEB0: .4byte 0x0868101C
+_0809BEB0: .4byte sCutsceneUnk_68101c
 _0809BEB4: .4byte 0x05000120
 _0809BEB8: .4byte 0x84000008
 _0809BEBC:
@@ -19747,7 +19747,7 @@ _0809BEE8:
 	movs r1, #0xc
 	ldrsh r0, [r3, r1]
 	lsls r0, r0, #5
-	ldr r1, _0809BF08 @ =0x0868101C
+	ldr r1, _0809BF08 @ =sCutsceneUnk_68101c
 	adds r0, r0, r1
 	str r0, [r2]
 	ldr r0, _0809BF0C @ =0x05000120
@@ -19758,7 +19758,7 @@ _0809BEE8:
 	b _0809BF46
 	.align 2, 0
 _0809BF04: .4byte 0x040000D4
-_0809BF08: .4byte 0x0868101C
+_0809BF08: .4byte sCutsceneUnk_68101c
 _0809BF0C: .4byte 0x05000120
 _0809BF10: .4byte 0x84000008
 _0809BF14:
@@ -20090,7 +20090,7 @@ CutsceneRestrictedLabDetachingVblank: @ 0x0809C138
 	movs r2, #0xc
 	ldrsh r0, [r1, r2]
 	lsls r0, r0, #5
-	ldr r1, _0809C1B0 @ =0x0868101C
+	ldr r1, _0809C1B0 @ =sCutsceneUnk_68101c
 	adds r0, r0, r1
 	str r0, [r3]
 	ldr r0, _0809C1B4 @ =0x05000120
@@ -20111,7 +20111,7 @@ _0809C1A0: .4byte gWrittenToBldalpha_Eva
 _0809C1A4: .4byte 0x04000054
 _0809C1A8: .4byte gWrittenToBldy
 _0809C1AC: .4byte gNonGameplayRam
-_0809C1B0: .4byte 0x0868101C
+_0809C1B0: .4byte sCutsceneUnk_68101c
 _0809C1B4: .4byte 0x05000120
 _0809C1B8: .4byte 0x84000008
 
@@ -20221,34 +20221,34 @@ CutsceneBslExplodingInit: @ 0x0809C254
 	lsls r0, r0, #0x13
 	mov r8, r0
 	strh r5, [r0]
-	ldr r0, _0809C378 @ =0x0867D7CC
+	ldr r0, _0809C378 @ =sCutsceneUnk_67d7cc
 	ldr r1, _0809C37C @ =0x06010000
 	bl LZ77UncompVram
 	ldr r4, _0809C380 @ =0x040000D4
-	ldr r0, _0809C384 @ =0x0868121C
+	ldr r0, _0809C384 @ =sCutsceneUnk_68121c
 	str r0, [r4]
 	ldr r0, _0809C388 @ =0x05000200
 	str r0, [r4, #4]
 	ldr r6, _0809C38C @ =0x84000080
 	str r6, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809C390 @ =0x08679420
+	ldr r0, _0809C390 @ =sCutsceneUnk_679420
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _0809C394 @ =0x08681A1C
+	ldr r0, _0809C394 @ =sCutsceneUnk_681a1c
 	ldr r1, _0809C398 @ =0x0600E000
 	bl LZ77UncompVram
-	ldr r0, _0809C39C @ =0x086820A4
+	ldr r0, _0809C39C @ =sCutsceneUnk_6820a4
 	ldr r1, _0809C3A0 @ =0x0600E800
 	bl LZ77UncompVram
-	ldr r0, _0809C3A4 @ =0x086827A8
+	ldr r0, _0809C3A4 @ =sCutsceneUnk_6827a8
 	ldr r1, _0809C3A8 @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _0809C3AC @ =0x08682BFC
+	ldr r0, _0809C3AC @ =sCutsceneUnk_682bfc
 	ldr r1, _0809C3B0 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _0809C3B4 @ =0x0868259C
+	ldr r0, _0809C3B4 @ =sCutsceneUnk_68259c
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -20303,7 +20303,7 @@ CutsceneBslExplodingInit: @ 0x0809C254
 	movs r1, #0xc
 	ldrsh r0, [r0, r1]
 	lsls r0, r0, #5
-	ldr r1, _0809C3D4 @ =0x0868101C
+	ldr r1, _0809C3D4 @ =sCutsceneUnk_68101c
 	adds r0, r0, r1
 	str r0, [r4]
 	ldr r0, _0809C3D8 @ =0x05000120
@@ -20326,22 +20326,22 @@ _0809C368: .4byte 0x0000FFEF
 _0809C36C: .4byte 0x04000200
 _0809C370: .4byte 0x0000FFFD
 _0809C374: .4byte unk_9c92c
-_0809C378: .4byte 0x0867D7CC
+_0809C378: .4byte sCutsceneUnk_67d7cc
 _0809C37C: .4byte 0x06010000
 _0809C380: .4byte 0x040000D4
-_0809C384: .4byte 0x0868121C
+_0809C384: .4byte sCutsceneUnk_68121c
 _0809C388: .4byte 0x05000200
 _0809C38C: .4byte 0x84000080
-_0809C390: .4byte 0x08679420
-_0809C394: .4byte 0x08681A1C
+_0809C390: .4byte sCutsceneUnk_679420
+_0809C394: .4byte sCutsceneUnk_681a1c
 _0809C398: .4byte 0x0600E000
-_0809C39C: .4byte 0x086820A4
+_0809C39C: .4byte sCutsceneUnk_6820a4
 _0809C3A0: .4byte 0x0600E800
-_0809C3A4: .4byte 0x086827A8
+_0809C3A4: .4byte sCutsceneUnk_6827a8
 _0809C3A8: .4byte 0x0600F000
-_0809C3AC: .4byte 0x08682BFC
+_0809C3AC: .4byte sCutsceneUnk_682bfc
 _0809C3B0: .4byte 0x0600F800
-_0809C3B4: .4byte 0x0868259C
+_0809C3B4: .4byte sCutsceneUnk_68259c
 _0809C3B8: .4byte 0x04000008
 _0809C3BC: .4byte 0x00001D03
 _0809C3C0: .4byte 0x00001F03
@@ -20349,7 +20349,7 @@ _0809C3C4: .4byte gWrittenToBldy
 _0809C3C8: .4byte gWrittenToBldalpha_Eva
 _0809C3CC: .4byte gWrittenToBldalpha_Evb
 _0809C3D0: .4byte gNonGameplayRam
-_0809C3D4: .4byte 0x0868101C
+_0809C3D4: .4byte sCutsceneUnk_68101c
 _0809C3D8: .4byte 0x05000120
 _0809C3DC: .4byte 0x84000008
 _0809C3E0: .4byte CutsceneBslExplodingVblank
@@ -20659,14 +20659,14 @@ CutsceneBslExplodingProcessBslFar: @ 0x0809C624
 	bne _0809C67A
 	strb r1, [r2, #0x12]
 	strb r1, [r2, #0x11]
-	ldr r0, _0809C650 @ =0x08680ECC
+	ldr r0, _0809C650 @ =sCutsceneUnk_680ecc
 	str r0, [r2, #0x1c]
 	movs r0, #1
 	strb r0, [r2, #0x14]
 	b _0809C67A
 	.align 2, 0
 _0809C64C: .4byte gNonGameplayRam
-_0809C650: .4byte 0x08680ECC
+_0809C650: .4byte sCutsceneUnk_680ecc
 _0809C654:
 	cmp r1, #1
 	bne _0809C67A
@@ -20867,7 +20867,7 @@ _0809C7B0:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809C7D8 @ =0x08680FFC
+	ldr r1, _0809C7D8 @ =sCutsceneUnk_680ffc
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -20875,7 +20875,7 @@ _0809C7B0:
 	ldr r1, _0809C7DC @ =unk_9db70
 	b _0809C836
 	.align 2, 0
-_0809C7D8: .4byte 0x08680FFC
+_0809C7D8: .4byte sCutsceneUnk_680ffc
 _0809C7DC: .4byte unk_9db70
 _0809C7E0:
 	cmp r5, #0x15
@@ -20891,7 +20891,7 @@ _0809C7E0:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809C808 @ =0x0868100C
+	ldr r1, _0809C808 @ =sCutsceneUnk_68100c
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -20899,7 +20899,7 @@ _0809C7E0:
 	ldr r1, _0809C80C @ =CutsceneBslExplodingProcessBslFar
 	b _0809C836
 	.align 2, 0
-_0809C808: .4byte 0x0868100C
+_0809C808: .4byte sCutsceneUnk_68100c
 _0809C80C: .4byte CutsceneBslExplodingProcessBslFar
 _0809C810:
 	cmp r5, #0x16
@@ -20915,7 +20915,7 @@ _0809C810:
 	mov r0, ip
 	adds r0, #0x1c
 	adds r0, r4, r0
-	ldr r1, _0809C848 @ =0x08680ECC
+	ldr r1, _0809C848 @ =sCutsceneUnk_680ecc
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x20
@@ -20933,7 +20933,7 @@ _0809C83A:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0809C848: .4byte 0x08680ECC
+_0809C848: .4byte sCutsceneUnk_680ecc
 _0809C84C: .4byte CutsceneBslExplodingProcessExplosions
 
 	thumb_func_start CutsceneBslExplodingGetOamInfoByType
@@ -21020,7 +21020,7 @@ CutsceneBslExplodingVblank: @ 0x0809C8A8
 	movs r2, #0xc
 	ldrsh r0, [r1, r2]
 	lsls r0, r0, #5
-	ldr r1, _0809C920 @ =0x0868101C
+	ldr r1, _0809C920 @ =sCutsceneUnk_68101c
 	adds r0, r0, r1
 	str r0, [r3]
 	ldr r0, _0809C924 @ =0x05000120
@@ -21041,7 +21041,7 @@ _0809C910: .4byte gWrittenToBldalpha_Eva
 _0809C914: .4byte 0x04000054
 _0809C918: .4byte gWrittenToBldy
 _0809C91C: .4byte gNonGameplayRam
-_0809C920: .4byte 0x0868101C
+_0809C920: .4byte sCutsceneUnk_68101c
 _0809C924: .4byte 0x05000120
 _0809C928: .4byte 0x84000008
 
@@ -21102,7 +21102,7 @@ _0809C958:
 	.align 2, 0
 _0809C990: .4byte gChangedInput
 _0809C994:
-	ldr r0, _0809C9B0 @ =0x08663E74
+	ldr r0, _0809C9B0 @ =sCutsceneUnk_663e74
 	str r0, [r2, #0x10]
 	movs r1, #0
 	movs r0, #0x76
@@ -21117,7 +21117,7 @@ _0809C994:
 	strb r0, [r2, #9]
 	b _0809C9F4
 	.align 2, 0
-_0809C9B0: .4byte 0x08663E74
+_0809C9B0: .4byte sCutsceneUnk_663e74
 _0809C9B4:
 	cmp r1, #1
 	bne _0809C9F4
@@ -21127,7 +21127,7 @@ _0809C9B4:
 	cmp r1, #0
 	beq _0809C9F4
 _0809C9C2:
-	ldr r0, _0809C9DC @ =0x08663E5C
+	ldr r0, _0809C9DC @ =sCutsceneUnk_663e5c
 	str r0, [r2, #0x10]
 	movs r1, #0
 	movs r0, #0x91
@@ -21139,7 +21139,7 @@ _0809C9C2:
 	b _0809C9F4
 	.align 2, 0
 _0809C9D8: .4byte gChangedInput
-_0809C9DC: .4byte 0x08663E5C
+_0809C9DC: .4byte sCutsceneUnk_663e5c
 _0809C9E0:
 	ldrh r0, [r3]
 	lsls r0, r0, #3
@@ -21885,7 +21885,7 @@ _0809CF10:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r2, _0809CF88 @ =0x0868279C
+	ldr r2, _0809CF88 @ =sCutsceneUnk_68279c
 	adds r1, r1, r2
 	ldrb r0, [r1]
 	lsls r0, r0, #3
@@ -21903,7 +21903,7 @@ _0809CF10:
 	.align 2, 0
 _0809CF80: .4byte gNextOamSlot
 _0809CF84: .4byte gOamData
-_0809CF88: .4byte 0x0868279C
+_0809CF88: .4byte sCutsceneUnk_68279c
 _0809CF8C: .4byte 0x000001FF
 _0809CF90:
 	ldrh r0, [r5, #2]
@@ -22519,7 +22519,7 @@ _0809D3B6:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r0, _0809D444 @ =0x0863A184
+	ldr r0, _0809D444 @ =sCutsceneUnk_63a184
 	adds r1, r1, r0
 	ldrb r0, [r1]
 	lsls r0, r0, #3
@@ -22539,7 +22539,7 @@ _0809D3B6:
 _0809D438: .4byte gNextOamSlot
 _0809D43C: .4byte gOamData
 _0809D440: .4byte 0x000001FF
-_0809D444: .4byte 0x0863A184
+_0809D444: .4byte sCutsceneUnk_63a184
 _0809D448:
 	mov r4, r8
 	ldrh r0, [r4, #2]
@@ -22716,10 +22716,10 @@ _0809D554:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r4, _0809D7B4 @ =0x0863A184
+	ldr r4, _0809D7B4 @ =sCutsceneUnk_63a184
 	adds r0, r1, r4
 	ldrb r2, [r0]
-	ldr r0, _0809D7B8 @ =0x0863A190
+	ldr r0, _0809D7B8 @ =sCutsceneUnk_63a190
 	adds r1, r1, r0
 	ldrb r3, [r1]
 	ldr r1, [sp, #4]
@@ -22989,8 +22989,8 @@ _0809D78C:
 	.align 2, 0
 _0809D7AC: .4byte gNextOamSlot
 _0809D7B0: .4byte gOamData
-_0809D7B4: .4byte 0x0863A184
-_0809D7B8: .4byte 0x0863A190
+_0809D7B4: .4byte sCutsceneUnk_63a184
+_0809D7B8: .4byte sCutsceneUnk_63a190
 _0809D7BC: .4byte 0x000001FF
 _0809D7C0: .4byte sSineTable
 _0809D7C4: .4byte 0xFFFFFE00
@@ -23084,10 +23084,10 @@ _0809D82E:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r2, _0809DB50 @ =0x0863A184
+	ldr r2, _0809DB50 @ =sCutsceneUnk_63a184
 	adds r0, r1, r2
 	ldrb r2, [r0]
-	ldr r3, _0809DB54 @ =0x0863A190
+	ldr r3, _0809DB54 @ =sCutsceneUnk_63a190
 	adds r1, r1, r3
 	ldrb r3, [r1]
 	ldr r4, [sp, #4]
@@ -23448,8 +23448,8 @@ _0809DB26:
 	.align 2, 0
 _0809DB48: .4byte gNextOamSlot
 _0809DB4C: .4byte gOamData
-_0809DB50: .4byte 0x0863A184
-_0809DB54: .4byte 0x0863A190
+_0809DB50: .4byte sCutsceneUnk_63a184
+_0809DB54: .4byte sCutsceneUnk_63a190
 _0809DB58: .4byte 0x000001FF
 _0809DB5C: .4byte sSineTable
 _0809DB60: .4byte 0xFFFFFE00
