@@ -15920,7 +15920,22 @@ const u16 sIntroSamusRebornBgPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro
 const u32 sIntroSamusRebornBgTopTilemap[551] = INCBIN_U32("data/new_file_intro/samus_reborn_bg_top.tm.lz");
 const u32 sIntroSamusRebornBgBottomTilemap[368] = INCBIN_U32("data/new_file_intro/samus_reborn_bg_bottom.tm.lz");
 
-static const u8 sBlob_5dfd6c_5e116c[] = INCBIN_U8("data/Blob_5dfd6c_5e116c.bin");
+const u8 sPal_5dfd6c[] = INCBIN_U8("data/Blob_5dfd6c_5dfeac.bin");
+const u8 sPal_5dfeac[] = INCBIN_U8("data/Blob_5dfeac_5dffec.bin");
+const u8 sPal_5dffec[] = INCBIN_U8("data/Blob_5dffec_5e012c.bin");
+const u8 sPal_5e012c[] = INCBIN_U8("data/Blob_5e012c_5e026c.bin");
+const u8 sPal_5e026c[] = INCBIN_U8("data/Blob_5e026c_5e03ac.bin");
+const u8 sPal_5e03ac[] = INCBIN_U8("data/Blob_5e03ac_5e04ec.bin");
+const u8 sPal_5e04ec[] = INCBIN_U8("data/Blob_5e04ec_5e062c.bin");
+const u8 sPal_5e062c[] = INCBIN_U8("data/Blob_5e062c_5e076c.bin");
+const u8 sPal_5e076c[] = INCBIN_U8("data/Blob_5e076c_5e08ac.bin");
+const u8 sPal_5e08ac[] = INCBIN_U8("data/Blob_5e08ac_5e09ec.bin");
+const u8 sPal_5e09ec[] = INCBIN_U8("data/Blob_5e09ec_5e0b2c.bin");
+const u8 sPal_5e0b2c[] = INCBIN_U8("data/Blob_5e0b2c_5e0c6c.bin");
+const u8 sPal_5e0c6c[] = INCBIN_U8("data/Blob_5e0c6c_5e0dac.bin");
+const u8 sPal_5e0dac[] = INCBIN_U8("data/Blob_5e0dac_5e0eec.bin");
+const u8 sPal_5e0eec[] = INCBIN_U8("data/Blob_5e0eec_5e102c.bin");
+const u8 sPal_5e102c[] = INCBIN_U8("data/Blob_5e102c_5e116c.bin");
 
 const u32 sIntroApproachingBslObjGfx[3614] = INCBIN_U32("data/new_file_intro/approaching_bsl_obj.gfx.lz");
 
@@ -21112,7 +21127,22 @@ const u32 sIntroArrivingAtBslSpaceMapTilemap[368] = INCBIN_U32("data/new_file_in
 const u32 sIntroSamusMonologueBgTilemap[368] = INCBIN_U32("data/new_file_intro/samus_monologue_bg.tm.lz");
 const u32 sIntroTilemap_5f65d8[238] = INCBIN_U32("data/new_file_intro/5f65d8.tm.lz");
 
-static const u8 sBlob_5f6990_5f7190[] = INCBIN_U8("data/Blob_5f6990_5f7190.bin");
+const u8 sPal_5f6990[] = INCBIN_U8("data/Blob_5f6990_5f6a10.bin");
+const u8 sPal_5f6a10[] = INCBIN_U8("data/Blob_5f6a10_5f6a90.bin");
+const u8 sPal_5f6a90[] = INCBIN_U8("data/Blob_5f6a90_5f6b10.bin");
+const u8 sPal_5f6b10[] = INCBIN_U8("data/Blob_5f6b10_5f6b90.bin");
+const u8 sPal_5f6b90[] = INCBIN_U8("data/Blob_5f6b90_5f6c10.bin");
+const u8 sPal_5f6c10[] = INCBIN_U8("data/Blob_5f6c10_5f6c90.bin");
+const u8 sPal_5f6c90[] = INCBIN_U8("data/Blob_5f6c90_5f6d10.bin");
+const u8 sPal_5f6d10[] = INCBIN_U8("data/Blob_5f6d10_5f6d90.bin");
+const u8 sPal_5f6d90[] = INCBIN_U8("data/Blob_5f6d90_5f6e10.bin");
+const u8 sPal_5f6e10[] = INCBIN_U8("data/Blob_5f6e10_5f6e90.bin");
+const u8 sPal_5f6e90[] = INCBIN_U8("data/Blob_5f6e90_5f6f10.bin");
+const u8 sPal_5f6f10[] = INCBIN_U8("data/Blob_5f6f10_5f6f90.bin");
+const u8 sPal_5f6f90[] = INCBIN_U8("data/Blob_5f6f90_5f7010.bin");
+const u8 sPal_5f7010[] = INCBIN_U8("data/Blob_5f7010_5f7090.bin");
+const u8 sPal_5f7090[] = INCBIN_U8("data/Blob_5f7090_5f7110.bin");
+const u8 sPal_5f7110[] = INCBIN_U8("data/Blob_5f7110_5f7190.bin");
 
 const u32 sIntroLandingOnBslBgGfx[3697] = INCBIN_U32("data/new_file_intro/landing_on_bsl_bg.gfx.lz");
 const u32 sIntroLandingOnBslObjGfx[3297] = INCBIN_U32("data/new_file_intro/landing_on_bsl_obj.gfx.lz");

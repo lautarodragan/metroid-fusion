@@ -6,6 +6,7 @@
 #include "io.h"
 #include "macros.h"
 #include "oam.h"
+#include "new_file_intro.h"
 
 #include "data/menus/pause_screen_data.h"
 #include "data/menus/pause_screen_misc_data.h"
@@ -252,23 +253,23 @@ static const struct FrameData* sPauseScreenOamPointers[PAUSE_OAM_ID_COUNT] = {
 };
 
 u16** sNavConversationTextPointers[LANGUAGE_COUNT] = {
-    [LANGUAGE_JAPANESE] = (u16**)0x879CE10,
-    [LANGUAGE_HIRAGANA] = (u16**)0x879D194,
-    [LANGUAGE_ENGLISH] = (u16**)0x879D50C,
-    [LANGUAGE_GERMAN] = (u16**)0x879D890,
-    [LANGUAGE_FRENCH] = (u16**)0x879DC14,
-    [LANGUAGE_ITALIAN] = (u16**)0x879DF98,
-    [LANGUAGE_SPANISH] = (u16**)0x879E31C
+    [LANGUAGE_JAPANESE] = (u16**)sNavConversationTextPointersJapanese,
+    [LANGUAGE_HIRAGANA] = (u16**)sNavConversationTextPointersHiragana,
+    [LANGUAGE_ENGLISH] = (u16**)sNavConversationTextPointersEnglish,
+    [LANGUAGE_GERMAN] = (u16**)sNavConversationTextPointersGerman,
+    [LANGUAGE_FRENCH] = (u16**)sNavConversationTextPointersFrench,
+    [LANGUAGE_ITALIAN] = (u16**)sNavConversationTextPointersItalian,
+    [LANGUAGE_SPANISH] = (u16**)sNavConversationTextPointersSpanish
 };
 
 u16** sPauseScreenTextPointers[LANGUAGE_COUNT] = {
-    [LANGUAGE_JAPANESE] = (u16**)0x879CFD8,
-    [LANGUAGE_HIRAGANA] = (u16**)0x879D35C,
-    [LANGUAGE_ENGLISH] = (u16**)0x879D6D4,
-    [LANGUAGE_GERMAN] = (u16**)0x879DA58,
-    [LANGUAGE_FRENCH] = (u16**)0x879DDDC,
-    [LANGUAGE_ITALIAN] = (u16**)0x879E160,
-    [LANGUAGE_SPANISH] = (u16**)0x879E4E4
+    [LANGUAGE_JAPANESE] = (u16**)sPauseScreenTextPointersJapanese,
+    [LANGUAGE_HIRAGANA] = (u16**)sPauseScreenTextPointersHiragana,
+    [LANGUAGE_ENGLISH] = (u16**)sPauseScreenTextPointersEnglish,
+    [LANGUAGE_GERMAN] = (u16**)sPauseScreenTextPointersGerman,
+    [LANGUAGE_FRENCH] = (u16**)sPauseScreenTextPointersFrench,
+    [LANGUAGE_ITALIAN] = (u16**)sPauseScreenTextPointersItalian,
+    [LANGUAGE_SPANISH] = (u16**)sPauseScreenTextPointersSpanish
 };
 
 /**
