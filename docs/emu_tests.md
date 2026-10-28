@@ -21,25 +21,33 @@ mensaje que dice qué falta.
 ```sh
 tests/run_emu_tests.sh                       # build limpio en un dir temporal + pytest
 tests/run_emu_tests.sh -k ingame -v          # los argumentos extra van a pytest
+tests/run_emu_tests.sh --no-shift            # sin la segunda corrida (ROM desplazada)
 EMU_BUILD_DIR=/tmp/mf-open tests/run_emu_tests.sh   # reusar el build (incremental)
 ```
 
 `run_emu_tests.sh` copia los archivos del repo (versionados y no ignorados) a
 otro directorio, genera ahí la base ROM abierta y compila con
 `tools/open_assets/build_open_rom.py`. **Nunca toca el árbol de trabajo**: un
-`mf_us_baserom.gba` real o sintético que tengas queda intacto. Tarda ~30 s
-(build ~25 s, tests ~10 s).
+`mf_us_baserom.gba` real o sintético que tengas queda intacto.
+
+Después repite todo con la ROM de prueba de *shift* (`make SHIFT=1`,
+`mf_us_shifted.gba`, ver `docs/shiftability.md`): mismo código y
+datos con relleno insertado, así que casi todo cambia de dirección. Los
+mismos tests (incluidas las capturas) tienen que pasar; es la prueba en
+ejecución de que el build es *shiftable*, que `check_shift.py` solo verifica
+estáticamente. Tarda ~70 s en total (dos builds de ~25 s y dos corridas de
+~8 s).
 
 Si ya compilaste la ROM abierta a mano, alcanza con
 `python3 -m pytest tests/emu [--emu-rom ruta/mf_us.gba]`. Los tests se saltean
 si el `mf_us_baserom.gba` junto a la ROM no es una base ROM abierta (tiene un
 marcador al principio), porque las referencias solo valen para esa ROM.
 
-`build_open_rom.py` compila en dos pasadas: algunas tablas de la base ROM son
-direcciones de funciones nuestras (vector de interrupciones) y se llenan con
-el `.map` de la pasada anterior. Como el Makefile no sabe que un objeto depende
-de los archivos que incluye con `INCBIN`, el script borra los objetos cuyos
-datos cambiaron.
+`build_open_rom.py [--shift]` compila en dos pasadas: algunos datos de la
+base ROM son direcciones del build (vector de interrupciones, tablas de
+punteros) y se llenan con el ELF de la pasada anterior. Como el Makefile no
+sabe que un objeto depende de los archivos que incluye con `INCBIN`, el script
+borra los objetos cuyos datos cambiaron.
 
 ## Qué verifican
 
@@ -114,27 +122,50 @@ no son parte de la API libretro; `cpu_registers()` los saca del formato de
 
 ## Qué hizo falta para que la ROM abierta arranque
 
-Nada en `src/` ni `asm/`: solo datos de relleno en
+Nada en `src/` ni `asm/`: solo datos de relleno, en `apply_known_layouts` de
 `tools/open_assets/make_open_baserom.py`.
 
-1. **Vector de interrupciones** (`Blob_a5224_a5258`): 13 punteros a
+1. **Vector de interrupciones** (`sInterruptHandlers`): 13 punteros a
    `Dma2IntrCode`, `CallbackCallVblank`, `CallbackCallHBlank`,
    `CallbackCallVCount` y `Callback_Empty`. En cero, la primera IRQ de DMA2
    saltaba a 0 y la consola se reiniciaba en bucle durante el arranque.
-2. **Datos de OAM de cinemáticas y selección de archivo** (blobs de intro y
-   file select): en cero, los punteros a animaciones (`struct FrameData`)
-   llevaban a leer un número de partes enorme y a escribir más allá del buffer
-   de OAM, pisando `gVBlankCallback`. Se llenan con una palabra repetida que es
-   la dirección de sí misma, alineada a 64 KiB: leída como `FrameData` es un
-   terminador que apunta a un frame vacío, como frame tiene 0 partes y como
-   tabla de punteros vuelve a apuntar a algo válido. Las fuentes LZ77 que el
-   código descomprime de esos blobs quedan con cabecera 0 (descomprimen a
-   nada).
-3. **Tablas de selección de archivo** (`Blob_79e868_79eca0`): punteros por
-   idioma a gráficos (→ LZ77 vacío) y a tablas de texto (→ textos vacíos).
-4. **Monólogos de la intro de partida nueva**: cada página es "flecha,
-   flecha, un carácter, flecha, fin", para que tanto las escenas que esperan
-   "sigue texto" como las que esperan "fin" avancen con A.
+2. **Datos de OAM de cinemáticas, final y selección de archivo**: en cero,
+   los punteros a animaciones (`struct FrameData`) llevaban a leer un número
+   de partes enorme y a escribir más allá del buffer de OAM, pisando
+   `gVBlankCallback`. Se llenan con una palabra repetida que es la dirección
+   (en el build) de una copia de sí misma alineada a 64 KiB: leída como
+   `FrameData` es un terminador que apunta a un frame vacío, como frame tiene
+   0 partes y como tabla de punteros vuelve a apuntar a algo válido. Las
+   regiones que el código pasa a `LZ77UncompVram/Wram` quedan con cabecera 0
+   (descomprimen a nada).
+3. **Tablas de selección de archivo**: punteros por idioma a gráficos (→ LZ77
+   vacío) y a tablas de texto (→ textos vacíos).
+4. **Texto**: todo terminadores; las tablas `s*TextPointers*` apuntan a un
+   texto vacío. Cada monólogo de la intro de partida nueva
+   (`sMonologueText<Idioma>_<N>`) es "flecha, flecha, un carácter, flecha,
+   fin", para que tanto las escenas que esperan "sigue texto" como las que
+   esperan "fin" avancen con A.
+5. **Voicegroups** (`sVoicegroup_*`): todas las voces tocan la primera
+   muestra.
+
+### Cómo se ubican esos datos
+
+Para que cambios de la decomp o del layout no lo rompan en silencio:
+
+- Las regiones se reconocen por el **símbolo** con que el código las incluye
+  (`INCBIN`/`.incbin`, ver `tools/open_assets/layout.py`), no por el nombre de
+  archivo en `database.json`. Si una regla no encuentra ninguna región, el
+  generador falla con un error.
+- Las fuentes LZ77 se detectan buscando en `src/` y `asm/` qué símbolos se
+  pasan a `LZ77UncompVram/Wram` (en C y en asm).
+- Lo que solo se conoce por su ubicación original (los rangos de datos de
+  OAM, tres tablas de selección de archivo, el rango del texto) está dado como
+  offset en la **base ROM**, que tiene el layout de la ROM original y no
+  cambia aunque el build se desplace o `database.json` se divida en más
+  piezas.
+- Los **valores** que apuntan al build (funciones, otros datos) salen del ELF
+  de la pasada anterior, así que siguen al código y los datos cuando se
+  mueven. La corrida con la ROM desplazada lo comprueba.
 
 ## Limitaciones conocidas
 
@@ -144,9 +175,9 @@ Nada en `src/` ni `asm/`: solo datos de relleno en
 - Las capturas dependen de la versión de mGBA; CI fija `ubuntu-24.04`
   (libretro-mgba 0.10.2). Con otra versión puede hacer falta regenerar
   referencias.
-- Los desplazamientos dentro de los blobs están escritos a mano a partir de
-  los literales del asm actual. Si la build se vuelve *shiftable* y esos
-  datos se mueven o se entienden (dejan de ser blobs), hay que actualizar
-  `OAM_SAFE_BLOBS`/`SYMBOL_TABLES` en `make_open_baserom.py`.
+- Cuando una de estas regiones se decompile (se convierta en C/asm con
+  símbolos), deja de venir de la base ROM y su regla deja de aplicarse; si era
+  la única región de una regla, el generador avisa con un error y hay que
+  quitar o ajustar la regla.
 - El guion pulsa A cada 30 frames durante la intro; si cambia la duración de
   alguna escena, puede requerir más pulsos (`BOOT_SCRIPT` en `scenario.py`).

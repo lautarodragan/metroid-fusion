@@ -38,6 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import formats  # noqa: E402
 from inventory import ROOT, Region, load_regions  # noqa: E402
+from layout import Layout, scan_lz_sources  # noqa: E402
 
 ROM_SIZE = 0x800000
 ROM_BASE = 0x08000000
@@ -49,10 +50,6 @@ BGCNT_BYTES = {
     "BGCNT_SIZE_512x512": 0x2000,
 }
 
-# Region handling that needs knowledge of a specific Blob (see the doc).
-VOICEGROUP_BLOB = "Blob_a5710_a8cdc.bin"      # m4a voicegroups (12 byte entries)
-TEXT_BLOB = "Blob_6b2fac_72eee0.bin"          # strings for every language
-TEXT_POINTER_BLOB = "Blob_79c5c0_79cdd8.bin"  # message/location pointer tables
 CHAR_TERMINATOR = 0xFF00                      # include/constants/text.h
 CLIPDATA_SOLID = 16                           # include/constants/clipdata.h
 
@@ -195,159 +192,182 @@ def gen_sound(r: Region, meta: dict, args):
     return formats.square_wave(r.size, period=16 + seed_of(r.path) % 48), "square"
 
 
-def gen_blob(r: Region, meta: dict, args, first_sample_addr: int):
-    name = r.path
-    if name == VOICEGROUP_BLOB:
-        voice = struct.pack("<BBBBI4B", 0, 60, 0, 0, ROM_BASE + first_sample_addr, 0xFF, 0, 0xFF, 0xA5)
-        return voice * (r.size // 12), "voicegroups -> sample 0"
-    if name == TEXT_BLOB:
-        out = bytearray(struct.pack("<H", CHAR_TERMINATOR) * (r.size // 2))
-        # Monologues (new file intro) advance on A at a "next page" arrow.
-        # Some scenes wait for "more text follows" and then "end", others
-        # only for "end"; two pages serve both: arrow, arrow, one character,
-        # arrow, terminator.
-        page = struct.pack("<5H", CHAR_NEXT_PAGE_ARROW, CHAR_NEXT_PAGE_ARROW, PLACEHOLDER_CHAR,
-                           CHAR_NEXT_PAGE_ARROW, CHAR_TERMINATOR)
-        addrs = sorted(set(monologue_text_addresses()))
-        for a, nxt in zip(addrs, addrs[1:] + [ROM_BASE + r.addr + r.size]):
-            o = a - ROM_BASE - r.addr
-            assert 0 <= o and a + len(page) <= nxt, hex(a)
-            out[o:o + len(page)] = page
-        return bytes(out), "text terminators"
-    if name == TEXT_POINTER_BLOB:
-        return struct.pack("<I", ROM_BASE + TEXT_ADDR[0]) * (r.size // 4), "ptrs -> terminator"
-    return b"", "zero (unknown)"
+# ---------------------------------------------------------------------------
+# Blobs the program needs to make sense of to boot.
+#
+# Regions are recognised by the symbol they are INCBINed as (see layout.py),
+# so splitting or renaming database entries does not silently drop them; a
+# rule that matches nothing is an error. Where only the original location is
+# known, it is given as an offset in the baserom: the baserom has the layout
+# of the original ROM, which never changes, whatever happens to the build.
+# Values that point into the build (functions, other data) are taken from
+# the ELF of a previous build, so they follow code and data that shift.
+# ---------------------------------------------------------------------------
 
-
-TEXT_ADDR = [0]
 CHAR_NEXT_PAGE_ARROW = 0xFC00                 # include/constants/text.h
 PLACEHOLDER_CHAR = 0x0040
 
+# Interrupt vector table read by InterruptCode (asm/intr_main.s), in the order
+# it tests the IF bits: DMA2, VBlank, HBlank, VCount, Timer0-3, DMA0, DMA1,
+# DMA3, Keypad, Gamepak/other. Zero-filled, the first DMA2 interrupt jumps
+# to 0 and the console resets in a loop.
+INTERRUPT_TABLE_SYMBOL = "sInterruptHandlers"
+INTERRUPT_HANDLERS = ["Dma2IntrCode", "CallbackCallVblank", "CallbackCallHBlank",
+                      "CallbackCallVCount"] + ["Callback_Empty"] * 9
 
-def monologue_text_addresses() -> list[int]:
-    """String addresses listed in sMonologueTextPointers* (src/new_file_intro.c)."""
-    text = (ROOT / "src" / "new_file_intro.c").read_text()
-    addrs = []
-    for m in re.finditer(r"sMonologueTextPointers\w+\[\d+\]\s*=\s*\{(.*?)\};", text, re.S):
-        addrs += [int(x, 16) for x in re.findall(r"\(u16\*\)(0x[0-9a-fA-F]+)", m.group(1))]
-    if not addrs:
-        raise SystemExit("could not find sMonologueTextPointers* in src/new_file_intro.c")
-    return addrs
+VOICEGROUP_RE = re.compile(r"^sVoicegroup_\w+$")       # m4a voicegroups, 12 byte voices
+MONOLOGUE_RE = re.compile(r"^sMonologueText[A-Z]\w*_\d+$")
+TEXT_POINTERS_RE = re.compile(r"^s\w*TextPointers\w*$")  # per-language string tables
+# All the strings of every language (originally one blob). Filled with
+# terminators, except the monologue pages.
+TEXT_RANGE = (0x6b2fac, 0x72eee0)
 
-# Blobs that are tables of pointers into our own code. Their values depend on
-# where the linker put each function, so they are resolved from the .map file
-# of a previous build (see --map). Entries are symbol names; a trailing "|1"
-# marks a Thumb function (bit 0 set so that `bx` switches to Thumb).
-SYMBOL_TABLES: dict[str, list[str]] = {
-    # Interrupt vector table read by InterruptCode (asm/intr_main.s), in the
-    # order it tests the IF bits: DMA2, VBlank, HBlank, VCount, Timer0-3,
-    # DMA0, DMA1, DMA3, Keypad, Gamepak/other.
-    "Blob_a5224_a5258.bin": [
-        "Dma2IntrCode|1", "CallbackCallVblank|1", "CallbackCallHBlank|1", "CallbackCallVCount|1",
-    ] + ["Callback_Empty|1"] * 9,
-}
-
-
-# Cutscene/intro blobs that mix compressed graphics with OAM animation data
-# (`struct FrameData` arrays, OAM frames, tables of FrameData pointers) that
-# the code reaches through literal addresses. Zero-filled, an animation
-# pointer would lead the OAM drawing code to read a huge part count and write
-# past the OAM buffer. So these blobs are filled with one 32-bit word,
-# OAM_SAFE_WORD, repeated. It is the address of a 64 KiB aligned word inside
-# such a blob, so whatever 4-aligned spot the code reads it from:
-#   - as a FrameData array: pFrame = OAM_SAFE_WORD, timer = 0 (terminator),
+# Cutscene, intro, ending and file select data that mixes LZ77 graphics with
+# OAM animation data (`struct FrameData` arrays, OAM frames, tables of
+# FrameData pointers). Zero-filled, an animation pointer leads the OAM
+# drawing code to read a huge part count and write past the OAM buffer
+# (overwriting gVBlankCallback). These ranges are filled with one 32-bit
+# word, the "OAM-safe word", repeated: the build address of a 64 KiB aligned
+# copy of itself. Whatever 4-aligned spot the code reads it from:
+#   - as a FrameData array: pFrame = the word, timer = 0 (terminator),
 #   - as an OAM frame:      part count = low half = 0 (nothing drawn),
 #   - as a pointer table:   points to a valid FrameData array again.
-# The offsets listed per blob are LZ77 sources passed to LZ77UncompVram
-# (from the asm literals); their 4-byte header is zeroed so they decompress
-# to nothing instead of a huge size read from the pattern.
-OAM_SAFE_BLOBS: dict[str, list[int]] = {
-    "Blob_6094d0_60b148.bin": [],
-    "Blob_6131c8_63a19c.bin": [
-        0x0, 0x1f20, 0x54dc, 0x86d4, 0xe5e0, 0x1072c, 0x13570, 0x1842c, 0x24070,
-        0x24630, 0x24bf0, 0x2548c, 0x25a4c, 0x260d4, 0x263f0, 0x269fc],
-    "Blob_64e470_662804.bin": [0xa770, 0xaf74, 0x116ec],
-    "Blob_662cfc_663820.bin": [0x89c],
-    "Blob_6638a0_682fac.bin": [
-        0xec20, 0x11238, 0x117f8, 0x14074, 0x143f0, 0x148bc, 0x15b80, 0x19f2c,
-        0x1e17c, 0x1e804, 0x1ef08, 0x1f35c],
-    # file select screen (asm/disasm_0x0809deb4.s)
-    "Blob_73421e_7478a0.bin": [
-        0xe, 0x585a, 0x84c6, 0x8a8a, 0x8d8e, 0x9162, 0x93ce, 0x9a02, 0xed96, 0x12ec2],
-    "Blob_74dc48_74e620.bin": [],
-    "Blob_74e650_74eb50.bin": [],
-    # 0x0c: per-language LZ77 graphics; 0x400/0x41c: per-language pointers
-    # to string tables. The rest are FrameData pointers.
-    "Blob_79e868_79eca0.bin": [(0xc, "lzptr", 7), (0x400, "textptr", 14)],
-    # tables of FrameData pointers used by the title intro
-    "Blob_79c394_79c3c8.bin": [],
-    "Blob_79c448_79c5a4.bin": [],
-}
-OAM_SAFE_WORD = ROM_BASE + 0x620000  # inside Blob_6131c8_63a19c
-# An LZ77 source with a zeroed header (see the lists above): decompresses to
-# nothing. Used for tables of pointers to graphics.
-LZ_EMPTY = ROM_BASE + 0x73421e + 0xe
-TEXT_POINTER_ADDR = [0]
+# Regions in these ranges that the code passes to LZ77UncompVram/Wram get a
+# zero header instead, so they decompress to nothing.
+OAM_SAFE_RANGES = [
+    (0x6094d0, 0x60b148),   # title intro OAM (IntroSpaceView*)
+    (0x6131c8, 0x63a19c),   # intro / ending graphics and OAM
+    (0x64e470, 0x662804),
+    (0x662cfc, 0x663820),
+    (0x6638a0, 0x682fac),
+    (0x73421e, 0x7478a0),   # game over / file select
+    (0x74dc48, 0x74e620),   # ending OAM
+    (0x74e650, 0x74eb50),
+    (0x79c394, 0x79c3c8),   # FrameData pointer tables (intro particles)
+    (0x79c448, 0x79c5a4),
+    (0x79e868, 0x79eca0),   # file select FrameData pointers and tables
+]
+# Tables inside the OAM-safe ranges that hold something else, by baserom
+# offset: (offset, kind, words). "lz": pointers to an LZ77 source that
+# decompresses to nothing; "text": pointers to an empty string table.
+OAM_SAFE_OVERRIDES = [
+    (0x79e874, "lz", 7),      # file select graphics, per language
+    (0x79ec68, "text", 7),    # file select strings, per language
+    (0x79ec84, "text", 7),
+]
 
 
-def gen_oam_safe_blob(r: Region) -> tuple[bytes, str]:
-    # Aligned to absolute addresses (some blobs start at odd halfwords).
-    word = struct.pack("<I", OAM_SAFE_WORD)
-    out = bytearray(word[(r.addr + i) % 4] for i in range(r.size))
-    for item in OAM_SAFE_BLOBS[r.path]:
-        if isinstance(item, int):
-            out[item:item + 4] = bytes(4)
-            continue
-        o, kind, n = item
-        target = {"lzptr": LZ_EMPTY, "textptr": ROM_BASE + TEXT_POINTER_ADDR[0]}[kind]
-        out[o:o + 4 * n] = struct.pack("<I", target) * n
-    return bytes(out), "oam-safe"
+def in_ranges(r: Region, ranges) -> bool:
+    return any(a <= r.addr and r.addr + r.size <= b for a, b in ranges)
 
 
-def check_oam_safe_word(rom: bytes) -> None:
-    off = OAM_SAFE_WORD - ROM_BASE
-    assert struct.unpack_from("<I", rom, off)[0] == OAM_SAFE_WORD, "OAM_SAFE_WORD not in place"
-    assert struct.unpack_from("<I", rom, LZ_EMPTY - ROM_BASE)[0] == 0, "LZ_EMPTY not zero"
+def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -> list[str]:
+    """Overwrite the blobs listed above; returns notes for the summary."""
+    blobs = [r for r in regions if r.category == "blob"]
+    sym = {r.path: layout.symbol_of(r) for r in blobs}
+    notes = []
 
+    def put(r: Region, data: bytes) -> None:
+        assert len(data) <= r.size, r.path
+        rom[r.addr:r.addr + len(data)] = data
 
-def load_map(path: str | None) -> dict[str, int]:
-    syms: dict[str, int] = {}
-    if not path:
-        return syms
-    sym_re = re.compile(r"^\s+0x([0-9a-fA-F]+)\s+([A-Za-z_][\w.$]*)(?:\s*=\s*\.)?\s*$")
-    for line in Path(path).read_text(errors="replace").splitlines():
-        m = sym_re.match(line)
-        if m and int(m.group(1), 16) >= 0x02000000:
-            syms.setdefault(m.group(2), int(m.group(1), 16))
-    return syms
+    # Interrupt handlers
+    table = [r for r in blobs if sym[r.path] == INTERRUPT_TABLE_SYMBOL]
+    if len(table) != 1:
+        raise SystemExit(f"expected one region INCBINed as {INTERRUPT_TABLE_SYMBOL}, found {len(table)}")
+    words = [layout.function(f) for f in INTERRUPT_HANDLERS] if layout.have_build else []
+    put(table[0], struct.pack(f"<{len(words)}I", *words))
+    notes.append("interrupt handlers: " + ("from " + layout.source if words else "EMPTY (needs a previous build)"))
 
+    # Voicegroups: every voice plays the first direct sound sample
+    samples = sorted((r for r in regions if r.category == "sound_sample"), key=lambda r: r.addr)
+    sample = layout.region_address(samples[0])
+    voice = struct.pack("<BBBBI4B", 0, 60, 0, 0, sample, 0xFF, 0, 0xFF, 0xA5)
+    vgs = [r for r in blobs if sym[r.path] and VOICEGROUP_RE.match(sym[r.path])]
+    if not vgs:
+        raise SystemExit("no voicegroup regions (sVoicegroup_*) found")
+    for r in vgs:
+        put(r, voice * (r.size // 12))
+    notes.append(f"voicegroups: {len(vgs)}")
 
-def gen_symbol_table(r: Region, syms: dict[str, int]):
-    entries = SYMBOL_TABLES[r.path]
-    if not syms:
-        return b"", "needs --map"
-    words = []
-    for e in entries:
-        name, _, thumb = e.partition("|")
-        if name not in syms:
-            raise SystemExit(f"{r.path}: symbol {name} not found in the map file")
-        words.append(syms[name] | (1 if thumb else 0))
-    data = struct.pack(f"<{len(words)}I", *words)
-    assert len(data) == r.size, (r.path, len(data), r.size)
-    return data, "code pointers"
+    # Text: terminators everywhere; monologue pages advance on A at a "next
+    # page" arrow. Some scenes wait for "more text follows" and then "end",
+    # others only for "end"; two pages serve both: arrow, arrow, one
+    # character, arrow, terminator.
+    texts = [r for r in blobs if in_ranges(r, [TEXT_RANGE])]
+    page = struct.pack("<5H", CHAR_NEXT_PAGE_ARROW, CHAR_NEXT_PAGE_ARROW, PLACEHOLDER_CHAR,
+                       CHAR_NEXT_PAGE_ARROW, CHAR_TERMINATOR)
+    pages = 0
+    for r in texts:
+        data = bytearray(struct.pack("<H", CHAR_TERMINATOR) * (r.size // 2))
+        if sym[r.path] and MONOLOGUE_RE.match(sym[r.path]):
+            assert r.size >= len(page), r.path
+            data[:len(page)] = page
+            pages += 1
+        put(r, bytes(data))
+    if not pages:
+        raise SystemExit("no monologue regions (sMonologueText<Lang>_<N>) found")
+    notes.append(f"text: {len(texts)} regions, {pages} monologues")
+    empty_string = layout.address(regions, TEXT_RANGE[0])  # a terminator
+
+    # Per-language string pointer tables -> empty strings
+    tps = [r for r in blobs if sym[r.path] and TEXT_POINTERS_RE.match(sym[r.path])]
+    for r in tps:
+        put(r, struct.pack("<I", empty_string) * (r.size // 4))
+    if not tps:
+        raise SystemExit("no text pointer tables (s*TextPointers*) found")
+    notes.append(f"text pointer tables: {len(tps)}")
+    string_table = layout.region_address(tps[0])  # a table of empty strings
+
+    # OAM-safe ranges
+    oam = sorted((r for r in blobs if in_ranges(r, OAM_SAFE_RANGES)), key=lambda r: r.addr)
+    lz_sources = scan_lz_sources()
+    lz = [r for r in oam if sym[r.path] in lz_sources]
+    built = {r.path: layout.region_address(r) for r in oam}
+    # the word: a 64 KiB aligned build address inside these regions, clear
+    # of the zeroed LZ77 headers
+    word = None
+    for r in oam:
+        b = built[r.path]
+        start = 4 if r in lz else 0
+        cand = (b + start + 0xFFFF) & ~0xFFFF
+        if cand + 4 <= b + r.size:
+            word = cand
+            break
+    if word is None:
+        raise SystemExit("no 64 KiB aligned address inside the OAM-safe ranges")
+    wb = struct.pack("<I", word)
+    for r in oam:
+        b = built[r.path]
+        put(r, bytes(wb[(b + i) % 4] for i in range(r.size)))
+    lz_empty = None
+    for r in lz:
+        put(r, bytes(4))
+        if lz_empty is None and built[r.path] % 4 == 0:
+            lz_empty = built[r.path]
+    if lz_empty is None:
+        raise SystemExit("no LZ77 source found in the OAM-safe ranges")
+    for off, kind, n in OAM_SAFE_OVERRIDES:
+        target = {"lz": lz_empty, "text": string_table}[kind]
+        rom[off:off + 4 * n] = struct.pack("<I", target) * n
+    # self check: the word is in place at the baserom offset that maps to it
+    for r in oam:
+        b = built[r.path]
+        if b <= word < b + r.size:
+            o = r.addr + word - b
+            assert struct.unpack_from("<I", rom, o)[0] == word
+    notes.append(f"OAM-safe: {len(oam)} regions, word {word:#x}, {len(lz)} empty LZ77 sources")
+    if layout.unresolved:
+        notes.append(f"WARNING: {len(layout.unresolved)} regions not found in the build, "
+                     f"assumed at their database offset: {sorted(layout.unresolved)[:5]}")
+    return notes
 
 
 def generate(args) -> int:
     regions = load_regions()
     meta = scan_c_metadata()
-    syms = load_map(args.map)
-
-    samples = sorted(r.addr for r in regions if r.category == "sound_sample")
-    for r in regions:
-        if r.path == TEXT_BLOB:
-            TEXT_ADDR[0] = r.addr
-        if r.path == TEXT_POINTER_BLOB:
-            TEXT_POINTER_ADDR[0] = r.addr
+    elf = args.elf or (str(Path(args.map).with_suffix(".elf")) if args.map else None)
+    layout = Layout(elf, args.map)
 
     rom = bytearray(ROM_SIZE)
     notes: Counter = Counter()
@@ -373,23 +393,17 @@ def generate(args) -> int:
             data, note = gen_room_clip(r, m, args)
         elif c == "sound_sample":
             data, note = gen_sound(r, m, args)
-        elif r.path in SYMBOL_TABLES:
-            data, note = gen_symbol_table(r, syms)
-        elif r.path in OAM_SAFE_BLOBS:
-            data, note = gen_oam_safe_blob(r)
-        elif c == "blob":
-            data, note = gen_blob(r, m, args, samples[0])
         else:
-            data, note = b"", "zero"
+            data, note = b"", "zero" if c != "blob" else "zero/known-layout(below)"
         if len(data) > r.size:
             raise AssertionError(f"{r.path}: generated {len(data)} > {r.size}")
-        if note in ("does not fit", "no dims in C", "needs --map") or "SHORTER" in note:
+        if note in ("does not fit", "no dims in C") or "SHORTER" in note:
             failures.append(f"{r.path} ({r.size}B): {note}")
         notes[(c, note.split(" ")[0])] += 1
         rom[r.addr:r.addr + len(data)] = data
 
+    layout_notes = apply_known_layouts(rom, regions, layout)
     validate(rom, regions, meta)
-    check_oam_safe_word(rom)
     # No database region starts below 0xa5224, and the extractor never reads
     # the header, so the first bytes carry a marker identifying the file.
     assert all(r.addr >= len(OPEN_MARKER) for r in regions)
@@ -404,6 +418,8 @@ def generate(args) -> int:
     print(f"wrote {out} ({len(rom)} bytes, {len(regions)} regions)")
     for (c, n), k in sorted(notes.items()):
         print(f"  {c:20} {n:12} {k}")
+    for n in layout_notes:
+        print("  " + n)
     if failures:
         print(f"{len(failures)} regions could not get their ideal placeholder:")
         for f in failures[:20]:
@@ -429,8 +445,9 @@ def main() -> int:
     ap.add_argument("-o", "--output", required=True, help="output file (never overwritten without --force)")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--silent", action="store_true", help="silent samples instead of square waves")
-    ap.add_argument("--map", help="linker map of a previous build, used to fill tables of code "
-                                  "pointers (needed for the ROM to boot; see build_open_rom.sh)")
+    ap.add_argument("--map", help="linker map of a previous build; its .elf next to it (or --elf) "
+                                  "gives the addresses that pointer tables need (see build_open_rom.py)")
+    ap.add_argument("--elf", help="ELF of a previous build (default: the --map path with .elf)")
     ap.add_argument("--gfx-lz-size", type=lambda s: int(s, 0), default=0x800,
                     help="decompressed size for LZ77 graphics placeholders (default 0x800)")
     return generate(ap.parse_args())

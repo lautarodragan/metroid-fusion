@@ -1,12 +1,12 @@
 """Build mf_us.gba from an open (placeholder) baserom, in two passes.
 
-Some placeholder regions are tables of pointers into our own code (see
-SYMBOL_TABLES in make_open_baserom.py), so the baserom depends on where the
-linker places each function:
+Some placeholder regions hold pointers into the build (interrupt handlers,
+pointer tables; see apply_known_layouts in make_open_baserom.py), so the
+baserom depends on where the linker places code and data:
 
-1. generate the open baserom (pointer tables empty, or filled from an existing
-   map), extract and build;
-2. regenerate it with the resulting ``mf_us.map``; if anything changed,
+1. generate the open baserom (pointers at their database offsets, or taken
+   from an existing build), extract and build;
+2. regenerate it with the resulting ``mf_us.elf``/``.map``; if anything changed,
    re-extract, rebuild the objects that include the changed files and link
    again. Repeat until the baserom is stable.
 
@@ -14,7 +14,12 @@ The Makefile does not track INCBIN dependencies, so this script deletes the
 objects whose sources reference a data file that changed.
 
 Usage (from the repository root, or with -C):
-    python3 tools/open_assets/build_open_rom.py [-C DIR] [-j N]
+    python3 tools/open_assets/build_open_rom.py [-C DIR] [-j N] [--shift [AMOUNT]]
+
+--shift builds the shift test ROM instead (``make SHIFT=1``,
+mf_us_shifted.gba, see docs/shiftability.md), with the baserom's pointers
+taken from that build: running it checks that the open ROM still works when
+code and data move.
 
 Refuses to run if mf_us_baserom.gba exists and is not an open baserom.
 """
@@ -36,7 +41,6 @@ sys.path.insert(0, str(HERE))
 from make_open_baserom import is_open_baserom  # noqa: E402
 
 BASEROM = "mf_us_baserom.gba"
-ROM_MAP = "mf_us.map"
 
 
 def run(cmd: list[str], cwd: Path, quiet: bool = True) -> None:
@@ -103,6 +107,8 @@ def main() -> int:
     ap.add_argument("-C", "--directory", default=".", help="repository root to build in")
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("-v", "--verbose", action="store_true")
+    ap.add_argument("--shift", nargs="?", const="0x100", default=None, metavar="AMOUNT",
+                    help="build mf_us_shifted.gba with `make SHIFT=1 SHIFT_AMOUNT=AMOUNT`")
     args = ap.parse_args()
     root = Path(args.directory).resolve()
     baserom = root / BASEROM
@@ -111,16 +117,22 @@ def main() -> int:
               "(build in a separate checkout)", file=sys.stderr)
         return 1
 
-    gen = [sys.executable, str(HERE / "make_open_baserom.py"), "-o", BASEROM]
+    # the generator of the tree being built (it reads that tree's sources)
+    gen = [sys.executable, str(root / "tools" / "open_assets" / "make_open_baserom.py"), "-o", BASEROM]
     make = ["make", f"-j{args.jobs}"]
+    rom = "mf_us.gba"
+    if args.shift:
+        make += ["SHIFT=1", f"SHIFT_AMOUNT={args.shift}"]
+        rom = "mf_us_shifted.gba"
+    rom_map = rom.replace(".gba", ".map")
     quiet = not args.verbose
     prev = None
     for attempt in range(4):
-        cmd = gen + (["--map", ROM_MAP] if (root / ROM_MAP).exists() else [])
+        cmd = gen + (["--map", rom_map] if (root / rom_map).exists() else [])
         run(cmd, root, quiet)
         cur = baserom.read_bytes()
         if cur == prev:
-            print(f"* open ROM built: {root / 'mf_us.gba'} (baserom stable after {attempt} rebuilds)")
+            print(f"* open ROM built: {root / rom} (baserom stable after {attempt} rebuilds)")
             return 0
         changed = extract(root, quiet)
         n = invalidate(root)
