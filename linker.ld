@@ -530,13 +530,11 @@ SECTIONS {
         src/menus/title_screen.o(.text);
         src/new_file_intro.o(.text);
 
-        asm/disasm_0x0809209C.o(.text);
         src/intro.o(.text);
         src/ending_cutscenes.o(.text);
         src/ending_dialogue.o(.text);
         src/died_on_sr388.o(.text);
         src/special_cutscene_monologue.o(.text);
-        asm/disasm_0x08098158.o(.text);
         src/special_cutscene.o(.text);
         asm/disasm_0x08096B98.o(.text);
         src/special_cutscene_misc.o(.text);
@@ -545,9 +543,9 @@ SECTIONS {
         src/cutscenes/restricted_lab_detaching.o(.text);
         src/cutscenes/bsl_exploding.o(.text);
         src/cutscenes/cutscene_monologue.o(.text);
-        asm/disasm_0x0809CA9C.o(.text);
         src/cutscenes/cutscene_common.o(.text);
         asm/disasm_0x0809D340.o(.text);
+        src/cutscenes/cutscene_common_2.o(.text);
 
         src/sa_x_close_up.o(.text);
 
