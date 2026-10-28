@@ -43,35 +43,35 @@ struct NavConversationPopUp {
 extern u8 gNavigationTargetLocation;
 
 extern u16** sNavConversationTextPointers[];
-extern const u8 sNavConversationUnk_5766d4[];
-extern const u8 sNavConversationUnk_5767ec[];
-extern const struct NavConversationTarget sNavConversationUnk_5766e4[33];
-extern const u8 sNavConversationUnk_576218[][2];
-extern const u8 sNavConversationUnk_576226[][2];
+extern const u32 sNavConversationPopUpInfoInit[3];
+extern const u8 sNavTargetOamIds[4];
+extern const struct NavConversationTarget sNavConversationTargets[33];
+extern const u8 sNavTargetMainDeckElevatorPositions[][2];
+extern const u8 sNavTargetAreaElevatorPositions[][2];
 extern const u8 sUnk_576802[];
-extern const struct NavConversationPopUp sNavConversationUnk_57bc50[5];
-extern const struct NavConversationPopUpsPerConversation sNavConversationUnk_57bcc8[3];
+extern const struct NavConversationPopUp sNavConversationPopUps[5];
+extern const struct NavConversationPopUpsPerConversation sNavConversationPopUpsPerConversation[3];
 extern const Func_T sNavConversationUnk_79c170[3];
 
-extern const u16 sUnk_57bcd4[];
-extern const u16 sUnk_57bcf4[];
-extern const u16 sUnk_57bd34[];
-extern const u16 sUnk_57bdb4[];
-extern const u8 sUnk_57beb4[];
-extern const u8 sUnk_57beb8[];
-extern const u8 sUnk_57bebc[];
+extern const u16 sNavConversationFlashingColors1[16];
+extern const u16 sNavConversationFlashingColors2[2 * 16];
+extern const u16 sNavConversationRoomBgAnimatedPal[4 * 16];
+extern const u16 sNavConversationShipBgAnimatedPal[8 * 16];
+extern const u8 sNavConversationFlashingDurations[4];
+extern const u8 sNavConversationRoomBgAnimatedPalDurations[4];
+extern const u8 sNavConversationShipBgAnimatedPalDurations[8];
 
-extern const u32 sNavConversationUnk_57c0c4[];
-extern const u32 sNavConversationUnk_57fca0[];
-extern const u32 sNavConversationUnk_580238[];
-extern const u32 sNavConversationUnk_5807d0[];
-extern const u32 sNavConversationUnk_580d68[];
+extern const u32 sNavConversationOperationsRoomImageGfx[3831];
+extern const u32 sNavConversationOperationsRoomImageTilemap0[358];
+extern const u32 sNavConversationOperationsRoomImageTilemap1[358];
+extern const u32 sNavConversationOperationsRoomImageTilemap2[358];
+extern const u32 sNavConversationOperationsRoomImageTilemap3[358];
 
 // Defined in src/data/menus/pause_screen_misc_data.c
-extern const u8 sUnk_5760e8[];
-extern const u8 sUnk_57bec4[];
-extern const u8 sUnk_581300[];
-extern const u8 sUnk_581500[];
+extern const u8 sBslDiagramMainDeckRoomLocations[90];
+extern const u16 sNavConversationOperationsRoomImagePal[16 * 16];
+extern const u16 sBslDiagramAnimatedPal[16 * 16];
+extern const u32 sBslDiagramInfoInit[4];
 
 // Defined in src/text.c
 extern u8 sUnk_79c17c[];

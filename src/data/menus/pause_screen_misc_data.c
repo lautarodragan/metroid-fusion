@@ -3,9 +3,10 @@
 #include "macros.h"
 #include "constants/menus/pause_screen.h"
 
-// TODO: The start of this file needs to be 4-byte aligned, but sPauseScreenAreaNameOamIds is not.
-// When this blob is removed, sPauseScreenAreaNameOamIds cannot be the first item
-const u8 sUnk_5760e8[] = INCBIN_U8("data/Blob_5760e8_576142.bin");
+// The start of this file needs to be 4-byte aligned, but sPauseScreenAreaNameOamIds is not,
+// so it cannot be the first item
+// BSL diagram location highlighted for each main deck room (indexed by room + 1)
+const u8 sBslDiagramMainDeckRoomLocations[90] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_main_deck_room_locations.bin");
 
 const u8 sPauseScreenAreaNameOamIds[AREA_NORMAL_COUNT][2] = {
     [AREA_MAIN_DECK] = { PAUSE_OAM_ID_MAIN_DECK_TEXT, PAUSE_OAM_ID_MAIN_DECK_TEXT_APPEARING },
@@ -148,8 +149,10 @@ const u8 sMaintainedInputDelays[7] = {
 };
 
 static const u8 sBlob_576217_576218[] = INCBIN_U8("data/Blob_576217_576218.bin");
-const u8 sNavConversationUnk_576218[] = INCBIN_U8("data/Blob_576218_576226.bin");
-const u8 sNavConversationUnk_576226[] = INCBIN_U8("data/Blob_576226_576234.bin");
+// Map position (x, y) of the main deck elevator to each area
+const u8 sNavTargetMainDeckElevatorPositions[AREA_NORMAL_COUNT][2] = INCBIN_U8("data/menus/pause_screen/nav_target_main_deck_elevator_positions.bin");
+// Map position (x, y) of the elevator to the main deck in each area
+const u8 sNavTargetAreaElevatorPositions[AREA_NORMAL_COUNT][2] = INCBIN_U8("data/menus/pause_screen/nav_target_area_elevator_positions.bin");
 
 const u8 sCharacterWidths[1184] = {
     8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
@@ -228,15 +231,19 @@ const u8 sCharacterWidths[1184] = {
     8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
 };
 
-const u8 sNavConversationUnk_5766d4[] = INCBIN_U8("data/Blob_5766d4_5766e0.bin");
+// Initial struct NavConversationPopUpInfo (starts with a graphics pointer).
+// pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u32 sNavConversationPopUpInfoInit[3] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_up_info.bin");
 
 const u8 sNavConversationTextBoxCursorYPositions[NAV_TEXT_BOX_COUNT][2] = {
     [NAV_TEXT_BOX_BOTTOM] = { 128, 150 },
     [NAV_TEXT_BOX_TOP] = { 25, 47 }
 };
 
-const u8 sNavConversationUnk_5766e4[] = INCBIN_U8("data/Blob_5766e4_5767ec.bin");
-const u8 sNavConversationUnk_5767ec[] = INCBIN_U8("data/Blob_5767ec_5767f0.bin");
+// struct NavConversationTarget (5 bytes, padded to 8)
+const u8 sNavConversationTargets[33 * 8] = INCBIN_U8("data/menus/pause_screen/nav_conversation_targets.bin");
+// Map target OAM id for each target text direction
+const u8 sNavTargetOamIds[4] = INCBIN_U8("data/menus/pause_screen/nav_target_oam_ids.bin");
 
 const u8 sNavConversationPortraitOamIds[6][3] = {
     [0] = {
@@ -271,24 +278,37 @@ const u8 sNavConversationPortraitOamIds[6][3] = {
     }
 };
 
+// The first byte is a mosaic value (unk_7b674); the rest is not
+// referenced by code and most likely holds the animations, palettes and LZ77
+// graphics that sNavConversationPopUps points to
 const u8 sUnk_576802[] = INCBIN_U8("data/Blob_576802_57bc50.bin");
-const u8 sNavConversationUnk_57bc50[] = INCBIN_U8("data/Blob_57bc50_57bcc8.bin");
-const u8 sNavConversationUnk_57bcc8[] = INCBIN_U8("data/Blob_57bcc8_57bcd4.bin");
-const u8 sUnk_57bcd4[] = INCBIN_U8("data/Blob_57bcd4_57bcf4.bin");
-const u8 sUnk_57bcf4[] = INCBIN_U8("data/Blob_57bcf4_57bd34.bin");
-const u8 sUnk_57bd34[] = INCBIN_U8("data/Blob_57bd34_57bdb4.bin");
-const u8 sUnk_57bdb4[] = INCBIN_U8("data/Blob_57bdb4_57beb4.bin");
-const u8 sUnk_57beb4[] = INCBIN_U8("data/Blob_57beb4_57beb8.bin");
-const u8 sUnk_57beb8[] = INCBIN_U8("data/Blob_57beb8_57bebc.bin");
-const u8 sUnk_57bebc[] = INCBIN_U8("data/Blob_57bebc_57bec4.bin");
-const u8 sUnk_57bec4[] = INCBIN_U8("data/Blob_57bec4_57c0c4.bin");
-const u8 sNavConversationUnk_57c0c4[] = INCBIN_U8("data/Blob_57c0c4_57fca0.bin");
-const u8 sNavConversationUnk_57fca0[] = INCBIN_U8("data/Blob_57fca0_580238.bin");
-const u8 sNavConversationUnk_580238[] = INCBIN_U8("data/Blob_580238_5807d0.bin");
-const u8 sNavConversationUnk_5807d0[] = INCBIN_U8("data/Blob_5807d0_580d68.bin");
-const u8 sNavConversationUnk_580d68[] = INCBIN_U8("data/Blob_580d68_581300.bin");
-const u8 sUnk_581300[] = INCBIN_U8("data/Blob_581300_581500.bin");
-const u8 sUnk_581500[] = INCBIN_U8("data/Blob_581500_581510.bin");
+// struct NavConversationPopUp (animation, palette, cycle palette and graphics pointers).
+// pointer table, targets unresolved (see tools/find_blob_pointers.py); the targets are
+// most likely in the blob above
+const u32 sNavConversationPopUps[5 * 6] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_ups.bin");
+// struct NavConversationPopUpsPerConversation
+const u8 sNavConversationPopUpsPerConversation[3 * 4] = INCBIN_U8("data/menus/pause_screen/nav_conversation_pop_ups_per_conversation.bin");
+// Colors 2 and 3 of BG palette rows 1 and 2 during a navigation conversation, per step
+const u16 sNavConversationFlashingColors1[16] = INCBIN_U16("data/menus/pause_screen/nav_conversation_flashing_colors_1.pal");
+const u16 sNavConversationFlashingColors2[2 * 16] = INCBIN_U16("data/menus/pause_screen/nav_conversation_flashing_colors_2.pal");
+// Animated colors 12-15 of BG palette row 9 (navigation room background), 4 frames
+const u16 sNavConversationRoomBgAnimatedPal[4 * 16] = INCBIN_U16("data/menus/pause_screen/nav_conversation_room_bg_animated.pal");
+// Animated colors 10-15 of BG palette row 12 (ship background), 8 frames
+const u16 sNavConversationShipBgAnimatedPal[8 * 16] = INCBIN_U16("data/menus/pause_screen/nav_conversation_ship_bg_animated.pal");
+const u8 sNavConversationFlashingDurations[4] = INCBIN_U8("data/menus/pause_screen/nav_conversation_flashing_durations.bin");
+const u8 sNavConversationRoomBgAnimatedPalDurations[4] = INCBIN_U8("data/menus/pause_screen/nav_conversation_room_bg_animated_pal_durations.bin");
+const u8 sNavConversationShipBgAnimatedPalDurations[8] = INCBIN_U8("data/menus/pause_screen/nav_conversation_ship_bg_animated_pal_durations.bin");
+// Image shown during the "go to the operations room" conversation: BG graphics,
+// palette and 4 animation frames (tilemaps cycled through BG3)
+const u16 sNavConversationOperationsRoomImagePal[16 * 16] = INCBIN_U16("data/menus/pause_screen/nav_convo_operations_room_image.pal");
+const u32 sNavConversationOperationsRoomImageGfx[3831] = INCBIN_U32("data/menus/pause_screen/nav_convo_operations_room_image.gfx.lz");
+const u32 sNavConversationOperationsRoomImageTilemap0[358] = INCBIN_U32("data/menus/pause_screen/nav_convo_operations_room_image_0.tm.lz");
+const u32 sNavConversationOperationsRoomImageTilemap1[358] = INCBIN_U32("data/menus/pause_screen/nav_convo_operations_room_image_1.tm.lz");
+const u32 sNavConversationOperationsRoomImageTilemap2[358] = INCBIN_U32("data/menus/pause_screen/nav_convo_operations_room_image_2.tm.lz");
+const u32 sNavConversationOperationsRoomImageTilemap3[358] = INCBIN_U32("data/menus/pause_screen/nav_convo_operations_room_image_3.tm.lz");
+// BSL diagram: highlight colors (6 frames are used) and initial state (struct BslDiagramInfo)
+const u16 sBslDiagramAnimatedPal[16 * 16] = INCBIN_U16("data/menus/pause_screen/bsl_diagram_animated.pal");
+const u32 sBslDiagramInfoInit[4] = INCBIN_U32("data/menus/pause_screen/bsl_diagram_info.bin");
 
 const u8 sPauseDebugEventNames[EVENT_END][EVENT_NAME_SIZE] = {
     [EVENT_NONE] = SHIFT_JIS("TOHOKANKO   トクベツホカンコヘ ムカエ  "),
