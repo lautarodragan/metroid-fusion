@@ -57,9 +57,9 @@ ROOM_WALK: list[tuple[int, str, str | None]] = [
     (100, "LEFT", None),              # through the door on the upper left
     (120, "", "room_6"),              # bottom of the shaft
 ]
-# The gunship sprite (room 0, spriteset 8) normally clears this flag when
-# Samus steps out; the open ROM has no gunship yet, so the walk clears it to
-# let the camera follow Samus.
+# The gunship sprite (room 0, spriteset 8) clears this flag when Samus steps
+# out of it; the walk clears it too so that it does not depend on how long
+# the gunship's arrival sequence takes.
 SCROLL_LOCK_FLAG = "gDisableDrawingSamusAndScrollingFlag"
 
 
