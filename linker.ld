@@ -503,7 +503,6 @@ SECTIONS {
         src/menus/pause_screen.o(.text);
         src/text.o(.text);
 
-        asm/disasm_0x08079afc.o(.text);
         src/menus/navigation_conversation.o(.text);
         src/menus/navigation_conversation_pop_up.o(.text);
 
