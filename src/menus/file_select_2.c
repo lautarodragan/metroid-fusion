@@ -13,6 +13,9 @@
 #include "constants/menus/file_select.h"
 
 #include "structs/save_file.h"
+#include "data/text_data.h"
+#include "text.h"
+#include "syscalls.h"
 
 /**
  * @brief 9f930 | 1a4 | Processes the samus head oam
@@ -890,4 +893,210 @@ void unk_a0424(struct FileSelectOam* pOam)
 void unk_a0518(struct FileSelectOam* pOam)
 {
     return;
+}
+
+/**
+ * @brief a051c | 520 | Draws the info of a file
+ *
+ * @param file File
+ */
+void FileSelectDrawFileInfo(u8 file)
+{
+    s32 timeDigits[4];
+    s32 energyDigits[4];
+    s32 tankDigits[4];
+    u32 base;
+    u32 addr;
+    struct SaveFileInfo* pInfo;
+    u32* dst;
+    const u16* pText;
+    u32 width;
+    u8 i;
+
+    pInfo = &gSaveFilesInfo[file];
+
+    if (file == 0)
+    {
+        dst = (u32*)(VRAM_BASE + 0x88C0);
+        base = (u32)dst;
+    }
+    else if (file == 1)
+    {
+        dst = (u32*)(VRAM_BASE + 0x90C0);
+        base = (u32)dst;
+    }
+    else
+    {
+        dst = (u32*)(VRAM_BASE + 0x98C0);
+        base = (u32)dst;
+    }
+
+    FILE_SELECT_DATA.textTile = 0;
+    FILE_SELECT_DATA.textPixelOffset = 0;
+
+    if (pInfo->exists == FALSE)
+    {
+        if (gSaveFilesInfo[file].unk_10 == TRUE || gSaveFilesInfo[file].unk_11 == TRUE)
+        {
+            FILE_SELECT_DATA.corruptedFileInfo.currentEnergy = 99;
+            pInfo = &FILE_SELECT_DATA.corruptedFileInfo;
+        }
+        else
+        {
+            FileSelectDestroyOamOfType(file + 14);
+            FileSelectDestroyOamOfType(file + 20);
+
+            DMA3_FILL_32(0, dst, 0x300);
+            DMA3_FILL_32(0, (u8*)dst + 0x400, 0x300);
+
+            pText = sFileSelectUnk_79ec84[gLanguage][0];
+            FILE_SELECT_DATA.textTile = 8;
+
+            for (; *pText != 0xFF00; pText++)
+            {
+                if (*pText == 0x5A)
+                    width = TextGetCharacterWidth(*pText) + 2;
+                else if (*pText == 0x40)
+                    width = 8 - FILE_SELECT_DATA.textPixelOffset;
+                else
+                    width = 8;
+
+                dst = (u32*)(FILE_SELECT_DATA.textTile * 32 + base);
+                TextDrawCharacter(*pText, dst, width, FILE_SELECT_DATA.textPixelOffset, 0);
+
+                FILE_SELECT_DATA.textPixelOffset += width;
+                while (FILE_SELECT_DATA.textPixelOffset >= 8)
+                {
+                    FILE_SELECT_DATA.textPixelOffset -= 8;
+                    FILE_SELECT_DATA.textTile++;
+                }
+            }
+            return;
+        }
+    }
+
+    if (gLanguage == LANGUAGE_JAPANESE)
+        width = 0;
+
+    energyDigits[0] = DivArmDiv(1000, pInfo->currentEnergy);
+    tankDigits[0] = energyDigits[1] = DivArmDiv(100, pInfo->currentEnergy);
+    energyDigits[1] = DivArmMod(10, energyDigits[1]);
+    tankDigits[1] = energyDigits[1];
+    energyDigits[2] = DivArmDiv(10, pInfo->currentEnergy);
+    energyDigits[2] = DivArmMod(10, energyDigits[2]);
+    energyDigits[3] = pInfo->currentEnergy;
+    energyDigits[3] = DivArmMod(10, energyDigits[3]);
+
+    for (i = 2; i < 4; i++)
+    {
+        addr = (u32)&sCharactersGfx[(energyDigits[i] + 0x50) * 32];
+        DMA3_COPY_32(addr, dst, 8);
+        DMA3_COPY_32(addr + 0x400, (u8*)dst + 0x400, 8);
+        dst += 8;
+    }
+
+    DMA3_FILL_32(0, dst, 0x200);
+    DMA3_FILL_32(0, (u8*)dst + 0x400, 0x200);
+
+    tankDigits[1] = DivArmMod(2, tankDigits[1]);
+    tankDigits[2] = DivArmDiv(100, pInfo->maxEnergy);
+    tankDigits[3] = DivArmMod(10, tankDigits[2]);
+    tankDigits[3] = DivArmMod(2, tankDigits[3]);
+
+    // The in game time is drawn 0xC0 bytes after the end of the energy digits
+    addr = (u32)dst;
+    dst = (u32*)((u8*)dst + 0x400);
+
+    for (i = 0; i < tankDigits[0] - tankDigits[1]; i += 2)
+    {
+        if (i == 10)
+            dst -= 0x4A0 / 4;
+        DMA3_COPY_32(sFileSelectUnk_73db64, dst, 8);
+        dst += 8;
+    }
+
+    if (tankDigits[1] == 1)
+    {
+        if (i == 10)
+            dst -= 0x4A0 / 4;
+
+        if (tankDigits[2] == tankDigits[0])
+        {
+            DMA3_COPY_32(sFileSelectUnk_73db04, dst, 8);
+        }
+        else
+        {
+            DMA3_COPY_32(sFileSelectUnk_73db44, dst, 8);
+        }
+
+        i += 2;
+        dst += 8;
+    }
+
+    for (; i < tankDigits[2] - tankDigits[3]; i += 2)
+    {
+        if (i == 10)
+            dst -= 0x4A0 / 4;
+        DMA3_COPY_32(sFileSelectUnk_73db24, dst, 8);
+        dst += 8;
+    }
+
+    if (tankDigits[3] == 1 && i < tankDigits[2])
+    {
+        if (i == 10)
+            dst -= 0x4A0 / 4;
+        DMA3_COPY_32(sFileSelectUnk_73dae4, dst, 8);
+    }
+
+    dst = (u32*)(addr + 0xC0);
+
+    timeDigits[0] = DivArmDiv(10, pInfo->igtHours);
+    timeDigits[0] = DivArmMod(10, timeDigits[0]);
+    timeDigits[1] = pInfo->igtHours;
+    timeDigits[1] = DivArmMod(10, timeDigits[1]);
+
+    for (i = 0; i < 2; i++)
+    {
+        addr = (u32)&sCharactersGfx[(timeDigits[i] + 0x50) * 32];
+        DMA3_COPY_32(addr, dst, 8);
+        DMA3_COPY_32(addr + 0x400, (u8*)dst + 0x400, 8);
+        dst += 8;
+    }
+
+    FILE_SELECT_DATA.textTile = 10;
+    dst = (u32*)(FILE_SELECT_DATA.textTile * 32 + base);
+    width = TextGetCharacterWidth(0x5A) + 3;
+    TextDrawCharacter(0x5A, dst, width, FILE_SELECT_DATA.textPixelOffset, 0);
+
+    FILE_SELECT_DATA.textPixelOffset += width;
+    while (FILE_SELECT_DATA.textPixelOffset >= 8)
+    {
+        FILE_SELECT_DATA.textPixelOffset -= 8;
+        FILE_SELECT_DATA.textTile++;
+    }
+
+    timeDigits[0] = DivArmDiv(10, pInfo->igtMinutes);
+    timeDigits[0] = DivArmMod(10, timeDigits[0]);
+    timeDigits[1] = pInfo->igtMinutes;
+    timeDigits[1] = DivArmMod(10, timeDigits[1]);
+
+    for (i = 0; i < 2; i++)
+    {
+        dst = (u32*)(FILE_SELECT_DATA.textTile * 32 + base);
+        TextDrawCharacter(timeDigits[i] + 0x50, dst, 8, FILE_SELECT_DATA.textPixelOffset, 0);
+
+        FILE_SELECT_DATA.textPixelOffset += 8;
+        while (FILE_SELECT_DATA.textPixelOffset >= 8)
+        {
+            FILE_SELECT_DATA.textPixelOffset -= 8;
+            FILE_SELECT_DATA.textTile++;
+        }
+    }
+
+    FileSelectDestroyOamOfType(file + 14);
+    FileSelectSetUpAreaNameOam(file + 14, 0x9D, file * 16 + 0x20, pInfo->currentArea);
+    FileSelectDestroyOamOfType(file + 20);
+
+    if (gSaveFilesInfo[file].unk_10 == TRUE)
+        FileSelectSetupOam(file + 20, 0xDC, file * 16 + 0x28, 1);
 }
