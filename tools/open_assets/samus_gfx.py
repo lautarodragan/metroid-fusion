@@ -406,7 +406,7 @@ def draw_frame(cv, info, i, n, entries, cannon_separate):
     pose = info["pose"]
     m = re.search(r"Frame(\d+)", info.get("gfx", ""))
     k = int(m.group(1)) if m else i
-    if pose in SPIN or (pose == "StartingSpinJump" and False):
+    if pose in SPIN:
         draw_spin(cv, info, k, U)
     elif pose in BALL and (pose == "MorphBall" or (U[3] - U[1]) <= 18):
         draw_ball(cv, info, k, U)
@@ -627,9 +627,69 @@ def palettes(d=None) -> dict:
     return out
 
 
+# ---------------------------------------------------------------------------
+# SA-X: same figure, one block per frame (top row at OBJ tile 512, bottom
+# row at 544; see TransferSamusGraphics), arm cannon part of the body.
+# ---------------------------------------------------------------------------
+
+SAX_POSES = {"Walking": "Running", "SwagWalk": "Running", "Falling": "MidAir", "MidAir": "Spinning",
+             "Kneeling": "Crouching", "GettingHurt": "MidAir", "TurningTowardsCamera": "FacingForeground",
+             "TurningAwayFromCamera": "FacingBackground", "CoveredByMetroids": "FacingForeground",
+             "TransformingIntoMonster": "FacingForeground", "ShootingRestrictedLaboratory": "Standing"}
+SAX_FIRST_TILE = 512
+
+
+def build_sax() -> dict:
+    d = A.parse_c(A.c_files("src/data/sa_x.c"))
+    done = {}
+    for anim, frames in d.structs.items():
+        if not anim.startswith("sSaXAnim_"):
+            continue
+        frames = [f for f in frames if f.get("pGraphics") and f.get("pOamFrame") in d.oam]
+        info = classify(anim)
+        info["pose"] = SAX_POSES.get(info["pose"], info["pose"])
+        if info["aim"] == "None":
+            info["aim"] = "Forward"
+        for i, f in enumerate(frames):
+            g = gfx_region(d, f["pGraphics"])
+            if not g or g[0] in done:
+                continue
+            n1, n2 = (g[1] + [0, 0])[:2]
+            entries = [A.OamEntry(e.x, e.y, e.w, e.h, e.flip, e.tile - SAX_FIRST_TILE, 0, 0)
+                       for e in d.oam[f["pOamFrame"]] if SAX_FIRST_TILE <= e.tile < SAX_FIRST_TILE + 64]
+            if not entries:
+                continue
+            info["gfx"] = f["pGraphics"]
+            cv = A.Canvas(160)
+            draw_frame(cv, info, i, len(frames), entries, cannon_separate=False)
+            sheet = A.TileSheet(128)
+            sheet.cut(cv, entries, overwrite=True)
+            tiles = [sheet.tiles[c] for c in range(n1)] + [sheet.tiles[32 + c] for c in range(n2)]
+            done[g[0]] = A.tiles_to_bytes(tiles)
+    base = suit_palette("SaX")
+    for sym, (path, _) in d.incbin.items():
+        if not path.endswith(".pal"):
+            continue
+        rows = {"Fading": 16, "MidAir": 4}.get(next((k for k in ("Fading", "MidAir") if k in sym), ""), 1)
+        cols = []
+        for r in range(rows):
+            if "Fading" in sym:
+                cols += tint(base, "#ffffff", r / 15, keep_outline=False)
+            elif "MidAir" in sym:
+                cols += tint(base, "#40ff70", 0.2 + 0.1 * r)
+            elif "Monster" in sym:
+                cols += tint(base, "#ff4040", 0.4)
+            else:
+                cols += base
+        done[path[len("data/"):]] = A.pal_bytes(cols)
+    return done
+
+
 def apply(rom: bytearray, regions, layout) -> list[str]:
     d = load()
     gfx, info = build(d)
+    sax = build_sax()
+    gfx.update(sax)
     by_path = {r.path: r for r in regions}
     n = 0
     for path, data in gfx.items():
@@ -646,7 +706,7 @@ def apply(rom: bytearray, regions, layout) -> list[str]:
             continue
         rom[r.addr:r.addr + r.size] = palette_for(sym, r.size // 2)
         npal += 1
-    return [f"samus: {n} graphics blocks ({info['drawn']} frames drawn), {npal} palettes"]
+    return [f"samus: {n} graphics blocks ({info['drawn']} frames drawn, {len(sax)} SA-X blocks), {npal} palettes"]
 
 
 # ---------------------------------------------------------------------------
@@ -690,7 +750,6 @@ def preview(path: str, anims=None, scale: int = 3):
     W = cols * cell
     H = len(rows_out) * cell
     img = bytearray(bytes((40, 44, 56)) * (W * H))
-    info_side = {}
     for r, (a, frames, cann) in enumerate(rows_out):
         info = classify(a)
         for i, f in enumerate(frames[:cols]):
@@ -720,7 +779,6 @@ def preview(path: str, anims=None, scale: int = 3):
                             tiles[row + j] = [v for byte in b for v in (byte & 15, byte >> 4)]
             ox, oy = i * cell + cell // 2, r * cell + cell - 10
             body = d.oam.get(f["pOam"], [])
-            behind = cann and d.structs[cann] and False
             compose(img, W, ox, oy, body, tiles, pal)
             compose(img, W, ox, oy, centries, tiles, pal)
     if scale > 1:
@@ -731,19 +789,8 @@ def preview(path: str, anims=None, scale: int = 3):
                 row += img[(y * W + x) * 3:(y * W + x) * 3 + 3] * scale
             big += bytes(row) * scale
         img, W, H = big, W * scale, H * scale
-    write_png(path, W, H, bytes(img))
+    A.write_png(path, W, H, bytes(img))
     print(f"wrote {path}: {len(rows_out)} animations")
-
-
-def write_png(path, w, h, rgb):
-    import struct
-    import zlib
-
-    def chunk(tag, data):
-        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF)
-    raw = b"".join(b"\0" + rgb[y * w * 3:(y + 1) * w * 3] for y in range(h))
-    Path(path).write_bytes(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 2, 0, 0, 0))
-                           + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
 
 
 def main():

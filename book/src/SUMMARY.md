@@ -14,6 +14,7 @@
 # Research
 
 - [Generated test baserom](docs/test_baserom_research.md)
+- [Placeholder sprites](docs/open_assets_sprites.md)
 
 # Reference
 
