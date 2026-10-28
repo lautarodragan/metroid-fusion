@@ -57,7 +57,7 @@ objects whose data changed.
 | `test_boot.py` | The first 600 frames run (PC always in code, increasing frame counter). The scripted walkthrough goes through the modes in order: title intro → title screen → file select → new file intro → map → in game. No invalid PC and no resets during the whole walkthrough. |
 | `test_screenshots.py` | Screenshots at 8 points (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`, and `room_0`, `room_3`, `room_6` from the room walk) compared against `tests/emu/reference/*.png`. A pixel differs if any channel differs by more than 24; the test fails if more than 0.5 % of the pixels differ. On failure, `<name>.actual.png` and `<name>.diff.png` are saved to `tests/emu/output/` (or `--emu-output` / `$MF_EMU_OUTPUT`; in CI they are uploaded as an artifact). |
 | `test_rooms.py` | The scripted walk after reaching the game (`ROOM_WALK` in `scenario.py`) goes through the first three rooms of the generated baserom: room 0 → left hatch → room 3 → upper left door → room 6. `gCurrentArea`/`gCurrentRoom` at each checkpoint must be (0, 0), (0, 3), (0, 6), and Samus must stand on the expected floor on arrival. See [the rooms](open-assets-rooms.md). |
-| `test_ingame.py` | In the first room (`gCurrentArea` = 0, `gCurrentRoom` = 0): holding right increases `gSamusData.xPosition` and left decreases it; A makes Samus jump (`yPosition` goes down) and Samus lands back on the floor. Determinism: same state + same input → same RAM/VRAM/OAM hash and same image; two power-ons give the same RAM. |
+| `test_ingame.py` | In the first room (`gCurrentArea` = 0, `gCurrentRoom` = 0): holding right increases `gSamusData.xPosition` and left decreases it; A makes Samus jump (`yPosition` goes down) and Samus lands back on the floor. Determinism: same state + same input → same RAM/VRAM/OAM hash and same image; two power-ons give the same RAM. A second `Emulator` in the same process runs without disturbing the first and gives the same frames for the same state and input. |
 | `test_sprites.py` | Placeholder sprites are really drawn: Samus' sprites are on screen and visible (not hidden behind the background); for 9 scripted poses (standing, running, jumping, spin jump, aiming up, aiming diagonally, crouching, shooting, facing left) Samus is rendered from OAM + OBJ VRAM + OBJ palettes (`oam_view.py`, without the room behind) and compared with `tests/emu/reference/samus_<pose>.png`, and the poses must all look different; shooting puts a beam sprite on screen; the energy counter is visible. See [Placeholder sprites](open-assets-sprites.md). |
 
 The walkthrough (`tests/emu/scenario.py`) runs only once per session: the
@@ -97,7 +97,7 @@ A minimal libretro frontend using `ctypes` (no pip dependencies):
 
 ```python
 from harness import Emulator
-emu = Emulator("mf_us.gba", "mf_us.map")      # only one Emulator per process
+emu = Emulator("mf_us.gba", "mf_us.map")      # several can be alive at once
 emu.run(60)                                   # 60 frames
 emu.run(30, "RIGHT+B"); emu.press("START")    # per-frame input
 emu.s16("gMainGameMode"); emu.u16("gSamusData+0x16")   # symbols from the .map
@@ -105,7 +105,15 @@ emu.read(0x06000000, 32)                      # any mapped region
 emu.save_png("shot.png")                      # screenshot (PNG without Pillow)
 st = emu.save_state(); emu.load_state(st)
 emu.cpu_registers()["pc"]; emu.symbolize(pc)  # PC from the mGBA save state
+emu.frame_bytes()                             # raw frame, for fast exact comparisons
 ```
+
+A libretro core keeps its state in globals, so each live `Emulator` needs its
+own copy of the core library: the first one loads the installed file, and
+every further instance alive at the same time loads a copy made in a
+temporary directory (the dynamic loader treats it as a different library).
+This makes it possible to run two ROMs side by side with the same input and
+compare them frame by frame.
 
 Memory is read through the memory map the core publishes
 (`RETRO_ENVIRONMENT_SET_MEMORY_MAPS`): EWRAM, IWRAM, I/O, palettes, VRAM, OAM

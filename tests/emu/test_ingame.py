@@ -74,3 +74,24 @@ def test_power_on_is_deterministic(emu):
         emu.run(400)
         hashes.append(emu.ram_hash())
     assert hashes[0] == hashes[1]
+
+
+def test_second_instance_runs_independently(emu, boot, rom_files):
+    """A second Emulator in the same process gets its own core: running it
+    does not disturb the first one, and both give the same frames for the
+    same state and input."""
+    import harness
+
+    core, rom, map_file = rom_files
+    emu.load_state(boot.states["in_game"])
+    expected = emu.ram_hash()
+    with harness.Emulator(rom, map_file, core=core) as other:
+        other.run(30)                       # power-on, title intro
+        assert emu.ram_hash() == expected   # the first instance did not move
+        other.load_state(boot.states["in_game"])
+        for f in range(60):
+            keys = "RIGHT" if f < 30 else "A"
+            emu.run(1, keys)
+            other.run(1, keys)
+            assert emu.frame_bytes() == other.frame_bytes(), f"frame {f} differs"
+        assert emu.ram_hash() == other.ram_hash()

@@ -13,8 +13,12 @@ The official BIOS is not used: the core runs with its built-in HLE BIOS
 (``mgba_use_bios=OFF``), and the system directory handed to it is an empty
 temporary directory, so a stray ``gba_bios.bin`` can never be picked up.
 
-The libretro API is a C ABI with global state, so only one :class:`Emulator`
-can be alive per process.
+A libretro core keeps its state in globals, so one loaded copy of the core
+library can run one game at a time. Several :class:`Emulator` instances can
+still be alive in the same process (for example, to run two ROMs side by side
+with the same input): every instance after the first loads its own copy of
+the core library, which the dynamic loader treats as a separate library with
+separate globals.
 """
 
 from __future__ import annotations
@@ -22,6 +26,7 @@ from __future__ import annotations
 import ctypes
 import os
 import re
+import shutil
 import struct
 import tempfile
 import zlib
@@ -264,19 +269,52 @@ class EmulatorError(RuntimeError):
     pass
 
 
-class Emulator:
-    """One mGBA libretro core instance (only one per process)."""
+class _CoreLibraries:
+    """Loaded copies of core libraries, so that every live Emulator has its own.
 
-    _alive = False
+    The first instance of a core uses the library file itself; later ones get
+    a copy in a per-process temporary directory. A copy stays loaded until the
+    process exits (ctypes never unloads a library) and is reused by the next
+    instance once its previous user is closed.
+    """
+
+    def __init__(self) -> None:
+        self._copies: dict[str, list[str]] = {}  # core path -> [loadable paths]
+        self._in_use: set[str] = set()
+        self._dir: tempfile.TemporaryDirectory | None = None
+
+    def acquire(self, core: str) -> str:
+        real = os.path.realpath(core)
+        paths = self._copies.setdefault(real, [real])
+        for p in paths:
+            if p not in self._in_use:
+                break
+        else:
+            if self._dir is None:
+                self._dir = tempfile.TemporaryDirectory(prefix="emu-cores-")
+            p = os.path.join(self._dir.name, f"{len(paths)}-{os.path.basename(real)}")
+            shutil.copyfile(real, p)
+            paths.append(p)
+        self._in_use.add(p)
+        return p
+
+    def release(self, path: str) -> None:
+        self._in_use.discard(path)
+
+
+_CORES = _CoreLibraries()
+
+
+class Emulator:
+    """One mGBA libretro core instance (several can be alive per process)."""
 
     def __init__(self, rom: str | os.PathLike, map_file: str | os.PathLike | None = None,
                  core: str | None = None):
-        if Emulator._alive:
-            raise EmulatorError("only one Emulator per process (libretro cores are global)")
         core = core or find_core()
         if not core:
             raise EmulatorError("mGBA libretro core not found (apt install libretro-mgba, "
                                 f"or set {CORE_ENV})")
+        self._alive = False
         self.rom_path = Path(rom)
         self.symbols = load_map_symbols(map_file) if map_file else {}
         self.sections = load_map_sections(map_file) if map_file else {}
@@ -292,7 +330,12 @@ class Emulator:
         self._keys = 0
         self.frame_count = 0
 
-        self.lib = ctypes.CDLL(core)
+        self._core_path = _CORES.acquire(core)
+        try:
+            self.lib = ctypes.CDLL(self._core_path)
+        except OSError:
+            _CORES.release(self._core_path)
+            raise
         lib = self.lib
         lib.retro_api_version.restype = ctypes.c_uint
         lib.retro_load_game.argtypes = [ctypes.POINTER(GameInfo)]
@@ -324,12 +367,14 @@ class Emulator:
                         len(self._rom_data) - 1, None)
         if not lib.retro_load_game(ctypes.byref(info)):
             lib.retro_deinit()
+            _CORES.release(self._core_path)
             raise EmulatorError(f"core refused to load {self.rom_path}")
         av = AvInfo()
         lib.retro_get_system_av_info(ctypes.byref(av))
         self.fps = av.timing.fps
-        Emulator._alive = True
+        self._alive = True
         if not self.regions:
+            self.close()
             raise EmulatorError("core did not publish a memory map")
 
     # -- callbacks ---------------------------------------------------------
@@ -388,10 +433,11 @@ class Emulator:
     # -- control -----------------------------------------------------------
 
     def close(self) -> None:
-        if Emulator._alive:
+        if self._alive:
             self.lib.retro_unload_game()
             self.lib.retro_deinit()
-            Emulator._alive = False
+            self._alive = False
+            _CORES.release(self._core_path)
             self._tmp.cleanup()
 
     def __enter__(self) -> "Emulator":
@@ -575,6 +621,16 @@ class Emulator:
                         out[o], out[o + 1], out[o + 2] = (r << 3) | (r >> 2), (g << 3) | (g >> 2), (b << 3) | (b >> 2)
                     o += 3
         return w, h, bytes(out)
+
+    def frame_bytes(self) -> bytes:
+        """The last frame exactly as the core delivered it (native pixel format).
+
+        Much cheaper than :meth:`screenshot`; two frames from cores using the
+        same pixel format are equal exactly when their screenshots are.
+        """
+        if self._frame is None:
+            raise EmulatorError("no frame rendered yet")
+        return self._frame
 
     def save_png(self, path: str | os.PathLike) -> None:
         w, h, rgb = self.screenshot()
