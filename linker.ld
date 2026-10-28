@@ -157,6 +157,7 @@ SECTIONS {
         . = 0x00000b8b; gIsLoadingFile = .;
         . = 0x00000b8d; gMostRecentSaveFile = .;
         . = 0x00000b8f; gUnk_3000b8f = .;
+        . = 0x00000b94; gSaveFilesInfo = .;
         . = 0x00000bd0; gBootDebugOptions = .;
         . = 0x00000bdc; gCurrentCutscene = .;
         . = 0x00000bde; gMainGameMode = .;
@@ -528,7 +529,13 @@ SECTIONS {
 
         src/sa_x_close_up.o(.text);
 
-        asm/disasm_0x0809deb4.o(.text);
+        src/menus/game_over.o(.text);
+        src/menus/file_select.o(.text);
+        asm/disasm_0x0809f518.o(.text);
+        src/menus/file_select_2.o(.text);
+        asm/disasm_0x080a051c.o(.text);
+        src/menus/file_select_3.o(.text);
+        asm/disasm_0x080a1480.o(.text);
 
         src/ending.o(.text);
 
