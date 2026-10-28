@@ -1,10 +1,12 @@
 #include "menus/navigation_conversation.h"
 #include "menus/pause_screen.h"
 #include "menus/pause_screen_map.h"
+#include "menus/pause_screen_text.h"
 
 #include "gba.h"
 #include "globals.h"
 #include "io.h"
+#include "dma.h"
 #include "audio_wrappers.h"
 #include "sound_event.h"
 #include "text.h"
@@ -1155,4 +1157,366 @@ void unk_7b56c(void)
         case 9:
             break;
     }
+}
+
+/**
+ * @brief 7b674 | 260 | Handles the transition of the map during a navigation conversation
+ *
+ */
+void unk_7b674(void)
+{
+    s32 size;
+
+    if (!(PAUSE_SCREEN_DATA.unk_250 & (1 | 2)))
+        return;
+
+    PAUSE_SCREEN_DATA.unk_252++;
+
+    switch (PAUSE_SCREEN_DATA.unk_251)
+    {
+        case 0:
+            if (PAUSE_SCREEN_DATA.unk_250 & 1)
+                PAUSE_SCREEN_DATA.unk_251 = 1;
+            else if (PAUSE_SCREEN_DATA.unk_250 & 2)
+                PAUSE_SCREEN_DATA.unk_251 = 4;
+
+            gPreviousArea = UCHAR_MAX;
+            PAUSE_SCREEN_DATA.unk_252 = 0;
+            break;
+
+        case 1:
+            if (MOD_AND(PAUSE_SCREEN_DATA.unk_252, 8) == 0)
+                break;
+
+            gWrittenToMosaic_L += 0x11;
+            if (gWrittenToMosaic_L == sUnk_576802[0])
+            {
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+                PAUSE_SCREEN_DATA.unk_251++;
+                PAUSE_SCREEN_DATA.unk_250 |= 4;
+            }
+            break;
+
+        case 3:
+            // No-op, needed to match
+            PAUSE_SCREEN_DATA.unk_250 |= 0;
+            if (MOD_AND(PAUSE_SCREEN_DATA.unk_252, 8) != 0)
+            {
+                gWrittenToMosaic_L -= 0x11;
+                if (gWrittenToMosaic_L == 0)
+                {
+                    PAUSE_SCREEN_DATA.unk_251 = 8;
+                    PAUSE_SCREEN_DATA.unk_252 = 0;
+                }
+            }
+            break;
+
+        case 4:
+            PAUSE_SCREEN_DATA.window1Size = 0;
+            PAUSE_SCREEN_DATA.unk_251 = 5;
+            PAUSE_SCREEN_DATA.unk_252 = 0;
+            break;
+
+        case 5:
+            size = (0x50 - PAUSE_SCREEN_DATA.window1Size) >> 4;
+            if (size < 4)
+                size = 4;
+
+            PAUSE_SCREEN_DATA.window1Size += size;
+            if (PAUSE_SCREEN_DATA.window1Size > 0x50)
+            {
+                PAUSE_SCREEN_DATA.window1Size = 0x50;
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+                PAUSE_SCREEN_DATA.unk_251++;
+                PAUSE_SCREEN_DATA.unk_250 |= 4;
+            }
+
+            WRITE_16(REG_WIN1V, PAUSE_SCREEN_DATA.window1Size << 8 | (0xA0 - PAUSE_SCREEN_DATA.window1Size));
+            break;
+
+        case 2:
+        case 6:
+            if (PAUSE_SCREEN_DATA.unk_250 & 8)
+            {
+                PAUSE_SCREEN_DATA.unk_251++;
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+            }
+            break;
+
+        case 7:
+            size = (0x50 - PAUSE_SCREEN_DATA.window1Size) >> 4;
+            if (size < 4)
+                size = 4;
+
+            size = PAUSE_SCREEN_DATA.window1Size - size;
+            if (size < 0)
+            {
+                PAUSE_SCREEN_DATA.window1Size = 0;
+                PAUSE_SCREEN_DATA.unk_251 = 8;
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.window1Size = size;
+            }
+
+            WRITE_16(REG_WIN1V, PAUSE_SCREEN_DATA.window1Size << 8 | (0xA0 - PAUSE_SCREEN_DATA.window1Size));
+            break;
+
+        case 8:
+            PAUSE_SCREEN_DATA.unk_252 = 0;
+            PAUSE_SCREEN_DATA.unk_251 = 0;
+            PAUSE_SCREEN_DATA.unk_250 = 0;
+            break;
+    }
+}
+
+/**
+ * @brief 7b8d4 | 11c | Draws the text of the pause screen (current objective)
+ *
+ */
+void ProcessPauseScreenText(void)
+{
+    s32 indent;
+    u16* pText;
+    u32 width;
+    s32 offset;
+    void* dst;
+    s32 temp;
+
+    BitFill(3, 0, EWRAM_BASE + 0xC000, 0x1000, 16);
+
+    indent = 0;
+    dst = EWRAM_BASE + 0xC000;
+    pText = sPauseScreenTextPointers[gLanguage][gEventCounter];
+
+    while (*pText != 0xFF00)
+    {
+        // Doubles as the "should draw" flag
+        temp = TRUE;
+
+        if ((*pText & 0xFF00) == 0x8000)
+        {
+            width = *pText & 0xFF;
+            temp = FALSE;
+        }
+        else if ((*pText & 0xFF00) == 0x8300)
+        {
+            width = 0;
+            indent = *pText & 0xFF;
+            temp = FALSE;
+        }
+        else if (*pText == 0xFE00)
+        {
+            width = 0;
+            if (indent > 0xE0)
+                break;
+
+            indent = 0xE0;
+            temp = FALSE;
+        }
+
+        if (temp)
+        {
+            width = TextGetCharacterWidth(*pText);
+            temp = indent + width;
+
+            if (temp > 0xE0 && indent < 0xE0)
+                indent = 0xE0;
+            else if (temp > 0x1C0)
+                break;
+
+            if (indent >= 0xE0)
+            {
+                temp = 0x800;
+                offset = indent - 0xE0;
+            }
+            else
+            {
+                temp = 0;
+                offset = indent;
+            }
+
+            temp += (offset >> 3) * 32;
+            offset &= 7;
+            TextDrawCharacter(*pText, dst + temp, width, offset, 0);
+        }
+
+        pText++;
+        indent += width;
+
+        if (indent >= 0x1C0)
+            break;
+    }
+}
+
+/**
+ * @brief 7b9f0 | 200 | Draws the text of the easy sleep menu
+ *
+ */
+void ProcessEasySleepText(void)
+{
+    s32 indent;
+    u16* pText;
+    u32 width;
+    s32 offset;
+    void* dst;
+    // Doubles as the "should draw" flag
+    s32 temp;
+    s32 i;
+
+    BitFill(3, 0, EWRAM_BASE + 0xD000, 0x1000, 16);
+    BitFill(3, 0, EWRAM_BASE + 0xE000, 0x1000, 16);
+    BitFill(3, 0, EWRAM_BASE + 0xF000, 0x800, 16);
+
+    for (i = 0; i < 2; i++)
+    {
+        dst = EWRAM_BASE + 0xE000;
+        if (i == 0)
+            dst = EWRAM_BASE + 0xD000;
+
+        pText = sMessageTextPointers[gLanguage][i + 45];
+        indent = 0;
+
+        while (*pText != 0xFF00)
+        {
+            temp = TRUE;
+
+            if ((*pText & 0xFF00) == 0x8000)
+            {
+                width = *pText & 0xFF;
+                temp = FALSE;
+            }
+            else if ((*pText & 0xFF00) == 0x8300)
+            {
+                width = 0;
+                indent = *pText & 0xFF;
+                temp = FALSE;
+            }
+            else if (*pText == 0xFE00)
+            {
+                width = 0;
+                if (indent > 0xE0)
+                    break;
+
+                indent = 0xE0;
+                temp = FALSE;
+            }
+
+            if (temp)
+            {
+                width = TextGetCharacterWidth(*pText);
+                temp = indent + width;
+
+                if (temp > 0xE0 && indent < 0xE0)
+                    indent = 0xE0;
+                else if (temp > 0x1C0)
+                    break;
+
+                if (indent >= 0xE0)
+                {
+                    temp = 0x800;
+                    offset = indent - 0xE0;
+                }
+                else
+                {
+                    temp = 0;
+                    offset = indent;
+                }
+
+                temp += (offset >> 3) * 32;
+                offset &= 7;
+                TextDrawCharacter(*pText, dst + temp, width, offset, 0);
+            }
+
+            pText++;
+            indent += width;
+
+            if (indent >= 0x1C0)
+                break;
+        }
+    }
+
+    dst = EWRAM_BASE + 0xF000;
+    pText = sMessageTextPointers[gLanguage][47];
+    indent = 0;
+
+    while (*pText != 0xFF00)
+    {
+        temp = TRUE;
+
+        if (*pText == 0xFE00)
+        {
+            width = 0;
+            if (indent <= 0x70)
+                indent = 0x70;
+            else
+                break;
+            temp = FALSE;
+        }
+        else if (*pText & 0x8000)
+        {
+            width = 0;
+            temp = FALSE;
+        }
+
+        if (temp)
+        {
+            width = TextGetCharacterWidth(*pText);
+            temp = indent + width;
+
+            if (temp > 0x1C0)
+                break;
+
+            temp = (indent >> 3) * 32;
+            offset = indent & 7;
+            TextDrawCharacter(*pText, dst + temp, width, offset, 0);
+        }
+
+        pText++;
+        indent += width;
+
+        if (indent >= 0x1C0)
+            break;
+    }
+}
+
+/**
+ * @brief 7bbf0 | a8 | Gets the number of the sector that should be flashing
+ *
+ * @return u8 Sector number
+ */
+u8 GetFlashingSectorNumber(void)
+{
+    s32 i;
+    u32 found;
+
+    gFlashingSectorNumber = 0;
+
+    for (i = gEventCounter; i > 0; i--)
+    {
+        if (sEventLocationAndNavigationInfo[i].navConversation != 0)
+            break;
+    }
+
+    found = sEventLocationAndNavigationInfo[i].navConversation;
+    if (gPreviousNavigationConversation != found)
+        return gFlashingSectorNumber;
+
+    found = FALSE;
+    for (i = 0; i < sizeof(sNavConversationUnk_5766e4) / sizeof(sNavConversationUnk_5766e4[0]); i++)
+    {
+        if (gPreviousNavigationConversation == sNavConversationUnk_5766e4[i].conversation)
+        {
+            found = TRUE;
+            break;
+        }
+    }
+
+    if (!found)
+        return gFlashingSectorNumber;
+
+    i = sNavConversationUnk_5766e4[i].location;
+    gFlashingSectorNumber = sNavigationTargetLocationAreas[i];
+    return gFlashingSectorNumber;
 }
