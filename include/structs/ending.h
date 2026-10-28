@@ -33,15 +33,23 @@ struct EndingData {
     u8 padding2[2];
     u16* unk_A0;
     u8 unk_A4[0x80];
-    u8 unk_124[6];
-    u8 padding3[0x36];
+    u8 unk_124[30];
+    u8 unk_142[30];
     u8 unk_160[0x1D];
     u16 oamXPositions[30]; // 17E
     u16 oamYPositions[30]; // 1BA
     u8 padding4[2];
-    u16* oamFramePointers[10]; // 1F8
-    u8 unk_220[0x50];
+    u16* oamFramePointers[30]; // 1F8
     u8 unk_270[64]; // FIXME find actual length
+};
+
+struct EndingImageTextOam {
+    u8 unk_0;
+    u8 unk_1;
+    u8 unk_2;
+    u16 xPosition;
+    u16 yPosition;
+    u16* pFrame;
 };
 
 #endif /* ENDING_STRUCT_H */

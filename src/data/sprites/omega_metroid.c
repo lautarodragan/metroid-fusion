@@ -3251,11 +3251,11 @@ const struct FrameData sOmegaMetroidPartOam_LeftLeg_Swiping[6] = {
 };
 
 static const u8 sBlob_39aa34_39aae0[] = INCBIN_U8("data/Blob_39aa34_39aae0.bin");
-const u8 sGunshipEndUnk_39aae0[] = INCBIN_U8("data/Blob_39aae0_39abc4.bin");
-const u8 sGunshipEndUnk_39abc4[] = INCBIN_U8("data/Blob_39abc4_39ac84.bin");
-const u8 sGunshipEndUnk_39ac84[] = INCBIN_U8("data/Blob_39ac84_39ac90.bin");
-const u8 sGunshipEndUnk_39ac90[] = INCBIN_U8("data/Blob_39ac90_39acd0.bin");
-const u8 sGunshipEndUnk_39acd0[] = INCBIN_U8("data/Blob_39acd0_39ad58.bin");
+const s16 sGunshipEndIdleYMovement[] = INCBIN_S16("data/Blob_39aae0_39abc4.bin");
+const s16 sGunshipEndEngineYMovement[] = INCBIN_S16("data/Blob_39abc4_39ac84.bin");
+const u8 sGunshipEndTakingOffRotation[] = INCBIN_U8("data/Blob_39ac84_39ac90.bin");
+const u16 sGunshipEndEnteringScaling[] = INCBIN_U16("data/Blob_39ac90_39acd0.bin");
+const u16 sGunshipEndTakingOffScaling[] = INCBIN_U16("data/Blob_39acd0_39ad58.bin");
 const u8 sGunshipEndGfx[] = INCBIN_U8("data/Blob_39ad58_39e558.bin");
 const u8 sGunshipEndPal[] = INCBIN_U8("data/Blob_39e558_39eb48.bin");
 const u8 sGunshipEndOam_39eb48[] = INCBIN_U8("data/Blob_39eb48_39ebb8.bin");
