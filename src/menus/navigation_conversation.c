@@ -28,8 +28,351 @@
 // music_wrappers.h isn't included for that reason
 void PlayCharacterAppearingSound();
 
+// Defined in music_wrappers.h
+void PlayMusic(u16 musicTrack, u8 priority);
+void unk_3bd4(u16 sound, u8 arg1);
+void unk_3c14(u16 sound, u8 arg1);
+
 #define NAV_TEXT_TIMER(slot) (PAUSE_SCREEN_DATA.unk_E[(slot)])
 #define NAV_TEXT_POS(slot) ((&PAUSE_SCREEN_DATA.unk_E[2])[(slot)])
+
+/**
+ * @brief 79afc | 600 | Processes the text of a navigation conversation
+ *
+ */
+void NavigationConversationProcessText(void)
+{
+    u8* dst;
+    u32 skipping;
+    u16* pText;
+    s32 result;
+    s32 position;
+    u32 character;
+    u16 type;
+    u32 value;
+
+    if (PAUSE_SCREEN_DATA.unk_17)
+    {
+        if (!(PAUSE_SCREEN_DATA.typeFlags & 0x10))
+            return;
+    }
+    else if (!(PAUSE_SCREEN_DATA.typeFlags & 0x8))
+    {
+        return;
+    }
+
+    if (PAUSE_SCREEN_DATA.unk_18)
+        dst = VRAM_BASE + 0x6000;
+    else
+        dst = VRAM_BASE + 0x7000;
+
+    skipping = FALSE;
+
+    if (NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) == 0xFC00)
+    {
+        if (!(gChangedInput & (KEY_A | KEY_B | KEY_DOWN)))
+            return;
+
+        SoundPlay(SOUND_203);
+        NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0;
+        if (NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) > 0xE0)
+            TextClearGraphics(2);
+
+        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0xE0;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 11;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+        return;
+    }
+    else if (NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) == 0xFE00)
+    {
+        NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0;
+        if (NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) > 0xE0)
+            TextClearGraphics(2);
+
+        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0xE0;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 11;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+        return;
+    }
+    else if (NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) == 0xFD00)
+    {
+        if (!(gChangedInput & (KEY_A | KEY_B | KEY_DOWN)))
+            return;
+
+        SoundPlay(SOUND_203);
+        NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0;
+        TextClearGraphics(1);
+        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 11;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+        return;
+    }
+    else if (NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) == 0xE001)
+    {
+        if (!(PAUSE_SCREEN_DATA.typeFlags & 0x400))
+            NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0;
+        return;
+    }
+
+    if (PAUSE_SCREEN_DATA.unk_1F != 0)
+    {
+        PAUSE_SCREEN_DATA.unk_1F--;
+        return;
+    }
+
+    if (PAUSE_SCREEN_DATA.unk_1A && !(gButtonInput & (KEY_A | KEY_B | KEY_DOWN)))
+        PAUSE_SCREEN_DATA.unk_1A = FALSE;
+
+    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18)++;
+    PAUSE_SCREEN_DATA.unk_250 |= 0;
+
+    if (gButtonInput & (KEY_A | KEY_B | KEY_DOWN) && !PAUSE_SCREEN_DATA.unk_1A)
+        skipping = TRUE;
+    else if (NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) < PAUSE_SCREEN_DATA.unk_1D)
+        return;
+
+    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0;
+
+    result = (PAUSE_SCREEN_DATA.conversationNumber - 1) * 2;
+    if (PAUSE_SCREEN_DATA.conversationNumber == gPreviousNavigationConversation)
+        result++;
+
+    pText = sNavConversationTextPointers[gLanguage][result];
+    pText += PAUSE_SCREEN_DATA.unk_C;
+    PAUSE_SCREEN_DATA.unk_C++;
+
+    while (TRUE)
+    {
+        result = 0;
+        character = *pText >> 12;
+        type = *pText & 0xFF00;
+
+        switch (character)
+        {
+            case 15:
+                // FIXME: Fake match, "+ type - type" is needed to reuse the value loaded before the switch
+                value = (u16)(*pText + type - type);
+                if (value == 0xFF00)
+                {
+                    PAUSE_SCREEN_DATA.unk_1C = 1;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 3;
+                    result = 2;
+                }
+                else if (value == 0xFE00)
+                {
+                    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = value;
+                    result = 1;
+                }
+                else if (value == 0xFD00 || value == 0xFC00)
+                {
+                    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = value;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 3;
+                    PAUSE_SCREEN_DATA.unk_1A = TRUE;
+                    result = 2;
+                }
+                else if (value == 0xFB00)
+                {
+                    PAUSE_SCREEN_DATA.unk_1C = 2;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 3;
+                    result = 2;
+                }
+                break;
+
+            case 14:
+                if (type == 0xE000)
+                {
+                    // FIXME: Fake match, see above
+                    value = (u16)(*pText + type - type);
+                    if (value == 0xE000)
+                    {
+                        if (PAUSE_SCREEN_DATA.typeFlags & 0x200)
+                            PAUSE_SCREEN_DATA.typeFlags |= 0x400;
+                    }
+                    else if (value == 0xE001)
+                    {
+                        NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = value;
+                    }
+                }
+                else if (type == 0xE100)
+                {
+                    PAUSE_SCREEN_DATA.unk_1F = *pText;
+                }
+                else if (type == 0xE200)
+                {
+                    if (*pText == 0xE201)
+                    {
+                        PAUSE_SCREEN_DATA.typeFlags |= 0x2;
+                        PAUSE_SCREEN_DATA.unk_18 = 1;
+                        PAUSE_SCREEN_DATA.unk_19 = 2;
+                    }
+                    else if (*pText == 0xE202)
+                    {
+                        PAUSE_SCREEN_DATA.typeFlags |= 0x4;
+                        PAUSE_SCREEN_DATA.unk_18 = 1;
+                        PAUSE_SCREEN_DATA.unk_19 = 2;
+                    }
+                    else
+                    {
+                        PAUSE_SCREEN_DATA.typeFlags |= 0x1;
+                        PAUSE_SCREEN_DATA.unk_18 = 0;
+                        PAUSE_SCREEN_DATA.unk_19 = 1;
+                    }
+                    PAUSE_SCREEN_DATA.unk_17 = *pText;
+                }
+                else if (type == 0xE300)
+                {
+                    if (*pText == 0xE300)
+                        PAUSE_SCREEN_DATA.typeFlags |= 0x40;
+                    else if (*pText == 0xE301)
+                        PAUSE_SCREEN_DATA.typeFlags &= ~0x40;
+                }
+                result = 1;
+                break;
+
+            case 12:
+                PAUSE_SCREEN_DATA.unk_1C = 6;
+                result = 1;
+                break;
+
+            case 11:
+                if (*pText == 0xB001)
+                {
+                    PAUSE_SCREEN_DATA.unk_264 = TRUE;
+                    result = 1;
+                }
+                else if (*pText == 0xB002)
+                {
+                    PAUSE_SCREEN_DATA.unk_264 = TRUE;
+                    result = 1;
+                }
+                else if (*pText == 0xB003)
+                {
+                    if (PAUSE_SCREEN_DATA.unk_1C != 5 && PAUSE_SCREEN_DATA.unk_1C != 3)
+                    {
+                        PlayMusic(MUSIC_SILENCE_1_SHIP, 2);
+                        SoundEventUpdate(0, SEVENT_TTYPE_ROOM_EVENT);
+                    }
+                    result = 3;
+                }
+                break;
+
+            case 10:
+                result = PAUSE_SCREEN_DATA.conversationOnRepeat != 0;
+                unk_3c14(*pText & 0xFFF, result);
+                result = 3;
+                break;
+
+            case 9:
+                result = PAUSE_SCREEN_DATA.conversationOnRepeat != 0;
+                unk_3bd4(*pText & 0xFFF, result);
+                result = 3;
+                break;
+
+            case 8:
+                if (type == 0x8000)
+                {
+                    NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) += *pText & 0xFF;
+                }
+                else if (type == 0x8100)
+                {
+                    PAUSE_SCREEN_DATA.unk_1E = *pText;
+                }
+                else if (type == 0x8200)
+                {
+                    PAUSE_SCREEN_DATA.unk_1D = *pText;
+                    if (PAUSE_SCREEN_DATA.unk_1D == 0)
+                        PAUSE_SCREEN_DATA.unk_1D = 8;
+                }
+                else if (type == 0x8300)
+                {
+                    if (NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) >= 0xE0)
+                        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0xE0;
+                    else
+                        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0;
+
+                    NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) += *(u8*)pText;
+                }
+                result = 3;
+                break;
+        }
+
+        if (result != 3)
+            break;
+
+        PAUSE_SCREEN_DATA.unk_C++;
+        pText++;
+    }
+
+    if (result == 2)
+    {
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+        PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+        return;
+    }
+
+    if (result == 1)
+        return;
+
+    PAUSE_SCREEN_DATA.navConvCharacterWidth = value = TextGetCharacterWidth(*pText);
+
+    result = NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) + PAUSE_SCREEN_DATA.navConvCharacterWidth;
+    if (result > 0x1C0)
+    {
+        TextClearGraphics(2);
+        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0xE0;
+    }
+    else if (result > 0xE0 && NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) < 0xE0)
+    {
+        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0xE0;
+    }
+
+    value = NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18);
+    if (value == 0 || value == 0xE0)
+        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = value;
+
+    result = NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18);
+    if (NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) >= 0xE0)
+    {
+        dst += 0x800;
+        result -= 0xE0;
+    }
+
+    result = (result >> 3) * 32;
+    dst += result;
+    position = NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) & 7;
+
+    TextDrawCharacter(*pText, (u32*)dst, PAUSE_SCREEN_DATA.navConvCharacterWidth, position, PAUSE_SCREEN_DATA.unk_1E);
+
+    if (!skipping && *pText != 0x40)
+    {
+        if (PAUSE_SCREEN_DATA.unk_17 == 1)
+        {
+            PlayCharacterAppearingSound(*pText, 0x21);
+            PAUSE_SCREEN_DATA.unk_1B = 2;
+        }
+        else if (PAUSE_SCREEN_DATA.unk_17 == 2)
+        {
+            PlayCharacterAppearingSound(*pText, 0x41);
+            PAUSE_SCREEN_DATA.unk_1B = 3;
+        }
+        else
+        {
+            PlayCharacterAppearingSound(*pText, 0x1);
+            PAUSE_SCREEN_DATA.unk_1B = 1;
+        }
+    }
+
+    result = TRUE;
+    value = pText[1];
+    if (value & 0x8000)
+        result = (value & 0xF000) != 0xF000;
+
+    if (result)
+        NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) += PAUSE_SCREEN_DATA.navConvCharacterWidth;
+}
 
 /**
  * @brief 7a0fc | 1e0 | Processes the text of a message during a navigation conversation
