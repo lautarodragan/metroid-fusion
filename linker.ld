@@ -530,7 +530,6 @@ SECTIONS {
         src/menus/title_screen.o(.text);
         src/new_file_intro.o(.text);
 
-        asm/disasm_0x0809209C.o(.text);
         src/intro.o(.text);
         src/ending_cutscenes.o(.text);
         src/ending_dialogue.o(.text);
