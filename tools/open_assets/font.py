@@ -1,6 +1,6 @@
 """Readable text for the open baserom: an open font and placeholder strings.
 
-What the game expects (see docs/open_assets_font.md):
+What the game expects (see docs/test_baserom_font.md):
 
 - ``sCharactersGfx`` (``text_characters.gfx``, 192 KiB) is one sheet of 4bpp
   8x8 tiles. Character ``c`` is a 16x16 cell: its top half is tile ``c`` (and
