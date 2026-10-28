@@ -52,6 +52,16 @@ extern const struct FrameData sIntroUnk_65c180[];
 extern const struct FrameData sIntroUnk_65c1d8[];
 extern const struct FrameData sIntroUnk_65c230[];
 extern const struct FrameData sSr388CollisionUnk_6362b8[];
+extern const struct FrameData sSr388CollisionUnk_636020[];
+extern const struct FrameData sSr388CollisionUnk_636038[];
+extern const struct FrameData sSr388CollisionUnk_636050[];
+extern const struct FrameData sEndingUnk_636288[];
+extern const struct FrameData sEndingUnk_6362a0[];
+extern const struct FrameData sEndingUnk_6363a0[];
+extern const struct FrameData sEndingUnk_6363b8[];
+
+// Defined as raw bytes in new_file_intro_data.c, but this is palette data
+extern const u16 sSr388CollisionUnk_636a38[];
 
 // Defined as raw bytes in new_file_intro.c, but this is a table of pointers to OAM frame data
 extern const struct FrameData* sIntroUnk_79c394[];

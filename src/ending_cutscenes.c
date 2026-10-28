@@ -25,6 +25,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
 void EndingBslCrashingVblank(void);
 void EndingShipFrontViewVblank(void);
 u8 EndingGetPositionAndSlotOfOamByType(u8 type, s16* pXPosition, s16* pYPosition);
+void unk_95e20(struct SpecialCutsceneOam* pOam);
 
  /**
  * @brief 94e84 | f0 | Main handler for the ending cutscenes
@@ -681,4 +682,190 @@ void EndingProcessFrontFacingShip(struct SpecialCutsceneOam* pOam)
     }
 
     gBg2YPosition = pOam->yPosition;
+}
+
+ /**
+ * @brief 95958 | 2fc | Spawns an OAM for the ending BSL crashing cutscene
+ *
+ * @param type Type
+ * @param xPosition X position
+ * @param yPosition Y position
+ * @param descendingSearch Search for a free slot in descending order
+ * @return u8 Slot
+ */
+u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
+{
+    s8 slot;
+
+    if (!descendingSearch)
+    {
+        for (slot = 0; slot < ARRAY_SIZE(INTRO_DATA.oam); slot++)
+        {
+            if (INTRO_DATA.oam[slot].type == 0)
+                break;
+        }
+
+        if (slot > 19)
+            return 20;
+    }
+    else
+    {
+        for (slot = ARRAY_SIZE(INTRO_DATA.oam) - 1; slot >= 0; slot--)
+        {
+            if (INTRO_DATA.oam[slot].type == 0)
+                break;
+        }
+
+        if (slot < 0)
+            return 20;
+    }
+
+    DMA3_FILL_32(0, &INTRO_DATA.oam[slot], sizeof(struct SpecialCutsceneOam));
+
+    INTRO_DATA.oam[slot].xPosition = xPosition;
+    INTRO_DATA.oam[slot].yPosition = yPosition;
+    INTRO_DATA.oam[slot].type = type;
+    INTRO_DATA.oam[slot].unk_18_0 = 1;
+
+    if (type == 1)
+    {
+        INTRO_DATA.oam[slot].scaling = Q_8_8(1);
+        INTRO_DATA.oam[slot].priority = 2;
+        INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
+        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636020;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessFallingBsl;
+    }
+    else if (type == 2)
+    {
+        INTRO_DATA.oam[slot].scaling = Q_8_8(2);
+        INTRO_DATA.oam[slot].unk_18_3 = 1;
+        INTRO_DATA.oam[slot].priority = 2;
+        INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
+        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636038;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessFallingBsl;
+    }
+    else if (type == 3)
+    {
+        INTRO_DATA.oam[slot].priority = 2;
+        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636050;
+        INTRO_DATA.oam[slot].pFunction = unk_9579c;
+    }
+    else if (type == 4)
+    {
+        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].priority = 2;
+        INTRO_DATA.oam[slot].pOam = sEndingUnk_636288;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessLeavingSmallShip;
+    }
+    else if (type == 5)
+    {
+        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].pOam = sEndingUnk_6362a0;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessLeavingBigShip;
+    }
+    else if (type == 10)
+    {
+        INTRO_DATA.oam[slot].unk_18_3 = 1;
+        INTRO_DATA.oam[slot].priority = 3;
+        INTRO_DATA.oam[slot].pOam = sEndingUnk_6363a0;
+        INTRO_DATA.oam[slot].pFunction = unk_95e20;
+    }
+    else if (type == 11)
+    {
+        INTRO_DATA.oam[slot].priority = 3;
+        INTRO_DATA.oam[slot].pOam = sEndingUnk_6363b8;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessFrontFacingShipThrusters;
+    }
+    else if (type == 12)
+    {
+        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].pOam = sEndingUnk_6363a0;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessFrontFacingShip;
+    }
+
+    return slot;
+}
+
+ /**
+ * @brief 95c54 | d8 | V-blank for the ending BSL crashing cutscene
+ *
+ */
+void EndingBslCrashingVblank(void)
+{
+    DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
+
+    WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
+    WRITE_16(REG_BLDY, gWrittenToBldy);
+
+    WRITE_16(REG_BG1HOFS, gBg1XPosition);
+    WRITE_16(REG_BG1VOFS, gBg1YPosition);
+    WRITE_16(REG_BG2HOFS, gBg2XPosition);
+    WRITE_16(REG_BG2VOFS, gBg2YPosition);
+    WRITE_16(REG_BG3HOFS, gBg3XPosition);
+    WRITE_16(REG_BG3VOFS, gBg3YPosition);
+
+    if (INTRO_DATA.unk_110 == 1)
+    {
+        INTRO_DATA.unk_110 = 0;
+        DMA3_COPY_32(&sSr388CollisionUnk_636a38[INTRO_DATA.unk_111 * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    }
+}
+
+ /**
+ * @brief 95d2c | 94 | V-blank for the ending ship front view cutscene
+ *
+ */
+void EndingShipFrontViewVblank(void)
+{
+    DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
+
+    WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
+    WRITE_16(REG_BLDY, gWrittenToBldy);
+
+    WRITE_16(REG_BG1HOFS, gBg1XPosition);
+    WRITE_16(REG_BG1VOFS, gBg1YPosition);
+    WRITE_16(REG_BG2HOFS, gBg2XPosition);
+    WRITE_16(REG_BG2VOFS, gBg2YPosition);
+    WRITE_16(REG_BG3HOFS, gBg3XPosition);
+    WRITE_16(REG_BG3VOFS, gBg3YPosition);
+}
+
+ /**
+ * @brief 95dc0 | 60 | Returns slot, X and Y position of an ending OAM
+ *
+ * @param type Type
+ * @param pXPosition X position pointer
+ * @param pYPosition Y position pointer
+ * @return u8 Slot
+ */
+u8 EndingGetPositionAndSlotOfOamByType(u8 type, s16* pXPosition, s16* pYPosition)
+{
+    u8 slot;
+
+    for (slot = 0; slot < ARRAY_SIZE(INTRO_DATA.oam); slot++)
+    {
+        if (INTRO_DATA.oam[slot].type == type)
+        {
+            *pXPosition = INTRO_DATA.oam[slot].xPosition;
+            *pYPosition = INTRO_DATA.oam[slot].yPosition;
+
+            return slot;
+        }
+    }
+
+    // Default values if not found
+    *pXPosition = 300;
+    *pYPosition = 200;
+
+    return ARRAY_SIZE(INTRO_DATA.oam);
+}
+
+ /**
+ * @brief 95e20 | 4 | Empty OAM process function
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void unk_95e20(struct SpecialCutsceneOam* pOam)
+{
+    return;
 }
