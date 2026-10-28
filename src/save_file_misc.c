@@ -2,7 +2,9 @@
 #include "dma.h"
 #include "globals.h"
 #include "gba.h"
+#include "event.h"
 #include "macros.h"
+#include "minimap.h"
 #include "sram_misc.h"
 #include "sram/sram.h"
 #include "types.h"
@@ -11,13 +13,19 @@
 #include "data/sram_pointers.h"
 
 #include "constants/connection.h"
+#include "constants/event.h"
 #include "constants/samus.h"
 
 #include "structs/bg_clip.h"
 #include "structs/block.h"
+#include "structs/connection.h"
+#include "structs/event.h"
+#include "structs/menus/boot_debug.h"
 #include "structs/minimap.h"
 #include "structs/samus.h"
 #include "structs/save_file.h"
+
+extern const struct Door* sAreaDoorPointers[AREA_END];
 
 #define WORLD_DATA_MINIMAP_SIZE 0x380
 #define WORLD_DATA_COLLECTED_TANKS_OFFSET 0xC80
@@ -396,4 +404,101 @@ void SramRead_Language(void)
         gLanguage = pData->value;
     else
         gLanguage = 0;
+}
+
+/**
+ * @brief 803e4 | 14c | Initializes a new save file
+ * 
+ */
+void Sram_InitSaveFile(void)
+{
+    s32 i;
+    const struct Door* pDoor;
+    s32 offset;
+    s32 exit;
+
+    BitFill(3, 0, gVisitedMinimapTiles, WORLD_DATA_MINIMAP_SIZE, 16);
+    BitFill(3, USHORT_MAX, gNeverReformBlocks, 0x1200, 16);
+    BitFill(3, USHORT_MAX, gCollectedTanks, 0x900, 16);
+
+    for (i = 0; i < MAX_AMOUNT_OF_AREAS; i++)
+    {
+        gNumberOfNeverReformBlocks[i] = 0;
+        gNumberOfCollectedTanks[i] = 0;
+    }
+
+    gInGameTimer = sSramUnk_5822d4[0];
+    gDisableDrawingSamusAndScrollingFlag = TRUE;
+    EventSet(EVENT_NONE);
+
+    gPreviousNavigationConversation = UCHAR_MAX;
+    gPreviousSoundEvent = UCHAR_MAX;
+
+    gEquipment.securityHatchLevel |= UCHAR_MAX;
+    gSecurityHatchLevel = UCHAR_MAX;
+    gSecurityHatchLevelBackup = UCHAR_MAX;
+    gEquipment.downloadedMaps = 0;
+
+    gAbilityCount = 0;
+    gCurrentArea = AREA_MAIN_DECK;
+    gPreviousArea = AREA_MAIN_DECK;
+    gCurrentRoom = 0;
+    gLastDoorUsed = 0;
+    gUnk_300004c = 0;
+    gUnk_300004d = 0;
+
+    pDoor = sAreaDoorPointers[AREA_MAIN_DECK];
+    offset = pDoor->xStart;
+    exit = pDoor->xExit;
+    gPreviousXPosition = gSamusData.xPosition = BLOCK_TO_SUB_PIXEL(offset) + PIXEL_TO_SUB_PIXEL(exit + 8);
+
+    offset = pDoor->yEnd + 1;
+    exit = pDoor->yExit;
+    gPreviousYPosition = gSamusData.yPosition = BLOCK_TO_SUB_PIXEL(offset) + PIXEL_TO_SUB_PIXEL(exit) - ONE_SUB_PIXEL;
+
+    MinimapLoadInitial();
+    gIsLoadingFile = FALSE;
+}
+
+/**
+ * @brief 80530 | 134 | Resets the game state for a demo
+ * 
+ */
+void Sram_ResetForDemo(void)
+{
+    s32 i;
+
+    gBootDebugOptions = sSramUnk_5822e4[0];
+    gButtonAssignments = sSramUnk_5822c8[0];
+
+    BitFill(3, USHORT_MAX, gVisitedMinimapTiles, WORLD_DATA_MINIMAP_SIZE, 16);
+    BitFill(3, USHORT_MAX, gNeverReformBlocks, 0x1200, 16);
+    BitFill(3, USHORT_MAX, gCollectedTanks, 0x900, 16);
+
+    for (i = 0; i < MAX_AMOUNT_OF_AREAS; i++)
+    {
+        gNumberOfNeverReformBlocks[i] = 0;
+        gNumberOfCollectedTanks[i] = 0;
+    }
+
+    gInGameTimer = sSramUnk_5822d4[0];
+    gDisableDrawingSamusAndScrollingFlag = FALSE;
+
+    gPreviousNavigationConversation = UCHAR_MAX;
+    gPreviousSoundEvent = UCHAR_MAX;
+
+    gUnk_300004c = 0;
+    gUnk_300004d = 0;
+    gIsLoadingFile = FALSE;
+    gUnk_3000be3 = FALSE;
+    gMonochromeFading = 0;
+    gDisableSoftReset = FALSE;
+    gMaxInGameTimeFlag = TRUE;
+    gDisableMusicFlag = FALSE;
+    gSkipDoorTransition = FALSE;
+    gPauseScreenFlag = 0;
+    gUnk_3000b85 = 0;
+    gDisablePauseFlag = FALSE;
+    gSamusDoorPositionOffset = 0;
+    gDebugFlag = FALSE;
 }

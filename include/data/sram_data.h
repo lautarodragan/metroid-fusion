@@ -2,6 +2,9 @@
 #define SRAM_DATA_H
 
 #include "types.h"
+#include "globals.h"
+
+#include "structs/menus/boot_debug.h"
 
 // Defined in src/data/menus/pause_screen_misc_data.c
 
@@ -20,5 +23,12 @@ extern const u8 sSramUnk_582248[];
 extern const u8 sSramUnk_582288[2][16];
 // Magic strings of the language data
 extern const u8 sSramUnk_5822a8[2][16];
+
+// Button assignments used for demos
+extern const struct ButtonAssignments sSramUnk_5822c8[];
+// Default in game timer
+extern const struct InGameTime sSramUnk_5822d4[];
+// Boot debug options used for demos
+extern const struct BootDebugOptions sSramUnk_5822e4[];
 
 #endif /* SRAM_DATA_H */
