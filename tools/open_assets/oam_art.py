@@ -93,6 +93,14 @@ def _int(expr: str) -> int:
     return int(eval(expr, {"__builtins__": {}}, {}))  # numbers and + - * | only
 
 
+def _timer(expr: str) -> int:
+    """Animation timer; macros such as CONVERT_SECONDS() count as 1 frame."""
+    try:
+        return _int(expr.replace("UCHAR_MAX", "255"))
+    except Exception:
+        return 1
+
+
 def _split_args(s: str) -> list[str]:
     out, depth, cur = [], 0, ""
     for c in s:
@@ -176,7 +184,7 @@ def parse_c(paths) -> CData:
                 for item in re.finditer(r"\{([^{}]*)\}", body):
                     f = dict(_fields(item.group(1), ["pFrame", "timer"]))
                     if f.get("pFrame") and f["pFrame"] != "NULL":
-                        fr.append((f["pFrame"], _int(f.get("timer", "0").replace("UCHAR_MAX", "255"))))
+                        fr.append((f["pFrame"], _timer(f.get("timer", "0"))))
                 d.frames[name] = fr
                 continue
             if "*" in text[m.start():m.end()]:
@@ -299,13 +307,19 @@ class Canvas:
             t = i / n
             self.set(round(x0 + (x1 - x0) * t), round(y0 + (y1 - y0) * t), c)
 
-    def outline(self, c: int, keep=()):
+    def outline(self, c: int):
         """Paint ``c`` on transparent pixels 4-adjacent to the figure."""
         s, src = self.size, self.px
+        nz = [i for i, v in enumerate(src) if v]
+        if not nz:
+            return
+        y0, y1 = max(1, nz[0] // s - 1), min(s - 2, nz[-1] // s + 1)
+        xs = [i % s for i in nz]
+        x0, x1 = max(1, min(xs) - 1), min(s - 2, max(xs) + 1)
         out = bytearray(src)
-        for y in range(1, s - 1):
+        for y in range(y0, y1 + 1):
             row = y * s
-            for x in range(1, s - 1):
+            for x in range(x0, x1 + 1):
                 i = row + x
                 if src[i] == 0 and (src[i - 1] or src[i + 1] or src[i - s] or src[i + s]):
                     out[i] = c
@@ -416,3 +430,67 @@ def ramp(dark, light, n: int):
     """n colours from dark to light (inclusive)."""
     dark, light = hexrgb(dark) if isinstance(dark, str) else dark, hexrgb(light) if isinstance(light, str) else light
     return [mix(dark, light, i / max(1, n - 1)) for i in range(n)]
+
+
+# ---------------------------------------------------------------------------
+# Effects palette layout, shared by the common sprites sheet (HUD,
+# particles, missiles; OBJ palettes 2-7) and the beam palettes. Beam
+# palettes only load colours 0-4, so the beam-specific "energy" ramp
+# lives there.
+# ---------------------------------------------------------------------------
+
+FX_E1, FX_E2, FX_E3, FX_E4 = 1, 2, 3, 4      # energy ramp, dark -> core
+FX_BLACK = 5
+FX_B1, FX_B2, FX_B3 = 6, 7, 8                 # blue
+FX_G1, FX_G2, FX_G3 = 9, 10, 11               # green
+FX_K1, FX_K2, FX_K3 = 12, 13, 14              # grey
+FX_WHITE = 15
+
+FX_ENERGY = {
+    "yellow": ("#a05a00", "#f0a020", "#ffe060", "#fffff0"),
+    "orange": ("#901800", "#e85010", "#ffa030", "#fff0a0"),
+    "cyan": ("#004a80", "#2090e0", "#80e0ff", "#f0ffff"),
+    "green": ("#085a10", "#20b030", "#90f070", "#f0fff0"),
+    "magenta": ("#600a60", "#c030c0", "#ff90f0", "#fff0ff"),
+    "red": ("#600000", "#d02020", "#ff7050", "#ffe0d0"),
+    "violet": ("#30106a", "#7040e0", "#c0a0ff", "#f8f0ff"),
+}
+
+
+def fx_palette(energy: str = "yellow"):
+    e = [hexrgb(c) for c in FX_ENERGY[energy]]
+    return [(0, 0, 0), *e, hexrgb("#080810"),
+            hexrgb("#1a3a8a"), hexrgb("#3a78e0"), hexrgb("#9ad0ff"),
+            hexrgb("#106020"), hexrgb("#30c040"), hexrgb("#b0ff90"),
+            hexrgb("#404050"), hexrgb("#8888a0"), hexrgb("#d0d0e0"),
+            (255, 255, 255)]
+
+
+def write_png(path, w: int, h: int, rgb: bytes) -> None:
+    import zlib
+
+    def chunk(tag, data):
+        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF)
+    raw = b"".join(b"\0" + rgb[y * w * 3:(y + 1) * w * 3] for y in range(h))
+    Path(path).write_bytes(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 2, 0, 0, 0))
+                           + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
+
+
+def sheet_png(path, tiles, palettes, cols: int = 32, scale: int = 2, pal_of=None) -> None:
+    """Debug view of a list of tiles (64 palette indices each, or None)."""
+    rows = (len(tiles) + cols - 1) // cols
+    W, H = cols * 8 * scale, rows * 8 * scale
+    img = bytearray(bytes((48, 0, 48)) * (W * H))
+    for t, px in enumerate(tiles):
+        if px is None:
+            continue
+        pal = palettes[pal_of(t) if pal_of else 0]
+        tx, ty = (t % cols) * 8, (t // cols) * 8
+        for y in range(8):
+            for x in range(8):
+                c = px[y * 8 + x]
+                rgb = bytes(int(v) for v in pal[c]) if c else bytes((24, 24, 32))
+                for sy in range(scale):
+                    i = (((ty + y) * scale + sy) * W + (tx + x) * scale) * 3
+                    img[i:i + 3 * scale] = rgb * scale
+    write_png(path, W, H, bytes(img))
