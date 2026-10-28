@@ -2,7 +2,9 @@
 #include "dma.h"
 #include "globals.h"
 #include "gba.h"
+#include "macros.h"
 #include "sram_misc.h"
+#include "sram/sram.h"
 #include "types.h"
 
 #include "data/sram_data.h"
@@ -490,4 +492,237 @@ void SramWrite_ToEwram(void)
 
     pFile->checksum = checksum;
     pFile->notChecksum = ~checksum;
+}
+
+/**
+ * @brief 7f7c0 | 2e8 | Reads the current save file in EWRAM to the current game state
+ * 
+ */
+void SramRead_FromEwram(void)
+{
+    struct SaveFile* pFile;
+    s32 i;
+    struct SaveMusicInfo musicInfo;
+
+    pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
+
+    gGameCompletion = pFile->gameCompletion;
+    gUnk_3000b90 = pFile->unk_1C;
+
+    gCurrentArea = pFile->currentArea;
+    gCurrentRoom = pFile->currentRoom;
+    gLastDoorUsed = pFile->lastDoorUsed;
+    gAbilityCount = pFile->abilityCount;
+    gEventCounter = pFile->eventCounter;
+    gPreviousNavigationConversation = pFile->previousNavigationConversation;
+    gPreviousCutscene = pFile->previousCutscene;
+    gMinimapX = pFile->minimapX;
+    gMinimapY = pFile->minimapY;
+    gSoundEventCounter = pFile->soundEventCounter;
+    gPreviousSoundEvent = pFile->previousSoundEvent;
+    gUnk_300004d = pFile->unk_2A;
+    gSecurityHatchLevelBackup = pFile->securityHatchLevelBackup;
+
+    *(struct SaveCamera*)&gCamera = pFile->camera;
+
+    gBg0XPosition = pFile->bg0XPosition;
+    gBg0YPosition = pFile->bg0YPosition;
+    gBg1XPosition = pFile->bg1XPosition;
+    gBg1YPosition = pFile->bg1YPosition;
+    gBg2XPosition = pFile->bg2XPosition;
+    gBg2YPosition = pFile->bg2YPosition;
+    gBg3XPosition = pFile->bg3XPosition;
+    gBg3YPosition = pFile->bg3YPosition;
+
+    for (i = 0; i < MAX_AMOUNT_OF_AREAS; i++)
+        gNumberOfNeverReformBlocks[i] = pFile->numberOfNeverReformBlocks[i];
+
+    for (i = 0; i < MAX_AMOUNT_OF_AREAS; i++)
+        gNumberOfCollectedTanks[i] = pFile->numberOfCollectedTanks[i];
+
+    gSamusData = pFile->samusData;
+    gSamusAnimationInfo = pFile->samusAnimationInfo;
+    gSamusEcho = pFile->samusEcho;
+    gSamusEnvironmentalEffects[0] = pFile->samusEnvironmentalEffects[0];
+    gSamusEnvironmentalEffects[1] = pFile->samusEnvironmentalEffects[1];
+    gEquipment = pFile->equipment;
+
+    gPreventMovementTimer = pFile->preventMovementTimer;
+    gDisableDrawingSamusAndScrollingFlag = pFile->disableDrawingSamusAndScrollingFlag;
+
+    gAtmosphericStabilizersOnline = pFile->atmosphericStabilizersOnline;
+    gMissileGeronsDestroyed = pFile->missileGeronsDestroyed;
+    gSuperMissileGeronsDestroyed = pFile->superMissileGeronsDestroyed;
+    gPowerBombGeronsDestroyed = pFile->powerBombGeronsDestroyed;
+    gGadorasDestroyed = pFile->gadorasDestroyed;
+    gMissileHatchDestroyed = pFile->missileHatchDestroyed;
+    gWaterLowered = pFile->waterLowered;
+
+    gInGameTimer = pFile->inGameTimer;
+
+    musicInfo = pFile->musicInfo;
+    gMusicInfo.musicTrack = musicInfo.musicTrack;
+    gMusicInfo.unk_1E = musicInfo.unk_1E;
+    gMusicInfo.unk_20 = musicInfo.unk_20;
+    gMusicInfo.priority = musicInfo.priority;
+    gMusicInfo.unk_2 = musicInfo.unk_2;
+}
+
+/**
+ * @brief 7faa8 | 1c | Copies the save file magic string
+ * 
+ * @param dst Destination
+ * @param src Source
+ */
+void Sram_StringCopy_MetroidEpisode4A(u8* dst, const u8* src)
+{
+    s32 i;
+
+    for (i = 0; i < SRAM_MAGIC_SIZE; i++)
+        dst[i] = src[i];
+}
+
+/**
+ * @brief 7fac4 | 1c | Copies the save file end string
+ * 
+ * @param dst Destination
+ * @param src Source
+ */
+void Sram_StringCopy_SAVE_END(u8* dst, const u8* src)
+{
+    s32 i;
+
+    for (i = 0; i < SRAM_END_MAGIC_SIZE; i++)
+        dst[i] = src[i];
+}
+
+/**
+ * @brief 7fae0 | 68 | Tests if SRAM can be written to and read from
+ * 
+ */
+void SramTestFlash(void)
+{
+    u32 result;
+    u8 buffer[16];
+    s32 i;
+
+    result = 0;
+    gSramTestFailed = FALSE;
+
+    if (SramWriteChecked((u8*)sSramUnk_5821e8, SRAM_BASE + 0x7FE0, sizeof(buffer)))
+        result = 1;
+
+    SramWriteUnchecked(SRAM_BASE + 0x7FE0, buffer, sizeof(buffer));
+
+    for (i = 0; i < (s32)sizeof(buffer); i++)
+        buffer[i]++;
+
+    if (SramWriteChecked(buffer, SRAM_BASE + 0x7FE0, sizeof(buffer)))
+        result |= 2;
+
+    gSramTestFailed = result != 0;
+}
+
+/**
+ * @brief 7fb48 | 3c | Backs up the current save file (unused)
+ * 
+ */
+void Sram_BackupCurrentFile_Unused(void)
+{
+    DmaTransfer(3, sSaveDataEwramPointers[gMostRecentSaveFile],
+        (void*)sSaveDataEwramBackupPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+    WriteMostRecentFileBackupToSram();
+}
+
+/**
+ * @brief 7fb84 | 18c | Reads and verifies all the save files
+ * 
+ */
+void unk_7fb84(void)
+{
+    struct SaveFileInfo emptyInfo;
+    s32 i;
+    s32 flag;
+
+    memset(&emptyInfo, 0, sizeof(emptyInfo));
+    for (i = 0; i < ARRAY_SIZE(gSaveFilesInfo); i++)
+        gSaveFilesInfo[i] = emptyInfo;
+
+    gMostRecentSaveFile = 0;
+    gIsLoadingFile = FALSE;
+
+    if (!gSramTestFailed)
+        ReadAllFilesToEwram();
+
+    for (i = 0; i < ARRAY_SIZE(gSaveFilesInfo); i++)
+    {
+        gMostRecentSaveFile = i;
+        unk_7fd10();
+
+        flag = gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag;
+        if (flag == 0)
+        {
+            DmaTransfer(3, sSaveDataEwramPointers[gMostRecentSaveFile],
+                (void*)sSaveDataEwramBackupPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+            WriteMostRecentFileBackupToSram();
+            gSaveFilesInfo[i].exists = TRUE;
+        }
+        else if (flag == 1)
+        {
+            DmaTransfer(3, sSaveDataEwramBackupPointers[gMostRecentSaveFile],
+                (void*)sSaveDataEwramPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+            gSaveFilesInfo[i].exists = flag;
+        }
+        else if (flag == 2)
+        {
+            BitFill(3, USHORT_MAX, (void*)sSaveDataEwramPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+            BitFill(3, USHORT_MAX, (void*)sSaveDataEwramBackupPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+        }
+        else if (flag == 3)
+        {
+            BitFill(3, USHORT_MAX, (void*)sSaveDataEwramPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+            WriteMostRecentFileToSram();
+            BitFill(3, USHORT_MAX, (void*)sSaveDataEwramBackupPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+            WriteMostRecentFileBackupToSram();
+            gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 0;
+        }
+        else
+        {
+            while (TRUE);
+        }
+    }
+
+    gMostRecentSaveFile = 0;
+}
+
+/**
+ * @brief 7fd10 | a0 | Checks the corruption state of the current save file
+ * 
+ */
+void unk_7fd10(void)
+{
+    s32 result;
+    s32 backupResult;
+
+    result = unk_7fdb0(FALSE);
+    backupResult = unk_7fdb0(TRUE);
+
+    if (result == 0)
+    {
+        gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 0;
+    }
+    else if (result == 1)
+    {
+        gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 1;
+        if (backupResult != 0)
+            gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 2;
+    }
+    else
+    {
+        gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 3;
+        if (backupResult == 0)
+            gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 1;
+        else if (backupResult == 1)
+            gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 2;
+    }
 }
