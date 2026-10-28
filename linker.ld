@@ -536,8 +536,6 @@ SECTIONS {
         src/cutscenes/bsl_exploding.o(.text);
         src/cutscenes/cutscene_monologue.o(.text);
         src/cutscenes/cutscene_common.o(.text);
-        asm/disasm_0x0809D340.o(.text);
-        src/cutscenes/cutscene_common_2.o(.text);
 
         src/sa_x_close_up.o(.text);
 
