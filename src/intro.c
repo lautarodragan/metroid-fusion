@@ -1244,63 +1244,63 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     }
     else if (type == 19)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bb38;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertTimeAndDistanceOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessTimeAndDistanceOam;
     }
     else if (type == 20)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bd00;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd00;
         INTRO_DATA.oam[slot].pFunction = unk_9397c;
     }
     else if (type == 21)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bd48;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd48;
         INTRO_DATA.oam[slot].pFunction = unk_9397c;
     }
     else if (type == 22)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bd60;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertAsteroidsPopUpOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessAsteroidsPopUp;
     }
     else if (type == 23)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65be00;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65be00;
         INTRO_DATA.oam[slot].pFunction = unk_93334;
     }
     else if (type == 24)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bf10;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65bf10;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 25)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c0d0;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c0d0;
         INTRO_DATA.oam[slot].pFunction = unk_93300;
     }
     else if (type == 26)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c128;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c128;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 27)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c180;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c180;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 28)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c1d8;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c1d8;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 29)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c230;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c230;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
 

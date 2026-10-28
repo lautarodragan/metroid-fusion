@@ -368,7 +368,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].scaling = 0x180;
         CUTSCENE_DATA.oam[i].drawMode = 3;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680d54;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingBslPartOam_680d54;
         CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingProcessBslPart;
     }
     else if (type == 2)
@@ -376,7 +376,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].scaling = 0x180;
         CUTSCENE_DATA.oam[i].drawMode = 3;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680d64;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingBslPartOam_680d64;
         CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingProcessBslPart;
     }
     else if (type == 3)
@@ -384,7 +384,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].scaling = 0x180;
         CUTSCENE_DATA.oam[i].drawMode = 3;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680d74;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingBslPartOam_680d74;
         CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingProcessBslPart;
     }
     else if (type == 4)
@@ -394,25 +394,25 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
     }
     else if (type == 5)
     {
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680e2c;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680e2c;
         CUTSCENE_DATA.oam[i].pFunction = unk_9ba50;
     }
     else if (type == 6)
     {
         CUTSCENE_DATA.oam[i].priority = 1;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680e3c;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680e3c;
         CUTSCENE_DATA.oam[i].pFunction = unk_9ba50;
     }
     else if (type == 7)
     {
         CUTSCENE_DATA.oam[i].priority = 1;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680da4;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680da4;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bac0;
     }
     else if (type == 8)
     {
         CUTSCENE_DATA.oam[i].priority = 1;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680d94;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680d94;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bb30;
     }
     else if (type == 9)
@@ -420,7 +420,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].scaling = 0x100;
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].drawMode = 1;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680d84;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680d84;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bc04;
     }
     else if (type == 10)
@@ -430,7 +430,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
     }
     else if (type == 11)
     {
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680dcc;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680dcc;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bac0;
     }
     else if (type == 12)
@@ -438,7 +438,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].scaling = 0x100;
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].drawMode = 1;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680fec;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680fec;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bd24;
     }
     else if (type == 13)
@@ -446,7 +446,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].scaling = 0x100;
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].drawMode = 1;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680fc4;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680fc4;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bdf8;
     }
     else if (type == 14)
@@ -463,12 +463,12 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
     {
         CUTSCENE_DATA.oam[i].objMode = 1;
         CUTSCENE_DATA.oam[i].priority = 1;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680f9c;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680f9c;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bfb8;
     }
     else if (type == 17)
     {
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680f74;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680f74;
         CUTSCENE_DATA.oam[i].pFunction = unk_9bfb8;
     }
     else if (type == 18)
@@ -481,7 +481,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].scaling = 0x1A0;
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].drawMode = 3;
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_680f2c;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingFallingLabOam;
         CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingProcessFallingLab;
     }
 

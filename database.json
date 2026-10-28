@@ -30161,92 +30161,92 @@
     "size": 1
   },
   {
-    "path": "Blob_65bb38_65bd00.bin",
-    "count": "0x1C8",
+    "path": "new_file_intro/ship_alert_time_and_distance_oam.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x65BB38"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65bd00_65bd48.bin",
-    "count": "0x48",
+    "path": "new_file_intro/ship_alert_65bd00_oam.bin",
+    "count": "0x12",
     "addr": {
       "us": "0x65BD00"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65bd48_65bd60.bin",
-    "count": "0x18",
+    "path": "new_file_intro/ship_alert_65bd48_oam.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x65BD48"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65bd60_65be00.bin",
-    "count": "0xA0",
+    "path": "new_file_intro/ship_alert_asteroids_pop_up_oam.bin",
+    "count": "0x28",
     "addr": {
       "us": "0x65BD60"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65be00_65bf10.bin",
-    "count": "0x110",
+    "path": "new_file_intro/ship_alert_65be00_oam.bin",
+    "count": "0x44",
     "addr": {
       "us": "0x65BE00"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65bf10_65c0d0.bin",
-    "count": "0x1C0",
+    "path": "new_file_intro/ship_alert_big_number_65bf10_oam.bin",
+    "count": "0x70",
     "addr": {
       "us": "0x65BF10"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65c0d0_65c128.bin",
-    "count": "0x58",
+    "path": "new_file_intro/ship_alert_big_number_65c0d0_oam.bin",
+    "count": "0x16",
     "addr": {
       "us": "0x65C0D0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65c128_65c180.bin",
-    "count": "0x58",
+    "path": "new_file_intro/ship_alert_big_number_65c128_oam.bin",
+    "count": "0x16",
     "addr": {
       "us": "0x65C128"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65c180_65c1d8.bin",
-    "count": "0x58",
+    "path": "new_file_intro/ship_alert_big_number_65c180_oam.bin",
+    "count": "0x16",
     "addr": {
       "us": "0x65C180"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65c1d8_65c230.bin",
-    "count": "0x58",
+    "path": "new_file_intro/ship_alert_big_number_65c1d8_oam.bin",
+    "count": "0x16",
     "addr": {
       "us": "0x65C1D8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_65c230_65c268.bin",
-    "count": "0x38",
+    "path": "new_file_intro/ship_alert_big_number_65c230_oam.bin",
+    "count": "0xE",
     "addr": {
       "us": "0x65C230"
     },
-    "size": 1
+    "size": 4
   },
   {
     "path": "new_file_intro/ship_alert_obj.pal",
@@ -30313,7 +30313,7 @@
     "size": 2
   },
   {
-    "path": "cutscenes/monologue/obj.pal",
+    "path": "cutscenes/monologue/cursor.pal",
     "count": "0x10",
     "addr": {
       "us": "0x6638A0"
@@ -30329,12 +30329,12 @@
     "size": 1
   },
   {
-    "path": "Blob_663e5c_663e74.bin",
-    "count": "0x18",
+    "path": "cutscenes/monologue/cursor_hidden_oam.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x663E5C"
     },
-    "size": 1
+    "size": 4
   },
   {
     "path": "Blob_663e74_6724c0.bin",
@@ -30457,52 +30457,52 @@
     "size": 1
   },
   {
-    "path": "Blob_679280_6792a8.bin",
-    "count": "0x28",
+    "path": "cutscenes/secret_conversation/navigation_panel_679280_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x679280"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_6792a8_6792d0.bin",
-    "count": "0x28",
+    "path": "cutscenes/secret_conversation/navigation_panel_6792a8_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x6792A8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_6792d0_679350.bin",
-    "count": "0x80",
+    "path": "cutscenes/secret_conversation/incoming_dispatch_6792d0_oam.bin",
+    "count": "0x20",
     "addr": {
       "us": "0x6792D0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_679350_6793a0.bin",
-    "count": "0x50",
+    "path": "cutscenes/secret_conversation/incoming_dispatch_679350_oam.bin",
+    "count": "0x14",
     "addr": {
       "us": "0x679350"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_6793a0_6793b0.bin",
-    "count": "0x10",
+    "path": "cutscenes/secret_conversation/6793a0_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x6793A0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_6793b0_679420.bin",
-    "count": "0x70",
+    "path": "cutscenes/secret_conversation/6793b0_oam.bin",
+    "count": "0x1C",
     "addr": {
       "us": "0x6793B0"
     },
-    "size": 1
+    "size": 4
   },
   {
     "path": "cutscenes/bsl_space/bg.gfx.lz",
@@ -30521,140 +30521,140 @@
     "size": 1
   },
   {
-    "path": "Blob_680d54_680d64.bin",
-    "count": "0x10",
+    "path": "cutscenes/restricted_lab_detaching/bsl_part_680d54_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680D54"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680d64_680d74.bin",
-    "count": "0x10",
+    "path": "cutscenes/restricted_lab_detaching/bsl_part_680d64_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680D64"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680d74_680d84.bin",
-    "count": "0x10",
+    "path": "cutscenes/restricted_lab_detaching/bsl_part_680d74_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680D74"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680d84_680d94.bin",
-    "count": "0x10",
+    "path": "cutscenes/restricted_lab_detaching/680d84_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680D84"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680d94_680da4.bin",
-    "count": "0x10",
+    "path": "cutscenes/restricted_lab_detaching/680d94_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680D94"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680da4_680dcc.bin",
-    "count": "0x28",
+    "path": "cutscenes/restricted_lab_detaching/680da4_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x680DA4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680dcc_680e2c.bin",
-    "count": "0x60",
+    "path": "cutscenes/restricted_lab_detaching/680dcc_oam.bin",
+    "count": "0x18",
     "addr": {
       "us": "0x680DCC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680e2c_680e3c.bin",
-    "count": "0x10",
+    "path": "cutscenes/restricted_lab_detaching/680e2c_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680E2C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680e3c_680ecc.bin",
-    "count": "0x90",
+    "path": "cutscenes/restricted_lab_detaching/680e3c_oam.bin",
+    "count": "0x24",
     "addr": {
       "us": "0x680E3C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680ecc_680f2c.bin",
-    "count": "0x60",
+    "path": "cutscenes/bsl_exploding/explosions_oam.bin",
+    "count": "0x18",
     "addr": {
       "us": "0x680ECC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680f2c_680f74.bin",
-    "count": "0x48",
+    "path": "cutscenes/restricted_lab_detaching/falling_lab_oam.bin",
+    "count": "0x12",
     "addr": {
       "us": "0x680F2C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680f74_680f9c.bin",
-    "count": "0x28",
+    "path": "cutscenes/restricted_lab_detaching/680f74_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x680F74"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680f9c_680fc4.bin",
-    "count": "0x28",
+    "path": "cutscenes/restricted_lab_detaching/680f9c_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x680F9C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680fc4_680fec.bin",
-    "count": "0x28",
+    "path": "cutscenes/restricted_lab_detaching/680fc4_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x680FC4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680fec_680ffc.bin",
-    "count": "0x10",
+    "path": "cutscenes/restricted_lab_detaching/680fec_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680FEC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_680ffc_68100c.bin",
-    "count": "0x10",
+    "path": "cutscenes/bsl_exploding/680ffc_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x680FFC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_68100c_68101c.bin",
-    "count": "0x10",
+    "path": "cutscenes/bsl_exploding/bsl_far_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x68100C"
     },
-    "size": 1
+    "size": 4
   },
   {
     "path": "cutscenes/bsl_space/bg_fade.pal",

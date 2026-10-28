@@ -281,7 +281,7 @@ void CutsceneBslExplodingProcessBslFar(struct CutsceneOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = (const struct FrameData*)sCutsceneUnk_680ecc;
+            pOam->pOam = sCutsceneBslExplodingExplosionsOam;
             pOam->stage = 1;
         }
     }
@@ -364,19 +364,19 @@ u8 CutsceneBslExplodingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 de
     else if (type == 20)
     {
         CUTSCENE_DATA.oam[slot].priority = 2;
-        CUTSCENE_DATA.oam[slot].pOam = (const struct FrameData*)sCutsceneUnk_680ffc;
+        CUTSCENE_DATA.oam[slot].pOam = sCutsceneBslExplodingOam_680ffc;
         CUTSCENE_DATA.oam[slot].pFunction = unk_9db70;
     }
     else if (type == 21)
     {
         CUTSCENE_DATA.oam[slot].priority = 2;
-        CUTSCENE_DATA.oam[slot].pOam = (const struct FrameData*)sCutsceneUnk_68100c;
+        CUTSCENE_DATA.oam[slot].pOam = sCutsceneBslExplodingBslFarOam;
         CUTSCENE_DATA.oam[slot].pFunction = CutsceneBslExplodingProcessBslFar;
     }
     else if (type == 22)
     {
         CUTSCENE_DATA.oam[slot].priority = 2;
-        CUTSCENE_DATA.oam[slot].pOam = (const struct FrameData*)sCutsceneUnk_680ecc;
+        CUTSCENE_DATA.oam[slot].pOam = sCutsceneBslExplodingExplosionsOam;
         CUTSCENE_DATA.oam[slot].pFunction = CutsceneBslExplodingProcessExplosions;
     }
 

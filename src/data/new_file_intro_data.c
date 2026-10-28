@@ -22797,24 +22797,26 @@ const u16 sIntroShipAlertBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/sh
 // Rest after the 8 palette rows the ship alert copies, not referenced by name (probably holds the
 // OAM frames of the FrameData arrays below)
 static const u8 sBlob_659aa4_65bb38[] = INCBIN_U8("data/Blob_659aa4_65bb38.bin");
-const u8 sIntroUnk_65bb38[] = INCBIN_U8("data/Blob_65bb38_65bd00.bin");
-const u8 sIntroUnk_65bd00[] = INCBIN_U8("data/Blob_65bd00_65bd48.bin");
-const u8 sIntroUnk_65bd48[] = INCBIN_U8("data/Blob_65bd48_65bd60.bin");
-const u8 sIntroUnk_65bd60[] = INCBIN_U8("data/Blob_65bd60_65be00.bin");
-const u8 sIntroUnk_65be00[] = INCBIN_U8("data/Blob_65be00_65bf10.bin");
-const u8 sIntroUnk_65bf10[] = INCBIN_U8("data/Blob_65bf10_65c0d0.bin");
-const u8 sIntroUnk_65c0d0[] = INCBIN_U8("data/Blob_65c0d0_65c128.bin");
-const u8 sIntroUnk_65c128[] = INCBIN_U8("data/Blob_65c128_65c180.bin");
-const u8 sIntroUnk_65c180[] = INCBIN_U8("data/Blob_65c180_65c1d8.bin");
-const u8 sIntroUnk_65c1d8[] = INCBIN_U8("data/Blob_65c1d8_65c230.bin");
-const u8 sIntroUnk_65c230[] = INCBIN_U8("data/Blob_65c230_65c268.bin");
+// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
+// unresolved (see tools/find_blob_pointers.py)
+const u32 sIntroShipAlertTimeAndDistanceOam[114] = INCBIN_U32("data/new_file_intro/ship_alert_time_and_distance_oam.bin");
+const u32 sIntroShipAlertOam_65bd00[18] = INCBIN_U32("data/new_file_intro/ship_alert_65bd00_oam.bin");
+const u32 sIntroShipAlertOam_65bd48[6] = INCBIN_U32("data/new_file_intro/ship_alert_65bd48_oam.bin");
+const u32 sIntroShipAlertAsteroidsPopUpOam[40] = INCBIN_U32("data/new_file_intro/ship_alert_asteroids_pop_up_oam.bin");
+const u32 sIntroShipAlertOam_65be00[68] = INCBIN_U32("data/new_file_intro/ship_alert_65be00_oam.bin");
+const u32 sIntroShipAlertBigNumberOam_65bf10[112] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65bf10_oam.bin");
+const u32 sIntroShipAlertBigNumberOam_65c0d0[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c0d0_oam.bin");
+const u32 sIntroShipAlertBigNumberOam_65c128[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c128_oam.bin");
+const u32 sIntroShipAlertBigNumberOam_65c180[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c180_oam.bin");
+const u32 sIntroShipAlertBigNumberOam_65c1d8[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c1d8_oam.bin");
+const u32 sIntroShipAlertBigNumberOam_65c230[14] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c230_oam.bin");
 const u16 sIntroShipAlertObjPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_obj.pal");
 // Not referenced by name, probably reached through the elevator monologue pointer tables
 // (sCutsceneUnk_79c4a8 ... sCutsceneUnk_79c55c)
 static const u8 sBlob_65c468_65fb5c[] = INCBIN_U8("data/Blob_65c468_65fb5c.bin");
-// Starts with LZ77 compressed OBJ graphics shared by the monologue cutscenes (decompressed to
-// the last 0x400 bytes of OBJ VRAM), too large to be only that: the rest is not identified
-const u8 sCutsceneUnk_65fb5c[] = INCBIN_U8("data/Blob_65fb5c_662804.bin");
+// Starts with the LZ77 compressed graphics of the monologue cursor (decompressed to the last
+// 0x400 bytes of OBJ VRAM), too large to be only that: the rest is not identified
+const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/Blob_65fb5c_662804.bin");
 
 const u32 sIntroTilemap_662804[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
 
@@ -22826,12 +22828,17 @@ const u16 sCutsceneMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/mon
 
 const u16 sIntroPal_663820[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820.pal");
 
-const u16 sCutsceneMonologueObjPal[1 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/obj.pal");
+const u16 sCutsceneMonologueCursorPal[1 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/cursor.pal");
 // Rest after the palette row the monologues copy, not referenced by name (probably holds the OAM
 // frames of the FrameData arrays below)
 static const u8 sBlob_6638c0_663e5c[] = INCBIN_U8("data/Blob_6638c0_663e5c.bin");
-const u8 sCutsceneUnk_663e5c[] = INCBIN_U8("data/Blob_663e5c_663e74.bin");
-const u8 sCutsceneUnk_663e74[] = INCBIN_U8("data/Blob_663e74_6724c0.bin");
+// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
+// unresolved (see tools/find_blob_pointers.py)
+const u32 sCutsceneMonologueCursorHiddenOam[6] = INCBIN_U32("data/cutscenes/monologue/cursor_hidden_oam.bin");
+// Starts with the FrameData array of the monologue cursor (next page arrow), much larger than
+// that: the rest is not identified (probably the elevator monologue data reached through the
+// sCutsceneUnk_79c4a8 ... sCutsceneUnk_79c55c pointer tables)
+const u8 sCutsceneMonologueCursorNextPageOam[] = INCBIN_U8("data/Blob_663e74_6724c0.bin");
 const u32 sCutsceneFederationMonologueBg2Gfx[2342] = INCBIN_U32("data/cutscenes/federation_monologue/bg2.gfx.lz");
 const u16 sCutsceneFederationMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/federation_monologue/bg.pal");
 const u32 sCutsceneFederationMonologueBg2Tilemap[368] = INCBIN_U32("data/cutscenes/federation_monologue/bg2.tm.lz");
@@ -22848,33 +22855,37 @@ const u16 sCutsceneSecretConversationObjPal[2 * PAL_ROW] = INCBIN_U16("data/cuts
 // Rest after the 2 palette rows the secret conversation copies, not referenced by name (probably
 // holds the OAM frames of the FrameData arrays below)
 static const u8 sBlob_6788e8_679280[] = INCBIN_U8("data/Blob_6788e8_679280.bin");
-const u8 sCutsceneUnk_679280[] = INCBIN_U8("data/Blob_679280_6792a8.bin");
-const u8 sCutsceneUnk_6792a8[] = INCBIN_U8("data/Blob_6792a8_6792d0.bin");
-const u8 sCutsceneUnk_6792d0[] = INCBIN_U8("data/Blob_6792d0_679350.bin");
-const u8 sCutsceneUnk_679350[] = INCBIN_U8("data/Blob_679350_6793a0.bin");
-const u8 sCutsceneUnk_6793a0[] = INCBIN_U8("data/Blob_6793a0_6793b0.bin");
-const u8 sCutsceneUnk_6793b0[] = INCBIN_U8("data/Blob_6793b0_679420.bin");
+// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
+// unresolved (see tools/find_blob_pointers.py)
+const u32 sCutsceneSecretConversationNavigationPanelOam_679280[10] = INCBIN_U32("data/cutscenes/secret_conversation/navigation_panel_679280_oam.bin");
+const u32 sCutsceneSecretConversationNavigationPanelOam_6792a8[10] = INCBIN_U32("data/cutscenes/secret_conversation/navigation_panel_6792a8_oam.bin");
+const u32 sCutsceneSecretConversationIncomingDispatchOam_6792d0[32] = INCBIN_U32("data/cutscenes/secret_conversation/incoming_dispatch_6792d0_oam.bin");
+const u32 sCutsceneSecretConversationIncomingDispatchOam_679350[20] = INCBIN_U32("data/cutscenes/secret_conversation/incoming_dispatch_679350_oam.bin");
+const u32 sCutsceneSecretConversationOam_6793a0[4] = INCBIN_U32("data/cutscenes/secret_conversation/6793a0_oam.bin");
+const u32 sCutsceneSecretConversationOam_6793b0[28] = INCBIN_U32("data/cutscenes/secret_conversation/6793b0_oam.bin");
 const u32 sCutsceneBslSpaceBgGfx[4331] = INCBIN_U32("data/cutscenes/bsl_space/bg.gfx.lz");
 // Starts with the LZ77 compressed OBJ graphics of the BSL space view. OAM frames usually come
 // right before their FrameData arrays, so the end probably holds the frames of the arrays below
 const u8 sCutsceneBslSpaceObjGfx[] = INCBIN_U8("data/Blob_67d7cc_680d54.bin");
-const u8 sCutsceneUnk_680d54[] = INCBIN_U8("data/Blob_680d54_680d64.bin");
-const u8 sCutsceneUnk_680d64[] = INCBIN_U8("data/Blob_680d64_680d74.bin");
-const u8 sCutsceneUnk_680d74[] = INCBIN_U8("data/Blob_680d74_680d84.bin");
-const u8 sCutsceneUnk_680d84[] = INCBIN_U8("data/Blob_680d84_680d94.bin");
-const u8 sCutsceneUnk_680d94[] = INCBIN_U8("data/Blob_680d94_680da4.bin");
-const u8 sCutsceneUnk_680da4[] = INCBIN_U8("data/Blob_680da4_680dcc.bin");
-const u8 sCutsceneUnk_680dcc[] = INCBIN_U8("data/Blob_680dcc_680e2c.bin");
-const u8 sCutsceneUnk_680e2c[] = INCBIN_U8("data/Blob_680e2c_680e3c.bin");
-const u8 sCutsceneUnk_680e3c[] = INCBIN_U8("data/Blob_680e3c_680ecc.bin");
-const u8 sCutsceneUnk_680ecc[] = INCBIN_U8("data/Blob_680ecc_680f2c.bin");
-const u8 sCutsceneUnk_680f2c[] = INCBIN_U8("data/Blob_680f2c_680f74.bin");
-const u8 sCutsceneUnk_680f74[] = INCBIN_U8("data/Blob_680f74_680f9c.bin");
-const u8 sCutsceneUnk_680f9c[] = INCBIN_U8("data/Blob_680f9c_680fc4.bin");
-const u8 sCutsceneUnk_680fc4[] = INCBIN_U8("data/Blob_680fc4_680fec.bin");
-const u8 sCutsceneUnk_680fec[] = INCBIN_U8("data/Blob_680fec_680ffc.bin");
-const u8 sCutsceneUnk_680ffc[] = INCBIN_U8("data/Blob_680ffc_68100c.bin");
-const u8 sCutsceneUnk_68100c[] = INCBIN_U8("data/Blob_68100c_68101c.bin");
+// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
+// unresolved (see tools/find_blob_pointers.py)
+const u32 sCutsceneRestrictedLabDetachingBslPartOam_680d54[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/bsl_part_680d54_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingBslPartOam_680d64[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/bsl_part_680d64_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingBslPartOam_680d74[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/bsl_part_680d74_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680d84[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680d84_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680d94[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680d94_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680da4[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680da4_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680dcc[24] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680dcc_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680e2c[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680e2c_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680e3c[36] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680e3c_oam.bin");
+const u32 sCutsceneBslExplodingExplosionsOam[24] = INCBIN_U32("data/cutscenes/bsl_exploding/explosions_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingFallingLabOam[18] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/falling_lab_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680f74[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680f74_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680f9c[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680f9c_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680fc4[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680fc4_oam.bin");
+const u32 sCutsceneRestrictedLabDetachingOam_680fec[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680fec_oam.bin");
+const u32 sCutsceneBslExplodingOam_680ffc[4] = INCBIN_U32("data/cutscenes/bsl_exploding/680ffc_oam.bin");
+const u32 sCutsceneBslExplodingBslFarOam[4] = INCBIN_U32("data/cutscenes/bsl_exploding/bsl_far_oam.bin");
 const u16 sCutsceneBslSpaceBgFadePal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/bsl_space/bg_fade.pal");
 const u16 sCutsceneBslSpaceObjPal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/bsl_space/obj.pal");
 const u16 sCutsceneRestrictedLabDetachingObjRow0CyclePal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/restricted_lab_detaching/obj_row0_cycle.pal");

@@ -77,7 +77,7 @@ u8 CutsceneFederationMonologueSetupOam(u8 type, u16 xPosition, u16 yPosition)
         CUTSCENE_MONOLOGUE_DATA.oam[i].priority = 0;
         CUTSCENE_MONOLOGUE_DATA.oam[i].paletteOffset = 15;
         CUTSCENE_MONOLOGUE_DATA.oam[i].tileOffset = 0x3E0;
-        CUTSCENE_MONOLOGUE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_663e5c;
+        CUTSCENE_MONOLOGUE_DATA.oam[i].pOam = sCutsceneMonologueCursorHiddenOam;
         CUTSCENE_MONOLOGUE_DATA.oam[i].pFunction = CutsceneMonologueProcessCursor;
     }
 
@@ -257,22 +257,22 @@ u8 CutsceneSecretConversationSetupOam(u8 type, u16 xPosition, u16 yPosition)
 
     if (type == 1)
     {
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_6793b0;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneSecretConversationOam_6793b0;
         CUTSCENE_DATA.oam[i].pFunction = unk_9db70;
     }
     else if (type == 2)
     {
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_679280;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneSecretConversationNavigationPanelOam_679280;
         CUTSCENE_DATA.oam[i].pFunction = CutsceneSecretConversationProcessNavigationPanel;
     }
     else if (type == 3)
     {
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_6793a0;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneSecretConversationOam_6793a0;
         CUTSCENE_DATA.oam[i].pFunction = unk_9db70;
     }
     else if (type == 4)
     {
-        CUTSCENE_DATA.oam[i].pOam = (const struct FrameData*)sCutsceneUnk_6792d0;
+        CUTSCENE_DATA.oam[i].pOam = sCutsceneSecretConversationIncomingDispatchOam_6792d0;
         CUTSCENE_DATA.oam[i].pFunction = CutsceneSecretConversationProcessIncomingDispatch;
     }
 
@@ -291,7 +291,7 @@ void CutsceneSecretConversationProcessNavigationPanel(struct CutsceneOam* pOam)
         pOam->stage = 1;
         pOam->animationDurationCounter = 0;
         pOam->currentAnimationFrame = 0;
-        pOam->pOam = (const struct FrameData*)sCutsceneUnk_6792a8;
+        pOam->pOam = sCutsceneSecretConversationNavigationPanelOam_6792a8;
     }
 }
 
@@ -320,7 +320,7 @@ void CutsceneSecretConversationProcessIncomingDispatch(struct CutsceneOam* pOam)
             pOam->unk_13 = 0;
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = (const struct FrameData*)sCutsceneUnk_679350;
+            pOam->pOam = sCutsceneSecretConversationIncomingDispatchOam_679350;
         }
     }
     else if (pOam->stage == 1)

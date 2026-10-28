@@ -252,8 +252,8 @@ void CutsceneElevatorMonologueInit(boolu8 reverseScrolling)
     WRITE_16(REG_DISPCNT, 0);
 
     LZ77UncompVram(sCutsceneUnk_79c514[gCurrentCutscene - 1], VRAM_OBJ + 0x2000);
-    LZ77UncompVram(sCutsceneUnk_65fb5c, VRAM_BASE + 0x17C00);
-    DMA3_COPY_32(sCutsceneMonologueObjPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sCutsceneMonologueCursorGfx, VRAM_BASE + 0x17C00);
+    DMA3_COPY_32(sCutsceneMonologueCursorPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     DMA3_COPY_32(sCutsceneUnk_79c4cc[gCurrentCutscene - 1], PALRAM_OBJ, 6 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sCutsceneUnk_79c4f0[gCurrentCutscene - 1], VRAM_BASE);
@@ -350,7 +350,7 @@ u8 CutsceneElevatorMonologueSetupOam(u8 type, s16 xPosition, s16 yPosition)
     {
         CUTSCENE_MONOLOGUE_DATA.oam[slot].paletteOffset = 15;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].tileOffset = 0x3E0;
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_663e5c;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneMonologueCursorHiddenOam;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = CutsceneMonologueProcessCursor;
     }
     else if (type == 2)
@@ -604,8 +604,8 @@ void CutsceneInternalMonologueInit(u8 unused)
 
     WRITE_16(REG_DISPCNT, 0);
 
-    LZ77UncompVram(sCutsceneUnk_65fb5c, VRAM_BASE + 0x17C00);
-    DMA3_COPY_32(sCutsceneMonologueObjPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sCutsceneMonologueCursorGfx, VRAM_BASE + 0x17C00);
+    DMA3_COPY_32(sCutsceneMonologueCursorPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x800 / sizeof(u32));
@@ -690,7 +690,7 @@ u8 CutsceneInternalMonologueSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 2;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].paletteOffset = 15;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].tileOffset = 0x3E0;
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_663e5c;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneMonologueCursorHiddenOam;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = CutsceneMonologueProcessCursor;
     }
 
@@ -778,8 +778,8 @@ void CutsceneFederationMonologueInit(u8 unused)
 
     WRITE_16(REG_DISPCNT, 0);
 
-    LZ77UncompVram(sCutsceneUnk_65fb5c, VRAM_BASE + 0x17C00);
-    DMA3_COPY_32(sCutsceneMonologueObjPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sCutsceneMonologueCursorGfx, VRAM_BASE + 0x17C00);
+    DMA3_COPY_32(sCutsceneMonologueCursorPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sCutsceneFederationMonologueBg2Gfx, VRAM_BASE);
     LZ77UncompVram(sCutsceneFederationMonologueBg2Tilemap, VRAM_BASE + 0xD000);
