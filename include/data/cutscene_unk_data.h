@@ -72,6 +72,11 @@ extern const struct FrameData sEndingUnk_636288[];
 extern const struct FrameData sEndingUnk_6362a0[];
 extern const struct FrameData sEndingUnk_6363a0[];
 extern const struct FrameData sEndingUnk_6363b8[];
+extern const struct FrameData sEndingUnk_633e64[];
+extern const struct FrameData sEndingUnk_633e8c[];
+extern const struct FrameData sEndingUnk_633ec4[];
+extern const struct FrameData sEndingUnk_633f0c[];
+extern const struct FrameData sUnk_633244[];
 
 // Defined as raw bytes in new_file_intro_data.c, but this is palette data
 extern const u16 sSr388CollisionUnk_636a38[];

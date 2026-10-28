@@ -1422,3 +1422,169 @@ boolu32 EndingInShip(void)
 
     return finished;
 }
+
+ /**
+ * @brief 969b0 | 30 | Processes the monologue cursor in the ending
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void EndingProcessMonologueCursor(struct SpecialCutsceneOam* pOam)
+{
+    if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
+    {
+        pOam->xPosition = 118;
+        pOam->yPosition = INTRO_DATA.unk_E * 8 + 24;
+    }
+    else
+    {
+        pOam->xPosition = 260;
+    }
+}
+
+ /**
+ * @brief 969e0 | 28 | To document
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void unk_969e0(struct SpecialCutsceneOam* pOam)
+{
+    const struct FrameData* frame;
+
+    if (pOam->stage == 0)
+    {
+        frame = &pOam->pOam[pOam->currentAnimationFrame];
+        if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
+            pOam->animationDurationCounter = 0;
+    }
+}
+
+ /**
+ * @brief 96a08 | 34 | Handles the SR388 radar view
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void EndingProcessSr388RadarView(struct SpecialCutsceneOam* pOam)
+{
+    const struct FrameData* frame;
+
+    if (pOam->stage == 0)
+    {
+        frame = &pOam->pOam[pOam->currentAnimationFrame];
+        if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
+        {
+            pOam->animationDurationCounter = 0;
+            pOam->currentAnimationFrame = 0;
+            pOam->pOam = sEndingUnk_633ec4;
+            pOam->stage = 1;
+        }
+    }
+}
+
+ /**
+ * @brief 96a3c | 34 | Handles the Samus view radar view
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void EndingProcessSamusViewRadarView(struct SpecialCutsceneOam* pOam)
+{
+    const struct FrameData* frame;
+
+    if (pOam->stage == 0)
+    {
+        frame = &pOam->pOam[pOam->currentAnimationFrame];
+        if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
+        {
+            pOam->animationDurationCounter = 0;
+            pOam->currentAnimationFrame = 0;
+            pOam->pOam = sEndingUnk_633f0c;
+            pOam->stage = 1;
+        }
+    }
+}
+
+ /**
+ * @brief 96a70 | 9c | To document
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void unk_96a70(struct SpecialCutsceneOam* pOam)
+{
+    const struct FrameData* frame;
+
+    frame = &pOam->pOam[pOam->currentAnimationFrame];
+
+    if (pOam->stage == 0)
+    {
+        if (pOam->currentAnimationFrame == 1 && pOam->animationDurationCounter == 1)
+            SoundPlay(SOUND_11C);
+
+        if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
+        {
+            pOam->animationDurationCounter = 0;
+            pOam->stage = 1;
+        }
+    }
+    else if (pOam->stage == 1)
+    {
+        pOam->animationDurationCounter = 0;
+
+        if (INTRO_DATA.subStage == 11)
+        {
+            pOam->currentAnimationFrame = 0;
+            pOam->pOam = sUnk_633244;
+            SoundPlay(SOUND_11D);
+            pOam->stage = 2;
+        }
+    }
+    else if (pOam->stage == 2)
+    {
+        if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
+        {
+            pOam->type = 0;
+            pOam->unk_18_0 = 0;
+        }
+    }
+}
+
+ /**
+ * @brief 96b0c | 8c | Processes the Adam text cursor in the ending
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void EndingProcessAdamTextCursor(struct SpecialCutsceneOam* pOam)
+{
+    if (*INTRO_DATA.pText == CHAR_TERMINATOR)
+    {
+        pOam->xPosition = 290;
+    }
+    else if (*INTRO_DATA.pText != CHAR_NEW_LINE)
+    {
+        if (*INTRO_DATA.pText == CHAR_NEW_PAGE)
+        {
+            pOam->xPosition = 290;
+            pOam->animationDurationCounter = 0;
+            pOam->currentAnimationFrame = 0;
+            pOam->pOam = sEndingUnk_633e8c;
+        }
+        else if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
+        {
+            pOam->xPosition = SCREEN_X_MIDDLE;
+            pOam->yPosition = 154;
+            pOam->pOam = sEndingUnk_633e64;
+        }
+        else
+        {
+            pOam->xPosition = INTRO_DATA.unk_C * 8 + INTRO_DATA.unk_212 + 14;
+            pOam->yPosition = INTRO_DATA.unk_E * 8 + 132;
+            pOam->animationDurationCounter = 0;
+            pOam->currentAnimationFrame = 0;
+        }
+    }
+    else
+    {
+        pOam->xPosition = INTRO_DATA.unk_C * 8 + INTRO_DATA.unk_212 + 14;
+        pOam->yPosition = INTRO_DATA.unk_E * 8 + 132;
+        pOam->animationDurationCounter = 0;
+        pOam->currentAnimationFrame = 0;
+    }
+}
