@@ -52,10 +52,10 @@ void unk_9209c(void)
     for (i = 0; i < ARRAY_SIZE(sIntroSamusSittingBgGfxPointers); i++)
         LZ77UncompVram(sIntroSamusSittingBgGfxPointers[i], VRAM_BASE + 0x8000 + i * 0x1000);
 
-    LZ77UncompVram(sIntroUnk_658be0, VRAM_BASE + 0xE800);
+    LZ77UncompVram(sIntroSamusInShipTilemap, VRAM_BASE + 0xE800);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sIntroUnk_6591e4, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSamusInShipPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     WRITE_16(REG_BG0HOFS, 0);
     WRITE_16(REG_BG0VOFS, 0);
@@ -118,8 +118,8 @@ boolu32 IntroSamusInShipProcess(void)
             }
             else if (INTRO_DATA.timer == 6)
             {
-                LZ77UncompVram(sIntroUnk_658be0, VRAM_BASE + 0xE800);
-                DMA3_COPY_32(sIntroUnk_6591e4, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
+                LZ77UncompVram(sIntroSamusInShipTilemap, VRAM_BASE + 0xE800);
+                DMA3_COPY_32(sIntroSamusInShipPal, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
                 gWrittenToBldalpha_Eva = 0;
                 gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
                 WRITE_16(REG_BG1HOFS, 0);
@@ -261,15 +261,15 @@ void IntroShipAlertInit(void)
     for (i = 0; i < 6; i++)
         LZ77UncompVram(sIntroUnk_79c45c[i], VRAM_OBJ + i * 0x1000);
 
-    DMA3_COPY_32(sIntroUnk_65c268, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroShipAlertObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     for (i = 0; i < 5; i++)
         LZ77UncompVram(sIntroUnk_79c448[i], VRAM_BASE + i * 0x1000);
 
-    LZ77UncompVram(sIntroUnk_6593e4, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sIntroShipAlertBg1Tilemap, VRAM_BASE + 0xF000);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sIntroUnk_6599a4, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroShipAlertBgPal, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
 
     WRITE_16(REG_BG0HOFS, 0);
     WRITE_16(REG_BG0VOFS, 0);
@@ -1548,8 +1548,8 @@ boolu32 IntroSpaceViewPartProcess(void)
             }
             else if (INTRO_DATA.timer == 6)
             {
-                LZ77UncompVram(sIntroUnk_658be0, VRAM_BASE + 0xE000);
-                DMA3_COPY_32(sIntroUnk_6591e4, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
+                LZ77UncompVram(sIntroSamusInShipTilemap, VRAM_BASE + 0xE000);
+                DMA3_COPY_32(sIntroSamusInShipPal, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
                 gWrittenToBldalpha_Eva = 0;
                 gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
                 WRITE_16(REG_BG1HOFS, 0);

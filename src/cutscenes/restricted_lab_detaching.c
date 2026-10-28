@@ -78,14 +78,14 @@ void CutsceneRestrictedLabDetachingInit(void)
 
     WRITE_16(REG_DISPCNT, 0);
 
-    LZ77UncompVram(sCutsceneUnk_67d7cc, VRAM_OBJ);
-    DMA3_COPY_32(sCutsceneUnk_68121c, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sCutsceneBslSpaceObjGfx, VRAM_OBJ);
+    DMA3_COPY_32(sCutsceneBslSpaceObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
-    LZ77UncompVram(sCutsceneUnk_679420, VRAM_BASE);
-    LZ77UncompVram(sCutsceneUnk_6820a4, VRAM_BASE + 0xE000);
-    LZ77UncompVram(sCutsceneUnk_681a1c, VRAM_BASE + 0xE800);
+    LZ77UncompVram(sCutsceneBslSpaceBgGfx, VRAM_BASE);
+    LZ77UncompVram(sCutsceneBslSpaceTilemap_6820a4, VRAM_BASE + 0xE000);
+    LZ77UncompVram(sCutsceneBslSpaceTilemap_681a1c, VRAM_BASE + 0xE800);
 
-    DMA3_COPY_32(sCutsceneUnk_68259c, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sCutsceneBslSpaceBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 
     WRITE_16(REG_BG1CNT, CREATE_BGCNT(0, 29, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
@@ -103,7 +103,7 @@ void CutsceneRestrictedLabDetachingInit(void)
 
     CUTSCENE_DATA.unk_A = 0;
     CUTSCENE_DATA.unk_C = 0;
-    DMA3_COPY_32(&sCutsceneUnk_68101c[CUTSCENE_DATA.unk_C * PAL_ROW_SIZE], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.unk_C * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
     CallbackSetVBlank(CutsceneRestrictedLabDetachingVblank);
 }
@@ -707,7 +707,7 @@ void unk_9bb30(struct CutsceneOam* pOam)
         if (pOam->unk_C > 3)
             pOam->unk_C = 0;
 
-        DMA3_COPY_32(&sUnk_68161c[pOam->unk_C * PAL_ROW_SIZE], PALRAM_OBJ + 1 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(&sCutsceneRestrictedLabDetachingObjRow1CyclePal[pOam->unk_C * PAL_ROW], PALRAM_OBJ + 1 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 
     if ((u16)(pOam->xPosition + 16) > 272 || pOam->yPosition < -16 || pOam->yPosition > 176)
@@ -754,7 +754,7 @@ void unk_9bc04(struct CutsceneOam* pOam)
         if (pOam->unk_C > 3)
             pOam->unk_C = 0;
 
-        DMA3_COPY_32(&sUnk_68141c[pOam->unk_C * PAL_ROW_SIZE], PALRAM_OBJ, PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(&sCutsceneRestrictedLabDetachingObjRow0CyclePal[pOam->unk_C * PAL_ROW], PALRAM_OBJ, PAL_ROW_SIZE / sizeof(u32));
     }
 
     if ((u16)(pOam->xPosition + 16) > 272 || pOam->yPosition < -16 || pOam->yPosition > 176)
@@ -822,7 +822,7 @@ void unk_9bd24(struct CutsceneOam* pOam)
         if (pOam->unk_C > 3)
             pOam->unk_C = 0;
 
-        DMA3_COPY_32(&sUnk_68181c[pOam->unk_C * PAL_ROW_SIZE], PALRAM_OBJ + 3 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(&sCutsceneRestrictedLabDetachingObjRow3CyclePal[pOam->unk_C * PAL_ROW], PALRAM_OBJ + 3 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 
     if ((u16)(pOam->xPosition + 16) > 272 || pOam->yPosition < -16 || pOam->yPosition > 176)
@@ -877,7 +877,7 @@ void unk_9be8c(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
-        DMA3_COPY_32(sCutsceneUnk_68101c, PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(sCutsceneBslSpaceBgFadePal, PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
         pOam->stage = 1;
     }
     else if (pOam->stage == 1)
@@ -893,7 +893,7 @@ void unk_9be8c(struct CutsceneOam* pOam)
                 pOam->stage = 2;
             }
 
-            DMA3_COPY_32(&sCutsceneUnk_68101c[pOam->unk_C * PAL_ROW_SIZE], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+            DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[pOam->unk_C * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
         }
     }
     else if (pOam->stage == 2)
@@ -1070,7 +1070,7 @@ void CutsceneRestrictedLabDetachingVblank(void)
     if (CUTSCENE_DATA.unk_A == 1)
     {
         CUTSCENE_DATA.unk_A = 0;
-        DMA3_COPY_32(&sCutsceneUnk_68101c[CUTSCENE_DATA.unk_C * PAL_ROW_SIZE], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.unk_C * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 }
 

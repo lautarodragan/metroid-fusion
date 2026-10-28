@@ -170,7 +170,7 @@ void CutsceneMnologueDrawOam(struct CutsceneMonologueOam* pOam)
         if (pOam->xFlip == TRUE)
         {
             gOamData[slot].split.xFlip ^= TRUE;
-            xOffset = part2 + sCutsceneUnk_68279c[gOamData[slot].split.shape][gOamData[slot].split.size] * 8;
+            xOffset = part2 + sCutsceneOamTileWidths[gOamData[slot].split.shape][gOamData[slot].split.size] * 8;
             x = MOD_AND((u16)pOam->xPosition - xOffset, 512);
             y = MOD_AND(part1 + (u16)pOam->yPosition, 256);
         }

@@ -163,15 +163,15 @@ void CutsceneSecretConversationInit(void)
 
     WRITE_16(REG_DISPCNT, 0);
 
-    LZ77UncompVram(sCutsceneUnk_67815c, VRAM_BASE + 0x14000);
-    DMA3_COPY_32(sCutsceneUnk_6788a8, PALRAM_BASE + 0x300, 0x10);
+    LZ77UncompVram(sCutsceneSecretConversationObjGfx, VRAM_BASE + 0x14000);
+    DMA3_COPY_32(sCutsceneSecretConversationObjPal, PALRAM_BASE + 0x300, 0x10);
 
-    LZ77UncompVram(sCutsceneUnk_675098, VRAM_BASE + 0x800);
-    LZ77UncompVram(sCutsceneUnk_677914, VRAM_BASE + 0xC000);
-    LZ77UncompVram(sCutsceneUnk_677c90, VRAM_BASE + 0xC800);
+    LZ77UncompVram(sCutsceneSecretConversationBgGfx, VRAM_BASE + 0x800);
+    LZ77UncompVram(sCutsceneSecretConversationBg1Tilemap, VRAM_BASE + 0xC000);
+    LZ77UncompVram(sCutsceneSecretConversationBg2Tilemap, VRAM_BASE + 0xC800);
 
-    DMA3_COPY_32(sCutsceneUnk_677874, PALRAM_BASE, 0x28);
-    DMA3_COPY_32(sCutsceneUnk_677c10, PALRAM_BASE + 0x1E0, 8);
+    DMA3_COPY_32(sCutsceneSecretConversationBgPal, PALRAM_BASE, 0x28);
+    DMA3_COPY_32(sCutsceneSecretConversationAnimatedPal0, PALRAM_BASE + 0x1E0, 8);
 
     CutsceneSecretConversationSetupOam(1, 120, 128);
     CutsceneSecretConversationSetupOam(2, 120, 128);
@@ -348,19 +348,19 @@ void CutsceneSecretConversationVblank(void)
     switch (CUTSCENE_DATA.unk_11)
     {
         case 7:
-            DMA3_COPY_32(sCutsceneUnk_677c30, PALRAM_BASE + 0x1E0, 8);
+            DMA3_COPY_32(sCutsceneSecretConversationAnimatedPal1, PALRAM_BASE + 0x1E0, 8);
             break;
 
         case 14:
-            DMA3_COPY_32(sCutsceneUnk_677c50, PALRAM_BASE + 0x1E0, 8);
+            DMA3_COPY_32(sCutsceneSecretConversationAnimatedPal2, PALRAM_BASE + 0x1E0, 8);
             break;
 
         case 21:
-            DMA3_COPY_32(sCutsceneUnk_677c70, PALRAM_BASE + 0x1E0, 8);
+            DMA3_COPY_32(sCutsceneSecretConversationAnimatedPal3, PALRAM_BASE + 0x1E0, 8);
             break;
 
         case 28:
-            DMA3_COPY_32(sCutsceneUnk_677c10, PALRAM_BASE + 0x1E0, 8);
+            DMA3_COPY_32(sCutsceneSecretConversationAnimatedPal0, PALRAM_BASE + 0x1E0, 8);
             CUTSCENE_DATA.unk_11 = 0;
             break;
     }

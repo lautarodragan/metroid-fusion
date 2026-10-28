@@ -253,16 +253,16 @@ void CutsceneElevatorMonologueInit(boolu8 reverseScrolling)
 
     LZ77UncompVram(sCutsceneUnk_79c514[gCurrentCutscene - 1], VRAM_OBJ + 0x2000);
     LZ77UncompVram(sCutsceneUnk_65fb5c, VRAM_BASE + 0x17C00);
-    DMA3_COPY_32(sCutsceneUnk_6638a0, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sCutsceneMonologueObjPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     DMA3_COPY_32(sCutsceneUnk_79c4cc[gCurrentCutscene - 1], PALRAM_OBJ, 6 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sCutsceneUnk_79c4f0[gCurrentCutscene - 1], VRAM_BASE);
     LZ77UncompVram(sCutsceneUnk_79c538[gCurrentCutscene - 1], VRAM_BASE + 0xD000);
     LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
-    LZ77UncompVram(sCutsceneUnk_663598, VRAM_BASE + 0xD800);
+    LZ77UncompVram(sCutsceneElevatorMonologueBg1Tilemap, VRAM_BASE + 0xD800);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x800 / sizeof(u32));
 
-    DMA3_COPY_32(sCutsceneUnk_6636a0, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sCutsceneMonologueBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
     DMA3_COPY_32(sCutsceneUnk_79c4a8[gCurrentCutscene - 1], PALRAM_BASE, 11 * PAL_ROW_SIZE / sizeof(u32));
 
     WRITE_16(REG_BG0VOFS, 4);
@@ -605,12 +605,12 @@ void CutsceneInternalMonologueInit(u8 unused)
     WRITE_16(REG_DISPCNT, 0);
 
     LZ77UncompVram(sCutsceneUnk_65fb5c, VRAM_BASE + 0x17C00);
-    DMA3_COPY_32(sCutsceneUnk_6638a0, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sCutsceneMonologueObjPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x800 / sizeof(u32));
 
-    DMA3_COPY_32(sCutsceneUnk_6636a0, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sCutsceneMonologueBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 
     WRITE_16(REG_BG0VOFS, 4);
@@ -779,14 +779,14 @@ void CutsceneFederationMonologueInit(u8 unused)
     WRITE_16(REG_DISPCNT, 0);
 
     LZ77UncompVram(sCutsceneUnk_65fb5c, VRAM_BASE + 0x17C00);
-    DMA3_COPY_32(sCutsceneUnk_6638a0, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sCutsceneMonologueObjPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
-    LZ77UncompVram(sCutsceneUnk_6724c0, VRAM_BASE);
-    LZ77UncompVram(sCutsceneUnk_674ad8, VRAM_BASE + 0xD000);
+    LZ77UncompVram(sCutsceneFederationMonologueBg2Gfx, VRAM_BASE);
+    LZ77UncompVram(sCutsceneFederationMonologueBg2Tilemap, VRAM_BASE + 0xD000);
     LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x800 / sizeof(u32));
 
-    DMA3_COPY_32(sCutsceneUnk_674958, PALRAM_BASE, 12 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sCutsceneFederationMonologueBgPal, PALRAM_BASE, 12 * PAL_ROW_SIZE / sizeof(u32));
     DMA3_COPY_32(sIntroPal_663820, PALRAM_BASE + 12 * PAL_ROW_SIZE, 4 * PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 

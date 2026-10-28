@@ -9,11 +9,11 @@
 extern const u32* sIntroSamusSittingBgGfxPointers[5];
 extern u16** sMonologueTextPointers[];
 
-extern const u8 sIntroUnk_658be0[];
-extern const u8 sIntroUnk_6591e4[];
-extern const u8 sIntroUnk_6593e4[];
-extern const u8 sIntroUnk_6599a4[];
-extern const u8 sIntroUnk_65c268[];
+extern const u32 sIntroSamusInShipTilemap[];
+extern const u16 sIntroSamusInShipPal[];
+extern const u32 sIntroShipAlertBg1Tilemap[];
+extern const u16 sIntroShipAlertBgPal[];
+extern const u16 sIntroShipAlertObjPal[];
 extern const u8 sIntroUnk_6101b8[];
 
 extern const u8 sSr388CollisionUnk_6238f4[];
