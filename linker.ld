@@ -499,7 +499,10 @@ SECTIONS {
 
         src/menus/pause_debug.o(.text);
 
+        src/status_screen.o(.text);
         asm/disasm_0x0807e678.o(.text);
+        src/menus/easy_sleep_menu.o(.text);
+        asm/disasm_0x0807eea4.o(.text);
 
         src/projectile.o(.text);
         src/menus/title_screen.o(.text);
