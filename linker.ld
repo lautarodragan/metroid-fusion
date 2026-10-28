@@ -514,6 +514,8 @@ SECTIONS {
 
         src/menus/game_over.o(.text);
         src/menus/file_select.o(.text);
+        asm/disasm_0x0809eab0.o(.text);
+        src/menus/file_select_2.o(.text);
         asm/disasm_0x0809deb4.o(.text);
 
         src/ending.o(.text);
