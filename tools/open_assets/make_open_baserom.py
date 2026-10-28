@@ -282,7 +282,6 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
 
     # Pointer tables of known layout, de-blobbed or not ("misc" .bin regions)
     known = [r for r in regions if r.category in ("blob", "misc")]
-    sym.update({r.path: layout.symbol_of(r) for r in known})
 
     # Interrupt handlers
     table = [r for r in known if sym[r.path] == INTERRUPT_TABLE_SYMBOL]
