@@ -6,7 +6,7 @@ Documentation: https://lautarodragan.github.io/metroid-fusion/ (sources in [book
 
 3607/3607 functions decompiled (100.00%, 0 left)
 
-0x5dca90/0x6f9d24 bytes of data not in blobs (84.03%, 0x11d294 left)
+0x65978a/0x6f9d24 bytes of data not in blobs (91.02%, 0xa059a left)
 
 These numbers are computed by `python3 tools/progress.py` (see its docstring for the method).
 
