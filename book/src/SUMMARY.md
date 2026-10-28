@@ -7,18 +7,18 @@
 
 - [Setup and build](setup.md)
 - [Contributing](CONTRIBUTING.md)
-- [Verifying without the ROM (synthetic check)](docs/synthetic_check.md)
-- [Shiftability](docs/shiftability.md)
-- [Emulator tests](docs/emu_tests.md)
+- [Verifying without the ROM (synthetic check)](synthetic-check.md)
+- [Shiftability](shiftability.md)
+- [Emulator tests](emu-tests.md)
 
 # Research
 
-- [Generated test baserom](docs/test_baserom_research.md)
-  - [Text and font](docs/test_baserom_font.md)
-  - [Rooms of the test baserom](docs/open_assets_rooms.md)
-  - [Placeholder sprites](docs/open_assets_sprites.md)
+- [Generated test baserom](test-baserom-research.md)
+  - [Text and font](test-baserom-font.md)
+  - [Rooms of the test baserom](open-assets-rooms.md)
+  - [Placeholder sprites](open-assets-sprites.md)
 
 # Reference
 
-- [Debug functions](docs/debug.md)
-- [Bugs and glitches](docs/bugs_and_glitches.md)
+- [Debug functions](debug.md)
+- [Bugs and glitches](bugs-and-glitches.md)

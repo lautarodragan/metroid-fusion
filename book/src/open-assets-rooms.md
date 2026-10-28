@@ -1,7 +1,7 @@
 # Rooms of the generated test baserom
 
-The generated test baserom ([research notes](test_baserom_research.md),
-[emulator tests](emu_tests.md)) fills every room with placeholder data. To
+The generated test baserom ([research notes](test-baserom-research.md),
+[emulator tests](emu-tests.md)) fills every room with placeholder data. To
 make the emulator tests and their screenshots meaningful, the rooms use a
 small **semantic tileset**: what Samus collides with looks like it, so a
 person reading a screenshot can tell floors, walls, platforms, ladders,

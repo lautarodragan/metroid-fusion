@@ -22,7 +22,7 @@ synthetic baserom is never clobbered by accident.
 
 Status: the resulting ROM boots in mGBA (HLE BIOS) through the title intro,
 title screen, file select and new-file intro into the first room; see
-docs/emu_tests.md for the emulator tests that check this.
+book/src/emu-tests.md for the emulator tests that check this.
 """
 
 from __future__ import annotations

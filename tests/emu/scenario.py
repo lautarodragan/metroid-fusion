@@ -46,7 +46,7 @@ PC_CHECK_INTERVAL = 10
 
 # After the in-game checkpoint: walk through the first three rooms of the
 # open ROM's maps (tools/open_assets/maps/): room 0 -> door 1 -> room 3 ->
-# door 7 -> room 6 (see docs/open_assets_rooms.md). The checkpoint names
+# door 7 -> room 6 (see book/src/open-assets-rooms.md). The checkpoint names
 # are recorded with the room Samus is in at that moment.
 ROOM_WALK: list[tuple[int, str, str | None]] = [
     (60, "", "room_0"),               # docking bay, camera on Samus

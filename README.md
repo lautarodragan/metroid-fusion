@@ -2,15 +2,17 @@
 
 This is a work in progress decompilation of Metroid Fusion.
 
-Documentation (in Spanish): https://lautarodragan.github.io/metroid-fusion/ (sources in [book/](book/))
+Documentation: https://lautarodragan.github.io/metroid-fusion/ (sources in [book/](book/))
 
-3256/3607 functions decompiled (90.27%, 351 left)
+3598/3607 functions decompiled (99.75%, 9 left)
 
 0x5dca90/0x6f9d24 bytes of data not in blobs (84.03%, 0x11d294 left)
 
+These numbers are computed by `python3 tools/progress.py` (see its docstring for the method).
+
 Progress can be seen here: https://docs.google.com/spreadsheets/d/1HvJ-jynb-4P9tfEBVJmkQFpIg6mJRDRUBvDIBiLxQIo/
 
-**Shiftability:** code and C data reference everything by symbol, and `make check-shift` verifies that a shifted build keeps every pointer it emits correct. Pointer tables stored inside extracted blobs (data still copied from the baserom) are not converted yet, so moving data can still break the ROM at run time. `tools/find_blob_pointers.py` lists them using the real baserom. See [docs/shiftability.md](docs/shiftability.md).
+**Shiftability:** code and C data reference everything by symbol, and `make check-shift` verifies that a shifted build keeps every pointer it emits correct. Pointer tables stored inside extracted blobs (data still copied from the baserom) are not converted yet, so moving data can still break the ROM at run time. `tools/find_blob_pointers.py` lists them using the real baserom. See [book/src/shiftability.md](book/src/shiftability.md).
 
 This repository can be used to build multiple ROMs. The ROMs are named like this: `mf_{region}.gba` (or `mf_{region}_debug.gba`)
 
@@ -70,15 +72,15 @@ The default built ROM is mf_us.gba
 
 ## Checking without a baserom
 
-`make check-synthetic` builds the ROM from a deterministic synthetic baserom and compares it with the golden sha1 in `mf_us_synthetic.sha1`. It catches code changes that would break matching without needing the real ROM. See [docs/synthetic_check.md](docs/synthetic_check.md) for what it covers and when the golden value may be updated.
+`make check-synthetic` builds the ROM from a deterministic synthetic baserom and compares it with the golden sha1 in `mf_us_synthetic.sha1`. It catches code changes that would break matching without needing the real ROM. See [book/src/synthetic-check.md](book/src/synthetic-check.md) for what it covers and when the golden value may be updated.
 
 ## Checking shiftability
 
-`make check-shift` fails on hardcoded ROM addresses in the sources, then links a second ROM with padding inserted in the code and data (`make SHIFT=1`, `mf_us_shifted.gba`) and checks that every pointer follows what it points to. It needs extracted data (from the real or the synthetic baserom). See [docs/shiftability.md](docs/shiftability.md).
+`make check-shift` fails on hardcoded ROM addresses in the sources, then links a second ROM with padding inserted in the code and data (`make SHIFT=1`, `mf_us_shifted.gba`) and checks that every pointer follows what it points to. It needs extracted data (from the real or the synthetic baserom). See [book/src/shiftability.md](book/src/shiftability.md).
 
 ## Emulator tests
 
-`tests/run_emu_tests.sh` builds the ROM from the open placeholder baserom (`tools/open_assets/`, a generated test fixture that needs no original ROM) in a scratch directory and runs pytest tests in a headless mGBA (libretro core, HLE BIOS): boot sequence up to the first room, screenshot regression and RAM checks. Needs `libretro-mgba` and `pytest`. See [docs/emu_tests.md](docs/emu_tests.md).
+`tests/run_emu_tests.sh` builds the ROM from the open placeholder baserom (`tools/open_assets/`, a generated test fixture that needs no original ROM) in a scratch directory and runs pytest tests in a headless mGBA (libretro core, HLE BIOS): boot sequence up to the first room, screenshot regression and RAM checks. Needs `libretro-mgba` and `pytest`. See [book/src/emu-tests.md](book/src/emu-tests.md).
 
 ## Contributing
 

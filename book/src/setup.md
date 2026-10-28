@@ -7,7 +7,7 @@
 - A base ROM for each ROM you want to build (for example
   `mf_us_baserom.gba` to build `mf_us.gba`). If you don't have the original
   ROM, you can still verify your changes with the
-  [synthetic check](docs/synthetic_check.md).
+  [synthetic check](synthetic-check.md).
 - `python3`
 - `g++`
 
@@ -64,4 +64,4 @@ If you'd rather do it by hand:
 - `./check_roms.sh` builds and verifies the ROMs for every supported region
   (you need a base ROM per region).
 - `make check-synthetic` verifies without the original ROM; see
-  [Verifying without the ROM](docs/synthetic_check.md).
+  [Verifying without the ROM](synthetic-check.md).

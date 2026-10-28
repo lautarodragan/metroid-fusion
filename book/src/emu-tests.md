@@ -2,7 +2,7 @@
 
 The tests in `tests/emu/` run the ROM built from the **open base ROM**
 (`tools/open_assets/`, a generated placeholder baserom used as a test
-fixture, see [Generated test baserom](test_baserom_research.md)) in a
+fixture, see [Generated test baserom](test-baserom-research.md)) in a
 windowless GBA emulator driven from Python. They don't need, read or download
 the original ROM or the official BIOS, so they run in CI.
 
@@ -32,7 +32,7 @@ another directory, generates the open base ROM there and builds with
 any real or synthetic `mf_us_baserom.gba` you have is left intact.
 
 It then repeats everything with the *shift* test ROM (`make SHIFT=1`,
-`mf_us_shifted.gba`, see `docs/shiftability.md`): the same code and data
+`mf_us_shifted.gba`, see [Shiftability](shiftability.md)): the same code and data
 with padding inserted, so almost every address changes. The same tests
 (screenshots included) have to pass; this is the run-time proof that the
 build is *shiftable*, which `check_shift.py` only verifies statically. It
@@ -56,9 +56,9 @@ objects whose data changed.
 | --- | --- |
 | `test_boot.py` | The first 600 frames run (PC always in code, increasing frame counter). The scripted walkthrough goes through the modes in order: title intro → title screen → file select → new file intro → map → in game. No invalid PC and no resets during the whole walkthrough. |
 | `test_screenshots.py` | Screenshots at 8 points (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`, and `room_0`, `room_3`, `room_6` from the room walk) compared against `tests/emu/reference/*.png`. A pixel differs if any channel differs by more than 24; the test fails if more than 0.5 % of the pixels differ. On failure, `<name>.actual.png` and `<name>.diff.png` are saved to `tests/emu/output/` (or `--emu-output` / `$MF_EMU_OUTPUT`; in CI they are uploaded as an artifact). |
-| `test_rooms.py` | The scripted walk after reaching the game (`ROOM_WALK` in `scenario.py`) goes through the first three rooms of the generated baserom: room 0 → left hatch → room 3 → upper left door → room 6. `gCurrentArea`/`gCurrentRoom` at each checkpoint must be (0, 0), (0, 3), (0, 6), and Samus must stand on the expected floor on arrival. See [the rooms](open_assets_rooms.md). |
+| `test_rooms.py` | The scripted walk after reaching the game (`ROOM_WALK` in `scenario.py`) goes through the first three rooms of the generated baserom: room 0 → left hatch → room 3 → upper left door → room 6. `gCurrentArea`/`gCurrentRoom` at each checkpoint must be (0, 0), (0, 3), (0, 6), and Samus must stand on the expected floor on arrival. See [the rooms](open-assets-rooms.md). |
 | `test_ingame.py` | In the first room (`gCurrentArea` = 0, `gCurrentRoom` = 0): holding right increases `gSamusData.xPosition` and left decreases it; A makes Samus jump (`yPosition` goes down) and Samus lands back on the floor. Determinism: same state + same input → same RAM/VRAM/OAM hash and same image; two power-ons give the same RAM. |
-| `test_sprites.py` | Placeholder sprites are really drawn: Samus' sprites are on screen and visible (not hidden behind the background); for 9 scripted poses (standing, running, jumping, spin jump, aiming up, aiming diagonally, crouching, shooting, facing left) Samus is rendered from OAM + OBJ VRAM + OBJ palettes (`oam_view.py`, without the room behind) and compared with `tests/emu/reference/samus_<pose>.png`, and the poses must all look different; shooting puts a beam sprite on screen; the energy counter is visible. See [Placeholder sprites](open_assets_sprites.md). |
+| `test_sprites.py` | Placeholder sprites are really drawn: Samus' sprites are on screen and visible (not hidden behind the background); for 9 scripted poses (standing, running, jumping, spin jump, aiming up, aiming diagonally, crouching, shooting, facing left) Samus is rendered from OAM + OBJ VRAM + OBJ palettes (`oam_view.py`, without the room behind) and compared with `tests/emu/reference/samus_<pose>.png`, and the poses must all look different; shooting puts a beam sprite on screen; the energy counter is visible. See [Placeholder sprites](open-assets-sprites.md). |
 
 The walkthrough (`tests/emu/scenario.py`) runs only once per session: the
 tests read what was recorded (mode transitions, screenshots, *save states*)
@@ -145,14 +145,14 @@ Nothing in `src/` or `asm/`: only placeholder data, in `apply_known_layouts` in
 4. **Text**: a readable font fitted to `sCharacterWidths` and short
    placeholder strings for every table, with the tilemaps/palettes of the
    text layers (`tools/open_assets/font.py`, see
-   [Text and font](test_baserom_font.md)). Each monologue is "page 1,
+   [Text and font](test-baserom-font.md)). Each monologue is "page 1,
    arrow, arrow, page 2, arrow, end", so that both the scenes that wait for
    "more text" and the ones that wait for "end" advance with A.
 5. **Voicegroups** (`sVoicegroup_*`): every voice plays the first sample.
 6. **Samus visible in the first room**: spriteset 8 lists the gunship (its
    AI clears `gDisableDrawingSamusAndScrollingFlag` on a new game), empty
    room BG tiles are transparent, and new files get button assignments.
-   See [Placeholder sprites](open_assets_sprites.md#data-that-had-to-be-filled-in-for-samus-to-show-up).
+   See [Placeholder sprites](open-assets-sprites.md#data-that-had-to-be-filled-in-for-samus-to-show-up).
 
 ### How that data is located
 
@@ -176,7 +176,7 @@ So that changes to the decomp or the layout don't break it silently:
 
 - The file select screen shows up black (its graphics decompress to
   nothing). The art is placeholder (Samus, HUD, projectiles, effects and
-  sprites: see [Placeholder sprites](open_assets_sprites.md)).
+  sprites: see [Placeholder sprites](open-assets-sprites.md)).
 - Screenshots depend on the mGBA version; CI pins `ubuntu-24.04`
   (libretro-mgba 0.10.2). With another version the references may need to be
   regenerated.

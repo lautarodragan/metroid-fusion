@@ -1,7 +1,7 @@
 """Room layouts for the open base ROM (test fixtures for the emulator tests).
 
 Rooms are drawn as ASCII maps in ``tools/open_assets/maps/*.txt`` (format and
-legend in docs/open_assets_rooms.md). One character per block gives both the
+legend in book/src/open-assets-rooms.md). One character per block gives both the
 collision (clipdata) and the look (BG1 metatile, chosen by tiles.py from the
 collision type and the neighbours); a second grid gives the background layer
 (BG2). The maps reuse the slots (width, height, byte budget) of the original
