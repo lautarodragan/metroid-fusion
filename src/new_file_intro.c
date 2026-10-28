@@ -10,6 +10,7 @@
 #include "structs/cutscene.h"
 
 #include "data/new_file_intro_data.h"
+#include "data/text_data.h"
 #include "data/generic_data.h"
 #include "data/menus/title_screen.h"
 #include "data/sprite_data.h"
@@ -57,44 +58,45 @@ static const u16* sArray_79c2e4[12] = {
 };
 
 static const u16* sPalPointers_79c314[16] = {
-	(const u16*)0x85dfd6c,
-	(const u16*)0x85dfeac,
-	(const u16*)0x85e102c,
-	(const u16*)0x85dffec,
-	(const u16*)0x85e012c,
-	(const u16*)0x85e026c,
-	(const u16*)0x85e03ac,
-	(const u16*)0x85e04ec,
-	(const u16*)0x85e062c,
-	(const u16*)0x85e076c,
-	(const u16*)0x85e08ac,
-	(const u16*)0x85e09ec,
-	(const u16*)0x85e0b2c,
-	(const u16*)0x85e0c6c,
-	(const u16*)0x85e0dac,
-	(const u16*)0x85e0eec
+	(const u16*)sPal_5dfd6c,
+	(const u16*)sPal_5dfeac,
+	(const u16*)sPal_5e102c,
+	(const u16*)sPal_5dffec,
+	(const u16*)sPal_5e012c,
+	(const u16*)sPal_5e026c,
+	(const u16*)sPal_5e03ac,
+	(const u16*)sPal_5e04ec,
+	(const u16*)sPal_5e062c,
+	(const u16*)sPal_5e076c,
+	(const u16*)sPal_5e08ac,
+	(const u16*)sPal_5e09ec,
+	(const u16*)sPal_5e0b2c,
+	(const u16*)sPal_5e0c6c,
+	(const u16*)sPal_5e0dac,
+	(const u16*)sPal_5e0eec
 };
 
 static const u16* sPalPointers_79c354[16] = {
-	(const u16*)0x85f6990,
-	(const u16*)0x85f6a10,
-	(const u16*)0x85f6a90,
-	(const u16*)0x85f6b10,
-	(const u16*)0x85f6b90,
-	(const u16*)0x85f6c10,
-	(const u16*)0x85f6c90,
-	(const u16*)0x85f6d10,
-	(const u16*)0x85f6d90,
-	(const u16*)0x85f6e10,
-	(const u16*)0x85f6e90,
-	(const u16*)0x85f6f10,
-	(const u16*)0x85f6f90,
-	(const u16*)0x85f7010,
-	(const u16*)0x85f7090,
-	(const u16*)0x85f7110
+	(const u16*)sPal_5f6990,
+	(const u16*)sPal_5f6a10,
+	(const u16*)sPal_5f6a90,
+	(const u16*)sPal_5f6b10,
+	(const u16*)sPal_5f6b90,
+	(const u16*)sPal_5f6c10,
+	(const u16*)sPal_5f6c90,
+	(const u16*)sPal_5f6d10,
+	(const u16*)sPal_5f6d90,
+	(const u16*)sPal_5f6e10,
+	(const u16*)sPal_5f6e90,
+	(const u16*)sPal_5f6f10,
+	(const u16*)sPal_5f6f90,
+	(const u16*)sPal_5f7010,
+	(const u16*)sPal_5f7090,
+	(const u16*)sPal_5f7110
 };
 
-static u8 sBlob_79c394_79c3c8[] = INCBIN_U8("data/Blob_79c394_79c3c8.bin");
+u8 sIntroUnk_79c394[] = INCBIN_U8("data/Blob_79c394_79c3ac.bin");
+u8 sEndingUnk_79c3ac[] = INCBIN_U8("data/Blob_79c3ac_79c3c8.bin");
 
 static const u32* sIntroSr388SurfaceBgGfxPointers[8] = {
     sIntroSr388SurfaceBgGfx0,
@@ -126,7 +128,7 @@ static const u32* sIntroBslObjectGfxPointers[8] = {
     sIntroBslObjectGfx7
 };
 
-static const u32* sIntroSamusSittingBgGfxPointers[5] = {
+const u32* sIntroSamusSittingBgGfxPointers[5] = {
     sIntroSamusSittingBgGfx0,
     sIntroSamusSittingBgGfx1,
     sIntroSamusSittingBgGfx2,
@@ -143,9 +145,16 @@ static const u32* sIntroSamusHelmetCloseupBgGfxPointers[6] = {
     sIntroSamusHelmetCloseupBgGfx5
 };
 
-static u8 sBlob_79c448_79c5a4[] = INCBIN_U8("data/Blob_79c448_79c5a4.bin");
+u8 sIntroUnk_79c448[] = INCBIN_U8("data/Blob_79c448_79c45c.bin");
+u8 sIntroUnk_79c45c[] = INCBIN_U8("data/Blob_79c45c_79c4a8.bin");
+u8 sCutsceneUnk_79c4a8[] = INCBIN_U8("data/Blob_79c4a8_79c4cc.bin");
+u8 sCutsceneUnk_79c4cc[] = INCBIN_U8("data/Blob_79c4cc_79c4f0.bin");
+u8 sCutsceneUnk_79c4f0[] = INCBIN_U8("data/Blob_79c4f0_79c514.bin");
+u8 sCutsceneUnk_79c514[] = INCBIN_U8("data/Blob_79c514_79c538.bin");
+u8 sCutsceneUnk_79c538[] = INCBIN_U8("data/Blob_79c538_79c55c.bin");
+u8 sCutsceneUnk_79c55c[] = INCBIN_U8("data/Blob_79c55c_79c5a4.bin");
 
-static u16** sMonologueTextPointers[LANGUAGE_COUNT] = {
+u16** sMonologueTextPointers[LANGUAGE_COUNT] = {
     sMonologueTextPointersJapanese,
     sMonologueTextPointersJapanese,
     sMonologueTextPointersEnglish,
@@ -155,163 +164,196 @@ static u16** sMonologueTextPointers[LANGUAGE_COUNT] = {
     sMonologueTextPointersSpanish
 };
 
-static u8 sBlob_79c5c0_79cdd8[] = INCBIN_U8("data/Blob_79c5c0_79cdd8.bin");
+u8 sMessageTextPointersJapanese[] = INCBIN_U8("data/Blob_79c5c0_79c680.bin");
+u8 sLocationTextPointersJapanese[] = INCBIN_U8("data/Blob_79c680_79c6e8.bin");
+u8 sMessageTextPointersHiragana[] = INCBIN_U8("data/Blob_79c6e8_79c7a8.bin");
+u8 sLocationTextPointersHiragana[] = INCBIN_U8("data/Blob_79c7a8_79c810.bin");
+u8 sMessageTextPointersEnglish[] = INCBIN_U8("data/Blob_79c810_79c8d0.bin");
+u8 sLocationTextPointersEnglish[] = INCBIN_U8("data/Blob_79c8d0_79c938.bin");
+u8 sMessageTextPointersGerman[] = INCBIN_U8("data/Blob_79c938_79c9f8.bin");
+u8 sLocationTextPointersGerman[] = INCBIN_U8("data/Blob_79c9f8_79ca60.bin");
+u8 sMessageTextPointersFrench[] = INCBIN_U8("data/Blob_79ca60_79cb20.bin");
+u8 sLocationTextPointersFrench[] = INCBIN_U8("data/Blob_79cb20_79cb88.bin");
+u8 sMessageTextPointersItalian[] = INCBIN_U8("data/Blob_79cb88_79cc48.bin");
+u8 sLocationTextPointersItalian[] = INCBIN_U8("data/Blob_79cc48_79ccb0.bin");
+u8 sMessageTextPointersSpanish[] = INCBIN_U8("data/Blob_79ccb0_79cd70.bin");
+u8 sLocationTextPointersSpanish[] = INCBIN_U8("data/Blob_79cd70_79cdd8.bin");
 
 const u16** sLocationTextPointers[LANGUAGE_COUNT] = {
-    (const u16**)0x879c680,
-    (const u16**)0x879c7a8,
-    (const u16**)0x879c8d0,
-    (const u16**)0x879c9f8,
-    (const u16**)0x879cb20,
-    (const u16**)0x879cc48,
-    (const u16**)0x879cd70
+    (const u16**)sLocationTextPointersJapanese,
+    (const u16**)sLocationTextPointersHiragana,
+    (const u16**)sLocationTextPointersEnglish,
+    (const u16**)sLocationTextPointersGerman,
+    (const u16**)sLocationTextPointersFrench,
+    (const u16**)sLocationTextPointersItalian,
+    (const u16**)sLocationTextPointersSpanish
 };
 
 u16** sMessageTextPointers[LANGUAGE_COUNT] = {
-    (u16**)0x879c5c0,
-    (u16**)0x879c6e8,
-    (u16**)0x879c810,
-    (u16**)0x879c938,
-    (u16**)0x879ca60,
-    (u16**)0x879cb88,
-    (u16**)0x879ccb0
+    (u16**)sMessageTextPointersJapanese,
+    (u16**)sMessageTextPointersHiragana,
+    (u16**)sMessageTextPointersEnglish,
+    (u16**)sMessageTextPointersGerman,
+    (u16**)sMessageTextPointersFrench,
+    (u16**)sMessageTextPointersItalian,
+    (u16**)sMessageTextPointersSpanish
 };
 
-static u8 sBlob_79ce10_79e6a0[] = INCBIN_U8("data/Blob_79ce10_79e6a0.bin");
+u8 sNavConversationTextPointersJapanese[] = INCBIN_U8("data/Blob_79ce10_79cfd8.bin");
+u8 sPauseScreenTextPointersJapanese[] = INCBIN_U8("data/Blob_79cfd8_79d194.bin");
+u8 sNavConversationTextPointersHiragana[] = INCBIN_U8("data/Blob_79d194_79d35c.bin");
+u8 sPauseScreenTextPointersHiragana[] = INCBIN_U8("data/Blob_79d35c_79d50c.bin");
+u8 sNavConversationTextPointersEnglish[] = INCBIN_U8("data/Blob_79d50c_79d6d4.bin");
+u8 sPauseScreenTextPointersEnglish[] = INCBIN_U8("data/Blob_79d6d4_79d890.bin");
+u8 sNavConversationTextPointersGerman[] = INCBIN_U8("data/Blob_79d890_79da58.bin");
+u8 sPauseScreenTextPointersGerman[] = INCBIN_U8("data/Blob_79da58_79dc14.bin");
+u8 sNavConversationTextPointersFrench[] = INCBIN_U8("data/Blob_79dc14_79dddc.bin");
+u8 sPauseScreenTextPointersFrench[] = INCBIN_U8("data/Blob_79dddc_79df98.bin");
+u8 sNavConversationTextPointersItalian[] = INCBIN_U8("data/Blob_79df98_79e160.bin");
+u8 sPauseScreenTextPointersItalian[] = INCBIN_U8("data/Blob_79e160_79e31c.bin");
+u8 sNavConversationTextPointersSpanish[] = INCBIN_U8("data/Blob_79e31c_79e4e4.bin");
+u8 sPauseScreenTextPointersSpanish[] = INCBIN_U8("data/Blob_79e4e4_79e6a0.bin");
 
 static u16* sMonologueTextPointersJapanese[19] = {
-	(u16*)0x871e20c,
-	(u16*)0x871e4e4,
-	(u16*)0x871e67e,
-	(u16*)0x871e814,
-	(u16*)0x871e9b6,
-	(u16*)0x871eb34,
-	(u16*)0x871ecac,
-	(u16*)0x871efc2,
-	(u16*)0x871f498,
-	(u16*)0x871f52c,
-	(u16*)0x871f56c,
-	(u16*)0x871f5fc,
-	(u16*)0x871f656,
-	(u16*)0x871f71a,
-	(u16*)0x871f7cc,
-	(u16*)0x871f896,
-	(u16*)0x871f98a,
-	(u16*)0x871fa32,
-	(u16*)0x871fa92
+	(u16*)sMonologueTextJapanese_0,
+	(u16*)sMonologueTextJapanese_1,
+	(u16*)sMonologueTextJapanese_2,
+	(u16*)sMonologueTextJapanese_3,
+	(u16*)sMonologueTextJapanese_4,
+	(u16*)sMonologueTextJapanese_5,
+	(u16*)sMonologueTextJapanese_6,
+	(u16*)sMonologueTextJapanese_7,
+	(u16*)sMonologueTextJapanese_8,
+	(u16*)sMonologueTextJapanese_9,
+	(u16*)sMonologueTextJapanese_10,
+	(u16*)sMonologueTextJapanese_11,
+	(u16*)sMonologueTextJapanese_12,
+	(u16*)sMonologueTextJapanese_13,
+	(u16*)sMonologueTextJapanese_14,
+	(u16*)sMonologueTextJapanese_15,
+	(u16*)sMonologueTextJapanese_16,
+	(u16*)sMonologueTextJapanese_17,
+	(u16*)sMonologueTextJapanese_18
 };
 
 static u16* sMonologueTextPointersEnglish[19] = {
-	(u16*)0x871fad4,
-	(u16*)0x87200ee,
-	(u16*)0x8720310,
-	(u16*)0x8720528,
-	(u16*)0x8720748,
-	(u16*)0x872094a,
-	(u16*)0x8720b4a,
-	(u16*)0x8721116,
-	(u16*)0x872192e,
-	(u16*)0x8721a12,
-	(u16*)0x8721ab6,
-	(u16*)0x8721c28,
-	(u16*)0x8721d12,
-	(u16*)0x8721f20,
-	(u16*)0x8722068,
-	(u16*)0x8722238,
-	(u16*)0x8722438,
-	(u16*)0x8722550,
-	(u16*)0x87225f8
+	(u16*)sMonologueTextEnglish_0,
+	(u16*)sMonologueTextEnglish_1,
+	(u16*)sMonologueTextEnglish_2,
+	(u16*)sMonologueTextEnglish_3,
+	(u16*)sMonologueTextEnglish_4,
+	(u16*)sMonologueTextEnglish_5,
+	(u16*)sMonologueTextEnglish_6,
+	(u16*)sMonologueTextEnglish_7,
+	(u16*)sMonologueTextEnglish_8,
+	(u16*)sMonologueTextEnglish_9,
+	(u16*)sMonologueTextEnglish_10,
+	(u16*)sMonologueTextEnglish_11,
+	(u16*)sMonologueTextEnglish_12,
+	(u16*)sMonologueTextEnglish_13,
+	(u16*)sMonologueTextEnglish_14,
+	(u16*)sMonologueTextEnglish_15,
+	(u16*)sMonologueTextEnglish_16,
+	(u16*)sMonologueTextEnglish_17,
+	(u16*)sMonologueTextEnglish_18
 };
 
 static u16* sMonologueTextPointersGerman[19] = {
-	(u16*)0x87226a0,
-	(u16*)0x8723016,
-	(u16*)0x8723324,
-	(u16*)0x8723624,
-	(u16*)0x8723958,
-	(u16*)0x8723be2,
-	(u16*)0x8723e44,
-	(u16*)0x872475e,
-	(u16*)0x87252c6,
-	(u16*)0x8725412,
-	(u16*)0x87254ea,
-	(u16*)0x87256d8,
-	(u16*)0x872581e,
-	(u16*)0x8725a60,
-	(u16*)0x8725b94,
-	(u16*)0x8725dac,
-	(u16*)0x872603c,
-	(u16*)0x87261c6,
-	(u16*)0x87262aa
+	(u16*)sMonologueTextGerman_0,
+	(u16*)sMonologueTextGerman_1,
+	(u16*)sMonologueTextGerman_2,
+	(u16*)sMonologueTextGerman_3,
+	(u16*)sMonologueTextGerman_4,
+	(u16*)sMonologueTextGerman_5,
+	(u16*)sMonologueTextGerman_6,
+	(u16*)sMonologueTextGerman_7,
+	(u16*)sMonologueTextGerman_8,
+	(u16*)sMonologueTextGerman_9,
+	(u16*)sMonologueTextGerman_10,
+	(u16*)sMonologueTextGerman_11,
+	(u16*)sMonologueTextGerman_12,
+	(u16*)sMonologueTextGerman_13,
+	(u16*)sMonologueTextGerman_14,
+	(u16*)sMonologueTextGerman_15,
+	(u16*)sMonologueTextGerman_16,
+	(u16*)sMonologueTextGerman_17,
+	(u16*)sMonologueTextGerman_18
 };
 
 static u16* sMonologueTextPointersFrench[19] = {
-	(u16*)0x872638c,
-	(u16*)0x8726aa6,
-	(u16*)0x8726cfe,
-	(u16*)0x8726f04,
-	(u16*)0x8727106,
-	(u16*)0x8727314,
-	(u16*)0x8727522,
-	(u16*)0x8727b08,
-	(u16*)0x87282bc,
-	(u16*)0x87283a6,
-	(u16*)0x8728466,
-	(u16*)0x8728608,
-	(u16*)0x87286e8,
-	(u16*)0x87288ba,
-	(u16*)0x8728a12,
-	(u16*)0x8728bfc,
-	(u16*)0x8728e4a,
-	(u16*)0x8728f96,
-	(u16*)0x872904e
+	(u16*)sMonologueTextFrench_0,
+	(u16*)sMonologueTextFrench_1,
+	(u16*)sMonologueTextFrench_2,
+	(u16*)sMonologueTextFrench_3,
+	(u16*)sMonologueTextFrench_4,
+	(u16*)sMonologueTextFrench_5,
+	(u16*)sMonologueTextFrench_6,
+	(u16*)sMonologueTextFrench_7,
+	(u16*)sMonologueTextFrench_8,
+	(u16*)sMonologueTextFrench_9,
+	(u16*)sMonologueTextFrench_10,
+	(u16*)sMonologueTextFrench_11,
+	(u16*)sMonologueTextFrench_12,
+	(u16*)sMonologueTextFrench_13,
+	(u16*)sMonologueTextFrench_14,
+	(u16*)sMonologueTextFrench_15,
+	(u16*)sMonologueTextFrench_16,
+	(u16*)sMonologueTextFrench_17,
+	(u16*)sMonologueTextFrench_18
 };
 
 static u16* sMonologueTextPointersItalian[19] = {
-	(u16*)0x87290fc,
-	(u16*)0x8729792,
-	(u16*)0x8729a6e,
-	(u16*)0x8729c84,
-	(u16*)0x8729f24,
-	(u16*)0x872a124,
-	(u16*)0x872a330,
-	(u16*)0x872a8f6,
-	(u16*)0x872b142,
-	(u16*)0x872b254,
-	(u16*)0x872b2c8,
-	(u16*)0x872b446,
-	(u16*)0x872b56e,
-	(u16*)0x872b7a6,
-	(u16*)0x872b8e6,
-	(u16*)0x872bab4,
-	(u16*)0x872bcc2,
-	(u16*)0x872bdb8,
-	(u16*)0x872be4a
+	(u16*)sMonologueTextItalian_0,
+	(u16*)sMonologueTextItalian_1,
+	(u16*)sMonologueTextItalian_2,
+	(u16*)sMonologueTextItalian_3,
+	(u16*)sMonologueTextItalian_4,
+	(u16*)sMonologueTextItalian_5,
+	(u16*)sMonologueTextItalian_6,
+	(u16*)sMonologueTextItalian_7,
+	(u16*)sMonologueTextItalian_8,
+	(u16*)sMonologueTextItalian_9,
+	(u16*)sMonologueTextItalian_10,
+	(u16*)sMonologueTextItalian_11,
+	(u16*)sMonologueTextItalian_12,
+	(u16*)sMonologueTextItalian_13,
+	(u16*)sMonologueTextItalian_14,
+	(u16*)sMonologueTextItalian_15,
+	(u16*)sMonologueTextItalian_16,
+	(u16*)sMonologueTextItalian_17,
+	(u16*)sMonologueTextItalian_18
 };
 
 static u16* sMonologueTextPointersSpanish[19] = {
-	(u16*)0x872bef8,
-	(u16*)0x872c69c,
-	(u16*)0x872c8f2,
-	(u16*)0x872cb02,
-	(u16*)0x872cd92,
-	(u16*)0x872d002,
-	(u16*)0x872d212,
-	(u16*)0x872d81e,
-	(u16*)0x872e0b8,
-	(u16*)0x872e1b6,
-	(u16*)0x872e220,
-	(u16*)0x872e3d2,
-	(u16*)0x872e4ea,
-	(u16*)0x872e70a,
-	(u16*)0x872e848,
-	(u16*)0x872ea20,
-	(u16*)0x872ebf6,
-	(u16*)0x872ed50,
-	(u16*)0x872ee1c
+	(u16*)sMonologueTextSpanish_0,
+	(u16*)sMonologueTextSpanish_1,
+	(u16*)sMonologueTextSpanish_2,
+	(u16*)sMonologueTextSpanish_3,
+	(u16*)sMonologueTextSpanish_4,
+	(u16*)sMonologueTextSpanish_5,
+	(u16*)sMonologueTextSpanish_6,
+	(u16*)sMonologueTextSpanish_7,
+	(u16*)sMonologueTextSpanish_8,
+	(u16*)sMonologueTextSpanish_9,
+	(u16*)sMonologueTextSpanish_10,
+	(u16*)sMonologueTextSpanish_11,
+	(u16*)sMonologueTextSpanish_12,
+	(u16*)sMonologueTextSpanish_13,
+	(u16*)sMonologueTextSpanish_14,
+	(u16*)sMonologueTextSpanish_15,
+	(u16*)sMonologueTextSpanish_16,
+	(u16*)sMonologueTextSpanish_17,
+	(u16*)sMonologueTextSpanish_18
 };
 
-static u8 sBlob_79e868_79eca0[] = INCBIN_U8("data/Blob_79e868_79eca0.bin");
+u8 sGameOverUnk_79e868[] = INCBIN_U8("data/Blob_79e868_79e874.bin");
+u8 sGameOverUnk_79e874[] = INCBIN_U8("data/Blob_79e874_79e890.bin");
+u8 sFileSelectUnk_79e890[] = INCBIN_U8("data/Blob_79e890_79e8a4.bin");
+u8 sFileSelectUnk_79e8a4[] = INCBIN_U8("data/Blob_79e8a4_79e928.bin");
+u8 sFileSelectUnk_79e928[] = INCBIN_U8("data/Blob_79e928_79e944.bin");
+u8 sFileSelectUnk_79e944[] = INCBIN_U8("data/Blob_79e944_79ec68.bin");
+u8 sFileSelectUnk_79ec68[] = INCBIN_U8("data/Blob_79ec68_79ec84.bin");
+u8 sFileSelectUnk_79ec84[] = INCBIN_U8("data/Blob_79ec84_79eca0.bin");
 
 /**
  * @brief 87610 | f8 | Handler for intro

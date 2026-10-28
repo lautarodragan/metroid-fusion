@@ -15,7 +15,7 @@
 *.deps.json
 *.runtimeconfig.json
 
-linker.ld.pp
+*.ld.pp
 include/**/*.s
 tools/*.txt
 tools/agbcc

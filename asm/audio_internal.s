@@ -299,7 +299,7 @@ _080047A0:
 	thumb_func_start UpdateAudio
 UpdateAudio: @ 0x080047A8
 	push {r4, r5, r6, lr}
-	ldr r4, _08004810 @ =0x080A8CDC
+	ldr r4, _08004810 @ =sMusicTrackDataRom
 	ldr r6, _08004814 @ =gMusicInfo
 	movs r0, #0x21
 	ldrb r0, [r6, r0]
@@ -353,7 +353,7 @@ _08004806:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08004810: .4byte 0x080A8CDC
+_08004810: .4byte sMusicTrackDataRom
 _08004814: .4byte gMusicInfo
 _08004818: .4byte 0x00000008
 
@@ -660,8 +660,8 @@ _08004A30:
 	.align 2, 0
 _08004A38: .4byte gMusicInfo
 
-	thumb_func_start unk_4a3c
-unk_4a3c: @ 0x08004A3C
+	thumb_func_start AudioCommand_Goto
+AudioCommand_Goto: @ 0x08004A3C
 	ldr r1, [r0, #0x24]
 	adds r1, #1
 	movs r2, #3
@@ -698,8 +698,8 @@ _08004A76:
 	bx lr
 	.align 2, 0
 
-	thumb_func_start unk_4a7c
-unk_4a7c: @ 0x08004A7C
+	thumb_func_start AudioCommand_PatternPlay
+AudioCommand_PatternPlay: @ 0x08004A7C
 	ldr r1, [r0, #0x24]
 	adds r1, #1
 	movs r2, #3

@@ -10,7 +10,7 @@ Documentation (in Spanish): https://lautarodragan.github.io/metroid-fusion/ (sou
 
 Progress can be seen here: https://docs.google.com/spreadsheets/d/1HvJ-jynb-4P9tfEBVJmkQFpIg6mJRDRUBvDIBiLxQIo/
 
-**This decomp is not shiftable, don't use it as a base to work on anything**
+**Shiftability:** code and C data reference everything by symbol, and `make check-shift` verifies that a shifted build keeps every pointer it emits correct. Pointer tables stored inside extracted blobs (data still copied from the baserom) are not converted yet, so moving data can still break the ROM at run time. `tools/find_blob_pointers.py` lists them using the real baserom. See [docs/shiftability.md](docs/shiftability.md).
 
 This repository can be used to build multiple ROMs. The ROMs are named like this: `mf_{region}.gba` (or `mf_{region}_debug.gba`)
 
@@ -71,6 +71,10 @@ The default built ROM is mf_us.gba
 ## Checking without a baserom
 
 `make check-synthetic` builds the ROM from a deterministic synthetic baserom and compares it with the golden sha1 in `mf_us_synthetic.sha1`. It catches code changes that would break matching without needing the real ROM. See [docs/synthetic_check.md](docs/synthetic_check.md) for what it covers and when the golden value may be updated.
+
+## Checking shiftability
+
+`make check-shift` fails on hardcoded ROM addresses in the sources, then links a second ROM with padding inserted in the code and data (`make SHIFT=1`, `mf_us_shifted.gba`) and checks that every pointer follows what it points to. It needs extracted data (from the real or the synthetic baserom). See [docs/shiftability.md](docs/shiftability.md).
 
 ## Contributing
 

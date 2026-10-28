@@ -178,17 +178,17 @@ GameOverInit: @ 0x0809DF58
 	strh r4, [r0]
 	adds r0, #2
 	strh r4, [r0]
-	ldr r0, _0809E0E8 @ =0x08739A78
+	ldr r0, _0809E0E8 @ =sGameOverUnk_739a78
 	adds r1, r6, #0
 	bl LZ77UncompVram
-	ldr r0, _0809E0EC @ =0x0873C4E4
+	ldr r0, _0809E0EC @ =sGameOverUnk_73c4e4
 	str r0, [r7]
 	ldr r0, _0809E0F0 @ =0x05000200
 	str r0, [r7, #4]
 	ldr r5, _0809E0F4 @ =0x84000080
 	str r5, [r7, #8]
 	ldr r0, [r7, #8]
-	ldr r0, _0809E0F8 @ =0x0873422C
+	ldr r0, _0809E0F8 @ =sGameOverUnk_73422c
 	movs r4, #0xc0
 	lsls r4, r4, #0x13
 	adds r1, r4, #0
@@ -198,7 +198,7 @@ GameOverInit: @ 0x0809DF58
 	ldrsb r0, [r1, r0]
 	cmp r0, #1
 	ble _0809E042
-	ldr r0, _0809E100 @ =0x0879E874
+	ldr r0, _0809E100 @ =sGameOverUnk_79e874
 	ldrb r1, [r1]
 	lsls r1, r1, #0x18
 	asrs r1, r1, #0x18
@@ -208,13 +208,13 @@ GameOverInit: @ 0x0809DF58
 	adds r1, r4, #0
 	bl LZ77UncompVram
 _0809E042:
-	ldr r0, _0809E104 @ =0x0873C6E4
+	ldr r0, _0809E104 @ =sGameOverUnk_73c6e4
 	ldr r1, _0809E108 @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _0809E10C @ =0x0873CCA8
+	ldr r0, _0809E10C @ =sGameOverUnk_73cca8
 	ldr r1, _0809E110 @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _0809E114 @ =0x0873C2E4
+	ldr r0, _0809E114 @ =sGameOverUnk_73c2e4
 	str r0, [r7]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -268,18 +268,18 @@ _0809E0D8: .4byte 0x84002000
 _0809E0DC: .4byte gNextOamSlot
 _0809E0E0: .4byte 0x0400000E
 _0809E0E4: .4byte 0x0400000A
-_0809E0E8: .4byte 0x08739A78
-_0809E0EC: .4byte 0x0873C4E4
+_0809E0E8: .4byte sGameOverUnk_739a78
+_0809E0EC: .4byte sGameOverUnk_73c4e4
 _0809E0F0: .4byte 0x05000200
 _0809E0F4: .4byte 0x84000080
-_0809E0F8: .4byte 0x0873422C
+_0809E0F8: .4byte sGameOverUnk_73422c
 _0809E0FC: .4byte 0x03000011
-_0809E100: .4byte 0x0879E874
-_0809E104: .4byte 0x0873C6E4
+_0809E100: .4byte sGameOverUnk_79e874
+_0809E104: .4byte sGameOverUnk_73c6e4
 _0809E108: .4byte 0x0600F800
-_0809E10C: .4byte 0x0873CCA8
+_0809E10C: .4byte sGameOverUnk_73cca8
 _0809E110: .4byte 0x0600F000
-_0809E114: .4byte 0x0873C2E4
+_0809E114: .4byte sGameOverUnk_73c2e4
 _0809E118: .4byte 0x00001E02
 _0809E11C: .4byte 0x00001F03
 _0809E120: .4byte GameOverVblank
@@ -366,7 +366,7 @@ _0809E194:
 	adds r0, r3, #0
 	adds r0, #0x14
 	adds r0, r2, r0
-	ldr r1, _0809E1D0 @ =0x0879E868
+	ldr r1, _0809E1D0 @ =sGameOverUnk_79e868
 	ldr r1, [r1]
 	str r1, [r0]
 	adds r0, r3, #0
@@ -376,7 +376,7 @@ _0809E194:
 	b _0809E1F2
 	.align 2, 0
 _0809E1CC: .4byte gNonGameplayRam
-_0809E1D0: .4byte 0x0879E868
+_0809E1D0: .4byte sGameOverUnk_79e868
 _0809E1D4: .4byte GameOverProcessCursor
 _0809E1D8:
 	cmp r5, #2
@@ -386,7 +386,7 @@ _0809E1D8:
 	adds r0, r3, #0
 	adds r0, #0x14
 	adds r0, r2, r0
-	ldr r1, _0809E1FC @ =0x0873C274
+	ldr r1, _0809E1FC @ =sGameOverUnk_73c274
 	str r1, [r0]
 	adds r0, r3, #0
 	adds r0, #0x18
@@ -401,7 +401,7 @@ _0809E1F6:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0809E1FC: .4byte 0x0873C274
+_0809E1FC: .4byte sGameOverUnk_73c274
 _0809E200: .4byte unk_9e2cc
 
 	thumb_func_start GameOverProcessCursor
@@ -458,7 +458,7 @@ _0809E252:
 	bl SoundPlay
 	movs r0, #0xa
 	bl FadeMusic
-	ldr r0, _0809E288 @ =0x0879E868
+	ldr r0, _0809E288 @ =sGameOverUnk_79e868
 	ldr r0, [r0, #4]
 	str r0, [r4, #0x10]
 	ldr r1, _0809E28C @ =gNonGameplayRam
@@ -467,7 +467,7 @@ _0809E252:
 	.align 2, 0
 _0809E280: .4byte 0x000001F9
 _0809E284: .4byte gChangedInput
-_0809E288: .4byte 0x0879E868
+_0809E288: .4byte sGameOverUnk_79e868
 _0809E28C: .4byte gNonGameplayRam
 _0809E290:
 	cmp r0, #0x88
@@ -477,7 +477,7 @@ _0809E290:
 	bl SoundPlay
 	movs r0, #0xa
 	bl FadeMusic
-	ldr r0, _0809E2C4 @ =0x0879E868
+	ldr r0, _0809E2C4 @ =sGameOverUnk_79e868
 	ldr r0, [r0, #8]
 	str r0, [r4, #0x10]
 	ldr r1, _0809E2C8 @ =gNonGameplayRam
@@ -497,7 +497,7 @@ _0809E2BC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809E2C4: .4byte 0x0879E868
+_0809E2C4: .4byte sGameOverUnk_79e868
 _0809E2C8: .4byte gNonGameplayRam
 
 	thumb_func_start unk_9e2cc
@@ -696,7 +696,7 @@ _0809E3E4:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r2, _0809E45C @ =0x08734220
+	ldr r2, _0809E45C @ =sGameOverUnk_734220
 	adds r1, r1, r2
 	ldrb r0, [r1]
 	lsls r0, r0, #3
@@ -714,7 +714,7 @@ _0809E3E4:
 	.align 2, 0
 _0809E454: .4byte gNextOamSlot
 _0809E458: .4byte gOamData
-_0809E45C: .4byte 0x08734220
+_0809E45C: .4byte sGameOverUnk_734220
 _0809E460: .4byte 0x000001FF
 _0809E464:
 	ldrh r0, [r5, #2]
@@ -1159,14 +1159,14 @@ FileSelectInit: @ 0x0809E750
 	strh r6, [r0]
 	adds r0, #2
 	strh r6, [r0]
-	ldr r0, _0809E964 @ =0x08742FB4
+	ldr r0, _0809E964 @ =sFileSelectUnk_742fb4
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	bl LZ77UncompVram
-	ldr r0, _0809E968 @ =0x087470E0
+	ldr r0, _0809E968 @ =sFileSelectUnk_7470e0
 	ldr r1, _0809E96C @ =0x0600F800
 	bl LZ77UncompVram
-	ldr r0, _0809E970 @ =0x087476A0
+	ldr r0, _0809E970 @ =sFileSelectUnk_7476a0
 	str r0, [r4]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -1175,10 +1175,10 @@ FileSelectInit: @ 0x0809E750
 	ldr r0, _0809E974 @ =0x84000080
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809E978 @ =0x0873CFAC
+	ldr r0, _0809E978 @ =sFileSelectUnk_73cfac
 	ldr r1, _0809E97C @ =0x0600E000
 	bl LZ77UncompVram
-	ldr r0, _0809E980 @ =0x0873D380
+	ldr r0, _0809E980 @ =sFileSelectUnk_73d380
 	movs r5, #0x80
 	lsls r5, r5, #0x12
 	adds r1, r5, #0
@@ -1189,17 +1189,17 @@ FileSelectInit: @ 0x0809E750
 	ldr r0, _0809E988 @ =0x84000200
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r0, _0809E98C @ =0x0873D5EC
+	ldr r0, _0809E98C @ =sFileSelectUnk_73d5ec
 	ldr r1, _0809E990 @ =0x0600F000
 	bl LZ77UncompVram
-	ldr r0, _0809E994 @ =0x0873DB84
+	ldr r0, _0809E994 @ =sFileSelectUnk_73db84
 	str r0, [r4]
 	mov r2, r8
 	str r2, [r4, #4]
 	ldr r0, _0809E998 @ =0x84000008
 	str r0, [r4, #8]
 	ldr r0, [r4, #8]
-	ldr r1, _0809E99C @ =0x0873DAC4
+	ldr r1, _0809E99C @ =sFileSelectUnk_73dac4
 	str r1, [r4]
 	str r2, [r4, #4]
 	ldr r0, _0809E9A0 @ =0x84000002
@@ -1231,11 +1231,11 @@ _0809E86A:
 	adds r3, #2
 	cmp r3, #0xff
 	bls _0809E86A
-	ldr r0, _0809E9B8 @ =0x0873DC20
+	ldr r0, _0809E9B8 @ =sFileSelectUnk_73dc20
 	ldr r1, _0809E9BC @ =0x06010000
 	bl LZ77UncompVram
 	ldr r1, _0809E948 @ =0x040000D4
-	ldr r0, _0809E9C0 @ =0x08740D08
+	ldr r0, _0809E9C0 @ =sFileSelectUnk_740d08
 	str r0, [r1]
 	ldr r0, _0809E9C4 @ =0x05000200
 	str r0, [r1, #4]
@@ -1245,7 +1245,7 @@ _0809E86A:
 	ldr r4, _0809E94C @ =gNonGameplayRam
 	movs r0, #0
 	strh r0, [r4, #8]
-	ldr r1, _0809E9C8 @ =0x0879EC68
+	ldr r1, _0809E9C8 @ =sFileSelectUnk_79ec68
 	ldr r0, _0809E9CC @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -1322,32 +1322,32 @@ _0809E954: .4byte 0x0400000E
 _0809E958: .4byte 0x04000016
 _0809E95C: .4byte 0x0000FFFA
 _0809E960: .4byte 0x04000018
-_0809E964: .4byte 0x08742FB4
-_0809E968: .4byte 0x087470E0
+_0809E964: .4byte sFileSelectUnk_742fb4
+_0809E968: .4byte sFileSelectUnk_7470e0
 _0809E96C: .4byte 0x0600F800
-_0809E970: .4byte 0x087476A0
+_0809E970: .4byte sFileSelectUnk_7476a0
 _0809E974: .4byte 0x84000080
-_0809E978: .4byte 0x0873CFAC
+_0809E978: .4byte sFileSelectUnk_73cfac
 _0809E97C: .4byte 0x0600E000
-_0809E980: .4byte 0x0873D380
+_0809E980: .4byte sFileSelectUnk_73d380
 _0809E984: .4byte 0x0600E800
 _0809E988: .4byte 0x84000200
-_0809E98C: .4byte 0x0873D5EC
+_0809E98C: .4byte sFileSelectUnk_73d5ec
 _0809E990: .4byte 0x0600F000
-_0809E994: .4byte 0x0873DB84
+_0809E994: .4byte sFileSelectUnk_73db84
 _0809E998: .4byte 0x84000008
-_0809E99C: .4byte 0x0873DAC4
+_0809E99C: .4byte sFileSelectUnk_73dac4
 _0809E9A0: .4byte 0x84000002
 _0809E9A4: .4byte 0x0500001C
 _0809E9A8: .4byte 0x84000001
 _0809E9AC: .4byte 0x02000800
 _0809E9B0: .4byte 0x02000340
 _0809E9B4: .4byte 0x00000FFF
-_0809E9B8: .4byte 0x0873DC20
+_0809E9B8: .4byte sFileSelectUnk_73dc20
 _0809E9BC: .4byte 0x06010000
-_0809E9C0: .4byte 0x08740D08
+_0809E9C0: .4byte sFileSelectUnk_740d08
 _0809E9C4: .4byte 0x05000200
-_0809E9C8: .4byte 0x0879EC68
+_0809E9C8: .4byte sFileSelectUnk_79ec68
 _0809E9CC: .4byte 0x03000011
 _0809E9D0: .4byte 0x03000B8D
 _0809E9D4: .4byte 0x00001F03
@@ -1562,7 +1562,7 @@ _0809EBB0:
 	cmp r0, #1
 	bne _0809EBF4
 	strh r0, [r4, #8]
-	ldr r1, _0809EBEC @ =0x0879EC68
+	ldr r1, _0809EBEC @ =sFileSelectUnk_79ec68
 	ldr r0, _0809EBF0 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -1580,7 +1580,7 @@ _0809EBB0:
 	b _0809F2FC
 	.align 2, 0
 _0809EBE8: .4byte gNonGameplayRam
-_0809EBEC: .4byte 0x0879EC68
+_0809EBEC: .4byte sFileSelectUnk_79ec68
 _0809EBF0: .4byte 0x03000011
 _0809EBF4:
 	cmp r0, #0xc
@@ -1844,7 +1844,7 @@ _0809EDFE:
 	bne _0809EE24
 	movs r0, #0x18
 	strh r0, [r4, #8]
-	ldr r1, _0809EE1C @ =0x0879EC68
+	ldr r1, _0809EE1C @ =sFileSelectUnk_79ec68
 	ldr r0, _0809EE20 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -1856,7 +1856,7 @@ _0809EDFE:
 	str r0, [r4, #4]
 	b _0809F32C
 	.align 2, 0
-_0809EE1C: .4byte 0x0879EC68
+_0809EE1C: .4byte sFileSelectUnk_79ec68
 _0809EE20: .4byte 0x03000011
 _0809EE24:
 	cmp r0, #0xc
@@ -2042,7 +2042,7 @@ _0809EF7A:
 	bne _0809EFA0
 	movs r0, #2
 	strh r0, [r2, #8]
-	ldr r1, _0809EF98 @ =0x0879EC68
+	ldr r1, _0809EF98 @ =sFileSelectUnk_79ec68
 	ldr r0, _0809EF9C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -2054,7 +2054,7 @@ _0809EF7A:
 	str r0, [r2, #4]
 	b _0809F32C
 	.align 2, 0
-_0809EF98: .4byte 0x0879EC68
+_0809EF98: .4byte sFileSelectUnk_79ec68
 _0809EF9C: .4byte 0x03000011
 _0809EFA0:
 	cmp r0, #0xc
@@ -2183,7 +2183,7 @@ _0809F088:
 	bne _0809F0B0
 	movs r0, #3
 	strh r0, [r2, #8]
-	ldr r1, _0809F0A8 @ =0x0879EC68
+	ldr r1, _0809F0A8 @ =sFileSelectUnk_79ec68
 	ldr r0, _0809F0AC @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -2195,7 +2195,7 @@ _0809F088:
 	str r0, [r2, #4]
 	b _0809F32C
 	.align 2, 0
-_0809F0A8: .4byte 0x0879EC68
+_0809F0A8: .4byte sFileSelectUnk_79ec68
 _0809F0AC: .4byte 0x03000011
 _0809F0B0:
 	cmp r0, #4
@@ -2208,7 +2208,7 @@ _0809F0B6:
 	movs r0, #0x16
 	strh r0, [r2, #0xa]
 	strb r1, [r2, #0x10]
-	ldr r1, _0809F0DC @ =0x0873DBB0
+	ldr r1, _0809F0DC @ =sFileSelectUnk_73dbb0
 	ldr r0, _0809F0E0 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -2221,7 +2221,7 @@ _0809F0B6:
 	movs r2, #0x91
 	b _0809F2FC
 	.align 2, 0
-_0809F0DC: .4byte 0x0873DBB0
+_0809F0DC: .4byte sFileSelectUnk_73dbb0
 _0809F0E0: .4byte 0x03000011
 _0809F0E4:
 	ldr r2, _0809F120 @ =gNonGameplayRam
@@ -2352,7 +2352,7 @@ _0809F1C6:
 	bne _0809F234
 	movs r0, #2
 	strh r0, [r4, #8]
-	ldr r1, _0809F1E4 @ =0x0879EC68
+	ldr r1, _0809F1E4 @ =sFileSelectUnk_79ec68
 	ldr r0, _0809F1E8 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -2364,7 +2364,7 @@ _0809F1C6:
 	str r0, [r4, #4]
 	b _0809F32C
 	.align 2, 0
-_0809F1E4: .4byte 0x0879EC68
+_0809F1E4: .4byte sFileSelectUnk_79ec68
 _0809F1E8: .4byte 0x03000011
 _0809F1EC:
 	ldr r4, _0809F200 @ =gNonGameplayRam
@@ -2390,7 +2390,7 @@ _0809F20E:
 	bne _0809F234
 	movs r0, #2
 	strh r0, [r4, #8]
-	ldr r1, _0809F22C @ =0x0879EC68
+	ldr r1, _0809F22C @ =sFileSelectUnk_79ec68
 	ldr r0, _0809F230 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -2402,7 +2402,7 @@ _0809F20E:
 	str r0, [r4, #4]
 	b _0809F32C
 	.align 2, 0
-_0809F22C: .4byte 0x0879EC68
+_0809F22C: .4byte sFileSelectUnk_79ec68
 _0809F230: .4byte 0x03000011
 _0809F234:
 	cmp r0, #0xc
@@ -2530,7 +2530,7 @@ _0809F310:
 	bne _0809F33C
 	movs r0, #4
 	strh r0, [r5, #8]
-	ldr r1, _0809F334 @ =0x0879EC68
+	ldr r1, _0809F334 @ =sFileSelectUnk_79ec68
 	ldr r0, _0809F338 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -2545,7 +2545,7 @@ _0809F32C:
 	bl FileSelectDrawText
 	b _0809F50A
 	.align 2, 0
-_0809F334: .4byte 0x0879EC68
+_0809F334: .4byte sFileSelectUnk_79ec68
 _0809F338: .4byte 0x03000011
 _0809F33C:
 	cmp r0, #0xc
@@ -2554,7 +2554,7 @@ _0809F33C:
 _0809F342:
 	movs r4, #1
 	strb r4, [r5, #0x10]
-	ldr r1, _0809F36C @ =0x0873DBBE
+	ldr r1, _0809F36C @ =sFileSelectUnk_73dbbe
 	ldr r0, _0809F370 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -2573,7 +2573,7 @@ _0809F342:
 	strh r0, [r5, #0xa]
 	b _0809F50A
 	.align 2, 0
-_0809F36C: .4byte 0x0873DBBE
+_0809F36C: .4byte sFileSelectUnk_73dbbe
 _0809F370: .4byte 0x03000011
 _0809F374:
 	ldr r0, _0809F388 @ =gChangedInput
@@ -2884,7 +2884,7 @@ _0809F578:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F5D0 @ =0x08740A48
+	ldr r1, _0809F5D0 @ =sFileSelectUnk_740a48
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -2895,7 +2895,7 @@ _0809F578:
 _0809F5C4: .4byte 0x040000D4
 _0809F5C8: .4byte 0x0300149C
 _0809F5CC: .4byte 0x85000007
-_0809F5D0: .4byte 0x08740A48
+_0809F5D0: .4byte sFileSelectUnk_740a48
 _0809F5D4: .4byte FileSelectProcessSamusHead
 _0809F5D8:
 	cmp r3, #2
@@ -2903,7 +2903,7 @@ _0809F5D8:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F5F0 @ =0x08740B48
+	ldr r1, _0809F5F0 @ =sFileSelectUnk_740b48
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -2911,7 +2911,7 @@ _0809F5D8:
 	ldr r1, _0809F5F4 @ =FileSelectProcessCursor
 	b _0809F916
 	.align 2, 0
-_0809F5F0: .4byte 0x08740B48
+_0809F5F0: .4byte sFileSelectUnk_740b48
 _0809F5F4: .4byte FileSelectProcessCursor
 _0809F5F8:
 	cmp r3, #3
@@ -2923,7 +2923,7 @@ _0809F5F8:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F618 @ =0x08740AB8
+	ldr r1, _0809F618 @ =sFileSelectUnk_740ab8
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -2931,7 +2931,7 @@ _0809F5F8:
 	ldr r1, _0809F61C @ =FileSelectProcessDeleteArrow
 	b _0809F916
 	.align 2, 0
-_0809F618: .4byte 0x08740AB8
+_0809F618: .4byte sFileSelectUnk_740ab8
 _0809F61C: .4byte FileSelectProcessDeleteArrow
 _0809F620:
 	cmp r3, #4
@@ -2939,7 +2939,7 @@ _0809F620:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F638 @ =0x08740B48
+	ldr r1, _0809F638 @ =sFileSelectUnk_740b48
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -2947,7 +2947,7 @@ _0809F620:
 	ldr r1, _0809F63C @ =unk_9fddc
 	b _0809F916
 	.align 2, 0
-_0809F638: .4byte 0x08740B48
+_0809F638: .4byte sFileSelectUnk_740b48
 _0809F63C: .4byte unk_9fddc
 _0809F640:
 	cmp r3, #5
@@ -2955,7 +2955,7 @@ _0809F640:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F658 @ =0x08740B48
+	ldr r1, _0809F658 @ =sFileSelectUnk_740b48
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -2963,7 +2963,7 @@ _0809F640:
 	ldr r1, _0809F65C @ =unk_9ff00
 	b _0809F916
 	.align 2, 0
-_0809F658: .4byte 0x08740B48
+_0809F658: .4byte sFileSelectUnk_740b48
 _0809F65C: .4byte unk_9ff00
 _0809F660:
 	cmp r3, #6
@@ -2974,7 +2974,7 @@ _0809F660:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F680 @ =0x087407E0
+	ldr r1, _0809F680 @ =sFileSelectUnk_7407e0
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -2982,7 +2982,7 @@ _0809F660:
 	ldr r1, _0809F684 @ =FileSelectProcessAudioLogos
 	b _0809F916
 	.align 2, 0
-_0809F680: .4byte 0x087407E0
+_0809F680: .4byte sFileSelectUnk_7407e0
 _0809F684: .4byte FileSelectProcessAudioLogos
 _0809F688:
 	cmp r3, #7
@@ -2993,7 +2993,7 @@ _0809F688:
 	mov r1, ip
 	adds r1, #0x14
 	adds r1, r4, r1
-	ldr r2, _0809F6B0 @ =0x0879E890
+	ldr r2, _0809F6B0 @ =sFileSelectUnk_79e890
 	ldr r0, _0809F6B4 @ =0x03000B8D
 	ldrb r0, [r0]
 	lsls r0, r0, #2
@@ -3006,7 +3006,7 @@ _0809F688:
 	ldr r1, _0809F6B8 @ =FileSelectProcessFileOverlay
 	b _0809F916
 	.align 2, 0
-_0809F6B0: .4byte 0x0879E890
+_0809F6B0: .4byte sFileSelectUnk_79e890
 _0809F6B4: .4byte 0x03000B8D
 _0809F6B8: .4byte FileSelectProcessFileOverlay
 _0809F6BC:
@@ -3018,7 +3018,7 @@ _0809F6BC:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F6DC @ =0x087408E0
+	ldr r1, _0809F6DC @ =sFileSelectUnk_7408e0
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -3026,7 +3026,7 @@ _0809F6BC:
 	ldr r1, _0809F6E0 @ =unk_a016c
 	b _0809F916
 	.align 2, 0
-_0809F6DC: .4byte 0x087408E0
+_0809F6DC: .4byte sFileSelectUnk_7408e0
 _0809F6E0: .4byte unk_a016c
 _0809F6E4:
 	cmp r3, #9
@@ -3038,7 +3038,7 @@ _0809F6E4:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F704 @ =0x087408F0
+	ldr r1, _0809F704 @ =sFileSelectUnk_7408f0
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -3046,7 +3046,7 @@ _0809F6E4:
 	ldr r1, _0809F708 @ =FileSelectProcessAudioSelect
 	b _0809F916
 	.align 2, 0
-_0809F704: .4byte 0x087408F0
+_0809F704: .4byte sFileSelectUnk_7408f0
 _0809F708: .4byte FileSelectProcessAudioSelect
 _0809F70C:
 	cmp r3, #0xa
@@ -3054,7 +3054,7 @@ _0809F70C:
 	mov r0, ip
 	adds r0, #0x14
 	adds r0, r4, r0
-	ldr r1, _0809F724 @ =0x08740880
+	ldr r1, _0809F724 @ =sFileSelectUnk_740880
 	str r1, [r0]
 	mov r0, ip
 	adds r0, #0x18
@@ -3062,7 +3062,7 @@ _0809F70C:
 	ldr r1, _0809F728 @ =unk_a01cc
 	b _0809F916
 	.align 2, 0
-_0809F724: .4byte 0x08740880
+_0809F724: .4byte sFileSelectUnk_740880
 _0809F728: .4byte unk_a01cc
 _0809F72C:
 	cmp r3, #0xb
@@ -3082,7 +3082,7 @@ _0809F72C:
 	adds r0, r3, #0
 	adds r0, #0x2c
 	adds r0, r1, r0
-	ldr r2, _0809F764 @ =0x08740918
+	ldr r2, _0809F764 @ =sFileSelectUnk_740918
 	str r2, [r0]
 	adds r3, #0x30
 	adds r1, r1, r3
@@ -3091,7 +3091,7 @@ _0809F72C:
 	b _0809F918
 	.align 2, 0
 _0809F760: .4byte gNonGameplayRam
-_0809F764: .4byte 0x08740918
+_0809F764: .4byte sFileSelectUnk_740918
 _0809F768: .4byte FileSelectProcessFileActionPanel
 _0809F76C:
 	cmp r3, #0xc
@@ -3111,7 +3111,7 @@ _0809F76C:
 	adds r0, r3, #0
 	adds r0, #0x2c
 	adds r0, r1, r0
-	ldr r2, _0809F7A4 @ =0x08740978
+	ldr r2, _0809F7A4 @ =sFileSelectUnk_740978
 	str r2, [r0]
 	adds r3, #0x30
 	adds r1, r1, r3
@@ -3120,7 +3120,7 @@ _0809F76C:
 	b _0809F918
 	.align 2, 0
 _0809F7A0: .4byte gNonGameplayRam
-_0809F7A4: .4byte 0x08740978
+_0809F7A4: .4byte sFileSelectUnk_740978
 _0809F7A8: .4byte FileSelectProcessCopyFilePanel
 _0809F7AC:
 	cmp r3, #0xd
@@ -3140,7 +3140,7 @@ _0809F7AC:
 	adds r0, r3, #0
 	adds r0, #0x2c
 	adds r0, r1, r0
-	ldr r2, _0809F7E4 @ =0x08740978
+	ldr r2, _0809F7E4 @ =sFileSelectUnk_740978
 	str r2, [r0]
 	adds r3, #0x30
 	adds r1, r1, r3
@@ -3149,7 +3149,7 @@ _0809F7AC:
 	b _0809F918
 	.align 2, 0
 _0809F7E0: .4byte gNonGameplayRam
-_0809F7E4: .4byte 0x08740978
+_0809F7E4: .4byte sFileSelectUnk_740978
 _0809F7E8: .4byte FileSelectProcessEraseFilePanel
 _0809F7EC:
 	cmp r3, #0xe
@@ -3219,10 +3219,10 @@ _0809F858:
 	adds r0, r5, #0
 	adds r0, #0x2c
 	adds r0, r1, r0
-	ldr r2, _0809F878 @ =0x087409A0
+	ldr r2, _0809F878 @ =sFileSelectUnk_7409a0
 	b _0809F8A0
 	.align 2, 0
-_0809F878: .4byte 0x087409A0
+_0809F878: .4byte sFileSelectUnk_7409a0
 _0809F87C:
 	cmp r3, #0x14
 	beq _0809F888
@@ -3242,7 +3242,7 @@ _0809F888:
 	adds r0, r5, #0
 	adds r0, #0x2c
 	adds r0, r1, r0
-	ldr r2, _0809F8B0 @ =0x08740B98
+	ldr r2, _0809F8B0 @ =sFileSelectUnk_740b98
 _0809F8A0:
 	str r2, [r0]
 	adds r0, r5, #0
@@ -3252,7 +3252,7 @@ _0809F8A0:
 	str r0, [r1]
 	b _0809F918
 	.align 2, 0
-_0809F8B0: .4byte 0x08740B98
+_0809F8B0: .4byte sFileSelectUnk_740b98
 _0809F8B4: .4byte unk_a0518
 _0809F8B8:
 	cmp r3, #0x17
@@ -3272,7 +3272,7 @@ _0809F8B8:
 	adds r0, r3, #0
 	adds r0, #0x2c
 	adds r0, r1, r0
-	ldr r2, _0809F8F0 @ =0x08740978
+	ldr r2, _0809F8F0 @ =sFileSelectUnk_740978
 	str r2, [r0]
 	adds r3, #0x30
 	adds r1, r1, r3
@@ -3281,7 +3281,7 @@ _0809F8B8:
 	b _0809F918
 	.align 2, 0
 _0809F8EC: .4byte gNonGameplayRam
-_0809F8F0: .4byte 0x08740978
+_0809F8F0: .4byte sFileSelectUnk_740978
 _0809F8F4: .4byte unk_a039c
 _0809F8F8:
 	cmp r3, #0x18
@@ -3293,7 +3293,7 @@ _0809F8F8:
 	adds r1, r5, #0
 	adds r1, #0x2c
 	adds r1, r0, r1
-	ldr r2, _0809F928 @ =0x08740B48
+	ldr r2, _0809F928 @ =sFileSelectUnk_740b48
 	str r2, [r1]
 	adds r1, r5, #0
 	adds r1, #0x30
@@ -3312,7 +3312,7 @@ _0809F91A:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0809F928: .4byte 0x08740B48
+_0809F928: .4byte sFileSelectUnk_740b48
 _0809F92C: .4byte unk_a0424
 
 	thumb_func_start FileSelectProcessSamusHead
@@ -3487,13 +3487,13 @@ _0809FA60:
 	bne _0809FA90
 	strb r1, [r4, #7]
 	strb r1, [r4, #6]
-	ldr r0, _0809FA8C @ =0x08740A48
+	ldr r0, _0809FA8C @ =sFileSelectUnk_740a48
 	str r0, [r4, #0x14]
 	strb r1, [r4, #9]
 	b _0809FACC
 	.align 2, 0
 _0809FA88: .4byte gNonGameplayRam
-_0809FA8C: .4byte 0x08740A48
+_0809FA8C: .4byte sFileSelectUnk_740a48
 _0809FA90:
 	cmp r1, #5
 	beq _0809FAA0
@@ -3507,13 +3507,13 @@ _0809FAA0:
 	movs r0, #0
 	strb r0, [r4, #7]
 	strb r0, [r4, #6]
-	ldr r0, _0809FAB0 @ =0x08740A70
+	ldr r0, _0809FAB0 @ =sFileSelectUnk_740a70
 	str r0, [r4, #0x14]
 	movs r0, #0xc8
 	strb r0, [r4, #9]
 	b _0809FACC
 	.align 2, 0
-_0809FAB0: .4byte 0x08740A70
+_0809FAB0: .4byte sFileSelectUnk_740a70
 _0809FAB4:
 	ldrb r0, [r4, #6]
 	lsls r0, r0, #3
@@ -3589,12 +3589,12 @@ _0809FB38:
 	strb r0, [r1, #0xe]
 	strb r0, [r4, #7]
 	strb r0, [r4, #6]
-	ldr r0, _0809FB4C @ =0x08740B70
+	ldr r0, _0809FB4C @ =sFileSelectUnk_740b70
 	str r0, [r4, #0x14]
 	b _0809FC48
 	.align 2, 0
 _0809FB48: .4byte gNonGameplayRam
-_0809FB4C: .4byte 0x08740B70
+_0809FB4C: .4byte sFileSelectUnk_740b70
 _0809FB50:
 	cmp r1, #3
 	beq _0809FB56
@@ -3650,7 +3650,7 @@ _0809FBA2:
 	beq _0809FC82
 	strb r1, [r4, #7]
 	strb r1, [r4, #6]
-	ldr r0, _0809FBF4 @ =0x08740B70
+	ldr r0, _0809FBF4 @ =sFileSelectUnk_740b70
 	str r0, [r4, #0x14]
 	ldr r1, _0809FBF8 @ =gNonGameplayRam
 	ldrb r0, [r1, #0xe]
@@ -3675,7 +3675,7 @@ _0809FBA2:
 	.align 2, 0
 _0809FBEC: .4byte 0x000001F9
 _0809FBF0: .4byte gChangedInput
-_0809FBF4: .4byte 0x08740B70
+_0809FBF4: .4byte sFileSelectUnk_740b70
 _0809FBF8: .4byte gNonGameplayRam
 _0809FBFC: .4byte 0x03000B94
 _0809FC00: .4byte 0x000001FB
@@ -3742,7 +3742,7 @@ _0809FC6C:
 	movs r1, #0
 	strb r1, [r4, #7]
 	strb r1, [r4, #6]
-	ldr r0, _0809FC8C @ =0x08740B48
+	ldr r0, _0809FC8C @ =sFileSelectUnk_740b48
 	str r0, [r4, #0x14]
 	strb r1, [r4, #9]
 _0809FC82:
@@ -3751,7 +3751,7 @@ _0809FC82:
 	bx r0
 	.align 2, 0
 _0809FC88: .4byte gNonGameplayRam
-_0809FC8C: .4byte 0x08740B48
+_0809FC8C: .4byte sFileSelectUnk_740b48
 
 	thumb_func_start FileSelectProcessDeleteArrow
 FileSelectProcessDeleteArrow: @ 0x0809FC90
@@ -3826,7 +3826,7 @@ _0809FD0E:
 	strb r0, [r5, #0xf]
 	movs r6, #1
 _0809FD12:
-	ldr r3, _0809FD70 @ =0x0879E8A4
+	ldr r3, _0809FD70 @ =sFileSelectUnk_79e8a4
 	adds r2, r5, #0
 	ldrb r1, [r2, #0xd]
 	lsls r0, r1, #1
@@ -3874,7 +3874,7 @@ _0809FD6A:
 	movs r7, #1
 	b _0809FDA4
 	.align 2, 0
-_0809FD70: .4byte 0x0879E8A4
+_0809FD70: .4byte sFileSelectUnk_79e8a4
 _0809FD74: .4byte 0x03000B94
 _0809FD78:
 	movs r7, #2
@@ -3947,7 +3947,7 @@ unk_9fddc: @ 0x0809FDDC
 	beq _0809FE58
 	movs r0, #1
 	strb r0, [r3, #0x10]
-	ldr r1, _0809FE24 @ =0x0873DBB0
+	ldr r1, _0809FE24 @ =sFileSelectUnk_73dbb0
 	ldr r0, _0809FE28 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -3964,7 +3964,7 @@ unk_9fddc: @ 0x0809FDDC
 	.align 2, 0
 _0809FE1C: .4byte gNonGameplayRam
 _0809FE20: .4byte gChangedInput
-_0809FE24: .4byte 0x0873DBB0
+_0809FE24: .4byte sFileSelectUnk_73dbb0
 _0809FE28: .4byte 0x03000011
 _0809FE2C:
 	cmp r0, #1
@@ -3976,7 +3976,7 @@ _0809FE2C:
 	cmp r0, #0
 	beq _0809FE58
 	strb r2, [r3, #0x10]
-	ldr r1, _0809FE84 @ =0x0873DBB0
+	ldr r1, _0809FE84 @ =sFileSelectUnk_73dbb0
 	ldr r0, _0809FE88 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -4011,7 +4011,7 @@ _0809FE58:
 	b _0809FE96
 	.align 2, 0
 _0809FE80: .4byte gChangedInput
-_0809FE84: .4byte 0x0873DBB0
+_0809FE84: .4byte sFileSelectUnk_73dbb0
 _0809FE88: .4byte 0x03000011
 _0809FE8C: .4byte gNonGameplayRam
 _0809FE90: .4byte 0x00000207
@@ -4019,14 +4019,14 @@ _0809FE94:
 	ldr r0, _0809FEA4 @ =0x000001FB
 _0809FE96:
 	bl SoundPlay
-	ldr r0, _0809FEA8 @ =0x08740B70
+	ldr r0, _0809FEA8 @ =sFileSelectUnk_740b70
 	str r0, [r4, #0x14]
 	movs r0, #1
 	strb r0, [r4, #9]
 	b _0809FEF8
 	.align 2, 0
 _0809FEA4: .4byte 0x000001FB
-_0809FEA8: .4byte 0x08740B70
+_0809FEA8: .4byte sFileSelectUnk_740b70
 _0809FEAC:
 	cmp r2, #1
 	bne _0809FEE0
@@ -4094,7 +4094,7 @@ unk_9ff00: @ 0x0809FF00
 	beq _0809FF7C
 	movs r0, #1
 	strb r0, [r3, #0x10]
-	ldr r1, _0809FF48 @ =0x0873DBBE
+	ldr r1, _0809FF48 @ =sFileSelectUnk_73dbbe
 	ldr r0, _0809FF4C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -4111,7 +4111,7 @@ unk_9ff00: @ 0x0809FF00
 	.align 2, 0
 _0809FF40: .4byte gNonGameplayRam
 _0809FF44: .4byte gChangedInput
-_0809FF48: .4byte 0x0873DBBE
+_0809FF48: .4byte sFileSelectUnk_73dbbe
 _0809FF4C: .4byte 0x03000011
 _0809FF50:
 	cmp r0, #1
@@ -4123,7 +4123,7 @@ _0809FF50:
 	cmp r0, #0
 	beq _0809FF7C
 	strb r2, [r3, #0x10]
-	ldr r1, _0809FFAC @ =0x0873DBBE
+	ldr r1, _0809FFAC @ =sFileSelectUnk_73dbbe
 	ldr r0, _0809FFB0 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -4159,21 +4159,21 @@ _0809FF7C:
 	b _0809FFBA
 	.align 2, 0
 _0809FFA8: .4byte gChangedInput
-_0809FFAC: .4byte 0x0873DBBE
+_0809FFAC: .4byte sFileSelectUnk_73dbbe
 _0809FFB0: .4byte 0x03000011
 _0809FFB4: .4byte gNonGameplayRam
 _0809FFB8:
 	ldr r0, _0809FFC8 @ =0x000001FB
 _0809FFBA:
 	bl SoundPlay
-	ldr r0, _0809FFCC @ =0x08740B70
+	ldr r0, _0809FFCC @ =sFileSelectUnk_740b70
 	str r0, [r4, #0x14]
 	movs r0, #1
 	strb r0, [r4, #9]
 	b _080A001C
 	.align 2, 0
 _0809FFC8: .4byte 0x000001FB
-_0809FFCC: .4byte 0x08740B70
+_0809FFCC: .4byte sFileSelectUnk_740b70
 _0809FFD0:
 	cmp r2, #1
 	bne _080A0004
@@ -4233,7 +4233,7 @@ FileSelectProcessAudioLogos: @ 0x080A0024
 	ldrb r3, [r2, #9]
 	cmp r3, #0
 	bne _080A0078
-	ldr r0, _080A0068 @ =0x087407C0
+	ldr r0, _080A0068 @ =sFileSelectUnk_7407c0
 	str r0, [r2, #0x14]
 	ldr r0, _080A006C @ =gChangedInput
 	ldrh r1, [r0]
@@ -4243,7 +4243,7 @@ FileSelectProcessAudioLogos: @ 0x080A0024
 	beq _080A00DA
 	movs r0, #1
 	strb r0, [r2, #9]
-	ldr r0, _080A0070 @ =0x087407D0
+	ldr r0, _080A0070 @ =sFileSelectUnk_7407d0
 	str r0, [r2, #0x14]
 	strb r3, [r2, #7]
 	strb r3, [r2, #6]
@@ -4255,14 +4255,14 @@ FileSelectProcessAudioLogos: @ 0x080A0024
 	b _080A00DA
 	.align 2, 0
 _080A0064: .4byte gNonGameplayRam
-_080A0068: .4byte 0x087407C0
+_080A0068: .4byte sFileSelectUnk_7407c0
 _080A006C: .4byte gChangedInput
-_080A0070: .4byte 0x087407D0
+_080A0070: .4byte sFileSelectUnk_7407d0
 _080A0074: .4byte 0x00000206
 _080A0078:
 	cmp r3, #1
 	bne _080A00DA
-	ldr r0, _080A00AC @ =0x087407D0
+	ldr r0, _080A00AC @ =sFileSelectUnk_7407d0
 	str r0, [r2, #0x14]
 	ldr r0, _080A00B0 @ =gChangedInput
 	ldrh r1, [r0]
@@ -4272,7 +4272,7 @@ _080A0078:
 	beq _080A00DA
 	movs r1, #0
 	strb r1, [r2, #9]
-	ldr r0, _080A00B4 @ =0x087407C0
+	ldr r0, _080A00B4 @ =sFileSelectUnk_7407c0
 	str r0, [r2, #0x14]
 	strb r1, [r2, #7]
 	strb r1, [r2, #6]
@@ -4284,24 +4284,24 @@ _080A0078:
 	bl SoundPlay
 	b _080A00DA
 	.align 2, 0
-_080A00AC: .4byte 0x087407D0
+_080A00AC: .4byte sFileSelectUnk_7407d0
 _080A00B0: .4byte gChangedInput
-_080A00B4: .4byte 0x087407C0
+_080A00B4: .4byte sFileSelectUnk_7407c0
 _080A00B8:
 	ldrb r1, [r2, #9]
 	cmp r1, #0
 	bne _080A00CC
-	ldr r0, _080A00C8 @ =0x087407E0
+	ldr r0, _080A00C8 @ =sFileSelectUnk_7407e0
 	str r0, [r2, #0x14]
 	strb r1, [r2, #7]
 	strb r1, [r2, #6]
 	b _080A00DA
 	.align 2, 0
-_080A00C8: .4byte 0x087407E0
+_080A00C8: .4byte sFileSelectUnk_7407e0
 _080A00CC:
 	cmp r1, #1
 	bne _080A00DA
-	ldr r0, _080A00E0 @ =0x087407F0
+	ldr r0, _080A00E0 @ =sFileSelectUnk_7407f0
 	str r0, [r2, #0x14]
 	movs r0, #0
 	strb r0, [r2, #7]
@@ -4310,7 +4310,7 @@ _080A00DA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080A00E0: .4byte 0x087407F0
+_080A00E0: .4byte sFileSelectUnk_7407f0
 
 	thumb_func_start FileSelectProcessAudioSelect
 FileSelectProcessAudioSelect: @ 0x080A00E4
@@ -4372,7 +4372,7 @@ FileSelectProcessFileOverlay: @ 0x080A0144
 	ldrsh r0, [r1, r3]
 	cmp r0, #0
 	bne _080A015E
-	ldr r0, _080A0168 @ =0x0879E890
+	ldr r0, _080A0168 @ =sFileSelectUnk_79e890
 	ldrb r1, [r1, #0xd]
 	lsls r1, r1, #2
 	adds r1, r1, r0
@@ -4383,7 +4383,7 @@ _080A015E:
 	bx r0
 	.align 2, 0
 _080A0164: .4byte gNonGameplayRam
-_080A0168: .4byte 0x0879E890
+_080A0168: .4byte sFileSelectUnk_79e890
 
 	thumb_func_start unk_a016c
 unk_a016c: @ 0x080A016C
@@ -4394,7 +4394,7 @@ unk_a016c: @ 0x080A016C
 	ldrsh r3, [r1, r0]
 	cmp r3, #0
 	bne _080A01C6
-	ldr r0, _080A0194 @ =0x087408E0
+	ldr r0, _080A0194 @ =sFileSelectUnk_7408e0
 	str r0, [r2, #0x14]
 	ldrb r1, [r1, #0xd]
 	cmp r1, #2
@@ -4407,7 +4407,7 @@ unk_a016c: @ 0x080A016C
 	b _080A01A6
 	.align 2, 0
 _080A0190: .4byte gNonGameplayRam
-_080A0194: .4byte 0x087408E0
+_080A0194: .4byte sFileSelectUnk_7408e0
 _080A0198:
 	cmp r1, #1
 	bne _080A01A0
@@ -4426,12 +4426,12 @@ _080A01A8:
 	ands r0, r1
 	cmp r0, #0
 	beq _080A01C6
-	ldr r0, _080A01C0 @ =0x087408D0
+	ldr r0, _080A01C0 @ =sUnk_7408d0
 	str r0, [r2, #0x14]
 	b _080A01C6
 	.align 2, 0
 _080A01BC: .4byte gChangedInput
-_080A01C0: .4byte 0x087408D0
+_080A01C0: .4byte sUnk_7408d0
 _080A01C4:
 	strb r3, [r2, #5]
 _080A01C6:
@@ -4464,13 +4464,13 @@ FileSelectProcessFileActionPanel: @ 0x080A01D0
 	bne _080A0266
 	strb r2, [r4, #7]
 	strb r2, [r4, #6]
-	ldr r0, _080A0200 @ =0x08740940
+	ldr r0, _080A0200 @ =sFileSelectUnk_740940
 	str r0, [r4, #0x14]
 	movs r0, #1
 	strb r0, [r4, #9]
 	b _080A0266
 	.align 2, 0
-_080A0200: .4byte 0x08740940
+_080A0200: .4byte sFileSelectUnk_740940
 _080A0204:
 	cmp r2, #1
 	bne _080A0248
@@ -4497,14 +4497,14 @@ _080A0228:
 	movs r0, #0
 	strb r0, [r4, #7]
 	strb r0, [r4, #6]
-	ldr r0, _080A0244 @ =0x08740950
+	ldr r0, _080A0244 @ =sFileSelectUnk_740950
 	str r0, [r4, #0x14]
 	movs r0, #2
 	strb r0, [r4, #9]
 	b _080A0266
 	.align 2, 0
 _080A0240: .4byte 0x000001FD
-_080A0244: .4byte 0x08740950
+_080A0244: .4byte sFileSelectUnk_740950
 _080A0248:
 	cmp r2, #2
 	bne _080A0266
@@ -4546,13 +4546,13 @@ FileSelectProcessCopyFilePanel: @ 0x080A026C
 	bne _080A02FE
 	strb r2, [r4, #7]
 	strb r2, [r4, #6]
-	ldr r0, _080A029C @ =0x087409A0
+	ldr r0, _080A029C @ =sFileSelectUnk_7409a0
 	str r0, [r4, #0x14]
 	movs r0, #1
 	strb r0, [r4, #9]
 	b _080A02FE
 	.align 2, 0
-_080A029C: .4byte 0x087409A0
+_080A029C: .4byte sFileSelectUnk_7409a0
 _080A02A0:
 	cmp r2, #1
 	bne _080A02E0
@@ -4577,14 +4577,14 @@ _080A02C0:
 	movs r0, #0
 	strb r0, [r4, #7]
 	strb r0, [r4, #6]
-	ldr r0, _080A02DC @ =0x087409B0
+	ldr r0, _080A02DC @ =sFileSelectUnk_7409b0
 	str r0, [r4, #0x14]
 	movs r0, #2
 	strb r0, [r4, #9]
 	b _080A02FE
 	.align 2, 0
 _080A02D8: .4byte 0x000001FD
-_080A02DC: .4byte 0x087409B0
+_080A02DC: .4byte sFileSelectUnk_7409b0
 _080A02E0:
 	cmp r2, #2
 	bne _080A02FE
@@ -4626,13 +4626,13 @@ FileSelectProcessEraseFilePanel: @ 0x080A0304
 	bne _080A0396
 	strb r2, [r4, #7]
 	strb r2, [r4, #6]
-	ldr r0, _080A0334 @ =0x087409A0
+	ldr r0, _080A0334 @ =sFileSelectUnk_7409a0
 	str r0, [r4, #0x14]
 	movs r0, #1
 	strb r0, [r4, #9]
 	b _080A0396
 	.align 2, 0
-_080A0334: .4byte 0x087409A0
+_080A0334: .4byte sFileSelectUnk_7409a0
 _080A0338:
 	cmp r2, #1
 	bne _080A0378
@@ -4657,14 +4657,14 @@ _080A0358:
 	movs r0, #0
 	strb r0, [r4, #7]
 	strb r0, [r4, #6]
-	ldr r0, _080A0374 @ =0x087409B0
+	ldr r0, _080A0374 @ =sFileSelectUnk_7409b0
 	str r0, [r4, #0x14]
 	movs r0, #2
 	strb r0, [r4, #9]
 	b _080A0396
 	.align 2, 0
 _080A0370: .4byte 0x000001FD
-_080A0374: .4byte 0x087409B0
+_080A0374: .4byte sFileSelectUnk_7409b0
 _080A0378:
 	cmp r2, #2
 	bne _080A0396
@@ -4706,13 +4706,13 @@ unk_a039c: @ 0x080A039C
 	bne _080A041E
 	strb r2, [r4, #7]
 	strb r2, [r4, #6]
-	ldr r0, _080A03CC @ =0x087409A0
+	ldr r0, _080A03CC @ =sFileSelectUnk_7409a0
 	str r0, [r4, #0x14]
 	movs r0, #1
 	strb r0, [r4, #9]
 	b _080A041E
 	.align 2, 0
-_080A03CC: .4byte 0x087409A0
+_080A03CC: .4byte sFileSelectUnk_7409a0
 _080A03D0:
 	cmp r2, #1
 	bne _080A0400
@@ -4726,7 +4726,7 @@ _080A03D0:
 	movs r0, #0
 	strb r0, [r4, #7]
 	strb r0, [r4, #6]
-	ldr r0, _080A03FC @ =0x087409B0
+	ldr r0, _080A03FC @ =sFileSelectUnk_7409b0
 	str r0, [r4, #0x14]
 	movs r0, #2
 	strb r0, [r4, #9]
@@ -4734,7 +4734,7 @@ _080A03D0:
 	.align 2, 0
 _080A03F4: .4byte gNonGameplayRam
 _080A03F8: .4byte 0x000001FD
-_080A03FC: .4byte 0x087409B0
+_080A03FC: .4byte sFileSelectUnk_7409b0
 _080A0400:
 	cmp r2, #2
 	bne _080A041E
@@ -4821,19 +4821,19 @@ _080A047A:
 	ldrb r0, [r0, #0x10]
 	cmp r0, #0
 	bne _080A04B8
-	ldr r0, _080A04B4 @ =0x08740B70
+	ldr r0, _080A04B4 @ =sFileSelectUnk_740b70
 	str r0, [r4, #0x14]
 	b _080A04EE
 	.align 2, 0
 _080A04AC: .4byte gChangedInput
 _080A04B0: .4byte gNonGameplayRam
-_080A04B4: .4byte 0x08740B70
+_080A04B4: .4byte sFileSelectUnk_740b70
 _080A04B8:
-	ldr r0, _080A04C0 @ =0x08740B70
+	ldr r0, _080A04C0 @ =sFileSelectUnk_740b70
 	str r0, [r4, #0x14]
 	b _080A04EE
 	.align 2, 0
-_080A04C0: .4byte 0x08740B70
+_080A04C0: .4byte sFileSelectUnk_740b70
 _080A04C4:
 	cmp r2, #1
 	bne _080A04F8
@@ -4991,7 +4991,7 @@ _080A05B0:
 	str r1, [r0, #4]
 	str r2, [r0, #8]
 	ldr r0, [r0, #8]
-	ldr r1, _080A0624 @ =0x0879EC84
+	ldr r1, _080A0624 @ =sFileSelectUnk_79ec84
 	ldr r0, _080A0628 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -5021,7 +5021,7 @@ _080A060E:
 	.align 2, 0
 _080A061C: .4byte 0x040000D4
 _080A0620: .4byte 0x850000C0
-_080A0624: .4byte 0x0879EC84
+_080A0624: .4byte sFileSelectUnk_79ec84
 _080A0628: .4byte 0x03000011
 _080A062C:
 	cmp r0, #0x40
@@ -5135,7 +5135,7 @@ _080A0694:
 	ldr r4, _080A07FC @ =0x84000008
 	movs r2, #0x80
 	lsls r2, r2, #3
-	ldr r5, _080A0800 @ =0x08682FAC
+	ldr r5, _080A0800 @ =sCharactersGfx
 _080A0710:
 	lsls r0, r6, #2
 	add r0, sp
@@ -5209,7 +5209,7 @@ _080A0710:
 	bge _080A07D2
 	adds r2, r5, #0
 	mov r4, r8
-	ldr r0, _080A0808 @ =0x0873DB64
+	ldr r0, _080A0808 @ =sFileSelectUnk_73db64
 	mov ip, r0
 	ldr r5, _080A07FC @ =0x84000008
 _080A07AE:
@@ -5248,20 +5248,20 @@ _080A07E2:
 	cmp r1, r0
 	bne _080A0814
 	ldr r1, _080A07F8 @ =0x040000D4
-	ldr r0, _080A0810 @ =0x0873DB04
+	ldr r0, _080A0810 @ =sFileSelectUnk_73db04
 	b _080A0818
 	.align 2, 0
 _080A07F4: .4byte 0x03000011
 _080A07F8: .4byte 0x040000D4
 _080A07FC: .4byte 0x84000008
-_080A0800: .4byte 0x08682FAC
+_080A0800: .4byte sCharactersGfx
 _080A0804: .4byte 0x85000080
-_080A0808: .4byte 0x0873DB64
+_080A0808: .4byte sFileSelectUnk_73db64
 _080A080C: .4byte 0xFFFFFB60
-_080A0810: .4byte 0x0873DB04
+_080A0810: .4byte sFileSelectUnk_73db04
 _080A0814:
 	ldr r1, _080A0A18 @ =0x040000D4
-	ldr r0, _080A0A1C @ =0x0873DB44
+	ldr r0, _080A0A1C @ =sFileSelectUnk_73db44
 _080A0818:
 	str r0, [r1]
 	str r7, [r1, #4]
@@ -5285,7 +5285,7 @@ _080A082A:
 	mov ip, r2
 	ldr r2, _080A0A18 @ =0x040000D4
 	mov r3, r8
-	ldr r5, _080A0A28 @ =0x0873DB24
+	ldr r5, _080A0A28 @ =sFileSelectUnk_73db24
 	ldr r4, _080A0A20 @ =0x84000008
 _080A0846:
 	cmp r6, #0xa
@@ -5319,7 +5319,7 @@ _080A0866:
 	adds r7, r7, r0
 _080A087C:
 	ldr r1, _080A0A18 @ =0x040000D4
-	ldr r0, _080A0A2C @ =0x0873DAE4
+	ldr r0, _080A0A2C @ =sFileSelectUnk_73dae4
 	str r0, [r1]
 	str r7, [r1, #4]
 	ldr r0, _080A0A20 @ =0x84000008
@@ -5343,7 +5343,7 @@ _080A088A:
 	bl DivArmMod
 	str r0, [sp, #8]
 	movs r6, #0
-	ldr r5, _080A0A30 @ =0x08682FAC
+	ldr r5, _080A0A30 @ =sCharactersGfx
 	ldr r1, _080A0A18 @ =0x040000D4
 	ldr r4, _080A0A20 @ =0x84000008
 	movs r2, #0x80
@@ -5521,12 +5521,12 @@ _080A0A08:
 	bx r0
 	.align 2, 0
 _080A0A18: .4byte 0x040000D4
-_080A0A1C: .4byte 0x0873DB44
+_080A0A1C: .4byte sFileSelectUnk_73db44
 _080A0A20: .4byte 0x84000008
 _080A0A24: .4byte 0xFFFFFB60
-_080A0A28: .4byte 0x0873DB24
-_080A0A2C: .4byte 0x0873DAE4
-_080A0A30: .4byte 0x08682FAC
+_080A0A28: .4byte sFileSelectUnk_73db24
+_080A0A2C: .4byte sFileSelectUnk_73dae4
+_080A0A30: .4byte sCharactersGfx
 _080A0A34: .4byte gNonGameplayRam
 _080A0A38: .4byte 0x03000B94
 
@@ -5550,7 +5550,7 @@ FileSelectDrawText: @ 0x080A0A3C
 	adds r2, r0, #0
 	cmp r1, #0x18
 	bne _080A0A80
-	ldr r1, _080A0A78 @ =0x0879E928
+	ldr r1, _080A0A78 @ =sFileSelectUnk_79e928
 	ldr r0, _080A0A7C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -5562,10 +5562,10 @@ FileSelectDrawText: @ 0x080A0A3C
 	b _080A0A98
 	.align 2, 0
 _080A0A74: .4byte gNonGameplayRam
-_080A0A78: .4byte 0x0879E928
+_080A0A78: .4byte sFileSelectUnk_79e928
 _080A0A7C: .4byte 0x03000011
 _080A0A80:
-	ldr r1, _080A0AA4 @ =0x0879E928
+	ldr r1, _080A0AA4 @ =sFileSelectUnk_79e928
 	ldr r0, _080A0AA8 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -5585,7 +5585,7 @@ _080A0A98:
 	movs r4, #6
 	b _080A0AC6
 	.align 2, 0
-_080A0AA4: .4byte 0x0879E928
+_080A0AA4: .4byte sFileSelectUnk_79e928
 _080A0AA8: .4byte 0x03000011
 _080A0AAC: .4byte 0x06008000
 _080A0AB0:
@@ -5908,7 +5908,7 @@ _080A0D1C:
 	adds r0, #8
 _080A0D20:
 	strh r0, [r4, #8]
-	ldr r1, _080A0D58 @ =0x0879EC68
+	ldr r1, _080A0D58 @ =sFileSelectUnk_79ec68
 	ldr r0, _080A0D5C @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -5934,7 +5934,7 @@ _080A0D20:
 	strb r0, [r4, #0x14]
 	b _080A0DF0
 	.align 2, 0
-_080A0D58: .4byte 0x0879EC68
+_080A0D58: .4byte sFileSelectUnk_79ec68
 _080A0D5C: .4byte 0x03000011
 _080A0D60:
 	ldr r0, _080A0D98 @ =gChangedInput
@@ -6058,7 +6058,7 @@ _080A0E2E:
 	str r1, [r0, #4]
 	str r2, [r0, #8]
 	ldr r0, [r0, #8]
-	ldr r1, _080A0EA0 @ =0x0879EC84
+	ldr r1, _080A0EA0 @ =sFileSelectUnk_79ec84
 	ldr r0, _080A0EA4 @ =0x03000011
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -6088,7 +6088,7 @@ _080A0E90: .4byte 0x060098C0
 _080A0E94: .4byte gNonGameplayRam
 _080A0E98: .4byte 0x040000D4
 _080A0E9C: .4byte 0x850000C0
-_080A0EA0: .4byte 0x0879EC84
+_080A0EA0: .4byte sFileSelectUnk_79ec84
 _080A0EA4: .4byte 0x03000011
 _080A0EA8:
 	cmp r0, #0x40
@@ -6353,7 +6353,7 @@ _080A1090:
 	lsls r1, r1, #2
 	adds r0, #0x2c
 	adds r1, r1, r0
-	ldr r3, _080A10B4 @ =0x0879E944
+	ldr r3, _080A10B4 @ =sFileSelectUnk_79e944
 	ldr r0, _080A10B8 @ =0x03000011
 	movs r2, #0
 	ldrsb r2, [r0, r2]
@@ -6364,7 +6364,7 @@ _080A1090:
 	b _080A11B2
 	.align 2, 0
 _080A10B0: .4byte gNonGameplayRam
-_080A10B4: .4byte 0x0879E944
+_080A10B4: .4byte sFileSelectUnk_79e944
 _080A10B8: .4byte 0x03000011
 _080A10BC:
 	ldr r0, _080A10DC @ =gNonGameplayRam
@@ -6373,7 +6373,7 @@ _080A10BC:
 	lsls r1, r1, #2
 	adds r0, #0x2c
 	adds r1, r1, r0
-	ldr r3, _080A10E0 @ =0x0879E944
+	ldr r3, _080A10E0 @ =sFileSelectUnk_79e944
 	ldr r0, _080A10E4 @ =0x03000011
 	movs r2, #0
 	ldrsb r2, [r0, r2]
@@ -6384,7 +6384,7 @@ _080A10BC:
 	b _080A11B2
 	.align 2, 0
 _080A10DC: .4byte gNonGameplayRam
-_080A10E0: .4byte 0x0879E944
+_080A10E0: .4byte sFileSelectUnk_79e944
 _080A10E4: .4byte 0x03000011
 _080A10E8:
 	ldr r0, _080A1108 @ =gNonGameplayRam
@@ -6393,7 +6393,7 @@ _080A10E8:
 	lsls r1, r1, #2
 	adds r0, #0x2c
 	adds r1, r1, r0
-	ldr r3, _080A110C @ =0x0879E944
+	ldr r3, _080A110C @ =sFileSelectUnk_79e944
 	ldr r0, _080A1110 @ =0x03000011
 	movs r2, #0
 	ldrsb r2, [r0, r2]
@@ -6404,7 +6404,7 @@ _080A10E8:
 	b _080A11B2
 	.align 2, 0
 _080A1108: .4byte gNonGameplayRam
-_080A110C: .4byte 0x0879E944
+_080A110C: .4byte sFileSelectUnk_79e944
 _080A1110: .4byte 0x03000011
 _080A1114:
 	ldr r0, _080A1134 @ =gNonGameplayRam
@@ -6413,7 +6413,7 @@ _080A1114:
 	lsls r1, r1, #2
 	adds r0, #0x2c
 	adds r1, r1, r0
-	ldr r3, _080A1138 @ =0x0879E944
+	ldr r3, _080A1138 @ =sFileSelectUnk_79e944
 	ldr r0, _080A113C @ =0x03000011
 	movs r2, #0
 	ldrsb r2, [r0, r2]
@@ -6424,7 +6424,7 @@ _080A1114:
 	b _080A11B2
 	.align 2, 0
 _080A1134: .4byte gNonGameplayRam
-_080A1138: .4byte 0x0879E944
+_080A1138: .4byte sFileSelectUnk_79e944
 _080A113C: .4byte 0x03000011
 _080A1140:
 	ldr r0, _080A1160 @ =gNonGameplayRam
@@ -6433,7 +6433,7 @@ _080A1140:
 	lsls r1, r1, #2
 	adds r0, #0x2c
 	adds r1, r1, r0
-	ldr r3, _080A1164 @ =0x0879E944
+	ldr r3, _080A1164 @ =sFileSelectUnk_79e944
 	ldr r0, _080A1168 @ =0x03000011
 	movs r2, #0
 	ldrsb r2, [r0, r2]
@@ -6444,7 +6444,7 @@ _080A1140:
 	b _080A11B2
 	.align 2, 0
 _080A1160: .4byte gNonGameplayRam
-_080A1164: .4byte 0x0879E944
+_080A1164: .4byte sFileSelectUnk_79e944
 _080A1168: .4byte 0x03000011
 _080A116C:
 	ldr r0, _080A118C @ =gNonGameplayRam
@@ -6453,7 +6453,7 @@ _080A116C:
 	lsls r1, r1, #2
 	adds r0, #0x2c
 	adds r1, r1, r0
-	ldr r3, _080A1190 @ =0x0879E944
+	ldr r3, _080A1190 @ =sFileSelectUnk_79e944
 	ldr r0, _080A1194 @ =0x03000011
 	movs r2, #0
 	ldrsb r2, [r0, r2]
@@ -6464,7 +6464,7 @@ _080A116C:
 	b _080A11B2
 	.align 2, 0
 _080A118C: .4byte gNonGameplayRam
-_080A1190: .4byte 0x0879E944
+_080A1190: .4byte sFileSelectUnk_79e944
 _080A1194: .4byte 0x03000011
 _080A1198:
 	ldr r0, _080A11C0 @ =gNonGameplayRam
@@ -6473,7 +6473,7 @@ _080A1198:
 	lsls r1, r1, #2
 	adds r0, #0x2c
 	adds r1, r1, r0
-	ldr r3, _080A11C4 @ =0x0879E944
+	ldr r3, _080A11C4 @ =sFileSelectUnk_79e944
 	ldr r0, _080A11C8 @ =0x03000011
 	movs r2, #0
 	ldrsb r2, [r0, r2]
@@ -6489,7 +6489,7 @@ _080A11B2:
 	bx r0
 	.align 2, 0
 _080A11C0: .4byte gNonGameplayRam
-_080A11C4: .4byte 0x0879E944
+_080A11C4: .4byte sFileSelectUnk_79e944
 _080A11C8: .4byte 0x03000011
 
 	thumb_func_start FileSelectProcessOam
@@ -6645,7 +6645,7 @@ _080A1298:
 	lsrs r0, r0, #6
 	lsls r0, r0, #2
 	adds r1, r1, r0
-	ldr r2, _080A1310 @ =0x0873DBA4
+	ldr r2, _080A1310 @ =sFileSelectUnk_73dba4
 	adds r1, r1, r2
 	ldrb r0, [r1]
 	lsls r0, r0, #3
@@ -6663,7 +6663,7 @@ _080A1298:
 	.align 2, 0
 _080A1308: .4byte gNextOamSlot
 _080A130C: .4byte gOamData
-_080A1310: .4byte 0x0873DBA4
+_080A1310: .4byte sFileSelectUnk_73dba4
 _080A1314: .4byte 0x000001FF
 _080A1318:
 	ldrh r0, [r5, #2]
@@ -6855,8 +6855,8 @@ EndingDrawIgtAndCompletionPercentage: @ 0x080A1480
 	movs r1, #0
 	ldr r0, _080A1548 @ =gInGameTimer
 	ldrb r4, [r0]
-	ldr r7, _080A154C @ =0x0874E650
-	ldr r2, _080A1550 @ =0x0874E8D0
+	ldr r7, _080A154C @ =sEndingUnk_74e650
+	ldr r2, _080A1550 @ =sEndingUnk_74e8d0
 	mov ip, r2
 	ldr r5, _080A1554 @ =gNonGameplayRam
 	mov r8, r5
@@ -6956,8 +6956,8 @@ _080A153E:
 	b _080A1584
 	.align 2, 0
 _080A1548: .4byte gInGameTimer
-_080A154C: .4byte 0x0874E650
-_080A1550: .4byte 0x0874E8D0
+_080A154C: .4byte sEndingUnk_74e650
+_080A1550: .4byte sEndingUnk_74e8d0
 _080A1554: .4byte gNonGameplayRam
 _080A1558: .4byte 0x040000D4
 _080A155C: .4byte 0x06010000
@@ -7122,7 +7122,7 @@ _080A1692:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A16F4 @ =0x0874DE94
+	ldr r2, _080A16F4 @ =sEndingUnk_74de94
 	movs r0, #0x95
 	lsls r0, r0, #1
 	adds r4, r5, r0
@@ -7162,7 +7162,7 @@ _080A16BA:
 	b _080A1B50
 	.align 2, 0
 _080A16F0: .4byte gNonGameplayRam
-_080A16F4: .4byte 0x0874DE94
+_080A16F4: .4byte sEndingUnk_74de94
 _080A16F8:
 	ldr r1, _080A1754 @ =gNonGameplayRam
 	adds r2, r1, #0
@@ -7172,7 +7172,7 @@ _080A16F8:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A1758 @ =0x0874DF30
+	ldr r2, _080A1758 @ =sEndingUnk_74df30
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7212,7 +7212,7 @@ _080A171C:
 	b _080A1B50
 	.align 2, 0
 _080A1754: .4byte gNonGameplayRam
-_080A1758: .4byte 0x0874DF30
+_080A1758: .4byte sEndingUnk_74df30
 _080A175C:
 	cmp r1, #0
 	bne _080A17C4
@@ -7224,7 +7224,7 @@ _080A175C:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A17C0 @ =0x0874E020
+	ldr r2, _080A17C0 @ =sEndingUnk_74e020
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7264,7 +7264,7 @@ _080A1784:
 	b _080A1B50
 	.align 2, 0
 _080A17BC: .4byte gNonGameplayRam
-_080A17C0: .4byte 0x0874E020
+_080A17C0: .4byte sEndingUnk_74e020
 _080A17C4:
 	ldr r1, _080A1820 @ =gNonGameplayRam
 	adds r2, r1, #0
@@ -7274,7 +7274,7 @@ _080A17C4:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A1824 @ =0x0874E0E0
+	ldr r2, _080A1824 @ =sEndingUnk_74e0e0
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7314,7 +7314,7 @@ _080A17E8:
 	b _080A1B50
 	.align 2, 0
 _080A1820: .4byte gNonGameplayRam
-_080A1824: .4byte 0x0874E0E0
+_080A1824: .4byte sEndingUnk_74e0e0
 _080A1828:
 	cmp r1, #0
 	bne _080A1890
@@ -7326,7 +7326,7 @@ _080A1828:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A188C @ =0x0874E218
+	ldr r2, _080A188C @ =sEndingUnk_74e218
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7366,7 +7366,7 @@ _080A1850:
 	b _080A1B50
 	.align 2, 0
 _080A1888: .4byte gNonGameplayRam
-_080A188C: .4byte 0x0874E218
+_080A188C: .4byte sEndingUnk_74e218
 _080A1890:
 	cmp r1, #1
 	bne _080A18F8
@@ -7378,7 +7378,7 @@ _080A1890:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A18F4 @ =0x0874E2F0
+	ldr r2, _080A18F4 @ =sEndingUnk_74e2f0
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7418,7 +7418,7 @@ _080A18B8:
 	b _080A1B50
 	.align 2, 0
 _080A18F0: .4byte gNonGameplayRam
-_080A18F4: .4byte 0x0874E2F0
+_080A18F4: .4byte sEndingUnk_74e2f0
 _080A18F8:
 	ldr r1, _080A1954 @ =gNonGameplayRam
 	adds r2, r1, #0
@@ -7428,7 +7428,7 @@ _080A18F8:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A1958 @ =0x0874E374
+	ldr r2, _080A1958 @ =sEndingUnk_74e374
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7468,7 +7468,7 @@ _080A191C:
 	b _080A1B50
 	.align 2, 0
 _080A1954: .4byte gNonGameplayRam
-_080A1958: .4byte 0x0874E374
+_080A1958: .4byte sEndingUnk_74e374
 _080A195C:
 	cmp r1, #0
 	bne _080A19C4
@@ -7480,7 +7480,7 @@ _080A195C:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A19C0 @ =0x0874E488
+	ldr r2, _080A19C0 @ =sEndingUnk_74e488
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7520,7 +7520,7 @@ _080A1984:
 	b _080A1B50
 	.align 2, 0
 _080A19BC: .4byte gNonGameplayRam
-_080A19C0: .4byte 0x0874E488
+_080A19C0: .4byte sEndingUnk_74e488
 _080A19C4:
 	ldr r1, _080A1A20 @ =gNonGameplayRam
 	adds r2, r1, #0
@@ -7530,7 +7530,7 @@ _080A19C4:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A1A24 @ =0x0874E53C
+	ldr r2, _080A1A24 @ =sEndingUnk_74e53c
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7570,7 +7570,7 @@ _080A19E8:
 	b _080A1B50
 	.align 2, 0
 _080A1A20: .4byte gNonGameplayRam
-_080A1A24: .4byte 0x0874E53C
+_080A1A24: .4byte sEndingUnk_74e53c
 _080A1A28:
 	cmp r1, #0
 	bne _080A1A90
@@ -7582,7 +7582,7 @@ _080A1A28:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A1A8C @ =0x0874DC90
+	ldr r2, _080A1A8C @ =sEndingUnk_74dc90
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7622,7 +7622,7 @@ _080A1A50:
 	b _080A1B50
 	.align 2, 0
 _080A1A88: .4byte gNonGameplayRam
-_080A1A8C: .4byte 0x0874DC90
+_080A1A8C: .4byte sEndingUnk_74dc90
 _080A1A90:
 	cmp r1, #1
 	bne _080A1AF8
@@ -7634,7 +7634,7 @@ _080A1A90:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A1AF4 @ =0x0874DCFC
+	ldr r2, _080A1AF4 @ =sEndingUnk_74dcfc
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7674,7 +7674,7 @@ _080A1AB8:
 	b _080A1B50
 	.align 2, 0
 _080A1AF0: .4byte gNonGameplayRam
-_080A1AF4: .4byte 0x0874DCFC
+_080A1AF4: .4byte sEndingUnk_74dcfc
 _080A1AF8:
 	ldr r1, _080A1B58 @ =gNonGameplayRam
 	adds r2, r1, #0
@@ -7684,7 +7684,7 @@ _080A1AF8:
 	movs r3, #0
 	adds r5, r1, #0
 	movs r7, #0x18
-	ldr r2, _080A1B5C @ =0x0874DD80
+	ldr r2, _080A1B5C @ =sEndingUnk_74dd80
 	movs r1, #0x95
 	lsls r1, r1, #1
 	adds r4, r5, r1
@@ -7727,7 +7727,7 @@ _080A1B50:
 	bx r0
 	.align 2, 0
 _080A1B58: .4byte gNonGameplayRam
-_080A1B5C: .4byte 0x0874DD80
+_080A1B5C: .4byte sEndingUnk_74dd80
 
 	thumb_func_start EndingImageDisplayLinePermanently
 EndingImageDisplayLinePermanently: @ 0x080A1B60
@@ -7759,11 +7759,11 @@ _080A1B8A:
 	lsls r1, r1, #1
 	add r1, ip
 	adds r1, r6, r1
-	ldr r5, _080A1BA0 @ =0x0874DE4C
+	ldr r5, _080A1BA0 @ =sEndingUnk_74de4c
 	b _080A1BFA
 	.align 2, 0
 _080A1B9C: .4byte gNonGameplayRam
-_080A1BA0: .4byte 0x0874DE4C
+_080A1BA0: .4byte sEndingUnk_74de4c
 _080A1BA4:
 	ldr r0, _080A1BB4 @ =gNonGameplayRam
 	mov ip, r0
@@ -7771,11 +7771,11 @@ _080A1BA4:
 	lsls r1, r1, #1
 	add r1, ip
 	adds r1, r6, r1
-	ldr r5, _080A1BB8 @ =0x0874DFD8
+	ldr r5, _080A1BB8 @ =sEndingUnk_74dfd8
 	b _080A1BFA
 	.align 2, 0
 _080A1BB4: .4byte gNonGameplayRam
-_080A1BB8: .4byte 0x0874DFD8
+_080A1BB8: .4byte sEndingUnk_74dfd8
 _080A1BBC:
 	ldr r0, _080A1BCC @ =gNonGameplayRam
 	mov ip, r0
@@ -7783,11 +7783,11 @@ _080A1BBC:
 	lsls r1, r1, #1
 	add r1, ip
 	adds r1, r6, r1
-	ldr r5, _080A1BD0 @ =0x0874E1D0
+	ldr r5, _080A1BD0 @ =sEndingUnk_74e1d0
 	b _080A1BFA
 	.align 2, 0
 _080A1BCC: .4byte gNonGameplayRam
-_080A1BD0: .4byte 0x0874E1D0
+_080A1BD0: .4byte sEndingUnk_74e1d0
 _080A1BD4:
 	ldr r0, _080A1BE4 @ =gNonGameplayRam
 	mov ip, r0
@@ -7795,11 +7795,11 @@ _080A1BD4:
 	lsls r1, r1, #1
 	add r1, ip
 	adds r1, r6, r1
-	ldr r5, _080A1BE8 @ =0x0874E440
+	ldr r5, _080A1BE8 @ =sEndingUnk_74e440
 	b _080A1BFA
 	.align 2, 0
 _080A1BE4: .4byte gNonGameplayRam
-_080A1BE8: .4byte 0x0874E440
+_080A1BE8: .4byte sEndingUnk_74e440
 _080A1BEC:
 	ldr r0, _080A1C7C @ =gNonGameplayRam
 	mov ip, r0
@@ -7807,7 +7807,7 @@ _080A1BEC:
 	lsls r1, r1, #1
 	add r1, ip
 	adds r1, r6, r1
-	ldr r5, _080A1C80 @ =0x0874DC48
+	ldr r5, _080A1C80 @ =sEndingUnk_74dc48
 _080A1BFA:
 	lsls r3, r6, #1
 	adds r4, r3, r6
@@ -7878,5 +7878,5 @@ _080A1C70:
 	bx r0
 	.align 2, 0
 _080A1C7C: .4byte gNonGameplayRam
-_080A1C80: .4byte 0x0874DC48
+_080A1C80: .4byte sEndingUnk_74dc48
 
