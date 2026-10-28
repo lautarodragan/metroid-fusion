@@ -95,7 +95,7 @@ static const u16* sPalPointers_79c354[16] = {
 	(const u16*)sPal_5f7110
 };
 
-u32 sIntroSpaceViewParticleOam[] = INCBIN_U32("data/intro/space_view_particle_frame_data_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sIntroSpaceViewParticleOam[] = INCBIN_U32("data/intro/space_view_particle_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 u32 sEndingDialogueTextTables[] = INCBIN_U32("data/ending/dialogue_text_tables.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 
 static const u32* sIntroSr388SurfaceBgGfxPointers[8] = {

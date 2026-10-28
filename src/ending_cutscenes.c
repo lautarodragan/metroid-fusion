@@ -115,14 +115,14 @@ void EndingBslCrashingInit(void)
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
-    LZ77UncompVram(sSr388CollisionUnk_6238f4, VRAM_OBJ);
-    DMA3_COPY_32(sSr388CollisionUnk_636c38, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sBslCrashingObjGfx, VRAM_OBJ);
+    DMA3_COPY_32(sBslCrashingObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
-    LZ77UncompVram(sSr388CollisionUnk_62b5f4, VRAM_BASE);
-    LZ77UncompVram(sSr388CollisionUnk_638c14, VRAM_BASE + 0xF000);
-    LZ77UncompVram(sSr388CollisionUnk_639bc4, VRAM_BASE + 0xF800);
+    LZ77UncompVram(sBslCrashingBgGfx, VRAM_BASE);
+    LZ77UncompVram(sBslCrashingBg1Tilemap, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sBslCrashingBg3Tilemap, VRAM_BASE + 0xF800);
 
-    DMA3_COPY_32(sSr388CollisionUnk_637038, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sBslCrashingBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     gBg1XPosition = 0;
     gBg1YPosition = 8;
@@ -186,11 +186,11 @@ void EndingShipFrontViewInit(void)
     DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
     DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
 
-    LZ77UncompVram(sEndingUnk_626738, VRAM_BASE);
-    LZ77UncompVram(sEndingUnk_63929c, VRAM_BASE + 0xF000);
-    LZ77UncompVram(sEndingUnk_6395b8, VRAM_BASE + 0xF800);
+    LZ77UncompVram(sEndingShipFrontViewBgGfx, VRAM_BASE);
+    LZ77UncompVram(sEndingShipFrontViewBg2Tilemap, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sEndingShipFrontViewBg3Tilemap, VRAM_BASE + 0xF800);
 
-    DMA3_COPY_32(sEndingUnk_636e38, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sEndingShipFrontViewBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     gBg1XPosition = 0;
     gBg1YPosition = 0;
@@ -512,7 +512,7 @@ void EndingProcessFallingBsl(struct SpecialCutsceneOam* pOam)
 
         if (pOam->type == 1)
         {
-            pOam->pOam = sSr388CollisionUnk_6362b8;
+            pOam->pOam = sBslCrashingFallingBslOam_End;
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             INTRO_DATA.subStage = 2;
@@ -737,7 +737,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
         INTRO_DATA.oam[slot].scaling = Q_8_8(1);
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
-        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636020;
+        INTRO_DATA.oam[slot].pOam = sBslCrashingFallingBslOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessFallingBsl;
     }
     else if (type == 2)
@@ -746,45 +746,45 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
         INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
-        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636038;
+        INTRO_DATA.oam[slot].pOam = sBslCrashingFallingBslTransparentOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessFallingBsl;
     }
     else if (type == 3)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636050;
+        INTRO_DATA.oam[slot].pOam = sBslCrashingType3Oam;
         INTRO_DATA.oam[slot].pFunction = unk_9579c;
     }
     else if (type == 4)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_636288;
+        INTRO_DATA.oam[slot].pOam = sEndingLeavingSmallShipOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessLeavingSmallShip;
     }
     else if (type == 5)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6362a0;
+        INTRO_DATA.oam[slot].pOam = sEndingLeavingBigShipOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessLeavingBigShip;
     }
     else if (type == 10)
     {
         INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 3;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6363a0;
+        INTRO_DATA.oam[slot].pOam = sEndingFrontFacingShipOam;
         INTRO_DATA.oam[slot].pFunction = unk_95e20;
     }
     else if (type == 11)
     {
         INTRO_DATA.oam[slot].priority = 3;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6363b8;
+        INTRO_DATA.oam[slot].pOam = sEndingFrontFacingShipThrustersOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessFrontFacingShipThrusters;
     }
     else if (type == 12)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6363a0;
+        INTRO_DATA.oam[slot].pOam = sEndingFrontFacingShipOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessFrontFacingShip;
     }
 
@@ -812,7 +812,7 @@ void EndingBslCrashingVblank(void)
     if (INTRO_DATA.unk_110 == 1)
     {
         INTRO_DATA.unk_110 = 0;
-        DMA3_COPY_32(&sSr388CollisionUnk_636a38[INTRO_DATA.unk_111 * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(&sBslCrashingAnimatedBgPal[INTRO_DATA.unk_111 * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 }
 
@@ -890,13 +890,13 @@ void EndingMonologueInit(void)
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
-    LZ77UncompVram(sEndingUnk_6150e8, VRAM_OBJ);
-    DMA3_COPY_32(sEndingUnk_636638, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sEndingInShipObjGfx, VRAM_OBJ);
+    DMA3_COPY_32(sEndingInShipObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
-    LZ77UncompVram(sEndingUnk_6186a4, VRAM_BASE + 0x8000);
-    LZ77UncompVram(sEndingUnk_6377f8, VRAM_BASE + 0xF800);
+    LZ77UncompVram(sEndingMonologueBgGfx, VRAM_BASE + 0x8000);
+    LZ77UncompVram(sEndingMonologueBgTilemap, VRAM_BASE + 0xF800);
 
-    DMA3_COPY_32(sEndingUnk_636438, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sEndingInShipBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0x4800, 0x800 / sizeof(u32));
@@ -960,11 +960,11 @@ void EndingAdamConversationInit(void)
     DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
     DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
 
-    LZ77UncompVram(sEndingUnk_6131c8, VRAM_BASE + 0x8000);
-    LZ77UncompVram(sEndingUnk_637238, VRAM_BASE + 0xF800);
+    LZ77UncompVram(sEndingAdamConversationBgGfx, VRAM_BASE + 0x8000);
+    LZ77UncompVram(sEndingAdamConversationBgTilemap, VRAM_BASE + 0xF800);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sEndingUnk_636438, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sEndingInShipBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     gBg0XPosition = -8;
     gBg0YPosition = 8;
@@ -1028,12 +1028,12 @@ void EndingAnimalsInit(void)
     DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
     DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
 
-    LZ77UncompVram(sEndingUnk_61b89c, VRAM_BASE);
-    LZ77UncompVram(sEndingUnk_6217a8, VRAM_BASE + 0x8000);
-    LZ77UncompVram(sEndingUnk_638654, VRAM_BASE + 0xF000);
-    LZ77UncompVram(sEndingUnk_637db8, VRAM_BASE + 0xF800);
+    LZ77UncompVram(sEndingAnimalsBg3Gfx, VRAM_BASE);
+    LZ77UncompVram(sEndingAnimalsBg2Gfx, VRAM_BASE + 0x8000);
+    LZ77UncompVram(sEndingAnimalsBg2Tilemap, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sEndingAnimalsBg3Tilemap, VRAM_BASE + 0xF800);
 
-    DMA3_COPY_32(sEndingUnk_636838, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sEndingAnimalsBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     DMA3_FILL_16(0x2FF, VRAM_BASE + 0xF500, 0x300);
 
@@ -1474,7 +1474,7 @@ void EndingProcessSr388RadarView(struct SpecialCutsceneOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = sEndingUnk_633ec4;
+            pOam->pOam = sEndingSr388RadarViewOam_Idle;
             pOam->stage = 1;
         }
     }
@@ -1496,7 +1496,7 @@ void EndingProcessSamusViewRadarView(struct SpecialCutsceneOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = sEndingUnk_633f0c;
+            pOam->pOam = sEndingSamusViewRadarViewOam_Idle;
             pOam->stage = 1;
         }
     }
@@ -1531,7 +1531,7 @@ void unk_96a70(struct SpecialCutsceneOam* pOam)
         if (INTRO_DATA.subStage == 11)
         {
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = sUnk_633244;
+            pOam->pOam = sEndingDialogueType5Oam_Closing;
             SoundPlay(SOUND_11D);
             pOam->stage = 2;
         }
@@ -1564,13 +1564,13 @@ void EndingProcessAdamTextCursor(struct SpecialCutsceneOam* pOam)
             pOam->xPosition = 290;
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = sEndingUnk_633e8c;
+            pOam->pOam = sEndingTextCursorOam;
         }
         else if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
         {
             pOam->xPosition = SCREEN_X_MIDDLE;
             pOam->yPosition = 154;
-            pOam->pOam = sEndingUnk_633e64;
+            pOam->pOam = sEndingNextPageArrowOam;
         }
         else
         {

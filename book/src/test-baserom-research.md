@@ -78,9 +78,11 @@ Notes:
   are extracted.
 - Pointer and animation tables barely show up in `database.json`: they are
   already defined in C (see §1.2). The remaining ones are inside blobs.
-- Only `Blob_79bec0_79c128.bin` (616 B) has no `INCBIN` consuming it
-  (`inventory.py` reports it); it remains to be confirmed whether it is
-  included some other way or whether it is a gap.
+- Only `Blob_79bec0_79c128.bin` (616 B) had no `INCBIN` consuming it
+  (`inventory.py` reported it). It was a stale entry: those bytes are the
+  `.data` of `src/menus/pause_screen.c` (right after `sUnk_79bebc`, through
+  `sNavConversationTextPointers` and `sPauseScreenTextPointers`), defined in
+  C since the pause screen was decompiled, and the entry has been removed.
 - The original request mentioned 47 blobs; `database.json` has **48**
   (including two whose address lacks the `0x` prefix, e.g. `Blob_5766D4_5766e0`),
   and their sum (0x11d294) matches the README figure.
