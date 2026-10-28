@@ -14,6 +14,7 @@
 # Research
 
 - [Generated test baserom](docs/test_baserom_research.md)
+- [Rooms of the test baserom](docs/open_assets_rooms.md)
 
 # Reference
 

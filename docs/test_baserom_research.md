@@ -209,6 +209,10 @@ no external code was installed).
 
 ### 3.2 Phase B: one test room (estimate: 1-3 weeks)
 
+> Status: the tileset and room part is done for the first three rooms
+> (Main Deck 0, 3, 6), with a walk through two doors in the emulator tests;
+> see [Rooms of the test baserom](open_assets_rooms.md).
+
 1. Pick a small room (the `test*` rooms in `rooms/test` or the first one in
    the Main Deck) and generate: a tileset with 4-8 readable blocks (floor,
    wall, background, door), clipdata consistent with the doors in

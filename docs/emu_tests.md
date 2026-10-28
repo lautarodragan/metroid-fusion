@@ -55,7 +55,8 @@ objects whose data changed.
 | File | Test |
 | --- | --- |
 | `test_boot.py` | The first 600 frames run (PC always in code, increasing frame counter). The scripted walkthrough goes through the modes in order: title intro → title screen → file select → new file intro → map → in game. No invalid PC and no resets during the whole walkthrough. |
-| `test_screenshots.py` | Screenshots at 5 points (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`) compared against `tests/emu/reference/*.png`. A pixel differs if any channel differs by more than 24; the test fails if more than 0.5 % of the pixels differ. On failure, `<name>.actual.png` and `<name>.diff.png` are saved to `tests/emu/output/` (or `--emu-output` / `$MF_EMU_OUTPUT`; in CI they are uploaded as an artifact). |
+| `test_screenshots.py` | Screenshots at 8 points (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`, and `room_0`, `room_3`, `room_6` from the room walk) compared against `tests/emu/reference/*.png`. A pixel differs if any channel differs by more than 24; the test fails if more than 0.5 % of the pixels differ. On failure, `<name>.actual.png` and `<name>.diff.png` are saved to `tests/emu/output/` (or `--emu-output` / `$MF_EMU_OUTPUT`; in CI they are uploaded as an artifact). |
+| `test_rooms.py` | The scripted walk after reaching the game (`ROOM_WALK` in `scenario.py`) goes through the first three rooms of the generated baserom: room 0 → left hatch → room 3 → upper left door → room 6. `gCurrentArea`/`gCurrentRoom` at each checkpoint must be (0, 0), (0, 3), (0, 6), and Samus must stand on the expected floor on arrival. See [the rooms](open_assets_rooms.md). |
 | `test_ingame.py` | In the first room (`gCurrentArea` = 0, `gCurrentRoom` = 0): holding right increases `gSamusData.xPosition` and left decreases it; A makes Samus jump (`yPosition` goes down) and Samus lands back on the floor. Determinism: same state + same input → same RAM/VRAM/OAM hash and same image; two power-ons give the same RAM. |
 
 The walkthrough (`tests/emu/scenario.py`) runs only once per session: the
@@ -166,8 +167,12 @@ So that changes to the decomp or the layout don't break it silently:
 
 ## Known limitations
 
-- Samus is not drawn in the room yet (her position in RAM does change, and
-  that is what the tests verify); the file select screen shows up black (its
+- Samus is not drawn in the first room yet, and the camera does not follow
+  her: the gunship sprite that would clear
+  `gDisableDrawingSamusAndScrollingFlag` is missing (her position in RAM
+  does change, and that is what the tests verify). The room walk clears the
+  flag itself, so the `room_*` screenshots show her (as a placeholder
+  sprite) and a scrolling camera. The file select screen shows up black (its
   graphics decompress to nothing). The art is placeholder.
 - Screenshots depend on the mGBA version; CI pins `ubuntu-24.04`
   (libretro-mgba 0.10.2). With another version the references may need to be
