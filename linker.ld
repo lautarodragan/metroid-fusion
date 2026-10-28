@@ -507,6 +507,7 @@ SECTIONS {
 
         asm/disasm_0x0808F5C4.o(.text);
         src/ending_dialogue.o(.text);
+        src/died_on_sr388.o(.text);
         asm/disasm_0x08096B98.o(.text);
         asm/disasm_0x0809A848.o(.text);
 
