@@ -37,6 +37,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import formats  # noqa: E402
+import samus_gfx  # noqa: E402
+import sprite_gfx  # noqa: E402
 from inventory import ROOT, Region, load_regions  # noqa: E402
 from layout import Layout, scan_lz_sources  # noqa: E402
 
@@ -363,6 +365,21 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     return notes
 
 
+# Room BG tiles that mean "nothing here": metatile 0 points to BG tile 0,
+# which AnimatedGraphicsLoad fills from the first animated tiles entry, and
+# the empty BG0 uses the first common tile (0x40). With opaque placeholder
+# tiles there, BG0/BG1 (priority 0/1) cover Samus and the sprites (priority 2).
+EMPTY_BG_TILES = [("animated_tiles/tiles.gfx", 0x80), ("common/common_tiles.gfx", 0x20)]
+
+
+def clear_empty_bg_tiles(rom: bytearray, regions: list[Region]) -> list[str]:
+    by_path = {r.path: r for r in regions}
+    for path, size in EMPTY_BG_TILES:
+        r = by_path[path]
+        rom[r.addr:r.addr + size] = bytes(size)
+    return [f"transparent empty BG tiles: {len(EMPTY_BG_TILES)}"]
+
+
 def generate(args) -> int:
     regions = load_regions()
     meta = scan_c_metadata()
@@ -403,6 +420,9 @@ def generate(args) -> int:
         rom[r.addr:r.addr + len(data)] = data
 
     layout_notes = apply_known_layouts(rom, regions, layout)
+    layout_notes += clear_empty_bg_tiles(rom, regions)
+    layout_notes += samus_gfx.apply(rom, regions, layout)
+    layout_notes += sprite_gfx.apply(rom, regions, layout)
     validate(rom, regions, meta)
     # No database region starts below 0xa5224, and the extractor never reads
     # the header, so the first bytes carry a marker identifying the file.
