@@ -23,7 +23,9 @@ separate globals.
 
 from __future__ import annotations
 
+import array
 import ctypes
+import functools
 import os
 import re
 import shutil
@@ -258,6 +260,20 @@ def image_diff(a: bytes, b: bytes, threshold: int = 24) -> float:
                 or abs(a[i + 2] - b[i + 2]) > threshold):
             bad += 1
     return bad / (len(a) // 3)
+
+
+@functools.lru_cache(maxsize=None)
+def _rgb_table(pixel_format: int) -> tuple[bytes, ...]:
+    """RGB888 bytes for every 16-bit pixel value of ``pixel_format``."""
+    out = []
+    for v in range(0x10000):
+        if pixel_format == PIXEL_RGB565:
+            r, g, b = v >> 11, (v >> 5) & 0x3F, v & 0x1F
+            out.append(bytes(((r << 3) | (r >> 2), (g << 2) | (g >> 4), (b << 3) | (b >> 2))))
+        else:
+            r, g, b = (v >> 10) & 0x1F, (v >> 5) & 0x1F, v & 0x1F
+            out.append(bytes(((r << 3) | (r >> 2), (g << 3) | (g >> 2), (b << 3) | (b >> 2))))
+    return tuple(out)
 
 
 # ---------------------------------------------------------------------------
@@ -623,27 +639,16 @@ class Emulator:
         """Return (width, height, RGB888 bytes) of the last frame."""
         if self._frame is None:
             raise EmulatorError("no frame rendered yet")
-        w, h, pitch = self._frame_geom
-        fb, out = self._frame, bytearray(w * h * 3)
-        o = 0
+        w, h, _ = self._frame_geom
+        visible = self.frame_bytes()
         if self.pixel_format == PIXEL_XRGB8888:
-            for y in range(h):
-                row = fb[y * pitch:y * pitch + w * 4]
-                for x in range(0, w * 4, 4):
-                    out[o], out[o + 1], out[o + 2] = row[x + 2], row[x + 1], row[x]
-                    o += 3
-        else:
-            rgb565 = self.pixel_format == PIXEL_RGB565
-            for y in range(h):
-                for (v,) in struct.iter_unpack("<H", fb[y * pitch:y * pitch + w * 2]):
-                    if rgb565:
-                        r, g, b = v >> 11, (v >> 5) & 0x3F, v & 0x1F
-                        out[o], out[o + 1], out[o + 2] = (r << 3) | (r >> 2), (g << 2) | (g >> 4), (b << 3) | (b >> 2)
-                    else:
-                        r, g, b = (v >> 10) & 0x1F, (v >> 5) & 0x1F, v & 0x1F
-                        out[o], out[o + 1], out[o + 2] = (r << 3) | (r >> 2), (g << 3) | (g >> 2), (b << 3) | (b >> 2)
-                    o += 3
-        return w, h, bytes(out)
+            out = bytearray(w * h * 3)
+            out[0::3] = visible[2::4]
+            out[1::3] = visible[1::4]
+            out[2::3] = visible[0::4]
+            return w, h, bytes(out)
+        table = _rgb_table(self.pixel_format)
+        return w, h, b"".join(map(table.__getitem__, array.array("H", visible)))
 
     def frame_bytes(self) -> bytes:
         """The visible pixels of the last frame in the core's pixel format.
