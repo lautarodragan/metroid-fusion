@@ -95,3 +95,20 @@ def test_second_instance_runs_independently(emu, boot, rom_files):
             other.run(1, keys)
             assert emu.frame_bytes() == other.frame_bytes(), f"frame {f} differs"
         assert emu.ram_hash() == other.ram_hash()
+
+
+def test_frames_after_load_state_do_not_depend_on_history(emu, boot, rom_files):
+    """The first frames after loading a state are the same whatever the
+    instance ran before (the core's output buffer is not in the state)."""
+    import harness
+
+    core, rom, map_file = rom_files
+    with harness.Emulator(rom, map_file, core=core) as fresh:
+        emu.load_state(boot.states["in_game"])
+        emu.run(30, "RIGHT")                # history differs from `fresh`
+        for e in (emu, fresh):
+            e.load_state(emu.power_on_state)
+        for f in range(5):
+            emu.run(1)
+            fresh.run(1)
+            assert emu.frame_bytes() == fresh.frame_bytes(), f"frame {f} after loading differs"

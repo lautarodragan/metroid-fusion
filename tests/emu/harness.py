@@ -327,6 +327,7 @@ class Emulator:
         self.regions: list[tuple[int, int, int]] = []  # (start, length, host pointer)
         self._frame: bytes | None = None
         self._frame_geom = (240, 160, 480)
+        self._frame_buffer: tuple[int, int] | None = None  # core's output buffer (address, size)
         self._keys = 0
         self.frame_count = 0
 
@@ -376,6 +377,12 @@ class Emulator:
         if not self.regions:
             self.close()
             raise EmulatorError("core did not publish a memory map")
+        # Render one frame to learn where the core's output buffer is, then
+        # go back to power-on with that buffer cleared, so that every
+        # instance starts from the same (blank) video buffer.
+        power_on = self.save_state()
+        self.lib.retro_run()
+        self.load_state(power_on)
 
     # -- callbacks ---------------------------------------------------------
 
@@ -424,6 +431,7 @@ class Emulator:
         if data:
             self._frame = ctypes.string_at(data, pitch * height)
             self._frame_geom = (width, height, pitch)
+            self._frame_buffer = (data, pitch * height)
 
     def _input(self, port: int, device: int, index: int, ident: int) -> int:
         if port == 0 and device == RETRO_DEVICE_JOYPAD and index == 0:
@@ -501,6 +509,20 @@ class Emulator:
         if not self.lib.retro_unserialize(buf, len(body)):
             raise EmulatorError("retro_unserialize failed")
         self.frame_count = frames
+        self._clear_frame()
+
+    def _clear_frame(self) -> None:
+        """Clear the core's output buffer (and the last frame).
+
+        The video buffer is not part of the emulated state, and the first
+        frame rendered after loading a state can leave some lines untouched
+        (e.g. while the display is being turned on), so they would show
+        whatever this instance drew before. Clearing it makes the frames
+        after a load depend only on the loaded state.
+        """
+        if self._frame_buffer is not None:
+            ctypes.memset(self._frame_buffer[0], 0, self._frame_buffer[1])
+        self._frame = None
 
     def cpu_registers(self) -> dict[str, int]:
         """Best-effort CPU registers taken from an mGBA save state.
@@ -536,6 +558,7 @@ class Emulator:
         """Press the console's reset (save data is kept)."""
         self.lib.retro_reset()
         self.frame_count = 0
+        self._clear_frame()
 
     def ram_hash(self) -> str:
         """SHA-1 over EWRAM, IWRAM, palette, VRAM and OAM."""
@@ -623,14 +646,18 @@ class Emulator:
         return w, h, bytes(out)
 
     def frame_bytes(self) -> bytes:
-        """The last frame exactly as the core delivered it (native pixel format).
+        """The visible pixels of the last frame in the core's pixel format.
 
         Much cheaper than :meth:`screenshot`; two frames from cores using the
         same pixel format are equal exactly when their screenshots are.
         """
         if self._frame is None:
             raise EmulatorError("no frame rendered yet")
-        return self._frame
+        w, h, pitch = self._frame_geom
+        row = w * (4 if self.pixel_format == PIXEL_XRGB8888 else 2)
+        if row == pitch:
+            return self._frame
+        return b"".join(self._frame[y * pitch:y * pitch + row] for y in range(h))
 
     def save_png(self, path: str | os.PathLike) -> None:
         w, h, rgb = self.screenshot()
