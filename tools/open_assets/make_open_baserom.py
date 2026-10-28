@@ -241,7 +241,8 @@ TEXT_RANGE = (0x6b2fac, 0x72eee0)
 #   - as an OAM frame:      part count = low half = 0 (nothing drawn),
 #   - as a pointer table:   points to a valid FrameData array again.
 # Regions in these ranges that the code passes to LZ77UncompVram/Wram get a
-# zero header instead, so they decompress to nothing.
+# zero header instead, so they decompress to nothing. Identified regions of a
+# placeholder format (.gfx.lz, .tm.lz, .pal...) get their placeholder instead.
 OAM_SAFE_RANGES = [
     (0x6094d0, 0x60b148),   # title intro OAM (IntroSpaceView*)
     (0x6131c8, 0x63a19c),   # intro / ending graphics and OAM
@@ -272,7 +273,7 @@ def in_ranges(r: Region, ranges) -> bool:
 def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -> list[str]:
     """Overwrite the blobs listed above; returns notes for the summary."""
     blobs = [r for r in regions if r.category == "blob"]
-    sym = {r.path: layout.symbol_of(r) for r in blobs}
+    sym = {r.path: layout.symbol_of(r) for r in regions}
     notes = []
 
     def put(r: Region, data: bytes) -> None:
@@ -302,7 +303,8 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     # page" arrow. Some scenes wait for "more text follows" and then "end",
     # others only for "end"; two pages serve both: arrow, arrow, one
     # character, arrow, terminator.
-    texts = [r for r in blobs if in_ranges(r, [TEXT_RANGE])]
+    # (identified text pieces are not blobs any more, so all regions are scanned)
+    texts = [r for r in regions if in_ranges(r, [TEXT_RANGE])]
     page = struct.pack("<5H", CHAR_NEXT_PAGE_ARROW, CHAR_NEXT_PAGE_ARROW, PLACEHOLDER_CHAR,
                        CHAR_NEXT_PAGE_ARROW, CHAR_TERMINATOR)
     pages = 0
@@ -328,9 +330,12 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     string_table = layout.region_address(tps[0])  # a table of empty strings
 
     # OAM-safe ranges
-    oam = sorted((r for r in blobs if in_ranges(r, OAM_SAFE_RANGES)), key=lambda r: r.addr)
+    # blobs and identified regions without a placeholder format (FrameData
+    # arrays and other tables, *.bin)
+    oam = sorted((r for r in regions if r.category in ("blob", "misc") and in_ranges(r, OAM_SAFE_RANGES)),
+                 key=lambda r: r.addr)
     lz_sources = scan_lz_sources()
-    lz = [r for r in oam if sym[r.path] in lz_sources]
+    lz = [r for r in oam if layout.symbol_of(r) in lz_sources]
     built = {r.path: layout.region_address(r) for r in oam}
     # the word: a 64 KiB aligned build address inside these regions, clear
     # of the zeroed LZ77 headers

@@ -4,8 +4,8 @@
 #include "types.h"
 #include "oam.h"
 
-extern const u8 sCutsceneUnk_63a184[3][4];
-extern const u8 sCutsceneUnk_63a190[3][4];
+extern const u8 sCutsceneOamXFlipOffsets[3][4];
+extern const u8 sCutsceneOamYFlipOffsets[3][4];
 extern const struct FrameData sCutsceneMonologueCursorHiddenOam[];
 extern const struct FrameData sCutsceneMonologueCursorNextPageOam[];
 extern const u32 sCutsceneSecretConversationBgGfx[];
