@@ -29,3 +29,40 @@ jobs:
 
       - name: Build from synthetic baserom and check golden sha1
         run: tools/check_synthetic.sh
+
+  emulator-tests:
+    # Pinned: the reference screenshots were made with this release's
+    # libretro-mgba (0.10.2).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends binutils-arm-none-eabi build-essential git python3 \
+            python3-pytest libretro-mgba
+          echo "AGBCC_PREFIX=$HOME/agbcc" >> "$GITHUB_ENV"
+          echo "AGBCC_LINK_DIR=" >> "$GITHUB_ENV"
+
+      - name: Cache agbcc
+        uses: actions/cache@v4
+        with:
+          path: ~/agbcc
+          key: agbcc-${{ runner.os }}-${{ hashFiles('tools/setup_toolchain.sh') }}
+
+      - name: Set up agbcc
+        run: tools/setup_toolchain.sh
+
+      - name: Build the open ROM and run the emulator tests
+        env:
+          MF_EMU_OUTPUT: ${{ runner.temp }}/emu-output
+        run: tests/run_emu_tests.sh -v
+
+      - name: Upload screenshots of failed comparisons
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emu-test-output
+          path: ${{ runner.temp }}/emu-output
+          if-no-files-found: ignore

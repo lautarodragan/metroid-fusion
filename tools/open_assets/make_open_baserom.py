@@ -8,15 +8,20 @@ regions is zero. Code is never taken from here: the extractor only copies
 data regions, the program itself is built from this repository.
 
 Usage:
-    python3 tools/open_assets/make_open_baserom.py -o open_baserom.gba
-    # then, to try a build (needs agbcc etc.), copy it to mf_us_baserom.gba
-    # in a scratch checkout and run tools/extractor.py + make.
+    python3 tools/open_assets/build_open_rom.py      # generate + build, two passes
+    python3 tools/open_assets/make_open_baserom.py -o open_baserom.gba [--map mf_us.map]
 
-It refuses to overwrite an existing file unless --force is given, so it can
-never clobber a real baserom by accident.
+A few tables hold addresses of our own functions (interrupt vectors); they
+are filled from the linker map of a previous build (--map), which is why
+build_open_rom.py builds twice.
 
-Status: research prototype. Boot has NOT been verified (see
-docs/open_assets_research.md, phase A).
+The output starts with a marker (OPEN_MARKER). An existing file is only
+overwritten if it carries that marker, or with --force, so a real or
+synthetic baserom is never clobbered by accident.
+
+Status: the resulting ROM boots in mGBA (HLE BIOS) through the title intro,
+title screen, file select and new-file intro into the first room; see
+docs/emu_tests.md for the emulator tests that check this.
 """
 
 from __future__ import annotations

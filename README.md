@@ -70,6 +70,10 @@ The default built ROM is mf_us.gba
 
 `make check-synthetic` builds the ROM from a deterministic synthetic baserom and compares it with the golden sha1 in `mf_us_synthetic.sha1`. It catches code changes that would break matching without needing the real ROM. See [docs/synthetic_check.md](docs/synthetic_check.md) for what it covers and when the golden value may be updated.
 
+## Emulator tests
+
+`tests/run_emu_tests.sh` builds the ROM from the open placeholder baserom (`tools/open_assets/`, no Nintendo data) in a scratch directory and runs pytest tests in a headless mGBA (libretro core, HLE BIOS): boot sequence up to the first room, screenshot regression and RAM checks. Needs `libretro-mgba` and `pytest`. See [docs/emu_tests.md](docs/emu_tests.md).
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)

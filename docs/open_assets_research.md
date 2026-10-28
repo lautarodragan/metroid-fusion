@@ -284,6 +284,11 @@ instaló código externo).
 
 ### 4.1 Fase A: "arranca a algo" (estimado: 3-10 días)
 
+> **Actualización:** hecho sin tocar `src/`/`asm/`. La ROM abierta llega al
+> juego (primera sala, Samus se mueve con input) pasando por intro, título,
+> selección de archivo e intro de partida nueva. Lo que hizo falta y los
+> tests de emulador que lo verifican están en [emu_tests.md](emu_tests.md).
+
 1. Compilar con la base ROM abierta (`cp open_baserom.gba mf_us_baserom.gba;
    python3 tools/extractor.py && make`). Esperable: compila igual que con la
    ROM real (los tamaños son idénticos); `make check` obviamente falla.
