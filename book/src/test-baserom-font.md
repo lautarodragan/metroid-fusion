@@ -1,7 +1,7 @@
 # Text and font in the generated test baserom
 
 The generated test baserom (`tools/open_assets/`, see
-[Generated test baserom](test_baserom_research.md)) carries a readable font
+[Generated test baserom](test-baserom-research.md)) carries a readable font
 and short placeholder strings, so the emulator tests and screenshots show
 what each screen is doing. The code lives in `tools/open_assets/font.py`;
 `make_open_baserom.py` only calls `font.apply()` after its other layouts.

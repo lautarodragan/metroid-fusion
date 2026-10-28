@@ -2,7 +2,7 @@
 
 Every tileset slot of the game gets the same small "semantic" tileset, so any
 room reads the same way: what Samus collides with looks like it. The look of
-a block follows its collision type (see docs/open_assets_rooms.md for the
+a block follows its collision type (see book/src/open-assets-rooms.md for the
 legend):
 
 - solid structure: steel plates; the side facing open space gets a bright

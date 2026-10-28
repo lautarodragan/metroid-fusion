@@ -10,6 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Print decompilation progress
+        continue-on-error: true
+        run: python3 tools/progress.py | sed 's/^/- /' | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Install dependencies
         run: |
           sudo apt-get update

@@ -81,9 +81,17 @@ def sort_by_address(debug: bool, quiet: bool = False) -> None:
         print(f"Sorted entries in {db_path} by address")
 
 
-def total_blob_size() -> None:
-    total_size = 0x6f9d24
-    with open(DATABASE_PATH, "r") as f:
+TOTAL_DATA_SIZE = 0x6f9d24
+
+
+def blob_progress(db_path: str = DATABASE_PATH) -> tuple[int, int]:
+    """Return (bytes not in blobs, total data bytes) for the US ROM.
+
+    Every database entry whose path starts with "Blob" is data that is still
+    copied as an opaque chunk from the baserom; everything else counts as
+    data that is not in blobs."""
+    total_size = TOTAL_DATA_SIZE
+    with open(db_path, "r") as f:
         db = json.load(f)
     blob_size = 0
     for entry in db:
@@ -94,11 +102,19 @@ def total_blob_size() -> None:
         size: int = int(count, 16) * entry["size"]
         blob_size += size
     assert blob_size <= total_size
-    non_blob = total_size - blob_size
+    return total_size - blob_size, total_size
+
+
+def blob_progress_line(db_path: str = DATABASE_PATH) -> str:
+    non_blob, total_size = blob_progress(db_path)
+    blob_size = total_size - non_blob
     fraction = f"0x{non_blob:x}/0x{total_size:x}"
     percent = f"{non_blob / total_size:.2%}"
-    print(f"{fraction} bytes of data not in blobs ({percent}, 0x{blob_size:x} left)")
+    return f"{fraction} bytes of data not in blobs ({percent}, 0x{blob_size:x} left)"
 
+
+def total_blob_size() -> None:
+    print(blob_progress_line())
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

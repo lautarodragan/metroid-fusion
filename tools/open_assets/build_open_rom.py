@@ -17,7 +17,7 @@ Usage (from the repository root, or with -C):
     python3 tools/open_assets/build_open_rom.py [-C DIR] [-j N] [--shift [AMOUNT]]
 
 --shift builds the shift test ROM instead (``make SHIFT=1``,
-mf_us_shifted.gba, see docs/shiftability.md), with the baserom's pointers
+mf_us_shifted.gba, see book/src/shiftability.md), with the baserom's pointers
 taken from that build: running it checks that the open ROM still works when
 code and data move.
 

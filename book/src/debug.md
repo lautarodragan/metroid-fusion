@@ -92,7 +92,7 @@ Abilities can be toggled on or off. "CLUSTE" is diffusion missiles.
 
 Changing the value next to "SAMUS" will give Samus abilities in the order that they are normally obtained. With the value selected, pressing `L` or `Select` will set all energy and ammo to their starting values. Pressing `R` or `Start` will set them all to their maximum values.
 
-"EVENT" lets you set the current story event. Changing the value here will also update Samus's equipment and security levels unlocked. Changing the event is important for being able to visit rooms in the state you want, allowing bosses to spawn, and triggering story events. You can look at the [Event enum](../include/constants/event.h) to know what each value means.
+"EVENT" lets you set the current story event. Changing the value here will also update Samus's equipment and security levels unlocked. Changing the event is important for being able to visit rooms in the state you want, allowing bosses to spawn, and triggering story events. You can look at the [Event enum](https://github.com/lautarodragan/metroid-fusion/blob/main/include/constants/event.h) to know what each value means.
 
 "SEVENT" stands for either "sub-event" or "sound event". This value determines when to start, stop, or change the music based on story progression.
 

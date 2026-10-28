@@ -4,7 +4,7 @@
 /**
  * @brief Enables debug features, mainly the boot debug menu and the pause debug menu, among other things
  * 
- * (see docs/debug.md for more details)
+ * (see book/src/debug.md for more details)
  * 
  */
 // #define DEBUG
@@ -19,7 +19,7 @@
 /**
  * @brief Enables various fixes to known bugs, issues, or bad code.
  * 
- * (see docs/bugs_and_glitches.md for reference)
+ * (see book/src/bugs-and-glitches.md for reference)
  * 
  */
 // #define BUGFIX

@@ -5,19 +5,21 @@ repository's `book/` directory and is published to GitHub Pages
 (<https://lautarodragan.github.io/metroid-fusion/>) every time `main`
 changes.
 
-## Current state: `docs/` and `book/`
+## Editing
 
-For now several chapters **don't live in `book/`**: they are files in `docs/`
-that the book includes as-is with mdBook's `\{{#include}}` directive (for
-example, `book/src/docs/synthetic_check.md` only includes
-`docs/synthetic_check.md`). This way the book always stays in sync with those
-files.
+All the project documentation lives in `book/src/`: each chapter is a
+Markdown file there, and `book/src/SUMMARY.md` defines the table of contents.
+To add a chapter, create the file in `book/src/` and add it to
+`SUMMARY.md`.
 
-If you want to fix one of those chapters, edit the file in `docs/`, not the
-page in `book/src/docs/`.
-
-Later on, the files in `docs/` will be consolidated into `book/src/` and
-`docs/` will go away.
+- Link to other chapters with relative links to their `.md` file (for example
+  `[Shiftability](shiftability.md)`); mdBook turns them into links to the
+  generated pages and warns about broken ones.
+- Link to source files in the repository with full GitHub URLs
+  (`https://github.com/lautarodragan/metroid-fusion/blob/main/...`), since
+  only `book/src/` is published.
+- Make sure `mdbook build book` finishes without warnings before opening a
+  PR.
 
 ## Previewing locally
 

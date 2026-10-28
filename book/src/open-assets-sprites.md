@@ -1,7 +1,7 @@
 # Placeholder sprites in the open base ROM
 
 The open base ROM (`tools/open_assets/`, see
-[Generated test baserom](test_baserom_research.md)) is a test fixture: its
+[Generated test baserom](test-baserom-research.md)) is a test fixture: its
 data only has to make the emulator tests and their screenshots meaningful.
 This page describes the placeholder **sprite** graphics: Samus, the HUD,
 projectiles, effects and enemies/objects. Rooms, tilesets and text are
@@ -177,7 +177,7 @@ different colours.
   new game starts with `gDisableDrawingSamusAndScrollingFlag` set; only the
   gunship's AI clears it, so without it Samus was never drawn. Other
   spritesets are still empty (`sprite_gfx.SPRITESETS`); the sprites the
-  first rooms use are listed in [Rooms of the test baserom](open_assets_rooms.md).
+  first rooms use are listed in [Rooms of the test baserom](open-assets-rooms.md).
 - **Empty room tiles are transparent** (a fallback; the room tileset in
   `tiles.py` runs afterwards and draws its own): metatile 0 points to BG tile 0,
   which `AnimatedGraphicsLoad` fills from the first animated tiles entry,
@@ -189,7 +189,7 @@ different colours.
 
 ## Tests
 
-`tests/emu/test_sprites.py` (see [Emulator tests](emu_tests.md)) checks that
+`tests/emu/test_sprites.py` (see [Emulator tests](emu-tests.md)) checks that
 Samus' sprites are on screen and visible, compares 9 scripted poses with
 `tests/emu/reference/samus_<pose>.png` (rendered from OAM + OBJ VRAM + OBJ
 palettes by `tests/emu/oam_view.py`, so the room and camera don't matter),

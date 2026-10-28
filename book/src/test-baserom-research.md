@@ -3,7 +3,7 @@
 > Status: low-priority research + minimal prototype (`tools/open_assets/`).
 > The generated baserom is a **test fixture**: placeholder data that lets the
 > project be built and exercised in CI and in the emulator tests
-> ([emu_tests.md](emu_tests.md)) without the original ROM. It is not meant to
+> ([Emulator tests](emu-tests.md)) without the original ROM. It is not meant to
 > be a playable game. Nothing described here needs, reads or downloads the
 > original ROM.
 
@@ -178,7 +178,7 @@ the space is wasted.
   it. It never overwrites an existing file without `--force`.
 - `font.py`: readable font (Spleen 6x12 fitted to `sCharacterWidths`),
   placeholder strings and text layers; see
-  [Text and font](test_baserom_font.md).
+  [Text and font](test-baserom-font.md).
 - `test_formats.py`, `test_font.py`: unit tests (`python3 -m pytest tools/open_assets`).
 
 Current result: all 3492 regions get content; 209 of the 210
@@ -195,7 +195,7 @@ no external code was installed).
 > **Update:** done without touching `src/`/`asm/`. The test ROM reaches the
 > game (first room, Samus moves with input), going through the intro, title,
 > file select and new file intro. What it took and the emulator tests that
-> verify it are in [emu_tests.md](emu_tests.md).
+> verify it are in [Emulator tests](emu-tests.md).
 
 1. Build with the generated baserom (`cp open_baserom.gba mf_us_baserom.gba;
    python3 tools/extractor.py && make`). Expected: it builds just as with the
@@ -214,7 +214,7 @@ no external code was installed).
 
 > Status: the tileset and room part is done for the first three rooms
 > (Main Deck 0, 3, 6), with a walk through two doors in the emulator tests;
-> see [Rooms of the test baserom](open_assets_rooms.md).
+> see [Rooms of the test baserom](open-assets-rooms.md).
 
 1. Pick a small room (the `test*` rooms in `rooms/test` or the first one in
    the Main Deck) and generate: a tileset with 4-8 readable blocks (floor,

@@ -34,7 +34,7 @@ These are known bugs and glitches in the game: code that clearly does not work a
 
 ### Y-flipped Zoro uses the wrong size for top hitbox
 
-**Fix:** Edit `ZoroSetHitboxAndDrawDistance` in [zoro.c](../src/sprites_AI/zoro.c) to make the `hitboxTop` value negative.
+**Fix:** Edit `ZoroSetHitboxAndDrawDistance` in [zoro.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/zoro.c) to make the `hitboxTop` value negative.
 
 ```diff
   if (gCurrentSprite.status & SPRITE_STATUS_Y_FLIP)
@@ -49,7 +49,7 @@ These are known bugs and glitches in the game: code that clearly does not work a
 
 ### Y-flipped Sciser uses the wrong size for top hitbox
 
-**Fix:** Edit `SciserUpdateHitbox` in [sciser.c](../src/sprites_AI/sciser.c) to make the `hitboxTop` value negative.
+**Fix:** Edit `SciserUpdateHitbox` in [sciser.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/sciser.c) to make the `hitboxTop` value negative.
 
 ```diff
   if (gCurrentSprite.status & SPRITE_STATUS_Y_FLIP)
@@ -66,7 +66,7 @@ These are known bugs and glitches in the game: code that clearly does not work a
 
 Gerutas update their hitbox when returning to idle after attacking, but not after turning around. The difference is minor though, with the hitbox only being offset by a quarter of a block (4 pixels).
 
-**Fix:** Edit `GerutaTurningAround` in [geruta.c](../src/sprites_AI/geruta.c) to call `GerutaSetIdleHitboxes`
+**Fix:** Edit `GerutaTurningAround` in [geruta.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/geruta.c) to call `GerutaSetIdleHitboxes`
 
 ```diff
   if (SpriteUtilHasCurrentAnimationNearlyEnded())
@@ -82,7 +82,7 @@ Gerutas update their hitbox when returning to idle after attacking, but not afte
 
 **Note:** Yards that can roll don't appear in the final game, so this code was likely unfinished/untested.
 
-**Fix:** Edit `YardRolling` in [yard.c](../src/sprites_AI/yard.c) to subtract one pixel from the Y position instead of a quarter block.
+**Fix:** Edit `YardRolling` in [yard.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/yard.c) to subtract one pixel from the Y position instead of a quarter block.
 
 ```diff
   // Still on ground or slope, check block above bottom-left
@@ -103,7 +103,7 @@ Gerutas update their hitbox when returning to idle after attacking, but not afte
 
 Choot spit checks collision when exploding to determine which animation to use (on ground vs mid-air). However, it checks one block to the right when it should just check at the spit's X position. Note that there are no setups in the original game where this bug can occur.
 
-**Fix:** Edit `ChootSpitExplodingInit` in [choot.c](../src/sprites_AI/choot.c) to not subtract one block from the X position.
+**Fix:** Edit `ChootSpitExplodingInit` in [choot.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/choot.c) to not subtract one block from the X position.
 
 ```diff
 - // BUG: Center of spit should be checked for collision, not one block to the right
@@ -118,7 +118,7 @@ Choot spit checks collision when exploding to determine which animation to use (
 
 Each geron type uses a variable to track which ones have been destroyed. Since the variables are 16-bit, up to 16 of each type can be tracked. The sprite IDs for each type appear sequentially, so subtracting the first geron's ID from the current geron's ID will get its bit position. However, power bomb gerons subtract the first *super missile* geron ID instead of the first *power bomb* geron ID. This ends up not causing any problems, because power bomb geron IDs are immediately after super missile geron IDs, and there are only 8 of each, so power bomb gerons end up using the top 8 bits of their destroyed variable.
 
-**Fix:** Edit `PowerBombGeronInit` and `PowerBombGeronDying` in [power_bomb_geron.c](../src/sprites_AI/power_bomb_geron.c) to subtract the first power bomb geron sprite ID.
+**Fix:** Edit `PowerBombGeronInit` and `PowerBombGeronDying` in [power_bomb_geron.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/power_bomb_geron.c) to subtract the first power bomb geron sprite ID.
 
 ```diff
   spriteId = gCurrentSprite.spriteId;
@@ -153,7 +153,7 @@ When spawning a new sprite, if all the sprite slots are full, the spawn function
 
 **Note:** Kihunter hives don't appear in the final game, so this code was likely unfinished/untested.
 
-**Fix:** Edit `KihunterHiveSpawnKihunter` in [kihunter.c](../src/sprites_AI/kihunter.c) to check the spawn function return value before modifying data on the sprite.
+**Fix:** Edit `KihunterHiveSpawnKihunter` in [kihunter.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/kihunter.c) to check the spawn function return value before modifying data on the sprite.
 
 ```diff
   ramSlot = SpriteSpawnPrimary(PSPRITE_KIHUNTER_FLYING, 0, gCurrentSprite.spritesetGfxSlot, SSP_X_ABSORBABLE_BY_SAMUS,
@@ -172,7 +172,7 @@ When spawning a new sprite, if all the sprite slots are full, the spawn function
 
 The function `SaXSeeAndLocateSamus` in the SA-X sprite AI accesses `sSamusCollisionData` as if it has 6 items per pose, even though there are actually 5. The result is that the value read will be an unexpected or invalid hitbox type. In practice, this only has a minor effect on the SA-X's detection of Samus.
 
-**Fix:** Edit [sa_x.c](../src/sprites_AI/sa_x.c) to remove the incorrect declaration and include samus_data.h instead.
+**Fix:** Edit [sa_x.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/sa_x.c) to remove the incorrect declaration and include samus_data.h instead.
 
 ```diff
 - // Incorrectly declared here to produce matching code in SaXSeeAndLocateSamus
@@ -184,7 +184,7 @@ The function `SaXSeeAndLocateSamus` in the SA-X sprite AI accesses `sSamusCollis
 
 Beam Core-X eyes and BOX's missiles rotate in order to target Samus. The condition for Samus being directly above the sprite is checked, but the result is not used due to a typo, so other conditions are checked instead. Note that sprites can still aim up while rotating, but will never remain aiming up. If Samus is directly above, sprites will aim up-left or up-right instead.
 
-**Fix:** Edit `SpriteUtilMakeSpriteRotateTowardsTarget` in [sprite_util.c](../src/spite_util.c) to change the condition after the "directly above" check to `else if` instead of `if`.
+**Fix:** Edit `SpriteUtilMakeSpriteRotateTowardsTarget` in [sprite_util.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprite_util.c) to change the condition after the "directly above" check to `else if` instead of `if`.
 
 ```diff
   if (spriteX - BLOCK_SIZE < targetX && spriteX + BLOCK_SIZE > targetX)
@@ -214,7 +214,7 @@ Beam Core-X eyes and BOX's missiles rotate in order to target Samus. The conditi
 
 When Samus starts a wall jump facing left, the top right part is missing, due to the X coordinate being incorrect (the value is written as if it were 8 bits, but OAM X coordinates are 9 bits).
 
-**Fix:** Edit `sSamusOam_StartingWallJump_Left_Frame0` in [samus_graphics.c](../src/data/samus/samus_graphics.c) to use the correct X coordinate.
+**Fix:** Edit `sSamusOam_StartingWallJump_Left_Frame0` in [samus_graphics.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/data/samus/samus_graphics.c) to use the correct X coordinate.
 
 ```diff
   static const u16 sSamusOam_StartingWallJump_Left_Frame0[OAM_DATA_SIZE(3)] = {
@@ -230,7 +230,7 @@ When Samus starts a wall jump facing left, the top right part is missing, due to
 
 Whenever Samus shoots while not moving, her arm cannon recoils a bit. This happens for every shooting pose and arm direction except for standing while aiming diagonally up right.
 
-**Fix:** Edit `sArmCannonOam_Shooting_DiagonalUp_Right_Frame0` in [arm_cannon_data.c](../src/data/samus/arm_cannon_data.c) to move each arm cannon part left by 1 pixel.
+**Fix:** Edit `sArmCannonOam_Shooting_DiagonalUp_Right_Frame0` in [arm_cannon_data.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/data/samus/arm_cannon_data.c) to move each arm cannon part left by 1 pixel.
 
 ```diff
   static const u16 sArmCannonOam_Shooting_DiagonalUp_Right_Frame0[OAM_DATA_SIZE(3)] = {
@@ -248,7 +248,7 @@ Whenever Samus shoots while not moving, her arm cannon recoils a bit. This happe
 
 When shooting and crouching while facing right, the arm cannon disappears. This is because the OAM data seems to be shifted by 2 bytes somehow, with the part count missing, and an extra 0 at the end. This can also happen when forced into crouching by jumping on an enemy close to a ceiling, since it uses the same OAM.
 
-**Fix:** Edit `sArmCannonOam_ShootingAndCrouching_None_Right_Frame0` in [arm_cannon_data.c](../src/data/samus/arm_cannon_data.c) to add the part count and remove the trailing 0.
+**Fix:** Edit `sArmCannonOam_ShootingAndCrouching_None_Right_Frame0` in [arm_cannon_data.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/data/samus/arm_cannon_data.c) to add the part count and remove the trailing 0.
 
 ```diff
   static const u16 sArmCannonOam_ShootingAndCrouching_None_Right_Frame0[OAM_DATA_SIZE(3)] = {
@@ -264,7 +264,7 @@ When shooting and crouching while facing right, the arm cannon disappears. This 
 
 One of the arm cannon offsets for running left is missing, and the animation points to `sArmCannonOffset_Empty` instead. This bug can only be observed if you start charging your beam while running through a door transition.
 
-**Fix:** Add `sArmCannonOffset_Running_None_Left_Frame5` in [arm_cannon_data.c](../src/data/samus/arm_cannon_data.c), and update the offset pointer in `sArmCannonAnim_Running_None_Left`.
+**Fix:** Add `sArmCannonOffset_Running_None_Left_Frame5` in [arm_cannon_data.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/data/samus/arm_cannon_data.c), and update the offset pointer in `sArmCannonAnim_Running_None_Left`.
 
 ```diff
 + static const s16 sArmCannonOffset_Running_None_Left_Frame5[ACO_COUNT] = {
@@ -293,7 +293,7 @@ One of the arm cannon offsets for running left is missing, and the animation poi
 
 When changing the event in the pause debug menu, `EventSet` is called for every event up to the value set. This will update the security hatch level and equipped abilities. However, suits are not equipped, because a short animation plays before they're equipped.
 
-**Fix:** Edit `PauseDebugModifyValues` in [pause_debug.c](../src/menus/pause_debug.c) to equip the suits based on the ability count.
+**Fix:** Edit `PauseDebugModifyValues` in [pause_debug.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/menus/pause_debug.c) to equip the suits based on the ability count.
 
 ```diff
   // Set every event starting from the beginning up to the current event, keeps the event sequence intact
@@ -319,13 +319,13 @@ When changing the event in the pause debug menu, `EventSet` is called for every 
 
 **Fix:** Convert the switch statement to a series of if statements. Order them such that common block types (like solid and air) are checked first.
 
-See `ClipdataConvertToCollision` in [clipdata.c](../src/clipdata.c)
+See `ClipdataConvertToCollision` in [clipdata.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/clipdata.c)
 
 ### `ClipdataCheckElevatorDisabled` checks every elevator when only one needs to be checked
 
 `ClipdataCheckElevatorDisabled` creates an array for every elevator and stores the disabled state for each one. However, after finishing the loop through `sElevatorDisabledEvents`, only `gLastElevatorUsed` is checked to see if it's disabled.
 
-**Fix:** Edit `ClipdataCheckElevatorDisabled` in [clipdata.c](../src/clipdata.c) to only check `gLastElevatorUsed` and immediately return `TRUE` if it's disabled.
+**Fix:** Edit `ClipdataCheckElevatorDisabled` in [clipdata.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/clipdata.c) to only check `gLastElevatorUsed` and immediately return `TRUE` if it's disabled.
 
 ```diff
   // Check for disabled elevators
@@ -364,7 +364,7 @@ See `ClipdataConvertToCollision` in [clipdata.c](../src/clipdata.c)
 
 `BeamCoreXEyeHandleRotation` contains code for calculating the target angle and new rotation that was likely directly copied from `SpriteUtilMakeSpriteRotateTowardsTarget`. It even includes [the same bug](#sprites-that-rotate-toward-a-target-will-never-target-directly-up). Given the size and complexity of the code, a function call makes more sense.
 
-**Fix:** Edit `BeamCoreXEyeHandleRotation` in [beam_core_x.c](../src/sprites_AI/beam_core_x.c) to replace all of the code from `SpriteUtilMakeSpriteRotateTowardsTarget` with a function call. Also remove the local variables `intensity` and `targetRotation`.
+**Fix:** Edit `BeamCoreXEyeHandleRotation` in [beam_core_x.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/beam_core_x.c) to replace all of the code from `SpriteUtilMakeSpriteRotateTowardsTarget` with a function call. Also remove the local variables `intensity` and `targetRotation`.
 
 ```diff
 - u8 intensity;
@@ -395,7 +395,7 @@ See `ClipdataConvertToCollision` in [clipdata.c](../src/clipdata.c)
 
 To trigger the first BOX fight, the game calls `EventCheckRoomEventTrigger` to check if Samus is in a certain range and sets `EVENT_TRIGGERED_BOX_RUMBLE` if so. To trigger the screen shake, the game checks for both the event being set and Samus being within a certain range of the "ceiling debris" sprite. However, the screen shake range is smaller than the event range, so the screen shake can be skipped. Since having two range checks is redundant, the screen shake range check can be removed.
 
-**Fix:** In [shake_trigger.c](../src/sprites_AI/shake_trigger.c), delete `PreBoxCeilingDebrisCheckSamusInRange` and remove the function call in `PreBoxCeilingDebris`.
+**Fix:** In [shake_trigger.c](https://github.com/lautarodragan/metroid-fusion/blob/main/src/sprites_AI/shake_trigger.c), delete `PreBoxCeilingDebrisCheckSamusInRange` and remove the function call in `PreBoxCeilingDebris`.
 
 ```diff
   case SPRITE_POSE_IDLE:

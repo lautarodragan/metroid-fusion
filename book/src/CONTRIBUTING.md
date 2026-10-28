@@ -38,5 +38,5 @@ Derived from this there is the following requirement for contributors:
      supported region (may require `chmod +x check_roms.sh`). You will need a
      base ROM for each supported region.
    - Without a base ROM, use `make check-synthetic`
-     ([Verifying without the ROM](docs/synthetic_check.md)).
+     ([Verifying without the ROM](synthetic-check.md)).
 5. Open a PR on GitHub, and add a description that summarizes your changes.

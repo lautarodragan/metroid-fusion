@@ -4,11 +4,6 @@ description = "Documentation for the Metroid Fusion (GBA) decompilation"
 language = "en"
 src = "src"
 
-[build]
-# Several chapters include files from ../docs with {{#include}}; this makes
-# `mdbook serve` also reload when they change.
-extra-watch-dirs = ["../docs"]
-
 [output.html]
 site-url = "/metroid-fusion/"
 git-repository-url = "https://github.com/lautarodragan/metroid-fusion"
