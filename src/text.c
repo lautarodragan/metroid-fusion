@@ -36,13 +36,13 @@ static u32 sArray_79c14c[9] = {
     [8] = UINT_MAX
 };
 
-u8 sNavConversationUnk_79c170[] = INCBIN_U8("data/Blob_79c170_79c17c.bin");
-u8 sUnk_79c17c[] = INCBIN_U8("data/Blob_79c17c_79c180.bin");
-u8 sUnk_79c180[] = INCBIN_U8("data/Blob_79c180_79c1a4.bin");
-u8 sUnk_79c1a4[] = INCBIN_U8("data/Blob_79c1a4_79c210.bin");
-u8 sUnk_79c210[] = INCBIN_U8("data/Blob_79c210_79c228.bin");
-u8 sEraseSramUnk_79c228[] = INCBIN_U8("data/Blob_79c228_79c260.bin");
-u8 sEraseSramUnk_79c260[] = INCBIN_U8("data/Blob_79c260_79c27c.bin");
+u32 sNavConversationPopUpFunctions[] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_up_functions.bin"); // pointer table (functions), targets unresolved (see tools/find_blob_pointers.py)
+u8 sNavConversationSaXCloseUpDelays[4] = INCBIN_U8("data/menus/pause_screen/nav_conversation_sa_x_close_up_delays.bin"); // frames between the BG3 screens of the SA-X close up (unk_7c630)
+u8 sBslDiagramOamIds[36] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_oam_ids.bin"); // BSL diagram OAM id per rotation step
+u8 sBslDiagramTargetOffsets[36 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_target_offsets.bin"); // s8 [36][3]: x offset, y offset, target OAM id per rotation step
+u8 sBslDiagramFixedTargetOffsets[8 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_fixed_target_offsets.bin"); // s8 [8][3]: x offset, y offset, target OAM id per navigation location
+u32 sEraseSramTextGfxPointers[] = INCBIN_U32("data/menus/erase_sram/text_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sEraseSramOam[] = INCBIN_U32("data/menus/erase_sram/oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 
  /**
  * @brief 79118 | 24 | Gets the width of a text character

@@ -9,20 +9,20 @@
 extern const u16** sLocationTextPointers[LANGUAGE_COUNT];
 extern u16** sMessageTextPointers[LANGUAGE_COUNT];
 
-extern u8 sNavConversationTextPointersJapanese[];
-extern u8 sPauseScreenTextPointersJapanese[];
-extern u8 sNavConversationTextPointersHiragana[];
-extern u8 sPauseScreenTextPointersHiragana[];
-extern u8 sNavConversationTextPointersEnglish[];
-extern u8 sPauseScreenTextPointersEnglish[];
-extern u8 sNavConversationTextPointersGerman[];
-extern u8 sPauseScreenTextPointersGerman[];
-extern u8 sNavConversationTextPointersFrench[];
-extern u8 sPauseScreenTextPointersFrench[];
-extern u8 sNavConversationTextPointersItalian[];
-extern u8 sPauseScreenTextPointersItalian[];
-extern u8 sNavConversationTextPointersSpanish[];
-extern u8 sPauseScreenTextPointersSpanish[];
+extern u32 sNavConversationTextPointersJapanese[];
+extern u32 sPauseScreenTextPointersJapanese[];
+extern u32 sNavConversationTextPointersHiragana[];
+extern u32 sPauseScreenTextPointersHiragana[];
+extern u32 sNavConversationTextPointersEnglish[];
+extern u32 sPauseScreenTextPointersEnglish[];
+extern u32 sNavConversationTextPointersGerman[];
+extern u32 sPauseScreenTextPointersGerman[];
+extern u32 sNavConversationTextPointersFrench[];
+extern u32 sPauseScreenTextPointersFrench[];
+extern u32 sNavConversationTextPointersItalian[];
+extern u32 sPauseScreenTextPointersItalian[];
+extern u32 sNavConversationTextPointersSpanish[];
+extern u32 sPauseScreenTextPointersSpanish[];
 
 boolu32 IntroHandler(void);
 boolu32 NewFileIntroHandler(void);

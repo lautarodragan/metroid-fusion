@@ -13,12 +13,12 @@
 
 extern u16** sMonologueTextPointers[];
 
-extern const u16* const sCutsceneUnk_79c4a8[];
-extern const u16* const sCutsceneUnk_79c4cc[];
-extern const u8* const sCutsceneUnk_79c4f0[];
-extern const u8* const sCutsceneUnk_79c514[];
-extern const u8* const sCutsceneUnk_79c538[];
-extern const struct FrameData* const sCutsceneUnk_79c55c[][2];
+extern const u16* const sElevatorMonologueBgPalPointers[];
+extern const u16* const sElevatorMonologueObjPalPointers[];
+extern const u8* const sElevatorMonologueBgGfxPointers[];
+extern const u8* const sElevatorMonologueObjGfxPointers[];
+extern const u8* const sElevatorMonologueBgTilemapPointers[];
+extern const struct FrameData* const sElevatorMonologueOam[][2];
 
 extern const u8 sCutsceneMonologueCursorGfx[];
 extern const u32 sCutsceneElevatorMonologueBg1Tilemap[];

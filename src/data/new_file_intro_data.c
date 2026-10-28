@@ -22833,7 +22833,7 @@ const u32 sIntroShipAlertBigNumberOam_65c1d8[22] = INCBIN_U32("data/new_file_int
 const u32 sIntroShipAlertBigNumberOam_65c230[14] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c230_oam.bin");
 const u16 sIntroShipAlertObjPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_obj.pal");
 // Not referenced by name, probably reached through the elevator monologue pointer tables
-// (sCutsceneUnk_79c4a8 ... sCutsceneUnk_79c55c)
+// (the sElevatorMonologue*Pointers tables)
 static const u8 sBlob_65c468_65fb5c[] = INCBIN_U8("data/Blob_65c468_65fb5c.bin");
 // Starts with the LZ77 compressed graphics of the monologue cursor (decompressed to the last
 // 0x400 bytes of OBJ VRAM), too large to be only that: the rest is not identified
@@ -22858,7 +22858,7 @@ static const u8 sBlob_6638c0_663e5c[] = INCBIN_U8("data/Blob_6638c0_663e5c.bin")
 const u32 sCutsceneMonologueCursorHiddenOam[6] = INCBIN_U32("data/cutscenes/monologue/cursor_hidden_oam.bin");
 // Starts with the FrameData array of the monologue cursor (next page arrow), much larger than
 // that: the rest is not identified (probably the elevator monologue data reached through the
-// sCutsceneUnk_79c4a8 ... sCutsceneUnk_79c55c pointer tables)
+// sElevatorMonologue*Pointers tables)
 const u8 sCutsceneMonologueCursorNextPageOam[] = INCBIN_U8("data/Blob_663e74_6724c0.bin");
 const u32 sCutsceneFederationMonologueBg2Gfx[2342] = INCBIN_U32("data/cutscenes/federation_monologue/bg2.gfx.lz");
 const u16 sCutsceneFederationMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/federation_monologue/bg.pal");

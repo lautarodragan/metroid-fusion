@@ -61,7 +61,7 @@ void EndingProcessAdamPanel(struct SpecialCutsceneOam* pOam)
                     INTRO_DATA.unk_212 = 0;
                     INTRO_DATA.unk_E = 0;
                     INTRO_DATA.unk_C = 0;
-                    INTRO_DATA.pText = sEndingUnk_79c3ac[gLanguage][112];
+                    INTRO_DATA.pText = sEndingDialogueTextTables[gLanguage][112];
                 }
             }
         }

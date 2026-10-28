@@ -1323,23 +1323,23 @@ const struct CreditsEntry sCredits[310] = {
 	},
 };
 
-const u8 sEndingUnk_74dc48[] = INCBIN_U8("data/Blob_74dc48_74dc90.bin");
-const u8 sEndingUnk_74dc90[] = INCBIN_U8("data/Blob_74dc90_74dcfc.bin");
-const u8 sEndingUnk_74dcfc[] = INCBIN_U8("data/Blob_74dcfc_74dd80.bin");
-const u8 sEndingUnk_74dd80[] = INCBIN_U8("data/Blob_74dd80_74de4c.bin");
-const u8 sEndingUnk_74de4c[] = INCBIN_U8("data/Blob_74de4c_74de94.bin");
-const u8 sEndingUnk_74de94[] = INCBIN_U8("data/Blob_74de94_74df30.bin");
-const u8 sEndingUnk_74df30[] = INCBIN_U8("data/Blob_74df30_74dfd8.bin");
-const u8 sEndingUnk_74dfd8[] = INCBIN_U8("data/Blob_74dfd8_74e020.bin");
-const u8 sEndingUnk_74e020[] = INCBIN_U8("data/Blob_74e020_74e0e0.bin");
-const u8 sEndingUnk_74e0e0[] = INCBIN_U8("data/Blob_74e0e0_74e1d0.bin");
-const u8 sEndingUnk_74e1d0[] = INCBIN_U8("data/Blob_74e1d0_74e218.bin");
-const u8 sEndingUnk_74e218[] = INCBIN_U8("data/Blob_74e218_74e2f0.bin");
-const u8 sEndingUnk_74e2f0[] = INCBIN_U8("data/Blob_74e2f0_74e374.bin");
-const u8 sEndingUnk_74e374[] = INCBIN_U8("data/Blob_74e374_74e440.bin");
-const u8 sEndingUnk_74e440[] = INCBIN_U8("data/Blob_74e440_74e488.bin");
-const u8 sEndingUnk_74e488[] = INCBIN_U8("data/Blob_74e488_74e53c.bin");
-const u8 sEndingUnk_74e53c[] = INCBIN_U8("data/Blob_74e53c_74e620.bin");
+const u8 sEndingImageTextOamEnglishLines[] = INCBIN_U8("data/ending/image_text_oam_english_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamEnglish_0[] = INCBIN_U8("data/ending/image_text_oam_english_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamEnglish_1[] = INCBIN_U8("data/ending/image_text_oam_english_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamEnglish_2[] = INCBIN_U8("data/ending/image_text_oam_english_2.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamGermanLines[] = INCBIN_U8("data/ending/image_text_oam_german_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamGerman_0[] = INCBIN_U8("data/ending/image_text_oam_german_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamGerman_1[] = INCBIN_U8("data/ending/image_text_oam_german_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamFrenchLines[] = INCBIN_U8("data/ending/image_text_oam_french_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamFrench_0[] = INCBIN_U8("data/ending/image_text_oam_french_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamFrench_1[] = INCBIN_U8("data/ending/image_text_oam_french_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamItalianLines[] = INCBIN_U8("data/ending/image_text_oam_italian_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamItalian_0[] = INCBIN_U8("data/ending/image_text_oam_italian_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamItalian_1[] = INCBIN_U8("data/ending/image_text_oam_italian_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamItalian_2[] = INCBIN_U8("data/ending/image_text_oam_italian_2.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamSpanishLines[] = INCBIN_U8("data/ending/image_text_oam_spanish_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamSpanish_0[] = INCBIN_U8("data/ending/image_text_oam_spanish_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const u8 sEndingImageTextOamSpanish_1[] = INCBIN_U8("data/ending/image_text_oam_spanish_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
 
 const u32* const sPreResultsSamusBgGfxPointers1[4] = {
     sPreResultsSamusSuitedGfx3,
@@ -1362,8 +1362,8 @@ const u8* const sPreResultsSamusBgTilemapPointers[4] = {
     sTilemap_75e6fc
 };
 
-const u8 sEndingUnk_74e650[] = INCBIN_U8("data/Blob_74e650_74e8d0.bin");
-const u8 sEndingUnk_74e8d0[] = INCBIN_U8("data/Blob_74e8d0_74eb50.bin");
+const u8 sEndingDigitsTopGfx[10 * 2 * TILE_SIZE] = INCBIN_U8("data/ending/digits_top.gfx"); // top halves of the digits 0-9 (2 tiles each) of the in game time and completion percentage
+const u8 sEndingDigitsBottomGfx[10 * 2 * TILE_SIZE] = INCBIN_U8("data/ending/digits_bottom.gfx"); // bottom halves of the digits
 
 const u32 sPreResultsSpaceBgGfx[4772] = INCBIN_U32("data/ending/space_bg.gfx.lz");
 

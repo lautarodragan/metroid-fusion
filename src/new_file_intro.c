@@ -95,8 +95,8 @@ static const u16* sPalPointers_79c354[16] = {
 	(const u16*)sPal_5f7110
 };
 
-u8 sIntroUnk_79c394[] = INCBIN_U8("data/Blob_79c394_79c3ac.bin");
-u8 sEndingUnk_79c3ac[] = INCBIN_U8("data/Blob_79c3ac_79c3c8.bin");
+u32 sIntroSpaceViewParticleOam[] = INCBIN_U32("data/intro/space_view_particle_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sEndingDialogueTextTables[] = INCBIN_U32("data/ending/dialogue_text_tables.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 
 static const u32* sIntroSr388SurfaceBgGfxPointers[8] = {
     sIntroSr388SurfaceBgGfx0,
@@ -145,14 +145,15 @@ static const u32* sIntroSamusHelmetCloseupBgGfxPointers[6] = {
     sIntroSamusHelmetCloseupBgGfx5
 };
 
-u8 sIntroUnk_79c448[] = INCBIN_U8("data/Blob_79c448_79c45c.bin");
-u8 sIntroUnk_79c45c[] = INCBIN_U8("data/Blob_79c45c_79c4a8.bin");
-u8 sCutsceneUnk_79c4a8[] = INCBIN_U8("data/Blob_79c4a8_79c4cc.bin");
-u8 sCutsceneUnk_79c4cc[] = INCBIN_U8("data/Blob_79c4cc_79c4f0.bin");
-u8 sCutsceneUnk_79c4f0[] = INCBIN_U8("data/Blob_79c4f0_79c514.bin");
-u8 sCutsceneUnk_79c514[] = INCBIN_U8("data/Blob_79c514_79c538.bin");
-u8 sCutsceneUnk_79c538[] = INCBIN_U8("data/Blob_79c538_79c55c.bin");
-u8 sCutsceneUnk_79c55c[] = INCBIN_U8("data/Blob_79c55c_79c5a4.bin");
+u32 sIntroShipAlertBgGfxPointers[] = INCBIN_U32("data/intro/ship_alert_bg_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sIntroShipAlertObjGfxPointers[6] = INCBIN_U32("data/intro/ship_alert_obj_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u8 sBlob_79c474_79c4a8[] = INCBIN_U8("data/Blob_79c474_79c4a8.bin"); // not referenced directly
+u32 sElevatorMonologueBgPalPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_pal_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sElevatorMonologueObjPalPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_obj_pal_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sElevatorMonologueBgGfxPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sElevatorMonologueObjGfxPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_obj_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sElevatorMonologueBgTilemapPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_tilemap_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sElevatorMonologueOam[] = INCBIN_U32("data/cutscenes/elevator_monologue_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 
 u16** sMonologueTextPointers[LANGUAGE_COUNT] = {
     sMonologueTextPointersJapanese,
@@ -164,20 +165,20 @@ u16** sMonologueTextPointers[LANGUAGE_COUNT] = {
     sMonologueTextPointersSpanish
 };
 
-u8 sMessageTextPointersJapanese[] = INCBIN_U8("data/Blob_79c5c0_79c680.bin");
-u8 sLocationTextPointersJapanese[] = INCBIN_U8("data/Blob_79c680_79c6e8.bin");
-u8 sMessageTextPointersHiragana[] = INCBIN_U8("data/Blob_79c6e8_79c7a8.bin");
-u8 sLocationTextPointersHiragana[] = INCBIN_U8("data/Blob_79c7a8_79c810.bin");
-u8 sMessageTextPointersEnglish[] = INCBIN_U8("data/Blob_79c810_79c8d0.bin");
-u8 sLocationTextPointersEnglish[] = INCBIN_U8("data/Blob_79c8d0_79c938.bin");
-u8 sMessageTextPointersGerman[] = INCBIN_U8("data/Blob_79c938_79c9f8.bin");
-u8 sLocationTextPointersGerman[] = INCBIN_U8("data/Blob_79c9f8_79ca60.bin");
-u8 sMessageTextPointersFrench[] = INCBIN_U8("data/Blob_79ca60_79cb20.bin");
-u8 sLocationTextPointersFrench[] = INCBIN_U8("data/Blob_79cb20_79cb88.bin");
-u8 sMessageTextPointersItalian[] = INCBIN_U8("data/Blob_79cb88_79cc48.bin");
-u8 sLocationTextPointersItalian[] = INCBIN_U8("data/Blob_79cc48_79ccb0.bin");
-u8 sMessageTextPointersSpanish[] = INCBIN_U8("data/Blob_79ccb0_79cd70.bin");
-u8 sLocationTextPointersSpanish[] = INCBIN_U8("data/Blob_79cd70_79cdd8.bin");
+u32 sMessageTextPointersJapanese[] = INCBIN_U32("data/text/japanese/message_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sLocationTextPointersJapanese[] = INCBIN_U32("data/text/japanese/location_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sMessageTextPointersHiragana[] = INCBIN_U32("data/text/hiragana/message_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sLocationTextPointersHiragana[] = INCBIN_U32("data/text/hiragana/location_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sMessageTextPointersEnglish[] = INCBIN_U32("data/text/english/message_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sLocationTextPointersEnglish[] = INCBIN_U32("data/text/english/location_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sMessageTextPointersGerman[] = INCBIN_U32("data/text/german/message_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sLocationTextPointersGerman[] = INCBIN_U32("data/text/german/location_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sMessageTextPointersFrench[] = INCBIN_U32("data/text/french/message_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sLocationTextPointersFrench[] = INCBIN_U32("data/text/french/location_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sMessageTextPointersItalian[] = INCBIN_U32("data/text/italian/message_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sLocationTextPointersItalian[] = INCBIN_U32("data/text/italian/location_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sMessageTextPointersSpanish[] = INCBIN_U32("data/text/spanish/message_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sLocationTextPointersSpanish[] = INCBIN_U32("data/text/spanish/location_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 
 const u16** sLocationTextPointers[LANGUAGE_COUNT] = {
     (const u16**)sLocationTextPointersJapanese,
@@ -199,20 +200,20 @@ u16** sMessageTextPointers[LANGUAGE_COUNT] = {
     (u16**)sMessageTextPointersSpanish
 };
 
-u8 sNavConversationTextPointersJapanese[] = INCBIN_U8("data/Blob_79ce10_79cfd8.bin");
-u8 sPauseScreenTextPointersJapanese[] = INCBIN_U8("data/Blob_79cfd8_79d194.bin");
-u8 sNavConversationTextPointersHiragana[] = INCBIN_U8("data/Blob_79d194_79d35c.bin");
-u8 sPauseScreenTextPointersHiragana[] = INCBIN_U8("data/Blob_79d35c_79d50c.bin");
-u8 sNavConversationTextPointersEnglish[] = INCBIN_U8("data/Blob_79d50c_79d6d4.bin");
-u8 sPauseScreenTextPointersEnglish[] = INCBIN_U8("data/Blob_79d6d4_79d890.bin");
-u8 sNavConversationTextPointersGerman[] = INCBIN_U8("data/Blob_79d890_79da58.bin");
-u8 sPauseScreenTextPointersGerman[] = INCBIN_U8("data/Blob_79da58_79dc14.bin");
-u8 sNavConversationTextPointersFrench[] = INCBIN_U8("data/Blob_79dc14_79dddc.bin");
-u8 sPauseScreenTextPointersFrench[] = INCBIN_U8("data/Blob_79dddc_79df98.bin");
-u8 sNavConversationTextPointersItalian[] = INCBIN_U8("data/Blob_79df98_79e160.bin");
-u8 sPauseScreenTextPointersItalian[] = INCBIN_U8("data/Blob_79e160_79e31c.bin");
-u8 sNavConversationTextPointersSpanish[] = INCBIN_U8("data/Blob_79e31c_79e4e4.bin");
-u8 sPauseScreenTextPointersSpanish[] = INCBIN_U8("data/Blob_79e4e4_79e6a0.bin");
+u32 sNavConversationTextPointersJapanese[] = INCBIN_U32("data/text/japanese/nav_conversation_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sPauseScreenTextPointersJapanese[] = INCBIN_U32("data/text/japanese/pause_screen_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sNavConversationTextPointersHiragana[] = INCBIN_U32("data/text/hiragana/nav_conversation_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sPauseScreenTextPointersHiragana[] = INCBIN_U32("data/text/hiragana/pause_screen_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sNavConversationTextPointersEnglish[] = INCBIN_U32("data/text/english/nav_conversation_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sPauseScreenTextPointersEnglish[] = INCBIN_U32("data/text/english/pause_screen_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sNavConversationTextPointersGerman[] = INCBIN_U32("data/text/german/nav_conversation_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sPauseScreenTextPointersGerman[] = INCBIN_U32("data/text/german/pause_screen_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sNavConversationTextPointersFrench[] = INCBIN_U32("data/text/french/nav_conversation_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sPauseScreenTextPointersFrench[] = INCBIN_U32("data/text/french/pause_screen_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sNavConversationTextPointersItalian[] = INCBIN_U32("data/text/italian/nav_conversation_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sPauseScreenTextPointersItalian[] = INCBIN_U32("data/text/italian/pause_screen_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sNavConversationTextPointersSpanish[] = INCBIN_U32("data/text/spanish/nav_conversation_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sPauseScreenTextPointersSpanish[] = INCBIN_U32("data/text/spanish/pause_screen_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 
 static u16* sMonologueTextPointersJapanese[19] = {
 	(u16*)sMonologueTextJapanese_0,
@@ -346,14 +347,15 @@ static u16* sMonologueTextPointersSpanish[19] = {
 	(u16*)sMonologueTextSpanish_18
 };
 
-u8 sGameOverUnk_79e868[] = INCBIN_U8("data/Blob_79e868_79e874.bin");
-u8 sGameOverUnk_79e874[] = INCBIN_U8("data/Blob_79e874_79e890.bin");
-u8 sFileSelectUnk_79e890[] = INCBIN_U8("data/Blob_79e890_79e8a4.bin");
-u8 sFileSelectUnk_79e8a4[] = INCBIN_U8("data/Blob_79e8a4_79e928.bin");
-u8 sFileSelectUnk_79e928[] = INCBIN_U8("data/Blob_79e928_79e944.bin");
-u8 sFileSelectUnk_79e944[] = INCBIN_U8("data/Blob_79e944_79ec68.bin");
-u8 sFileSelectUnk_79ec68[] = INCBIN_U8("data/Blob_79ec68_79ec84.bin");
-u8 sFileSelectUnk_79ec84[] = INCBIN_U8("data/Blob_79ec84_79eca0.bin");
+u32 sGameOverCursorOam[] = INCBIN_U32("data/menus/game_over/cursor_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sGameOverTextGfxPointers[] = INCBIN_U32("data/menus/game_over/text_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sFileSelectFileOverlayOam[] = INCBIN_U32("data/menus/file_select/file_overlay_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sFileSelectDeleteArrowOam[] = INCBIN_U32("data/menus/file_select/delete_arrow_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sFileSelectTextTileOffsets[] = INCBIN_U32("data/menus/file_select/text_tile_offsets_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sFileSelectAreaNameOam[7 * 7] = INCBIN_U32("data/menus/file_select/area_name_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u8 sBlob_79ea08_79ec68[] = INCBIN_U8("data/Blob_79ea08_79ec68.bin"); // not referenced directly; probably pointed to by the tables around it
+u32 sFileSelectTexts[] = INCBIN_U32("data/menus/file_select/text_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+u32 sFileSelectEmptyFileTexts[] = INCBIN_U32("data/menus/file_select/empty_file_text_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 
 /**
  * @brief 87610 | f8 | Handler for intro

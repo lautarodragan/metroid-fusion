@@ -41,21 +41,21 @@ void EndingDrawIgtAndCompletionPercentage(void)
     if (digit1 != 0)
     {
         offset = digit1 * 64;
-        DMA3_COPY_16(&sEndingUnk_74e650[offset], VRAM_OBJ + 0x0, 0x20);
-        DMA3_COPY_16(&sEndingUnk_74e8d0[offset], VRAM_OBJ + 0x400, 0x20);
+        DMA3_COPY_16(&sEndingDigitsTopGfx[offset], VRAM_OBJ + 0x0, 0x20);
+        DMA3_COPY_16(&sEndingDigitsBottomGfx[offset], VRAM_OBJ + 0x400, 0x20);
     }
 
     offset = digit2 * 64;
-    DMA3_COPY_16(&sEndingUnk_74e650[offset], VRAM_OBJ + 0x40, 0x20);
-    DMA3_COPY_16(&sEndingUnk_74e8d0[offset], VRAM_OBJ + 0x440, 0x20);
+    DMA3_COPY_16(&sEndingDigitsTopGfx[offset], VRAM_OBJ + 0x40, 0x20);
+    DMA3_COPY_16(&sEndingDigitsBottomGfx[offset], VRAM_OBJ + 0x440, 0x20);
 
     offset = digit3 * 64;
-    DMA3_COPY_16(&sEndingUnk_74e650[offset], VRAM_OBJ + 0xA0, 0x20);
-    DMA3_COPY_16(&sEndingUnk_74e8d0[offset], VRAM_OBJ + 0x4A0, 0x20);
+    DMA3_COPY_16(&sEndingDigitsTopGfx[offset], VRAM_OBJ + 0xA0, 0x20);
+    DMA3_COPY_16(&sEndingDigitsBottomGfx[offset], VRAM_OBJ + 0x4A0, 0x20);
 
     offset = digit4 * 64;
-    DMA3_COPY_16(&sEndingUnk_74e650[offset], VRAM_OBJ + 0xE0, 0x20);
-    DMA3_COPY_16(&sEndingUnk_74e8d0[offset], VRAM_OBJ + 0x4E0, 0x20);
+    DMA3_COPY_16(&sEndingDigitsTopGfx[offset], VRAM_OBJ + 0xE0, 0x20);
+    DMA3_COPY_16(&sEndingDigitsBottomGfx[offset], VRAM_OBJ + 0x4E0, 0x20);
 
     // Completion percentage (hundreds, tens and ones)
     digit1 = 0;
@@ -76,20 +76,20 @@ void EndingDrawIgtAndCompletionPercentage(void)
     if (digit1 != 0)
     {
         offset = digit1 * 64;
-        DMA3_COPY_16(&sEndingUnk_74e650[offset], VRAM_OBJ + 0x120, 0x20);
-        DMA3_COPY_16(&sEndingUnk_74e8d0[offset], VRAM_OBJ + 0x520, 0x20);
+        DMA3_COPY_16(&sEndingDigitsTopGfx[offset], VRAM_OBJ + 0x120, 0x20);
+        DMA3_COPY_16(&sEndingDigitsBottomGfx[offset], VRAM_OBJ + 0x520, 0x20);
     }
 
     if (digit1 != 0 || digit2 != 0)
     {
         offset = digit2 * 64;
-        DMA3_COPY_16(&sEndingUnk_74e650[offset], VRAM_OBJ + 0x160, 0x20);
-        DMA3_COPY_16(&sEndingUnk_74e8d0[offset], VRAM_OBJ + 0x560, 0x20);
+        DMA3_COPY_16(&sEndingDigitsTopGfx[offset], VRAM_OBJ + 0x160, 0x20);
+        DMA3_COPY_16(&sEndingDigitsBottomGfx[offset], VRAM_OBJ + 0x560, 0x20);
     }
 
     offset = digit3 * 64;
-    DMA3_COPY_16(&sEndingUnk_74e650[offset], VRAM_OBJ + 0x1A0, 0x20);
-    DMA3_COPY_16(&sEndingUnk_74e8d0[offset], VRAM_OBJ + 0x5A0, 0x20);
+    DMA3_COPY_16(&sEndingDigitsTopGfx[offset], VRAM_OBJ + 0x1A0, 0x20);
+    DMA3_COPY_16(&sEndingDigitsBottomGfx[offset], VRAM_OBJ + 0x5A0, 0x20);
 }
 
 /**

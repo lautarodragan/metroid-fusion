@@ -28,23 +28,23 @@ void EndingImageLoadTextOam(u32 line);
 void EndingImageDisplayLinePermanently(u32 line);
 
 // Defined in src/data/ending_data.c
-extern const struct EndingImageTextOam sEndingUnk_74dc48[];
-extern const struct EndingImageTextOam sEndingUnk_74dc90[];
-extern const struct EndingImageTextOam sEndingUnk_74dcfc[];
-extern const struct EndingImageTextOam sEndingUnk_74dd80[];
-extern const struct EndingImageTextOam sEndingUnk_74de4c[];
-extern const struct EndingImageTextOam sEndingUnk_74de94[];
-extern const struct EndingImageTextOam sEndingUnk_74df30[];
-extern const struct EndingImageTextOam sEndingUnk_74dfd8[];
-extern const struct EndingImageTextOam sEndingUnk_74e020[];
-extern const struct EndingImageTextOam sEndingUnk_74e0e0[];
-extern const struct EndingImageTextOam sEndingUnk_74e1d0[];
-extern const struct EndingImageTextOam sEndingUnk_74e218[];
-extern const struct EndingImageTextOam sEndingUnk_74e2f0[];
-extern const struct EndingImageTextOam sEndingUnk_74e374[];
-extern const struct EndingImageTextOam sEndingUnk_74e440[];
-extern const struct EndingImageTextOam sEndingUnk_74e488[];
-extern const struct EndingImageTextOam sEndingUnk_74e53c[];
+extern const struct EndingImageTextOam sEndingImageTextOamEnglishLines[];
+extern const struct EndingImageTextOam sEndingImageTextOamEnglish_0[];
+extern const struct EndingImageTextOam sEndingImageTextOamEnglish_1[];
+extern const struct EndingImageTextOam sEndingImageTextOamEnglish_2[];
+extern const struct EndingImageTextOam sEndingImageTextOamGermanLines[];
+extern const struct EndingImageTextOam sEndingImageTextOamGerman_0[];
+extern const struct EndingImageTextOam sEndingImageTextOamGerman_1[];
+extern const struct EndingImageTextOam sEndingImageTextOamFrenchLines[];
+extern const struct EndingImageTextOam sEndingImageTextOamFrench_0[];
+extern const struct EndingImageTextOam sEndingImageTextOamFrench_1[];
+extern const struct EndingImageTextOam sEndingImageTextOamItalianLines[];
+extern const struct EndingImageTextOam sEndingImageTextOamItalian_0[];
+extern const struct EndingImageTextOam sEndingImageTextOamItalian_1[];
+extern const struct EndingImageTextOam sEndingImageTextOamItalian_2[];
+extern const struct EndingImageTextOam sEndingImageTextOamSpanishLines[];
+extern const struct EndingImageTextOam sEndingImageTextOamSpanish_0[];
+extern const struct EndingImageTextOam sEndingImageTextOamSpanish_1[];
 
 static boolu32 (*sEndingSamusPosingFunctionPointers[7]) (void) = {
     EndingSamusPosingInit,
@@ -89,63 +89,63 @@ void EndingImageLoadTextOam(u32 line)
         case LANGUAGE_GERMAN:
             if (line == 0)
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74de94, 13);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamGerman_0, 13);
             }
             else
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74df30, 14);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamGerman_1, 14);
             }
             break;
 
         case LANGUAGE_FRENCH:
             if (line == 0)
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e020, 16);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamFrench_0, 16);
             }
             else
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e0e0, 20);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamFrench_1, 20);
             }
             break;
 
         case LANGUAGE_ITALIAN:
             if (line == 0)
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e218, 18);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamItalian_0, 18);
             }
             else if (line == 1)
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e2f0, 11);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamItalian_1, 11);
             }
             else
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e374, 17);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamItalian_2, 17);
             }
             break;
 
         case LANGUAGE_SPANISH:
             if (line == 0)
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e488, 15);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamSpanish_0, 15);
             }
             else
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e53c, 19);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamSpanish_1, 19);
             }
             break;
 
         default:
             if (line == 0)
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74dc90, 9);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamEnglish_0, 9);
             }
             else if (line == 1)
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74dcfc, 11);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamEnglish_1, 11);
             }
             else
             {
-                ENDING_LOAD_TEXT_OAM(sEndingUnk_74dd80, 17);
+                ENDING_LOAD_TEXT_OAM(sEndingImageTextOamEnglish_2, 17);
             }
             break;
     }
@@ -173,23 +173,23 @@ void EndingImageDisplayLinePermanently(u32 line)
     switch (gLanguage)
     {
         case LANGUAGE_GERMAN:
-            ENDING_DISPLAY_LINE(sEndingUnk_74de4c);
+            ENDING_DISPLAY_LINE(sEndingImageTextOamGermanLines);
             break;
 
         case LANGUAGE_FRENCH:
-            ENDING_DISPLAY_LINE(sEndingUnk_74dfd8);
+            ENDING_DISPLAY_LINE(sEndingImageTextOamFrenchLines);
             break;
 
         case LANGUAGE_ITALIAN:
-            ENDING_DISPLAY_LINE(sEndingUnk_74e1d0);
+            ENDING_DISPLAY_LINE(sEndingImageTextOamItalianLines);
             break;
 
         case LANGUAGE_SPANISH:
-            ENDING_DISPLAY_LINE(sEndingUnk_74e440);
+            ENDING_DISPLAY_LINE(sEndingImageTextOamSpanishLines);
             break;
 
         default:
-            ENDING_DISPLAY_LINE(sEndingUnk_74dc48);
+            ENDING_DISPLAY_LINE(sEndingImageTextOamEnglishLines);
             break;
     }
 
