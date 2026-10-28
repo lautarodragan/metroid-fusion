@@ -83,10 +83,12 @@ struct CutsceneMonologueData {
     u16 currentLine;                // 0x2
     u16 fadeColumn;                 // 0x4
     u16 fadeLine;                   // 0x6
-    u8 unk_8[4];
+    u16 stage;                      // 0x8
+    u16 monologueId;                // 0xA
     const u16* pText;               // 0xC
     u16 timer;                      // 0x10
-    u8 unk_12[4];
+    u16 bg2YPosition;               // 0x12
+    u16 bg1YPosition;               // 0x14
     u8 unk_16;                      // 0x16
     u8 unk_17;                      // 0x17
     u8 indent;                      // 0x18
