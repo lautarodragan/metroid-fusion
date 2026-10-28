@@ -10,6 +10,8 @@
 #include "constants/audio.h"
 #include "constants/event.h"
 
+#include "data/event_data.h"
+
 #include "structs/event.h"
 
 // Called without a prototype in the original code (the character isn't truncated to a u8),
@@ -130,4 +132,38 @@ u32 unk_7a0fc(u8 messageId)
     }
 
     return ended;
+}
+
+/**
+ * @brief 7a2dc | c8 | Gets the current navigation conversation
+ * 
+ */
+void NavigationConversationGetCurrentConversation(void)
+{
+    s32 i;
+
+    for (i = gEventCounter; i > 0; i--)
+    {
+        if (sEventLocationAndNavigationInfo[i].navConversation != 0)
+            break;
+    }
+
+    PAUSE_SCREEN_DATA.conversationNumber = sEventLocationAndNavigationInfo[i].navConversation;
+
+    if (PAUSE_SCREEN_DATA.conversationNumber == gPreviousNavigationConversation)
+        PAUSE_SCREEN_DATA.conversationOnRepeat = TRUE;
+    else
+        PAUSE_SCREEN_DATA.conversationOnRepeat = FALSE;
+
+    TextClearGraphics(0);
+    NavigationConversationUpdateTarget(TRUE);
+    NavigationConversationSetupOam();
+
+    PAUSE_SCREEN_DATA.unk_238 = 0;
+    PAUSE_SCREEN_DATA.unk_239 = 0;
+    PAUSE_SCREEN_DATA.unk_23C = 0;
+    PAUSE_SCREEN_DATA.unk_23D = 0;
+    PAUSE_SCREEN_DATA.unk_250 = 0;
+    PAUSE_SCREEN_DATA.unk_251 = 0;
+    PAUSE_SCREEN_DATA.unk_252 = 0;
 }
