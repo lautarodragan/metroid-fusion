@@ -425,7 +425,7 @@ u8 DiedOnSr388CollisionSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 de
     else if (type == 2)
     {
         INTRO_DATA.oam[slot].scaling = Q_8_8(2);
-        INTRO_DATA.oam[slot].unk_18_3 = 1;
+        INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
         INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636038;

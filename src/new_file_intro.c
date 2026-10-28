@@ -2789,7 +2789,7 @@ u8 NewFileIntroSr388SetupOam(u8 type, s16 xPosition, s16 yPosition)
     }
     else if (type == 9)
     {
-        INTRO_DATA.oam[slot].unk_18_3 = 1;
+        INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sOam_59a0e0;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSunReflection;
@@ -4116,7 +4116,7 @@ void NewFileIntroProcessHornoad(struct SpecialCutsceneOam *pOam)
                 pOam->pOam = sIntroInSr388HornoadOam_Shaking;
                 pOam->unk_4 = 1;
                 WRITE_16(REG_MOSAIC, sXParasiteMosaicValues[1] * 16);
-                pOam->unk_18_5 = 1;
+                pOam->mosaic = 1;
                 pOam->stage = 7;
             }
         }
@@ -4167,7 +4167,7 @@ void NewFileIntroProcessHornoad(struct SpecialCutsceneOam *pOam)
             if (pOam->unk_4 == 29)
             {
                 pOam->timer = 0;
-                pOam->unk_18_5 = 0;
+                pOam->mosaic = 0;
 
                 NewFileIntroGetPositionOfOamByType(INTRO_IN_SR388_OAM_TYPE_SAMUS, &x, &y);
 

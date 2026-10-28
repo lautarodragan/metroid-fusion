@@ -1,5 +1,6 @@
 #include "cutscenes/cutscene_common.h"
 
+#include "fixed_point.h"
 #include "gba.h"
 #include "globals.h"
 #include "init_helpers.h"
@@ -8,6 +9,7 @@
 #include "text.h"
 
 #include "data/cutscenes_data.h"
+#include "data/generic_data.h"
 #include "data/haze_data.h"
 
 #include "structs/cutscene_data.h"
@@ -392,4 +394,287 @@ void CutsceneDrawAllOam(void)
     ResetFreeOam();
     gNextOamSlot = 0;
     CUTSCENE_UNK_3001238 = 0;
+}
+
+/**
+ * @brief 9d340 | 830 | Draws a cutscene OAM object
+ * 
+ * @param pOam Cutscene OAM data pointer
+ */
+void CutsceneDrawOam(struct CutsceneOam* pOam)
+{
+    u32 slot;
+    const u16* src;
+    u16 xPosition;
+    const struct FrameData* pFrame;
+    u16 yPosition;
+    s16 scaledX;
+    s16 unk_3;
+    u16 part1;
+    s16 xScaling;
+    u16 part2;
+    u32 flip;
+    u16* dst;
+    s16 yScaling;
+    s32 i;
+    s32 partCount;
+    s16 tmpY;
+    u8 matrixSlot;
+    s16 scaledY;
+    s16 x;
+    s16 tmpX;
+    s16 unk_2;
+    s16 y;
+    s8 drawMode;
+
+    dst = (u16*)&gOamData[gNextOamSlot];
+
+    pFrame = &pOam->pOam[pOam->currentAnimationFrame];
+    if (pFrame->timer == pOam->animationDurationCounter)
+    {
+        pOam->currentAnimationFrame++;
+        pOam->animationDurationCounter = 0;
+        pFrame++;
+    }
+
+    if (pFrame->timer == 0)
+    {
+        pFrame -= pOam->currentAnimationFrame;
+        pOam->currentAnimationFrame = 0;
+    }
+
+    src = pFrame->pFrame;
+    partCount = *src++;
+
+    drawMode = pOam->drawMode;
+    if (drawMode == 0)
+    {
+        for (i = 0; i < partCount; i++)
+        {
+            part1 = *src++;
+            part2 = *src++;
+            *dst++ = part1;
+            *dst++ = part2;
+            *dst++ = *src++;
+
+            slot = gNextOamSlot + i;
+
+            flip = pOam->xFlip;
+            if (flip == TRUE)
+            {
+                gOamData[slot].split.xFlip ^= flip;
+                xPosition = MOD_AND(-(part2 + sCutsceneUnk_63a184[gOamData[slot].split.shape][gOamData[slot].split.size] * 8) + pOam->xPosition, 512);
+                yPosition = MOD_AND(part1 + pOam->yPosition, 256);
+            }
+            else
+            {
+                yPosition = MOD_AND(part1 + pOam->yPosition, 256);
+                xPosition = MOD_AND(part2 + pOam->xPosition, 512);
+            }
+
+            gOamData[slot].split.y = yPosition;
+            gOamData[slot].split.x = xPosition;
+            gOamData[slot].split.priority = pOam->priority;
+            gOamData[slot].split.paletteNum += pOam->paletteOffset;
+            gOamData[slot].split.tileNum += pOam->tileOffset;
+            gOamData[slot].split.objMode = pOam->objMode;
+
+            dst++;
+        }
+    }
+    else if (drawMode == 1)
+    {
+        xPosition = pOam->xPosition + BLOCK_SIZE;
+        yPosition = pOam->yPosition + BLOCK_SIZE;
+
+        flip = pOam->xFlip;
+        if (!flip)
+            xScaling = pOam->scaling;
+        else
+            xScaling = -pOam->scaling;
+
+        flip = pOam->yFlip;
+        if (!flip)
+            yScaling = pOam->scaling;
+        else
+            yScaling = -pOam->scaling;
+
+        for (i = 0; i < partCount; i++)
+        {
+            s16 xOffset;
+            s16 yOffset;
+
+            part1 = *src++;
+            part2 = *src++;
+            *dst++ = part1;
+            *dst++ = part2;
+            *dst++ = *src++;
+
+            slot = gNextOamSlot + i;
+
+            xOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a184[gOamData[slot].split.shape][gOamData[slot].split.size]);
+            yOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a190[gOamData[slot].split.shape][gOamData[slot].split.size]);
+
+            y = MOD_AND(part1 + yPosition, 256);
+            x = MOD_AND(part2 + xPosition, 512);
+
+            tmpX = (x - xPosition) + xOffset;
+            tmpY = (y - yPosition) + yOffset;
+
+            scaledX = (tmpX * xScaling >> 8) - tmpX;
+            scaledY = (tmpY * yScaling >> 8) - tmpY;
+
+            if (gOamData[slot].split.xFlip)
+            {
+                gOamData[slot].split.xFlip = FALSE;
+                xScaling = -xScaling;
+            }
+
+            if (gOamData[slot].split.yFlip)
+            {
+                gOamData[slot].split.yFlip = FALSE;
+                yScaling = -yScaling;
+            }
+
+            x += scaledX;
+            y += scaledY;
+
+            unk_2 = xOffset + (x - xPosition);
+            unk_3 = yOffset + (y - yPosition);
+
+            x = (unk_2 * COS(pOam->rotation) - unk_3 * SIN(pOam->rotation)) >> 8;
+            y = (unk_2 * SIN(pOam->rotation) + unk_3 * COS(pOam->rotation)) >> 8;
+
+            x -= xOffset;
+            y -= yOffset;
+
+            gOamData[slot].split.y = MOD_AND(y + yPosition - BLOCK_SIZE, 256);
+            gOamData[slot].split.x = MOD_AND(x + xPosition - BLOCK_SIZE, 512);
+            gOamData[slot].split.affineMode = 1;
+
+            if (gUnk_3001238 & 0x10)
+                gOamData[slot].split.yFlip = TRUE;
+            if (gUnk_3001238 & 0x8)
+                gOamData[slot].split.xFlip = TRUE;
+            gOamData[slot].split.matrixNum = gUnk_3001238 & 7;
+
+            gOamData[slot].split.priority = pOam->priority;
+            gOamData[slot].split.paletteNum += pOam->paletteOffset;
+            gOamData[slot].split.tileNum += pOam->tileOffset;
+            gOamData[slot].split.objMode = pOam->objMode;
+
+            dst++;
+        }
+
+        matrixSlot = gUnk_3001238 * 4;
+        gOamData[matrixSlot + 0].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(xScaling));
+        gOamData[matrixSlot + 1].all.affineParam = FixedMultiplication(SIN(pOam->rotation), FixedInverse(xScaling));
+        gOamData[matrixSlot + 2].all.affineParam = FixedMultiplication(-SIN(pOam->rotation), FixedInverse(yScaling));
+        gOamData[matrixSlot + 3].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(yScaling));
+        gUnk_3001238++;
+    }
+    else if (drawMode == 3)
+    {
+        xPosition = pOam->xPosition + BLOCK_SIZE;
+        yPosition = pOam->yPosition + BLOCK_SIZE;
+
+        flip = pOam->xFlip;
+        if (!flip)
+            xScaling = pOam->scaling;
+        else
+            xScaling = -pOam->scaling;
+
+        flip = pOam->yFlip;
+        if (!flip)
+            yScaling = pOam->scaling;
+        else
+            yScaling = -pOam->scaling;
+
+        for (i = 0; i < partCount; i++)
+        {
+            s16 xOffset;
+            s16 yOffset;
+
+            part1 = *src++;
+            part2 = *src++;
+            *dst++ = part1;
+            *dst++ = part2;
+            *dst++ = *src++;
+
+            slot = gNextOamSlot + i;
+
+            xOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a184[gOamData[slot].split.shape][gOamData[slot].split.size]);
+            yOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a190[gOamData[slot].split.shape][gOamData[slot].split.size]);
+
+            y = MOD_AND(part1 + yPosition, 256);
+            x = MOD_AND(part2 + xPosition, 512);
+
+            tmpX = (x - xPosition) + xOffset;
+            tmpY = (y - yPosition) + yOffset;
+
+            scaledX = (tmpX * xScaling >> 8) - tmpX;
+            scaledY = (tmpY * yScaling >> 8) - tmpY;
+
+            if (gOamData[slot].split.xFlip)
+            {
+                gOamData[slot].split.xFlip = FALSE;
+                xScaling = -xScaling;
+            }
+
+            if (gOamData[slot].split.yFlip)
+            {
+                gOamData[slot].split.yFlip = FALSE;
+                yScaling = -yScaling;
+            }
+
+            x += scaledX;
+            y += scaledY;
+
+            unk_2 = xOffset + (x - xPosition);
+            unk_3 = yOffset + (y - yPosition);
+
+            x = (unk_2 * COS(pOam->rotation) - unk_3 * SIN(pOam->rotation)) >> 8;
+            y = (unk_2 * SIN(pOam->rotation) + unk_3 * COS(pOam->rotation)) >> 8;
+
+            x -= xOffset * 2;
+            y -= yOffset * 2;
+
+            gOamData[slot].split.y = MOD_AND(y + yPosition - BLOCK_SIZE, 256);
+            gOamData[slot].split.x = MOD_AND(x + xPosition - BLOCK_SIZE, 512);
+            gOamData[slot].split.affineMode = 3;
+
+            if (gUnk_3001238 & 0x10)
+                gOamData[slot].split.yFlip = TRUE;
+            if (gUnk_3001238 & 0x8)
+                gOamData[slot].split.xFlip = TRUE;
+            gOamData[slot].split.matrixNum = gUnk_3001238 & 7;
+
+            gOamData[slot].split.priority = pOam->priority;
+            gOamData[slot].split.paletteNum += pOam->paletteOffset;
+            gOamData[slot].split.tileNum += pOam->tileOffset;
+            gOamData[slot].split.objMode = pOam->objMode;
+
+            dst++;
+        }
+
+        matrixSlot = gUnk_3001238 * 4;
+        gOamData[matrixSlot + 0].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(xScaling));
+        gOamData[matrixSlot + 1].all.affineParam = FixedMultiplication(SIN(pOam->rotation), FixedInverse(xScaling));
+        gOamData[matrixSlot + 2].all.affineParam = FixedMultiplication(-SIN(pOam->rotation), FixedInverse(yScaling));
+        gOamData[matrixSlot + 3].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(yScaling));
+        gUnk_3001238++;
+    }
+
+    gNextOamSlot += partCount;
+    pOam->animationDurationCounter++;
+}
+
+/**
+ * @brief 9db70 | 4 | Empty cutscene OAM function
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void unk_9db70(struct CutsceneOam* pOam)
+{
+    return;
 }

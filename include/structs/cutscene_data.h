@@ -29,10 +29,9 @@ struct CutsceneOam {
     u8 unk_16_5:1;
     u8 xFlip:1;
     u8 yFlip:1;
-    u8 tileOffset;                  // 0x17
-    u8 tileOffsetHigh:2;            // 0x18
-    u8 priority:2;
-    u8 paletteOffset:4;
+    u16 tileOffset:10;              // 0x17 (straddles 0x17 and 0x18)
+    u16 priority:2;                 // 0x18
+    u16 paletteOffset:4;
     u8 unk_19;
     u8 unk_1A;
     u8 unk_1B;
@@ -101,6 +100,9 @@ struct CutsceneMonologueData {
 #define CUTSCENE_DATA (*(struct CutsceneData*)&gNonGameplayRam)
 // IWRAM byte (no symbol yet), likely flags used when drawing affine cutscene OAM
 #define CUTSCENE_UNK_3001238 (*(u8*)0x03001238)
+
+// Same IWRAM byte as CUTSCENE_UNK_3001238, through its linker symbol
+extern u8 gUnk_3001238;
 
 #define CUTSCENE_MONOLOGUE_DATA (*(struct CutsceneMonologueData*)&gNonGameplayRam)
 

@@ -743,7 +743,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
     else if (type == 2)
     {
         INTRO_DATA.oam[slot].scaling = Q_8_8(2);
-        INTRO_DATA.oam[slot].unk_18_3 = 1;
+        INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
         INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636038;
@@ -770,7 +770,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
     }
     else if (type == 10)
     {
-        INTRO_DATA.oam[slot].unk_18_3 = 1;
+        INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 3;
         INTRO_DATA.oam[slot].pOam = sEndingUnk_6363a0;
         INTRO_DATA.oam[slot].pFunction = unk_95e20;
