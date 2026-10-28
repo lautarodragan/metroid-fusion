@@ -511,7 +511,7 @@ SECTIONS {
         src/save_file.o(.text);
         asm/disasm_0x0807fdb0.o(.text);
         src/save_file_misc.o(.text);
-        asm/disasm_0x080809f0.o(.text);
+        src/menus/erase_sram.o(.text);
 
         src/projectile.o(.text);
         src/menus/title_screen.o(.text);
