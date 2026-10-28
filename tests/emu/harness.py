@@ -13,15 +13,22 @@ The official BIOS is not used: the core runs with its built-in HLE BIOS
 (``mgba_use_bios=OFF``), and the system directory handed to it is an empty
 temporary directory, so a stray ``gba_bios.bin`` can never be picked up.
 
-The libretro API is a C ABI with global state, so only one :class:`Emulator`
-can be alive per process.
+A libretro core keeps its state in globals, so one loaded copy of the core
+library can run one game at a time. Several :class:`Emulator` instances can
+still be alive in the same process (for example, to run two ROMs side by side
+with the same input): every instance after the first loads its own copy of
+the core library, which the dynamic loader treats as a separate library with
+separate globals.
 """
 
 from __future__ import annotations
 
+import array
 import ctypes
+import functools
 import os
 import re
+import shutil
 import struct
 import tempfile
 import zlib
@@ -255,6 +262,20 @@ def image_diff(a: bytes, b: bytes, threshold: int = 24) -> float:
     return bad / (len(a) // 3)
 
 
+@functools.lru_cache(maxsize=None)
+def _rgb_table(pixel_format: int) -> tuple[bytes, ...]:
+    """RGB888 bytes for every 16-bit pixel value of ``pixel_format``."""
+    out = []
+    for v in range(0x10000):
+        if pixel_format == PIXEL_RGB565:
+            r, g, b = v >> 11, (v >> 5) & 0x3F, v & 0x1F
+            out.append(bytes(((r << 3) | (r >> 2), (g << 2) | (g >> 4), (b << 3) | (b >> 2))))
+        else:
+            r, g, b = (v >> 10) & 0x1F, (v >> 5) & 0x1F, v & 0x1F
+            out.append(bytes(((r << 3) | (r >> 2), (g << 3) | (g >> 2), (b << 3) | (b >> 2))))
+    return tuple(out)
+
+
 # ---------------------------------------------------------------------------
 # Emulator
 # ---------------------------------------------------------------------------
@@ -264,19 +285,52 @@ class EmulatorError(RuntimeError):
     pass
 
 
-class Emulator:
-    """One mGBA libretro core instance (only one per process)."""
+class _CoreLibraries:
+    """Loaded copies of core libraries, so that every live Emulator has its own.
 
-    _alive = False
+    The first instance of a core uses the library file itself; later ones get
+    a copy in a per-process temporary directory. A copy stays loaded until the
+    process exits (ctypes never unloads a library) and is reused by the next
+    instance once its previous user is closed.
+    """
+
+    def __init__(self) -> None:
+        self._copies: dict[str, list[str]] = {}  # core path -> [loadable paths]
+        self._in_use: set[str] = set()
+        self._dir: tempfile.TemporaryDirectory | None = None
+
+    def acquire(self, core: str) -> str:
+        real = os.path.realpath(core)
+        paths = self._copies.setdefault(real, [real])
+        for p in paths:
+            if p not in self._in_use:
+                break
+        else:
+            if self._dir is None:
+                self._dir = tempfile.TemporaryDirectory(prefix="emu-cores-")
+            p = os.path.join(self._dir.name, f"{len(paths)}-{os.path.basename(real)}")
+            shutil.copyfile(real, p)
+            paths.append(p)
+        self._in_use.add(p)
+        return p
+
+    def release(self, path: str) -> None:
+        self._in_use.discard(path)
+
+
+_CORES = _CoreLibraries()
+
+
+class Emulator:
+    """One mGBA libretro core instance (several can be alive per process)."""
 
     def __init__(self, rom: str | os.PathLike, map_file: str | os.PathLike | None = None,
                  core: str | None = None):
-        if Emulator._alive:
-            raise EmulatorError("only one Emulator per process (libretro cores are global)")
         core = core or find_core()
         if not core:
             raise EmulatorError("mGBA libretro core not found (apt install libretro-mgba, "
                                 f"or set {CORE_ENV})")
+        self._alive = False
         self.rom_path = Path(rom)
         self.symbols = load_map_symbols(map_file) if map_file else {}
         self.sections = load_map_sections(map_file) if map_file else {}
@@ -289,10 +343,16 @@ class Emulator:
         self.regions: list[tuple[int, int, int]] = []  # (start, length, host pointer)
         self._frame: bytes | None = None
         self._frame_geom = (240, 160, 480)
+        self._frame_buffer: tuple[int, int] | None = None  # core's output buffer (address, size)
         self._keys = 0
         self.frame_count = 0
 
-        self.lib = ctypes.CDLL(core)
+        self._core_path = _CORES.acquire(core)
+        try:
+            self.lib = ctypes.CDLL(self._core_path)
+        except OSError:
+            _CORES.release(self._core_path)
+            raise
         lib = self.lib
         lib.retro_api_version.restype = ctypes.c_uint
         lib.retro_load_game.argtypes = [ctypes.POINTER(GameInfo)]
@@ -324,13 +384,21 @@ class Emulator:
                         len(self._rom_data) - 1, None)
         if not lib.retro_load_game(ctypes.byref(info)):
             lib.retro_deinit()
+            _CORES.release(self._core_path)
             raise EmulatorError(f"core refused to load {self.rom_path}")
         av = AvInfo()
         lib.retro_get_system_av_info(ctypes.byref(av))
         self.fps = av.timing.fps
-        Emulator._alive = True
+        self._alive = True
         if not self.regions:
+            self.close()
             raise EmulatorError("core did not publish a memory map")
+        # Render one frame to learn where the core's output buffer is, then
+        # go back to power-on with that buffer cleared, so that every
+        # instance starts from the same (blank) video buffer.
+        power_on = self.save_state()
+        self.lib.retro_run()
+        self.load_state(power_on)
 
     # -- callbacks ---------------------------------------------------------
 
@@ -379,6 +447,7 @@ class Emulator:
         if data:
             self._frame = ctypes.string_at(data, pitch * height)
             self._frame_geom = (width, height, pitch)
+            self._frame_buffer = (data, pitch * height)
 
     def _input(self, port: int, device: int, index: int, ident: int) -> int:
         if port == 0 and device == RETRO_DEVICE_JOYPAD and index == 0:
@@ -388,10 +457,11 @@ class Emulator:
     # -- control -----------------------------------------------------------
 
     def close(self) -> None:
-        if Emulator._alive:
+        if self._alive:
             self.lib.retro_unload_game()
             self.lib.retro_deinit()
-            Emulator._alive = False
+            self._alive = False
+            _CORES.release(self._core_path)
             self._tmp.cleanup()
 
     def __enter__(self) -> "Emulator":
@@ -455,6 +525,20 @@ class Emulator:
         if not self.lib.retro_unserialize(buf, len(body)):
             raise EmulatorError("retro_unserialize failed")
         self.frame_count = frames
+        self._clear_frame()
+
+    def _clear_frame(self) -> None:
+        """Clear the core's output buffer (and the last frame).
+
+        The video buffer is not part of the emulated state, and the first
+        frame rendered after loading a state can leave some lines untouched
+        (e.g. while the display is being turned on), so they would show
+        whatever this instance drew before. Clearing it makes the frames
+        after a load depend only on the loaded state.
+        """
+        if self._frame_buffer is not None:
+            ctypes.memset(self._frame_buffer[0], 0, self._frame_buffer[1])
+        self._frame = None
 
     def cpu_registers(self) -> dict[str, int]:
         """Best-effort CPU registers taken from an mGBA save state.
@@ -490,6 +574,7 @@ class Emulator:
         """Press the console's reset (save data is kept)."""
         self.lib.retro_reset()
         self.frame_count = 0
+        self._clear_frame()
 
     def ram_hash(self) -> str:
         """SHA-1 over EWRAM, IWRAM, palette, VRAM and OAM."""
@@ -554,27 +639,30 @@ class Emulator:
         """Return (width, height, RGB888 bytes) of the last frame."""
         if self._frame is None:
             raise EmulatorError("no frame rendered yet")
-        w, h, pitch = self._frame_geom
-        fb, out = self._frame, bytearray(w * h * 3)
-        o = 0
+        w, h, _ = self._frame_geom
+        visible = self.frame_bytes()
         if self.pixel_format == PIXEL_XRGB8888:
-            for y in range(h):
-                row = fb[y * pitch:y * pitch + w * 4]
-                for x in range(0, w * 4, 4):
-                    out[o], out[o + 1], out[o + 2] = row[x + 2], row[x + 1], row[x]
-                    o += 3
-        else:
-            rgb565 = self.pixel_format == PIXEL_RGB565
-            for y in range(h):
-                for (v,) in struct.iter_unpack("<H", fb[y * pitch:y * pitch + w * 2]):
-                    if rgb565:
-                        r, g, b = v >> 11, (v >> 5) & 0x3F, v & 0x1F
-                        out[o], out[o + 1], out[o + 2] = (r << 3) | (r >> 2), (g << 2) | (g >> 4), (b << 3) | (b >> 2)
-                    else:
-                        r, g, b = (v >> 10) & 0x1F, (v >> 5) & 0x1F, v & 0x1F
-                        out[o], out[o + 1], out[o + 2] = (r << 3) | (r >> 2), (g << 3) | (g >> 2), (b << 3) | (b >> 2)
-                    o += 3
-        return w, h, bytes(out)
+            out = bytearray(w * h * 3)
+            out[0::3] = visible[2::4]
+            out[1::3] = visible[1::4]
+            out[2::3] = visible[0::4]
+            return w, h, bytes(out)
+        table = _rgb_table(self.pixel_format)
+        return w, h, b"".join(map(table.__getitem__, array.array("H", visible)))
+
+    def frame_bytes(self) -> bytes:
+        """The visible pixels of the last frame in the core's pixel format.
+
+        Much cheaper than :meth:`screenshot`; two frames from cores using the
+        same pixel format are equal exactly when their screenshots are.
+        """
+        if self._frame is None:
+            raise EmulatorError("no frame rendered yet")
+        w, h, pitch = self._frame_geom
+        row = w * (4 if self.pixel_format == PIXEL_XRGB8888 else 2)
+        if row == pitch:
+            return self._frame
+        return b"".join(self._frame[y * pitch:y * pitch + row] for y in range(h))
 
     def save_png(self, path: str | os.PathLike) -> None:
         w, h, rgb = self.screenshot()

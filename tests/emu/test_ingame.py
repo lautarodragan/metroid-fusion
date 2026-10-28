@@ -74,3 +74,41 @@ def test_power_on_is_deterministic(emu):
         emu.run(400)
         hashes.append(emu.ram_hash())
     assert hashes[0] == hashes[1]
+
+
+def test_second_instance_runs_independently(emu, boot, rom_files):
+    """A second Emulator in the same process gets its own core: running it
+    does not disturb the first one, and both give the same frames for the
+    same state and input."""
+    import harness
+
+    core, rom, map_file = rom_files
+    emu.load_state(boot.states["in_game"])
+    expected = emu.ram_hash()
+    with harness.Emulator(rom, map_file, core=core) as other:
+        other.run(30)                       # power-on, title intro
+        assert emu.ram_hash() == expected   # the first instance did not move
+        other.load_state(boot.states["in_game"])
+        for f in range(60):
+            keys = "RIGHT" if f < 30 else "A"
+            emu.run(1, keys)
+            other.run(1, keys)
+            assert emu.frame_bytes() == other.frame_bytes(), f"frame {f} differs"
+        assert emu.ram_hash() == other.ram_hash()
+
+
+def test_frames_after_load_state_do_not_depend_on_history(emu, boot, rom_files):
+    """The first frames after loading a state are the same whatever the
+    instance ran before (the core's output buffer is not in the state)."""
+    import harness
+
+    core, rom, map_file = rom_files
+    with harness.Emulator(rom, map_file, core=core) as fresh:
+        emu.load_state(boot.states["in_game"])
+        emu.run(30, "RIGHT")                # history differs from `fresh`
+        for e in (emu, fresh):
+            e.load_state(emu.power_on_state)
+        for f in range(5):
+            emu.run(1)
+            fresh.run(1)
+            assert emu.frame_bytes() == fresh.frame_bytes(), f"frame {f} after loading differs"
