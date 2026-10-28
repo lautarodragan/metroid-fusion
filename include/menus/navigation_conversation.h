@@ -9,9 +9,22 @@ struct NavConversationPopUpInfo {
     u32 unk_8;
 };
 
+struct NavConversationTarget {
+    s8 conversation;
+    u8 location;
+    u8 xPosition;
+    u8 yPosition;
+    u8 textDirection;
+};
+
+extern u8 gNavigationTargetLocation;
+
 extern u16** sNavConversationTextPointers[];
 extern const u8 sNavConversationUnk_5766d4[];
 extern const u8 sNavConversationUnk_5767ec[];
+extern const struct NavConversationTarget sNavConversationUnk_5766e4[33];
+extern const u8 sNavConversationUnk_576218[][2];
+extern const u8 sNavConversationUnk_576226[][2];
 
 u32 unk_7a0fc(u8 messageId);
 void NavigationConversationGetCurrentConversation(void);

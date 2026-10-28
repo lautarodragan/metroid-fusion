@@ -6,6 +6,9 @@
 
 #include "constants/menus/pause_screen.h"
 
+#include "data/event_data.h"
+
+#include "structs/event.h"
 #include "structs/menus/pause_screen.h"
 
 /**
@@ -92,4 +95,76 @@ void NavigationConversationUpdateTarget(u8 updateOam)
         oamId = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
 
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = oamId;
+}
+
+/**
+ * @brief 7affc | 15c | Finds the target of the current navigation conversation
+ * 
+ * @return bool, conversation already happened
+ */
+u32 NavigationConverstionFindTarget(void)
+{
+    u32 found;
+    u32 i;
+    u8 x;
+    u8 y;
+
+    PAUSE_SCREEN_DATA.unk_20F = 0;
+    PAUSE_SCREEN_DATA.navTargetX = UCHAR_MAX;
+    PAUSE_SCREEN_DATA.navTargetY = -1;
+    PAUSE_SCREEN_DATA.navTargetArea = 0;
+    PAUSE_SCREEN_DATA.navTargetTextDirection = 0;
+
+    if (gPauseScreenFlag == 4)
+        return FALSE;
+
+    gNavigationTargetLocation = 0;
+    found = FALSE;
+
+    for (i = 0; i <= 32; i++)
+    {
+        if (PAUSE_SCREEN_DATA.conversationNumber == sNavConversationUnk_5766e4[i].conversation)
+        {
+            found = TRUE;
+            PAUSE_SCREEN_DATA.navTargetTextDirection = sNavConversationUnk_5766e4[i].textDirection;
+            break;
+        }
+    }
+
+    if (!found)
+        return FALSE;
+
+    gNavigationTargetLocation = sNavConversationUnk_5766e4[i].location;
+    PAUSE_SCREEN_DATA.navTargetArea = sNavigationTargetLocationAreas[gNavigationTargetLocation];
+
+    if (PAUSE_SCREEN_DATA.currentArea == PAUSE_SCREEN_DATA.navTargetArea)
+    {
+        x = sNavConversationUnk_5766e4[i].xPosition;
+        y = sNavConversationUnk_5766e4[i].yPosition;
+        PAUSE_SCREEN_DATA.unk_20F = 1;
+    }
+    else if (PAUSE_SCREEN_DATA.currentArea == 0)
+    {
+        x = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.navTargetArea][0];
+        y = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.navTargetArea][1];
+        PAUSE_SCREEN_DATA.unk_20F = 2;
+    }
+    else
+    {
+        x = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.currentArea][0];
+        y = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.currentArea][1];
+        if (PAUSE_SCREEN_DATA.navTargetArea == 0)
+            PAUSE_SCREEN_DATA.unk_20F = 2;
+        else
+            PAUSE_SCREEN_DATA.unk_20F = 3;
+    }
+
+    PAUSE_SCREEN_DATA.navTargetX = x - 1;
+    PAUSE_SCREEN_DATA.navTargetY = y - 1;
+
+    found = FALSE;
+    if (gPreviousNavigationConversation == PAUSE_SCREEN_DATA.conversationNumber)
+        found = TRUE;
+
+    return found;
 }

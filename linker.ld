@@ -67,6 +67,7 @@ SECTIONS {
         . = 0x00000049; gLastElevatorUsed = .;
         . = 0x0000004a; gCurrentEventBasedEffect = .;
         . = 0x0000004b; gQueuedEventBasedEffect = .;
+        . = 0x0000004c; gNavigationTargetLocation = .;
         . = 0x0000004e; gScreenShakeXOffset = .;
         . = 0x0000004f; gScreenShakeYOffset = .;
         . = 0x00000050; gUnk_3000050 = .;
@@ -499,7 +500,7 @@ SECTIONS {
         src/menus/navigation_conversation.o(.text);
         asm/disasm_0x0807a3a4.o(.text);
         src/menus/navigation_conversation_misc.o(.text);
-        asm/disasm_0x0807affc.o(.text);
+        asm/disasm_0x0807b158.o(.text);
 
         src/menus/pause_debug.o(.text);
 
