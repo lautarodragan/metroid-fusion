@@ -161,6 +161,19 @@ def load_map_symbols(map_path: str | os.PathLike) -> dict[str, int]:
     return syms
 
 
+MAP_SECTION_RE = re.compile(r"^(\.?[A-Za-z_]\w*)\s+0x([0-9a-fA-F]+)\s+0x([0-9a-fA-F]+)")
+
+
+def load_map_sections(map_path: str | os.PathLike) -> dict[str, tuple[int, int]]:
+    """Top-level output sections of a GNU ld map: ``name -> (address, size)``."""
+    sections: dict[str, tuple[int, int]] = {}
+    for line in Path(map_path).read_text(errors="replace").splitlines():
+        m = MAP_SECTION_RE.match(line)
+        if m:
+            sections.setdefault(m.group(1), (int(m.group(2), 16), int(m.group(3), 16)))
+    return sections
+
+
 # ---------------------------------------------------------------------------
 # PNG (RGB8, no external dependencies)
 # ---------------------------------------------------------------------------
@@ -266,6 +279,7 @@ class Emulator:
                                 f"or set {CORE_ENV})")
         self.rom_path = Path(rom)
         self.symbols = load_map_symbols(map_file) if map_file else {}
+        self.sections = load_map_sections(map_file) if map_file else {}
         self._tmp = tempfile.TemporaryDirectory(prefix="emu-")
         self._sysdir = ctypes.create_string_buffer(self._tmp.name.encode())
         self._sysdir_ptr = ctypes.c_char_p(ctypes.addressof(self._sysdir))
@@ -458,6 +472,33 @@ class Emulator:
         out.update(sp=regs[13], lr=regs[14], cpsr=cpsr, thumb=int(thumb),
                    pc=regs[15] - (4 if thumb else 8))
         return out
+
+    def code_ranges(self) -> list[tuple[int, int]]:
+        """Address ranges where the PC may legitimately be.
+
+        BIOS (HLE), IWRAM (the game copies interrupt and sound code there)
+        and the ROM code, i.e. everything before ``.rodata``.
+        """
+        rom_code_end = self.sections.get(".rodata", (0x08800000, 0))[0]
+        return [(0x00000000, 0x00004000), (0x03000000, 0x03008000), (0x08000000, rom_code_end)]
+
+    def pc_is_sane(self) -> bool:
+        pc = self.cpu_registers()["pc"]
+        return any(a <= pc < b for a, b in self.code_ranges())
+
+    def reset(self) -> None:
+        """Press the console's reset (save data is kept)."""
+        self.lib.retro_reset()
+        self.frame_count = 0
+
+    def ram_hash(self) -> str:
+        """SHA-1 over EWRAM, IWRAM, palette, VRAM and OAM."""
+        import hashlib
+        h = hashlib.sha1()
+        for start, size in ((0x02000000, 0x40000), (0x03000000, 0x8000), (0x05000000, 0x400),
+                            (0x06000000, 0x18000), (0x07000000, 0x400)):
+            h.update(self.read(start, size))
+        return h.hexdigest()
 
     def symbolize(self, addr: int) -> str:
         """``name+0xoff`` for a ROM/IWRAM address, using the map file."""
