@@ -140,10 +140,12 @@ Nothing in `src/` or `asm/`: only placeholder data, in `apply_known_layouts` in
    get a 0 header (they decompress to nothing).
 3. **File select tables**: per-language pointers to graphics (→ empty LZ77)
    and to text tables (→ empty texts).
-4. **Text**: all terminators; the `s*TextPointers*` tables point to an empty
-   text. Each new file intro monologue (`sMonologueText<Language>_<N>`) is
-   "arrow, arrow, one character, arrow, end", so that both the scenes that
-   wait for "more text" and the ones that wait for "end" advance with A.
+4. **Text**: a readable font fitted to `sCharacterWidths` and short
+   placeholder strings for every table, with the tilemaps/palettes of the
+   text layers (`tools/open_assets/font.py`, see
+   [Text and font](test_baserom_font.md)). Each monologue is "page 1,
+   arrow, arrow, page 2, arrow, end", so that both the scenes that wait for
+   "more text" and the ones that wait for "end" advance with A.
 5. **Voicegroups** (`sVoicegroup_*`): every voice plays the first sample.
 
 ### How that data is located

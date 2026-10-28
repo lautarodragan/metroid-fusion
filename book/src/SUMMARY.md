@@ -14,6 +14,7 @@
 # Research
 
 - [Generated test baserom](docs/test_baserom_research.md)
+  - [Text and font](docs/test_baserom_font.md)
 
 # Reference
 

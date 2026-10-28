@@ -176,7 +176,10 @@ the space is wasted.
   voicegroups pointing to a valid sample, text full of terminators and text
   pointer tables pointing to a terminator; it validates everything by decoding
   it. It never overwrites an existing file without `--force`.
-- `test_formats.py`: round-trip tests (`python3 tools/open_assets/test_formats.py`).
+- `font.py`: readable font (Spleen 6x12 fitted to `sCharacterWidths`),
+  placeholder strings and text layers; see
+  [Text and font](test_baserom_font.md).
+- `test_formats.py`, `test_font.py`: unit tests (`python3 -m pytest tools/open_assets`).
 
 Current result: all 3492 regions get content; 209 of the 210
 `gfx_lz` fit with 2 KiB decompressed (only one with 256 B), the 144
