@@ -161,3 +161,239 @@ void SramRead_WorldData(void)
         }
     }
 }
+
+/**
+ * @brief 80068 | 8c | Writes the most recent save file to SRAM
+ * 
+ */
+void SramWrite_MostRecentSaveFile(void)
+{
+    struct SramExtraData* pData;
+    u16* src;
+    u16 checksum;
+    s32 i;
+
+    pData = EWRAM_SRAM_MOST_RECENT_SAVE_FILE;
+    src = (u16*)pData;
+
+    pData->id = 0x1E;
+    pData->counter++;
+    pData->checksum = 0;
+    pData->notChecksum = USHORT_MAX;
+    pData->value = gMostRecentSaveFile;
+
+    for (i = 0; i < SRAM_EXTRA_DATA_MAGIC_SIZE; i++)
+    {
+        pData->magic[i] = sSramUnk_582288[0][i];
+        pData->magic2[i] = sSramUnk_582288[1][i];
+    }
+
+    checksum = 0;
+    for (i = 0; i < SRAM_EXTRA_DATA_SIZE / 8; i++)
+    {
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+    }
+
+    pData->checksum = checksum;
+    pData->notChecksum = USHORT_MAX - checksum;
+
+    unk_dd4();
+}
+
+/**
+ * @brief 800f4 | e0 | Reads the most recent save file from SRAM
+ * 
+ */
+void SramRead_MostRecentSaveFile(void)
+{
+    struct SramExtraData* pData;
+    u16* src;
+    u16 checksum;
+    u16 storedChecksum;
+    u32 error;
+    s32 i;
+
+    pData = EWRAM_SRAM_MOST_RECENT_SAVE_FILE;
+
+    error = pData->id != 0x1E;
+
+    if (!error)
+    {
+        src = (u16*)pData;
+        checksum = 0;
+        storedChecksum = pData->checksum;
+
+        for (i = 0; i < SRAM_EXTRA_DATA_SIZE / 8; i++)
+        {
+            checksum += *src++;
+            checksum += *src++;
+            checksum += *src++;
+            checksum += *src++;
+        }
+
+        if (storedChecksum != checksum)
+            error = 2;
+    }
+
+    if (!error)
+    {
+        for (i = 0; i < SRAM_EXTRA_DATA_MAGIC_SIZE; i++)
+        {
+            if (pData->magic[i] != sSramUnk_582288[0][i])
+            {
+                error = 3;
+                break;
+            }
+
+            if (pData->magic2[i] != sSramUnk_582288[1][i])
+            {
+                error = 4;
+                break;
+            }
+        }
+    }
+
+    if (!error)
+    {
+        gMostRecentSaveFile = pData->value;
+    }
+    else
+    {
+        DMA3_FILL_16(USHORT_MAX, EWRAM_SRAM_MOST_RECENT_SAVE_FILE, SRAM_EXTRA_DATA_SIZE);
+        gMostRecentSaveFile = 0;
+    }
+}
+
+/**
+ * @brief 801d4 | 90 | Writes the language to SRAM
+ * 
+ */
+void SramWrite_Language(void)
+{
+    struct SramExtraData* pData;
+    u16* src;
+    u16 checksum;
+    s32 i;
+
+    pData = (struct SramExtraData*)(EWRAM_SRAM + 0x7040);
+    src = (u16*)pData;
+
+    pData->id = 0x1F;
+    pData->counter++;
+    pData->checksum = 0;
+    pData->notChecksum = USHORT_MAX;
+    pData->value = gLanguage;
+
+    for (i = 0; i < SRAM_EXTRA_DATA_MAGIC_SIZE; i++)
+    {
+        pData->magic[i] = sSramUnk_5822a8[0][i];
+        pData->magic2[i] = sSramUnk_5822a8[1][i];
+    }
+
+    checksum = 0;
+    for (i = 0; i < SRAM_EXTRA_DATA_SIZE / 8; i++)
+    {
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+    }
+
+    pData->checksum = checksum;
+    pData->notChecksum = USHORT_MAX - checksum;
+
+    unk_dec(0);
+}
+
+/**
+ * @brief 80264 | 180 | Reads the language from SRAM
+ * 
+ */
+void SramRead_Language(void)
+{
+    struct SramExtraData* pData;
+    u16* src;
+    u16 checksum;
+    u16 storedChecksum;
+    u32 error;
+    s32 i;
+    s32 j;
+
+    for (i = 0; i < ARRAY_SIZE(sUnk_582280); i++)
+    {
+        pData = (struct SramExtraData*)sUnk_582280[i];
+        src = (u16*)pData;
+
+        error = pData->id != 0x1F;
+
+        if (!error)
+        {
+            checksum = 0;
+            storedChecksum = pData->checksum;
+
+            for (j = 0; j < SRAM_EXTRA_DATA_SIZE / 8; j++)
+            {
+                checksum += *src++;
+                checksum += *src++;
+                checksum += *src++;
+                checksum += *src++;
+            }
+
+            if (storedChecksum != checksum)
+                error = 2;
+        }
+
+        if (!error)
+        {
+            for (j = 0; j < SRAM_EXTRA_DATA_MAGIC_SIZE; j++)
+            {
+                if (pData->magic[j] != sSramUnk_5822a8[0][j])
+                {
+                    error = 3;
+                    break;
+                }
+
+                if (pData->magic2[j] != sSramUnk_5822a8[1][j])
+                {
+                    error = 4;
+                    break;
+                }
+            }
+        }
+
+        if (i == 0)
+        {
+            if (!error)
+            {
+                // Main copy is valid, update the backup
+                DMA3_COPY_16(sUnk_582280[0], sUnk_582280[1], SRAM_EXTRA_DATA_SIZE / 2);
+                unk_dec(1);
+                break;
+            }
+        }
+        else
+        {
+            if (!error)
+            {
+                // Backup is valid, restore the main copy
+                DMA3_COPY_16(sUnk_582280[1], sUnk_582280[0], SRAM_EXTRA_DATA_SIZE / 2);
+                unk_dec(0);
+                break;
+            }
+
+            // Both are invalid, clear both
+            DMA3_FILL_16(0, sUnk_582280[0], SRAM_EXTRA_DATA_SIZE);
+            unk_dec(0);
+            DMA3_FILL_16(0, sUnk_582280[1], SRAM_EXTRA_DATA_SIZE);
+            unk_dec(1);
+        }
+    }
+
+    if (!error)
+        gLanguage = pData->value;
+    else
+        gLanguage = 0;
+}

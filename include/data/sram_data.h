@@ -14,4 +14,11 @@ extern const u8 sSramUnk_582200[];
 // Magic string of the SRAM header
 extern const u8 sSramUnk_582248[];
 
+// Defined in src/data/sram_pointers.c
+
+// Magic strings of the most recent save file data
+extern const u8 sSramUnk_582288[2][16];
+// Magic strings of the language data
+extern const u8 sSramUnk_5822a8[2][16];
+
 #endif /* SRAM_DATA_H */

@@ -96,6 +96,23 @@ struct SaveFile {
     u8 unk_F8[0x1200 - 0xF8];
 };
 
+#define SRAM_EXTRA_DATA_SIZE 0x40
+#define SRAM_EXTRA_DATA_MAGIC_SIZE 16
+
+#define EWRAM_SRAM_MOST_RECENT_SAVE_FILE ((struct SramExtraData*)(EWRAM_SRAM + 0x7000))
+
+// Small blocks of data stored outside of the save files (most recent save file, language)
+struct SramExtraData {
+    u8 id;
+    u8 counter;
+    u16 checksum;
+    u16 notChecksum;
+    u8 magic[SRAM_EXTRA_DATA_MAGIC_SIZE];
+    u8 value;
+    u8 magic2[SRAM_EXTRA_DATA_MAGIC_SIZE];
+    u8 unk_27[SRAM_EXTRA_DATA_SIZE - 0x27];
+};
+
 // Info about each save file, used on the file select
 struct SaveFileInfo {
     u8 exists;
