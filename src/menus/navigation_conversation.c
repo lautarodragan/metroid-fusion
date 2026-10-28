@@ -1,7 +1,12 @@
 #include "menus/navigation_conversation.h"
+#include "menus/pause_screen.h"
+#include "menus/pause_screen_map.h"
+#include "menus/pause_screen_text.h"
 
 #include "gba.h"
 #include "globals.h"
+#include "io.h"
+#include "dma.h"
 #include "audio_wrappers.h"
 #include "sound_event.h"
 #include "text.h"
@@ -9,10 +14,15 @@
 
 #include "constants/audio.h"
 #include "constants/event.h"
+#include "constants/menus/pause_screen.h"
 
 #include "data/event_data.h"
+#include "data/menus/pause_screen_misc_data.h"
 
+#include "structs/connection.h"
 #include "structs/event.h"
+#include "structs/menus/pause_screen.h"
+#include "structs/minimap.h"
 
 // Called without a prototype in the original code (the character isn't truncated to a u8),
 // music_wrappers.h isn't included for that reason
@@ -166,4 +176,1347 @@ void NavigationConversationGetCurrentConversation(void)
     PAUSE_SCREEN_DATA.unk_250 = 0;
     PAUSE_SCREEN_DATA.unk_251 = 0;
     PAUSE_SCREEN_DATA.unk_252 = 0;
+}
+
+/**
+ * @brief 7a3a4 | ab0 | Handles a navigation conversation
+ *
+ * @return u32 bool, ended
+ */
+u32 NavigationConversationHandler(void)
+{
+    u32 ended;
+    // Used as the text pointer index, the first character of the text and the menu action
+    s32 temp;
+
+    unk_7b674();
+    NavigationConversionScrollToTarget();
+    unk_7b56c();
+    NavConversationUpdateBottomTextBoxOam();
+    NavConversationUpdateTopTextBoxOam();
+
+    ended = FALSE;
+
+    switch (PAUSE_SCREEN_DATA.subMenuStage)
+    {
+        case 0:
+            PAUSE_SCREEN_DATA.timer = 0;
+            NavigationConversationSetupOam();
+            if (PAUSE_SCREEN_DATA.conversationOnRepeat)
+            {
+                PAUSE_SCREEN_DATA.unk_1C = 4;
+                PAUSE_SCREEN_DATA.subMenuStage = 17;
+                break;
+            }
+
+            PAUSE_SCREEN_DATA.unk_1C = 0;
+            PAUSE_SCREEN_DATA.subMenuStage++;
+            break;
+
+        case 1:
+            PAUSE_SCREEN_DATA.dispcnt |= DCNT_BG0;
+            PAUSE_SCREEN_DATA.unk_9 = 1;
+            PAUSE_SCREEN_DATA.unk_B = 1;
+            PAUSE_SCREEN_DATA.unk_1D = 8;
+            PAUSE_SCREEN_DATA.unk_1E = 0;
+            PAUSE_SCREEN_DATA.unk_1F = 0;
+
+            temp = (PAUSE_SCREEN_DATA.conversationNumber - 1) * 2;
+            if (PAUSE_SCREEN_DATA.conversationOnRepeat)
+                temp++;
+
+            temp = sNavConversationTextPointers[gLanguage][temp][0];
+            if (temp == 0xE201)
+            {
+                PAUSE_SCREEN_DATA.typeFlags |= 2;
+                PAUSE_SCREEN_DATA.unk_18 = 1;
+                PAUSE_SCREEN_DATA.unk_19 = 2;
+                PAUSE_SCREEN_DATA.unk_17 = 1;
+            }
+            else if (temp == 0xE202)
+            {
+                PAUSE_SCREEN_DATA.typeFlags |= 4;
+                PAUSE_SCREEN_DATA.unk_18 = 1;
+                PAUSE_SCREEN_DATA.unk_19 = 2;
+                PAUSE_SCREEN_DATA.unk_17 = 2;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.typeFlags |= 1;
+                PAUSE_SCREEN_DATA.unk_18 = 0;
+                PAUSE_SCREEN_DATA.unk_19 = 1;
+                PAUSE_SCREEN_DATA.unk_17 = 0;
+            }
+
+            PAUSE_SCREEN_DATA.subMenuStage++;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+
+        case 2:
+            PAUSE_SCREEN_DATA.unk_1B = 0;
+            if (PAUSE_SCREEN_DATA.unk_1C == 1)
+            {
+                if (gChangedInput & (KEY_A | KEY_B | KEY_DOWN) && !(PAUSE_SCREEN_DATA.typeFlags & 0x200) &&
+                    PAUSE_SCREEN_DATA.unk_241 == 0)
+                {
+                    PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 0;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+                    TextClearGraphics(0);
+                    PAUSE_SCREEN_DATA.subMenuStage = 3;
+                    PAUSE_SCREEN_DATA.timer = 0;
+                    break;
+                }
+
+                if (PAUSE_SCREEN_DATA.typeFlags & 0x200)
+                {
+                    if (!(PAUSE_SCREEN_DATA.typeFlags & 0x400))
+                        PAUSE_SCREEN_DATA.typeFlags |= 0x400;
+                    break;
+                }
+            }
+            else if (PAUSE_SCREEN_DATA.unk_1C == 2)
+            {
+                if (!(PAUSE_SCREEN_DATA.typeFlags & 0x400))
+                {
+                    PAUSE_SCREEN_DATA.unk_24 = 0;
+                    PAUSE_SCREEN_DATA.unk_25 = 1;
+                    PAUSE_SCREEN_DATA.unk_1A = 1;
+                    PAUSE_SCREEN_DATA.unk_1B = 0;
+                    PAUSE_SCREEN_DATA.subMenuStage = 8;
+                    PAUSE_SCREEN_DATA.timer = 0;
+                }
+            }
+            else if (PAUSE_SCREEN_DATA.unk_1C == 6)
+            {
+                ended = TRUE;
+            }
+            else
+            {
+                NavigationConversationProcessText();
+            }
+
+            if (PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId == 3)
+            {
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0x74;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition =
+                    sNavConversationTextBoxCursorYPositions[PAUSE_SCREEN_DATA.unk_18][1];
+                break;
+            }
+
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition = 0;
+            if (NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) >= 0xE0)
+            {
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition += NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) - 0xD8;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition +=
+                    sNavConversationTextBoxCursorYPositions[PAUSE_SCREEN_DATA.unk_18][0] + 0x10;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition += NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) + 8;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition +=
+                    sNavConversationTextBoxCursorYPositions[PAUSE_SCREEN_DATA.unk_18][0];
+            }
+            break;
+
+        case 3:
+            PAUSE_SCREEN_DATA.unk_1B = 0;
+            if (PAUSE_SCREEN_DATA.conversationNumber != gPreviousNavigationConversation)
+            {
+                gPreviousNavigationConversation = PAUSE_SCREEN_DATA.conversationNumber;
+                if (!PAUSE_SCREEN_DATA.conversationOnRepeat)
+                    SoundEventUpdateForNavConversation();
+            }
+
+            PAUSE_SCREEN_DATA.subMenuStage++;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+
+        case 4:
+            if (PAUSE_SCREEN_DATA.timer > 8)
+            {
+                PAUSE_SCREEN_DATA.subMenuStage++;
+                PAUSE_SCREEN_DATA.timer = 0;
+            }
+            break;
+
+        case 5:
+            PAUSE_SCREEN_DATA.dispcnt ^= DCNT_BG0;
+
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x40)
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x40;
+
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x8)
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x8;
+
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x10)
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x10;
+
+            PAUSE_SCREEN_DATA.subMenuStage++;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+
+        case 6:
+            if (PAUSE_SCREEN_DATA.typeFlags & 1)
+                return FALSE;
+            if (PAUSE_SCREEN_DATA.typeFlags & 2)
+                return FALSE;
+            if (PAUSE_SCREEN_DATA.typeFlags & 4)
+                return FALSE;
+
+            PAUSE_SCREEN_DATA.subMenuStage++;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+
+        case 7:
+            ended = TRUE;
+            PAUSE_SCREEN_DATA.subMenuStage = 0;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+
+        case 8:
+            if (PAUSE_SCREEN_DATA.unk_24 == 0)
+            {
+                if (!(gChangedInput & (KEY_A | KEY_B | KEY_DOWN)))
+                    break;
+
+                SoundPlay(SOUND_203);
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+                TextClearGraphics(1);
+                PAUSE_SCREEN_DATA.unk_24 = 1;
+                PAUSE_SCREEN_DATA.unk_1C = 3;
+                PAUSE_SCREEN_DATA.unk_20 = 0;
+                PAUSE_SCREEN_DATA.unk_21 = 0;
+                PAUSE_SCREEN_DATA.navConvTextIndent = 0;
+            }
+            else if (PAUSE_SCREEN_DATA.unk_24 == 2)
+            {
+                PAUSE_SCREEN_DATA.subMenuStage = 9;
+                PAUSE_SCREEN_DATA.timer = 0;
+            }
+            else if (unk_7a0fc(0))
+            {
+                PAUSE_SCREEN_DATA.unk_24 = 2;
+                PAUSE_SCREEN_DATA.unk_1A = 1;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 2;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition = 0x8C;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0x34;
+            }
+            break;
+
+        case 9:
+            temp = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition = 0x8C;
+
+            if (gChangedInput & KEY_LEFT)
+            {
+                temp = PAUSE_SCREEN_DATA.unk_25 != TRUE;
+                PAUSE_SCREEN_DATA.unk_25 = TRUE;
+            }
+            else if (gChangedInput & KEY_RIGHT)
+            {
+                if (PAUSE_SCREEN_DATA.unk_25)
+                    temp = 1;
+                PAUSE_SCREEN_DATA.unk_25 = FALSE;
+            }
+            else if (gChangedInput & KEY_A)
+            {
+                temp = 2;
+                PAUSE_SCREEN_DATA.subMenuStage = 10;
+                PAUSE_SCREEN_DATA.timer = 0;
+            }
+
+            if (PAUSE_SCREEN_DATA.unk_25)
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0x34;
+            else
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0x84;
+
+            if (temp == 1)
+            {
+                SoundPlay(SOUND_1FA);
+            }
+            else if (temp == 2)
+            {
+                if (PAUSE_SCREEN_DATA.unk_25)
+                    SoundPlay(SOUND_204);
+                else
+                    SoundPlay(SOUND_205);
+            }
+            break;
+
+        case 10:
+            if (!(PAUSE_SCREEN_DATA.typeFlags & (0x40 | 0x80)))
+            {
+                PAUSE_SCREEN_DATA.subMenuStage = 16;
+                if (!PAUSE_SCREEN_DATA.unk_25)
+                {
+                    PAUSE_SCREEN_DATA.mapX = gMinimapX;
+                    PAUSE_SCREEN_DATA.mapY = gMinimapY;
+                    if (PAUSE_SCREEN_DATA.currentArea != gCurrentArea)
+                    {
+                        PAUSE_SCREEN_DATA.subMenuStage = 11;
+                        PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].oamId = 0;
+                        PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].animationDurationCounter = 0;
+                        PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].currentAnimationFrame = 0;
+                    }
+                    else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId != 0)
+                    {
+                        PAUSE_SCREEN_DATA.subMenuStage = 15;
+                    }
+
+                    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = 0;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].animationDurationCounter = 0;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].currentAnimationFrame = 0;
+                    PAUSE_SCREEN_DATA.unk_C = 0;
+                    PAUSE_SCREEN_DATA.unk_219 = 0;
+                }
+
+                TextClearGraphics(1);
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 0;
+                PAUSE_SCREEN_DATA.unk_1A = 1;
+                NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0;
+                NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0;
+                PAUSE_SCREEN_DATA.unk_1C = 0;
+                PAUSE_SCREEN_DATA.timer = 0;
+            }
+            else if (PAUSE_SCREEN_DATA.typeFlags & 0x40)
+            {
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x40;
+            }
+            break;
+
+        case 11:
+            PAUSE_SCREEN_DATA.unk_250 |= 1;
+            PAUSE_SCREEN_DATA.timer = 0;
+            PAUSE_SCREEN_DATA.subMenuStage = 12;
+            break;
+
+        case 12:
+            if (PAUSE_SCREEN_DATA.unk_250 & 4)
+            {
+                PAUSE_SCREEN_DATA.currentArea = gCurrentArea;
+                unk_75988(TRUE);
+                PAUSE_SCREEN_DATA.timer = 0;
+                PAUSE_SCREEN_DATA.subMenuStage = 13;
+            }
+            break;
+
+        case 13:
+            if (PAUSE_SCREEN_DATA.timer > 4)
+            {
+                MinimapGetData(PAUSE_SCREEN_DATA.currentArea, EWRAM_BASE + 0x34000);
+                MinimapSetVisitedTilesAndCollectedItems(PAUSE_SCREEN_DATA.currentArea);
+                DMA3_COPY_16(EWRAM_BASE + 0x34000, VRAM_BASE + 0xE000, 0x400);
+                PAUSE_SCREEN_DATA.subMenuStage = 14;
+                PAUSE_SCREEN_DATA.timer = 0;
+                PAUSE_SCREEN_DATA.unk_250 |= 8;
+            }
+            break;
+
+        case 14:
+            if (PAUSE_SCREEN_DATA.unk_250 == 0)
+            {
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].oamId = 1;
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].animationDurationCounter = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].currentAnimationFrame = 0;
+                PAUSE_SCREEN_DATA.timer = 0;
+                PAUSE_SCREEN_DATA.subMenuStage = 16;
+            }
+            break;
+
+        case 15:
+            if (NavigationConversationScrollMapToDestination(PAUSE_SCREEN_DATA.mapX, PAUSE_SCREEN_DATA.mapY))
+            {
+                PAUSE_SCREEN_DATA.timer = 0;
+                PAUSE_SCREEN_DATA.subMenuStage = 16;
+            }
+            break;
+
+        case 16:
+            if (PAUSE_SCREEN_DATA.timer > 16)
+            {
+                NavigationConversationUpdateTarget(FALSE);
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 8;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition =
+                    sNavConversationTextBoxCursorYPositions[PAUSE_SCREEN_DATA.unk_18][0];
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 11;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+                PAUSE_SCREEN_DATA.subMenuStage = 1;
+                PAUSE_SCREEN_DATA.timer = 0;
+            }
+            break;
+
+        case 17:
+            PAUSE_SCREEN_DATA.dispcnt |= DCNT_BG0;
+            PAUSE_SCREEN_DATA.unk_1D = 8;
+            PAUSE_SCREEN_DATA.unk_1E = 0;
+            PAUSE_SCREEN_DATA.unk_1F = 0;
+            PAUSE_SCREEN_DATA.typeFlags |= 1;
+            PAUSE_SCREEN_DATA.unk_18 = 0;
+            PAUSE_SCREEN_DATA.unk_19 = 1;
+            PAUSE_SCREEN_DATA.unk_17 = 0;
+            PAUSE_SCREEN_DATA.unk_24 = 1;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+            PAUSE_SCREEN_DATA.unk_20 = 0;
+            PAUSE_SCREEN_DATA.unk_21 = 0;
+            PAUSE_SCREEN_DATA.navConvTextIndent = 0;
+            PAUSE_SCREEN_DATA.unk_1C = 5;
+            PAUSE_SCREEN_DATA.subMenuStage++;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+
+        case 18:
+            if (PAUSE_SCREEN_DATA.unk_24 == 0)
+                break;
+
+            if (PAUSE_SCREEN_DATA.unk_24 == 2)
+            {
+                PAUSE_SCREEN_DATA.subMenuStage = 19;
+                PAUSE_SCREEN_DATA.timer = 0;
+            }
+            else if (unk_7a0fc(1))
+            {
+                PAUSE_SCREEN_DATA.unk_24 = 2;
+                PAUSE_SCREEN_DATA.unk_1A = 1;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 2;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition = 0x8C;
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0x84;
+                PAUSE_SCREEN_DATA.unk_25 = FALSE;
+            }
+            break;
+
+        case 19:
+            temp = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition = 0x8C;
+
+            if (gChangedInput & KEY_LEFT)
+            {
+                temp = PAUSE_SCREEN_DATA.unk_25 != TRUE;
+                PAUSE_SCREEN_DATA.unk_25 = TRUE;
+            }
+            else if (gChangedInput & KEY_RIGHT)
+            {
+                if (PAUSE_SCREEN_DATA.unk_25)
+                    temp = 1;
+                PAUSE_SCREEN_DATA.unk_25 = FALSE;
+            }
+            else if (gChangedInput & KEY_A)
+            {
+                temp = 2;
+                PAUSE_SCREEN_DATA.subMenuStage = 20;
+                PAUSE_SCREEN_DATA.timer = 0;
+            }
+
+            if (PAUSE_SCREEN_DATA.unk_25)
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0x34;
+            else
+                PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 0x84;
+
+            if (temp == 1)
+            {
+                SoundPlay(SOUND_1FA);
+            }
+            else if (temp == 2)
+            {
+                if (PAUSE_SCREEN_DATA.unk_25)
+                    SoundPlay(SOUND_204);
+                else
+                    SoundPlay(SOUND_205);
+            }
+            break;
+
+        case 20:
+            PAUSE_SCREEN_DATA.subMenuStage = 21;
+            if (PAUSE_SCREEN_DATA.unk_25 == TRUE)
+            {
+                gPreviousNavigationConversation = UCHAR_MAX;
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].animationDurationCounter = 0;
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].currentAnimationFrame = 0;
+                PAUSE_SCREEN_DATA.unk_C = 0;
+                PAUSE_SCREEN_DATA.unk_219 = 0;
+            }
+
+            TextClearGraphics(1);
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 0;
+            PAUSE_SCREEN_DATA.unk_1A = 1;
+            NAV_TEXT_POS(PAUSE_SCREEN_DATA.unk_18) = 0;
+            NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0;
+            PAUSE_SCREEN_DATA.unk_1C = 0;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+
+        case 21:
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].xPosition = 8;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].yPosition =
+                sNavConversationTextBoxCursorYPositions[PAUSE_SCREEN_DATA.unk_18][0];
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 11;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].currentAnimationFrame = 0;
+            PAUSE_SCREEN_DATA.subMenuStage = 1;
+            PAUSE_SCREEN_DATA.timer = 0;
+            break;
+    }
+
+    return ended;
+}
+
+/**
+ * @brief 7ae54 | 138 | Sets up the OAM of a navigation conversation
+ * 
+ */
+void NavigationConversationSetupOam(void)
+{
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_OUTLINE].xPosition = 0x7C;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_OUTLINE].yPosition = 0xCC;
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_LIGHT].oamId = PAUSE_OAM_ID_ADAM_TEXT_BOX_LIGHT_OFF;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_LIGHT].animationDurationCounter = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_LIGHT].currentAnimationFrame = 0;
+
+    NavConversationSetBottomTextBoxOam(1);
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_BACKGROUND].objMode = 1;
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_CURSOR].priority = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_CURSOR].objMode = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_LIGHT].priority = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_LIGHT].objMode = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_OUTLINE].priority = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_OUTLINE].objMode = 0;
+
+    *(struct NavConversationPopUpInfo*)&PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer =
+        *(const struct NavConversationPopUpInfo*)sNavConversationUnk_5766d4;
+
+    PAUSE_SCREEN_DATA.unk_1A = 0;
+    PAUSE_SCREEN_DATA.typeFlags = 0;
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_BACKGROUND].objMode = 1;
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_CURSOR].priority = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_CURSOR].objMode = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_OUTLINE].priority = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_OUTLINE].objMode = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_PORTRAIT].priority = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_PORTRAIT].objMode = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_FED_PORTRAIT_FLICKERING].priority = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_FED_PORTRAIT_FLICKERING].objMode = 0;
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_PORTRAIT].xPosition = 0xD4;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_PORTRAIT].yPosition = 0x44;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_FED_PORTRAIT_FLICKERING].xPosition = 0xD4;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_FED_PORTRAIT_FLICKERING].yPosition = 0x44;
+
+    if (PAUSE_SCREEN_DATA.unk_0)
+    {
+        PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_BACKGROUND].priority = 1;
+        PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_BACKGROUND].priority = 1;
+    }
+    else
+    {
+        PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_BACKGROUND].priority = 2;
+        PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_BACKGROUND].priority = 2;
+    }
+}
+
+/**
+ * @brief 7af8c | 70 | Updates the target of a navigation conversation
+ * 
+ * @param updateOam Update OAM flag
+ */
+void NavigationConversationUpdateTarget(u8 updateOam)
+{
+    u8 oamId;
+
+    if (!NavigationConverstionFindTarget())
+        return;
+
+    if (!updateOam)
+        return;
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].animationDurationCounter = 0;
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].currentAnimationFrame = 0;
+
+    if (PAUSE_SCREEN_DATA.unk_20F == 1)
+        oamId = sNavConversationUnk_5767ec[PAUSE_SCREEN_DATA.navTargetTextDirection];
+    else if (PAUSE_SCREEN_DATA.currentArea == 0)
+        oamId = PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS;
+    else
+        oamId = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
+
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = oamId;
+}
+
+/**
+ * @brief 7affc | 15c | Finds the target of the current navigation conversation
+ * 
+ * @return bool, conversation already happened
+ */
+u32 NavigationConverstionFindTarget(void)
+{
+    u32 found;
+    u32 i;
+    u8 x;
+    u8 y;
+
+    PAUSE_SCREEN_DATA.unk_20F = 0;
+    PAUSE_SCREEN_DATA.navTargetX = UCHAR_MAX;
+    PAUSE_SCREEN_DATA.navTargetY = -1;
+    PAUSE_SCREEN_DATA.navTargetArea = 0;
+    PAUSE_SCREEN_DATA.navTargetTextDirection = 0;
+
+    if (gPauseScreenFlag == 4)
+        return FALSE;
+
+    gNavigationTargetLocation = 0;
+    found = FALSE;
+
+    for (i = 0; i <= 32; i++)
+    {
+        if (PAUSE_SCREEN_DATA.conversationNumber == sNavConversationUnk_5766e4[i].conversation)
+        {
+            found = TRUE;
+            PAUSE_SCREEN_DATA.navTargetTextDirection = sNavConversationUnk_5766e4[i].textDirection;
+            break;
+        }
+    }
+
+    if (!found)
+        return FALSE;
+
+    gNavigationTargetLocation = sNavConversationUnk_5766e4[i].location;
+    PAUSE_SCREEN_DATA.navTargetArea = sNavigationTargetLocationAreas[gNavigationTargetLocation];
+
+    if (PAUSE_SCREEN_DATA.currentArea == PAUSE_SCREEN_DATA.navTargetArea)
+    {
+        x = sNavConversationUnk_5766e4[i].xPosition;
+        y = sNavConversationUnk_5766e4[i].yPosition;
+        PAUSE_SCREEN_DATA.unk_20F = 1;
+    }
+    else if (PAUSE_SCREEN_DATA.currentArea == 0)
+    {
+        x = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.navTargetArea][0];
+        y = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.navTargetArea][1];
+        PAUSE_SCREEN_DATA.unk_20F = 2;
+    }
+    else
+    {
+        x = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.currentArea][0];
+        y = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.currentArea][1];
+        if (PAUSE_SCREEN_DATA.navTargetArea == 0)
+            PAUSE_SCREEN_DATA.unk_20F = 2;
+        else
+            PAUSE_SCREEN_DATA.unk_20F = 3;
+    }
+
+    PAUSE_SCREEN_DATA.navTargetX = x - 1;
+    PAUSE_SCREEN_DATA.navTargetY = y - 1;
+
+    found = FALSE;
+    if (gPreviousNavigationConversation == PAUSE_SCREEN_DATA.conversationNumber)
+        found = TRUE;
+
+    return found;
+}
+
+/**
+ * @brief 7b158 | 36c | Handles the scrolling of the map to the target of a navigation conversation
+ * 
+ */
+void NavigationConversionScrollToTarget(void)
+{
+    u32 temp;
+    u8 oamId;
+
+    PAUSE_SCREEN_DATA.unk_8++;
+
+    switch (PAUSE_SCREEN_DATA.unk_9)
+    {
+        case 0:
+            break;
+
+        case 1:
+            temp = FALSE;
+            if (PAUSE_SCREEN_DATA.navTargetX == UCHAR_MAX || PAUSE_SCREEN_DATA.navTargetY == UCHAR_MAX)
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[0])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[1])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[2])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[3])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS)
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS)
+                temp = TRUE;
+
+            if (temp)
+            {
+                PAUSE_SCREEN_DATA.unk_9 = 12;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.unk_9 = 2;
+                PAUSE_SCREEN_DATA.typeFlags |= 0x100;
+                PAUSE_SCREEN_DATA.typeFlags |= 0x200;
+            }
+            break;
+
+        case 2:
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x400)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9++;
+            }
+            break;
+
+        case 3:
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9 = 4;
+            break;
+
+        case 5:
+            if (!NavigationConversationScrollMapToDestination(PAUSE_SCREEN_DATA.navTargetX, PAUSE_SCREEN_DATA.navTargetY))
+                break;
+
+            if (PAUSE_SCREEN_DATA.unk_20F == 1)
+                temp = sNavConversationUnk_5767ec[PAUSE_SCREEN_DATA.navTargetTextDirection];
+            else if (PAUSE_SCREEN_DATA.currentArea == 0)
+                temp = PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS;
+            else
+                temp = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
+
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = temp;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].currentAnimationFrame = 0;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+
+            if (PAUSE_SCREEN_DATA.unk_20F == 1)
+                PAUSE_SCREEN_DATA.unk_9 = 12;
+            else
+                PAUSE_SCREEN_DATA.unk_9 = 6;
+
+            SoundStop(SOUND_119);
+            PAUSE_SCREEN_DATA.mapViewX = PAUSE_SCREEN_DATA.navTargetX;
+            PAUSE_SCREEN_DATA.mapViewY = PAUSE_SCREEN_DATA.navTargetY;
+            break;
+
+        case 6:
+            if (PAUSE_SCREEN_DATA.unk_8 > 60)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9++;
+            }
+            break;
+
+        case 7:
+            PAUSE_SCREEN_DATA.unk_250 = 1;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].oamId = 0;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 8:
+            if (!(PAUSE_SCREEN_DATA.unk_250 & 4))
+                break;
+
+            if (PAUSE_SCREEN_DATA.unk_20F == 3)
+                PAUSE_SCREEN_DATA.navTargetArea = 0;
+
+            if (PAUSE_SCREEN_DATA.navTargetArea == 0)
+            {
+                PAUSE_SCREEN_DATA.mapX = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.currentArea][0] - 1;
+                PAUSE_SCREEN_DATA.mapY = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.currentArea][1] - 1;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.mapX = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.navTargetArea][0] - 1;
+                PAUSE_SCREEN_DATA.mapY = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.navTargetArea][1] - 1;
+            }
+
+            PAUSE_SCREEN_DATA.currentArea = PAUSE_SCREEN_DATA.navTargetArea;
+            MinimapGetData(PAUSE_SCREEN_DATA.currentArea, gMinimapData_Visited);
+            MinimapSetVisitedTilesAndCollectedItems(PAUSE_SCREEN_DATA.currentArea);
+            DMA3_COPY_16(gMinimapData_Visited, VRAM_BASE + 0xE000, MINIMAP_SIZE);
+            unk_75988(TRUE);
+            NavigationConversationUpdateTarget(FALSE);
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 9:
+            if (PAUSE_SCREEN_DATA.unk_8 > 8)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9++;
+                PAUSE_SCREEN_DATA.unk_250 |= 8;
+            }
+            break;
+
+        case 10:
+            if (PAUSE_SCREEN_DATA.unk_250 != 0)
+                break;
+
+            if (PAUSE_SCREEN_DATA.navTargetArea == 0)
+                oamId = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
+            else if (PAUSE_SCREEN_DATA.currentArea == 0)
+                oamId = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
+            else
+                oamId = PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS;
+
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].oamId = oamId;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].currentAnimationFrame = 0;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 4:
+        case 11:
+            if (PAUSE_SCREEN_DATA.unk_8 > 30)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9 = 5;
+                SoundPlay(SOUND_119);
+            }
+            break;
+
+        case 12:
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x200)
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x200;
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x400)
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x400;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 13:
+            break;
+    }
+}
+
+/**
+ * @brief 7b4c4 | a8 | Scrolls the map towards a destination
+ * 
+ * @param x X destination
+ * @param y Y destination
+ * @return bool, reached
+ */
+u32 NavigationConversationScrollMapToDestination(u8 x, u8 y)
+{
+    u32 reached;
+    s32 targetX;
+    s32 targetY;
+    s32 diff;
+    s32 diffY;
+    s32 speedX;
+    s32 speedY;
+
+    reached = TRUE;
+
+    targetX = 0x200 - (15 - x) * 8;
+    targetY = 0x200 - (10 - y) * 8;
+
+    diff = gBackgroundPositions.bg[3].x - targetX;
+    diffY = gBackgroundPositions.bg[3].y - targetY;
+
+    if (diff < 0)
+        diff = -diff;
+
+    if (diffY < 0)
+        diffY = -diffY;
+
+    speedX = (diff >> 4) + 1;
+    speedY = (diffY >> 4) + 1;
+
+    diff = gBackgroundPositions.bg[3].x - targetX;
+    if (diff != 0)
+    {
+        reached = FALSE;
+        if (diff > 0)
+        {
+            gBackgroundPositions.bg[3].x -= speedX;
+            if (gBackgroundPositions.bg[3].x < targetX)
+                gBackgroundPositions.bg[3].x = targetX;
+        }
+        else if (diff < 0)
+        {
+            gBackgroundPositions.bg[3].x += speedX;
+            if (gBackgroundPositions.bg[3].x > targetX)
+                gBackgroundPositions.bg[3].x = targetX;
+        }
+    }
+
+    diff = gBackgroundPositions.bg[3].y - targetY;
+    if (diff != 0)
+    {
+        reached = FALSE;
+        if (diff > 0)
+        {
+            gBackgroundPositions.bg[3].y -= speedY;
+            if (gBackgroundPositions.bg[3].y < targetY)
+                gBackgroundPositions.bg[3].y = targetY;
+        }
+        else if (diff < 0)
+        {
+            gBackgroundPositions.bg[3].y += speedY;
+            if (gBackgroundPositions.bg[3].y > targetY)
+                gBackgroundPositions.bg[3].y = targetY;
+        }
+    }
+
+    return reached;
+}
+
+/**
+ * @brief 7b56c | 108 | Handles the pop up window of a navigation conversation
+ * 
+ */
+void unk_7b56c(void)
+{
+    PAUSE_SCREEN_DATA.unk_A++;
+
+    switch (PAUSE_SCREEN_DATA.unk_B)
+    {
+        case 0:
+            break;
+
+        case 1:
+            PAUSE_SCREEN_DATA.unk_A = 0;
+            PAUSE_SCREEN_DATA.unk_B++;
+            break;
+
+        case 2:
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x40)
+            {
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+            }
+            break;
+
+        case 3:
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].oamId = PAUSE_OAM_ID_POP_UP_WINDOW;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].currentAnimationFrame = 0;
+            SoundPlay(SOUND_11C);
+            PAUSE_SCREEN_DATA.unk_A = 0;
+            PAUSE_SCREEN_DATA.unk_B++;
+            break;
+
+        case 4:
+            if (PAUSE_SCREEN_DATA.unk_A > 30)
+            {
+                PAUSE_SCREEN_DATA.currentPopUp = 1;
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+                PAUSE_SCREEN_DATA.typeFlags |= 0x80;
+            }
+            break;
+
+        case 5:
+            if (!(PAUSE_SCREEN_DATA.typeFlags & 0x40))
+            {
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+            }
+            break;
+
+        case 6:
+            PAUSE_SCREEN_DATA.currentPopUp = 3;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].oamId = PAUSE_OAM_ID_POP_UP_WINDOW_CLOSING;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].currentAnimationFrame = 0;
+            SoundPlay(SOUND_11D);
+            PAUSE_SCREEN_DATA.unk_A = 0;
+            PAUSE_SCREEN_DATA.unk_B++;
+            break;
+
+        case 7:
+            if (PAUSE_SCREEN_DATA.unk_A > 30)
+            {
+                PAUSE_SCREEN_DATA.typeFlags &= ~0x80;
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+            }
+            break;
+
+        case 8:
+        case 9:
+            break;
+    }
+}
+
+/**
+ * @brief 7b674 | 260 | Handles the transition of the map during a navigation conversation
+ *
+ */
+void unk_7b674(void)
+{
+    s32 size;
+
+    if (!(PAUSE_SCREEN_DATA.unk_250 & (1 | 2)))
+        return;
+
+    PAUSE_SCREEN_DATA.unk_252++;
+
+    switch (PAUSE_SCREEN_DATA.unk_251)
+    {
+        case 0:
+            if (PAUSE_SCREEN_DATA.unk_250 & 1)
+                PAUSE_SCREEN_DATA.unk_251 = 1;
+            else if (PAUSE_SCREEN_DATA.unk_250 & 2)
+                PAUSE_SCREEN_DATA.unk_251 = 4;
+
+            gPreviousArea = UCHAR_MAX;
+            PAUSE_SCREEN_DATA.unk_252 = 0;
+            break;
+
+        case 1:
+            if (MOD_AND(PAUSE_SCREEN_DATA.unk_252, 8) == 0)
+                break;
+
+            gWrittenToMosaic_L += 0x11;
+            if (gWrittenToMosaic_L == sUnk_576802[0])
+            {
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+                PAUSE_SCREEN_DATA.unk_251++;
+                PAUSE_SCREEN_DATA.unk_250 |= 4;
+            }
+            break;
+
+        case 3:
+            // No-op, needed to match
+            PAUSE_SCREEN_DATA.unk_250 |= 0;
+            if (MOD_AND(PAUSE_SCREEN_DATA.unk_252, 8) != 0)
+            {
+                gWrittenToMosaic_L -= 0x11;
+                if (gWrittenToMosaic_L == 0)
+                {
+                    PAUSE_SCREEN_DATA.unk_251 = 8;
+                    PAUSE_SCREEN_DATA.unk_252 = 0;
+                }
+            }
+            break;
+
+        case 4:
+            PAUSE_SCREEN_DATA.window1Size = 0;
+            PAUSE_SCREEN_DATA.unk_251 = 5;
+            PAUSE_SCREEN_DATA.unk_252 = 0;
+            break;
+
+        case 5:
+            size = (0x50 - PAUSE_SCREEN_DATA.window1Size) >> 4;
+            if (size < 4)
+                size = 4;
+
+            PAUSE_SCREEN_DATA.window1Size += size;
+            if (PAUSE_SCREEN_DATA.window1Size > 0x50)
+            {
+                PAUSE_SCREEN_DATA.window1Size = 0x50;
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+                PAUSE_SCREEN_DATA.unk_251++;
+                PAUSE_SCREEN_DATA.unk_250 |= 4;
+            }
+
+            WRITE_16(REG_WIN1V, PAUSE_SCREEN_DATA.window1Size << 8 | (0xA0 - PAUSE_SCREEN_DATA.window1Size));
+            break;
+
+        case 2:
+        case 6:
+            if (PAUSE_SCREEN_DATA.unk_250 & 8)
+            {
+                PAUSE_SCREEN_DATA.unk_251++;
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+            }
+            break;
+
+        case 7:
+            size = (0x50 - PAUSE_SCREEN_DATA.window1Size) >> 4;
+            if (size < 4)
+                size = 4;
+
+            size = PAUSE_SCREEN_DATA.window1Size - size;
+            if (size < 0)
+            {
+                PAUSE_SCREEN_DATA.window1Size = 0;
+                PAUSE_SCREEN_DATA.unk_251 = 8;
+                PAUSE_SCREEN_DATA.unk_252 = 0;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.window1Size = size;
+            }
+
+            WRITE_16(REG_WIN1V, PAUSE_SCREEN_DATA.window1Size << 8 | (0xA0 - PAUSE_SCREEN_DATA.window1Size));
+            break;
+
+        case 8:
+            PAUSE_SCREEN_DATA.unk_252 = 0;
+            PAUSE_SCREEN_DATA.unk_251 = 0;
+            PAUSE_SCREEN_DATA.unk_250 = 0;
+            break;
+    }
+}
+
+/**
+ * @brief 7b8d4 | 11c | Draws the text of the pause screen (current objective)
+ *
+ */
+void ProcessPauseScreenText(void)
+{
+    s32 indent;
+    u16* pText;
+    u32 width;
+    s32 offset;
+    void* dst;
+    s32 temp;
+
+    BitFill(3, 0, EWRAM_BASE + 0xC000, 0x1000, 16);
+
+    indent = 0;
+    dst = EWRAM_BASE + 0xC000;
+    pText = sPauseScreenTextPointers[gLanguage][gEventCounter];
+
+    while (*pText != 0xFF00)
+    {
+        // Doubles as the "should draw" flag
+        temp = TRUE;
+
+        if ((*pText & 0xFF00) == 0x8000)
+        {
+            width = *pText & 0xFF;
+            temp = FALSE;
+        }
+        else if ((*pText & 0xFF00) == 0x8300)
+        {
+            width = 0;
+            indent = *pText & 0xFF;
+            temp = FALSE;
+        }
+        else if (*pText == 0xFE00)
+        {
+            width = 0;
+            if (indent > 0xE0)
+                break;
+
+            indent = 0xE0;
+            temp = FALSE;
+        }
+
+        if (temp)
+        {
+            width = TextGetCharacterWidth(*pText);
+            temp = indent + width;
+
+            if (temp > 0xE0 && indent < 0xE0)
+                indent = 0xE0;
+            else if (temp > 0x1C0)
+                break;
+
+            if (indent >= 0xE0)
+            {
+                temp = 0x800;
+                offset = indent - 0xE0;
+            }
+            else
+            {
+                temp = 0;
+                offset = indent;
+            }
+
+            temp += (offset >> 3) * 32;
+            offset &= 7;
+            TextDrawCharacter(*pText, dst + temp, width, offset, 0);
+        }
+
+        pText++;
+        indent += width;
+
+        if (indent >= 0x1C0)
+            break;
+    }
+}
+
+/**
+ * @brief 7b9f0 | 200 | Draws the text of the easy sleep menu
+ *
+ */
+void ProcessEasySleepText(void)
+{
+    s32 indent;
+    u16* pText;
+    u32 width;
+    s32 offset;
+    void* dst;
+    // Doubles as the "should draw" flag
+    s32 temp;
+    s32 i;
+
+    BitFill(3, 0, EWRAM_BASE + 0xD000, 0x1000, 16);
+    BitFill(3, 0, EWRAM_BASE + 0xE000, 0x1000, 16);
+    BitFill(3, 0, EWRAM_BASE + 0xF000, 0x800, 16);
+
+    for (i = 0; i < 2; i++)
+    {
+        dst = EWRAM_BASE + 0xE000;
+        if (i == 0)
+            dst = EWRAM_BASE + 0xD000;
+
+        pText = sMessageTextPointers[gLanguage][i + 45];
+        indent = 0;
+
+        while (*pText != 0xFF00)
+        {
+            temp = TRUE;
+
+            if ((*pText & 0xFF00) == 0x8000)
+            {
+                width = *pText & 0xFF;
+                temp = FALSE;
+            }
+            else if ((*pText & 0xFF00) == 0x8300)
+            {
+                width = 0;
+                indent = *pText & 0xFF;
+                temp = FALSE;
+            }
+            else if (*pText == 0xFE00)
+            {
+                width = 0;
+                if (indent > 0xE0)
+                    break;
+
+                indent = 0xE0;
+                temp = FALSE;
+            }
+
+            if (temp)
+            {
+                width = TextGetCharacterWidth(*pText);
+                temp = indent + width;
+
+                if (temp > 0xE0 && indent < 0xE0)
+                    indent = 0xE0;
+                else if (temp > 0x1C0)
+                    break;
+
+                if (indent >= 0xE0)
+                {
+                    temp = 0x800;
+                    offset = indent - 0xE0;
+                }
+                else
+                {
+                    temp = 0;
+                    offset = indent;
+                }
+
+                temp += (offset >> 3) * 32;
+                offset &= 7;
+                TextDrawCharacter(*pText, dst + temp, width, offset, 0);
+            }
+
+            pText++;
+            indent += width;
+
+            if (indent >= 0x1C0)
+                break;
+        }
+    }
+
+    dst = EWRAM_BASE + 0xF000;
+    pText = sMessageTextPointers[gLanguage][47];
+    indent = 0;
+
+    while (*pText != 0xFF00)
+    {
+        temp = TRUE;
+
+        if (*pText == 0xFE00)
+        {
+            width = 0;
+            if (indent <= 0x70)
+                indent = 0x70;
+            else
+                break;
+            temp = FALSE;
+        }
+        else if (*pText & 0x8000)
+        {
+            width = 0;
+            temp = FALSE;
+        }
+
+        if (temp)
+        {
+            width = TextGetCharacterWidth(*pText);
+            temp = indent + width;
+
+            if (temp > 0x1C0)
+                break;
+
+            temp = (indent >> 3) * 32;
+            offset = indent & 7;
+            TextDrawCharacter(*pText, dst + temp, width, offset, 0);
+        }
+
+        pText++;
+        indent += width;
+
+        if (indent >= 0x1C0)
+            break;
+    }
+}
+
+/**
+ * @brief 7bbf0 | a8 | Gets the number of the sector that should be flashing
+ *
+ * @return u8 Sector number
+ */
+u8 GetFlashingSectorNumber(void)
+{
+    s32 i;
+    u32 found;
+
+    gFlashingSectorNumber = 0;
+
+    for (i = gEventCounter; i > 0; i--)
+    {
+        if (sEventLocationAndNavigationInfo[i].navConversation != 0)
+            break;
+    }
+
+    found = sEventLocationAndNavigationInfo[i].navConversation;
+    if (gPreviousNavigationConversation != found)
+        return gFlashingSectorNumber;
+
+    found = FALSE;
+    for (i = 0; i < sizeof(sNavConversationUnk_5766e4) / sizeof(sNavConversationUnk_5766e4[0]); i++)
+    {
+        if (gPreviousNavigationConversation == sNavConversationUnk_5766e4[i].conversation)
+        {
+            found = TRUE;
+            break;
+        }
+    }
+
+    if (!found)
+        return gFlashingSectorNumber;
+
+    i = sNavConversationUnk_5766e4[i].location;
+    gFlashingSectorNumber = sNavigationTargetLocationAreas[i];
+    return gFlashingSectorNumber;
 }

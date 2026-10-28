@@ -63,6 +63,18 @@ extern const u32 sNavConversationUnk_580238[];
 extern const u32 sNavConversationUnk_5807d0[];
 extern const u32 sNavConversationUnk_580d68[];
 
+// Defined in src/data/menus/pause_screen_misc_data.c
+extern const u8 sUnk_5760e8[];
+extern const u8 sUnk_57bec4[];
+extern const u8 sUnk_581300[];
+extern const u8 sUnk_581500[];
+
+// Defined in src/text.c
+extern u8 sUnk_79c17c[];
+extern u8 sUnk_79c180[];
+extern u8 sUnk_79c1a4[];
+extern u8 sUnk_79c210[];
+
 u32 unk_7a0fc(u8 messageId);
 void NavigationConversationGetCurrentConversation(void);
 u32 NavigationConversationHandler(void);
@@ -83,5 +95,9 @@ void NavigationConversationClearPopUpGraphics(void);
 void unk_7c3b4(void);
 void unk_7c440(void);
 void NavigationConversationLoadSpecialGraphics(void);
+void unk_7c630(void);
+void unk_7ce6c(void);
+void unk_7cfb0(void);
+void unk_7d27c(void);
 
 #endif /* NAVIGATION_CONVERSATION_H */
