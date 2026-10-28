@@ -5,6 +5,7 @@
 
 #include "gba.h"
 #include "globals.h"
+#include "io.h"
 #include "audio_wrappers.h"
 
 #include "constants/audio.h"
@@ -12,6 +13,7 @@
 
 #include "data/event_data.h"
 
+#include "structs/connection.h"
 #include "structs/event.h"
 #include "structs/menus/pause_screen.h"
 #include "structs/minimap.h"

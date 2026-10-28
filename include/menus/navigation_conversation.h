@@ -25,6 +25,7 @@ extern const u8 sNavConversationUnk_5767ec[];
 extern const struct NavConversationTarget sNavConversationUnk_5766e4[33];
 extern const u8 sNavConversationUnk_576218[][2];
 extern const u8 sNavConversationUnk_576226[][2];
+extern const u8 sUnk_576802[];
 
 u32 unk_7a0fc(u8 messageId);
 void NavigationConversationGetCurrentConversation(void);

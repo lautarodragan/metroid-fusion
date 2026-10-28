@@ -301,6 +301,7 @@ _0807B8C4:
 _0807B8CC: .4byte 0x00000252
 _0807B8D0: .4byte 0x00000251
 
+
 	thumb_func_start ProcessPauseScreenText
 ProcessPauseScreenText: @ 0x0807B8D4
 	push {r4, r5, r6, r7, lr}
