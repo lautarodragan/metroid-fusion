@@ -15,6 +15,18 @@ extern const u8 sIntroUnk_6599a4[];
 extern const u8 sIntroUnk_65c268[];
 extern const u8 sIntroUnk_6101b8[];
 
+extern const u8 sSr388CollisionUnk_6238f4[];
+extern const u8 sSr388CollisionUnk_62b5f4[];
+extern const u8 sSr388CollisionUnk_636c38[];
+extern const u8 sSr388CollisionUnk_637038[];
+extern const u8 sSr388CollisionUnk_638c14[];
+extern const u8 sSr388CollisionUnk_639bc4[];
+
+extern const u8 sEndingUnk_626738[];
+extern const u8 sEndingUnk_636e38[];
+extern const u8 sEndingUnk_63929c[];
+extern const u8 sEndingUnk_6395b8[];
+
 // Defined as raw bytes in new_file_intro_data.c, but these are OAM frame data
 extern const struct FrameData sIntroUnk_60ac08[];
 extern const struct FrameData sIntroUnk_60ac18[];
@@ -39,6 +51,7 @@ extern const struct FrameData sIntroUnk_65c128[];
 extern const struct FrameData sIntroUnk_65c180[];
 extern const struct FrameData sIntroUnk_65c1d8[];
 extern const struct FrameData sIntroUnk_65c230[];
+extern const struct FrameData sSr388CollisionUnk_6362b8[];
 
 // Defined as raw bytes in new_file_intro.c, but this is a table of pointers to OAM frame data
 extern const struct FrameData* sIntroUnk_79c394[];
