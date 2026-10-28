@@ -55,6 +55,17 @@ ifeq ($(DEBUG),1)
 endif
 
 BASEROM := $(TARGET)_baserom.gba
+
+# Shift test build: SHIFT=1 links the same objects with SHIFT_AMOUNT bytes of
+# padding inserted in the middle of the code and again at the start of the
+# data, into $(TARGET)_shifted.gba (see tools/check_shift.sh)
+SHIFT ?= 0
+SHIFT_AMOUNT ?= 0x100
+ifeq ($(SHIFT),1)
+	TARGET := $(TARGET)_shifted
+	LD_CPPFLAGS += -DSHIFT_TEST=$(SHIFT_AMOUNT)
+endif
+
 TARGET := $(TARGET).gba
 
 # Default target
@@ -65,7 +76,7 @@ ELF = $(TARGET:.gba=.elf)
 MAP = $(TARGET:.gba=.map)
 SHA1FILE = $(TARGET:.gba=.sha1)
 DUMPS = $(BASEROM:.gba=.dump) $(TARGET:.gba=.dump)
-LD_SCRIPT = linker.ld.pp
+LD_SCRIPT = $(TARGET:.gba=.ld.pp)
 
 # ROM header
 MAKER_CODE = 01
@@ -132,7 +143,7 @@ else
 endif
 
 # Rules that do not require scanning for dependencies
-RULES_NO_SCAN += dump diff extract clean tidy check-synthetic
+RULES_NO_SCAN += dump diff extract clean tidy check-synthetic check-shift
 
 # Generate tools before building anything
 SETUP_PREREQS ?= 1
@@ -158,6 +169,10 @@ check: all
 .PHONY: check-synthetic
 check-synthetic:
 	$Qtools/check_synthetic.sh
+
+.PHONY: check-shift
+check-shift:
+	$Qtools/check_shift.sh
 
 .PHONY: dump
 dump: $(DUMPS)
@@ -200,8 +215,8 @@ ifeq ($(DATA),1)
 	$(MSG) RM sound/direct_sound_samples
 	$Q$(RM) -r sound/direct_sound_samples
 endif
-	$(MSG) RM linker.ld.pp
-	$Q$(RM) linker.ld.pp
+	$(MSG) RM \*.ld.pp
+	$Q$(RM) *.ld.pp
 
 .PHONY: help
 help:
@@ -209,6 +224,7 @@ help:
 	@echo '  all: build the ROM'
 	@echo '  check: checksum the ROM'
 	@echo '  check-synthetic: build from a synthetic baserom and compare with mf_us_synthetic.sha1'
+	@echo '  check-shift: check for hardcoded ROM addresses and that pointers follow a shifted build'
 	@echo '  dump: dump the ROMs'
 	@echo '  diff: compare the ROM with the original'
 	@echo '  clean: remove the ROM and intermediate files'
@@ -219,6 +235,7 @@ help:
 	@echo '  V=1: enable verbose output'
 	@echo '  REGION=<region>: selects the region of the ROM, possible values are "us", "eu", "jp", "cn", and "eu_beta"'
 	@echo '  DEBUG=1: enables the debug code'
+	@echo '  SHIFT=1: link a shift test ROM (*_shifted.gba) with SHIFT_AMOUNT (default 0x100) bytes of padding in the code and data'
 
 $(TARGET): $(ELF)
 	$(MSG) OBJCOPY $@
@@ -232,7 +249,7 @@ $(ELF) $(MAP): $(OBJ) $(LD_SCRIPT)
 
 $(LD_SCRIPT): linker.ld
 	$(MSG) CPP $@
-	$Q$(CPP) $(CPPFLAGS) $< -o $@
+	$Q$(CPP) $(CPPFLAGS) $(LD_CPPFLAGS) $< -o $@
 
 %.dump: %.gba
 	$(MSG) OBJDUMP $@

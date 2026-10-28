@@ -15,10 +15,11 @@
 *.deps.json
 *.runtimeconfig.json
 
-linker.ld.pp
+*.ld.pp
 include/**/*.s
 tools/*.txt
 tools/agbcc
 .vscode
 
 err.log
+__pycache__/
