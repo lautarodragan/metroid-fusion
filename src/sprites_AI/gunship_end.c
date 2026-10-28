@@ -91,7 +91,7 @@ void GunshipEndInit(void)
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
 
-    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_39ec68;
+    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_Flying;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 }
@@ -218,7 +218,7 @@ void GunshipEndEntering(void)
     gCurrentSprite.status &= ~SPRITE_STATUS_ROTATION_SCALING_WHOLE;
     gCurrentSprite.pose = 0x1A;
 
-    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_39eb48;
+    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_Landed;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
@@ -231,7 +231,7 @@ void GunshipEndEntering(void)
 
     gSpriteData[ramSlot].status &= ~SPRITE_STATUS_NOT_DRAWN;
 
-    gSpriteData[ramSlot].pOam = (const struct FrameData*)sGunshipEndOam_39ec30;
+    gSpriteData[ramSlot].pOam = (const struct FrameData*)sGunshipEndBottomOam_Idle;
     gSpriteData[ramSlot].animationDurationCounter = 0;
     gSpriteData[ramSlot].currentAnimationFrame = 0;
 
@@ -337,7 +337,7 @@ void GunshipEndStartingEngine1(void)
 
     gCurrentSprite.pose = 0x3A;
 
-    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_39ec68;
+    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_Flying;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
@@ -381,7 +381,7 @@ void GunshipEndStartingEngine2(void)
     {
         if (--gCurrentSprite.work1 == 0)
         {
-            gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_39ec08;
+            gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_StartingEngine;
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
 
@@ -393,7 +393,7 @@ void GunshipEndStartingEngine2(void)
     {
         if (--gCurrentSprite.work1 == 0)
         {
-            gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_39ec78;
+            gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndOam_TakingOff;
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
 
@@ -530,7 +530,7 @@ void GunshipEndBeamInit(void)
     gCurrentSprite.hitboxLeft = -PIXEL_SIZE;
     gCurrentSprite.hitboxRight = PIXEL_SIZE;
 
-    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndBeamOam_39ebb8;
+    gCurrentSprite.pOam = (const struct FrameData*)sGunshipEndBeamOam_Idle;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 

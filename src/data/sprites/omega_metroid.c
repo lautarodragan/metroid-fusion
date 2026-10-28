@@ -3251,18 +3251,25 @@ const struct FrameData sOmegaMetroidPartOam_LeftLeg_Swiping[6] = {
 };
 
 static const u8 sBlob_39aa34_39aae0[] = INCBIN_U8("data/Blob_39aa34_39aae0.bin");
-const s16 sGunshipEndIdleYMovement[] = INCBIN_S16("data/Blob_39aae0_39abc4.bin");
-const s16 sGunshipEndEngineYMovement[] = INCBIN_S16("data/Blob_39abc4_39ac84.bin");
-const u8 sGunshipEndTakingOffRotation[] = INCBIN_U8("data/Blob_39ac84_39ac90.bin");
-const u16 sGunshipEndEnteringScaling[] = INCBIN_U16("data/Blob_39ac90_39acd0.bin");
-const u16 sGunshipEndTakingOffScaling[] = INCBIN_U16("data/Blob_39acd0_39ad58.bin");
-const u8 sGunshipEndGfx[] = INCBIN_U8("data/Blob_39ad58_39e558.bin");
-const u8 sGunshipEndPal[] = INCBIN_U8("data/Blob_39e558_39eb48.bin");
-const u8 sGunshipEndOam_39eb48[] = INCBIN_U8("data/Blob_39eb48_39ebb8.bin");
-const u8 sGunshipEndBeamOam_39ebb8[] = INCBIN_U8("data/Blob_39ebb8_39ec08.bin");
-const u8 sGunshipEndOam_39ec08[] = INCBIN_U8("data/Blob_39ec08_39ec30.bin");
-const u8 sGunshipEndOam_39ec30[] = INCBIN_U8("data/Blob_39ec30_39ec68.bin");
-const u8 sGunshipEndOam_39ec68[] = INCBIN_U8("data/Blob_39ec68_39ec78.bin");
-const u8 sGunshipEndOam_39ec78[] = INCBIN_U8("data/Blob_39ec78_39ec90.bin");
-const u8 sElectricWaterDamageBox2Gfx[] = INCBIN_U8("data/Blob_39ec90_39f490.bin");
-const u8 sElectricWaterDamageBox2Pal[] = INCBIN_U8("data/Blob_39f490_39f4b0.bin");
+const s16 sGunshipEndIdleYMovement[114] = INCBIN_S16("data/sprites/gunship_end_idle_y_movement.bin");
+const s16 sGunshipEndEngineYMovement[96] = INCBIN_S16("data/sprites/gunship_end_engine_y_movement.bin");
+const u8 sGunshipEndTakingOffRotation[12] = INCBIN_U8("data/sprites/gunship_end_taking_off_rotation.bin");
+const u16 sGunshipEndEnteringScaling[32] = INCBIN_U16("data/sprites/gunship_end_entering_scaling.bin");
+const u16 sGunshipEndTakingOffScaling[68] = INCBIN_U16("data/sprites/gunship_end_taking_off_scaling.bin");
+const u32 sGunshipEndGfx[7 * 512] = INCBIN_U32("data/sprites/gunship_end.gfx");
+const u16 sGunshipEndPal[7 * 16] = INCBIN_U16("data/sprites/gunship_end.pal");
+
+// Not referenced by code; most likely the OAM frames of the FrameData arrays below
+static const u8 sBlob_39e638_39eb48[] = INCBIN_U8("data/Blob_39e638_39eb48.bin");
+
+// struct FrameData arrays (2 words per entry) of the gunship (end).
+// pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u32 sGunshipEndOam_Landed[14 * 2] = INCBIN_U32("data/sprites/gunship_end_landed_oam.bin");
+const u32 sGunshipEndBeamOam_Idle[10 * 2] = INCBIN_U32("data/sprites/gunship_end_beam_oam.bin");
+const u32 sGunshipEndOam_StartingEngine[5 * 2] = INCBIN_U32("data/sprites/gunship_end_starting_engine_oam.bin");
+const u32 sGunshipEndBottomOam_Idle[7 * 2] = INCBIN_U32("data/sprites/gunship_end_bottom_oam.bin");
+const u32 sGunshipEndOam_Flying[2 * 2] = INCBIN_U32("data/sprites/gunship_end_flying_oam.bin");
+const u32 sGunshipEndOam_TakingOff[3 * 2] = INCBIN_U32("data/sprites/gunship_end_taking_off_oam.bin");
+
+const u32 sElectricWaterDamageBox2Gfx[1 * 512] = INCBIN_U32("data/sprites/electric_water_damage_box_2.gfx");
+const u16 sElectricWaterDamageBox2Pal[1 * 16] = INCBIN_U16("data/sprites/electric_water_damage_box_2.pal");

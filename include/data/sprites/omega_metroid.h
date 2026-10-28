@@ -164,9 +164,9 @@ extern const struct FrameData sOmegaMetroidPartOam_LeftLeg_DoneWalkingBackward[2
 extern const struct FrameData sOmegaMetroidPartOam_RightLeg_Swiping[6];
 extern const struct FrameData sOmegaMetroidPartOam_LeftLeg_Swiping[6];
 
-extern const u8 sGunshipEndGfx[];
-extern const u8 sGunshipEndPal[];
-extern const u8 sElectricWaterDamageBox2Gfx[];
-extern const u8 sElectricWaterDamageBox2Pal[];
+extern const u32 sGunshipEndGfx[7 * 512];
+extern const u16 sGunshipEndPal[7 * 16];
+extern const u32 sElectricWaterDamageBox2Gfx[1 * 512];
+extern const u16 sElectricWaterDamageBox2Pal[1 * 16];
 
 #endif /* OMEGA_METROID_DATA_H */

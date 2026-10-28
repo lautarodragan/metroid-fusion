@@ -11305,1044 +11305,1044 @@
     "size": 1
   },
   {
-    "path": "Blob_2e5cb0_2e5cb6.bin",
-    "count": "0x6",
+    "path": "spritesets/0.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5CB0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cb6_2e5cb8.bin",
-    "count": "0x2",
+    "path": "spritesets/129.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E5CB6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cb8_2e5cbc.bin",
-    "count": "0x4",
+    "path": "spritesets/1.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5CB8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cbc_2e5cda.bin",
-    "count": "0x1E",
+    "path": "spritesets/2.bin",
+    "count": "0xF",
     "addr": {
       "us": "0x2E5CBC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cda_2e5cde.bin",
-    "count": "0x4",
+    "path": "spritesets/3.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5CDA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cde_2e5cf6.bin",
-    "count": "0x18",
+    "path": "spritesets/4.bin",
+    "count": "0xC",
     "addr": {
       "us": "0x2E5CDE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cf6_2e5cfa.bin",
-    "count": "0x4",
+    "path": "spritesets/5.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5CF6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cfa_2e5d00.bin",
-    "count": "0x6",
+    "path": "spritesets/6.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5CFA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d00_2e5d08.bin",
-    "count": "0x8",
+    "path": "spritesets/7.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5D00"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d08_2e5d0e.bin",
-    "count": "0x6",
+    "path": "spritesets/8.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5D08"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d0e_2e5d12.bin",
-    "count": "0x4",
+    "path": "spritesets/9.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5D0E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d12_2e5d24.bin",
-    "count": "0x12",
+    "path": "spritesets/10.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5D12"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d24_2e5d2c.bin",
-    "count": "0x8",
+    "path": "spritesets/11.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5D24"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d2c_2e5d36.bin",
-    "count": "0xA",
+    "path": "spritesets/12.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5D2C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d36_2e5d3e.bin",
-    "count": "0x8",
+    "path": "spritesets/13.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5D36"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d3e_2e5d4e.bin",
-    "count": "0x10",
+    "path": "spritesets/14.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5D3E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d4e_2e5d5a.bin",
-    "count": "0xC",
+    "path": "spritesets/15.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5D4E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d5a_2e5d68.bin",
-    "count": "0xE",
+    "path": "spritesets/16.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5D5A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d68_2e5d80.bin",
-    "count": "0x18",
+    "path": "spritesets/17.bin",
+    "count": "0xC",
     "addr": {
       "us": "0x2E5D68"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d80_2e5d90.bin",
-    "count": "0x10",
+    "path": "spritesets/18.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5D80"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d90_2e5d9c.bin",
-    "count": "0xC",
+    "path": "spritesets/19.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5D90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d9c_2e5da0.bin",
-    "count": "0x4",
+    "path": "spritesets/20.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5D9C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5da0_2e5da4.bin",
-    "count": "0x4",
+    "path": "spritesets/21.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5DA0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5da4_2e5db0.bin",
-    "count": "0xC",
+    "path": "spritesets/22.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5DA4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5db0_2e5dbc.bin",
-    "count": "0xC",
+    "path": "spritesets/23.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5DB0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dbc_2e5dcc.bin",
-    "count": "0x10",
+    "path": "spritesets/24.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5DBC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dcc_2e5dde.bin",
-    "count": "0x12",
+    "path": "spritesets/25.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5DCC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dde_2e5de2.bin",
-    "count": "0x4",
+    "path": "spritesets/26.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5DDE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5de2_2e5df0.bin",
-    "count": "0xE",
+    "path": "spritesets/27.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5DE2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5df0_2e5dfa.bin",
-    "count": "0xA",
+    "path": "spritesets/28.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5DF0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dfa_2e5e0c.bin",
-    "count": "0x12",
+    "path": "spritesets/29.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5DFA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e0c_2e5e1a.bin",
-    "count": "0xE",
+    "path": "spritesets/30.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E0C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e1a_2e5e1e.bin",
-    "count": "0x4",
+    "path": "spritesets/31.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5E1A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e1e_2e5e2a.bin",
-    "count": "0xC",
+    "path": "spritesets/32.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5E1E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e2a_2e5e2e.bin",
-    "count": "0x4",
+    "path": "spritesets/33.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5E2A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e2e_2e5e38.bin",
-    "count": "0xA",
+    "path": "spritesets/34.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5E2E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e38_2e5e52.bin",
-    "count": "0x1A",
+    "path": "spritesets/35.bin",
+    "count": "0xD",
     "addr": {
       "us": "0x2E5E38"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e52_2e5e5a.bin",
-    "count": "0x8",
+    "path": "spritesets/36.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5E52"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e5a_2e5e60.bin",
-    "count": "0x6",
+    "path": "spritesets/37.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5E5A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e60_2e5e70.bin",
-    "count": "0x10",
+    "path": "spritesets/38.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5E60"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e70_2e5e7e.bin",
-    "count": "0xE",
+    "path": "spritesets/39.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E70"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e7e_2e5e8c.bin",
-    "count": "0xE",
+    "path": "spritesets/40.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E7E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e8c_2e5e90.bin",
-    "count": "0x4",
+    "path": "spritesets/41.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5E8C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e90_2e5e9e.bin",
-    "count": "0xE",
+    "path": "spritesets/42.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e9e_2e5ea6.bin",
-    "count": "0x8",
+    "path": "spritesets/43.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5E9E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ea6_2e5eac.bin",
-    "count": "0x6",
+    "path": "spritesets/44.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5EA6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5eac_2e5eb6.bin",
-    "count": "0xA",
+    "path": "spritesets/45.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5EAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5eb6_2e5ebc.bin",
-    "count": "0x6",
+    "path": "spritesets/46.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5EB6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ebc_2e5ec6.bin",
-    "count": "0xA",
+    "path": "spritesets/47.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5EBC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ec6_2e5ed2.bin",
-    "count": "0xC",
+    "path": "spritesets/48.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5EC6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ed2_2e5ed8.bin",
-    "count": "0x6",
+    "path": "spritesets/49.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5ED2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ed8_2e5eea.bin",
-    "count": "0x12",
+    "path": "spritesets/50.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5ED8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5eea_2e5ef4.bin",
-    "count": "0xA",
+    "path": "spritesets/51.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5EEA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ef4_2e5f02.bin",
-    "count": "0xE",
+    "path": "spritesets/52.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5EF4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f02_2e5f12.bin",
-    "count": "0x10",
+    "path": "spritesets/53.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F02"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f12_2e5f16.bin",
-    "count": "0x4",
+    "path": "spritesets/54.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5F12"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f16_2e5f26.bin",
-    "count": "0x10",
+    "path": "spritesets/55.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F16"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f26_2e5f32.bin",
-    "count": "0xC",
+    "path": "spritesets/56.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5F26"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f32_2e5f3a.bin",
-    "count": "0x8",
+    "path": "spritesets/57.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5F32"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f3a_2e5f3e.bin",
-    "count": "0x4",
+    "path": "spritesets/58.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5F3A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f3e_2e5f48.bin",
-    "count": "0xA",
+    "path": "spritesets/59.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5F3E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f48_2e5f58.bin",
-    "count": "0x10",
+    "path": "spritesets/60.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F48"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f58_2e5f62.bin",
-    "count": "0xA",
+    "path": "spritesets/61.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5F58"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f62_2e5f72.bin",
-    "count": "0x10",
+    "path": "spritesets/62.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F62"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f72_2e5f7e.bin",
-    "count": "0xC",
+    "path": "spritesets/63.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5F72"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f7e_2e5f90.bin",
-    "count": "0x12",
+    "path": "spritesets/64.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5F7E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f90_2e5fa0.bin",
-    "count": "0x10",
+    "path": "spritesets/65.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fa0_2e5fac.bin",
-    "count": "0xC",
+    "path": "spritesets/66.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5FA0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fac_2e5fb8.bin",
-    "count": "0xC",
+    "path": "spritesets/67.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5FAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fb8_2e5fc6.bin",
-    "count": "0xE",
+    "path": "spritesets/68.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5FB8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fc6_2e5fd6.bin",
-    "count": "0x10",
+    "path": "spritesets/69.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5FC6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fd6_2e5fda.bin",
-    "count": "0x4",
+    "path": "spritesets/70.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5FD6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fda_2e5fe4.bin",
-    "count": "0xA",
+    "path": "spritesets/71.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5FDA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fe4_2e5fee.bin",
-    "count": "0xA",
+    "path": "spritesets/72.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5FE4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fee_2e5ff4.bin",
-    "count": "0x6",
+    "path": "spritesets/73.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5FEE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ff4_2e600a.bin",
-    "count": "0x16",
+    "path": "spritesets/74.bin",
+    "count": "0xB",
     "addr": {
       "us": "0x2E5FF4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e600a_2e601c.bin",
-    "count": "0x12",
+    "path": "spritesets/75.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E600A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e601c_2e6026.bin",
-    "count": "0xA",
+    "path": "spritesets/76.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E601C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6026_2e602e.bin",
-    "count": "0x8",
+    "path": "spritesets/77.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E6026"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e602e_2e6038.bin",
-    "count": "0xA",
+    "path": "spritesets/78.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E602E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6038_2e603e.bin",
-    "count": "0x6",
+    "path": "spritesets/79.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E6038"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e603e_2e6046.bin",
-    "count": "0x8",
+    "path": "spritesets/80.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E603E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6046_2e6054.bin",
-    "count": "0xE",
+    "path": "spritesets/81.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E6046"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6054_2e605c.bin",
-    "count": "0x8",
+    "path": "spritesets/82.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E6054"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e605c_2e6068.bin",
-    "count": "0xC",
+    "path": "spritesets/83.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E605C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6068_2e606c.bin",
-    "count": "0x4",
+    "path": "spritesets/84.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E6068"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e606c_2e607a.bin",
-    "count": "0xE",
+    "path": "spritesets/85.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E606C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e607a_2e6086.bin",
-    "count": "0xC",
+    "path": "spritesets/86.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E607A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6086_2e609a.bin",
-    "count": "0x14",
+    "path": "spritesets/87.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x2E6086"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e609a_2e60a2.bin",
-    "count": "0x8",
+    "path": "spritesets/88.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E609A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60a2_2e60aa.bin",
-    "count": "0x8",
+    "path": "spritesets/89.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E60A2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60aa_2e60b0.bin",
-    "count": "0x6",
+    "path": "spritesets/90.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E60AA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60b0_2e60b4.bin",
-    "count": "0x4",
+    "path": "spritesets/91.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E60B0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60b4_2e60be.bin",
-    "count": "0xA",
+    "path": "spritesets/92.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E60B4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60be_2e60c8.bin",
-    "count": "0xA",
+    "path": "spritesets/93.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E60BE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60c8_2e60d6.bin",
-    "count": "0xE",
+    "path": "spritesets/94.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E60C8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60d6_2e60e2.bin",
-    "count": "0xC",
+    "path": "spritesets/95.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E60D6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60e2_2e60f0.bin",
-    "count": "0xE",
+    "path": "spritesets/96.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E60E2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60f0_2e60fe.bin",
-    "count": "0xE",
+    "path": "spritesets/97.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E60F0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60fe_2e6102.bin",
-    "count": "0x4",
+    "path": "spritesets/98.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E60FE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6102_2e610e.bin",
-    "count": "0xC",
+    "path": "spritesets/99.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E6102"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e610e_2e6112.bin",
-    "count": "0x4",
+    "path": "spritesets/100.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E610E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6112_2e611a.bin",
-    "count": "0x8",
+    "path": "spritesets/101.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E6112"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e611a_2e611e.bin",
-    "count": "0x4",
+    "path": "spritesets/102.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E611A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e611e_2e612e.bin",
-    "count": "0x10",
+    "path": "spritesets/103.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E611E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e612e_2e6130.bin",
-    "count": "0x2",
+    "path": "spritesets/104.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E612E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6130_2e6132.bin",
-    "count": "0x2",
+    "path": "spritesets/105.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6130"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6132_2e6134.bin",
-    "count": "0x2",
+    "path": "spritesets/106.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6132"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6134_2e6136.bin",
-    "count": "0x2",
+    "path": "spritesets/107.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6134"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6136_2e6138.bin",
-    "count": "0x2",
+    "path": "spritesets/108.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6136"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6138_2e613a.bin",
-    "count": "0x2",
+    "path": "spritesets/109.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6138"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e613a_2e613c.bin",
-    "count": "0x2",
+    "path": "spritesets/110.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E613A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e613c_2e613e.bin",
-    "count": "0x2",
+    "path": "spritesets/111.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E613C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e613e_2e6140.bin",
-    "count": "0x2",
+    "path": "spritesets/112.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E613E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6140_2e6142.bin",
-    "count": "0x2",
+    "path": "spritesets/113.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6140"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6142_2e6144.bin",
-    "count": "0x2",
+    "path": "spritesets/114.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6142"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6144_2e6146.bin",
-    "count": "0x2",
+    "path": "spritesets/115.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6144"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6146_2e6148.bin",
-    "count": "0x2",
+    "path": "spritesets/116.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6146"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6148_2e614a.bin",
-    "count": "0x2",
+    "path": "spritesets/117.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6148"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e614a_2e614c.bin",
-    "count": "0x2",
+    "path": "spritesets/118.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E614A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e614c_2e614e.bin",
-    "count": "0x2",
+    "path": "spritesets/119.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E614C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e614e_2e6150.bin",
-    "count": "0x2",
+    "path": "spritesets/120.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E614E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6150_2e6152.bin",
-    "count": "0x2",
+    "path": "spritesets/121.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6150"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6152_2e6154.bin",
-    "count": "0x2",
+    "path": "spritesets/122.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6152"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6154_2e6156.bin",
-    "count": "0x2",
+    "path": "spritesets/123.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6154"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6156_2e6158.bin",
-    "count": "0x2",
+    "path": "spritesets/124.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6156"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6158_2e615a.bin",
-    "count": "0x2",
+    "path": "spritesets/125.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6158"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e615a_2e615c.bin",
-    "count": "0x2",
+    "path": "spritesets/126.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E615A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e615c_2e615e.bin",
-    "count": "0x2",
+    "path": "spritesets/127.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E615C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e615e_2e6160.bin",
-    "count": "0x2",
+    "path": "spritesets/128.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E615E"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "Blob_2e6382_2e6384.bin",
@@ -12353,20 +12353,20 @@
     "size": 1
   },
   {
-    "path": "Blob_2e6384_2e6b84.bin",
-    "count": "0x800",
+    "path": "sprites/placeholder.gfx",
+    "count": "0x200",
     "addr": {
       "us": "0x2E6384"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_2e6b84_2e6ba4.bin",
-    "count": "0x20",
+    "path": "sprites/placeholder.pal",
+    "count": "0x10",
     "addr": {
       "us": "0x2E6B84"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "sa_x/weapons.gfx",
@@ -14049,23 +14049,23 @@
     "size": 1
   },
   {
-    "path": "Blob_39aae0_39abc4.bin",
-    "count": "0xE4",
+    "path": "sprites/gunship_end_idle_y_movement.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x39AAE0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39abc4_39ac84.bin",
-    "count": "0xC0",
+    "path": "sprites/gunship_end_engine_y_movement.bin",
+    "count": "0x60",
     "addr": {
       "us": "0x39ABC4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39ac84_39ac90.bin",
+    "path": "sprites/gunship_end_taking_off_rotation.bin",
     "count": "0xC",
     "addr": {
       "us": "0x39AC84"
@@ -14073,100 +14073,108 @@
     "size": 1
   },
   {
-    "path": "Blob_39ac90_39acd0.bin",
-    "count": "0x40",
+    "path": "sprites/gunship_end_entering_scaling.bin",
+    "count": "0x20",
     "addr": {
       "us": "0x39AC90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39acd0_39ad58.bin",
-    "count": "0x88",
+    "path": "sprites/gunship_end_taking_off_scaling.bin",
+    "count": "0x44",
     "addr": {
       "us": "0x39ACD0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39ad58_39e558.bin",
-    "count": "0x3800",
+    "path": "sprites/gunship_end.gfx",
+    "count": "0xE00",
     "addr": {
       "us": "0x39AD58"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39e558_39eb48.bin",
-    "count": "0x5F0",
+    "path": "sprites/gunship_end.pal",
+    "count": "0x70",
     "addr": {
       "us": "0x39E558"
     },
+    "size": 2
+  },
+  {
+    "path": "Blob_39e638_39eb48.bin",
+    "count": "0x510",
+    "addr": {
+      "us": "0x39E638"
+    },
     "size": 1
   },
   {
-    "path": "Blob_39eb48_39ebb8.bin",
-    "count": "0x70",
+    "path": "sprites/gunship_end_landed_oam.bin",
+    "count": "0x1C",
     "addr": {
       "us": "0x39EB48"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ebb8_39ec08.bin",
-    "count": "0x50",
+    "path": "sprites/gunship_end_beam_oam.bin",
+    "count": "0x14",
     "addr": {
       "us": "0x39EBB8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec08_39ec30.bin",
-    "count": "0x28",
+    "path": "sprites/gunship_end_starting_engine_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x39EC08"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec30_39ec68.bin",
-    "count": "0x38",
+    "path": "sprites/gunship_end_bottom_oam.bin",
+    "count": "0xE",
     "addr": {
       "us": "0x39EC30"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec68_39ec78.bin",
-    "count": "0x10",
+    "path": "sprites/gunship_end_flying_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x39EC68"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec78_39ec90.bin",
-    "count": "0x18",
+    "path": "sprites/gunship_end_taking_off_oam.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x39EC78"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec90_39f490.bin",
-    "count": "0x800",
+    "path": "sprites/electric_water_damage_box_2.gfx",
+    "count": "0x200",
     "addr": {
       "us": "0x39EC90"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39f490_39f4b0.bin",
-    "count": "0x20",
+    "path": "sprites/electric_water_damage_box_2.pal",
+    "count": "0x10",
     "addr": {
       "us": "0x39F490"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "sprites/frozen_ridley.gfx",
