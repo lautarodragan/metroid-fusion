@@ -33,6 +33,9 @@ extern const u16 sResultsTextPal[PAL_ROW * 4];
 
 extern const struct CreditsEntry sCredits[310];
 
+extern const u8 sEndingUnk_74e650[];
+extern const u8 sEndingUnk_74e8d0[];
+
 extern const u32* const sPreResultsSamusBgGfxPointers1[4];
 extern const u32* const sPreResultsSamusBgGfxPointers2[4];
 extern const u8* const sPreResultsSamusBgTilemapPointers[4];

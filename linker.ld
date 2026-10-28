@@ -553,11 +553,8 @@ SECTIONS {
 
         src/menus/game_over.o(.text);
         src/menus/file_select.o(.text);
-        asm/disasm_0x0809f518.o(.text);
-        src/menus/file_select_2.o(.text);
-        asm/disasm_0x080a051c.o(.text);
-        src/menus/file_select_3.o(.text);
-        asm/disasm_0x080a1480.o(.text);
+        src/ending_igt.o(.text);
+        asm/disasm_0x080a1664.o(.text);
 
         src/ending.o(.text);
 
