@@ -31,7 +31,7 @@ void CutsceneMonologueProcessCursor(struct CutsceneMonologueOam* pOam)
     }
     else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFD00)
     {
-        pOam->pOam = (const struct FrameData*)sCutsceneUnk_663e5c;
+        pOam->pOam = sCutsceneMonologueCursorHiddenOam;
         pOam->xPosition = 290;
         pOam->animationDurationCounter = 0;
         pOam->currentAnimationFrame = 0;
@@ -49,7 +49,7 @@ void CutsceneMonologueProcessCursor(struct CutsceneMonologueOam* pOam)
             }
             else
             {
-                pOam->pOam = (const struct FrameData*)sCutsceneUnk_663e74;
+                pOam->pOam = sCutsceneMonologueCursorNextPageOam;
                 pOam->xPosition = 118;
                 pOam->yPosition = CUTSCENE_MONOLOGUE_DATA.currentLine * 8 + 24;
                 pOam->animationDurationCounter = 0;
@@ -61,7 +61,7 @@ void CutsceneMonologueProcessCursor(struct CutsceneMonologueOam* pOam)
         {
             if (gChangedInput & KEY_A)
             {
-                pOam->pOam = (const struct FrameData*)sCutsceneUnk_663e5c;
+                pOam->pOam = sCutsceneMonologueCursorHiddenOam;
                 pOam->xPosition = 290;
                 pOam->animationDurationCounter = 0;
                 pOam->currentAnimationFrame = 0;

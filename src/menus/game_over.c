@@ -120,16 +120,16 @@ void GameOverInit(void)
     WRITE_16(REG_BG3HOFS, 0);
     WRITE_16(REG_BG3VOFS, 0);
 
-    LZ77UncompVram(sGameOverUnk_739a78, VRAM_OBJ);
-    DMA3_COPY_32(sGameOverUnk_73c4e4, PALRAM_OBJ, PAL_SIZE / sizeof(u32));
-    LZ77UncompVram(sGameOverUnk_73422c, VRAM_BASE);
+    LZ77UncompVram(sGameOverObjGfx, VRAM_OBJ);
+    DMA3_COPY_32(sGameOverObjPal, PALRAM_OBJ, PAL_SIZE / sizeof(u32));
+    LZ77UncompVram(sGameOverBgGfx, VRAM_BASE);
 
     if (gLanguage > LANGUAGE_HIRAGANA)
-        LZ77UncompVram(sGameOverUnk_79e874[gLanguage], VRAM_BASE);
+        LZ77UncompVram(sGameOverTextGfxPointers[gLanguage], VRAM_BASE);
 
-    LZ77UncompVram(sGameOverUnk_73c6e4, VRAM_BASE + 0xF800);
-    LZ77UncompVram(sGameOverUnk_73cca8, VRAM_BASE + 0xF000);
-    DMA3_COPY_32(sGameOverUnk_73c2e4, PALRAM_BASE, PAL_SIZE / sizeof(u32));
+    LZ77UncompVram(sGameOverBg3Tilemap, VRAM_BASE + 0xF800);
+    LZ77UncompVram(sGameOverBg1Tilemap, VRAM_BASE + 0xF000);
+    DMA3_COPY_32(sGameOverBgPal, PALRAM_BASE, PAL_SIZE / sizeof(u32));
 
     WRITE_16(REG_BG1CNT, 0x1E02);
     WRITE_16(REG_BG3CNT, 0x1F03);
@@ -200,13 +200,13 @@ u8 GameOverSetupOam(u8 type, u16 xPosition, u16 yPosition)
     if (type == GAME_OVER_OAM_TYPE_CURSOR)
     {
         GAME_OVER_DATA.oam[i].priority = 3;
-        GAME_OVER_DATA.oam[i].pOam = sGameOverUnk_79e868[0];
+        GAME_OVER_DATA.oam[i].pOam = sGameOverCursorOam[0];
         GAME_OVER_DATA.oam[i].pHandler = GameOverProcessCursor;
     }
     else if (type == GAME_OVER_OAM_TYPE_2)
     {
         GAME_OVER_DATA.oam[i].priority = 3;
-        GAME_OVER_DATA.oam[i].pOam = sGameOverUnk_73c274;
+        GAME_OVER_DATA.oam[i].pOam = sGameOverCursorOverlayOam;
         GAME_OVER_DATA.oam[i].pHandler = unk_9e2cc;
     }
 
@@ -246,14 +246,14 @@ void GameOverProcessCursor(struct GameOverOam* pOam)
         {
             SoundPlay(SOUND_1FE);
             FadeMusic(10);
-            pOam->pOam = sGameOverUnk_79e868[1];
+            pOam->pOam = sGameOverCursorOam[1];
             GAME_OVER_DATA.choice = GAME_OVER_CHOICE_CONTINUE;
         }
         else if ((s16)pOam->yPosition == GAME_OVER_CURSOR_Y_QUIT)
         {
             SoundPlay(SOUND_1FE);
             FadeMusic(10);
-            pOam->pOam = sGameOverUnk_79e868[2];
+            pOam->pOam = sGameOverCursorOam[2];
             GAME_OVER_DATA.choice = GAME_OVER_CHOICE_QUIT;
         }
 
@@ -382,7 +382,7 @@ void GameOverDrawOam(struct GameOverOam* pOam)
         if (pOam->xFlip == TRUE)
         {
             gOamData[slot].split.xFlip ^= TRUE;
-            offset = sGameOverUnk_734220[gOamData[slot].split.shape][gOamData[slot].split.size] * 8 + part2;
+            offset = sGameOverOamXFlipOffsets[gOamData[slot].split.shape][gOamData[slot].split.size] * 8 + part2;
             x = pOam->xPosition - offset;
             x &= 0x1FF;
             y = (part1 + pOam->yPosition) & 0xFF;

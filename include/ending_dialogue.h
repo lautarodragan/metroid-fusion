@@ -20,7 +20,7 @@ extern const struct FrameData sEndingNextPageArrowOam[5];
 extern const struct FrameData sEndingTextCursorOam[7];
 extern const struct FrameData sEndingUnk_633f24[];
 
-extern u16** sEndingUnk_79c3ac[];
+extern u16** sEndingDialogueTextTables[];
 
 void EndingProcessMonologueCursor(struct SpecialCutsceneOam* pOam);
 void unk_969e0(struct SpecialCutsceneOam* pOam);

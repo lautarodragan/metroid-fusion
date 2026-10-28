@@ -68,7 +68,7 @@ void NavigationConversationUpdatePopUp(void)
         return;
 
     PAUSE_SCREEN_DATA.unk_21B++;
-    sNavConversationUnk_79c170[PAUSE_SCREEN_DATA.currentPopUp - 1]();
+    sNavConversationPopUpFunctions[PAUSE_SCREEN_DATA.currentPopUp - 1]();
 
     if (PAUSE_SCREEN_DATA.unk_21D)
         NavigationConversationFadeInPopUpPalette();
@@ -525,7 +525,7 @@ void unk_7c630(void)
 
         case 17:
             PAUSE_SCREEN_DATA.unk_266++;
-            if (PAUSE_SCREEN_DATA.unk_266 > sUnk_79c17c[0])
+            if (PAUSE_SCREEN_DATA.unk_266 > sNavConversationSaXCloseUpDelays[0])
             {
                 gWrittenToBg3cnt = 0x1507;
                 PAUSE_SCREEN_DATA.unk_265++;
@@ -535,7 +535,7 @@ void unk_7c630(void)
 
         case 18:
             PAUSE_SCREEN_DATA.unk_266++;
-            if (PAUSE_SCREEN_DATA.unk_266 > sUnk_79c17c[1])
+            if (PAUSE_SCREEN_DATA.unk_266 > sNavConversationSaXCloseUpDelays[1])
             {
                 gWrittenToBg3cnt = 0x1607;
                 PAUSE_SCREEN_DATA.unk_265++;
@@ -545,7 +545,7 @@ void unk_7c630(void)
 
         case 19:
             PAUSE_SCREEN_DATA.unk_266++;
-            if (PAUSE_SCREEN_DATA.unk_266 > sUnk_79c17c[2])
+            if (PAUSE_SCREEN_DATA.unk_266 > sNavConversationSaXCloseUpDelays[2])
             {
                 gWrittenToBg3cnt = 0x1707;
                 PAUSE_SCREEN_DATA.unk_265++;
@@ -555,7 +555,7 @@ void unk_7c630(void)
 
         case 20:
             PAUSE_SCREEN_DATA.unk_266++;
-            if (PAUSE_SCREEN_DATA.unk_266 > sUnk_79c17c[3])
+            if (PAUSE_SCREEN_DATA.unk_266 > sNavConversationSaXCloseUpDelays[3])
             {
                 PAUSE_SCREEN_DATA.unk_265 = 27;
                 PAUSE_SCREEN_DATA.unk_266 = 0;
@@ -711,7 +711,7 @@ void unk_7ce6c(void)
     else
         PAUSE_SCREEN_DATA.unk_244 = sEvent_57607D[7];
 
-    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].oamId = sUnk_79c180[(s8)PAUSE_SCREEN_DATA.unk_244];
+    PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].oamId = sBslDiagramOamIds[(s8)PAUSE_SCREEN_DATA.unk_244];
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].xPosition = 0x1C;
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].yPosition = 0x32;
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].priority = 1;
@@ -777,20 +777,20 @@ void unk_7cfb0(void)
                 i -= 36;
 
             PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM_TARGET].xPosition =
-                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].xPosition + (s8)sUnk_79c1a4[i * 3 + 0];
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].xPosition + (s8)sBslDiagramTargetOffsets[i * 3 + 0];
             PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM_TARGET].yPosition =
-                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].yPosition + ((s8(*)[3])sUnk_79c1a4)[i][1];
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].yPosition + ((s8(*)[3])sBslDiagramTargetOffsets)[i][1];
             PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM_TARGET].oamId =
-                ((s8(*)[3])sUnk_79c1a4)[i][2] + PAUSE_OAM_ID_BSL_DIAGRAM_TARGET_ABOVE;
+                ((s8(*)[3])sBslDiagramTargetOffsets)[i][2] + PAUSE_OAM_ID_BSL_DIAGRAM_TARGET_ABOVE;
         }
         else
         {
             PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM_TARGET].xPosition =
-                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].xPosition + (s8)sUnk_79c210[location * 3 + 0];
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].xPosition + (s8)sBslDiagramFixedTargetOffsets[location * 3 + 0];
             PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM_TARGET].yPosition =
-                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].yPosition + ((s8(*)[3])sUnk_79c210)[location][1];
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].yPosition + ((s8(*)[3])sBslDiagramFixedTargetOffsets)[location][1];
             PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM_TARGET].oamId =
-                ((s8(*)[3])sUnk_79c210)[location][2] + PAUSE_OAM_ID_BSL_DIAGRAM_TARGET_ABOVE;
+                ((s8(*)[3])sBslDiagramFixedTargetOffsets)[location][2] + PAUSE_OAM_ID_BSL_DIAGRAM_TARGET_ABOVE;
         }
     }
 
@@ -822,7 +822,7 @@ void unk_7cfb0(void)
                 if ((s8)PAUSE_SCREEN_DATA.unk_244 > 35)
                     PAUSE_SCREEN_DATA.unk_244 = 0;
 
-                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].oamId = sUnk_79c180[(s8)PAUSE_SCREEN_DATA.unk_244];
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].oamId = sBslDiagramOamIds[(s8)PAUSE_SCREEN_DATA.unk_244];
             }
             break;
 
@@ -859,7 +859,7 @@ void unk_7cfb0(void)
                 else if ((s8)PAUSE_SCREEN_DATA.unk_244 < 0)
                     PAUSE_SCREEN_DATA.unk_244 = 35;
 
-                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].oamId = sUnk_79c180[(s8)PAUSE_SCREEN_DATA.unk_244];
+                PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BSL_DIAGRAM].oamId = sBslDiagramOamIds[(s8)PAUSE_SCREEN_DATA.unk_244];
             }
             break;
     }

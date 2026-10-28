@@ -256,6 +256,12 @@ OAM_SAFE_RANGES = [
     (0x79c448, 0x79c5a4),
     (0x79e868, 0x79eca0),   # file select FrameData pointers and tables
 ]
+# Game over and file select: every region is filled as above, identified
+# graphics, tilemaps and palettes included (no placeholder format), so these
+# screens stay blank apart from the text drawn by font.py.
+OAM_SAFE_ALL_CATEGORIES_RANGES = [
+    (0x73421e, 0x7478a0),
+]
 # Tables inside the OAM-safe ranges that hold something else, by baserom
 # offset: (offset, kind, words). "lz": pointers to an LZ77 source that
 # decompresses to nothing; "text": pointers to an empty string table.
@@ -324,7 +330,8 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     empty_string = layout.address(regions, TEXT_RANGE[0])  # a terminator
 
     # Per-language string pointer tables -> empty strings
-    tps = [r for r in blobs if sym[r.path] and TEXT_POINTERS_RE.match(sym[r.path])]
+    # by symbol, whether or not the table is still a Blob_* entry
+    tps = [r for r in regions if sym[r.path] and TEXT_POINTERS_RE.match(sym[r.path])]
     for r in tps:
         put(r, struct.pack("<I", empty_string) * (r.size // 4))
     if not tps:
@@ -335,7 +342,8 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     # OAM-safe ranges
     # blobs and identified regions without a placeholder format (FrameData
     # arrays and other tables, *.bin)
-    oam = sorted((r for r in regions if r.category in ("blob", "misc") and in_ranges(r, OAM_SAFE_RANGES)),
+    oam = sorted((r for r in regions if in_ranges(r, OAM_SAFE_RANGES) and
+                  (r.category in ("blob", "misc") or in_ranges(r, OAM_SAFE_ALL_CATEGORIES_RANGES))),
                  key=lambda r: r.addr)
     lz_sources = scan_lz_sources()
     lz = [r for r in oam if layout.symbol_of(r) in lz_sources]

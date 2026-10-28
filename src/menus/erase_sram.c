@@ -335,9 +335,9 @@ void EraseSramMenuInit(void)
 
     LZ77UncompVram(sEraseSramBgGfx, VRAM_BASE + 0x1000);
     LZ77UncompVram(sEraseSramObjGfx, VRAM_BASE + 0x12000);
-    LZ77UncompVram(sEraseSramUnk_79c228[ERASE_SRAM_DATA.language][0], VRAM_BASE);
-    LZ77UncompVram(sEraseSramUnk_79c228[ERASE_SRAM_DATA.language][1], VRAM_BASE + 0x11000);
-    LZ77UncompVram(sEraseSramUnk_79c228[ERASE_SRAM_DATA.language][0], VRAM_BASE + 0x10000);
+    LZ77UncompVram(sEraseSramTextGfxPointers[ERASE_SRAM_DATA.language][0], VRAM_BASE);
+    LZ77UncompVram(sEraseSramTextGfxPointers[ERASE_SRAM_DATA.language][1], VRAM_BASE + 0x11000);
+    LZ77UncompVram(sEraseSramTextGfxPointers[ERASE_SRAM_DATA.language][0], VRAM_BASE + 0x10000);
     LZ77UncompVram(sEraseSramTilemap_D000, VRAM_BASE + 0xD000);
     LZ77UncompVram(sEraseSramTilemap_F000, VRAM_BASE + 0xF000);
 
@@ -472,7 +472,7 @@ void EraseSramProcessOam(void)
             case 4:
             case 5:
             case 6:
-                pFrame = sEraseSramUnk_79c260[ERASE_SRAM_DATA.oam[i].oamId];
+                pFrame = sEraseSramOam[ERASE_SRAM_DATA.oam[i].oamId];
 
                 if (ERASE_SRAM_DATA.oam[i].animationDurationCounter >= pFrame[ERASE_SRAM_DATA.oam[i].currentAnimationFrame].timer)
                 {

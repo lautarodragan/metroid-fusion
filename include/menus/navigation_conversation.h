@@ -51,7 +51,7 @@ extern const u8 sNavTargetAreaElevatorPositions[][2];
 extern const u8 sUnk_576802[];
 extern const struct NavConversationPopUp sNavConversationPopUps[5];
 extern const struct NavConversationPopUpsPerConversation sNavConversationPopUpsPerConversation[3];
-extern const Func_T sNavConversationUnk_79c170[3];
+extern const Func_T sNavConversationPopUpFunctions[3];
 
 extern const u16 sNavConversationFlashingColors1[16];
 extern const u16 sNavConversationFlashingColors2[2 * 16];
@@ -74,10 +74,10 @@ extern const u16 sBslDiagramAnimatedPal[16 * 16];
 extern const u32 sBslDiagramInfoInit[4];
 
 // Defined in src/text.c
-extern u8 sUnk_79c17c[];
-extern u8 sUnk_79c180[];
-extern u8 sUnk_79c1a4[];
-extern u8 sUnk_79c210[];
+extern u8 sNavConversationSaXCloseUpDelays[];
+extern u8 sBslDiagramOamIds[];
+extern u8 sBslDiagramTargetOffsets[];
+extern u8 sBslDiagramFixedTargetOffsets[];
 
 u32 unk_7a0fc(u8 messageId);
 void NavigationConversationGetCurrentConversation(void);
