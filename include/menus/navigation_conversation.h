@@ -23,7 +23,8 @@ struct NavConversationPopUpsPerConversation {
 };
 
 struct NavConversationPopUp {
-    u8 unk_0[8];
+    const u8* pAnimation;
+    u8 animationLength;
     const u16* pPalette;
     u32 unk_C;
     u32 unk_10:8;
@@ -65,5 +66,6 @@ void unk_7bde0(void);
 void NavigationConversationFadeInPopUpPalette(void);
 void NavigationConversationUpdateXParasitePopUp(void);
 void NavigationConversationClearPopUpGraphics(void);
+void unk_7c3b4(void);
 
 #endif /* NAVIGATION_CONVERSATION_H */

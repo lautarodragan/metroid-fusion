@@ -289,6 +289,7 @@ _0807C30C: .4byte 0x06014340
 _0807C310: .4byte 0xFFFFFC00
 _0807C314: .4byte 0x80000040
 
+
 	thumb_func_start NavigationConversationClearPopUpGraphics
 NavigationConversationClearPopUpGraphics: @ 0x0807C318
 	push {r4, r5, r6, lr}
