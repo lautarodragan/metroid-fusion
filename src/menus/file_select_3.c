@@ -6,6 +6,7 @@
 #include "text.h"
 #include "init_helpers.h"
 #include "audio_wrappers.h"
+#include "callbacks.h"
 
 #include "data/menus/file_select_data.h"
 
@@ -485,4 +486,71 @@ void FileSelectDrawOam(struct FileSelectOam* pOam)
 
     gNextOamSlot += partCount;
     pOam->animationDurationCounter++;
+}
+
+/**
+ * @brief a13d0 | 10 | Sets the language
+ *
+ * @param unk Unused
+ * @return u32 bool, ended
+ */
+u32 SetLanguage(u8 unk)
+{
+    gLanguage = LANGUAGE_ENGLISH;
+    return TRUE;
+}
+
+/**
+ * @brief a13e0 | 98 | To document
+ *
+ */
+void unk_a13e0(void)
+{
+    WRITE_16(REG_IME, FALSE);
+    WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) & ~DSTAT_IF_HBLANK);
+    WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
+    WRITE_16(REG_IME, TRUE);
+
+    WRITE_16(REG_DISPCNT, 0);
+
+    WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
+    gWrittenToBldy = BLDY_MAX_VALUE;
+    WRITE_16(REG_BLDY, BLDY_MAX_VALUE);
+
+    WRITE_16(REG_BG3CNT, 0);
+    WRITE_16(REG_BG2CNT, 0);
+    WRITE_16(REG_BG1CNT, 0);
+    WRITE_16(REG_BG0CNT, 0);
+
+    WRITE_16(REG_BG0HOFS, 0);
+    WRITE_16(REG_BG0VOFS, 0);
+    WRITE_16(REG_BG1HOFS, 0);
+    WRITE_16(REG_BG1VOFS, 0);
+    WRITE_16(REG_BG2HOFS, 0);
+    WRITE_16(REG_BG2VOFS, 0);
+    WRITE_16(REG_BG3HOFS, 0);
+    WRITE_16(REG_BG3VOFS, 0);
+
+    WRITE_16(REG_DISPCNT, 0);
+
+    CallbackSetVBlank(unk_a1478);
+}
+
+/**
+ * @brief a1478 | 4 | Empty v-blank
+ *
+ */
+void unk_a1478(void)
+{
+    return;
+}
+
+/**
+ * @brief a147c | 4 | To document
+ *
+ * @return u32 TRUE
+ */
+u32 unk_a147c(void)
+{
+    return TRUE;
 }

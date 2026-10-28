@@ -36,6 +36,10 @@ void FileSelectSetUpAreaNameOam(u8 type, s16 xPosition, s16 yPosition, s16 area)
 void FileSelectProcessOam(void);
 void FileSelectDrawAllOam(void);
 void FileSelectDrawOam(struct FileSelectOam* pOam);
+u32 SetLanguage(u8 unk);
+void unk_a13e0(void);
+void unk_a1478(void);
+u32 unk_a147c(void);
 
 void Sram_WriteFileInfo(void);
 void Sram_SetCurrentFile(u8 file);

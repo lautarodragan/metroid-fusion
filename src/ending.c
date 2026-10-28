@@ -22,6 +22,18 @@ boolu32 EndingSamusPosingTransforming(void);
 boolu32 EndingImageInit(void);
 boolu32 EndingImage(void);
 
+void EndingDrawIgtAndCompletionPercentage(void);
+void EndingImageUpdateLettersSpawnDelay(u32 slot);
+void EndingImageLoadTextOam(u32 line);
+void EndingImageDisplayLinePermanently(u32 line);
+
+// Defined in src/data/ending_data.c
+extern const struct EndingImageTextOam sEndingUnk_74dc48[];
+extern const struct EndingImageTextOam sEndingUnk_74de4c[];
+extern const struct EndingImageTextOam sEndingUnk_74dfd8[];
+extern const struct EndingImageTextOam sEndingUnk_74e1d0[];
+extern const struct EndingImageTextOam sEndingUnk_74e440[];
+
 static boolu32 (*sEndingSamusPosingFunctionPointers[7]) (void) = {
     EndingSamusPosingInit,
     EndingFadeIn,
@@ -37,6 +49,54 @@ static boolu32 (*sEndingImageFunctionPointers[3]) (void) = {
     EndingFadeIn,
     EndingImage
 };
+
+#define ENDING_DISPLAY_LINE(data)                                      \
+do {                                                                   \
+    ENDING_DATA.unk_124[line] = (data)[line].unk_0;                    \
+    ENDING_DATA.unk_142[line] = (data)[line].unk_1;                    \
+    ENDING_DATA.unk_160[line] = (data)[line].unk_2;                    \
+    ENDING_DATA.oamXPositions[line] = (data)[line].xPosition;          \
+    ENDING_DATA.oamYPositions[line] = (data)[line].yPosition;          \
+    ENDING_DATA.oamFramePointers[line] = (data)[line].pFrame;          \
+} while (0)
+
+/**
+ * @brief a1b60 | 124 | Permanently displays a line of the ending image
+ *
+ * @param line Line
+ */
+void EndingImageDisplayLinePermanently(u32 line)
+{
+    s32 i;
+
+    switch (gLanguage)
+    {
+        case LANGUAGE_GERMAN:
+            ENDING_DISPLAY_LINE(sEndingUnk_74de4c);
+            break;
+
+        case LANGUAGE_FRENCH:
+            ENDING_DISPLAY_LINE(sEndingUnk_74dfd8);
+            break;
+
+        case LANGUAGE_ITALIAN:
+            ENDING_DISPLAY_LINE(sEndingUnk_74e1d0);
+            break;
+
+        case LANGUAGE_SPANISH:
+            ENDING_DISPLAY_LINE(sEndingUnk_74e440);
+            break;
+
+        default:
+            ENDING_DISPLAY_LINE(sEndingUnk_74dc48);
+            break;
+    }
+
+    for (i = 0; i < ENDING_DATA.unk_9B - 6; i++)
+        ENDING_DATA.unk_124[i + 6] = 0;
+
+    ENDING_DATA.unk_9B = 6;
+}
 
 /**
  * @brief a1c84 | 78 | Main handler for the credits
