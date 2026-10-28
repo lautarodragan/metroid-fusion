@@ -352,3 +352,154 @@ void NavigationConversionScrollToTarget(void)
             break;
     }
 }
+
+/**
+ * @brief 7b4c4 | a8 | Scrolls the map towards a destination
+ * 
+ * @param x X destination
+ * @param y Y destination
+ * @return bool, reached
+ */
+u32 NavigationConversationScrollMapToDestination(u8 x, u8 y)
+{
+    u32 reached;
+    s32 targetX;
+    s32 targetY;
+    s32 diff;
+    s32 diffY;
+    s32 speedX;
+    s32 speedY;
+
+    reached = TRUE;
+
+    targetX = 0x200 - (15 - x) * 8;
+    targetY = 0x200 - (10 - y) * 8;
+
+    diff = gBackgroundPositions.bg[3].x - targetX;
+    diffY = gBackgroundPositions.bg[3].y - targetY;
+
+    if (diff < 0)
+        diff = -diff;
+
+    if (diffY < 0)
+        diffY = -diffY;
+
+    speedX = (diff >> 4) + 1;
+    speedY = (diffY >> 4) + 1;
+
+    diff = gBackgroundPositions.bg[3].x - targetX;
+    if (diff != 0)
+    {
+        reached = FALSE;
+        if (diff > 0)
+        {
+            gBackgroundPositions.bg[3].x -= speedX;
+            if (gBackgroundPositions.bg[3].x < targetX)
+                gBackgroundPositions.bg[3].x = targetX;
+        }
+        else if (diff < 0)
+        {
+            gBackgroundPositions.bg[3].x += speedX;
+            if (gBackgroundPositions.bg[3].x > targetX)
+                gBackgroundPositions.bg[3].x = targetX;
+        }
+    }
+
+    diff = gBackgroundPositions.bg[3].y - targetY;
+    if (diff != 0)
+    {
+        reached = FALSE;
+        if (diff > 0)
+        {
+            gBackgroundPositions.bg[3].y -= speedY;
+            if (gBackgroundPositions.bg[3].y < targetY)
+                gBackgroundPositions.bg[3].y = targetY;
+        }
+        else if (diff < 0)
+        {
+            gBackgroundPositions.bg[3].y += speedY;
+            if (gBackgroundPositions.bg[3].y > targetY)
+                gBackgroundPositions.bg[3].y = targetY;
+        }
+    }
+
+    return reached;
+}
+
+/**
+ * @brief 7b56c | 108 | Handles the pop up window of a navigation conversation
+ * 
+ */
+void unk_7b56c(void)
+{
+    PAUSE_SCREEN_DATA.unk_A++;
+
+    switch (PAUSE_SCREEN_DATA.unk_B)
+    {
+        case 0:
+            break;
+
+        case 1:
+            PAUSE_SCREEN_DATA.unk_A = 0;
+            PAUSE_SCREEN_DATA.unk_B++;
+            break;
+
+        case 2:
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x40)
+            {
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+            }
+            break;
+
+        case 3:
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].oamId = PAUSE_OAM_ID_POP_UP_WINDOW;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].currentAnimationFrame = 0;
+            SoundPlay(SOUND_11C);
+            PAUSE_SCREEN_DATA.unk_A = 0;
+            PAUSE_SCREEN_DATA.unk_B++;
+            break;
+
+        case 4:
+            if (PAUSE_SCREEN_DATA.unk_A > 30)
+            {
+                PAUSE_SCREEN_DATA.currentPopUp = 1;
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+                PAUSE_SCREEN_DATA.typeFlags |= 0x80;
+            }
+            break;
+
+        case 5:
+            if (!(PAUSE_SCREEN_DATA.typeFlags & 0x40))
+            {
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+            }
+            break;
+
+        case 6:
+            PAUSE_SCREEN_DATA.currentPopUp = 3;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].oamId = PAUSE_OAM_ID_POP_UP_WINDOW_CLOSING;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_POP_UP_WINDOW].currentAnimationFrame = 0;
+            SoundPlay(SOUND_11D);
+            PAUSE_SCREEN_DATA.unk_A = 0;
+            PAUSE_SCREEN_DATA.unk_B++;
+            break;
+
+        case 7:
+            if (PAUSE_SCREEN_DATA.unk_A > 30)
+            {
+                PAUSE_SCREEN_DATA.typeFlags &= ~0x80;
+                PAUSE_SCREEN_DATA.unk_A = 0;
+                PAUSE_SCREEN_DATA.unk_B++;
+            }
+            break;
+
+        case 8:
+        case 9:
+            break;
+    }
+}
