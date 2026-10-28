@@ -1,43 +1,41 @@
-# Research: "open base ROM" with original assets
+# Generated test baserom: research
 
 > Status: low-priority research + minimal prototype (`tools/open_assets/`).
-> Nothing described here needs, reads or downloads the Nintendo ROM.
-> The clean room rules in [CONTRIBUTING.md](../CONTRIBUTING.md) still apply.
-> **This is not legal advice.** Section 3 summarizes general principles for
-> deciding whether it is worth continuing; before any public distribution it
-> is advisable to consult a lawyer.
+> The generated baserom is a **test fixture**: placeholder data that lets the
+> project be built and exercised in CI and in the emulator tests
+> ([emu_tests.md](emu_tests.md)) without the original ROM. It is not meant to
+> be a playable game. Nothing described here needs, reads or downloads the
+> original ROM.
 
 ## 0. Summary
 
-- **Goal:** replace `mf_us_baserom.gba` with a file we generate (our own or
-  procedural content, under CC0 or similar) so that `tools/extractor.py`
-  consumes it just like the original ROM and `make` produces a ROM that boots
-  and can be played with placeholder graphics, sound, text and levels.
+- **Goal:** a stand-in for `mf_us_baserom.gba` that we generate (procedural
+  placeholder content) so that `tools/extractor.py` consumes it just like the
+  original ROM and `make` produces a ROM that boots far enough for automated
+  tests (boot sequence, screenshots, RAM checks) with placeholder graphics,
+  sound, text and levels.
 - **Technical feasibility:** high for "compiles and produces a ROM", medium for
-  "boots without hanging" and low-to-medium for "playable end to end". The
-  extractor only copies `size` bytes from `addr` for 3492 regions, so an "open
-  base ROM" is simply an 8 MiB file with valid content at those positions. The
+  "boots without hanging" and low-to-medium for "every area reachable by a
+  test script". The extractor only copies `size` bytes from `addr` for 3492
+  regions, so a generated test baserom is simply an 8 MiB file with valid content at those positions. The
   prototype already generates one (with valid LZ77 and RLE, verified by
   decoding) and the extractor consumes it without errors.
 - **Main blockers:**
   1. The build is **not shiftable** (the README says so; there are 684 literal
      ROM addresses in `src/`). Each replacement must fit in **exactly** the
-     size of the original region. Original art that is more complex than the
-     original may not compress within that budget.
+     size of the original region. Replacement content that is more complex
+     than the original may not compress within that budget.
   2. **48 `Blob_*` regions (1.11 MiB, 18 %)** are not understood; several hold
      absolute pointers (audio voicegroups, text pointer tables) and the text
      one (496 KiB) contains every language.
   3. Much of the expressive content is **not in the base ROM but in the
      repo**: 661 music sequences (`sound/tracks/*.s`), ~37 300 OAM entries
      (3 984 sprite frames), enemy placement, doors, events, demos.
-     A "100 % Nintendo-material-free" ROM requires replacing that too.
-  4. **Legal:** an open base ROM solves the *assets* problem, but not the
-     *code* one: the decompilation is still a derivative work of Nintendo's
-     program (see §3).
-- **Recommended next step:** phase A (§4): get agbcc in a controlled
-  environment, build with the prototype's open base ROM, run it in mGBA
+     The generated baserom does not cover those; tests run them as they are.
+- **Recommended next step:** phase A (§3): get agbcc in a controlled
+  environment, build with the prototype's generated baserom, run it in mGBA
   (HLE BIOS) and note where it hangs. In parallel, put together the emulation
-  harness (§4.4), which is also useful for tests with the real ROM.
+  harness (§3.4), which is also useful for tests with the real ROM.
 
 ## 1. `database.json` inventory
 
@@ -107,7 +105,7 @@ Grouped by the file that includes them (`inventory.py --blobs` gives the details
 | no consumer | 1 | 616 | `Blob_79bec0_79c128`. |
 | **total** | **48** | **1 168 020** | |
 
-For the open base ROM, each blob needs one of three strategies:
+For the generated baserom, each blob needs one of three strategies:
 (a) understand it and move it to C/a known format (which the decomp is after
 anyway), (b) a specific "safe" placeholder (the prototype does this for
 voicegroups, text and text pointer tables), or (c) zeros, accepting the
@@ -133,10 +131,10 @@ are extracted, so about **~803 KiB of data are already defined in the repo**:
 | Clipdata and block behavior tables | `clipdata_data.c`, `block_data.c` | logic |
 | m4a sound engine and not-yet-decompiled code (~45 000 lines) | `asm/*.s` | code |
 
-Consequence: the open base ROM replaces the ~73 % of "pure assets" among what
-is extracted, but **the music, the sprite shapes (OAM) and the high-level
-level design (doors, enemies, events) would still be the original ones**
-unless they are also replaced in the repo (see §3 and phase C).
+Consequence: the generated baserom replaces the ~73 % of "pure assets" among
+what is extracted, but **the music, the sprite shapes (OAM) and the high-level
+level design (doors, enemies, events) still come from the repo** unless they
+are also replaced there (see phase C).
 
 ## 2. Formats and what a replacement needs
 
@@ -157,111 +155,15 @@ the space is wasted.
 | `tileset_metatiles` | Leading u16 + 4 u16 entries per 16x16 block (`room.c` uses `pTilemap + 1`). | Same size; reference existing tiles of the tileset. | Easy. | Medium. |
 | `room_bg_rle` | Custom two-pass RLE (low byte, then high byte of each u16); each pass: mode 1 = 8-bit counters, otherwise 16-bit; high bit of the counter = repeat. Width/height in C. | Exactly `width*height` blocks; stream ≤ region. There are 12-byte (empty) layers that only allow "all the same" in 16-bit mode. | Easy. | High (level design), and limited by the budget. |
 | `room_clipdata_rle` | Same as above; values = `enum Clipdata` (`CLIPDATA_SOLID = 16`, slopes, doors, elevators…). | Consistent with doors (`connection_data.c`), spawn positions, enemies and BG1. Otherwise Samus falls out of the room or gets stuck. | Medium (boxes/floors); consistency with doors requires reading C. | High. |
-| `sound_sample` | MP2K WaveData: `u16 type, u16 status (0x4000 = loop), u32 frequency*1024, u32 loop start, u32 number of samples`, then s8 PCM. (Standard engine layout; confirm against `src/audio.c`.) | Header consistent with the size. | Trivial (square/sine/noise wave) or simple additive/FM synthesis. | Medium: record/synthesize 385 instruments/SFX under a free license. |
+| `sound_sample` | MP2K WaveData: `u16 type, u16 status (0x4000 = loop), u32 frequency*1024, u32 loop start, u32 number of samples`, then s8 PCM. (Standard engine layout; confirm against `src/audio.c`.) | Header consistent with the size. | Trivial (square/sine/noise wave) or simple additive/FM synthesis. | Medium: record/synthesize 385 instruments/SFX. |
 | Voicegroups (blob `0xA5710`) | 12-byte `struct Voice`: type, base key, length, pan/sweep, pointer to a sample or CGB wave, ADSR envelope. Keysplits (type 0x40) point to sub-tables. | Valid pointers to samples (fixed addresses, can be computed from `database.json`). | Easy (the prototype points everything to sample 0). | Medium. |
 | Music (`sound/tracks/*.s`) | m4a/"Sappy" sequences with the macros from `sound/m_play_def.s`. | New tracks in the same format, same number of entries in `sound_entries.s`. There is no hard fixed size limit if the whole block of tracks in asm is replaced, but the data that follows would shift: it has to be checked whether anything after that area is pointed to with a literal address. | Medium: generate procedural MIDI and convert it (a mid2agb-like converter is missing, or one has to be written). | High: 661 tracks. |
 | Text (blob `0x6B2FAC` + pointers) | u16 per character with control codes (`0xFC00` arrow, `0xFD00` new page, `0xFE00` line break, `0xFF00` end). `charmap.txt` is still empty. | Strings at the exact addresses the tables point to (or rewrite the tables, which are in a blob). | Easy for "everything empty"; medium for readable placeholder text (requires mapping the charset). | Medium (writing + 6-7 languages). |
 | Remaining blobs | Unknown. | Understand them or fill them with something safe. | — | — |
 
-## 3. Legal analysis (general framing, not advice)
+## 3. Phased plan
 
-### 3.1 Assets vs. code
-
-- Copyright protects **expression**, not ideas, methods or mechanics
-  (US: 17 U.S.C. §102(b); EU: Directive 2009/24/EC art. 1.2 for software;
-  in Argentina, Law 11.723 follows the same general logic). Graphics, music
-  (composition and recordings/samples), text and probably the level design
-  (selection and arrangement) are protected works. Purely functional tables
-  (physics, velocities, sine tables) have weak or no protection for lack of
-  originality, but **taken together** they can form part of the program's
-  expression; it is not wise to assume that "the data is free".
-- A base ROM made of assets **created by us** (or generated by our own code)
-  is our work and we can license it freely. This removes the dependency on
-  the commercial ROM **for the assets**.
-- **The code is another story.** A *matching* decompilation reproduces, by
-  design, the behavior and form of Nintendo's compiled program; even if it is
-  written "fresh" (as CONTRIBUTING.md requires, forbidding looking at leaked
-  code), it is obtained by studying the binary, and the result is plausibly a
-  **derivative work** of the program. The classic clean room methodology
-  (Phoenix BIOS) separates whoever analyzes from whoever implements and only
-  passes along specifications; that doesn't happen here.
-- Relevant exceptions and their limits:
-  - US: *Sega v. Accolade* (9th Cir. 1992) and *Sony v. Connectix* (9th Cir.
-    2000) held **intermediate** copying during reverse engineering to achieve
-    interoperability to be *fair use*, with a non-infringing final product.
-    Distributing a nearly identical reimplementation of the same game is not
-    the case analyzed in those rulings.
-  - EU: art. 6 of Directive 2009/24/EC allows decompiling for the
-    interoperability of an *independently created* program, and forbids
-    using the information for a "substantially similar" program.
-  - DMCA §1201 (US) and equivalents: the GBA has no encryption; the header
-    logo is a separate topic (below).
-- Besides the C code, the repo already contains **expressive data derived
-  from the ROM** outside the base ROM (music in `sound/tracks`, OAM frames,
-  room design in C). Today it has the same status as the code; an "open"
-  variant should be buildable without it (phase C).
-- **Practical conclusion:** the open base ROM (a) removes the need to obtain
-  a ROM to build/test, (b) makes it possible to distribute **the assets**
-  under a free license and (c) enables CI with screenshots without Nintendo
-  material in the *data* artifacts. It does **not** make the resulting binary
-  free: distributing the built ROM (which contains the derived code) is still
-  risky. Recommendation: don't publish built ROMs; publish only the asset
-  generator and, as today, the source code.
-- The tolerance precedents (Nintendo has not gone after pret-style
-  decompilation repos, although it did act against distributions of
-  ports/binaries and ROM hacks with their own content) are **de facto, not de
-  jure**.
-
-### 3.2 Trademarks
-
-- "Metroid", "Metroid Fusion", "Samus", the title logo and the name
-  "Nintendo" are trademarks. Trademark risk arises when **presenting** the
-  product (title, logo, file name, description), not from the code itself.
-- In the ROM header, the Makefile sets `GAME_TITLE = METROID4USA` and
-  `GAME_CODE = AMTE`. For an "open" variant it is better to use our own title
-  and code (e.g. an `OPEN_ASSETS=1` variable that changes
-  `GAME_TITLE`/`GAME_CODE`) and to make sure the placeholder art/text doesn't
-  use the names or the logo.
-- `tools/gbafix` (GPLv3, from devkitPro) copies the **Nintendo logo** that the
-  real BIOS requires in order to boot. *Sega v. Accolade* held that using a
-  lock-out mechanism based on a trademark doesn't give the owner a right to
-  exclude (in the US); all GBA homebrew does the same. For emulator CI with an
-  HLE BIOS (mGBA) the logo is not checked, so an "open" build could leave it
-  empty and remove the issue entirely from test artifacts (to be verified
-  empirically that mGBA boots without the logo).
-- Never use the Nintendo BIOS: mGBA ships an HLE BIOS, which also implements
-  `LZ77UnComp*`.
-
-### 3.3 "Engine + free assets" precedents
-
-| Project | Engine | Free assets | Lesson |
-|---|---|---|---|
-| **Freedoom** | Doom (code released by id under the GPL) | Full IWAD under BSD-3 | The ideal case: free code + free assets = a 100 % distributable game. The IWAD is *drop-in*, just like our base ROM. |
-| **OpenTTD + OpenGFX/OpenSFX/OpenMSX** | Reimplementation that grew out of reverse engineering/decompiling TTD | GPLv2 graphics, sounds and music | Very similar to this case: the free sets make it possible to play without the original game, but the code always had the decompilation as its background (tolerated de facto). The free sets were made following the original's sprite layout so they would be *drop-in*. |
-| **OpenRCT2** | Reimplementation from the RCT2 binary | Still requires (largely) the original assets; partial replacement projects exist | Shows how much it takes to cover 100 % of a commercial game's assets. |
-| **LibreQuake, OpenArena, FreeDM** | Quake/Quake III/Doom (GPL) | Free assets | Same pattern as Freedoom. |
-| **GBA homebrew** (devkitPro/libtonc/butano) | Own code | Own assets | Free tools (gbafix, grit, mid2agb-like) and using the logo in the header are standard practice. |
-| N64 decomp ports (sm64, OoT/Ship of Harkinian) | Decompilation | They do **not** distribute assets: they extract them from the user's ROM | This is the current model of this repo. The open base ROM would add a "no ROM" option. |
-
-### 3.4 Suggested licenses
-
-- **CC0-1.0** for everything procedurally generated and for the data
-  generator (or MIT, like the repo). Maximum compatibility; the prototype
-  declares CC0 for its output.
-- For hand-made art/music contributions: **CC0** (preferred, no friction) or
-  **CC-BY 4.0** / **CC-BY-SA 4.0** if the authors want attribution/copyleft.
-  CC-BY-SA 4.0 is one-way compatible with GPLv3; mixing with MIT is fine as
-  long as the assets stay as separate files with their own license.
-- Avoid CC-NC/ND (they are not free and complicate redistribution in CI).
-- Fonts: draw our own or use a CC0/OFL pixel font; with OFL, its reserved
-  font name conditions must be respected.
-- Record provenance: each asset with author, license and "not derived from
-  Nintendo material" (an `ASSETS_LICENSE.md`/manifest), and explicitly forbid
-  tracing over screenshots of the original game.
-
-## 4. Phased plan
-
-### 4.0 Included prototype (`tools/open_assets/`)
+### 3.0 Included prototype (`tools/open_assets/`)
 
 - `inventory.py`: categories and sizes from `database.json` + which file in
   `src/`/`sound/` consumes each region (generates the tables in §1).
@@ -285,14 +187,14 @@ allow "floor and ceiling" (not a full box) because of the budget;
 **The ROM was not built or run** (there is no agbcc in this environment and
 no external code was installed).
 
-### 4.1 Phase A: "boots into something" (estimate: 3-10 days)
+### 3.1 Phase A: "boots into something" (estimate: 3-10 days)
 
-> **Update:** done without touching `src/`/`asm/`. The open ROM reaches the
+> **Update:** done without touching `src/`/`asm/`. The test ROM reaches the
 > game (first room, Samus moves with input), going through the intro, title,
 > file select and new file intro. What it took and the emulator tests that
 > verify it are in [emu_tests.md](emu_tests.md).
 
-1. Build with the open base ROM (`cp open_baserom.gba mf_us_baserom.gba;
+1. Build with the generated baserom (`cp open_baserom.gba mf_us_baserom.gba;
    python3 tools/extractor.py && make`). Expected: it builds just as with the
    real ROM (the sizes are identical); `make check` obviously fails.
 2. Run it in mGBA with the HLE BIOS and trace: does it reach the title? Does
@@ -302,11 +204,10 @@ no external code was installed).
    safe placeholder. Acceptable shortcut: a build flag (`OPEN_ASSETS`) that
    skips the intro/cutscenes and goes straight to a room (our own code in the
    fork; it doesn't change the matching build).
-4. Our own header (title/code) under that flag.
-5. Exit criterion: reaches gameplay in the starting room without hanging for
+4. Exit criterion: reaches gameplay in the starting room without hanging for
    10 000 frames with random input.
 
-### 4.2 Phase B: one playable test room (estimate: 1-3 weeks)
+### 3.2 Phase B: one test room (estimate: 1-3 weeks)
 
 1. Pick a small room (the `test*` rooms in `rooms/test` or the first one in
    the Main Deck) and generate: a tileset with 4-8 readable blocks (floor,
@@ -315,7 +216,7 @@ no external code was installed).
    clipdata.
 2. Placeholder Samus: rasterize her 866 frames **from the `OAM_ENTRY`s in
    C** (one colored rectangle per piece, with a border), so that each
-   animation shows a silhouette that moves correctly without copying art.
+   animation shows a silhouette that moves correctly.
    The same works for every sprite (phase C).
 3. Readable (high-contrast) palettes and a minimal custom font (digits + A-Z)
    for the HUD.
@@ -324,25 +225,23 @@ no external code was installed).
 5. Exit criterion: an automated test that enters the room, walks, jumps,
    shoots and goes through a door, with stable screenshots.
 
-### 4.3 Phase C: full coverage with placeholders (estimate: 4-8 weeks of procedural placeholders; months for "nice" art)
+### 3.3 Phase C: full coverage with placeholders (estimate: 4-8 weeks of procedural placeholders)
 
-- All tilesets (63) and their metatiles, room BG3s, menu screens, our own
-  title (without the trademark), endings.
+- All tilesets (63) and their metatiles, room BG3s, menu screens, title
+  screen, endings.
 - Clipdata for the 394 rooms: generate it automatically from the geometry of
   the doors and elevators defined in C (connected boxes), guaranteeing that it
-  can be traversed, or design new levels (requires a shiftable build to go
-  beyond the byte budget).
+  can be traversed by test scripts.
 - Placeholder text for every message (requires mapping the charset and the
   structure of the text blob).
 - Sound: 385 synthesized samples and **replacing the 661 sequences** (for
   example, a melody generator + a converter to m4a macros).
-- Optional for a fully free build: replace the OAM frames/room design in C
-  with generated versions, and make the build shiftable with assets in source
-  formats (PNG/MIDI/JSON) converted at build time, as the pret projects do
-  (`gbagfx`, `mid2agb`). This removes the exact-size constraint, which is the
-  biggest obstacle for original art.
+- Optional: make the build shiftable with assets in source formats
+  (PNG/MIDI/JSON) converted at build time, as the pret projects do (`gbagfx`,
+  `mid2agb`). This removes the exact-size constraint, which is the biggest
+  obstacle for richer placeholder content.
 
-### 4.4 Emulator test harness controllable from Python
+### 3.4 Emulator test harness controllable from Python
 
 Requirements: headless, advance frames, inject input, read memory (IWRAM/EWRAM
 for variables such as `gCurrentArea` = `0x0300002C`, `gCurrentRoom` =
@@ -369,26 +268,25 @@ assert read_u8(0x0300002C) == AREA_MAIN_DECK
 save_png(core.framebuffer(), f"out/{frame}.png")   # compare with golden PNG (tolerance)
 ```
 
-The "goldens" are generated with the open ROM, so they can be versioned in the
-repo without Nintendo material. The same harness runs locally with the real
-ROM for behavior tests (without committing its screenshots).
+The "goldens" are generated with the test ROM and versioned in the repo. The
+same harness also runs locally with the real ROM for behavior tests.
 
-## 5. Effort and risks
+## 4. Effort and risks
 
 | Work | Estimate |
 |---|---|
 | Generator prototype (done) | ~1 day |
 | Phase A (boot) | 3-10 days, dominated by how many blobs need to be understood |
 | Python harness + CI | 2-4 days |
-| Phase B (playable room + OAM-based Samus) | 1-3 weeks |
+| Phase B (test room + OAM-based Samus) | 1-3 weeks |
 | Phase C full procedural placeholders | 4-8 weeks |
-| Phase C with quality original art/music | months, depends on contributors |
 | Shiftable build + assets in source formats | weeks to months (it is also a goal of the decomp) |
 
 Risks:
 
 1. **Fixed byte budget** per region as long as there is no shiftable build:
-   limits original art/levels; the simple placeholder does fit.
+   limits how detailed the placeholder content can be; the simple placeholder
+   does fit.
 2. **Unknown blobs** with pointers or structures the code assumes
    (infinite loops/null jumps). Mitigation: advance the decomp of those
    areas; specific placeholders; a flag to skip cutscenes.
@@ -397,12 +295,6 @@ Risks:
    consuming code (VRAM/EWRAM destinations) so as not to overwrite memory.
 4. **Level consistency**: clipdata/doors/enemies/events have to agree; with
    inconsistent data the game doesn't "crash" but becomes unplayable.
-5. **Legal**: the open base ROM doesn't change the status of the code or of
-   the derived content already in the repo (music, OAM, room layout). Don't
-   distribute built ROMs; keep names/logo out of the assets.
-6. **Contamination**: "inspired" art contributions that actually trace or
-   reproduce the original's sprites. Mitigation: a provenance manifest and
-   review; prefer procedural generation.
-7. **Maintenance**: every time the decomp splits a blob into new regions, the
+5. **Maintenance**: every time the decomp splits a blob into new regions, the
    generator has to learn the format (the inventory detects it: a new
    category or a region without a generator).

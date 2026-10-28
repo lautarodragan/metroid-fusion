@@ -5,8 +5,7 @@ from this repository's own C code (e.g. ``RoomRleDecompress`` in src/room.c)
 and from public GBA hardware/BIOS documentation (GBATEK). Nothing here reads or
 needs the original ROM.
 
-All generated content is procedural placeholder data and is dedicated to the
-public domain (CC0-1.0).
+All generated content is procedural placeholder data for test fixtures.
 """
 
 from __future__ import annotations
