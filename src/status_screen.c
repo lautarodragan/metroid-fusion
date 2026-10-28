@@ -209,3 +209,93 @@ void StatusScreenDrawMissileOrBomb(u8 section, u8 value)
             tilemap[dstPos + j] = tilemap[srcPos + j];
     }
 }
+
+/**
+ * @brief 7ead8 | 1b4 | Draws the misc section of the status screen
+ *
+ * @param section Section
+ * @param value Acquired items flags
+ */
+void StatusScreenDrawMisc(u8 section, u8 value)
+{
+    s32 i;
+    s32 j;
+    s32 last;
+    s32 dstPos;
+    s32 srcPos;
+    u16* tilemap;
+
+    tilemap = STATUS_SCREEN_TILEMAP;
+    last = 0;
+    for (i = 0; i < sStatusScreenSectionSizes[section]; i++)
+    {
+        dstPos = (STATUS_SCREEN_DST_TOP(section) + (i + 1)) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section);
+        srcPos = (STATUS_SCREEN_SRC_TOP(section) + (i + 1)) * HALF_BLOCK_SIZE + STATUS_SCREEN_SRC_LEFT(section);
+
+        if (sPauseDebugItemFlagsPointers[section][i] & value)
+        {
+            last = i + 1;
+            for (j = 0; j <= STATUS_SCREEN_DST_RIGHT(section) - STATUS_SCREEN_DST_LEFT(section); j++)
+                tilemap[dstPos + j] = tilemap[srcPos + j];
+        }
+    }
+
+    if (last != 0)
+    {
+        for (i = 0; i < 2; i++)
+        {
+            if (i == 0)
+            {
+                // Draw the bottom of the section after the last acquired item
+                last++;
+                dstPos = (STATUS_SCREEN_DST_TOP(section) + last) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section);
+                srcPos = STATUS_SCREEN_SRC_BOTTOM(section) * HALF_BLOCK_SIZE + STATUS_SCREEN_SRC_LEFT(section);
+            }
+            else
+            {
+                // Draw the top of the section
+                dstPos = STATUS_SCREEN_DST_TOP(section) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section);
+                srcPos = STATUS_SCREEN_SRC_TOP(section) * HALF_BLOCK_SIZE + STATUS_SCREEN_SRC_LEFT(section);
+            }
+
+            for (j = 0; j <= STATUS_SCREEN_DST_RIGHT(section) - STATUS_SCREEN_DST_LEFT(section); j++)
+                tilemap[dstPos + j] = tilemap[srcPos + j];
+        }
+    }
+}
+
+/**
+ * @brief 7ec8c | 94 | Removes an ammo header from the status screen
+ *
+ * @param position 1 for missiles 2 for power bombs
+ */
+void StatusScreenRemoveAmmoHeader(u8 position)
+{
+    s32 i;
+    s32 j;
+    s32 row;
+    s32 dstPos;
+    s32 srcPos;
+    u16* tilemap;
+
+    if (position == 1)
+        row = 1;
+    else if (position == 2)
+        row = 2;
+    else
+        return;
+
+    tilemap = STATUS_SCREEN_TILEMAP;
+    // FIXME: Fake match, the empty asm statement only changes the register allocation priority of tilemap
+    asm("" : : "r"(tilemap));
+
+    for (i = 0; i < 2; i++)
+    {
+        // Overwrite the ammo header with the empty header
+        dstPos = (STATUS_SCREEN_HEADER_TOP(row) + i) * HALF_BLOCK_SIZE + STATUS_SCREEN_HEADER_LEFT(row);
+        srcPos = (STATUS_SCREEN_HEADER_TOP(0) + i) * HALF_BLOCK_SIZE + STATUS_SCREEN_HEADER_LEFT(0);
+
+        for (j = 0; j <= STATUS_SCREEN_HEADER_RIGHT(0) - STATUS_SCREEN_HEADER_LEFT(0); j++)
+            tilemap[dstPos + j] = STATUS_SCREEN_TILEMAP[srcPos + j];
+    }
+}

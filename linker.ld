@@ -514,8 +514,6 @@ SECTIONS {
         src/menus/pause_debug.o(.text);
 
         src/status_screen.o(.text);
-        asm/disasm_0x0807e754.o(.text);
-        src/status_screen_2.o(.text);
         src/menus/easy_sleep_menu.o(.text);
         src/save_file.o(.text);
         src/menus/erase_sram.o(.text);
