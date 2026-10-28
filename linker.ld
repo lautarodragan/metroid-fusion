@@ -517,6 +517,7 @@ SECTIONS {
         asm/disasm_0x0807c0d0.o(.text);
         src/menus/navigation_conversation_graphics.o(.text);
         asm/disasm_0x0807c630.o(.text);
+        src/menus/bsl_diagram.o(.text);
 
         src/menus/pause_debug.o(.text);
 
