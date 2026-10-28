@@ -506,8 +506,6 @@ SECTIONS {
         asm/disasm_0x08079afc.o(.text);
         src/menus/navigation_conversation.o(.text);
         src/menus/navigation_conversation_pop_up.o(.text);
-        asm/disasm_0x0807bde0.o(.text);
-        src/menus/navigation_conversation_pop_up_update.o(.text);
         asm/disasm_0x0807c0d0.o(.text);
         src/menus/navigation_conversation_graphics.o(.text);
 
