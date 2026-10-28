@@ -1,9 +1,10 @@
 """Generate a placeholder "open base ROM" that tools/extractor.py can consume.
 
-The output is NOT a game and contains no Nintendo data. It is an 8 MiB file in
-which every region listed in database.json is filled with procedurally
-generated, format-valid placeholder content (CC0-1.0), at the same offset and
-with exactly the same size as the original region. Everything outside those
+The output is a test fixture, NOT a game, and contains no data from the
+original ROM. It is an 8 MiB file in which every region listed in
+database.json is filled with procedurally generated, format-valid placeholder
+content, at the same offset and with exactly the same size as the original
+region. Everything outside those
 regions is zero. Code is never taken from here: the extractor only copies
 data regions, the program itself is built from this repository.
 
@@ -54,13 +55,14 @@ CHAR_TERMINATOR = 0xFF00                      # include/constants/text.h
 CLIPDATA_SOLID = 16                           # include/constants/clipdata.h
 
 
-OPEN_MARKER = b"OPEN-BASEROM placeholder data, not a game (CC0)\0"
+OPEN_MARKER = b"OPEN-BASEROM placeholder test data, not a game\0"
 
 
 def is_open_baserom(path: Path) -> bool:
     """True if ``path`` is an open baserom written by this script."""
     with open(path, "rb") as f:
-        return f.read(len(OPEN_MARKER)) == OPEN_MARKER
+        # Prefix only, so files written with an older marker text still match.
+        return f.read(len(b"OPEN-BASEROM")) == b"OPEN-BASEROM"
 
 
 def seed_of(path: str) -> int:

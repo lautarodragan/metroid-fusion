@@ -1,0 +1,3 @@
+<!-- Page generated from docs/test_baserom_research.md: edit that file, not this one. -->
+
+{{#include ../../../docs/test_baserom_research.md}}
