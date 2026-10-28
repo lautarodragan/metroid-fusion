@@ -449,7 +449,7 @@ SECTIONS {
         . += SHIFT_TEST;
 #endif
 
-        asm/disasm_0x08056140.o(.text);
+        src/sprites_AI/gunship_end.o(.text);
 
         src/sprites_AI/electric_water_damage_box2.o(.text);
         src/sprites_AI/frozen_ridley.o(.text);
@@ -510,7 +510,13 @@ SECTIONS {
         src/ending_cutscenes.o(.text);
         asm/disasm_0x0808F5C4.o(.text);
         asm/disasm_0x08096B98.o(.text);
-        asm/disasm_0x0809A848.o(.text);
+        src/cutscenes/secret_conversation.o(.text);
+        src/cutscenes/restricted_lab_detaching.o(.text);
+        src/cutscenes/bsl_exploding.o(.text);
+        src/cutscenes/cutscene_monologue.o(.text);
+        asm/disasm_0x0809CA9C.o(.text);
+        src/cutscenes/cutscene_common.o(.text);
+        asm/disasm_0x0809D340.o(.text);
 
         src/sa_x_close_up.o(.text);
 
