@@ -520,10 +520,9 @@ SECTIONS {
 
         src/status_screen.o(.text);
         asm/disasm_0x0807e754.o(.text);
+        src/status_screen_2.o(.text);
         src/menus/easy_sleep_menu.o(.text);
         src/save_file.o(.text);
-        asm/disasm_0x0807fdb0.o(.text);
-        src/save_file_misc.o(.text);
         src/menus/erase_sram.o(.text);
 
         src/projectile.o(.text);

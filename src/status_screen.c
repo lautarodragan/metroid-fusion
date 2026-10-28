@@ -62,3 +62,63 @@ void StatusScreenDrawEverything(void)
 
     StatusScreenRemoveAmmoHeader(2);
 }
+
+/**
+ * @brief 7e754 | e0 | Draws a number on the status screen
+ * 
+ * @param section Section
+ * @param value Value
+ * @param palette Palette slot
+ * @param isMax Bool for current vs max ammo count
+ */
+void StatusScreenDrawNumber(u8 section, u16 value, u8 palette, boolu8 isMax)
+{
+    u16* dst;
+    s32 width;
+    s32 power;
+    s32 digit;
+    s32 started;
+    s32 i;
+
+    // FIXME: Fake match, the empty asm statements only change register allocation priorities
+    asm("" : : "r"(palette));
+    dst = &STATUS_SCREEN_TILEMAP[STATUS_SCREEN_DST_TOP(section) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section)];
+    width = STATUS_SCREEN_DST_RIGHT(section) - STATUS_SCREEN_DST_LEFT(section);
+    power = sPauseDebugNumbersIncrementValues[width];
+    width++;
+    started = FALSE;
+    asm("" : : "r"(started));
+
+    for (i = 0; power > 0; power /= 10, i++)
+    {
+        digit = value / power % 10;
+
+        if (digit == 0)
+        {
+            if (!started)
+            {
+                // Leading zero, blank tile for current values, skipped for max values
+                digit = 0x8C;
+                if (isMax)
+                    digit = 0;
+            }
+            else
+            {
+                digit = 0x80;
+            }
+        }
+        else
+        {
+            started = TRUE;
+            digit += 0x80;
+        }
+
+        if (digit != 0)
+            dst[i] = palette << 12 | digit;
+        else
+            i--;
+    }
+
+    for (; width != i; i++)
+        dst[i] = palette << 12 | 0x8C;
+}
