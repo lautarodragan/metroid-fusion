@@ -507,7 +507,9 @@ SECTIONS {
         src/menus/title_screen.o(.text);
         src/new_file_intro.o(.text);
 
-        asm/disasm_0x0808F5C4.o(.text);
+        asm/disasm_0x0809209C.o(.text);
+        src/intro.o(.text);
+        src/ending_cutscenes.o(.text);
         src/ending_dialogue.o(.text);
         src/died_on_sr388.o(.text);
         src/special_cutscene_monologue.o(.text);
