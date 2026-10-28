@@ -1,183 +1,179 @@
-# Tests con emulador (sin la ROM de Nintendo)
+# Emulator tests (without the Nintendo ROM)
 
-Los tests de `tests/emu/` corren la ROM construida desde la **base ROM
-abierta** (`tools/open_assets/`, contenido de relleno propio) en un emulador
-de GBA sin ventana, manejado desde Python. No necesitan, leen ni descargan la
-ROM original ni la BIOS de Nintendo, así que corren en CI.
+The tests in `tests/emu/` run the ROM built from the **open base ROM**
+(`tools/open_assets/`, our own placeholder content) in a windowless GBA
+emulator driven from Python. They don't need, read or download the original
+ROM or the Nintendo BIOS, so they run in CI.
 
-## Requisitos
+## Requirements
 
-- Lo mismo que para compilar (agbcc, `binutils-arm-none-eabi`, `python3`).
-- El core libretro de mGBA: `sudo apt install libretro-mgba` (Ubuntu 24.04
-  trae la 0.10.2). Se busca en `/usr/lib/<arch>/libretro/mgba_libretro.so`;
-  otra ruta se indica con `MGBA_LIBRETRO_CORE=/ruta/mgba_libretro.so`.
-- `pytest` (`sudo apt install python3-pytest` o `pip install pytest`).
+- The same as for building (agbcc, `binutils-arm-none-eabi`, `python3`).
+- The mGBA libretro core: `sudo apt install libretro-mgba` (Ubuntu 24.04
+  ships 0.10.2). It is looked up in `/usr/lib/<arch>/libretro/mgba_libretro.so`;
+  set a different path with `MGBA_LIBRETRO_CORE=/path/mgba_libretro.so`.
+- `pytest` (`sudo apt install python3-pytest` or `pip install pytest`).
 
-Sin el core o sin la ROM, todos los tests se marcan como *skipped* con un
-mensaje que dice qué falta.
+Without the core or without the ROM, every test is marked as *skipped* with a
+message saying what is missing.
 
-## Cómo correrlos
+## How to run them
 
 ```sh
-tests/run_emu_tests.sh                       # build limpio en un dir temporal + pytest
-tests/run_emu_tests.sh -k ingame -v          # los argumentos extra van a pytest
-tests/run_emu_tests.sh --no-shift            # sin la segunda corrida (ROM desplazada)
-EMU_BUILD_DIR=/tmp/mf-open tests/run_emu_tests.sh   # reusar el build (incremental)
+tests/run_emu_tests.sh                       # clean build in a temp dir + pytest
+tests/run_emu_tests.sh -k ingame -v          # extra arguments go to pytest
+tests/run_emu_tests.sh --no-shift            # without the second run (shifted ROM)
+EMU_BUILD_DIR=/tmp/mf-open tests/run_emu_tests.sh   # reuse the build (incremental)
 ```
 
-`run_emu_tests.sh` copia los archivos del repo (versionados y no ignorados) a
-otro directorio, genera ahí la base ROM abierta y compila con
-`tools/open_assets/build_open_rom.py`. **Nunca toca el árbol de trabajo**: un
-`mf_us_baserom.gba` real o sintético que tengas queda intacto.
+`run_emu_tests.sh` copies the repo's files (tracked and not ignored) to
+another directory, generates the open base ROM there and builds with
+`tools/open_assets/build_open_rom.py`. **It never touches the working tree**:
+any real or synthetic `mf_us_baserom.gba` you have is left intact.
 
-Después repite todo con la ROM de prueba de *shift* (`make SHIFT=1`,
-`mf_us_shifted.gba`, ver `docs/shiftability.md`): mismo código y
-datos con relleno insertado, así que casi todo cambia de dirección. Los
-mismos tests (incluidas las capturas) tienen que pasar; es la prueba en
-ejecución de que el build es *shiftable*, que `check_shift.py` solo verifica
-estáticamente. Tarda ~70 s en total (dos builds de ~25 s y dos corridas de
-~8 s).
+It then repeats everything with the *shift* test ROM (`make SHIFT=1`,
+`mf_us_shifted.gba`, see `docs/shiftability.md`): the same code and data
+with padding inserted, so almost every address changes. The same tests
+(screenshots included) have to pass; this is the run-time proof that the
+build is *shiftable*, which `check_shift.py` only verifies statically. It
+takes ~70 s in total (two builds of ~25 s and two runs of ~8 s).
 
-Si ya compilaste la ROM abierta a mano, alcanza con
-`python3 -m pytest tests/emu [--emu-rom ruta/mf_us.gba]`. Los tests se saltean
-si el `mf_us_baserom.gba` junto a la ROM no es una base ROM abierta (tiene un
-marcador al principio), porque las referencias solo valen para esa ROM.
+If you already built the open ROM by hand,
+`python3 -m pytest tests/emu [--emu-rom path/mf_us.gba]` is enough. The tests
+are skipped if the `mf_us_baserom.gba` next to the ROM is not an open base ROM
+(it has a marker at the start), because the references are only valid for
+that ROM.
 
-`build_open_rom.py [--shift]` compila en dos pasadas: algunos datos de la
-base ROM son direcciones del build (vector de interrupciones, tablas de
-punteros) y se llenan con el ELF de la pasada anterior. Como el Makefile no
-sabe que un objeto depende de los archivos que incluye con `INCBIN`, el script
-borra los objetos cuyos datos cambiaron.
+`build_open_rom.py [--shift]` builds in two passes: some of the base ROM's
+data are build addresses (interrupt vector, pointer tables) and are filled in
+from the ELF of the previous pass. Since the Makefile doesn't know that an
+object depends on the files it includes with `INCBIN`, the script deletes the
+objects whose data changed.
 
-## Qué verifican
+## What they verify
 
-| Archivo | Test |
+| File | Test |
 | --- | --- |
-| `test_boot.py` | Los primeros 600 frames corren (PC siempre en código, contador de frames creciente). El recorrido guionado pasa por los modos en orden: intro del título → pantalla de título → selección de archivo → intro de partida nueva → mapa → juego. Sin PC inválido ni reinicios durante todo el recorrido. |
-| `test_screenshots.py` | Capturas en 5 puntos (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`) comparadas con `tests/emu/reference/*.png`. Un píxel difiere si algún canal difiere en más de 24; falla si difiere más del 0,5 % de los píxeles. Al fallar se guardan `<nombre>.actual.png` y `<nombre>.diff.png` en `tests/emu/output/` (o `--emu-output` / `$MF_EMU_OUTPUT`; en CI se suben como artefacto). |
-| `test_ingame.py` | En la primera sala (`gCurrentArea` = 0, `gCurrentRoom` = 0): mantener derecha aumenta `gSamusData.xPosition` e izquierda lo reduce; A hace saltar (baja `yPosition`) y Samus vuelve al piso. Determinismo: mismo estado + mismo input → mismo hash de RAM/VRAM/OAM y misma imagen; dos encendidos dan la misma RAM. |
+| `test_boot.py` | The first 600 frames run (PC always in code, increasing frame counter). The scripted walkthrough goes through the modes in order: title intro → title screen → file select → new file intro → map → in game. No invalid PC and no resets during the whole walkthrough. |
+| `test_screenshots.py` | Screenshots at 5 points (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`) compared against `tests/emu/reference/*.png`. A pixel differs if any channel differs by more than 24; the test fails if more than 0.5 % of the pixels differ. On failure, `<name>.actual.png` and `<name>.diff.png` are saved to `tests/emu/output/` (or `--emu-output` / `$MF_EMU_OUTPUT`; in CI they are uploaded as an artifact). |
+| `test_ingame.py` | In the first room (`gCurrentArea` = 0, `gCurrentRoom` = 0): holding right increases `gSamusData.xPosition` and left decreases it; A makes Samus jump (`yPosition` goes down) and Samus lands back on the floor. Determinism: same state + same input → same RAM/VRAM/OAM hash and same image; two power-ons give the same RAM. |
 
-El recorrido (`tests/emu/scenario.py`) se ejecuta una sola vez por sesión: los
-tests leen lo registrado (transiciones de modo, capturas, *save states*) y los
-de juego parten del estado guardado al llegar a la sala.
+The walkthrough (`tests/emu/scenario.py`) runs only once per session: the
+tests read what was recorded (mode transitions, screenshots, *save states*)
+and the in-game ones start from the state saved on reaching the room.
 
-### Actualizar las referencias
+### Updating the references
 
-Cuando un cambio altera la imagen a propósito (por ejemplo, otro relleno en
-`make_open_baserom.py`):
+When a change alters the image on purpose (for example, different placeholder
+content in `make_open_baserom.py`):
 
 ```sh
 tests/run_emu_tests.sh --update-references
 ```
 
-Mirar los PNG nuevos y commitearlos junto con el cambio. Las referencias solo
-muestran arte de relleno generado por nosotros, así que se pueden versionar.
+Look at the new PNGs and commit them along with the change. The references
+only show placeholder art we generated, so they can be versioned.
 
-## Determinismo
+## Determinism
 
-- Opciones del core fijas en el harness (BIOS HLE, sin *frameskip*, sin
-  corrección de color ni mezcla entre frames, sin optimización de *idle
-  loops*), independientes de cualquier configuración local.
-- Directorio de sistema/guardado vacío y temporal: nunca se carga una BIOS ni
-  un `.sav` del usuario. La SRAM arranca vacía en cada encendido.
-- Metroid Fusion no tiene RTC ni lee nada dependiente del reloj; el número
-  aleatorio del juego sale de contadores de frames, que son deterministas.
-- El input se da por frame; el guion usa cantidades fijas de frames.
+- Core options fixed in the harness (HLE BIOS, no *frameskip*, no color
+  correction or frame blending, no *idle loop* optimization), independent of
+  any local configuration.
+- Empty, temporary system/save directory: a user BIOS or `.sav` is never
+  loaded. SRAM starts empty on every power-on.
+- Metroid Fusion has no RTC and doesn't read anything clock-dependent; the
+  game's random number comes from frame counters, which are deterministic.
+- Input is given per frame; the script uses fixed frame counts.
 
-Los dos tests de determinismo lo comprueban en el mismo proceso, y la
-comparación de capturas contra referencias generadas en otra corrida lo
-comprueba entre procesos.
+The two determinism tests check this within the same process, and comparing
+screenshots against references generated in another run checks it across
+processes.
 
-## El harness (`tests/emu/harness.py`)
+## The harness (`tests/emu/harness.py`)
 
-Frontend libretro mínimo con `ctypes` (sin dependencias de pip):
+A minimal libretro frontend using `ctypes` (no pip dependencies):
 
 ```python
 from harness import Emulator
-emu = Emulator("mf_us.gba", "mf_us.map")      # un solo Emulator por proceso
+emu = Emulator("mf_us.gba", "mf_us.map")      # only one Emulator per process
 emu.run(60)                                   # 60 frames
-emu.run(30, "RIGHT+B"); emu.press("START")    # input por frame
-emu.s16("gMainGameMode"); emu.u16("gSamusData+0x16")   # símbolos del .map
-emu.read(0x06000000, 32)                      # cualquier región mapeada
-emu.save_png("shot.png")                      # captura (PNG sin Pillow)
+emu.run(30, "RIGHT+B"); emu.press("START")    # per-frame input
+emu.s16("gMainGameMode"); emu.u16("gSamusData+0x16")   # symbols from the .map
+emu.read(0x06000000, 32)                      # any mapped region
+emu.save_png("shot.png")                      # screenshot (PNG without Pillow)
 st = emu.save_state(); emu.load_state(st)
-emu.cpu_registers()["pc"]; emu.symbolize(pc)  # PC desde el save state de mGBA
+emu.cpu_registers()["pc"]; emu.symbolize(pc)  # PC from the mGBA save state
 ```
 
-La memoria se lee a través del mapa de memoria que publica el core
-(`RETRO_ENVIRONMENT_SET_MEMORY_MAPS`): EWRAM, IWRAM, I/O, paletas, VRAM, OAM y
-ROM. Los símbolos se resuelven solo desde el `.map`. Los registros de la CPU
-no son parte de la API libretro; `cpu_registers()` los saca del formato de
-*save state* de mGBA y sirve para depurar.
+Memory is read through the memory map the core publishes
+(`RETRO_ENVIRONMENT_SET_MEMORY_MAPS`): EWRAM, IWRAM, I/O, palettes, VRAM, OAM
+and ROM. Symbols are resolved only from the `.map`. The CPU registers are not
+part of the libretro API; `cpu_registers()` extracts them from mGBA's *save
+state* format and is meant for debugging.
 
-### Depurar un cuelgue
+### Debugging a hang
 
-1. Con el harness, ubicar el frame (modos, `cpu_registers()`, `symbolize`).
-2. Guardar un estado justo antes (`open("x.ss","wb").write(emu.save_state()[:-8])`;
-   los últimos 8 bytes son el contador de frames del harness).
-3. Abrirlo en el depurador de línea de comandos de mGBA (`apt install
+1. With the harness, locate the frame (modes, `cpu_registers()`, `symbolize`).
+2. Save a state right before it (`open("x.ss","wb").write(emu.save_state()[:-8])`;
+   the last 8 bytes are the harness's frame counter).
+3. Open it in mGBA's command-line debugger (`apt install
    mgba-sdl`):
-   `SDL_VIDEODRIVER=dummy /usr/games/mgba -d -t x.ss mf_us.gba`, con
-   `b <dir>`, `watch/w <dir>`, `trace <n>`, `c`.
+   `SDL_VIDEODRIVER=dummy /usr/games/mgba -d -t x.ss mf_us.gba`, with
+   `b <addr>`, `watch/w <addr>`, `trace <n>`, `c`.
 
-## Qué hizo falta para que la ROM abierta arranque
+## What it took for the open ROM to boot
 
-Nada en `src/` ni `asm/`: solo datos de relleno, en `apply_known_layouts` de
+Nothing in `src/` or `asm/`: only placeholder data, in `apply_known_layouts` in
 `tools/open_assets/make_open_baserom.py`.
 
-1. **Vector de interrupciones** (`sInterruptHandlers`): 13 punteros a
+1. **Interrupt vector** (`sInterruptHandlers`): 13 pointers to
    `Dma2IntrCode`, `CallbackCallVblank`, `CallbackCallHBlank`,
-   `CallbackCallVCount` y `Callback_Empty`. En cero, la primera IRQ de DMA2
-   saltaba a 0 y la consola se reiniciaba en bucle durante el arranque.
-2. **Datos de OAM de cinemáticas, final y selección de archivo**: en cero,
-   los punteros a animaciones (`struct FrameData`) llevaban a leer un número
-   de partes enorme y a escribir más allá del buffer de OAM, pisando
-   `gVBlankCallback`. Se llenan con una palabra repetida que es la dirección
-   (en el build) de una copia de sí misma alineada a 64 KiB: leída como
-   `FrameData` es un terminador que apunta a un frame vacío, como frame tiene
-   0 partes y como tabla de punteros vuelve a apuntar a algo válido. Las
-   regiones que el código pasa a `LZ77UncompVram/Wram` quedan con cabecera 0
-   (descomprimen a nada).
-3. **Tablas de selección de archivo**: punteros por idioma a gráficos (→ LZ77
-   vacío) y a tablas de texto (→ textos vacíos).
-4. **Texto**: todo terminadores; las tablas `s*TextPointers*` apuntan a un
-   texto vacío. Cada monólogo de la intro de partida nueva
-   (`sMonologueText<Idioma>_<N>`) es "flecha, flecha, un carácter, flecha,
-   fin", para que tanto las escenas que esperan "sigue texto" como las que
-   esperan "fin" avancen con A.
-5. **Voicegroups** (`sVoicegroup_*`): todas las voces tocan la primera
-   muestra.
+   `CallbackCallVCount` and `Callback_Empty`. When zeroed, the first DMA2 IRQ
+   jumped to 0 and the console reset in a loop during boot.
+2. **OAM data for cutscenes, the ending and file select**: when zeroed, the
+   animation pointers (`struct FrameData`) led to reading a huge part count
+   and writing past the OAM buffer, overwriting `gVBlankCallback`. They are
+   filled with a repeated word that is the (build) address of a 64 KiB-aligned
+   copy of itself: read as `FrameData` it is a terminator pointing to an empty
+   frame, as a frame it has 0 parts, and as a pointer table it points to
+   something valid again. The regions the code passes to `LZ77UncompVram/Wram`
+   get a 0 header (they decompress to nothing).
+3. **File select tables**: per-language pointers to graphics (→ empty LZ77)
+   and to text tables (→ empty texts).
+4. **Text**: all terminators; the `s*TextPointers*` tables point to an empty
+   text. Each new file intro monologue (`sMonologueText<Language>_<N>`) is
+   "arrow, arrow, one character, arrow, end", so that both the scenes that
+   wait for "more text" and the ones that wait for "end" advance with A.
+5. **Voicegroups** (`sVoicegroup_*`): every voice plays the first sample.
 
-### Cómo se ubican esos datos
+### How that data is located
 
-Para que cambios de la decomp o del layout no lo rompan en silencio:
+So that changes to the decomp or the layout don't break it silently:
 
-- Las regiones se reconocen por el **símbolo** con que el código las incluye
-  (`INCBIN`/`.incbin`, ver `tools/open_assets/layout.py`), no por el nombre de
-  archivo en `database.json`. Si una regla no encuentra ninguna región, el
-  generador falla con un error.
-- Las fuentes LZ77 se detectan buscando en `src/` y `asm/` qué símbolos se
-  pasan a `LZ77UncompVram/Wram` (en C y en asm).
-- Lo que solo se conoce por su ubicación original (los rangos de datos de
-  OAM, tres tablas de selección de archivo, el rango del texto) está dado como
-  offset en la **base ROM**, que tiene el layout de la ROM original y no
-  cambia aunque el build se desplace o `database.json` se divida en más
-  piezas.
-- Los **valores** que apuntan al build (funciones, otros datos) salen del ELF
-  de la pasada anterior, así que siguen al código y los datos cuando se
-  mueven. La corrida con la ROM desplazada lo comprueba.
+- Regions are recognized by the **symbol** the code includes them with
+  (`INCBIN`/`.incbin`, see `tools/open_assets/layout.py`), not by the file name
+  in `database.json`. If a rule doesn't find any region, the generator fails
+  with an error.
+- LZ77 sources are detected by searching `src/` and `asm/` for which symbols
+  are passed to `LZ77UncompVram/Wram` (in C and in asm).
+- What is only known by its original location (the OAM data ranges, three
+  file select tables, the text range) is given as an offset in the **base
+  ROM**, which has the original ROM's layout and doesn't change even if the
+  build shifts or `database.json` is split into more pieces.
+- The **values** that point into the build (functions, other data) come from
+  the ELF of the previous pass, so they follow the code and data when they
+  move. The run with the shifted ROM checks this.
 
-## Limitaciones conocidas
+## Known limitations
 
-- Samus no se dibuja todavía en la sala (la posición en RAM sí cambia y es lo
-  que verifican los tests); la pantalla de selección de archivo se ve negra
-  (sus gráficos descomprimen a nada). El arte es relleno.
-- Las capturas dependen de la versión de mGBA; CI fija `ubuntu-24.04`
-  (libretro-mgba 0.10.2). Con otra versión puede hacer falta regenerar
-  referencias.
-- Cuando una de estas regiones se decompile (se convierta en C/asm con
-  símbolos), deja de venir de la base ROM y su regla deja de aplicarse; si era
-  la única región de una regla, el generador avisa con un error y hay que
-  quitar o ajustar la regla.
-- El guion pulsa A cada 30 frames durante la intro; si cambia la duración de
-  alguna escena, puede requerir más pulsos (`BOOT_SCRIPT` en `scenario.py`).
+- Samus is not drawn in the room yet (her position in RAM does change, and
+  that is what the tests verify); the file select screen shows up black (its
+  graphics decompress to nothing). The art is placeholder.
+- Screenshots depend on the mGBA version; CI pins `ubuntu-24.04`
+  (libretro-mgba 0.10.2). With another version the references may need to be
+  regenerated.
+- When one of these regions gets decompiled (turned into C/asm with symbols),
+  it no longer comes from the base ROM and its rule stops applying; if it was
+  the only region of a rule, the generator reports an error and the rule has
+  to be removed or adjusted.
+- The script presses A every 30 frames during the intro; if the length of
+  any scene changes, it may need more presses (`BOOT_SCRIPT` in `scenario.py`).

@@ -1,21 +1,21 @@
-# Resumen
+# Summary
 
-[Introducción](introduccion.md)
-[Sobre esta documentación](sobre-esta-documentacion.md)
+[Introduction](introduction.md)
+[About these docs](about-these-docs.md)
 
-# Guía
+# Guide
 
-- [Setup y build](setup.md)
-- [Contribuir](CONTRIBUTING.md)
-- [Verificación sin ROM (check sintético)](docs/synthetic_check.md)
-- [Shiftabilidad (pendiente)](shiftabilidad.md)
-- [Tests con emulador](docs/emu_tests.md)
+- [Setup and build](setup.md)
+- [Contributing](CONTRIBUTING.md)
+- [Verifying without the ROM (synthetic check)](docs/synthetic_check.md)
+- [Shiftability](docs/shiftability.md)
+- [Emulator tests](docs/emu_tests.md)
 
-# Investigación
+# Research
 
-- [Base ROM con assets abiertos](docs/open_assets_research.md)
+- [Base ROM with open assets](docs/open_assets_research.md)
 
-# Referencia
+# Reference
 
-- [Funciones de debug](docs/debug.md)
-- [Bugs y glitches](docs/bugs_and_glitches.md)
+- [Debug functions](docs/debug.md)
+- [Bugs and glitches](docs/bugs_and_glitches.md)
