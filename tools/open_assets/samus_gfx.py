@@ -362,22 +362,25 @@ def draw_spin(cv, info, k, U):
     head_end = 1 if (k // 2) % 2 == 0 else -1
     if s < 0:
         head_end = -head_end
-    r = min(max(w, h), 32) / 2 - 3.5
+    L = min(max(w, h), 32) / 2 - 1.5          # half length along the axis
     ca, sa = math.cos(axis) * head_end, math.sin(axis) * head_end
-    hx, hy = cx + ca * (r - 4), cy + sa * (r - 4)
-    kx, ky = cx - ca * (r - 4), cy - sa * (r - 4)
-    px, py = -sa, ca
-    cv.capsule(hx, hy, kx, ky, 6.2, SUIT_M)                   # curled torso
-    cv.capsule(kx + px * 3, ky + py * 3, cx + px * 5, cy + py * 5, 3.2, SUIT_D)  # shins
-    cv.disc(kx + px * 2, ky + py * 2, 3.2, ACC_M)            # knees
-    cv.disc(cx + px * 5.5, cy + py * 5.5, 2.8, ACC_D)        # boots
-    cv.disc(cx - px * 3, cy - py * 3, 3.6, ACC_M, shade=(ACC_L, ACC_D))  # shoulder
-    cv.disc(hx, hy, 5.0, SUIT_M, shade=(SUIT_L, SUIT_D))
-    cv.ellipse(hx + px * 2.2, hy + py * 2.2, 2.6, 1.8, VIS_M, angle=axis)
+    px, py = -sa * s, ca * s                    # "belly" side of the curl
+    hx, hy = cx + ca * (L - 5.5), cy + sa * (L - 5.5)
+    kx, ky = cx - ca * (L - 4), cy - sa * (L - 4)
+    # back (outer arc) and tucked legs (inner side)
+    cv.capsule(hx - px * 1.5, hy - py * 1.5, kx - px * 1.5, ky - py * 1.5, 5.5, SUIT_M)
+    cv.capsule(cx - px * 3.5 + ca * 2, cy - py * 3.5 + sa * 2, kx - px * 3, ky - py * 3, 2.0, SUIT_L)
+    cv.capsule(kx, ky, cx + px * 3.5 + ca * 2, cy + py * 3.5 + sa * 2, 3.2, SUIT_D)      # shins
+    cv.disc(kx + px * 0.5, ky + py * 0.5, 3.6, ACC_M, shade=(ACC_L, ACC_D))               # knees
+    cv.ellipse(cx + px * 4 + ca * 2.5, cy + py * 4 + sa * 2.5, 3.2, 2.2, ACC_D, angle=axis)  # boots
+    cv.disc(hx, hy, 5.6, SUIT_M, shade=(SUIT_L, SUIT_D))                                  # helmet
+    vx, vy = hx + px * 2.4 + ca * 1.0, hy + py * 2.4 + sa * 1.0
+    cv.ellipse(vx, vy, 3.0, 2.0, VIS_M, angle=axis + math.pi / 2)
+    cv.set(round(vx + ca), round(vy + sa), VIS_L)
     if info["pose"] == "ScrewAttacking":
         for t in range(0, 360, 30):
             a = math.radians(t + 15 * k)
-            cv.set(round(cx + math.cos(a) * (r + 2.5)), round(cy + math.sin(a) * (r + 2.5)), GLOW)
+            cv.set(round(cx + math.cos(a) * (L - 0.5)), round(cy + math.sin(a) * (L - 0.5)), GLOW)
 
 
 def draw_ball(cv, info, k, U, frac=1.0):
@@ -505,12 +508,15 @@ def build(d=None) -> tuple[dict, dict]:
                 n1, n2 = (g[1] + [0, 0])[:2]
                 want = {base + c for c in range(n1)} | {32 + base + c for c in range(n2)}
                 shown = {t for e in entries for _, _, t in e.tiles()} & want
-                candidates[f[key]].append((len(shown), -len(entries), anim, i))
+                # prefer animations named like the block (a block is drawn
+                # for its own pose even when other poses reuse it)
+                match = classify(anim)["pose"] in f[key]
+                candidates[f[key]].append((match, len(shown), -len(entries), anim, i))
     out = {}
     drawn = {}
     for sym, cands in candidates.items():
-        cands.sort(key=lambda c: (-c[0], c[1], c[2], c[3]))
-        _, _, anim, i = cands[0]
+        cands.sort(key=lambda c: (-c[0], -c[1], c[2], c[3], c[4]))
+        _, _, _, anim, i = cands[0]
         frames = [f for f in d.structs[anim] if f.get("pOam") and f.get("pTopGfx")]
         f = frames[i]
         key = (anim, i)

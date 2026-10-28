@@ -375,6 +375,23 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
 EMPTY_BG_TILES = [("animated_tiles/tiles.gfx", 0x80), ("common/common_tiles.gfx", 0x20)]
 
 
+# Default button assignments of a new file (struct ButtonAssignments:
+# arm missiles, diagonal aim, swap missiles, pause). Zero-filled, missiles,
+# diagonal aiming and the pause menu cannot be used.
+BUTTON_ASSIGNMENTS_SYMBOL = "sSramUnk_5822c8"
+BUTTON_ASSIGNMENTS = (0x100, 0x200, 0x004, 0x008)   # R, L, SELECT, START
+
+
+def default_button_assignments(rom: bytearray, regions: list[Region], layout: Layout) -> list[str]:
+    found = [r for r in regions if layout.symbol_of(r) == BUTTON_ASSIGNMENTS_SYMBOL]
+    if len(found) != 1:
+        raise SystemExit(f"expected one region INCBINed as {BUTTON_ASSIGNMENTS_SYMBOL}, found {len(found)}")
+    r = found[0]
+    data = struct.pack("<4H", *BUTTON_ASSIGNMENTS)
+    rom[r.addr:r.addr + len(data)] = data
+    return ["button assignments: R missiles, L diagonal aim"]
+
+
 def clear_empty_bg_tiles(rom: bytearray, regions: list[Region]) -> list[str]:
     by_path = {r.path: r for r in regions}
     for path, size in EMPTY_BG_TILES:
@@ -424,6 +441,7 @@ def generate(args) -> int:
 
     layout_notes = apply_known_layouts(rom, regions, layout)
     layout_notes += clear_empty_bg_tiles(rom, regions)
+    layout_notes += default_button_assignments(rom, regions, layout)
     layout_notes += samus_gfx.apply(rom, regions, layout)
     layout_notes += hud_gfx.apply(rom, regions, layout)
     layout_notes += sprite_gfx.apply(rom, regions, layout)
