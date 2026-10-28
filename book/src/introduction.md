@@ -10,7 +10,7 @@ The up-to-date status is in the repository's
 [README](https://github.com/lautarodragan/metroid-fusion/blob/main/README.md).
 At the time of writing:
 
-- 3601/3607 functions decompiled (99.83%, 6 left).
+- 3602/3607 functions decompiled (99.86%, 5 left).
 - 0x5dca90/0x6f9d24 bytes of data outside blobs (84.03%, 0x11d294 left).
 
 `python3 tools/progress.py` computes both numbers from the current tree.
