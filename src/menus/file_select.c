@@ -897,3 +897,161 @@ u32 FileSelectInput(void)
 
     return result;
 }
+
+/**
+ * @brief 9f518 | 418 | Sets up a new file select oam
+ *
+ * @param type Oam type
+ * @param xPosition X position
+ * @param yPosition Y position
+ * @param unk Unused
+ * @return u8 Oam slot (FILE_SELECT_OAM_COUNT if none was free)
+ */
+u8 FileSelectSetupOam(u8 type, s16 xPosition, s16 yPosition, u8 unk)
+{
+    s8 i;
+    u32 zero;
+    u8 oamType;
+
+    for (i = FILE_SELECT_OAM_COUNT - 1; i >= 0; i--)
+    {
+        if (FILE_SELECT_DATA.oam[i].type == FILE_SELECT_OAM_TYPE_NONE)
+            break;
+    }
+
+    if (i < 0)
+        return FILE_SELECT_OAM_COUNT;
+
+    zero = 0;
+    DMA_SET(3, &zero, &FILE_SELECT_DATA.oam[i], C_32_2_16(DMA_ENABLE | DMA_32BIT | DMA_SRC_FIXED, sizeof(struct FileSelectOam) / sizeof(u32)));
+
+    FILE_SELECT_DATA.oam[i].xPosition = xPosition;
+    FILE_SELECT_DATA.oam[i].yPosition = yPosition;
+    FILE_SELECT_DATA.oam[i].type = type;
+    FILE_SELECT_DATA.oam[i].isDrawn = TRUE;
+
+    if (type == FILE_SELECT_OAM_TYPE_SAMUS_HEAD)
+    {
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740a48;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessSamusHead;
+    }
+    else if (type == FILE_SELECT_OAM_TYPE_CURSOR)
+    {
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740b48;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessCursor;
+    }
+    else if (type == FILE_SELECT_OAM_TYPE_DELETE_ARROW)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 1;
+        FILE_SELECT_DATA.oam[i].isDrawn = FALSE;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740ab8;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessDeleteArrow;
+    }
+    else if (type == 4)
+    {
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740b48;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_9fddc;
+    }
+    else if (type == 5)
+    {
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740b48;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_9ff00;
+    }
+    else if (type == 6)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_7407e0;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessAudioLogos;
+    }
+    else if (type == 7)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 2;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_79e890[gMostRecentSaveFile];
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessFileOverlay;
+    }
+    else if (type == 8)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 2;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_7408e0;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a016c;
+    }
+    else if (type == 9)
+    {
+        FILE_SELECT_DATA.oam[i].isDrawn = FALSE;
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_7408f0;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessAudioSelect;
+    }
+    else if (type == 10)
+    {
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740880;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a01cc;
+    }
+    else if (type == 11)
+    {
+        SoundPlay(SOUND_1FC);
+        FILE_SELECT_DATA.oam[i].priority = 2;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740918;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessFileActionPanel;
+    }
+    else if (type == 12)
+    {
+        SoundPlay(SOUND_1FC);
+        FILE_SELECT_DATA.oam[i].priority = 1;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740978;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessCopyFilePanel;
+    }
+    else if (type == 13)
+    {
+        SoundPlay(SOUND_1FC);
+        FILE_SELECT_DATA.oam[i].priority = 1;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740978;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessEraseFilePanel;
+    }
+    else if (type == 14)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+    }
+    else if (type == 15)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+    }
+    else if (type == 16)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+    }
+    else if (type == 17)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 2;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_7409a0;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+    }
+    else
+    {
+        // Reading the type through a copy here is needed to match
+        oamType = type;
+        if (oamType == 20 || type == 21 || type == 22)
+        {
+            FILE_SELECT_DATA.oam[i].priority = 3;
+            FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740b98;
+            FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        }
+        else if (type == 23)
+        {
+            SoundPlay(SOUND_1FC);
+            FILE_SELECT_DATA.oam[i].priority = 1;
+            FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740978;
+            FILE_SELECT_DATA.oam[i].pHandler = unk_a039c;
+        }
+        else if (type == 24)
+        {
+            FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_740b48;
+            FILE_SELECT_DATA.oam[i].pHandler = unk_a0424;
+        }
+    }
+
+    return i;
+}
