@@ -26,6 +26,9 @@ void EndingBslCrashingVblank(void);
 void EndingShipFrontViewVblank(void);
 u8 EndingGetPositionAndSlotOfOamByType(u8 type, s16* pXPosition, s16* pYPosition);
 void unk_95e20(struct SpecialCutsceneOam* pOam);
+u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch);
+void EndingMonologueVblank(void);
+void EndingConversationAndAnimalsVblank(void);
 
  /**
  * @brief 94e84 | f0 | Main handler for the ending cutscenes
@@ -868,4 +871,209 @@ u8 EndingGetPositionAndSlotOfOamByType(u8 type, s16* pXPosition, s16* pYPosition
 void unk_95e20(struct SpecialCutsceneOam* pOam)
 {
     return;
+}
+
+ /**
+ * @brief 95e24 | 200 | Setup for the ending monologue
+ *
+ */
+void EndingMonologueInit(void)
+{
+    WRITE_16(REG_IME, FALSE);
+    WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) & ~DSTAT_IF_HBLANK);
+    WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
+    WRITE_16(REG_IME, TRUE);
+
+    CallbackSetVBlank(unk_99940);
+
+    DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
+
+    LZ77UncompVram(sEndingUnk_6150e8, VRAM_OBJ);
+    DMA3_COPY_32(sEndingUnk_636638, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+
+    LZ77UncompVram(sEndingUnk_6186a4, VRAM_BASE + 0x8000);
+    LZ77UncompVram(sEndingUnk_6377f8, VRAM_BASE + 0xF800);
+
+    DMA3_COPY_32(sEndingUnk_636438, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+
+    LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
+    DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0x4800, 0x800 / sizeof(u32));
+    DMA3_FILL_32(0, VRAM_BASE, 0x4800);
+
+    DMA3_COPY_32(sIntroPal_663820, PALRAM_BASE + 12 * PAL_ROW_SIZE, 4 * PAL_ROW_SIZE / sizeof(u32));
+
+    gBg1XPosition = 0;
+    gBg1YPosition = 0;
+    gBg2XPosition = 0;
+    gBg2YPosition = 0;
+    gBg3XPosition = 0;
+    gBg3YPosition = 0;
+
+    WRITE_16(REG_BG0HOFS, 0);
+    WRITE_16(REG_BG0VOFS, 4);
+    WRITE_16(REG_BG1HOFS, 0);
+    WRITE_16(REG_BG1VOFS, 0);
+    WRITE_16(REG_BG2HOFS, 0);
+    WRITE_16(REG_BG2VOFS, 0);
+    WRITE_16(REG_BG3HOFS, 0);
+    WRITE_16(REG_BG3VOFS, 0);
+
+    WRITE_16(REG_BG0CNT, CREATE_BGCNT(0, 9, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
+    WRITE_16(REG_BG1CNT, CREATE_BGCNT(0, 30, BGCNT_HIGH_MID_PRIORITY, BGCNT_SIZE_256x256));
+    WRITE_16(REG_BG3CNT, CREATE_BGCNT(2, 31, BGCNT_LOW_PRIORITY, BGCNT_SIZE_256x256));
+
+    WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
+    gWrittenToBldy = BLDY_MAX_VALUE;
+    WRITE_16(REG_BLDY, BLDY_MAX_VALUE);
+
+    gWrittenToBldalpha_Eva = 0;
+    gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
+
+    EndingDialogueSetupOam(1, 260, 180, FALSE);
+
+    SpecialCutsceneProcessOam();
+    SpecialCutsceneDrawAllOam();
+
+    INTRO_DATA.pText = sCutsceneTextNone;
+
+    WRITE_16(REG_DISPCNT, DCNT_BG3 | DCNT_OBJ);
+
+    CallbackSetVBlank(EndingMonologueVblank);
+}
+
+ /**
+ * @brief 96024 | 204 | Setup for the ending Adam conversation
+ *
+ */
+void EndingAdamConversationInit(void)
+{
+    WRITE_16(REG_IME, FALSE);
+    WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) & ~DSTAT_IF_HBLANK);
+    WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
+    WRITE_16(REG_IME, TRUE);
+
+    CallbackSetVBlank(unk_99940);
+
+    DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
+    DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
+    DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
+
+    LZ77UncompVram(sEndingUnk_6131c8, VRAM_BASE + 0x8000);
+    LZ77UncompVram(sEndingUnk_637238, VRAM_BASE + 0xF800);
+    LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
+
+    DMA3_COPY_32(sEndingUnk_636438, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+
+    gBg0XPosition = -8;
+    gBg0YPosition = 8;
+    gBg1XPosition = 0;
+    gBg1YPosition = 0;
+    gBg2XPosition = 0;
+    gBg2YPosition = 0;
+    gBg3XPosition = 0;
+    gBg3YPosition = 0;
+
+    WRITE_16(REG_BG0HOFS, -8);
+    WRITE_16(REG_BG0VOFS, 8);
+    WRITE_16(REG_BG1HOFS, 0);
+    WRITE_16(REG_BG1VOFS, 0);
+    WRITE_16(REG_BG2HOFS, 0);
+    WRITE_16(REG_BG2VOFS, 0);
+    WRITE_16(REG_BG3HOFS, 0);
+    WRITE_16(REG_BG3VOFS, 0);
+
+    WRITE_16(REG_BG0CNT, CREATE_BGCNT(2, 28, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
+    WRITE_16(REG_BG3CNT, CREATE_BGCNT(2, 31, BGCNT_LOW_PRIORITY, BGCNT_SIZE_256x256));
+
+    WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
+    gWrittenToBldy = BLDY_MAX_VALUE;
+    WRITE_16(REG_BLDY, BLDY_MAX_VALUE);
+
+    gWrittenToBldalpha_Eva = BLDALPHA_MAX_VALUE;
+    gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
+    WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
+
+    EndingDialogueSetupOam(2, 112, 80, TRUE);
+    EndingDialogueSetupOam(3, 112, 80, TRUE);
+    EndingDialogueSetupOam(4, 112, 80, TRUE);
+
+    SpecialCutsceneProcessOam();
+    SpecialCutsceneDrawAllOam();
+
+    INTRO_DATA.pText = sCutsceneTextNone;
+
+    DMA3_FILL_32(0, VRAM_BASE + 0xD000, (VRAM_SIZE / 6) / sizeof(u32));
+
+    WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG3 | DCNT_OBJ);
+
+    CallbackSetVBlank(EndingConversationAndAnimalsVblank);
+}
+
+ /**
+ * @brief 96228 | 220 | Setup for the ending animals cutscene
+ *
+ */
+void EndingAnimalsInit(void)
+{
+    WRITE_16(REG_IME, FALSE);
+    WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) & ~DSTAT_IF_HBLANK);
+    WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
+    WRITE_16(REG_IME, TRUE);
+
+    CallbackSetVBlank(unk_99940);
+
+    DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
+    DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
+    DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
+
+    LZ77UncompVram(sEndingUnk_61b89c, VRAM_BASE);
+    LZ77UncompVram(sEndingUnk_6217a8, VRAM_BASE + 0x8000);
+    LZ77UncompVram(sEndingUnk_638654, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sEndingUnk_637db8, VRAM_BASE + 0xF800);
+
+    DMA3_COPY_32(sEndingUnk_636838, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+
+    DMA3_FILL_16(0x2FF, VRAM_BASE + 0xF500, 0x300);
+
+    gBg0XPosition = 0;
+    gBg0YPosition = 0;
+    gBg1XPosition = 0;
+    gBg1YPosition = 0;
+    gBg2XPosition = 0;
+    gBg3XPosition = 0;
+    gBg2YPosition = -30;
+    gBg3YPosition = 226;
+
+    WRITE_16(REG_BG0HOFS, 0);
+    WRITE_16(REG_BG0VOFS, 0);
+    WRITE_16(REG_BG1HOFS, 0);
+    WRITE_16(REG_BG1VOFS, 0);
+    WRITE_16(REG_BG2HOFS, 0);
+    WRITE_16(REG_BG2VOFS, 0);
+    WRITE_16(REG_BG3HOFS, 0);
+    WRITE_16(REG_BG3VOFS, 226);
+
+    WRITE_16(REG_BG2CNT, CREATE_BGCNT(2, 30, BGCNT_LOW_MID_PRIORITY, BGCNT_SIZE_256x256));
+    WRITE_16(REG_BG3CNT, CREATE_BGCNT(0, 31, BGCNT_LOW_PRIORITY, BGCNT_SIZE_256x256));
+
+    WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
+    gWrittenToBldy = BLDY_MAX_VALUE;
+    WRITE_16(REG_BLDY, BLDY_MAX_VALUE);
+
+    gWrittenToBldalpha_Eva = BLDALPHA_MAX_VALUE;
+    gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
+    WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
+
+    EndingDialogueSetupOam(20, 0, 0, FALSE);
+
+    SpecialCutsceneProcessOam();
+    SpecialCutsceneDrawAllOam();
+
+    INTRO_DATA.pText = sCutsceneTextNone;
+
+    DMA3_FILL_32(0, VRAM_BASE + 0xD000, (VRAM_SIZE / 6) / sizeof(u32));
+
+    WRITE_16(REG_DISPCNT, DCNT_BG2 | DCNT_BG3 | DCNT_OBJ);
+
+    CallbackSetVBlank(EndingConversationAndAnimalsVblank);
 }
