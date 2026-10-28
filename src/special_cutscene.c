@@ -844,7 +844,7 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
             if (flip == TRUE)
             {
                 gOamData[slot].split.xFlip ^= flip;
-                xPosition = MOD_AND(-(part2 + sCutsceneUnk_63a184[gOamData[slot].split.shape][gOamData[slot].split.size] * 8) + pOam->xPosition, 512);
+                xPosition = MOD_AND(-(part2 + sCutsceneOamXFlipOffsets[gOamData[slot].split.shape][gOamData[slot].split.size] * 8) + pOam->xPosition, 512);
                 yPosition = MOD_AND(part1 + pOam->yPosition, 256);
             }
             else
@@ -892,8 +892,8 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
 
             slot = gNextOamSlot + i;
 
-            xOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a184[gOamData[slot].split.shape][gOamData[slot].split.size]);
-            yOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a190[gOamData[slot].split.shape][gOamData[slot].split.size]);
+            xOffset = PIXEL_TO_SUB_PIXEL(sCutsceneOamXFlipOffsets[gOamData[slot].split.shape][gOamData[slot].split.size]);
+            yOffset = PIXEL_TO_SUB_PIXEL(sCutsceneOamYFlipOffsets[gOamData[slot].split.shape][gOamData[slot].split.size]);
 
             y = MOD_AND(part1 + yPosition, 256);
             x = MOD_AND(part2 + xPosition, 512);
@@ -1001,8 +1001,8 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
 
             slot = gNextOamSlot + i;
 
-            xOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a184[gOamData[slot].split.shape][gOamData[slot].split.size]);
-            yOffset = PIXEL_TO_SUB_PIXEL(sCutsceneUnk_63a190[gOamData[slot].split.shape][gOamData[slot].split.size]);
+            xOffset = PIXEL_TO_SUB_PIXEL(sCutsceneOamXFlipOffsets[gOamData[slot].split.shape][gOamData[slot].split.size]);
+            yOffset = PIXEL_TO_SUB_PIXEL(sCutsceneOamYFlipOffsets[gOamData[slot].split.shape][gOamData[slot].split.size]);
 
             y = MOD_AND(part1 + yPosition, 256);
             x = MOD_AND(part2 + xPosition, 512);

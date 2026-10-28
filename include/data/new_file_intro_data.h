@@ -343,6 +343,7 @@ extern const u8 sIntroSpaceTilemap[1320];
 extern const u8 sIntroBslTilemap[1586];
 
 extern const u32 sIntroBslSpaceBgGfx[4421];
+extern const u32 sIntroSpaceObjGfx[2852];
 extern const u16 sIntroBslSpaceBgPal[8 * PAL_ROW];
 
 extern const u16 sPal_612f48[16 * PAL_ROW];
@@ -352,6 +353,32 @@ extern const u32 sNextPageArrowGfx[8];
 extern const struct FrameData sIntroNextPageArrowOam[5];
 
 extern const u16 sNextPageArrowPal[1 * PAL_ROW];
+
+extern const u32 sEndingAdamConversationBgGfx[1992];
+extern const u32 sEndingInShipObjGfx[3439];
+extern const u32 sEndingMonologueBgGfx[3198];
+extern const u32 sEndingAnimalsBg3Gfx[6083];
+extern const u32 sEndingAnimalsBg2Gfx[2131];
+extern const u32 sBslCrashingObjGfx[2961];
+extern const u32 sEndingShipFrontViewBgGfx[5039];
+extern const u32 sBslCrashingBgGfx[7934];
+
+extern const u16 sEndingInShipBgPal[16 * PAL_ROW];
+extern const u16 sEndingInShipObjPal[16 * PAL_ROW];
+extern const u16 sEndingAnimalsBgPal[16 * PAL_ROW];
+extern const u16 sBslCrashingAnimatedBgPal[16 * PAL_ROW];
+extern const u16 sBslCrashingObjPal[16 * PAL_ROW];
+extern const u16 sEndingShipFrontViewBgPal[16 * PAL_ROW];
+extern const u16 sBslCrashingBgPal[16 * PAL_ROW];
+
+extern const u32 sEndingAdamConversationBgTilemap[368];
+extern const u32 sEndingMonologueBgTilemap[368];
+extern const u32 sEndingAnimalsBg3Tilemap[551];
+extern const u32 sEndingAnimalsBg2Tilemap[368];
+extern const u32 sBslCrashingBg1Tilemap[418];
+extern const u32 sEndingShipFrontViewBg2Tilemap[199];
+extern const u32 sEndingShipFrontViewBg3Tilemap[387];
+extern const u32 sBslCrashingBg3Tilemap[368];
 
 extern const u16 sCutsceneTextNone[2];
 

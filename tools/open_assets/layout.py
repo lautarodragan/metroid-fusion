@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 ROM_BASE = 0x08000000
 
-C_INCBIN_RE = re.compile(r'(\w+)\s*\[[^\]]*\]\s*=\s*INCBIN_\w+\(\s*"([^"]+)"\s*\)')
+C_INCBIN_RE = re.compile(r'(\w+)\s*(?:\[[^\]]*\]\s*)+=\s*INCBIN_\w+\(\s*"([^"]+)"\s*\)')  # u8 a[3][4] too
 ASM_INCBIN_RE = re.compile(r'^(\w+):[^\n]*\n(?:\s*(?:@[^\n]*)?\n)*?\s*\.incbin\s+"([^"]+)"', re.M)
 MAP_SYMBOL_RE = re.compile(r"^\s+0x([0-9a-fA-F]+)\s+([A-Za-z_][\w.$]*)(?:\s*=\s*\.)?\s*$")
 # C: LZ77UncompVram(sym, ...), CallLZ77UncompWram((const u8*)sym, ...)

@@ -22630,19 +22630,25 @@ const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW] = INCBIN_U16("data/menus/t
 
 const u32 sTitleScreenSpaceBackgroundTilemap[172] = INCBIN_U32("data/menus/title_screen/space_background.tm.lz");
 
+// Not referenced by code; most likely the OAM frames of the FrameData arrays below
 static const u8 sBlob_6094d0_60ac08[] = INCBIN_U8("data/Blob_6094d0_60ac08.bin");
-const u8 sIntroUnk_60ac08[] = INCBIN_U8("data/Blob_60ac08_60ac18.bin");
-const u8 sIntroUnk_60ac18[] = INCBIN_U8("data/Blob_60ac18_60ac28.bin");
-const u8 sIntroUnk_60ac28[] = INCBIN_U8("data/Blob_60ac28_60ac38.bin");
-const u8 sIntroUnk_60ac38[] = INCBIN_U8("data/Blob_60ac38_60ac98.bin");
-const u8 sIntroUnk_60ac98[] = INCBIN_U8("data/Blob_60ac98_60acd0.bin");
-const u8 sIntroUnk_60acd0[] = INCBIN_U8("data/Blob_60acd0_60acf8.bin");
-const u8 sIntroUnk_60acf8[] = INCBIN_U8("data/Blob_60acf8_60ad08.bin");
-const u8 sIntroUnk_60ad08[] = INCBIN_U8("data/Blob_60ad08_60ad18.bin");
-const u8 sIntroUnk_60ad18[] = INCBIN_U8("data/Blob_60ad18_60ad28.bin");
-const u8 sIntroUnk_60ad28[] = INCBIN_U8("data/Blob_60ad28_60ad48.bin");
-const u8 sIntroUnk_60ad48[] = INCBIN_U8("data/Blob_60ad48_60af10.bin");
-const u8 sIntroUnk_60af10[] = INCBIN_U8("data/Blob_60af10_60b148.bin");
+
+// struct FrameData arrays (2 words per entry) of the intro space scenes.
+// pointer table, targets unresolved (see tools/find_blob_pointers.py): the
+// pFrame fields are raw ROM addresses, declared as struct FrameData in
+// include/data/cutscene_unk_data.h
+const u32 sIntroDepthParticleOam_0[4] = INCBIN_U32("data/new_file_intro/depth_particle_0_oam.bin");
+const u32 sIntroDepthParticleOam_1[4] = INCBIN_U32("data/new_file_intro/depth_particle_1_oam.bin");
+const u32 sIntroDepthParticleOam_2[4] = INCBIN_U32("data/new_file_intro/depth_particle_2_oam.bin");
+const u32 sIntroDepthParticleOam_3[24] = INCBIN_U32("data/new_file_intro/depth_particle_3_oam.bin");
+const u32 sIntroSamusShipEnteringOam[14] = INCBIN_U32("data/new_file_intro/samus_ship_entering_oam.bin");
+const u32 sIntroSamusShipBackviewOam[10] = INCBIN_U32("data/new_file_intro/samus_ship_backview_oam.bin");
+const u32 sIntroBslShipBackOam_3[4] = INCBIN_U32("data/new_file_intro/bsl_ship_back_3_oam.bin");
+const u32 sIntroBslShipBackOam_2[4] = INCBIN_U32("data/new_file_intro/bsl_ship_back_2_oam.bin");
+const u32 sIntroBslShipBackOam_1[4] = INCBIN_U32("data/new_file_intro/bsl_ship_back_1_oam.bin");
+const u32 sIntroBslShipBackOam_0[8] = INCBIN_U32("data/new_file_intro/bsl_ship_back_0_oam.bin");
+const u32 sIntroDriftingShipOam_End[114] = INCBIN_U32("data/new_file_intro/drifting_ship_end_oam.bin");
+const u32 sIntroSplashTextOam[142] = INCBIN_U32("data/new_file_intro/splash_text_oam.bin");
 
 const u8 sIntroSpaceTilemap[1320] = INCBIN_U8("data/new_file_intro/space_bg.tm.lz");
 const u8 sIntroBslTilemap[1586] = INCBIN_U8("data/new_file_intro/bsl_bg.tm.lz");
@@ -22651,7 +22657,8 @@ static const u8 padding[2] = {0, 0};
 
 const u32 sIntroBslSpaceBgGfx[4421] = INCBIN_U32("data/new_file_intro/bsl_space_bg.gfx.lz");
 
-const u8 sIntroUnk_6101b8[] = INCBIN_U8("data/Blob_6101b8_612e48.bin");
+// OBJ graphics of the drifting out, space view and flying view scenes
+const u32 sIntroSpaceObjGfx[2852] = INCBIN_U32("data/new_file_intro/space_obj.gfx.lz");
 
 const u16 sIntroBslSpaceBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/bsl_space_bg.pal");
 const u16 sPal_612f48[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/612f48.pal");
@@ -22695,56 +22702,70 @@ const struct FrameData sIntroNextPageArrowOam[5] = {
 
 const u16 sNextPageArrowPal[1 * PAL_ROW] = INCBIN_U16("data/new_file_intro/next_page_arrow.pal");
 
-const u8 sEndingUnk_6131c8[] = INCBIN_U8("data/Blob_6131c8_6150e8.bin");
-const u8 sEndingUnk_6150e8[] = INCBIN_U8("data/Blob_6150e8_6186a4.bin");
-const u8 sEndingUnk_6186a4[] = INCBIN_U8("data/Blob_6186a4_61b89c.bin");
-const u8 sEndingUnk_61b89c[] = INCBIN_U8("data/Blob_61b89c_6217a8.bin");
-const u8 sEndingUnk_6217a8[] = INCBIN_U8("data/Blob_6217a8_6238f4.bin");
-const u8 sSr388CollisionUnk_6238f4[] = INCBIN_U8("data/Blob_6238f4_626738.bin");
-const u8 sEndingUnk_626738[] = INCBIN_U8("data/Blob_626738_62b5f4.bin");
-const u8 sSr388CollisionUnk_62b5f4[] = INCBIN_U8("data/Blob_62b5f4_6331ec.bin");
-const u8 sEndingUnk_6331ec[] = INCBIN_U8("data/Blob_6331ec_633244.bin");
-const u8 sUnk_633244[] = INCBIN_U8("data/Blob_633244_633294.bin");
-const u8 sEndingUnk_633294[] = INCBIN_U8("data/Blob_633294_6332fc.bin");
-const u8 sEndingUnk_6332fc[] = INCBIN_U8("data/Blob_6332fc_633364.bin");
-const u8 sEndingUnk_633364[] = INCBIN_U8("data/Blob_633364_6333cc.bin");
-const u8 sEndingUnk_6333cc[] = INCBIN_U8("data/Blob_6333cc_633434.bin");
-const u8 sEndingUnk_633434[] = INCBIN_U8("data/Blob_633434_63345c.bin");
-const u8 sEndingUnk_63345c[] = INCBIN_U8("data/Blob_63345c_6338a4.bin");
-const u8 sEndingUnk_6338a4[] = INCBIN_U8("data/Blob_6338a4_6338d4.bin");
-const u8 sEndingUnk_6338d4[] = INCBIN_U8("data/Blob_6338d4_6339d4.bin");
-const u8 sEndingUnk_6339d4[] = INCBIN_U8("data/Blob_6339d4_633c4c.bin");
-const u8 sEndingUnk_633c4c[] = INCBIN_U8("data/Blob_633c4c_633e64.bin");
-const u8 sEndingUnk_633e64[] = INCBIN_U8("data/Blob_633e64_633e8c.bin");
-const u8 sEndingUnk_633e8c[] = INCBIN_U8("data/Blob_633e8c_633ec4.bin");
-const u8 sEndingUnk_633ec4[] = INCBIN_U8("data/Blob_633ec4_633f0c.bin");
-const u8 sEndingUnk_633f0c[] = INCBIN_U8("data/Blob_633f0c_633f24.bin");
+// Ending cutscenes and the died on SR388 (BSL crashing) cutscene
+const u32 sEndingAdamConversationBgGfx[1992] = INCBIN_U32("data/ending/adam_conversation_bg.gfx.lz");
+const u32 sEndingInShipObjGfx[3439] = INCBIN_U32("data/ending/in_ship_obj.gfx.lz");
+const u32 sEndingMonologueBgGfx[3198] = INCBIN_U32("data/ending/monologue_bg.gfx.lz");
+const u32 sEndingAnimalsBg3Gfx[6083] = INCBIN_U32("data/ending/animals_bg3.gfx.lz");
+const u32 sEndingAnimalsBg2Gfx[2131] = INCBIN_U32("data/ending/animals_bg2.gfx.lz");
+const u32 sBslCrashingObjGfx[2961] = INCBIN_U32("data/ending/bsl_crashing_obj.gfx.lz");
+const u32 sEndingShipFrontViewBgGfx[5039] = INCBIN_U32("data/ending/ship_front_view_bg.gfx.lz");
+// The end of this file, after the LZ77 stream, may also hold the OAM frames
+// that the FrameData arrays below point to (their size is not known)
+const u32 sBslCrashingBgGfx[7934] = INCBIN_U32("data/ending/bsl_crashing_bg.gfx.lz");
+
+// struct FrameData arrays (2 words per entry), declared as struct FrameData in
+// include/ending_dialogue.h, include/died_on_sr388.h and
+// include/data/cutscene_unk_data.h.
+// pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u32 sEndingDialogueType5Oam_Opening[22] = INCBIN_U32("data/ending/dialogue_type5_opening_oam.bin");
+const u32 sEndingDialogueType5Oam_Closing[20] = INCBIN_U32("data/ending/dialogue_type5_closing_oam.bin");
+const u32 sEndingAdamPanel0Oam[26] = INCBIN_U32("data/ending/adam_panel_0_oam.bin");
+const u32 sEndingAdamPanel0Oam_Closing[26] = INCBIN_U32("data/ending/adam_panel_0_closing_oam.bin");
+const u32 sEndingAdamPanel1Oam[26] = INCBIN_U32("data/ending/adam_panel_1_oam.bin");
+const u32 sEndingAdamPanel1Oam_Closing[26] = INCBIN_U32("data/ending/adam_panel_1_closing_oam.bin");
+const u32 sEndingAdamIconOam_Opening[10] = INCBIN_U32("data/ending/adam_icon_opening_oam.bin");
+const u32 sEndingAdamIconOam_Closing[274] = INCBIN_U32("data/ending/adam_icon_closing_oam.bin");
+const u32 sEndingAdamIconOam_Idle[12] = INCBIN_U32("data/ending/adam_icon_idle_oam.bin");
+const u32 sEndingDialogueType2Oam[64] = INCBIN_U32("data/ending/dialogue_type2_oam.bin");
+const u32 sEndingSr388RadarViewOam_Opening[158] = INCBIN_U32("data/ending/sr388_radar_view_opening_oam.bin");
+const u32 sEndingSamusViewRadarViewOam_Opening[134] = INCBIN_U32("data/ending/samus_view_radar_view_opening_oam.bin");
+const u32 sEndingNextPageArrowOam[10] = INCBIN_U32("data/ending/next_page_arrow_oam.bin");
+const u32 sEndingTextCursorOam[14] = INCBIN_U32("data/ending/text_cursor_oam.bin");
+const u32 sEndingSr388RadarViewOam_Idle[18] = INCBIN_U32("data/ending/sr388_radar_view_idle_oam.bin");
+const u32 sEndingSamusViewRadarViewOam_Idle[6] = INCBIN_U32("data/ending/samus_view_radar_view_idle_oam.bin");
+// FrameData array (type 30 of the ending dialogue) followed by data of unknown
+// size, most likely the OAM frames of the BSL crashing cutscene
 const u8 sEndingUnk_633f24[] = INCBIN_U8("data/Blob_633f24_636020.bin");
-const u8 sSr388CollisionUnk_636020[] = INCBIN_U8("data/Blob_636020_636038.bin");
-const u8 sSr388CollisionUnk_636038[] = INCBIN_U8("data/Blob_636038_636050.bin");
-const u8 sSr388CollisionUnk_636050[] = INCBIN_U8("data/Blob_636050_636288.bin");
-const u8 sEndingUnk_636288[] = INCBIN_U8("data/Blob_636288_6362a0.bin");
-const u8 sEndingUnk_6362a0[] = INCBIN_U8("data/Blob_6362a0_6362b8.bin");
-const u8 sSr388CollisionUnk_6362b8[] = INCBIN_U8("data/Blob_6362b8_6363a0.bin");
-const u8 sEndingUnk_6363a0[] = INCBIN_U8("data/Blob_6363a0_6363b8.bin");
-const u8 sEndingUnk_6363b8[] = INCBIN_U8("data/Blob_6363b8_636438.bin");
-const u8 sEndingUnk_636438[] = INCBIN_U8("data/Blob_636438_636638.bin");
-const u8 sEndingUnk_636638[] = INCBIN_U8("data/Blob_636638_636838.bin");
-const u8 sEndingUnk_636838[] = INCBIN_U8("data/Blob_636838_636a38.bin");
-const u8 sSr388CollisionUnk_636a38[] = INCBIN_U8("data/Blob_636a38_636c38.bin");
-const u8 sSr388CollisionUnk_636c38[] = INCBIN_U8("data/Blob_636c38_636e38.bin");
-const u8 sEndingUnk_636e38[] = INCBIN_U8("data/Blob_636e38_637038.bin");
-const u8 sSr388CollisionUnk_637038[] = INCBIN_U8("data/Blob_637038_637238.bin");
-const u8 sEndingUnk_637238[] = INCBIN_U8("data/Blob_637238_6377f8.bin");
-const u8 sEndingUnk_6377f8[] = INCBIN_U8("data/Blob_6377f8_637db8.bin");
-const u8 sEndingUnk_637db8[] = INCBIN_U8("data/Blob_637db8_638654.bin");
-const u8 sEndingUnk_638654[] = INCBIN_U8("data/Blob_638654_638c14.bin");
-const u8 sSr388CollisionUnk_638c14[] = INCBIN_U8("data/Blob_638c14_63929c.bin");
-const u8 sEndingUnk_63929c[] = INCBIN_U8("data/Blob_63929c_6395b8.bin");
-const u8 sEndingUnk_6395b8[] = INCBIN_U8("data/Blob_6395b8_639bc4.bin");
-const u8 sSr388CollisionUnk_639bc4[] = INCBIN_U8("data/Blob_639bc4_63a184.bin");
-const u8 sCutsceneUnk_63a184[] = INCBIN_U8("data/Blob_63a184_63a190.bin");
-const u8 sCutsceneUnk_63a190[] = INCBIN_U8("data/Blob_63a190_63a19c.bin");
+const u32 sBslCrashingFallingBslOam[6] = INCBIN_U32("data/ending/bsl_crashing_falling_bsl_oam.bin");
+const u32 sBslCrashingFallingBslTransparentOam[6] = INCBIN_U32("data/ending/bsl_crashing_falling_bsl_transparent_oam.bin");
+const u32 sBslCrashingType3Oam[142] = INCBIN_U32("data/ending/bsl_crashing_type3_oam.bin");
+const u32 sEndingLeavingSmallShipOam[6] = INCBIN_U32("data/ending/leaving_small_ship_oam.bin");
+const u32 sEndingLeavingBigShipOam[6] = INCBIN_U32("data/ending/leaving_big_ship_oam.bin");
+const u32 sBslCrashingFallingBslOam_End[58] = INCBIN_U32("data/ending/bsl_crashing_falling_bsl_end_oam.bin");
+const u32 sEndingFrontFacingShipOam[6] = INCBIN_U32("data/ending/front_facing_ship_oam.bin");
+const u32 sEndingFrontFacingShipThrustersOam[32] = INCBIN_U32("data/ending/front_facing_ship_thrusters_oam.bin");
+
+const u16 sEndingInShipBgPal[16 * PAL_ROW] = INCBIN_U16("data/ending/in_ship_bg.pal");
+const u16 sEndingInShipObjPal[16 * PAL_ROW] = INCBIN_U16("data/ending/in_ship_obj.pal");
+const u16 sEndingAnimalsBgPal[16 * PAL_ROW] = INCBIN_U16("data/ending/animals_bg.pal");
+const u16 sBslCrashingAnimatedBgPal[16 * PAL_ROW] = INCBIN_U16("data/ending/bsl_crashing_animated_bg.pal");
+const u16 sBslCrashingObjPal[16 * PAL_ROW] = INCBIN_U16("data/ending/bsl_crashing_obj.pal");
+const u16 sEndingShipFrontViewBgPal[16 * PAL_ROW] = INCBIN_U16("data/ending/ship_front_view_bg.pal");
+const u16 sBslCrashingBgPal[16 * PAL_ROW] = INCBIN_U16("data/ending/bsl_crashing_bg.pal");
+
+const u32 sEndingAdamConversationBgTilemap[368] = INCBIN_U32("data/ending/adam_conversation_bg.tm.lz");
+const u32 sEndingMonologueBgTilemap[368] = INCBIN_U32("data/ending/monologue_bg.tm.lz");
+const u32 sEndingAnimalsBg3Tilemap[551] = INCBIN_U32("data/ending/animals_bg3.tm.lz");
+const u32 sEndingAnimalsBg2Tilemap[368] = INCBIN_U32("data/ending/animals_bg2.tm.lz");
+const u32 sBslCrashingBg1Tilemap[418] = INCBIN_U32("data/ending/bsl_crashing_bg1.tm.lz");
+const u32 sEndingShipFrontViewBg2Tilemap[199] = INCBIN_U32("data/ending/ship_front_view_bg2.tm.lz");
+const u32 sEndingShipFrontViewBg3Tilemap[387] = INCBIN_U32("data/ending/ship_front_view_bg3.tm.lz");
+const u32 sBslCrashingBg3Tilemap[368] = INCBIN_U32("data/ending/bsl_crashing_bg3.tm.lz");
+
+// Width and height of each OAM shape and size in tiles (see sOamXFlipOffsets)
+const u8 sCutsceneOamXFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_x_flip_offsets.bin");
+const u8 sCutsceneOamYFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_y_flip_offsets.bin");
 
 const u16 sCutsceneTextNone[2] = {
     CHAR_TERMINATOR, CHAR_TERMINATOR

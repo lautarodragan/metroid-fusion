@@ -241,7 +241,8 @@ TEXT_RANGE = (0x6b2fac, 0x72eee0)
 #   - as an OAM frame:      part count = low half = 0 (nothing drawn),
 #   - as a pointer table:   points to a valid FrameData array again.
 # Regions in these ranges that the code passes to LZ77UncompVram/Wram get a
-# zero header instead, so they decompress to nothing.
+# zero header instead, so they decompress to nothing. Identified regions of a
+# placeholder format (.gfx.lz, .tm.lz, .pal...) get their placeholder instead.
 OAM_SAFE_RANGES = [
     (0x6094d0, 0x60b148),   # title intro OAM (IntroSpaceView*)
     (0x6131c8, 0x63a19c),   # intro / ending graphics and OAM
@@ -329,9 +330,12 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     string_table = layout.region_address(tps[0])  # a table of empty strings
 
     # OAM-safe ranges
-    oam = sorted((r for r in blobs if in_ranges(r, OAM_SAFE_RANGES)), key=lambda r: r.addr)
+    # blobs and identified regions without a placeholder format (FrameData
+    # arrays and other tables, *.bin)
+    oam = sorted((r for r in regions if r.category in ("blob", "misc") and in_ranges(r, OAM_SAFE_RANGES)),
+                 key=lambda r: r.addr)
     lz_sources = scan_lz_sources()
-    lz = [r for r in oam if sym[r.path] in lz_sources]
+    lz = [r for r in oam if layout.symbol_of(r) in lz_sources]
     built = {r.path: layout.region_address(r) for r in oam}
     # the word: a 64 KiB aligned build address inside these regions, clear
     # of the zeroed LZ77 headers

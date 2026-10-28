@@ -86,12 +86,12 @@ void EndingProcessAdamPanel(struct SpecialCutsceneOam* pOam)
 
             if (pOam->type == 7)
             {
-                pOam->pOam = sEndingUnk_6332fc;
+                pOam->pOam = sEndingAdamPanel0Oam_Closing;
                 SoundPlay(SOUND_20B);
             }
             else if (pOam->type == 9)
             {
-                pOam->pOam = sEndingUnk_6333cc;
+                pOam->pOam = sEndingAdamPanel1Oam_Closing;
             }
 
             pOam->stage = 4;
@@ -144,7 +144,7 @@ void EndingProcessAdamIcon(struct SpecialCutsceneOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = sEndingUnk_6338a4;
+            pOam->pOam = sEndingAdamIconOam_Idle;
             pOam->stage = 1;
         }
 
@@ -152,7 +152,7 @@ void EndingProcessAdamIcon(struct SpecialCutsceneOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = sEndingUnk_63345c;
+            pOam->pOam = sEndingAdamIconOam_Closing;
             pOam->stage = 2;
         }
     }
@@ -162,7 +162,7 @@ void EndingProcessAdamIcon(struct SpecialCutsceneOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->pOam = sEndingUnk_63345c;
+            pOam->pOam = sEndingAdamIconOam_Closing;
             pOam->stage = 2;
         }
     }
@@ -301,54 +301,54 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
 
     if (type == 1)
     {
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_633e64;
+        INTRO_DATA.oam[slot].pOam = sEndingNextPageArrowOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessMonologueCursor;
     }
     else if (type == 2)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6338d4;
+        INTRO_DATA.oam[slot].pOam = sEndingDialogueType2Oam;
         INTRO_DATA.oam[slot].pFunction = unk_969e0;
     }
     else if (type == 3)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6339d4;
+        INTRO_DATA.oam[slot].pOam = sEndingSr388RadarViewOam_Opening;
         INTRO_DATA.oam[slot].pFunction = EndingProcessSr388RadarView;
     }
     else if (type == 4)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_633c4c;
+        INTRO_DATA.oam[slot].pOam = sEndingSamusViewRadarViewOam_Opening;
         INTRO_DATA.oam[slot].pFunction = EndingProcessSamusViewRadarView;
     }
     else if (type == 5)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6331ec;
+        INTRO_DATA.oam[slot].pOam = sEndingDialogueType5Oam_Opening;
         INTRO_DATA.oam[slot].pFunction = unk_96a70;
     }
     else if (type == 6)
     {
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_633e8c;
+        INTRO_DATA.oam[slot].pOam = sEndingTextCursorOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessAdamTextCursor;
     }
     else if (type == 7)
     {
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_633294;
+        INTRO_DATA.oam[slot].pOam = sEndingAdamPanel0Oam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessAdamPanel;
     }
     else if (type == 8)
     {
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_633434;
+        INTRO_DATA.oam[slot].pOam = sEndingAdamIconOam_Opening;
         INTRO_DATA.oam[slot].pFunction = EndingProcessAdamIcon;
     }
     else if (type == 9)
     {
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_633364;
+        INTRO_DATA.oam[slot].pOam = sEndingAdamPanel1Oam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessAdamPanel;
     }
     else if (type == 20)
@@ -366,7 +366,7 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     else if (type == UCHAR_MAX)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_6331ec;
+        INTRO_DATA.oam[slot].pOam = sEndingDialogueType5Oam_Opening;
         INTRO_DATA.oam[slot].pFunction = unk_96f00;
     }
 
