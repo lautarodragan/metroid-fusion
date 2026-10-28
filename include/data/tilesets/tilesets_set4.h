@@ -30,10 +30,10 @@ extern const u16 sTileset_39_Pal[14 * 16];
 extern const u16 sAnimatedPal_16[8 * 16];
 
 extern const u8 sTileset_39_Tilemap[4100];
-extern const u8 sTileset_25_Tilemap[596];
-extern const u8 sTileset_26_Tilemap[596];
+extern const u8 sTileset_25_Tilemap[4100];
+extern const u8 sTileset_26_Tilemap[4100];
 extern const u8 sTileset_37_Tilemap[3588];
-extern const u8 sTileset_27_Tilemap[596];
-extern const u8 sTileset_29_Tilemap[596];
+extern const u8 sTileset_27_Tilemap[4100];
+extern const u8 sTileset_29_Tilemap[4612];
 
 #endif /* TILESETS_SET_4_DATA_H */

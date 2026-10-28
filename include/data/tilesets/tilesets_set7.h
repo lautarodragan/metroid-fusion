@@ -15,8 +15,8 @@ extern const u16 sAnimatedPal_18[7 * 16];
 extern const u16 sTileset_73_Pal[14 * 16];
 extern const u16 sTileset_3_Pal[14 * 16];
 
-extern const u8 sTileset_31_Tilemap[596];
-extern const u8 sTileset_47_Tilemap[676];
-extern const u8 sTileset_3_Tilemap[676];
+extern const u8 sTileset_31_Tilemap[4100];
+extern const u8 sTileset_47_Tilemap[4100];
+extern const u8 sTileset_3_Tilemap[4100];
 
 #endif /* TILESETS_SET_7_DATA_H */
