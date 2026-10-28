@@ -28729,132 +28729,132 @@
     "size": 4
   },
   {
-    "path": "Blob_5dfd6c_5dfeac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_0.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5DFD6C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5dfeac_5dffec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_1.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5DFEAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5dffec_5e012c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_3.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5DFFEC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e012c_5e026c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_4.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E012C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e026c_5e03ac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_5.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E026C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e03ac_5e04ec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_6.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E03AC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e04ec_5e062c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_7.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E04EC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e062c_5e076c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_8.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E062C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e076c_5e08ac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_9.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E076C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e08ac_5e09ec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_10.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E08AC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e09ec_5e0b2c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_11.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E09EC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0b2c_5e0c6c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_12.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0B2C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0c6c_5e0dac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_13.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0C6C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0dac_5e0eec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_14.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0DAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0eec_5e102c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_15.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0EEC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e102c_5e116c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_2.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E102C"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "new_file_intro/approaching_bsl_obj.gfx.lz",
@@ -28961,132 +28961,132 @@
     "size": 4
   },
   {
-    "path": "Blob_5f6990_5f6a10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_0.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6990"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6a10_5f6a90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_1.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6A10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6a90_5f6b10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_2.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6A90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6b10_5f6b90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_3.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6B10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6b90_5f6c10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_4.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6B90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6c10_5f6c90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_5.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6C10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6c90_5f6d10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_6.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6C90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6d10_5f6d90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_7.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6D10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6d90_5f6e10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_8.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6D90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6e10_5f6e90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_9.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6E10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6e90_5f6f10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_10.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6E90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6f10_5f6f90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_11.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6F10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6f90_5f7010.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_12.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6F90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f7010_5f7090.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_13.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F7010"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f7090_5f7110.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_14.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F7090"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f7110_5f7190.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_15.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F7110"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "new_file_intro/landing_on_bsl_bg.gfx.lz",
