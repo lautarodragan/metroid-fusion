@@ -36,6 +36,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import font  # noqa: E402
 import formats  # noqa: E402
 from inventory import ROOT, Region, load_regions  # noqa: E402
 from layout import Layout, scan_lz_sources  # noqa: E402
@@ -403,6 +404,7 @@ def generate(args) -> int:
         rom[r.addr:r.addr + len(data)] = data
 
     layout_notes = apply_known_layouts(rom, regions, layout)
+    layout_notes += font.apply(rom, regions, layout, args.font_from_rom)  # font + text, see font.py
     validate(rom, regions, meta)
     # No database region starts below 0xa5224, and the extractor never reads
     # the header, so the first bytes carry a marker identifying the file.
@@ -424,6 +426,8 @@ def generate(args) -> int:
         print(f"{len(failures)} regions could not get their ideal placeholder:")
         for f in failures[:20]:
             print("  " + f)
+    if args.font_from_rom:
+        print(font.FONT_FROM_ROM_NOTE.format(out=out), file=sys.stderr)
     return 0
 
 
@@ -450,6 +454,9 @@ def main() -> int:
     ap.add_argument("--elf", help="ELF of a previous build (default: the --map path with .elf)")
     ap.add_argument("--gfx-lz-size", type=lambda s: int(s, 0), default=0x800,
                     help="decompressed size for LZ77 graphics placeholders (default 0x800)")
+    ap.add_argument("--font-from-rom", metavar="ROM",
+                    help="local option: read only the font glyphs from your own baserom "
+                         "(Metroid Fusion USA, checked by sha1) instead of the open font (see font.py)")
     return generate(ap.parse_args())
 
 
