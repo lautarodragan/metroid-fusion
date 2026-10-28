@@ -272,7 +272,7 @@ def in_ranges(r: Region, ranges) -> bool:
 def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -> list[str]:
     """Overwrite the blobs listed above; returns notes for the summary."""
     blobs = [r for r in regions if r.category == "blob"]
-    sym = {r.path: layout.symbol_of(r) for r in blobs}
+    sym = {r.path: layout.symbol_of(r) for r in regions}
     notes = []
 
     def put(r: Region, data: bytes) -> None:
@@ -302,7 +302,8 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     # page" arrow. Some scenes wait for "more text follows" and then "end",
     # others only for "end"; two pages serve both: arrow, arrow, one
     # character, arrow, terminator.
-    texts = [r for r in blobs if in_ranges(r, [TEXT_RANGE])]
+    # (identified text pieces are not blobs any more, so all regions are scanned)
+    texts = [r for r in regions if in_ranges(r, [TEXT_RANGE])]
     page = struct.pack("<5H", CHAR_NEXT_PAGE_ARROW, CHAR_NEXT_PAGE_ARROW, PLACEHOLDER_CHAR,
                        CHAR_NEXT_PAGE_ARROW, CHAR_TERMINATOR)
     pages = 0

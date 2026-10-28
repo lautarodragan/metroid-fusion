@@ -30729,164 +30729,164 @@
     "size": 1
   },
   {
-    "path": "Blob_71e20c_71e4e4.bin",
-    "count": "0x2D8",
+    "path": "text/japanese/monologue_0.bin",
+    "count": "0x16C",
     "addr": {
       "us": "0x71E20C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71e4e4_71e67e.bin",
-    "count": "0x19A",
+    "path": "text/japanese/monologue_1.bin",
+    "count": "0xCD",
     "addr": {
       "us": "0x71E4E4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71e67e_71e814.bin",
-    "count": "0x196",
+    "path": "text/japanese/monologue_2.bin",
+    "count": "0xCB",
     "addr": {
       "us": "0x71E67E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71e814_71e9b6.bin",
-    "count": "0x1A2",
+    "path": "text/japanese/monologue_3.bin",
+    "count": "0xD1",
     "addr": {
       "us": "0x71E814"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71e9b6_71eb34.bin",
-    "count": "0x17E",
+    "path": "text/japanese/monologue_4.bin",
+    "count": "0xBF",
     "addr": {
       "us": "0x71E9B6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71eb34_71ecac.bin",
-    "count": "0x178",
+    "path": "text/japanese/monologue_5.bin",
+    "count": "0xBC",
     "addr": {
       "us": "0x71EB34"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71ecac_71efc2.bin",
-    "count": "0x316",
+    "path": "text/japanese/monologue_6.bin",
+    "count": "0x18B",
     "addr": {
       "us": "0x71ECAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71efc2_71f498.bin",
-    "count": "0x4D6",
+    "path": "text/japanese/monologue_7.bin",
+    "count": "0x26B",
     "addr": {
       "us": "0x71EFC2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f498_71f52c.bin",
-    "count": "0x94",
+    "path": "text/japanese/monologue_8.bin",
+    "count": "0x4A",
     "addr": {
       "us": "0x71F498"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f52c_71f56c.bin",
-    "count": "0x40",
+    "path": "text/japanese/monologue_9.bin",
+    "count": "0x20",
     "addr": {
       "us": "0x71F52C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f56c_71f5fc.bin",
-    "count": "0x90",
+    "path": "text/japanese/monologue_10.bin",
+    "count": "0x48",
     "addr": {
       "us": "0x71F56C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f5fc_71f656.bin",
-    "count": "0x5A",
+    "path": "text/japanese/monologue_11.bin",
+    "count": "0x2D",
     "addr": {
       "us": "0x71F5FC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f656_71f71a.bin",
-    "count": "0xC4",
+    "path": "text/japanese/monologue_12.bin",
+    "count": "0x62",
     "addr": {
       "us": "0x71F656"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f71a_71f7cc.bin",
-    "count": "0xB2",
+    "path": "text/japanese/monologue_13.bin",
+    "count": "0x59",
     "addr": {
       "us": "0x71F71A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f7cc_71f896.bin",
-    "count": "0xCA",
+    "path": "text/japanese/monologue_14.bin",
+    "count": "0x65",
     "addr": {
       "us": "0x71F7CC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f896_71f98a.bin",
-    "count": "0xF4",
+    "path": "text/japanese/monologue_15.bin",
+    "count": "0x7A",
     "addr": {
       "us": "0x71F896"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71f98a_71fa32.bin",
-    "count": "0xA8",
+    "path": "text/japanese/monologue_16.bin",
+    "count": "0x54",
     "addr": {
       "us": "0x71F98A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71fa32_71fa92.bin",
-    "count": "0x60",
+    "path": "text/japanese/monologue_17.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x71FA32"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71fa92_71fad4.bin",
-    "count": "0x42",
+    "path": "text/japanese/monologue_18.bin",
+    "count": "0x21",
     "addr": {
       "us": "0x71FA92"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_71fad4_7200ee.bin",
-    "count": "0x61A",
+    "path": "text/english/monologue_0.bin",
+    "count": "0x30D",
     "addr": {
       "us": "0x71FAD4"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "Blob_7200ee_720310.bin",
