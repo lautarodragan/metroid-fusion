@@ -251,6 +251,13 @@ $(LD_SCRIPT): linker.ld
 	$(MSG) CPP $@
 	$Q$(CPP) $(CPPFLAGS) $(LD_CPPFLAGS) $< -o $@
 
+ifeq ($(SHIFT),1)
+# Always regenerate the shift test linker script, SHIFT_AMOUNT may have changed
+$(LD_SCRIPT): FORCE
+.PHONY: FORCE
+FORCE:
+endif
+
 %.dump: %.gba
 	$(MSG) OBJDUMP $@
 	$Q$(OBJDUMP) -D -bbinary -marm7tdmi -Mforce-thumb  $< | $(TAIL) -n+3 >$@

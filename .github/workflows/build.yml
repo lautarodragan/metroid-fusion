@@ -29,3 +29,6 @@ jobs:
 
       - name: Build from synthetic baserom and check golden sha1
         run: tools/check_synthetic.sh
+
+      - name: Check shiftability (hardcoded addresses and shifted build)
+        run: tools/check_shift.sh

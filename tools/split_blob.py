@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Split a Blob_* entry of database.json into smaller pieces.
 
-    tools/split_blob.py Blob_576802_581510.bin 0x57d0e8=sFoo 0x57e000=sBar
-    tools/split_blob.py Blob_576802_581510.bin @splits.txt   # "ADDR NAME" per line
+    tools/split_blob.py Blob_6b2fac_71e20c.bin 0x6c0000=sFoo 0x6c1000=sBar
+    tools/split_blob.py Blob_6b2fac_71e20c.bin @splits.txt   # "ADDR NAME" per line
 
 Each ADDR=NAME starts a new piece at ROM offset ADDR (a 0x08xxxxxx address is
 accepted too) named NAME. Bytes before the first split point stay in a piece
@@ -120,8 +120,6 @@ def main() -> int:
         new_lines[0] += m["rest"]
 
     old_name = m["name"]
-    if start not in points:
-        pass  # the first piece keeps an sBlob_ name, possibly a new one
     if re.search(rf"\b{re.escape(old_name)}\b", "\n".join(lines[:line_idx] + lines[line_idx + 1:])):
         print(f"warning: {old_name} is referenced elsewhere in {src}", file=sys.stderr)
 

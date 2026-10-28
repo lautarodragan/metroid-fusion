@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Check that every extracted data file ends up at its database.json address.
 
-The decomp is not shiftable: each data file listed in database.json must be
-emitted at exactly the ROM offset it was extracted from. With the synthetic
+For a matching build, each data file listed in database.json must be emitted
+at exactly the ROM offset it was extracted from. With the synthetic
 baserom each region holds unique pseudo-random bytes, so comparing the built
 ROM against the baserom at those offsets catches misplaced data and reports
 which file moved. Entries that no source file references are skipped (they
