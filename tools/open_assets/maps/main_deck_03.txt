@@ -1,0 +1,39 @@
+; Main Deck room 3: corridor west of the docking bay.
+; Enter on the right (door 2, from room 0), climb the step and the ledge,
+; leave on the upper left (door 7 -> room 6, door 8).
+; The upper back wall is open: the far background (BG3) shows through.
+area: MainDeck
+room: 3
+size: 34x14
+
+[fg]
+##################################
+##################################
+##################################
+####..........................####
+####..........................####
+##DO..........................####
+##DO..........................####
+##DO..........................OD##
+##DO..........................OD##
+##########....................OD##
+############..................OD##
+##################################
+##################################
+##################################
+
+[bg]
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+pppp..|......|......|......|..pppp
+pppp..|......|......|......|..pppp
+pppp..|......|......|......|..pppp
+pppp--+------+------+------+--pppp
+ppppLLLLLLLLLLLLLLLLLLLLLLLLLLpppp
+ppppppppvvvpppppppvvvpppppppvppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp

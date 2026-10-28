@@ -15,7 +15,8 @@ import pytest
 import harness
 
 REFERENCE_DIR = Path(__file__).resolve().parent / "reference"
-CHECKPOINTS = ["title_intro", "title_screen", "file_select", "new_file_intro", "in_game"]
+CHECKPOINTS = ["title_intro", "title_screen", "file_select", "new_file_intro", "in_game",
+               "room_0", "room_3", "room_6"]
 # A pixel differs when one channel differs by more than CHANNEL_TOLERANCE;
 # the test fails when more than MAX_DIFF_FRACTION of the pixels differ.
 CHANNEL_TOLERANCE = 24
@@ -57,6 +58,6 @@ def test_screenshot(boot, name, pytestconfig, output_dir):
 
 def test_screens_are_not_blank(boot):
     """Guard against references that are just a black screen."""
-    for name in ("title_intro", "title_screen", "in_game"):
+    for name in ("title_intro", "title_screen", "in_game", "room_0", "room_3", "room_6"):
         _, _, rgb = boot.screenshots[name]
         assert len(set(rgb[i:i + 3] for i in range(0, len(rgb), 3))) > 1, f"{name} is blank"

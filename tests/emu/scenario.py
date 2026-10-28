@@ -44,6 +44,24 @@ BOOT_SCRIPT: list[tuple[str | int, str, str | None]] = [
 IN_GAME_SETTLE_FRAMES = 120           # after reaching GAME_MODE_IN_GAME
 PC_CHECK_INTERVAL = 10
 
+# After the in-game checkpoint: walk through the first three rooms of the
+# open ROM's maps (tools/open_assets/maps/): room 0 -> door 1 -> room 3 ->
+# door 7 -> room 6 (see docs/open_assets_rooms.md). The checkpoint names
+# are recorded with the room Samus is in at that moment.
+ROOM_WALK: list[tuple[int, str, str | None]] = [
+    (60, "", "room_0"),               # docking bay, camera on Samus
+    (240, "LEFT", None),              # walk to the hatch on the left
+    (100, "", "room_3"),              # corridor; arrived from the right
+    (100, "LEFT", None),              # up to the step
+    (40, "A+LEFT", None),             # jump onto the step and the ledge
+    (100, "LEFT", None),              # through the door on the upper left
+    (120, "", "room_6"),              # bottom of the shaft
+]
+# The gunship sprite (room 0, spriteset 8) normally clears this flag when
+# Samus steps out; the open ROM has no gunship yet, so the walk clears it to
+# let the camera follow Samus.
+SCROLL_LOCK_FLAG = "gDisableDrawingSamusAndScrollingFlag"
+
 
 @dataclass
 class BootRecord:
@@ -52,6 +70,10 @@ class BootRecord:
     states: dict[str, bytes] = field(default_factory=dict)
     bad_pc: list[tuple[int, str]] = field(default_factory=list)
     in_game_frame: int | None = None
+    # checkpoint -> (gCurrentArea, gCurrentRoom) during the room walk
+    rooms: dict[str, tuple[int, int]] = field(default_factory=dict)
+    # checkpoint -> Samus (x, y) in sub-pixels (64 per block)
+    positions: dict[str, tuple[int, int]] = field(default_factory=dict)
 
     def modes(self) -> list[tuple[int, int, int]]:
         return [m for _, m in self.transitions]
@@ -105,4 +127,14 @@ def run_boot(emu: Emulator) -> BootRecord:
             frame()
         rec.screenshots["in_game"] = emu.screenshot()
         rec.states["in_game"] = emu.save_state()
+        emu.write(SCROLL_LOCK_FLAG, b"\0")
+        for frames, buttons, checkpoint in ROOM_WALK:
+            emu.set_input(buttons.split("+") if buttons else [])
+            for _ in range(frames):
+                frame()
+            if checkpoint:
+                rec.screenshots[checkpoint] = emu.screenshot()
+                rec.rooms[checkpoint] = (emu.u8("gCurrentArea"), emu.u8("gCurrentRoom"))
+                rec.positions[checkpoint] = (emu.u16("gSamusData+0x16"), emu.u16("gSamusData+0x18"))
+        emu.set_input([])
     return rec
