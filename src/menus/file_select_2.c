@@ -808,3 +808,86 @@ void unk_a039c(struct FileSelectOam* pOam)
         }
     }
 }
+
+/**
+ * @brief a0424 | f4 | To document
+ *
+ * @param pOam File select oam pointer
+ */
+void unk_a0424(struct FileSelectOam* pOam)
+{
+    const struct FrameData* pFrame;
+
+    if (pOam->unk_9 == 0)
+    {
+        if (FILE_SELECT_DATA.unk_10 == 0)
+        {
+            if (gChangedInput & KEY_DOWN)
+            {
+                FILE_SELECT_DATA.unk_10 = 1;
+                pOam->yPosition = 0x79;
+                SoundPlay(SOUND_1FA);
+            }
+        }
+        else if (FILE_SELECT_DATA.unk_10 == 1)
+        {
+            if (gChangedInput & KEY_UP)
+            {
+                FILE_SELECT_DATA.unk_10 = 0;
+                pOam->yPosition = 0x69;
+                SoundPlay(SOUND_1FA);
+            }
+        }
+
+        if (gChangedInput & KEY_B)
+        {
+            pOam->unk_9 = 100;
+        }
+        else if (gChangedInput & (KEY_A | KEY_START))
+        {
+            pOam->animationDurationCounter = 0;
+            pOam->currentAnimationFrame = 0;
+            SoundPlay(SOUND_1FE);
+
+            if (FILE_SELECT_DATA.unk_10 == 0)
+            {
+                pOam->pOam = sFileSelectUnk_740b70;
+                pOam->unk_9 = 100;
+            }
+            else
+            {
+                pOam->pOam = sFileSelectUnk_740b70;
+                pOam->unk_9 = 100;
+            }
+        }
+    }
+    else if (pOam->unk_9 == 1)
+    {
+        pFrame = &pOam->pOam[pOam->currentAnimationFrame];
+        if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
+            pOam->animationDurationCounter = 0;
+
+        if (FILE_SELECT_DATA.timer == 11)
+        {
+            pOam->animationDurationCounter = 0;
+            pOam->currentAnimationFrame = 0;
+            pOam->unk_9 = 100;
+        }
+    }
+    else
+    {
+        pFrame = &pOam->pOam[pOam->currentAnimationFrame];
+        if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
+            pOam->animationDurationCounter = 0;
+    }
+}
+
+/**
+ * @brief a0518 | 4 | Empty
+ *
+ * @param pOam File select oam pointer
+ */
+void unk_a0518(struct FileSelectOam* pOam)
+{
+    return;
+}
