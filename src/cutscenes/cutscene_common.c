@@ -308,3 +308,88 @@ void CutsceneMonologueDestroyOamOfType(u8 type)
         }
     }
 }
+
+/**
+ * @brief 9d228 | 20 | Handles the fading in of a cutscene
+ * 
+ */
+void CutsceneFadeIn(void)
+{
+    CutsceneProcessOam();
+    CutsceneDrawAllOam();
+
+    if (gWrittenToBldy != 0)
+        gWrittenToBldy--;
+}
+
+/**
+ * @brief 9d248 | 20 | Handles the fading out of a cutscene
+ * 
+ */
+void CutsceneFadeOut(void)
+{
+    CutsceneProcessOam();
+    CutsceneDrawAllOam();
+
+    if (gWrittenToBldy < BLDY_MAX_VALUE)
+        gWrittenToBldy++;
+}
+
+/**
+ * @brief 9d268 | 44 | Destroys a cutscene OAM object of the specified type
+ * 
+ * @param type Type
+ */
+void CutsceneDestroyOamOfType(u8 type)
+{
+    u8 i;
+
+    for (i = 0; i < ARRAY_SIZE(CUTSCENE_DATA.oam); i++)
+    {
+        if (CUTSCENE_DATA.oam[i].type == type)
+        {
+            CUTSCENE_DATA.oam[i].type = 0;
+            CUTSCENE_DATA.oam[i].exists = FALSE;
+            break;
+        }
+    }
+}
+
+/**
+ * @brief 9d2ac | 48 | Processes the OAM objects of a cutscene
+ * 
+ */
+void CutsceneProcessOam(void)
+{
+    u8 i;
+
+    CUTSCENE_DATA.activeOamCount = 0;
+
+    for (i = 0; i < ARRAY_SIZE(CUTSCENE_DATA.oam); i++)
+    {
+        if (CUTSCENE_DATA.oam[i].type)
+        {
+            CUTSCENE_DATA.oam[i].pFunction(&CUTSCENE_DATA.oam[i]);
+            CUTSCENE_DATA.activeOamCount++;
+        }
+    }
+}
+
+/**
+ * @brief 9d2f4 | 4c | Draws the OAM objects of a cutscene
+ * 
+ */
+void CutsceneDrawAllOam(void)
+{
+    u8 i;
+
+    for (i = 0; i < ARRAY_SIZE(CUTSCENE_DATA.oam); i++)
+    {
+        if (CUTSCENE_DATA.oam[i].exists)
+            CutsceneDrawOam(&CUTSCENE_DATA.oam[i]);
+    }
+
+    ResetFreeOam();
+    gNextOamSlot = 0;
+    CUTSCENE_UNK_3001238 = 0;
+}

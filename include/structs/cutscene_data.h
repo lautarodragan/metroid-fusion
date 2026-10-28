@@ -97,6 +97,9 @@ struct CutsceneMonologueData {
 };
 
 #define CUTSCENE_DATA (*(struct CutsceneData*)&gNonGameplayRam)
+// IWRAM byte (no symbol yet), likely flags used when drawing affine cutscene OAM
+#define CUTSCENE_UNK_3001238 (*(u8*)0x03001238)
+
 #define CUTSCENE_MONOLOGUE_DATA (*(struct CutsceneMonologueData*)&gNonGameplayRam)
 
 #endif /* CUTSCENE_DATA_STRUCT_H */
