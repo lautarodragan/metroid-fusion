@@ -1323,7 +1323,23 @@ const struct CreditsEntry sCredits[310] = {
 	},
 };
 
-static const u8 sBlob_74dc48_74e620[] = INCBIN_U8("data/Blob_74dc48_74e620.bin");
+const u8 sEndingUnk_74dc48[] = INCBIN_U8("data/Blob_74dc48_74dc90.bin");
+const u8 sEndingUnk_74dc90[] = INCBIN_U8("data/Blob_74dc90_74dcfc.bin");
+const u8 sEndingUnk_74dcfc[] = INCBIN_U8("data/Blob_74dcfc_74dd80.bin");
+const u8 sEndingUnk_74dd80[] = INCBIN_U8("data/Blob_74dd80_74de4c.bin");
+const u8 sEndingUnk_74de4c[] = INCBIN_U8("data/Blob_74de4c_74de94.bin");
+const u8 sEndingUnk_74de94[] = INCBIN_U8("data/Blob_74de94_74df30.bin");
+const u8 sEndingUnk_74df30[] = INCBIN_U8("data/Blob_74df30_74dfd8.bin");
+const u8 sEndingUnk_74dfd8[] = INCBIN_U8("data/Blob_74dfd8_74e020.bin");
+const u8 sEndingUnk_74e020[] = INCBIN_U8("data/Blob_74e020_74e0e0.bin");
+const u8 sEndingUnk_74e0e0[] = INCBIN_U8("data/Blob_74e0e0_74e1d0.bin");
+const u8 sEndingUnk_74e1d0[] = INCBIN_U8("data/Blob_74e1d0_74e218.bin");
+const u8 sEndingUnk_74e218[] = INCBIN_U8("data/Blob_74e218_74e2f0.bin");
+const u8 sEndingUnk_74e2f0[] = INCBIN_U8("data/Blob_74e2f0_74e374.bin");
+const u8 sEndingUnk_74e374[] = INCBIN_U8("data/Blob_74e374_74e440.bin");
+const u8 sEndingUnk_74e440[] = INCBIN_U8("data/Blob_74e440_74e488.bin");
+const u8 sEndingUnk_74e488[] = INCBIN_U8("data/Blob_74e488_74e53c.bin");
+const u8 sEndingUnk_74e53c[] = INCBIN_U8("data/Blob_74e53c_74e620.bin");
 
 const u32* const sPreResultsSamusBgGfxPointers1[4] = {
     sPreResultsSamusSuitedGfx3,
@@ -1346,7 +1362,8 @@ const u8* const sPreResultsSamusBgTilemapPointers[4] = {
     sTilemap_75e6fc
 };
 
-static const u8 sBlob_74e650_74eb50[] = INCBIN_U8("data/Blob_74e650_74eb50.bin");
+const u8 sEndingUnk_74e650[] = INCBIN_U8("data/Blob_74e650_74e8d0.bin");
+const u8 sEndingUnk_74e8d0[] = INCBIN_U8("data/Blob_74e8d0_74eb50.bin");
 
 const u32 sPreResultsSpaceBgGfx[4772] = INCBIN_U32("data/ending/space_bg.gfx.lz");
 

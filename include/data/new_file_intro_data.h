@@ -396,4 +396,37 @@ extern const u32 sIntroTilemap_662804[318];
 
 extern const u16 sIntroPal_663820[4 * PAL_ROW];
 
+extern const u8 sPal_5dfd6c[];
+extern const u8 sPal_5dfeac[];
+extern const u8 sPal_5dffec[];
+extern const u8 sPal_5e012c[];
+extern const u8 sPal_5e026c[];
+extern const u8 sPal_5e03ac[];
+extern const u8 sPal_5e04ec[];
+extern const u8 sPal_5e062c[];
+extern const u8 sPal_5e076c[];
+extern const u8 sPal_5e08ac[];
+extern const u8 sPal_5e09ec[];
+extern const u8 sPal_5e0b2c[];
+extern const u8 sPal_5e0c6c[];
+extern const u8 sPal_5e0dac[];
+extern const u8 sPal_5e0eec[];
+extern const u8 sPal_5e102c[];
+extern const u8 sPal_5f6990[];
+extern const u8 sPal_5f6a10[];
+extern const u8 sPal_5f6a90[];
+extern const u8 sPal_5f6b10[];
+extern const u8 sPal_5f6b90[];
+extern const u8 sPal_5f6c10[];
+extern const u8 sPal_5f6c90[];
+extern const u8 sPal_5f6d10[];
+extern const u8 sPal_5f6d90[];
+extern const u8 sPal_5f6e10[];
+extern const u8 sPal_5f6e90[];
+extern const u8 sPal_5f6f10[];
+extern const u8 sPal_5f6f90[];
+extern const u8 sPal_5f7010[];
+extern const u8 sPal_5f7090[];
+extern const u8 sPal_5f7110[];
+
 #endif /* NEW_FILE_INTRO_DATA_H */

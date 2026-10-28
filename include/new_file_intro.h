@@ -9,6 +9,21 @@
 extern const u16** sLocationTextPointers[LANGUAGE_COUNT];
 extern u16** sMessageTextPointers[LANGUAGE_COUNT];
 
+extern u8 sNavConversationTextPointersJapanese[];
+extern u8 sPauseScreenTextPointersJapanese[];
+extern u8 sNavConversationTextPointersHiragana[];
+extern u8 sPauseScreenTextPointersHiragana[];
+extern u8 sNavConversationTextPointersEnglish[];
+extern u8 sPauseScreenTextPointersEnglish[];
+extern u8 sNavConversationTextPointersGerman[];
+extern u8 sPauseScreenTextPointersGerman[];
+extern u8 sNavConversationTextPointersFrench[];
+extern u8 sPauseScreenTextPointersFrench[];
+extern u8 sNavConversationTextPointersItalian[];
+extern u8 sPauseScreenTextPointersItalian[];
+extern u8 sNavConversationTextPointersSpanish[];
+extern u8 sPauseScreenTextPointersSpanish[];
+
 boolu32 IntroHandler(void);
 boolu32 NewFileIntroHandler(void);
 boolu32 unk_87920(void);

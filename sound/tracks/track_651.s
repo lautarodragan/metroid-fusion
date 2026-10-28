@@ -19,7 +19,7 @@ track_651:
 	.byte 0
 	.byte 170
 	.byte 0
-	.word 0x80a7e10
+	.word sVoicegroup_a7e10
 	.word track_651_0
 
 .align 2

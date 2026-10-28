@@ -317,6 +317,11 @@ SECTIONS {
         asm/romheader.o(.text);
         asm/crt0.o(.text);
         asm/intr_main.o(.text);
+#ifdef SHIFT_TEST
+        /* Shift test (make SHIFT=1): move all code after the header, crt0 and
+           the interrupt handler by SHIFT_TEST bytes */
+        . += SHIFT_TEST;
+#endif
         src/agbmain.o(.text);
         src/init_game.o(.text);
         src/softreset.o(.text);
@@ -439,6 +444,11 @@ SECTIONS {
         src/sprites_AI/box_2.o(.text);
         src/sprites_AI/omega_metroid.o(.text);
 
+#ifdef SHIFT_TEST
+        /* Shift test: move the code below by another SHIFT_TEST bytes */
+        . += SHIFT_TEST;
+#endif
+
         asm/disasm_0x08056140.o(.text);
 
         src/sprites_AI/electric_water_damage_box2.o(.text);
@@ -496,6 +506,8 @@ SECTIONS {
         src/new_file_intro.o(.text);
 
         asm/disasm_0x0808F5C4.o(.text);
+        asm/disasm_0x08096B98.o(.text);
+        asm/disasm_0x0809A848.o(.text);
 
         src/sa_x_close_up.o(.text);
 
@@ -518,9 +530,15 @@ SECTIONS {
         *libgcc.a:_muldi3.o(.text);
         *libgcc.a:_negdi2.o(.text);
         *libc.a:memcpy.o(.text);
+        *libc.a:memset.o(.text);
     } >rom
 
     .rodata : ALIGN(2) {
+#ifdef SHIFT_TEST
+        /* Shift test: move all data by another SHIFT_TEST bytes */
+        . += SHIFT_TEST;
+#endif
+
         src/data/generic_data.o(.rodata);
         src/data/audio.o(.rodata);
 

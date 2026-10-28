@@ -5,7 +5,7 @@
 
 // TODO: The start of this file needs to be 4-byte aligned, but sPauseScreenAreaNameOamIds is not.
 // When this blob is removed, sPauseScreenAreaNameOamIds cannot be the first item
-static const u8 sBlob_5760e8_576142[] = INCBIN_U8("data/Blob_5760e8_576142.bin");
+const u8 sUnk_5760e8[] = INCBIN_U8("data/Blob_5760e8_576142.bin");
 
 const u8 sPauseScreenAreaNameOamIds[AREA_NORMAL_COUNT][2] = {
     [AREA_MAIN_DECK] = { PAUSE_OAM_ID_MAIN_DECK_TEXT, PAUSE_OAM_ID_MAIN_DECK_TEXT_APPEARING },
@@ -147,7 +147,9 @@ const u8 sMaintainedInputDelays[7] = {
     15, 10, 6, 4, 4, 4, 2,
 };
 
-static const u8 sBlob_576217_576234[] = INCBIN_U8("data/Blob_576217_576234.bin");
+static const u8 sBlob_576217_576218[] = INCBIN_U8("data/Blob_576217_576218.bin");
+const u8 sNavConversationUnk_576218[] = INCBIN_U8("data/Blob_576218_576226.bin");
+const u8 sNavConversationUnk_576226[] = INCBIN_U8("data/Blob_576226_576234.bin");
 
 const u8 sCharacterWidths[1184] = {
     8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
@@ -226,14 +228,15 @@ const u8 sCharacterWidths[1184] = {
     8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
 };
 
-static const u8 sBlob_5766D4_5766e0[] = INCBIN_U8("data/Blob_5766D4_5766e0.bin");
+const u8 sNavConversationUnk_5766d4[] = INCBIN_U8("data/Blob_5766d4_5766e0.bin");
 
 const u8 sNavConversationTextBoxCursorYPositions[NAV_TEXT_BOX_COUNT][2] = {
     [NAV_TEXT_BOX_BOTTOM] = { 128, 150 },
     [NAV_TEXT_BOX_TOP] = { 25, 47 }
 };
 
-static const u8 sBlob_5766e4_5767f0[] = INCBIN_U8("data/Blob_5766e4_5767f0.bin");
+const u8 sNavConversationUnk_5766e4[] = INCBIN_U8("data/Blob_5766e4_5767ec.bin");
+const u8 sNavConversationUnk_5767ec[] = INCBIN_U8("data/Blob_5767ec_5767f0.bin");
 
 const u8 sNavConversationPortraitOamIds[6][3] = {
     [0] = {
@@ -268,7 +271,24 @@ const u8 sNavConversationPortraitOamIds[6][3] = {
     }
 };
 
-static const u8 sBlob_576802_581510[] = INCBIN_U8("data/Blob_576802_581510.bin");
+const u8 sUnk_576802[] = INCBIN_U8("data/Blob_576802_57bc50.bin");
+const u8 sNavConversationUnk_57bc50[] = INCBIN_U8("data/Blob_57bc50_57bcc8.bin");
+const u8 sNavConversationUnk_57bcc8[] = INCBIN_U8("data/Blob_57bcc8_57bcd4.bin");
+const u8 sUnk_57bcd4[] = INCBIN_U8("data/Blob_57bcd4_57bcf4.bin");
+const u8 sUnk_57bcf4[] = INCBIN_U8("data/Blob_57bcf4_57bd34.bin");
+const u8 sUnk_57bd34[] = INCBIN_U8("data/Blob_57bd34_57bdb4.bin");
+const u8 sUnk_57bdb4[] = INCBIN_U8("data/Blob_57bdb4_57beb4.bin");
+const u8 sUnk_57beb4[] = INCBIN_U8("data/Blob_57beb4_57beb8.bin");
+const u8 sUnk_57beb8[] = INCBIN_U8("data/Blob_57beb8_57bebc.bin");
+const u8 sUnk_57bebc[] = INCBIN_U8("data/Blob_57bebc_57bec4.bin");
+const u8 sUnk_57bec4[] = INCBIN_U8("data/Blob_57bec4_57c0c4.bin");
+const u8 sNavConversationUnk_57c0c4[] = INCBIN_U8("data/Blob_57c0c4_57fca0.bin");
+const u8 sNavConversationUnk_57fca0[] = INCBIN_U8("data/Blob_57fca0_580238.bin");
+const u8 sNavConversationUnk_580238[] = INCBIN_U8("data/Blob_580238_5807d0.bin");
+const u8 sNavConversationUnk_5807d0[] = INCBIN_U8("data/Blob_5807d0_580d68.bin");
+const u8 sNavConversationUnk_580d68[] = INCBIN_U8("data/Blob_580d68_581300.bin");
+const u8 sUnk_581300[] = INCBIN_U8("data/Blob_581300_581500.bin");
+const u8 sUnk_581500[] = INCBIN_U8("data/Blob_581500_581510.bin");
 
 const u8 sPauseDebugEventNames[EVENT_END][EVENT_NAME_SIZE] = {
     [EVENT_NONE] = SHIFT_JIS("TOHOKANKO   トクベツホカンコヘ ムカエ  "),
@@ -530,4 +550,11 @@ const u8 sDebugSectionInfo[PAUSE_DEBUG_SECTION_END][5] = {
     },
 };
 
-static const u8 sBlob_58217b_58225c[] = INCBIN_U8("data/Blob_58217b_58225c.bin");
+static const u8 sBlob_58217b_58217c[] = INCBIN_U8("data/Blob_58217b_58217c.bin");
+const u8 sStatusScreenUnk_58217c[] = INCBIN_U8("data/Blob_58217c_5821b3.bin");
+const u8 sStatusScreenUnk_5821b3[] = INCBIN_U8("data/Blob_5821b3_5821d6.bin");
+const u8 sStatusScreenUnk_5821d6[] = INCBIN_U8("data/Blob_5821d6_5821e8.bin");
+const u8 sSramUnk_5821e8[] = INCBIN_U8("data/Blob_5821e8_5821f8.bin");
+const u8 sSramUnk_5821f8[] = INCBIN_U8("data/Blob_5821f8_582200.bin");
+const u8 sSramUnk_582200[] = INCBIN_U8("data/Blob_582200_582248.bin");
+const u8 sSramUnk_582248[] = INCBIN_U8("data/Blob_582248_58225c.bin");

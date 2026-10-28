@@ -33,7 +33,9 @@ The check overwrites `mf_us_baserom.gba`, `data/` and
 `sound/direct_sound_samples/` in the working tree. If you also work with a real
 baserom, run the check in a separate checkout.
 
-CI (`.github/workflows/build.yml`) runs this on every push and pull request.
+CI (`.github/workflows/build.yml`) runs this on every push and pull request,
+followed by the shift test (`tools/check_shift.sh`, see
+[shiftability.md](shiftability.md)), which reuses the extracted data.
 
 ## What it does and does not prove
 

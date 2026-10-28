@@ -3250,4 +3250,19 @@ const struct FrameData sOmegaMetroidPartOam_LeftLeg_Swiping[6] = {
     [5] = FRAME_DATA_TERMINATOR
 };
 
-static const u8 sBlob_39aa34_39f4b0[] = INCBIN_U8("data/Blob_39aa34_39f4b0.bin");
+static const u8 sBlob_39aa34_39aae0[] = INCBIN_U8("data/Blob_39aa34_39aae0.bin");
+const u8 sGunshipEndUnk_39aae0[] = INCBIN_U8("data/Blob_39aae0_39abc4.bin");
+const u8 sGunshipEndUnk_39abc4[] = INCBIN_U8("data/Blob_39abc4_39ac84.bin");
+const u8 sGunshipEndUnk_39ac84[] = INCBIN_U8("data/Blob_39ac84_39ac90.bin");
+const u8 sGunshipEndUnk_39ac90[] = INCBIN_U8("data/Blob_39ac90_39acd0.bin");
+const u8 sGunshipEndUnk_39acd0[] = INCBIN_U8("data/Blob_39acd0_39ad58.bin");
+const u8 sGunshipEndGfx[] = INCBIN_U8("data/Blob_39ad58_39e558.bin");
+const u8 sGunshipEndPal[] = INCBIN_U8("data/Blob_39e558_39eb48.bin");
+const u8 sGunshipEndOam_39eb48[] = INCBIN_U8("data/Blob_39eb48_39ebb8.bin");
+const u8 sGunshipEndBeamOam_39ebb8[] = INCBIN_U8("data/Blob_39ebb8_39ec08.bin");
+const u8 sGunshipEndOam_39ec08[] = INCBIN_U8("data/Blob_39ec08_39ec30.bin");
+const u8 sGunshipEndOam_39ec30[] = INCBIN_U8("data/Blob_39ec30_39ec68.bin");
+const u8 sGunshipEndOam_39ec68[] = INCBIN_U8("data/Blob_39ec68_39ec78.bin");
+const u8 sGunshipEndOam_39ec78[] = INCBIN_U8("data/Blob_39ec78_39ec90.bin");
+const u8 sElectricWaterDamageBox2Gfx[] = INCBIN_U8("data/Blob_39ec90_39f490.bin");
+const u8 sElectricWaterDamageBox2Pal[] = INCBIN_U8("data/Blob_39f490_39f4b0.bin");

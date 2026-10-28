@@ -1,0 +1,17 @@
+[book]
+title = "Metroid Fusion Decomp"
+description = "Documentación de la decompilación de Metroid Fusion (GBA)"
+language = "es"
+src = "src"
+
+[build]
+# Varios capítulos incluyen archivos de ../docs con {{#include}}; esto hace que
+# `mdbook serve` también recargue cuando cambian.
+extra-watch-dirs = ["../docs"]
+
+[output.html]
+site-url = "/metroid-fusion/"
+git-repository-url = "https://github.com/lautarodragan/metroid-fusion"
+
+[output.html.search]
+enable = true

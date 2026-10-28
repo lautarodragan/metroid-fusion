@@ -75,7 +75,7 @@ SoundCodeC: @ 0x08003E1C
 	mov ip, #0
 	sub ip, ip, #1
 	lsr ip, ip, #0x17
-	ldr lr, _08003EB8 @ =0x080A548A
+	ldr lr, _08003EB8 @ =sArray_a548a
 	b _08003E40
 _08003E38:
 	subs r2, r2, #1
@@ -113,7 +113,7 @@ _08003EA8:
 	pop {r4, r5, r6, r7}
 	bx lr
 	.align 2, 0
-_08003EB8: .4byte 0x080A548A
+_08003EB8: .4byte sArray_a548a
 
 	thumb_func_start CallSoundCodeA
 CallSoundCodeA: @ 0x08003EBC
@@ -582,9 +582,9 @@ unk_4534: @ 0x08004534
 	ldrb r3, [r0, #0xe]
 	cmp r1, r3
 	bne lbl_08004594
-	ldr r3, =0x80a568c
+	ldr r3, =sDma1ControlPointer
 	ldr r3, [r3]
-	ldr r12, =0x80a5690
+	ldr r12, =sDma1ControlValue
 	ldr r12, [r12]
 	str r12, [r3]
 	str r12, [r3, #0xc]
