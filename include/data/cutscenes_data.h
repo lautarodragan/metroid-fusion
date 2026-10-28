@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern const u8 sCutsceneUnk_63a184[];
-extern const u8 sCutsceneUnk_63a190[];
+extern const u8 sCutsceneUnk_63a184[3][4];
+extern const u8 sCutsceneUnk_63a190[3][4];
 extern const u8 sCutsceneUnk_663e5c[];
 extern const u8 sCutsceneUnk_663e74[];
 extern const u8 sCutsceneUnk_675098[];
@@ -47,7 +47,7 @@ extern const u8 sCutsceneUnk_68121c[];
 extern const u8 sCutsceneUnk_681a1c[];
 extern const u8 sCutsceneUnk_6820a4[];
 extern const u8 sCutsceneUnk_68259c[];
-extern const u8 sCutsceneUnk_68279c[];
+extern const u8 sCutsceneUnk_68279c[3][4];
 extern const u8 sCutsceneUnk_6827a8[];
 extern const u8 sCutsceneUnk_682bfc[];
 extern const u8 sUnk_68141c[];

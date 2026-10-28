@@ -510,7 +510,10 @@ SECTIONS {
         src/cutscenes/secret_conversation.o(.text);
         src/cutscenes/restricted_lab_detaching.o(.text);
         src/cutscenes/bsl_exploding.o(.text);
-        asm/disasm_0x0809C938.o(.text);
+        src/cutscenes/cutscene_monologue.o(.text);
+        asm/disasm_0x0809CA9C.o(.text);
+        src/cutscenes/cutscene_common.o(.text);
+        asm/disasm_0x0809D228.o(.text);
 
         src/sa_x_close_up.o(.text);
 
