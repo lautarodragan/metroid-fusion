@@ -89,6 +89,10 @@ def _balanced(text: str, start: int) -> int:
 
 def _int(expr: str) -> int:
     expr = expr.strip()
+    try:
+        return int(expr, 0)
+    except ValueError:
+        pass
     expr = re.sub(r"\b(OAM_[A-Z_0-9x]+)\b", lambda m: str(FLIPS.get(m.group(1), m.group(1))), expr)
     return int(eval(expr, {"__builtins__": {}}, {}))  # numbers and + - * | only
 
@@ -255,6 +259,22 @@ class Canvas:
                     self.set(x, y, col)
 
     def ellipse(self, cx, cy, rx, ry, c, angle=0.0):
+        if rx <= 0 or ry <= 0:
+            return
+        if angle == 0.0:  # fast path: one span per row
+            for y in range(math.floor(cy - ry), math.ceil(cy + ry) + 1):
+                v = (y + 0.5 - cy) / ry
+                if abs(v) > 1:
+                    continue
+                half = rx * math.sqrt(1 - v * v)
+                yy = y + self.o
+                if not 0 <= yy < self.size:
+                    continue
+                xa = max(0, math.ceil(cx - half - 0.5) + self.o)
+                xb = min(self.size - 1, math.floor(cx + half - 0.5) + self.o)
+                if xb >= xa:
+                    self.px[yy * self.size + xa:yy * self.size + xb + 1] = bytes([c]) * (xb - xa + 1)
+            return
         ca, sa = math.cos(angle), math.sin(angle)
         R = max(rx, ry)
         for y in range(math.floor(cy - R), math.ceil(cy + R) + 1):
@@ -474,6 +494,42 @@ def write_png(path, w: int, h: int, rgb: bytes) -> None:
     raw = b"".join(b"\0" + rgb[y * w * 3:(y + 1) * w * 3] for y in range(h))
     Path(path).write_bytes(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 2, 0, 0, 0))
                            + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
+
+
+def frames_png(path, rows, tile_px, palette_of, cell: int = 64, cols: int = 10, scale: int = 2) -> None:
+    """Debug view: ``rows`` = [[entries, ...], ...] drawn with ``tile_px(t)``
+    (64 indices or None) and ``palette_of(entry.palette)`` (16 RGB)."""
+    W, H = cols * cell, max(1, len(rows)) * cell
+    img = bytearray(bytes((40, 44, 56)) * (W * H))
+    for r, frames in enumerate(rows):
+        for k, entries in enumerate(frames[:cols]):
+            ox, oy = k * cell + cell // 2, r * cell + cell // 2
+            for e in entries:
+                pal = palette_of(e.palette)
+                for dx, dy, t in e.tiles():
+                    px = tile_px(t)
+                    if px is None:
+                        continue
+                    for y in range(8):
+                        for x in range(8):
+                            c = px[y * 8 + x]
+                            if not c:
+                                continue
+                            sx = 7 - x if e.flip & 1 else x
+                            sy = 7 - y if e.flip & 2 else y
+                            X, Y = ox + e.x + dx + sx, oy + e.y + dy + sy
+                            if 0 <= X < W and 0 <= Y < H:
+                                i = (Y * W + X) * 3
+                                img[i:i + 3] = bytes(int(v) for v in pal[c])
+    if scale > 1:
+        big = bytearray()
+        for y in range(H):
+            row = bytearray()
+            for x in range(W):
+                row += img[(y * W + x) * 3:(y * W + x) * 3 + 3] * scale
+            big += bytes(row) * scale
+        img, W, H = big, W * scale, H * scale
+    write_png(path, W, H, bytes(img))
 
 
 def sheet_png(path, tiles, palettes, cols: int = 32, scale: int = 2, pal_of=None) -> None:

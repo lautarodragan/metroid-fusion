@@ -43,7 +43,7 @@ FONT3 = {
     "8": ["###", "#.#", "###", "#.#", "###"],
     "9": ["###", "#.#", "###", "..#", "###"],
     "E": ["###", "#..", "##.", "#..", "###"],
-    "N": ["#.#", "###", "###", "###", "#.#"],
+    "N": ["##.", "#.#", "#.#", "#.#", "#.#"],
     "R": ["##.", "#.#", "##.", "#.#", "#.#"],
     "G": [".##", "#..", "#.#", "#.#", ".##"],
     "Y": ["#.#", "#.#", ".#.", ".#.", ".#."],
@@ -108,6 +108,9 @@ def hud_sheet_tiles() -> dict:
     px[0 * 8 + 3] = FX_BLACK
     px[0 * 8 + 2] = px[0 * 8 + 4] = 0
     tiles[0x70] = px
+    # src/hud.c only copies an energy digit when it changes, starting from
+    # 9999: the sheet itself shows "99" (the energy of a new game)
+    tiles[0x71] = tiles[0x72] = energy_digit("9")
     # minimap frame: top row (0xDC-0xDF) and right column (0xFF, 0x11F, 0x13F)
     for c in range(4):
         px = blank()
@@ -145,13 +148,14 @@ def hud_sheet_tiles() -> dict:
 # Blocks copied by src/hud.c
 # ---------------------------------------------------------------------------
 
+def energy_digit(d: str):
+    px = blank()
+    glyph(px, FONT5[d], 1, 0, FX_WHITE, shadow=FX_BLACK)
+    return px
+
+
 def energy_digits() -> bytes:
-    out = []
-    for d in "0123456789":
-        px = blank()
-        glyph(px, FONT5[d], 1, 0, FX_WHITE, shadow=FX_BLACK)
-        out.append(px)
-    return A.tiles_to_bytes(out)
+    return A.tiles_to_bytes([energy_digit(d) for d in "0123456789"])
 
 
 def tank_tile(left, right):

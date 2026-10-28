@@ -38,6 +38,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import formats  # noqa: E402
+import hud_gfx  # noqa: E402
 import samus_gfx  # noqa: E402
 import sprite_gfx  # noqa: E402
 from inventory import ROOT, Region, load_regions  # noqa: E402
@@ -424,6 +425,7 @@ def generate(args) -> int:
     layout_notes = apply_known_layouts(rom, regions, layout)
     layout_notes += clear_empty_bg_tiles(rom, regions)
     layout_notes += samus_gfx.apply(rom, regions, layout)
+    layout_notes += hud_gfx.apply(rom, regions, layout)
     layout_notes += sprite_gfx.apply(rom, regions, layout)
     validate(rom, regions, meta)
     # No database region starts below 0xa5224, and the extractor never reads
