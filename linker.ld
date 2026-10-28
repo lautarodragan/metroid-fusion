@@ -516,6 +516,8 @@ SECTIONS {
         src/menus/file_select.o(.text);
         asm/disasm_0x0809eab0.o(.text);
         src/menus/file_select_2.o(.text);
+        asm/disasm_0x080a051c.o(.text);
+        src/menus/file_select_3.o(.text);
         asm/disasm_0x0809deb4.o(.text);
 
         src/ending.o(.text);

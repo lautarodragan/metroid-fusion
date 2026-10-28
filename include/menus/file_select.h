@@ -29,14 +29,15 @@ void unk_a0518(struct FileSelectOam* pOam);
 void FileSelectDrawFileInfo(u8 file);
 void FileSelectDrawText(u8 text);
 u32 FileSelectProcessCorruptedFile(void);
-void FileSelectDrawFileCorruptedText(void);
-void FileSelectDrawCorruptionText(void);
+void FileSelectDrawFileCorruptedText(u8 file);
+void FileSelectDrawCorruptionText(u8 text);
 void FileSelectDestroyOamOfType(u8 type);
-void FileSelectSetUpAreaNameOam(void);
+void FileSelectSetUpAreaNameOam(u8 type, s16 xPosition, s16 yPosition, s16 area);
 void FileSelectProcessOam(void);
 void FileSelectDrawAllOam(void);
 void FileSelectDrawOam(struct FileSelectOam* pOam);
 
 void Sram_WriteFileInfo(void);
+void Sram_SetCurrentFile(u8 file);
 
 #endif /* FILE_SELECT_H */

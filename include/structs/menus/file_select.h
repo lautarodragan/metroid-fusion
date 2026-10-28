@@ -30,10 +30,8 @@ struct FileSelectOam {
 };
 
 struct FileSelectData {
-    u8 unk_0;
-    u8 unk_1;
-    u8 unk_2;
-    u8 unk_3;
+    u16 textTile;
+    u16 textLine;
     const u16* pText;
     u16 unk_8;
     s16 subroutine;
@@ -44,9 +42,9 @@ struct FileSelectData {
     u8 unk_10;
     u8 dispcntAction;
     s8 result;
-    u8 unk_13;
-    u8 unk_14;
-    u8 unk_15;
+    u8 textPixelOffset;
+    u8 corruptedFileStage;
+    u8 corruptedFile;
     u8 unk_16;
     u8 unk_17;
     struct FileSelectOam oam[23];
