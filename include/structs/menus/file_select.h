@@ -36,17 +36,17 @@ struct SaveFileInfo {
     u8 exists;
     u8 corruptionFlag;
     u8 currentArea;
-    u8 unk_3;
+    u8 eventCounter;
     u16 currentEnergy;
     u16 maxEnergy;
     u16 currentMissiles;
     u16 maxMissiles;
-    u8 unk_C;
+    u8 weaponsStatus;
     u8 igtHours;
     u8 igtMinutes;
     u8 unk_F;
-    s8 unk_10;
-    s8 unk_11;
+    s8 unk_10; // Completed game
+    s8 unk_11; // Intro played
     u8 unk_12;
     u8 unk_13;
 };

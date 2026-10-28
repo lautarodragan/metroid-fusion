@@ -1,6 +1,10 @@
 #include "status_screen.h"
 #include "globals.h"
+#include "gba/memory.h"
 #include "types.h"
+
+#include "data/menus/pause_screen_misc_data.h"
+#include "data/menus/status_screen_data.h"
 
 #include "constants/samus.h"
 #include "constants/status_screen.h"
@@ -8,6 +12,8 @@
 #include "gba/keys.h"
 
 #include "structs/samus.h"
+
+#define STATUS_SCREEN_TILEMAP ((u16*)(VRAM_BASE + 0xC800))
 
 /**
  * @brief 7e678 | 34 | Handler for the status screen
@@ -55,60 +61,4 @@ void StatusScreenDrawEverything(void)
     }
 
     StatusScreenRemoveAmmoHeader(2);
-}
-
-/**
- * @brief 7e754 | e0 | Draws a number on the status screen
- * 
- * @param section section
- * @param value value
- * @param palette palette slot
- * @param is_max bool for current vs max ammo count
- */
-void StatusScreenDrawNumber(u8 section, u16 value, u8 palette, boolu8 isMax)
-{
-
-}
-
-/**
- * @brief 7e834 | 148 | Draws the beam or suit status
- * 
- * @param section section
- * @param value suit misc status
- */
-void StatusScreenDrawBeamOrSuit(u8 section, u8 value)
-{
-
-}
-
-/**
- * @brief 7e97c | 15c | Draws the missile or bomb status
- * 
- * @param section section
- * @param value weapon status
- */
-void StatusScreenDrawMissileOrBomb(u8 section, u8 value)
-{
-
-}
-
-/**
- * @brief 7ead8 | 1b4 | Draws the misc status
- * 
- * @param section section
- * @param value misc status
- */
-void StatusScreenDrawMisc(u8 section, u8 value)
-{
-
-}
-
-/**
- * @brief 7ec8c | 94 | Removes an ammo header from the status screen
- * 
- * @param position 1 for missiles 2 for power bombs
- */
-void StatusScreenRemoveAmmoHeader(u8 position)
-{
-
 }
