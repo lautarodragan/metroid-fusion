@@ -214,7 +214,7 @@ void Sram_ProcessIntroSave(u8 stage)
             case 0:
                 gDisableSoftReset = TRUE;
                 gGameCompletion.introPlayed = TRUE;
-                gSaveFilesInfo[gMostRecentSaveFile].gameCompletion.introPlayed = TRUE;
+                gSaveFilesInfo[gMostRecentSaveFile].unk_11 = TRUE;
                 return;
 
             case 1:
@@ -235,8 +235,8 @@ void Sram_ProcessIntroSave(u8 stage)
             case 0:
                 gDisableSoftReset = TRUE;
                 gGameCompletion.introPlayed = TRUE;
-                gSaveFilesInfo[gMostRecentSaveFile].gameCompletion.introPlayed = TRUE;
-                gGameCompletion.completedGame = gSaveFilesInfo[gMostRecentSaveFile].gameCompletion.completedGame;
+                gSaveFilesInfo[gMostRecentSaveFile].unk_11 = TRUE;
+                gGameCompletion.completedGame = gSaveFilesInfo[gMostRecentSaveFile].unk_10;
                 BitFill(3, 0, (void*)sSaveDataEwramPointers[gMostRecentSaveFile], 0x300, 16);
                 return;
 
@@ -317,7 +317,7 @@ void Sram_ProcessEndingSave(u8 stage)
 
         case 2:
             WriteMostRecentFileToSram();
-            gSaveFilesInfo[gMostRecentSaveFile].gameCompletion.completedGame = gGameCompletion.completedGame;
+            gSaveFilesInfo[gMostRecentSaveFile].unk_10 = gGameCompletion.completedGame;
             break;
 
         case 3:

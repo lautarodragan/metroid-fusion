@@ -9,7 +9,7 @@
 - [Contribuir](CONTRIBUTING.md)
 - [Verificación sin ROM (check sintético)](docs/synthetic_check.md)
 - [Shiftabilidad (pendiente)](shiftabilidad.md)
-- [Tests con emulador (pendiente)](tests-emulador.md)
+- [Tests con emulador](docs/emu_tests.md)
 
 # Investigación
 

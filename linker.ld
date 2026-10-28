@@ -194,6 +194,7 @@ SECTIONS {
         . = 0x00001232; gBg3YPosition = .;
         . = 0x00001234; gUnk_3001234 = .;
         . = 0x00001236; gUnk_3001236 = .;
+        . = 0x00001238; gUnk_3001238 = .;
         . = 0x00001242; gDemoState = .;
         . = 0x00001243; gPoseLock = .;
         . = 0x00001244; gSamusData = .;
@@ -302,6 +303,7 @@ SECTIONS {
         . = 0x000053f9; gUnk_30053f9 = .;
         . = 0x000053fc; gHazeProcessCodePointer = .;
         . = 0x00005400; gMaintainedInput = .;
+        . = 0x00005404; gSpecialCutsceneRandomSeed = .;
 
         . = 0x00005408; *libgcc.a:dp-bit.o(.bss);
         . = 0x00005420; *libgcc.a:fp-bit.o(.bss);
@@ -455,7 +457,7 @@ SECTIONS {
         . += SHIFT_TEST;
 #endif
 
-        asm/disasm_0x08056140.o(.text);
+        src/sprites_AI/gunship_end.o(.text);
 
         src/sprites_AI/electric_water_damage_box2.o(.text);
         src/sprites_AI/frozen_ridley.o(.text);
@@ -517,13 +519,34 @@ SECTIONS {
         src/menus/title_screen.o(.text);
         src/new_file_intro.o(.text);
 
-        asm/disasm_0x0808F5C4.o(.text);
+        asm/disasm_0x0809209C.o(.text);
+        src/intro.o(.text);
+        src/ending_cutscenes.o(.text);
+        src/ending_dialogue.o(.text);
+        src/died_on_sr388.o(.text);
+        src/special_cutscene_monologue.o(.text);
+        asm/disasm_0x08098158.o(.text);
+        src/special_cutscene.o(.text);
         asm/disasm_0x08096B98.o(.text);
-        asm/disasm_0x0809A848.o(.text);
+        src/special_cutscene_misc.o(.text);
+        src/cutscene_handler.o(.text);
+        src/cutscenes/secret_conversation.o(.text);
+        src/cutscenes/restricted_lab_detaching.o(.text);
+        src/cutscenes/bsl_exploding.o(.text);
+        src/cutscenes/cutscene_monologue.o(.text);
+        asm/disasm_0x0809CA9C.o(.text);
+        src/cutscenes/cutscene_common.o(.text);
+        asm/disasm_0x0809D340.o(.text);
 
         src/sa_x_close_up.o(.text);
 
-        asm/disasm_0x0809deb4.o(.text);
+        src/menus/game_over.o(.text);
+        src/menus/file_select.o(.text);
+        asm/disasm_0x0809f518.o(.text);
+        src/menus/file_select_2.o(.text);
+        asm/disasm_0x080a051c.o(.text);
+        src/menus/file_select_3.o(.text);
+        asm/disasm_0x080a1480.o(.text);
 
         src/ending.o(.text);
 

@@ -7,6 +7,7 @@
 
 #include "structs/samus.h"
 #include "structs/scroll.h"
+#include "structs/menus/file_select.h"
 
 #define EWRAM_SRAM (EWRAM_BASE + 0x38000)
 #define SRAM_HEADER_SIZE 0x80
@@ -113,22 +114,6 @@ struct SramExtraData {
     u8 unk_27[SRAM_EXTRA_DATA_SIZE - 0x27];
 };
 
-// Info about each save file, used on the file select
-struct SaveFileInfo {
-    u8 exists;
-    u8 corruptionFlag;
-    u8 currentArea;
-    u8 eventCounter;
-    u16 currentEnergy;
-    u16 maxEnergy;
-    u16 currentMissiles;
-    u16 maxMissiles;
-    u8 weaponsStatus;
-    u8 igtHours;
-    u8 igtMinutes;
-    u8 unk_F;
-    struct GameCompletion gameCompletion;
-};
 
 extern u8 gMostRecentSaveFile;
 extern u8 gUnk_3000010;
@@ -136,6 +121,5 @@ extern u8 gSramTestFailed;
 extern u8 gUnk_3000b90;
 extern u8 gUnk_300004c;
 extern u8 gUnk_300004d;
-extern struct SaveFileInfo gSaveFilesInfo[3];
 
 #endif /* SAVE_FILE_STRUCT_H */
