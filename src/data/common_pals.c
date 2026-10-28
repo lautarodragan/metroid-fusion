@@ -9,8 +9,7 @@ const u16 sUnlockedHatchFlashingPal[8 * 16] = INCBIN_U16("data/common/unlocked_h
 
 const u8 sTileset_14_Tilemap[4228] = INCBIN_U8("data/tilesets/14.tm");
 const u8 sTileset_51_Tilemap[2820] = INCBIN_U8("data/tilesets/51.tm");
-const u8 sTileset_19_Tilemap[876] = INCBIN_U8("data/tilesets/19.tm");
-static const u8 sBlob_40a310_40afa8[] = INCBIN_U8("data/Blob_40a310_40afa8.bin");
+const u8 sTileset_19_Tilemap[4100] = INCBIN_U8("data/tilesets/19.tm");
 const u8 sTileset_32_Tilemap[4100] = INCBIN_U8("data/tilesets/32.tm");
 const u8 sTileset_12_Tilemap[3588] = INCBIN_U8("data/tilesets/12.tm");
 const u8 sTileset_49_Tilemap[3588] = INCBIN_U8("data/tilesets/49.tm");

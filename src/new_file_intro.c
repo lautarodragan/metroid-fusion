@@ -58,41 +58,41 @@ static const u16* sArray_79c2e4[12] = {
 };
 
 static const u16* sPalPointers_79c314[16] = {
-	(const u16*)sPal_5dfd6c,
-	(const u16*)sPal_5dfeac,
-	(const u16*)sPal_5e102c,
-	(const u16*)sPal_5dffec,
-	(const u16*)sPal_5e012c,
-	(const u16*)sPal_5e026c,
-	(const u16*)sPal_5e03ac,
-	(const u16*)sPal_5e04ec,
-	(const u16*)sPal_5e062c,
-	(const u16*)sPal_5e076c,
-	(const u16*)sPal_5e08ac,
-	(const u16*)sPal_5e09ec,
-	(const u16*)sPal_5e0b2c,
-	(const u16*)sPal_5e0c6c,
-	(const u16*)sPal_5e0dac,
-	(const u16*)sPal_5e0eec
+	sIntroSamusCuredBgFadePal_0,
+	sIntroSamusCuredBgFadePal_1,
+	sIntroSamusCuredBgFadePal_2,
+	sIntroSamusCuredBgFadePal_3,
+	sIntroSamusCuredBgFadePal_4,
+	sIntroSamusCuredBgFadePal_5,
+	sIntroSamusCuredBgFadePal_6,
+	sIntroSamusCuredBgFadePal_7,
+	sIntroSamusCuredBgFadePal_8,
+	sIntroSamusCuredBgFadePal_9,
+	sIntroSamusCuredBgFadePal_10,
+	sIntroSamusCuredBgFadePal_11,
+	sIntroSamusCuredBgFadePal_12,
+	sIntroSamusCuredBgFadePal_13,
+	sIntroSamusCuredBgFadePal_14,
+	sIntroSamusCuredBgFadePal_15
 };
 
 static const u16* sPalPointers_79c354[16] = {
-	(const u16*)sPal_5f6990,
-	(const u16*)sPal_5f6a10,
-	(const u16*)sPal_5f6a90,
-	(const u16*)sPal_5f6b10,
-	(const u16*)sPal_5f6b90,
-	(const u16*)sPal_5f6c10,
-	(const u16*)sPal_5f6c90,
-	(const u16*)sPal_5f6d10,
-	(const u16*)sPal_5f6d90,
-	(const u16*)sPal_5f6e10,
-	(const u16*)sPal_5f6e90,
-	(const u16*)sPal_5f6f10,
-	(const u16*)sPal_5f6f90,
-	(const u16*)sPal_5f7010,
-	(const u16*)sPal_5f7090,
-	(const u16*)sPal_5f7110
+	sIntroSamusCuredFadePal_0,
+	sIntroSamusCuredFadePal_1,
+	sIntroSamusCuredFadePal_2,
+	sIntroSamusCuredFadePal_3,
+	sIntroSamusCuredFadePal_4,
+	sIntroSamusCuredFadePal_5,
+	sIntroSamusCuredFadePal_6,
+	sIntroSamusCuredFadePal_7,
+	sIntroSamusCuredFadePal_8,
+	sIntroSamusCuredFadePal_9,
+	sIntroSamusCuredFadePal_10,
+	sIntroSamusCuredFadePal_11,
+	sIntroSamusCuredFadePal_12,
+	sIntroSamusCuredFadePal_13,
+	sIntroSamusCuredFadePal_14,
+	sIntroSamusCuredFadePal_15
 };
 
 u32 sIntroSpaceViewParticleOam[] = INCBIN_U32("data/intro/space_view_particle_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)

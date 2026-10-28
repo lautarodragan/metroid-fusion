@@ -69,7 +69,7 @@ void Sram_WriteHeader(void)
     pHeader->unk_B = 2;
 
     for (i = 0; i < SRAM_HEADER_MAGIC_SIZE; i++)
-        pHeader->magic[i] = sSramUnk_582248[i];
+        pHeader->magic[i] = sSramHeaderMagic[i];
 
     pHeader->checksum = 0;
     pHeader->notChecksum = UINT_MAX;
@@ -205,7 +205,7 @@ u32 Sram_VerifyHeader(u8 header)
 
     for (i = 0; i < SRAM_HEADER_MAGIC_SIZE; i++)
     {
-        if (pHeader->magic[i] != sSramUnk_582248[i])
+        if (pHeader->magic[i] != sSramHeaderMagic[i])
             result |= 2;
     }
 
@@ -287,12 +287,12 @@ void Sram_WriteHeaderAndGameInfo(void)
 
     pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
 
-    Sram_StringCopy_MetroidEpisode4A(pFile->magic, sSramUnk_582200);
+    Sram_StringCopy_MetroidEpisode4A(pFile->magic, sSaveFileMagic);
     pFile->checksum = 0;
     pFile->notChecksum = UINT_MAX;
     pFile->gameCompletion.introPlayed = gGameCompletion.introPlayed;
     pFile->gameCompletion.completedGame = gGameCompletion.completedGame;
-    Sram_StringCopy_SAVE_END(pFile->endMagic, sSramUnk_5821f8);
+    Sram_StringCopy_SAVE_END(pFile->endMagic, sSaveFileEndMagic);
 
     src = (u32*)sSaveDataEwramPointers[gMostRecentSaveFile];
     checksum = 0;
@@ -430,7 +430,7 @@ void SramWrite_ToEwram(void)
 
     pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
 
-    Sram_StringCopy_MetroidEpisode4A(pFile->magic, sSramUnk_582200);
+    Sram_StringCopy_MetroidEpisode4A(pFile->magic, sSaveFileMagic);
     pFile->checksum = 0;
     pFile->notChecksum = UINT_MAX;
 
@@ -489,7 +489,7 @@ void SramWrite_ToEwram(void)
     pFile->inGameTimer = gInGameTimer;
     pFile->musicInfo = musicInfo;
 
-    Sram_StringCopy_SAVE_END(pFile->endMagic, sSramUnk_5821f8);
+    Sram_StringCopy_SAVE_END(pFile->endMagic, sSaveFileEndMagic);
 
     src = (u32*)sSaveDataEwramPointers[gMostRecentSaveFile];
     checksum = 0;
@@ -624,7 +624,7 @@ void SramTestFlash(void)
     result = 0;
     gSramTestFailed = FALSE;
 
-    if (SramWriteChecked((u8*)sSramUnk_5821e8, SRAM_BASE + 0x7FE0, sizeof(buffer)))
+    if (SramWriteChecked((u8*)sSramTestData, SRAM_BASE + 0x7FE0, sizeof(buffer)))
         result = 1;
 
     SramWriteUnchecked(SRAM_BASE + 0x7FE0, buffer, sizeof(buffer));
@@ -789,7 +789,7 @@ s32 unk_7fdb0(u8 useBackup)
 
     for (i = 0; i < SRAM_MAGIC_SIZE; i++)
     {
-        if (sSramUnk_582200[i] != pFile->magic[i])
+        if (sSaveFileMagic[i] != pFile->magic[i])
             magicResult |= 1;
     }
 
@@ -968,8 +968,8 @@ void SramWrite_MostRecentSaveFile(void)
 
     for (i = 0; i < SRAM_EXTRA_DATA_MAGIC_SIZE; i++)
     {
-        pData->magic[i] = sSramUnk_582288[0][i];
-        pData->magic2[i] = sSramUnk_582288[1][i];
+        pData->magic[i] = sMostRecentSaveFileMagic[0][i];
+        pData->magic2[i] = sMostRecentSaveFileMagic[1][i];
     }
 
     checksum = 0;
@@ -1026,13 +1026,13 @@ void SramRead_MostRecentSaveFile(void)
     {
         for (i = 0; i < SRAM_EXTRA_DATA_MAGIC_SIZE; i++)
         {
-            if (pData->magic[i] != sSramUnk_582288[0][i])
+            if (pData->magic[i] != sMostRecentSaveFileMagic[0][i])
             {
                 error = 3;
                 break;
             }
 
-            if (pData->magic2[i] != sSramUnk_582288[1][i])
+            if (pData->magic2[i] != sMostRecentSaveFileMagic[1][i])
             {
                 error = 4;
                 break;
@@ -1073,8 +1073,8 @@ void SramWrite_Language(void)
 
     for (i = 0; i < SRAM_EXTRA_DATA_MAGIC_SIZE; i++)
     {
-        pData->magic[i] = sSramUnk_5822a8[0][i];
-        pData->magic2[i] = sSramUnk_5822a8[1][i];
+        pData->magic[i] = sLanguageDataMagic[0][i];
+        pData->magic2[i] = sLanguageDataMagic[1][i];
     }
 
     checksum = 0;
@@ -1134,13 +1134,13 @@ void SramRead_Language(void)
         {
             for (j = 0; j < SRAM_EXTRA_DATA_MAGIC_SIZE; j++)
             {
-                if (pData->magic[j] != sSramUnk_5822a8[0][j])
+                if (pData->magic[j] != sLanguageDataMagic[0][j])
                 {
                     error = 3;
                     break;
                 }
 
-                if (pData->magic2[j] != sSramUnk_5822a8[1][j])
+                if (pData->magic2[j] != sLanguageDataMagic[1][j])
                 {
                     error = 4;
                     break;
@@ -1203,7 +1203,7 @@ void Sram_InitSaveFile(void)
         gNumberOfCollectedTanks[i] = 0;
     }
 
-    gInGameTimer = sSramUnk_5822d4[0];
+    gInGameTimer = sDefaultInGameTime[0];
     gDisableDrawingSamusAndScrollingFlag = TRUE;
     EventSet(EVENT_NONE);
 
@@ -1244,8 +1244,8 @@ void Sram_ResetForDemo(void)
 {
     s32 i;
 
-    gBootDebugOptions = sSramUnk_5822e4[0];
-    gButtonAssignments = sSramUnk_5822c8[0];
+    gBootDebugOptions = sDefaultBootDebugOptions[0];
+    gButtonAssignments = sDefaultButtonAssignments[0];
 
     BitFill(3, USHORT_MAX, gVisitedMinimapTiles, WORLD_DATA_MINIMAP_SIZE, 16);
     BitFill(3, USHORT_MAX, gNeverReformBlocks, 0x1200, 16);
@@ -1257,7 +1257,7 @@ void Sram_ResetForDemo(void)
         gNumberOfCollectedTanks[i] = 0;
     }
 
-    gInGameTimer = sSramUnk_5822d4[0];
+    gInGameTimer = sDefaultInGameTime[0];
     gDisableDrawingSamusAndScrollingFlag = FALSE;
 
     gPreviousNavigationConversation = UCHAR_MAX;
@@ -1285,8 +1285,8 @@ void Sram_ResetForDemo(void)
  */
 void Sram_CheckLoadSaveFile(void)
 {
-    gButtonAssignments = sSramUnk_5822c8[0];
-    gBootDebugOptions = sSramUnk_5822e4[0];
+    gButtonAssignments = sDefaultButtonAssignments[0];
+    gBootDebugOptions = sDefaultBootDebugOptions[0];
 
     gIsLoadingFile = gSaveFilesInfo[gMostRecentSaveFile].exists;
     if (gIsLoadingFile == FALSE)

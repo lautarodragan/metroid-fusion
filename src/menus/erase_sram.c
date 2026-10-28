@@ -173,21 +173,21 @@ void EraseSramApplyInput(void)
     switch (ERASE_SRAM_DATA.nextOption)
     {
         case ERASE_SRAM_OPTION_NO:
-            ERASE_SRAM_DATA.oam[2].oamId = *(sEraseSramUnk_58b3b0 + ERASE_SRAM_OPTION_NO);
+            ERASE_SRAM_DATA.oam[2].oamId = *(sEraseSramCursorOamIds + ERASE_SRAM_OPTION_NO);
             ERASE_SRAM_DATA.oam[1].oamId = 0;
             break;
 
         case ERASE_SRAM_OPTION_YES:
-            ERASE_SRAM_DATA.oam[2].oamId = *(sEraseSramUnk_58b3b0 + ERASE_SRAM_OPTION_YES);
+            ERASE_SRAM_DATA.oam[2].oamId = *(sEraseSramCursorOamIds + ERASE_SRAM_OPTION_YES);
             ERASE_SRAM_DATA.oam[1].oamId = 0;
             break;
 
         case ERASE_SRAM_OPTION_CONFIRM_NO:
-            ERASE_SRAM_DATA.oam[1].oamId = *(sEraseSramUnk_58b3b0 + ERASE_SRAM_OPTION_CONFIRM_NO);
+            ERASE_SRAM_DATA.oam[1].oamId = *(sEraseSramCursorOamIds + ERASE_SRAM_OPTION_CONFIRM_NO);
             break;
 
         case ERASE_SRAM_OPTION_CONFIRM_YES:
-            ERASE_SRAM_DATA.oam[1].oamId = *(sEraseSramUnk_58b3b0 + ERASE_SRAM_OPTION_CONFIRM_YES);
+            ERASE_SRAM_DATA.oam[1].oamId = *(sEraseSramCursorOamIds + ERASE_SRAM_OPTION_CONFIRM_YES);
             break;
     }
 
@@ -292,8 +292,8 @@ s32 EraseSramCheckForInput(void)
         ERASE_SRAM_DATA.oam[0].currentAnimationFrame = 0;
     }
 
-    if (sEraseSramUnk_58b3b4[sound] != 0)
-        SoundPlay(sEraseSramUnk_58b3b4[sound]);
+    if (sEraseSramSounds[sound] != 0)
+        SoundPlay(sEraseSramSounds[sound]);
 
     return result;
 }
@@ -330,16 +330,16 @@ void EraseSramMenuInit(void)
 
     while ((u16)(READ_16(REG_VCOUNT) - 21) < 140);
 
-    DMA3_COPY_16(sEraseSramUnk_5823d0, PALRAM_BASE, 0x200 / 2);
-    DMA3_COPY_16(sEraseSramUnk_5822f0, PALRAM_OBJ, 0xE0 / 2);
+    DMA3_COPY_16(sEraseSramBgPal, PALRAM_BASE, 0x200 / 2);
+    DMA3_COPY_16(sEraseSramObjPal, PALRAM_OBJ, 0xE0 / 2);
 
-    LZ77UncompVram(sEraseSramUnk_58340c, VRAM_BASE + 0x1000);
-    LZ77UncompVram(sEraseSramUnk_582bbc, VRAM_BASE + 0x12000);
+    LZ77UncompVram(sEraseSramBgGfx, VRAM_BASE + 0x1000);
+    LZ77UncompVram(sEraseSramObjGfx, VRAM_BASE + 0x12000);
     LZ77UncompVram(sEraseSramTextGfxPointers[ERASE_SRAM_DATA.language][0], VRAM_BASE);
     LZ77UncompVram(sEraseSramTextGfxPointers[ERASE_SRAM_DATA.language][1], VRAM_BASE + 0x11000);
     LZ77UncompVram(sEraseSramTextGfxPointers[ERASE_SRAM_DATA.language][0], VRAM_BASE + 0x10000);
-    LZ77UncompVram(sEraseSramUnk_58abe4, VRAM_BASE + 0xD000);
-    LZ77UncompVram(sEraseSramUnk_58adf0, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sEraseSramTilemap_D000, VRAM_BASE + 0xD000);
+    LZ77UncompVram(sEraseSramTilemap_F000, VRAM_BASE + 0xF000);
 
     WRITE_16(REG_BG0CNT, 0);
     WRITE_16(REG_BG2CNT, 0);
@@ -371,11 +371,11 @@ void EraseSramResetOam(void)
     ERASE_SRAM_DATA.currentOption = ERASE_SRAM_OPTION_NO;
     ERASE_SRAM_DATA.nextOption = ERASE_SRAM_OPTION_CHANGING | ERASE_SRAM_OPTION_NO;
 
-    ERASE_SRAM_DATA.oam[2].oamId = sEraseSramUnk_58b3b0[ERASE_SRAM_OPTION_NO];
+    ERASE_SRAM_DATA.oam[2].oamId = sEraseSramCursorOamIds[ERASE_SRAM_OPTION_NO];
     ERASE_SRAM_DATA.oam[2].animationDurationCounter = 0;
     ERASE_SRAM_DATA.oam[2].currentAnimationFrame = 0;
-    ERASE_SRAM_DATA.oam[2].yPosition = sEraseSramUnk_58b3be[0][1];
-    ERASE_SRAM_DATA.oam[2].xPosition = sEraseSramUnk_58b3be[0][0];
+    ERASE_SRAM_DATA.oam[2].yPosition = sEraseSramCursorBasePositions[0][1];
+    ERASE_SRAM_DATA.oam[2].xPosition = sEraseSramCursorBasePositions[0][0];
 
     ERASE_SRAM_DATA.oam[0].oamId = 1;
     ERASE_SRAM_DATA.oam[0].animationDurationCounter = 0;
@@ -384,8 +384,8 @@ void EraseSramResetOam(void)
     ERASE_SRAM_DATA.oam[1].oamId = 0;
     ERASE_SRAM_DATA.oam[1].animationDurationCounter = 0;
     ERASE_SRAM_DATA.oam[1].currentAnimationFrame = 0;
-    ERASE_SRAM_DATA.oam[1].yPosition = sEraseSramUnk_58b3be[1][1];
-    ERASE_SRAM_DATA.oam[1].xPosition = sEraseSramUnk_58b3be[1][0];
+    ERASE_SRAM_DATA.oam[1].yPosition = sEraseSramCursorBasePositions[1][1];
+    ERASE_SRAM_DATA.oam[1].xPosition = sEraseSramCursorBasePositions[1][0];
 
     EraseSramUpdateCursorPosition();
 }
@@ -399,10 +399,10 @@ void EraseSramUpdateCursorPosition(void)
     u8 row;
 
     // The volatile read is needed to match
-    ERASE_SRAM_DATA.oam[0].yPosition = sEraseSramUnk_58b3be[row = ERASE_SRAM_DATA.currentOption / 2][1] +
-        (s8)sEraseSramUnk_58b3c2[*(vu8*)&ERASE_SRAM_DATA.currentOption][1];
-    ERASE_SRAM_DATA.oam[0].xPosition = sEraseSramUnk_58b3be[row][0] +
-        (s8)sEraseSramUnk_58b3c2[ERASE_SRAM_DATA.currentOption][0];
+    ERASE_SRAM_DATA.oam[0].yPosition = sEraseSramCursorBasePositions[row = ERASE_SRAM_DATA.currentOption / 2][1] +
+        (s8)sEraseSramCursorOffsets[*(vu8*)&ERASE_SRAM_DATA.currentOption][1];
+    ERASE_SRAM_DATA.oam[0].xPosition = sEraseSramCursorBasePositions[row][0] +
+        (s8)sEraseSramCursorOffsets[ERASE_SRAM_DATA.currentOption][0];
 }
 
 /**

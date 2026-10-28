@@ -1,305 +1,313 @@
 [
   {
-    "path": "Blob_a5224_a5258.bin",
-    "count": "0x34",
+    "path": "interrupt_handlers.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA5224"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_a5710_a59e0.bin",
-    "count": "0x2D0",
+    "path": "voicegroups/a5710.bin",
+    "count": "0x3C",
     "addr": {
       "us": "0xA5710"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a59e0_a5b3c.bin",
-    "count": "0x15C",
+    "path": "voicegroups/a59e0.bin",
+    "count": "0x1D",
     "addr": {
       "us": "0xA59E0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5b3c_a5bd8.bin",
-    "count": "0x9C",
+    "path": "voicegroups/a5b3c.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA5B3C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5bd8_a5ca4.bin",
-    "count": "0xCC",
+    "path": "voicegroups/a5bd8.bin",
+    "count": "0x11",
     "addr": {
       "us": "0xA5BD8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5ca4_a5cf8.bin",
-    "count": "0x54",
+    "path": "voicegroups/a5ca4.bin",
+    "count": "0x7",
     "addr": {
       "us": "0xA5CA4"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5cf8_a5d94.bin",
-    "count": "0x9C",
+    "path": "voicegroups/a5cf8.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA5CF8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5d94_a5e3c.bin",
-    "count": "0xA8",
+    "path": "voicegroups/a5d94.bin",
+    "count": "0xE",
     "addr": {
       "us": "0xA5D94"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5e3c_a5f68.bin",
-    "count": "0x12C",
+    "path": "voicegroups/a5e3c.bin",
+    "count": "0x19",
     "addr": {
       "us": "0xA5E3C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5f68_a5fbc.bin",
-    "count": "0x54",
+    "path": "voicegroups/a5f68.bin",
+    "count": "0x7",
     "addr": {
       "us": "0xA5F68"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5fbc_a6094.bin",
-    "count": "0xD8",
+    "path": "voicegroups/a5fbc.bin",
+    "count": "0x12",
     "addr": {
       "us": "0xA5FBC"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6094_a61fc.bin",
-    "count": "0x168",
+    "path": "voicegroups/a6094.bin",
+    "count": "0x1E",
     "addr": {
       "us": "0xA6094"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a61fc_a62f8.bin",
-    "count": "0xFC",
+    "path": "voicegroups/a61fc.bin",
+    "count": "0x15",
     "addr": {
       "us": "0xA61FC"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a62f8_a64c0.bin",
-    "count": "0x1C8",
+    "path": "voicegroups/a62f8.bin",
+    "count": "0x26",
     "addr": {
       "us": "0xA62F8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a64c0_a6544.bin",
-    "count": "0x84",
+    "path": "voicegroups/a64c0.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA64C0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6544_a6628.bin",
-    "count": "0xE4",
+    "path": "voicegroups/a6544.bin",
+    "count": "0x13",
     "addr": {
       "us": "0xA6544"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6628_a6718.bin",
-    "count": "0xF0",
+    "path": "voicegroups/a6628.bin",
+    "count": "0x14",
     "addr": {
       "us": "0xA6628"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6718_a682c.bin",
-    "count": "0x114",
+    "path": "voicegroups/a6718.bin",
+    "count": "0x17",
     "addr": {
       "us": "0xA6718"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a682c_a6af0.bin",
-    "count": "0x2C4",
+    "path": "voicegroups/a682c.bin",
+    "count": "0x3B",
     "addr": {
       "us": "0xA682C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6af0_a6d54.bin",
-    "count": "0x264",
+    "path": "voicegroups/a6af0.bin",
+    "count": "0x33",
     "addr": {
       "us": "0xA6AF0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6d54_a71ec.bin",
-    "count": "0x498",
+    "path": "voicegroups/a6d54.bin",
+    "count": "0x62",
     "addr": {
       "us": "0xA6D54"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a71ec_a74c8.bin",
-    "count": "0x2DC",
+    "path": "voicegroups/a71ec.bin",
+    "count": "0x3D",
     "addr": {
       "us": "0xA71EC"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a74c8_a7654.bin",
-    "count": "0x18C",
+    "path": "voicegroups/a74c8.bin",
+    "count": "0x21",
     "addr": {
       "us": "0xA74C8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7654_a7750.bin",
-    "count": "0xFC",
+    "path": "voicegroups/a7654.bin",
+    "count": "0x15",
     "addr": {
       "us": "0xA7654"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7750_a7798.bin",
-    "count": "0x48",
+    "path": "voicegroups/a7750.bin",
+    "count": "0x6",
     "addr": {
       "us": "0xA7750"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7798_a7aa4.bin",
-    "count": "0x30C",
+    "path": "voicegroups/a7798.bin",
+    "count": "0x41",
     "addr": {
       "us": "0xA7798"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7aa4_a7d14.bin",
-    "count": "0x270",
+    "path": "voicegroups/a7aa4.bin",
+    "count": "0x34",
     "addr": {
       "us": "0xA7AA4"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7d14_a7e10.bin",
-    "count": "0xFC",
+    "path": "voicegroups/a7d14.bin",
+    "count": "0x15",
     "addr": {
       "us": "0xA7D14"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7e10_a7f24.bin",
-    "count": "0x114",
+    "path": "voicegroups/a7e10.bin",
+    "count": "0x17",
     "addr": {
       "us": "0xA7E10"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7f24_a8008.bin",
-    "count": "0xE4",
+    "path": "voicegroups/a7f24.bin",
+    "count": "0x13",
     "addr": {
       "us": "0xA7F24"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a8008_a808c.bin",
-    "count": "0x84",
+    "path": "voicegroups/a8008.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA8008"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a808c_a81e8.bin",
-    "count": "0x15C",
+    "path": "voicegroups/a808c.bin",
+    "count": "0x1D",
     "addr": {
       "us": "0xA808C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a81e8_a826c.bin",
-    "count": "0x84",
+    "path": "voicegroups/a81e8.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA81E8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a826c_a82f0.bin",
-    "count": "0x84",
+    "path": "voicegroups/a826c.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA826C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a82f0_a838c.bin",
-    "count": "0x9C",
+    "path": "voicegroups/a82f0.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA82F0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a838c_a8554.bin",
-    "count": "0x1C8",
+    "path": "voicegroups/a838c.bin",
+    "count": "0x26",
     "addr": {
       "us": "0xA838C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a8554_a8af4.bin",
-    "count": "0x5A0",
+    "path": "voicegroups/a8554.bin",
+    "count": "0x78",
     "addr": {
       "us": "0xA8554"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a8af4_a8cdc.bin",
-    "count": "0x1E8",
+    "path": "voicegroups/a8af4.bin",
+    "count": "0x28",
     "addr": {
       "us": "0xA8AF4"
+    },
+    "size": 12
+  },
+  {
+    "path": "Blob_a8cd4_a8cdc.bin",
+    "count": "0x8",
+    "addr": {
+      "us": "0xA8CD4"
     },
     "size": 1
   },
@@ -11297,1044 +11305,1044 @@
     "size": 1
   },
   {
-    "path": "Blob_2e5cb0_2e5cb6.bin",
-    "count": "0x6",
+    "path": "spritesets/0.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5CB0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cb6_2e5cb8.bin",
-    "count": "0x2",
+    "path": "spritesets/129.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E5CB6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cb8_2e5cbc.bin",
-    "count": "0x4",
+    "path": "spritesets/1.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5CB8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cbc_2e5cda.bin",
-    "count": "0x1E",
+    "path": "spritesets/2.bin",
+    "count": "0xF",
     "addr": {
       "us": "0x2E5CBC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cda_2e5cde.bin",
-    "count": "0x4",
+    "path": "spritesets/3.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5CDA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cde_2e5cf6.bin",
-    "count": "0x18",
+    "path": "spritesets/4.bin",
+    "count": "0xC",
     "addr": {
       "us": "0x2E5CDE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cf6_2e5cfa.bin",
-    "count": "0x4",
+    "path": "spritesets/5.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5CF6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5cfa_2e5d00.bin",
-    "count": "0x6",
+    "path": "spritesets/6.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5CFA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d00_2e5d08.bin",
-    "count": "0x8",
+    "path": "spritesets/7.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5D00"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d08_2e5d0e.bin",
-    "count": "0x6",
+    "path": "spritesets/8.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5D08"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d0e_2e5d12.bin",
-    "count": "0x4",
+    "path": "spritesets/9.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5D0E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d12_2e5d24.bin",
-    "count": "0x12",
+    "path": "spritesets/10.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5D12"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d24_2e5d2c.bin",
-    "count": "0x8",
+    "path": "spritesets/11.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5D24"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d2c_2e5d36.bin",
-    "count": "0xA",
+    "path": "spritesets/12.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5D2C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d36_2e5d3e.bin",
-    "count": "0x8",
+    "path": "spritesets/13.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5D36"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d3e_2e5d4e.bin",
-    "count": "0x10",
+    "path": "spritesets/14.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5D3E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d4e_2e5d5a.bin",
-    "count": "0xC",
+    "path": "spritesets/15.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5D4E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d5a_2e5d68.bin",
-    "count": "0xE",
+    "path": "spritesets/16.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5D5A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d68_2e5d80.bin",
-    "count": "0x18",
+    "path": "spritesets/17.bin",
+    "count": "0xC",
     "addr": {
       "us": "0x2E5D68"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d80_2e5d90.bin",
-    "count": "0x10",
+    "path": "spritesets/18.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5D80"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d90_2e5d9c.bin",
-    "count": "0xC",
+    "path": "spritesets/19.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5D90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5d9c_2e5da0.bin",
-    "count": "0x4",
+    "path": "spritesets/20.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5D9C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5da0_2e5da4.bin",
-    "count": "0x4",
+    "path": "spritesets/21.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5DA0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5da4_2e5db0.bin",
-    "count": "0xC",
+    "path": "spritesets/22.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5DA4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5db0_2e5dbc.bin",
-    "count": "0xC",
+    "path": "spritesets/23.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5DB0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dbc_2e5dcc.bin",
-    "count": "0x10",
+    "path": "spritesets/24.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5DBC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dcc_2e5dde.bin",
-    "count": "0x12",
+    "path": "spritesets/25.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5DCC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dde_2e5de2.bin",
-    "count": "0x4",
+    "path": "spritesets/26.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5DDE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5de2_2e5df0.bin",
-    "count": "0xE",
+    "path": "spritesets/27.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5DE2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5df0_2e5dfa.bin",
-    "count": "0xA",
+    "path": "spritesets/28.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5DF0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5dfa_2e5e0c.bin",
-    "count": "0x12",
+    "path": "spritesets/29.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5DFA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e0c_2e5e1a.bin",
-    "count": "0xE",
+    "path": "spritesets/30.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E0C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e1a_2e5e1e.bin",
-    "count": "0x4",
+    "path": "spritesets/31.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5E1A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e1e_2e5e2a.bin",
-    "count": "0xC",
+    "path": "spritesets/32.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5E1E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e2a_2e5e2e.bin",
-    "count": "0x4",
+    "path": "spritesets/33.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5E2A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e2e_2e5e38.bin",
-    "count": "0xA",
+    "path": "spritesets/34.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5E2E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e38_2e5e52.bin",
-    "count": "0x1A",
+    "path": "spritesets/35.bin",
+    "count": "0xD",
     "addr": {
       "us": "0x2E5E38"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e52_2e5e5a.bin",
-    "count": "0x8",
+    "path": "spritesets/36.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5E52"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e5a_2e5e60.bin",
-    "count": "0x6",
+    "path": "spritesets/37.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5E5A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e60_2e5e70.bin",
-    "count": "0x10",
+    "path": "spritesets/38.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5E60"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e70_2e5e7e.bin",
-    "count": "0xE",
+    "path": "spritesets/39.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E70"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e7e_2e5e8c.bin",
-    "count": "0xE",
+    "path": "spritesets/40.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E7E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e8c_2e5e90.bin",
-    "count": "0x4",
+    "path": "spritesets/41.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5E8C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e90_2e5e9e.bin",
-    "count": "0xE",
+    "path": "spritesets/42.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5E90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5e9e_2e5ea6.bin",
-    "count": "0x8",
+    "path": "spritesets/43.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5E9E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ea6_2e5eac.bin",
-    "count": "0x6",
+    "path": "spritesets/44.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5EA6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5eac_2e5eb6.bin",
-    "count": "0xA",
+    "path": "spritesets/45.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5EAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5eb6_2e5ebc.bin",
-    "count": "0x6",
+    "path": "spritesets/46.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5EB6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ebc_2e5ec6.bin",
-    "count": "0xA",
+    "path": "spritesets/47.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5EBC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ec6_2e5ed2.bin",
-    "count": "0xC",
+    "path": "spritesets/48.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5EC6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ed2_2e5ed8.bin",
-    "count": "0x6",
+    "path": "spritesets/49.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5ED2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ed8_2e5eea.bin",
-    "count": "0x12",
+    "path": "spritesets/50.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5ED8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5eea_2e5ef4.bin",
-    "count": "0xA",
+    "path": "spritesets/51.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5EEA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ef4_2e5f02.bin",
-    "count": "0xE",
+    "path": "spritesets/52.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5EF4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f02_2e5f12.bin",
-    "count": "0x10",
+    "path": "spritesets/53.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F02"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f12_2e5f16.bin",
-    "count": "0x4",
+    "path": "spritesets/54.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5F12"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f16_2e5f26.bin",
-    "count": "0x10",
+    "path": "spritesets/55.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F16"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f26_2e5f32.bin",
-    "count": "0xC",
+    "path": "spritesets/56.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5F26"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f32_2e5f3a.bin",
-    "count": "0x8",
+    "path": "spritesets/57.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E5F32"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f3a_2e5f3e.bin",
-    "count": "0x4",
+    "path": "spritesets/58.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5F3A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f3e_2e5f48.bin",
-    "count": "0xA",
+    "path": "spritesets/59.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5F3E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f48_2e5f58.bin",
-    "count": "0x10",
+    "path": "spritesets/60.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F48"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f58_2e5f62.bin",
-    "count": "0xA",
+    "path": "spritesets/61.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5F58"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f62_2e5f72.bin",
-    "count": "0x10",
+    "path": "spritesets/62.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F62"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f72_2e5f7e.bin",
-    "count": "0xC",
+    "path": "spritesets/63.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5F72"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f7e_2e5f90.bin",
-    "count": "0x12",
+    "path": "spritesets/64.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E5F7E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5f90_2e5fa0.bin",
-    "count": "0x10",
+    "path": "spritesets/65.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5F90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fa0_2e5fac.bin",
-    "count": "0xC",
+    "path": "spritesets/66.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5FA0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fac_2e5fb8.bin",
-    "count": "0xC",
+    "path": "spritesets/67.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E5FAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fb8_2e5fc6.bin",
-    "count": "0xE",
+    "path": "spritesets/68.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E5FB8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fc6_2e5fd6.bin",
-    "count": "0x10",
+    "path": "spritesets/69.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E5FC6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fd6_2e5fda.bin",
-    "count": "0x4",
+    "path": "spritesets/70.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E5FD6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fda_2e5fe4.bin",
-    "count": "0xA",
+    "path": "spritesets/71.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5FDA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fe4_2e5fee.bin",
-    "count": "0xA",
+    "path": "spritesets/72.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E5FE4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5fee_2e5ff4.bin",
-    "count": "0x6",
+    "path": "spritesets/73.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E5FEE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e5ff4_2e600a.bin",
-    "count": "0x16",
+    "path": "spritesets/74.bin",
+    "count": "0xB",
     "addr": {
       "us": "0x2E5FF4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e600a_2e601c.bin",
-    "count": "0x12",
+    "path": "spritesets/75.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x2E600A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e601c_2e6026.bin",
-    "count": "0xA",
+    "path": "spritesets/76.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E601C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6026_2e602e.bin",
-    "count": "0x8",
+    "path": "spritesets/77.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E6026"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e602e_2e6038.bin",
-    "count": "0xA",
+    "path": "spritesets/78.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E602E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6038_2e603e.bin",
-    "count": "0x6",
+    "path": "spritesets/79.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E6038"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e603e_2e6046.bin",
-    "count": "0x8",
+    "path": "spritesets/80.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E603E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6046_2e6054.bin",
-    "count": "0xE",
+    "path": "spritesets/81.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E6046"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6054_2e605c.bin",
-    "count": "0x8",
+    "path": "spritesets/82.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E6054"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e605c_2e6068.bin",
-    "count": "0xC",
+    "path": "spritesets/83.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E605C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6068_2e606c.bin",
-    "count": "0x4",
+    "path": "spritesets/84.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E6068"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e606c_2e607a.bin",
-    "count": "0xE",
+    "path": "spritesets/85.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E606C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e607a_2e6086.bin",
-    "count": "0xC",
+    "path": "spritesets/86.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E607A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6086_2e609a.bin",
-    "count": "0x14",
+    "path": "spritesets/87.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x2E6086"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e609a_2e60a2.bin",
-    "count": "0x8",
+    "path": "spritesets/88.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E609A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60a2_2e60aa.bin",
-    "count": "0x8",
+    "path": "spritesets/89.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E60A2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60aa_2e60b0.bin",
-    "count": "0x6",
+    "path": "spritesets/90.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x2E60AA"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60b0_2e60b4.bin",
-    "count": "0x4",
+    "path": "spritesets/91.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E60B0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60b4_2e60be.bin",
-    "count": "0xA",
+    "path": "spritesets/92.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E60B4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60be_2e60c8.bin",
-    "count": "0xA",
+    "path": "spritesets/93.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x2E60BE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60c8_2e60d6.bin",
-    "count": "0xE",
+    "path": "spritesets/94.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E60C8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60d6_2e60e2.bin",
-    "count": "0xC",
+    "path": "spritesets/95.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E60D6"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60e2_2e60f0.bin",
-    "count": "0xE",
+    "path": "spritesets/96.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E60E2"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60f0_2e60fe.bin",
-    "count": "0xE",
+    "path": "spritesets/97.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x2E60F0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e60fe_2e6102.bin",
-    "count": "0x4",
+    "path": "spritesets/98.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E60FE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6102_2e610e.bin",
-    "count": "0xC",
+    "path": "spritesets/99.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x2E6102"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e610e_2e6112.bin",
-    "count": "0x4",
+    "path": "spritesets/100.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E610E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6112_2e611a.bin",
-    "count": "0x8",
+    "path": "spritesets/101.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x2E6112"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e611a_2e611e.bin",
-    "count": "0x4",
+    "path": "spritesets/102.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x2E611A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e611e_2e612e.bin",
-    "count": "0x10",
+    "path": "spritesets/103.bin",
+    "count": "0x8",
     "addr": {
       "us": "0x2E611E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e612e_2e6130.bin",
-    "count": "0x2",
+    "path": "spritesets/104.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E612E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6130_2e6132.bin",
-    "count": "0x2",
+    "path": "spritesets/105.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6130"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6132_2e6134.bin",
-    "count": "0x2",
+    "path": "spritesets/106.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6132"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6134_2e6136.bin",
-    "count": "0x2",
+    "path": "spritesets/107.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6134"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6136_2e6138.bin",
-    "count": "0x2",
+    "path": "spritesets/108.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6136"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6138_2e613a.bin",
-    "count": "0x2",
+    "path": "spritesets/109.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6138"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e613a_2e613c.bin",
-    "count": "0x2",
+    "path": "spritesets/110.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E613A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e613c_2e613e.bin",
-    "count": "0x2",
+    "path": "spritesets/111.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E613C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e613e_2e6140.bin",
-    "count": "0x2",
+    "path": "spritesets/112.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E613E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6140_2e6142.bin",
-    "count": "0x2",
+    "path": "spritesets/113.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6140"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6142_2e6144.bin",
-    "count": "0x2",
+    "path": "spritesets/114.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6142"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6144_2e6146.bin",
-    "count": "0x2",
+    "path": "spritesets/115.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6144"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6146_2e6148.bin",
-    "count": "0x2",
+    "path": "spritesets/116.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6146"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6148_2e614a.bin",
-    "count": "0x2",
+    "path": "spritesets/117.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6148"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e614a_2e614c.bin",
-    "count": "0x2",
+    "path": "spritesets/118.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E614A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e614c_2e614e.bin",
-    "count": "0x2",
+    "path": "spritesets/119.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E614C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e614e_2e6150.bin",
-    "count": "0x2",
+    "path": "spritesets/120.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E614E"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6150_2e6152.bin",
-    "count": "0x2",
+    "path": "spritesets/121.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6150"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6152_2e6154.bin",
-    "count": "0x2",
+    "path": "spritesets/122.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6152"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6154_2e6156.bin",
-    "count": "0x2",
+    "path": "spritesets/123.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6154"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6156_2e6158.bin",
-    "count": "0x2",
+    "path": "spritesets/124.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6156"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e6158_2e615a.bin",
-    "count": "0x2",
+    "path": "spritesets/125.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E6158"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e615a_2e615c.bin",
-    "count": "0x2",
+    "path": "spritesets/126.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E615A"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e615c_2e615e.bin",
-    "count": "0x2",
+    "path": "spritesets/127.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E615C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_2e615e_2e6160.bin",
-    "count": "0x2",
+    "path": "spritesets/128.bin",
+    "count": "0x1",
     "addr": {
       "us": "0x2E615E"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "Blob_2e6382_2e6384.bin",
@@ -12345,20 +12353,20 @@
     "size": 1
   },
   {
-    "path": "Blob_2e6384_2e6b84.bin",
-    "count": "0x800",
+    "path": "sprites/placeholder.gfx",
+    "count": "0x200",
     "addr": {
       "us": "0x2E6384"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_2e6b84_2e6ba4.bin",
-    "count": "0x20",
+    "path": "sprites/placeholder.pal",
+    "count": "0x10",
     "addr": {
       "us": "0x2E6B84"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "sa_x/weapons.gfx",
@@ -14041,23 +14049,23 @@
     "size": 1
   },
   {
-    "path": "Blob_39aae0_39abc4.bin",
-    "count": "0xE4",
+    "path": "sprites/gunship_end_idle_y_movement.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x39AAE0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39abc4_39ac84.bin",
-    "count": "0xC0",
+    "path": "sprites/gunship_end_engine_y_movement.bin",
+    "count": "0x60",
     "addr": {
       "us": "0x39ABC4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39ac84_39ac90.bin",
+    "path": "sprites/gunship_end_taking_off_rotation.bin",
     "count": "0xC",
     "addr": {
       "us": "0x39AC84"
@@ -14065,100 +14073,108 @@
     "size": 1
   },
   {
-    "path": "Blob_39ac90_39acd0.bin",
-    "count": "0x40",
+    "path": "sprites/gunship_end_entering_scaling.bin",
+    "count": "0x20",
     "addr": {
       "us": "0x39AC90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39acd0_39ad58.bin",
-    "count": "0x88",
+    "path": "sprites/gunship_end_taking_off_scaling.bin",
+    "count": "0x44",
     "addr": {
       "us": "0x39ACD0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_39ad58_39e558.bin",
-    "count": "0x3800",
+    "path": "sprites/gunship_end.gfx",
+    "count": "0xE00",
     "addr": {
       "us": "0x39AD58"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39e558_39eb48.bin",
-    "count": "0x5F0",
+    "path": "sprites/gunship_end.pal",
+    "count": "0x70",
     "addr": {
       "us": "0x39E558"
     },
+    "size": 2
+  },
+  {
+    "path": "Blob_39e638_39eb48.bin",
+    "count": "0x510",
+    "addr": {
+      "us": "0x39E638"
+    },
     "size": 1
   },
   {
-    "path": "Blob_39eb48_39ebb8.bin",
-    "count": "0x70",
+    "path": "sprites/gunship_end_landed_oam.bin",
+    "count": "0x1C",
     "addr": {
       "us": "0x39EB48"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ebb8_39ec08.bin",
-    "count": "0x50",
+    "path": "sprites/gunship_end_beam_oam.bin",
+    "count": "0x14",
     "addr": {
       "us": "0x39EBB8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec08_39ec30.bin",
-    "count": "0x28",
+    "path": "sprites/gunship_end_starting_engine_oam.bin",
+    "count": "0xA",
     "addr": {
       "us": "0x39EC08"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec30_39ec68.bin",
-    "count": "0x38",
+    "path": "sprites/gunship_end_bottom_oam.bin",
+    "count": "0xE",
     "addr": {
       "us": "0x39EC30"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec68_39ec78.bin",
-    "count": "0x10",
+    "path": "sprites/gunship_end_flying_oam.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x39EC68"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec78_39ec90.bin",
-    "count": "0x18",
+    "path": "sprites/gunship_end_taking_off_oam.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x39EC78"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39ec90_39f490.bin",
-    "count": "0x800",
+    "path": "sprites/electric_water_damage_box_2.gfx",
+    "count": "0x200",
     "addr": {
       "us": "0x39EC90"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_39f490_39f4b0.bin",
-    "count": "0x20",
+    "path": "sprites/electric_water_damage_box_2.pal",
+    "count": "0x10",
     "addr": {
       "us": "0x39F490"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "sprites/frozen_ridley.gfx",
@@ -15018,17 +15034,9 @@
   },
   {
     "path": "tilesets/19.tm",
-    "count": "0x36C",
+    "count": "0x1004",
     "addr": {
       "us": "0x409FA4"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_40a310_40afa8.bin",
-    "count": "0xC98",
-    "addr": {
-      "us": "0x40A310"
     },
     "size": 1
   },
@@ -15554,17 +15562,9 @@
   },
   {
     "path": "tilesets/15.tm",
-    "count": "0x234",
+    "count": "0xC04",
     "addr": {
       "us": "0x458BBC"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_458df0_4597c0.bin",
-    "count": "0x9D0",
-    "addr": {
-      "us": "0x458DF0"
     },
     "size": 1
   },
@@ -15642,33 +15642,17 @@
   },
   {
     "path": "tilesets/48.tm",
-    "count": "0x82C",
+    "count": "0xE04",
     "addr": {
       "us": "0x461DE4"
     },
     "size": 1
   },
   {
-    "path": "Blob_462610_462be8.bin",
-    "count": "0x5D8",
-    "addr": {
-      "us": "0x462610"
-    },
-    "size": 1
-  },
-  {
     "path": "tilesets/54.tm",
-    "count": "0x82C",
+    "count": "0xE04",
     "addr": {
       "us": "0x462BE8"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_463414_4639ec.bin",
-    "count": "0x5D8",
-    "addr": {
-      "us": "0x463414"
     },
     "size": 1
   },
@@ -22218,33 +22202,17 @@
   },
   {
     "path": "tilesets/25.tm",
-    "count": "0x254",
+    "count": "0x1004",
     "addr": {
       "us": "0x4F3D1C"
     },
     "size": 1
   },
   {
-    "path": "Blob_4f3f70_4f4d20.bin",
-    "count": "0xDB0",
-    "addr": {
-      "us": "0x4F3F70"
-    },
-    "size": 1
-  },
-  {
     "path": "tilesets/26.tm",
-    "count": "0x254",
+    "count": "0x1004",
     "addr": {
       "us": "0x4F4D20"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_4f4f74_4f5d24.bin",
-    "count": "0xDB0",
-    "addr": {
-      "us": "0x4F4F74"
     },
     "size": 1
   },
@@ -22258,33 +22226,17 @@
   },
   {
     "path": "tilesets/27.tm",
-    "count": "0x254",
+    "count": "0x1004",
     "addr": {
       "us": "0x4F6B28"
     },
     "size": 1
   },
   {
-    "path": "Blob_4f6d7c_4f7b2c.bin",
-    "count": "0xDB0",
-    "addr": {
-      "us": "0x4F6D7C"
-    },
-    "size": 1
-  },
-  {
     "path": "tilesets/29.tm",
-    "count": "0x254",
+    "count": "0x1204",
     "addr": {
       "us": "0x4F7B2C"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_4f7d80_4f8d30.bin",
-    "count": "0xFB0",
-    "addr": {
-      "us": "0x4F7D80"
     },
     "size": 1
   },
@@ -26250,49 +26202,25 @@
   },
   {
     "path": "tilesets/31.tm",
-    "count": "0x254",
+    "count": "0x1004",
     "addr": {
       "us": "0x54D6FC"
     },
     "size": 1
   },
   {
-    "path": "Blob_54d950_54e700.bin",
-    "count": "0xDB0",
-    "addr": {
-      "us": "0x54D950"
-    },
-    "size": 1
-  },
-  {
     "path": "tilesets/47.tm",
-    "count": "0x2A4",
+    "count": "0x1004",
     "addr": {
       "us": "0x54E700"
     },
     "size": 1
   },
   {
-    "path": "Blob_54e9a4_54f704.bin",
-    "count": "0xD60",
-    "addr": {
-      "us": "0x54E9A4"
-    },
-    "size": 1
-  },
-  {
     "path": "tilesets/3.tm",
-    "count": "0x2A4",
+    "count": "0x1004",
     "addr": {
       "us": "0x54F704"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_54f9a8_550708.bin",
-    "count": "0xD60",
-    "addr": {
-      "us": "0x54F9A8"
     },
     "size": 1
   },
@@ -27569,7 +27497,7 @@
     "size": 4
   },
   {
-    "path": "Blob_5760e8_576142.bin",
+    "path": "menus/pause_screen/bsl_diagram_main_deck_room_locations.bin",
     "count": "0x5A",
     "addr": {
       "us": "0x5760E8"
@@ -27585,39 +27513,39 @@
     "size": 1
   },
   {
-    "path": "Blob_576218_576226.bin",
-    "count": "0xE",
+    "path": "menus/pause_screen/nav_target_main_deck_elevator_positions.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x576218"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_576226_576234.bin",
-    "count": "0xE",
+    "path": "menus/pause_screen/nav_target_area_elevator_positions.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x576226"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5766d4_5766e0.bin",
-    "count": "0xC",
+    "path": "menus/pause_screen/nav_conversation_pop_up_info.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x5766D4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_5766e4_5767ec.bin",
-    "count": "0x108",
+    "path": "menus/pause_screen/nav_conversation_targets.bin",
+    "count": "0x21",
     "addr": {
       "us": "0x5766E4"
     },
-    "size": 1
+    "size": 8
   },
   {
-    "path": "Blob_5767ec_5767f0.bin",
+    "path": "menus/pause_screen/nav_target_oam_ids.bin",
     "count": "0x4",
     "addr": {
       "us": "0x5767EC"
@@ -27633,55 +27561,55 @@
     "size": 1
   },
   {
-    "path": "Blob_57bc50_57bcc8.bin",
-    "count": "0x78",
+    "path": "menus/pause_screen/nav_conversation_pop_ups.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x57BC50"
     },
-    "size": 1
+    "size": 24
   },
   {
-    "path": "Blob_57bcc8_57bcd4.bin",
-    "count": "0xC",
+    "path": "menus/pause_screen/nav_conversation_pop_ups_per_conversation.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x57BCC8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_57bcd4_57bcf4.bin",
-    "count": "0x20",
+    "path": "menus/pause_screen/nav_conversation_flashing_colors_1.pal",
+    "count": "0x10",
     "addr": {
       "us": "0x57BCD4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_57bcf4_57bd34.bin",
-    "count": "0x40",
+    "path": "menus/pause_screen/nav_conversation_flashing_colors_2.pal",
+    "count": "0x20",
     "addr": {
       "us": "0x57BCF4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_57bd34_57bdb4.bin",
-    "count": "0x80",
+    "path": "menus/pause_screen/nav_conversation_room_bg_animated.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x57BD34"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_57bdb4_57beb4.bin",
-    "count": "0x100",
+    "path": "menus/pause_screen/nav_conversation_ship_bg_animated.pal",
+    "count": "0x80",
     "addr": {
       "us": "0x57BDB4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_57beb4_57beb8.bin",
+    "path": "menus/pause_screen/nav_conversation_flashing_durations.bin",
     "count": "0x4",
     "addr": {
       "us": "0x57BEB4"
@@ -27689,7 +27617,7 @@
     "size": 1
   },
   {
-    "path": "Blob_57beb8_57bebc.bin",
+    "path": "menus/pause_screen/nav_conversation_room_bg_animated_pal_durations.bin",
     "count": "0x4",
     "addr": {
       "us": "0x57BEB8"
@@ -27697,7 +27625,7 @@
     "size": 1
   },
   {
-    "path": "Blob_57bebc_57bec4.bin",
+    "path": "menus/pause_screen/nav_conversation_ship_bg_animated_pal_durations.bin",
     "count": "0x8",
     "addr": {
       "us": "0x57BEBC"
@@ -27705,68 +27633,68 @@
     "size": 1
   },
   {
-    "path": "Blob_57bec4_57c0c4.bin",
-    "count": "0x200",
+    "path": "menus/pause_screen/nav_convo_operations_room_image.pal",
+    "count": "0x100",
     "addr": {
       "us": "0x57BEC4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_57c0c4_57fca0.bin",
-    "count": "0x3BDC",
+    "path": "menus/pause_screen/nav_convo_operations_room_image.gfx.lz",
+    "count": "0xEF7",
     "addr": {
       "us": "0x57C0C4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_57fca0_580238.bin",
-    "count": "0x598",
+    "path": "menus/pause_screen/nav_convo_operations_room_image_0.tm.lz",
+    "count": "0x166",
     "addr": {
       "us": "0x57FCA0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_580238_5807d0.bin",
-    "count": "0x598",
+    "path": "menus/pause_screen/nav_convo_operations_room_image_1.tm.lz",
+    "count": "0x166",
     "addr": {
       "us": "0x580238"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_5807d0_580d68.bin",
-    "count": "0x598",
+    "path": "menus/pause_screen/nav_convo_operations_room_image_2.tm.lz",
+    "count": "0x166",
     "addr": {
       "us": "0x5807D0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_580d68_581300.bin",
-    "count": "0x598",
+    "path": "menus/pause_screen/nav_convo_operations_room_image_3.tm.lz",
+    "count": "0x166",
     "addr": {
       "us": "0x580D68"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_581300_581500.bin",
-    "count": "0x200",
+    "path": "menus/pause_screen/bsl_diagram_animated.pal",
+    "count": "0x100",
     "addr": {
       "us": "0x581300"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_581500_581510.bin",
-    "count": "0x10",
+    "path": "menus/pause_screen/bsl_diagram_info.bin",
+    "count": "0x4",
     "addr": {
       "us": "0x581500"
     },
-    "size": 1
+    "size": 4
   },
   {
     "path": "Blob_58217b_58217c.bin",
@@ -27777,23 +27705,23 @@
     "size": 1
   },
   {
-    "path": "Blob_58217c_5821b3.bin",
-    "count": "0x37",
+    "path": "menus/pause_screen/status_screen_section_dst.bin",
+    "count": "0xB",
     "addr": {
       "us": "0x58217C"
     },
-    "size": 1
+    "size": 5
   },
   {
-    "path": "Blob_5821b3_5821d6.bin",
-    "count": "0x23",
+    "path": "menus/pause_screen/status_screen_item_src.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x5821B3"
     },
-    "size": 1
+    "size": 5
   },
   {
-    "path": "Blob_5821d6_5821e8.bin",
+    "path": "menus/pause_screen/status_screen_ammo_header_info.bin",
     "count": "0x12",
     "addr": {
       "us": "0x5821D6"
@@ -27801,7 +27729,7 @@
     "size": 1
   },
   {
-    "path": "Blob_5821e8_5821f8.bin",
+    "path": "sram/test_data.bin",
     "count": "0x10",
     "addr": {
       "us": "0x5821E8"
@@ -27809,7 +27737,7 @@
     "size": 1
   },
   {
-    "path": "Blob_5821f8_582200.bin",
+    "path": "sram/save_file_end_magic.bin",
     "count": "0x8",
     "addr": {
       "us": "0x5821F8"
@@ -27817,7 +27745,7 @@
     "size": 1
   },
   {
-    "path": "Blob_582200_582248.bin",
+    "path": "sram/save_file_magic.bin",
     "count": "0x48",
     "addr": {
       "us": "0x582200"
@@ -27825,7 +27753,7 @@
     "size": 1
   },
   {
-    "path": "Blob_582248_58225c.bin",
+    "path": "sram/header_magic.bin",
     "count": "0x14",
     "addr": {
       "us": "0x582248"
@@ -27833,31 +27761,31 @@
     "size": 1
   },
   {
-    "path": "Blob_582288_5822a8.bin",
-    "count": "0x20",
+    "path": "sram/most_recent_save_file_magic.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x582288"
     },
-    "size": 1
+    "size": 16
   },
   {
-    "path": "Blob_5822a8_5822c8.bin",
-    "count": "0x20",
+    "path": "sram/language_data_magic.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x5822A8"
     },
-    "size": 1
+    "size": 16
   },
   {
-    "path": "Blob_5822c8_5822d4.bin",
-    "count": "0xC",
+    "path": "sram/default_button_assignments.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x5822C8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5822d4_5822e4.bin",
+    "path": "sram/default_in_game_time.bin",
     "count": "0x10",
     "addr": {
       "us": "0x5822D4"
@@ -27865,7 +27793,7 @@
     "size": 1
   },
   {
-    "path": "Blob_5822e4_5822f0.bin",
+    "path": "sram/default_boot_debug_options.bin",
     "count": "0xC",
     "addr": {
       "us": "0x5822E4"
@@ -27873,55 +27801,63 @@
     "size": 1
   },
   {
-    "path": "Blob_5822f0_5823d0.bin",
-    "count": "0xE0",
+    "path": "menus/erase_sram/obj.pal",
+    "count": "0x70",
     "addr": {
       "us": "0x5822F0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5823d0_582bbc.bin",
-    "count": "0x7EC",
+    "path": "menus/erase_sram/bg.pal",
+    "count": "0x100",
     "addr": {
       "us": "0x5823D0"
     },
+    "size": 2
+  },
+  {
+    "path": "Blob_5825d0_582bbc.bin",
+    "count": "0x5EC",
+    "addr": {
+      "us": "0x5825D0"
+    },
     "size": 1
   },
   {
-    "path": "Blob_582bbc_58340c.bin",
-    "count": "0x850",
+    "path": "menus/erase_sram/obj.gfx.lz",
+    "count": "0x214",
     "addr": {
       "us": "0x582BBC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58340c_58abe4.bin",
-    "count": "0x77D8",
+    "path": "menus/erase_sram/bg.gfx.lz",
+    "count": "0x1DF6",
     "addr": {
       "us": "0x58340C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58abe4_58adf0.bin",
-    "count": "0x20C",
+    "path": "menus/erase_sram/bg_d000.tm.lz",
+    "count": "0x83",
     "addr": {
       "us": "0x58ABE4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58adf0_58b3b0.bin",
-    "count": "0x5C0",
+    "path": "menus/erase_sram/bg_f000.tm.lz",
+    "count": "0x170",
     "addr": {
       "us": "0x58ADF0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58b3b0_58b3b4.bin",
+    "path": "menus/erase_sram/cursor_oam_ids.bin",
     "count": "0x4",
     "addr": {
       "us": "0x58B3B0"
@@ -27929,28 +27865,28 @@
     "size": 1
   },
   {
-    "path": "Blob_58b3b4_58b3be.bin",
-    "count": "0xA",
+    "path": "menus/erase_sram/sounds.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x58B3B4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_58b3be_58b3c2.bin",
-    "count": "0x4",
+    "path": "menus/erase_sram/cursor_base_positions.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x58B3BE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_58b3c2_58b3cc.bin",
-    "count": "0xA",
+    "path": "menus/erase_sram/cursor_offsets.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x58B3C2"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "projectiles/normal_beam.pal",
@@ -28793,132 +28729,132 @@
     "size": 4
   },
   {
-    "path": "Blob_5dfd6c_5dfeac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_0.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5DFD6C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5dfeac_5dffec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_1.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5DFEAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5dffec_5e012c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_3.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5DFFEC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e012c_5e026c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_4.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E012C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e026c_5e03ac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_5.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E026C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e03ac_5e04ec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_6.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E03AC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e04ec_5e062c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_7.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E04EC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e062c_5e076c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_8.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E062C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e076c_5e08ac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_9.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E076C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e08ac_5e09ec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_10.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E08AC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e09ec_5e0b2c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_11.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E09EC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0b2c_5e0c6c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_12.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0B2C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0c6c_5e0dac.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_13.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0C6C"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0dac_5e0eec.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_14.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0DAC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e0eec_5e102c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_15.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E0EEC"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5e102c_5e116c.bin",
-    "count": "0x140",
+    "path": "new_file_intro/samus_cured_bg_fade_2.pal",
+    "count": "0xA0",
     "addr": {
       "us": "0x5E102C"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "new_file_intro/approaching_bsl_obj.gfx.lz",
@@ -29025,132 +28961,132 @@
     "size": 4
   },
   {
-    "path": "Blob_5f6990_5f6a10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_0.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6990"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6a10_5f6a90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_1.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6A10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6a90_5f6b10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_2.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6A90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6b10_5f6b90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_3.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6B10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6b90_5f6c10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_4.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6B90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6c10_5f6c90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_5.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6C10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6c90_5f6d10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_6.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6C90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6d10_5f6d90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_7.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6D10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6d90_5f6e10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_8.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6D90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6e10_5f6e90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_9.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6E10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6e90_5f6f10.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_10.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6E90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6f10_5f6f90.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_11.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6F10"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f6f90_5f7010.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_12.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F6F90"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f7010_5f7090.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_13.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F7010"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f7090_5f7110.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_14.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F7090"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5f7110_5f7190.bin",
-    "count": "0x80",
+    "path": "new_file_intro/samus_cured_fade_15.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F7110"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "new_file_intro/landing_on_bsl_bg.gfx.lz",

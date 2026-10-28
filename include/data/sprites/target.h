@@ -11,7 +11,7 @@ extern const s16 sTargetCircles_Unused[17];
 extern const s16 sTargetCirclesYMovement[65];
 extern const s16 sTargetCirclesXMovement[81];
 
-extern const u8 sPlaceholderSpriteGfx[];
-extern const u8 sPlaceholderSpritePal[];
+extern const u32 sPlaceholderSpriteGfx[1 * 512];
+extern const u16 sPlaceholderSpritePal[1 * 16];
 
 #endif /* TARGET_DATA_H */

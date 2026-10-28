@@ -32,9 +32,9 @@ void NavigationConversationLoadPopUpGraphics(void)
     s32 i;
     void* dst;
 
-    for (i = ARRAY_SIZE(sNavConversationUnk_57bcc8); i > 0; i--)
+    for (i = ARRAY_SIZE(sNavConversationPopUpsPerConversation); i > 0; i--)
     {
-        if (PAUSE_SCREEN_DATA.conversationNumber == sNavConversationUnk_57bcc8[i - 1].conversation)
+        if (PAUSE_SCREEN_DATA.conversationNumber == sNavConversationPopUpsPerConversation[i - 1].conversation)
             break;
     }
 
@@ -43,14 +43,14 @@ void NavigationConversationLoadPopUpGraphics(void)
 
     i--;
 
-    if (sNavConversationUnk_57bcc8[i].popUps[0] != 0)
-        LZ77UncompVram(sNavConversationUnk_57bc50[sNavConversationUnk_57bcc8[i].popUps[0]].pGraphics, EWRAM_BASE);
+    if (sNavConversationPopUpsPerConversation[i].popUps[0] != 0)
+        LZ77UncompVram(sNavConversationPopUps[sNavConversationPopUpsPerConversation[i].popUps[0]].pGraphics, EWRAM_BASE);
 
-    if (sNavConversationUnk_57bcc8[i].popUps[1] != 0)
-        LZ77UncompVram(sNavConversationUnk_57bc50[sNavConversationUnk_57bcc8[i].popUps[1]].pGraphics, EWRAM_BASE + 0x4000);
+    if (sNavConversationPopUpsPerConversation[i].popUps[1] != 0)
+        LZ77UncompVram(sNavConversationPopUps[sNavConversationPopUpsPerConversation[i].popUps[1]].pGraphics, EWRAM_BASE + 0x4000);
 
-    if (sNavConversationUnk_57bcc8[i].popUps[2] != 0)
-        LZ77UncompVram(sNavConversationUnk_57bc50[sNavConversationUnk_57bcc8[i].popUps[2]].pGraphics, EWRAM_BASE + 0x8000);
+    if (sNavConversationPopUpsPerConversation[i].popUps[2] != 0)
+        LZ77UncompVram(sNavConversationPopUps[sNavConversationPopUpsPerConversation[i].popUps[2]].pGraphics, EWRAM_BASE + 0x8000);
 
     for (i = 5, dst = VRAM_OBJ + 0x5700; i >= 0; dst -= 0x400, i--)
         BitFill(3, -1, dst, 0x100, 32);
@@ -87,11 +87,11 @@ void unk_7bde0(void)
 
     PAUSE_SCREEN_DATA.unk_21A = UCHAR_MAX;
 
-    i = ARRAY_SIZE(sNavConversationUnk_57bcc8);
+    i = ARRAY_SIZE(sNavConversationPopUpsPerConversation);
     conversation = PAUSE_SCREEN_DATA.conversationNumber;
     for (; i > 0; i--)
     {
-        if (conversation == sNavConversationUnk_57bcc8[i - 1].conversation)
+        if (conversation == sNavConversationPopUpsPerConversation[i - 1].conversation)
             break;
     }
 
@@ -103,11 +103,11 @@ void unk_7bde0(void)
     }
 
     if (PAUSE_SCREEN_DATA.unk_219 == 1)
-        PAUSE_SCREEN_DATA.unk_21A = sNavConversationUnk_57bcc8[i].popUps[1];
+        PAUSE_SCREEN_DATA.unk_21A = sNavConversationPopUpsPerConversation[i].popUps[1];
     else if (PAUSE_SCREEN_DATA.unk_219 == 2)
-        PAUSE_SCREEN_DATA.unk_21A = sNavConversationUnk_57bcc8[i].popUps[2];
+        PAUSE_SCREEN_DATA.unk_21A = sNavConversationPopUpsPerConversation[i].popUps[2];
     else
-        PAUSE_SCREEN_DATA.unk_21A = sNavConversationUnk_57bcc8[i].popUps[0];
+        PAUSE_SCREEN_DATA.unk_21A = sNavConversationPopUpsPerConversation[i].popUps[0];
 
     if (PAUSE_SCREEN_DATA.unk_21A == 0)
     {
@@ -125,24 +125,24 @@ void unk_7bde0(void)
     else
         PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
-    if (sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 8)
+    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 8)
     {
-        tiles = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].tiles;
+        tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
         for (count = tiles.count; count > 0;)
         {
             count--;
             DMA3_COPY_16(&PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer[count * 0x100],
-                VRAM_OBJ + 0x4300 + count * 0x400 + sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].tiles.slot * 0x400, 0x80);
+                VRAM_OBJ + 0x4300 + count * 0x400 + sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles.slot * 0x400, 0x80);
         }
     }
-    else if (sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 4)
+    else if (sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 4)
     {
-        tiles = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].tiles;
+        tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
         for (count = tiles.count; count > 0;)
         {
             count--;
             DMA3_COPY_16(&PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer[count * 0x100],
-                VRAM_OBJ + 0x4300 + count * 0x400 + sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].tiles.slot * 0x400 + 0x40, 0x40);
+                VRAM_OBJ + 0x4300 + count * 0x400 + sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles.slot * 0x400 + 0x40, 0x40);
         }
     }
 
@@ -167,7 +167,7 @@ void NavigationConversationFadeInPopUpPalette(void)
     u8 target[3];
     u8 current[3];
 
-    src = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].pPalette;
+    src = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].pPalette;
     dst = PALRAM_OBJ + 0x1E0;
 
     for (i = 0; i < 16; i++, src++, dst++)
@@ -210,15 +210,15 @@ void NavigationConversationUpdateXParasitePopUp(void)
 
     unk_7c3b4();
 
-    if (sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 8)
+    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 8)
     {
-        pAnim = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].pAnimation;
+        pAnim = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].pAnimation;
         if (PAUSE_SCREEN_DATA.unk_21B < pAnim[PAUSE_SCREEN_DATA.unk_21C * 2 + 1])
             return;
 
         PAUSE_SCREEN_DATA.unk_21B = 0;
         PAUSE_SCREEN_DATA.unk_21C++;
-        if (PAUSE_SCREEN_DATA.unk_21C >= sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].animationLength)
+        if (PAUSE_SCREEN_DATA.unk_21C >= sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].animationLength)
             PAUSE_SCREEN_DATA.unk_21C = 0;
 
         if (PAUSE_SCREEN_DATA.unk_219 == 1)
@@ -228,7 +228,7 @@ void NavigationConversationUpdateXParasitePopUp(void)
         else
             PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
-        tiles = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].tiles;
+        tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
         count = tiles.count; // FIXME: Fake match, dead store
         slot = tiles.slot;
         count = (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] & 3) * 0x100;
@@ -242,15 +242,15 @@ void NavigationConversationUpdateXParasitePopUp(void)
                 VRAM_OBJ + 0x4300 + count * 0x400 + slot * 0x400, 0x80);
         }
     }
-    else if (sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 4)
+    else if (sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].unk_12_0 == 4)
     {
-        pAnim = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].pAnimation;
+        pAnim = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].pAnimation;
         if (PAUSE_SCREEN_DATA.unk_21B < pAnim[PAUSE_SCREEN_DATA.unk_21C * 2 + 1])
             return;
 
         PAUSE_SCREEN_DATA.unk_21B = 0;
         PAUSE_SCREEN_DATA.unk_21C++;
-        if (PAUSE_SCREEN_DATA.unk_21C >= sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].animationLength)
+        if (PAUSE_SCREEN_DATA.unk_21C >= sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].animationLength)
             PAUSE_SCREEN_DATA.unk_21C = 0;
 
         if (PAUSE_SCREEN_DATA.unk_219 == 1)
@@ -260,7 +260,7 @@ void NavigationConversationUpdateXParasitePopUp(void)
         else
             PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
-        tiles = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].tiles;
+        tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
         count = tiles.count; // FIXME: Fake match, dead store
         slot = tiles.slot;
         count = (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] & 7) * 0x80;
@@ -308,20 +308,20 @@ void unk_7c3b4(void)
 {
     const u16* pPalette;
 
-    if (sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].unk_10 == 0)
+    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].unk_10 == 0)
         return;
 
     PAUSE_SCREEN_DATA.unk_229++;
-    if (PAUSE_SCREEN_DATA.unk_229 < sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].unk_10)
+    if (PAUSE_SCREEN_DATA.unk_229 < sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].unk_10)
         return;
 
     PAUSE_SCREEN_DATA.unk_229 = 0;
 
-    pPalette = &sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].pCyclePalette[PAUSE_SCREEN_DATA.unk_228];
+    pPalette = &sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].pCyclePalette[PAUSE_SCREEN_DATA.unk_228];
     if (*pPalette == 0)
     {
         PAUSE_SCREEN_DATA.unk_228 = 0;
-        pPalette = sNavConversationUnk_57bc50[PAUSE_SCREEN_DATA.unk_21A].pCyclePalette;
+        pPalette = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].pCyclePalette;
     }
 
     *(u16*)(PALRAM_OBJ + 0x1FE) = *pPalette;
@@ -342,7 +342,7 @@ void unk_7c440(void)
     u16* dst;
 
     PAUSE_SCREEN_DATA.unk_225++;
-    if (PAUSE_SCREEN_DATA.unk_225 >= sUnk_57beb4[PAUSE_SCREEN_DATA.unk_224])
+    if (PAUSE_SCREEN_DATA.unk_225 >= sNavConversationFlashingDurations[PAUSE_SCREEN_DATA.unk_224])
     {
         PAUSE_SCREEN_DATA.unk_225 = 0;
         PAUSE_SCREEN_DATA.unk_224++;
@@ -350,10 +350,10 @@ void unk_7c440(void)
             PAUSE_SCREEN_DATA.unk_224 = 0;
 
         dst = PALRAM_BASE;
-        dst[0x12] = sUnk_57bcd4[PAUSE_SCREEN_DATA.unk_224];
-        dst[0x13] = sUnk_57bcd4[PAUSE_SCREEN_DATA.unk_224];
-        dst[0x22] = sUnk_57bcf4[PAUSE_SCREEN_DATA.unk_224];
-        dst[0x23] = sUnk_57bcf4[PAUSE_SCREEN_DATA.unk_224];
+        dst[0x12] = sNavConversationFlashingColors1[PAUSE_SCREEN_DATA.unk_224];
+        dst[0x13] = sNavConversationFlashingColors1[PAUSE_SCREEN_DATA.unk_224];
+        dst[0x22] = sNavConversationFlashingColors2[PAUSE_SCREEN_DATA.unk_224];
+        dst[0x23] = sNavConversationFlashingColors2[PAUSE_SCREEN_DATA.unk_224];
     }
 
     if (PAUSE_SCREEN_DATA.unk_0 == 0)
@@ -362,7 +362,7 @@ void unk_7c440(void)
     if (PAUSE_SCREEN_DATA.unk_0 == 1)
     {
         PAUSE_SCREEN_DATA.unk_22D++;
-        if (PAUSE_SCREEN_DATA.unk_22D >= sUnk_57beb8[PAUSE_SCREEN_DATA.unk_22C])
+        if (PAUSE_SCREEN_DATA.unk_22D >= sNavConversationRoomBgAnimatedPalDurations[PAUSE_SCREEN_DATA.unk_22C])
         {
             PAUSE_SCREEN_DATA.unk_22D = 0;
             PAUSE_SCREEN_DATA.unk_22C++;
@@ -372,13 +372,13 @@ void unk_7c440(void)
             dst = PALRAM_BASE + 0x138;
             j = PAUSE_SCREEN_DATA.unk_22C * 16 + 12;
             for (i = 0; i < 4; i++, j++, dst++)
-                *dst = sUnk_57bd34[j];
+                *dst = sNavConversationRoomBgAnimatedPal[j];
         }
     }
     else if (PAUSE_SCREEN_DATA.unk_0 == 2)
     {
         PAUSE_SCREEN_DATA.unk_22D++;
-        if (PAUSE_SCREEN_DATA.unk_22D >= sUnk_57bebc[PAUSE_SCREEN_DATA.unk_22C])
+        if (PAUSE_SCREEN_DATA.unk_22D >= sNavConversationShipBgAnimatedPalDurations[PAUSE_SCREEN_DATA.unk_22C])
         {
             PAUSE_SCREEN_DATA.unk_22D = 0;
             PAUSE_SCREEN_DATA.unk_22C++;
@@ -388,7 +388,7 @@ void unk_7c440(void)
             dst = PALRAM_BASE + 0x194;
             j = PAUSE_SCREEN_DATA.unk_22C * 16 + 10;
             for (i = 0; i < 6; i++, j++, dst++)
-                *dst = sUnk_57bdb4[j];
+                *dst = sNavConversationShipBgAnimatedPal[j];
         }
     }
 }
@@ -401,11 +401,11 @@ void NavigationConversationLoadSpecialGraphics(void)
 {
     if (PAUSE_SCREEN_DATA.conversationNumber == NAV_CONVO_GO_TO_OPERATIONS_ROOM)
     {
-        LZ77UncompVram(sNavConversationUnk_57c0c4, EWRAM_BASE);
-        LZ77UncompVram(sNavConversationUnk_57fca0, EWRAM_BASE + 0x6000);
-        LZ77UncompVram(sNavConversationUnk_580238, EWRAM_BASE + 0x6800);
-        LZ77UncompVram(sNavConversationUnk_5807d0, EWRAM_BASE + 0x7000);
-        LZ77UncompVram(sNavConversationUnk_580d68, EWRAM_BASE + 0x7800);
+        LZ77UncompVram(sNavConversationOperationsRoomImageGfx, EWRAM_BASE);
+        LZ77UncompVram(sNavConversationOperationsRoomImageTilemap0, EWRAM_BASE + 0x6000);
+        LZ77UncompVram(sNavConversationOperationsRoomImageTilemap1, EWRAM_BASE + 0x6800);
+        LZ77UncompVram(sNavConversationOperationsRoomImageTilemap2, EWRAM_BASE + 0x7000);
+        LZ77UncompVram(sNavConversationOperationsRoomImageTilemap3, EWRAM_BASE + 0x7800);
     }
     else if (PAUSE_SCREEN_DATA.conversationNumber == NAV_CONVO_FIND_SECURITY_ROOM_AND_DOWNLOAD_BOMBS)
     {
@@ -511,7 +511,7 @@ void unk_7c630(void)
             break;
 
         case 15:
-            DMA3_COPY_16(sUnk_57bec4, PALRAM_BASE, 0x100);
+            DMA3_COPY_16(sNavConversationOperationsRoomImagePal, PALRAM_BASE, 0x100);
             CallbackSetVBlank(PauseScreenVBlank_Unused);
             PAUSE_SCREEN_DATA.unk_265++;
             break;
@@ -698,7 +698,7 @@ void unk_7ce6c(void)
 
     pData = (u8*)&PAUSE_SCREEN_DATA;
     *(struct BslDiagramInfo*)(pData + OFFSET_OF(struct PauseScreenData, unk_240)) =
-        *(const struct BslDiagramInfo*)sUnk_581500;
+        *(const struct BslDiagramInfo*)sBslDiagramInfoInit;
 
     if (PAUSE_SCREEN_DATA.unk_0 == 0)
         return;
@@ -723,7 +723,7 @@ void unk_7ce6c(void)
     if (gCurrentArea != 0)
         PAUSE_SCREEN_DATA.unk_249 = sEvent_576073[gCurrentArea];
     else
-        PAUSE_SCREEN_DATA.unk_249 = sUnk_5760e8[gCurrentRoom + 1];
+        PAUSE_SCREEN_DATA.unk_249 = sBslDiagramMainDeckRoomLocations[gCurrentRoom + 1];
 
     unk_7d27c();
 
@@ -757,7 +757,7 @@ void unk_7cfb0(void)
 
         i = PAUSE_SCREEN_DATA.unk_249;
         dst = (u16*)(PALRAM_OBJ + 0x140) + i;
-        pPalette = (const u16*)sUnk_581300;
+        pPalette = (const u16*)sBslDiagramAnimatedPal;
         *dst = pPalette[PAUSE_SCREEN_DATA.unk_247 * 16 + i];
     }
 

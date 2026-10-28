@@ -286,8 +286,11 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
         assert len(data) <= r.size, r.path
         rom[r.addr:r.addr + len(data)] = data
 
+    # Pointer tables of known layout, de-blobbed or not ("misc" .bin regions)
+    known = [r for r in regions if r.category in ("blob", "misc")]
+
     # Interrupt handlers
-    table = [r for r in blobs if sym[r.path] == INTERRUPT_TABLE_SYMBOL]
+    table = [r for r in known if sym[r.path] == INTERRUPT_TABLE_SYMBOL]
     if len(table) != 1:
         raise SystemExit(f"expected one region INCBINed as {INTERRUPT_TABLE_SYMBOL}, found {len(table)}")
     words = [layout.function(f) for f in INTERRUPT_HANDLERS] if layout.have_build else []
@@ -298,7 +301,7 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     samples = sorted((r for r in regions if r.category == "sound_sample"), key=lambda r: r.addr)
     sample = layout.region_address(samples[0])
     voice = struct.pack("<BBBBI4B", 0, 60, 0, 0, sample, 0xFF, 0, 0xFF, 0xA5)
-    vgs = [r for r in blobs if sym[r.path] and VOICEGROUP_RE.match(sym[r.path])]
+    vgs = [r for r in known if sym[r.path] and VOICEGROUP_RE.match(sym[r.path])]
     if not vgs:
         raise SystemExit("no voicegroup regions (sVoicegroup_*) found")
     for r in vgs:
@@ -394,7 +397,7 @@ EMPTY_BG_TILES = [("animated_tiles/tiles.gfx", 0x80), ("common/common_tiles.gfx"
 # Default button assignments of a new file (struct ButtonAssignments:
 # arm missiles, diagonal aim, swap missiles, pause). Zero-filled, missiles,
 # diagonal aiming and the pause menu cannot be used.
-BUTTON_ASSIGNMENTS_SYMBOL = "sSramUnk_5822c8"
+BUTTON_ASSIGNMENTS_SYMBOL = "sDefaultButtonAssignments"
 BUTTON_ASSIGNMENTS = (0x100, 0x200, 0x004, 0x008)   # R, L, SELECT, START
 
 

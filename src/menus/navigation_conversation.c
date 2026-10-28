@@ -1039,7 +1039,7 @@ void NavigationConversationSetupOam(void)
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_OUTLINE].objMode = 0;
 
     *(struct NavConversationPopUpInfo*)&PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer =
-        *(const struct NavConversationPopUpInfo*)sNavConversationUnk_5766d4;
+        *(const struct NavConversationPopUpInfo*)sNavConversationPopUpInfoInit;
 
     PAUSE_SCREEN_DATA.unk_1A = 0;
     PAUSE_SCREEN_DATA.typeFlags = 0;
@@ -1091,7 +1091,7 @@ void NavigationConversationUpdateTarget(u8 updateOam)
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].currentAnimationFrame = 0;
 
     if (PAUSE_SCREEN_DATA.unk_20F == 1)
-        oamId = sNavConversationUnk_5767ec[PAUSE_SCREEN_DATA.navTargetTextDirection];
+        oamId = sNavTargetOamIds[PAUSE_SCREEN_DATA.navTargetTextDirection];
     else if (PAUSE_SCREEN_DATA.currentArea == 0)
         oamId = PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS;
     else
@@ -1126,10 +1126,10 @@ u32 NavigationConverstionFindTarget(void)
 
     for (i = 0; i <= 32; i++)
     {
-        if (PAUSE_SCREEN_DATA.conversationNumber == sNavConversationUnk_5766e4[i].conversation)
+        if (PAUSE_SCREEN_DATA.conversationNumber == sNavConversationTargets[i].conversation)
         {
             found = TRUE;
-            PAUSE_SCREEN_DATA.navTargetTextDirection = sNavConversationUnk_5766e4[i].textDirection;
+            PAUSE_SCREEN_DATA.navTargetTextDirection = sNavConversationTargets[i].textDirection;
             break;
         }
     }
@@ -1137,25 +1137,25 @@ u32 NavigationConverstionFindTarget(void)
     if (!found)
         return FALSE;
 
-    gNavigationTargetLocation = sNavConversationUnk_5766e4[i].location;
+    gNavigationTargetLocation = sNavConversationTargets[i].location;
     PAUSE_SCREEN_DATA.navTargetArea = sNavigationTargetLocationAreas[gNavigationTargetLocation];
 
     if (PAUSE_SCREEN_DATA.currentArea == PAUSE_SCREEN_DATA.navTargetArea)
     {
-        x = sNavConversationUnk_5766e4[i].xPosition;
-        y = sNavConversationUnk_5766e4[i].yPosition;
+        x = sNavConversationTargets[i].xPosition;
+        y = sNavConversationTargets[i].yPosition;
         PAUSE_SCREEN_DATA.unk_20F = 1;
     }
     else if (PAUSE_SCREEN_DATA.currentArea == 0)
     {
-        x = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.navTargetArea][0];
-        y = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.navTargetArea][1];
+        x = sNavTargetMainDeckElevatorPositions[PAUSE_SCREEN_DATA.navTargetArea][0];
+        y = sNavTargetMainDeckElevatorPositions[PAUSE_SCREEN_DATA.navTargetArea][1];
         PAUSE_SCREEN_DATA.unk_20F = 2;
     }
     else
     {
-        x = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.currentArea][0];
-        y = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.currentArea][1];
+        x = sNavTargetAreaElevatorPositions[PAUSE_SCREEN_DATA.currentArea][0];
+        y = sNavTargetAreaElevatorPositions[PAUSE_SCREEN_DATA.currentArea][1];
         if (PAUSE_SCREEN_DATA.navTargetArea == 0)
             PAUSE_SCREEN_DATA.unk_20F = 2;
         else
@@ -1192,13 +1192,13 @@ void NavigationConversionScrollToTarget(void)
             temp = FALSE;
             if (PAUSE_SCREEN_DATA.navTargetX == UCHAR_MAX || PAUSE_SCREEN_DATA.navTargetY == UCHAR_MAX)
                 temp = TRUE;
-            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[0])
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavTargetOamIds[0])
                 temp = TRUE;
-            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[1])
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavTargetOamIds[1])
                 temp = TRUE;
-            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[2])
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavTargetOamIds[2])
                 temp = TRUE;
-            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[3])
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavTargetOamIds[3])
                 temp = TRUE;
             else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS)
                 temp = TRUE;
@@ -1235,7 +1235,7 @@ void NavigationConversionScrollToTarget(void)
                 break;
 
             if (PAUSE_SCREEN_DATA.unk_20F == 1)
-                temp = sNavConversationUnk_5767ec[PAUSE_SCREEN_DATA.navTargetTextDirection];
+                temp = sNavTargetOamIds[PAUSE_SCREEN_DATA.navTargetTextDirection];
             else if (PAUSE_SCREEN_DATA.currentArea == 0)
                 temp = PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS;
             else
@@ -1281,13 +1281,13 @@ void NavigationConversionScrollToTarget(void)
 
             if (PAUSE_SCREEN_DATA.navTargetArea == 0)
             {
-                PAUSE_SCREEN_DATA.mapX = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.currentArea][0] - 1;
-                PAUSE_SCREEN_DATA.mapY = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.currentArea][1] - 1;
+                PAUSE_SCREEN_DATA.mapX = sNavTargetMainDeckElevatorPositions[PAUSE_SCREEN_DATA.currentArea][0] - 1;
+                PAUSE_SCREEN_DATA.mapY = sNavTargetMainDeckElevatorPositions[PAUSE_SCREEN_DATA.currentArea][1] - 1;
             }
             else
             {
-                PAUSE_SCREEN_DATA.mapX = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.navTargetArea][0] - 1;
-                PAUSE_SCREEN_DATA.mapY = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.navTargetArea][1] - 1;
+                PAUSE_SCREEN_DATA.mapX = sNavTargetAreaElevatorPositions[PAUSE_SCREEN_DATA.navTargetArea][0] - 1;
+                PAUSE_SCREEN_DATA.mapY = sNavTargetAreaElevatorPositions[PAUSE_SCREEN_DATA.navTargetArea][1] - 1;
             }
 
             PAUSE_SCREEN_DATA.currentArea = PAUSE_SCREEN_DATA.navTargetArea;
@@ -1847,9 +1847,9 @@ u8 GetFlashingSectorNumber(void)
         return gFlashingSectorNumber;
 
     found = FALSE;
-    for (i = 0; i < sizeof(sNavConversationUnk_5766e4) / sizeof(sNavConversationUnk_5766e4[0]); i++)
+    for (i = 0; i < sizeof(sNavConversationTargets) / sizeof(sNavConversationTargets[0]); i++)
     {
-        if (gPreviousNavigationConversation == sNavConversationUnk_5766e4[i].conversation)
+        if (gPreviousNavigationConversation == sNavConversationTargets[i].conversation)
         {
             found = TRUE;
             break;
@@ -1859,7 +1859,7 @@ u8 GetFlashingSectorNumber(void)
     if (!found)
         return gFlashingSectorNumber;
 
-    i = sNavConversationUnk_5766e4[i].location;
+    i = sNavConversationTargets[i].location;
     gFlashingSectorNumber = sNavigationTargetLocationAreas[i];
     return gFlashingSectorNumber;
 }

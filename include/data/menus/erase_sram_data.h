@@ -7,24 +7,24 @@
 // Defined in src/data/sram_pointers.c
 
 // Object palette
-extern const u8 sEraseSramUnk_5822f0[];
+extern const u16 sEraseSramObjPal[7 * 16];
 // Background palette
-extern const u8 sEraseSramUnk_5823d0[];
+extern const u16 sEraseSramBgPal[16 * 16];
 // Object graphics
-extern const u8 sEraseSramUnk_582bbc[];
+extern const u32 sEraseSramObjGfx[532];
 // Background graphics
-extern const u8 sEraseSramUnk_58340c[];
+extern const u32 sEraseSramBgGfx[7670];
 // Tilemaps
-extern const u8 sEraseSramUnk_58abe4[];
-extern const u8 sEraseSramUnk_58adf0[];
+extern const u32 sEraseSramTilemap_D000[131];
+extern const u32 sEraseSramTilemap_F000[368];
 // Cursor OAM ids for each option
-extern const u8 sEraseSramUnk_58b3b0[4];
+extern const u8 sEraseSramCursorOamIds[4];
 // Sounds
-extern const u16 sEraseSramUnk_58b3b4[5];
+extern const u16 sEraseSramSounds[5];
 // Base positions of the cursor (x, y)
-extern const u8 sEraseSramUnk_58b3be[2][2];
+extern const u8 sEraseSramCursorBasePositions[2][2];
 // Offsets of the cursor for each option (x, y)
-extern const u8 sEraseSramUnk_58b3c2[4][2];
+extern const u8 sEraseSramCursorOffsets[5][2];
 
 // Defined in src/text.c
 
