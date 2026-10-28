@@ -32,5 +32,7 @@ u32 NavigationConversationHandler(void);
 void NavigationConversationSetupOam(void);
 void NavigationConversationUpdateTarget(u8 updateOam);
 u32 NavigationConverstionFindTarget(void);
+void NavigationConversionScrollToTarget(void);
+u32 NavigationConversationScrollMapToDestination(u8 x, u8 y);
 
 #endif /* NAVIGATION_CONVERSATION_H */

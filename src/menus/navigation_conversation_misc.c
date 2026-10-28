@@ -1,15 +1,20 @@
 #include "menus/navigation_conversation.h"
 #include "menus/pause_screen.h"
 
+#include "menus/pause_screen_map.h"
+
 #include "gba.h"
 #include "globals.h"
+#include "audio_wrappers.h"
 
+#include "constants/audio.h"
 #include "constants/menus/pause_screen.h"
 
 #include "data/event_data.h"
 
 #include "structs/event.h"
 #include "structs/menus/pause_screen.h"
+#include "structs/minimap.h"
 
 /**
  * @brief 7ae54 | 138 | Sets up the OAM of a navigation conversation
@@ -167,4 +172,183 @@ u32 NavigationConverstionFindTarget(void)
         found = TRUE;
 
     return found;
+}
+
+/**
+ * @brief 7b158 | 36c | Handles the scrolling of the map to the target of a navigation conversation
+ * 
+ */
+void NavigationConversionScrollToTarget(void)
+{
+    u32 temp;
+    u8 oamId;
+
+    PAUSE_SCREEN_DATA.unk_8++;
+
+    switch (PAUSE_SCREEN_DATA.unk_9)
+    {
+        case 0:
+            break;
+
+        case 1:
+            temp = FALSE;
+            if (PAUSE_SCREEN_DATA.navTargetX == UCHAR_MAX || PAUSE_SCREEN_DATA.navTargetY == UCHAR_MAX)
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[0])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[1])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[2])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == sNavConversationUnk_5767ec[3])
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS)
+                temp = TRUE;
+            else if (PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId == PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS)
+                temp = TRUE;
+
+            if (temp)
+            {
+                PAUSE_SCREEN_DATA.unk_9 = 12;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.unk_9 = 2;
+                PAUSE_SCREEN_DATA.typeFlags |= 0x100;
+                PAUSE_SCREEN_DATA.typeFlags |= 0x200;
+            }
+            break;
+
+        case 2:
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x400)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9++;
+            }
+            break;
+
+        case 3:
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9 = 4;
+            break;
+
+        case 5:
+            if (!NavigationConversationScrollMapToDestination(PAUSE_SCREEN_DATA.navTargetX, PAUSE_SCREEN_DATA.navTargetY))
+                break;
+
+            if (PAUSE_SCREEN_DATA.unk_20F == 1)
+                temp = sNavConversationUnk_5767ec[PAUSE_SCREEN_DATA.navTargetTextDirection];
+            else if (PAUSE_SCREEN_DATA.currentArea == 0)
+                temp = PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS;
+            else
+                temp = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
+
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = temp;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].currentAnimationFrame = 0;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+
+            if (PAUSE_SCREEN_DATA.unk_20F == 1)
+                PAUSE_SCREEN_DATA.unk_9 = 12;
+            else
+                PAUSE_SCREEN_DATA.unk_9 = 6;
+
+            SoundStop(SOUND_119);
+            PAUSE_SCREEN_DATA.mapViewX = PAUSE_SCREEN_DATA.navTargetX;
+            PAUSE_SCREEN_DATA.mapViewY = PAUSE_SCREEN_DATA.navTargetY;
+            break;
+
+        case 6:
+            if (PAUSE_SCREEN_DATA.unk_8 > 60)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9++;
+            }
+            break;
+
+        case 7:
+            PAUSE_SCREEN_DATA.unk_250 = 1;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_MAP_TARGET].oamId = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].oamId = 0;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 8:
+            if (!(PAUSE_SCREEN_DATA.unk_250 & 4))
+                break;
+
+            if (PAUSE_SCREEN_DATA.unk_20F == 3)
+                PAUSE_SCREEN_DATA.navTargetArea = 0;
+
+            if (PAUSE_SCREEN_DATA.navTargetArea == 0)
+            {
+                PAUSE_SCREEN_DATA.mapX = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.currentArea][0] - 1;
+                PAUSE_SCREEN_DATA.mapY = sNavConversationUnk_576218[PAUSE_SCREEN_DATA.currentArea][1] - 1;
+            }
+            else
+            {
+                PAUSE_SCREEN_DATA.mapX = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.navTargetArea][0] - 1;
+                PAUSE_SCREEN_DATA.mapY = sNavConversationUnk_576226[PAUSE_SCREEN_DATA.navTargetArea][1] - 1;
+            }
+
+            PAUSE_SCREEN_DATA.currentArea = PAUSE_SCREEN_DATA.navTargetArea;
+            MinimapGetData(PAUSE_SCREEN_DATA.currentArea, gMinimapData_Visited);
+            MinimapSetVisitedTilesAndCollectedItems(PAUSE_SCREEN_DATA.currentArea);
+            DMA3_COPY_16(gMinimapData_Visited, VRAM_BASE + 0xE000, MINIMAP_SIZE);
+            unk_75988(TRUE);
+            NavigationConversationUpdateTarget(FALSE);
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 9:
+            if (PAUSE_SCREEN_DATA.unk_8 > 8)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9++;
+                PAUSE_SCREEN_DATA.unk_250 |= 8;
+            }
+            break;
+
+        case 10:
+            if (PAUSE_SCREEN_DATA.unk_250 != 0)
+                break;
+
+            if (PAUSE_SCREEN_DATA.navTargetArea == 0)
+                oamId = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
+            else if (PAUSE_SCREEN_DATA.currentArea == 0)
+                oamId = PAUSE_OAM_ID_MAP_ELEVATOR_UP_ARROWS;
+            else
+                oamId = PAUSE_OAM_ID_MAP_ELEVATOR_DOWN_ARROWS;
+
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].oamId = oamId;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].animationDurationCounter = 0;
+            PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_BLINKING_SQUARE].currentAnimationFrame = 0;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 4:
+        case 11:
+            if (PAUSE_SCREEN_DATA.unk_8 > 30)
+            {
+                PAUSE_SCREEN_DATA.unk_8 = 0;
+                PAUSE_SCREEN_DATA.unk_9 = 5;
+                SoundPlay(SOUND_119);
+            }
+            break;
+
+        case 12:
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x200)
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x200;
+            if (PAUSE_SCREEN_DATA.typeFlags & 0x400)
+                PAUSE_SCREEN_DATA.typeFlags ^= 0x400;
+            PAUSE_SCREEN_DATA.unk_8 = 0;
+            PAUSE_SCREEN_DATA.unk_9++;
+            break;
+
+        case 13:
+            break;
+    }
 }
