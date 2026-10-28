@@ -29,6 +29,8 @@ void unk_95e20(struct SpecialCutsceneOam* pOam);
 u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch);
 void EndingMonologueVblank(void);
 void EndingConversationAndAnimalsVblank(void);
+boolu32 EndingCheckMonologueEnded(void);
+void EndingProcessAdamText(void);
 
  /**
  * @brief 94e84 | f0 | Main handler for the ending cutscenes
@@ -1076,4 +1078,347 @@ void EndingAnimalsInit(void)
     WRITE_16(REG_DISPCNT, DCNT_BG2 | DCNT_BG3 | DCNT_OBJ);
 
     CallbackSetVBlank(EndingConversationAndAnimalsVblank);
+}
+
+ /**
+ * @brief 96448 | 4e0 | Processes the ending in ship cutscene
+ *
+ * @return boolu32 bool, ended
+ */
+boolu32 EndingInShipProcess(void)
+{
+    boolu32 finished;
+
+    finished = FALSE;
+
+    INTRO_DATA.timer++;
+
+    switch (INTRO_DATA.subStage)
+    {
+        case 0:
+            if (INTRO_DATA.timer == 7)
+            {
+                INTRO_DATA.timer = 0;
+
+                if (gWrittenToBldy != 0)
+                {
+                    gWrittenToBldy--;
+                }
+                else
+                {
+                    PlayMusic(MUSIC_EPILOGUE, 14);
+                    INTRO_DATA.subStage = 1;
+                }
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 1:
+            if (INTRO_DATA.timer == 70)
+            {
+                INTRO_DATA.timer = 0;
+                WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) | DCNT_BG0);
+                INTRO_DATA.unk_12 = 0;
+                INTRO_DATA.unk_10 = 0;
+                INTRO_DATA.unk_E = 0;
+                INTRO_DATA.unk_C = 0;
+                INTRO_DATA.unk_212 = 0;
+                INTRO_DATA.pText = sMonologueTextPointers[gLanguage][7];
+                INTRO_DATA.subStage = 2;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 2:
+            if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW && gChangedInput & KEY_A && INTRO_DATA.unk_218 == 0)
+                INTRO_DATA.unk_218 = 1;
+
+            INTRO_DATA.timer = 0;
+
+            if (INTRO_DATA.unk_218 == 2)
+            {
+                INTRO_DATA.unk_218 = 0;
+            }
+            else if (INTRO_DATA.unk_218 == 3)
+            {
+                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.subStage = 3;
+            }
+
+            if (EndingCheckMonologueEnded())
+            {
+                INTRO_DATA.subStage = 3;
+                INTRO_DATA.unk_218 = 0;
+            }
+
+            if (INTRO_DATA.unk_213 == 0)
+            {
+                INTRO_DATA.unk_213 = 100;
+            }
+            else if (INTRO_DATA.unk_213 == 1)
+            {
+                INTRO_DATA.unk_213 = 100;
+                SpecialCutsceneProcessMonologue();
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 3:
+            if (INTRO_DATA.timer == 1)
+            {
+                gWrittenToBldalpha_Evb = 0;
+                gWrittenToBldalpha_Eva = BLDALPHA_MAX_VALUE;
+            }
+            else if (INTRO_DATA.timer == 20)
+            {
+                INTRO_DATA.timer = 0;
+                WRITE_16(REG_BLDCNT, BLDCNT_BG0_FIRST_TARGET_PIXEL | BLDCNT_ALPHA_BLENDING_EFFECT |
+                    BLDCNT_BG3_SECOND_TARGET_PIXEL | BLDCNT_OBJ_SECOND_TARGET_PIXEL);
+                INTRO_DATA.subStage = 4;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 4:
+            if (INTRO_DATA.timer == 4)
+            {
+                INTRO_DATA.timer = 0;
+
+                if (gWrittenToBldalpha_Evb < BLDALPHA_MAX_VALUE)
+                    gWrittenToBldalpha_Evb++;
+
+                if (gWrittenToBldalpha_Eva != 0)
+                    gWrittenToBldalpha_Eva--;
+
+                if (gWrittenToBldalpha_Evb == BLDALPHA_MAX_VALUE && gWrittenToBldalpha_Eva == 0)
+                {
+                    WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~DCNT_BG0);
+                    INTRO_DATA.subStage = 5;
+                }
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 5:
+            if (INTRO_DATA.timer == 10)
+            {
+                EndingDialogueSetupOam(30, 120, 80, TRUE);
+            }
+            else if (INTRO_DATA.timer == 39)
+            {
+                gWrittenToBldy = BLDY_MAX_VALUE;
+            }
+            else if (INTRO_DATA.timer == 40)
+            {
+                WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
+                INTRO_DATA.timer = 0;
+                INTRO_DATA.subStage = 6;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 6:
+            if (INTRO_DATA.timer == 1)
+            {
+                INTRO_DATA.timer = 0;
+                INTRO_DATA.subStage = 7;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 7:
+            INTRO_DATA.timer = 0;
+            EndingAdamConversationInit();
+            INTRO_DATA.subStage = 8;
+            break;
+
+        case 8:
+            gWrittenToBldy = 0;
+            INTRO_DATA.timer = 0;
+            SoundPlay(SOUND_24C);
+            INTRO_DATA.subStage = 9;
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 9:
+            if (INTRO_DATA.timer != 10)
+            {
+                if (INTRO_DATA.timer == 40)
+                {
+                    EndingDialogueSetupOam(255, 0, 0, FALSE);
+                    EndingDialogueSetupOam(6, 20, 192, FALSE);
+                    EndingDialogueSetupOam(7, 128, 192, FALSE);
+                    EndingDialogueSetupOam(9, 128, 192, FALSE);
+                    INTRO_DATA.timer = 0;
+                    INTRO_DATA.subStage = 10;
+                }
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            EndingProcessAdamText();
+            break;
+
+        case 10:
+            INTRO_DATA.timer = 0;
+
+            if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW && gChangedInput & KEY_A && INTRO_DATA.unk_218 == 0)
+                INTRO_DATA.unk_218 = 1;
+
+            if (INTRO_DATA.unk_218 == 2)
+            {
+                INTRO_DATA.unk_218 = 0;
+                SoundPlay(SOUND_203);
+            }
+            else if (INTRO_DATA.unk_218 == 3)
+            {
+                WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~DCNT_BG0);
+                INTRO_DATA.unk_218 = 0;
+                SoundPlay(SOUND_203);
+                FadeMusic(10);
+                INTRO_DATA.subStage = 11;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            EndingProcessAdamText();
+            break;
+
+        case 11:
+            INTRO_DATA.timer = 0;
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 12:
+            if (INTRO_DATA.timer == 1)
+            {
+                ApplyMusicSoundFading(sMusicTrackDataRom[sSoundDataEntries[SOUND_24C].trackGroupNumber].pTrack, 0);
+            }
+            else if (INTRO_DATA.timer == 10)
+            {
+                INTRO_DATA.timer = 0;
+                gWrittenToBldy = BLDY_MAX_VALUE;
+                INTRO_DATA.subStage = 13;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 13:
+            EndingAnimalsInit();
+            INTRO_DATA.timer = 0;
+            gWrittenToBldy = 0;
+            INTRO_DATA.subStage = 14;
+            break;
+
+        case 14:
+            if (INTRO_DATA.timer == 1)
+            {
+                PlayMusic(MUSIC_EPILOGUE_END, 14);
+            }
+            else if (INTRO_DATA.timer == 640)
+            {
+                INTRO_DATA.timer = 0;
+                WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~DCNT_BG2);
+                INTRO_DATA.subStage = 15;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+
+        case 15:
+            if (INTRO_DATA.timer == 2)
+            {
+                INTRO_DATA.timer = 0;
+
+                if (gWrittenToBldy < BLDY_MAX_VALUE)
+                {
+                    gWrittenToBldy++;
+                }
+                else
+                {
+                    INTRO_DATA.subStage = 0;
+                    finished = TRUE;
+                }
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+    }
+
+    return finished;
+}
+
+ /**
+ * @brief 96928 | 88 | Main handler for the ending in ship cutscene
+ *
+ * @return boolu32 bool, ended
+ */
+boolu32 EndingInShip(void)
+{
+    boolu32 finished;
+
+    finished = FALSE;
+
+    switch (INTRO_DATA.stage)
+    {
+        case 0:
+            EndingMonologueInit();
+            INTRO_DATA.stage = 2;
+            break;
+
+        case 1:
+            SpecialCutsceneFadeIn();
+
+            if (gWrittenToBldy == 0)
+                INTRO_DATA.stage = 2;
+            break;
+
+        case 2:
+            if (EndingInShipProcess())
+            {
+                INTRO_DATA.subStage = 0;
+                INTRO_DATA.unk_213 = 0;
+                INTRO_DATA.stage = 3;
+            }
+            break;
+
+        case 3:
+            if (gWrittenToBldy < BLDY_MAX_VALUE)
+            {
+                gWrittenToBldy++;
+            }
+            else
+            {
+                INTRO_DATA.stage = 0;
+                finished = TRUE;
+            }
+
+            SpecialCutsceneProcessOam();
+            SpecialCutsceneDrawAllOam();
+            break;
+    }
+
+    return finished;
 }

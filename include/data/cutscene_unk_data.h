@@ -7,6 +7,7 @@
 // Data used by the intro and ending cutscenes, most of it not identified yet
 
 extern const u32* sIntroSamusSittingBgGfxPointers[5];
+extern u16** sMonologueTextPointers[];
 
 extern const u8 sIntroUnk_658be0[];
 extern const u8 sIntroUnk_6591e4[];
