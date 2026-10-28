@@ -472,7 +472,7 @@ def table_strings(kind: str, count: int, root: Path = ROOT) -> list[str]:
     return [f"[Text {i}]" for i in range(count)]
 
 
-# sFileSelectUnk_79ec68[language][i]; drawn by FileSelectDrawText, i = 0
+# sFileSelectTexts[language][i]; drawn by FileSelectDrawText, i = 0
 # header, 1 file menu, 2-4 and 24 prompts, 5-10 corrupted file notices.
 FILE_SELECT_TEXTS = {
     0: "  SELECT A FILE",
@@ -482,7 +482,7 @@ FILE_SELECT_TEXTS = {
     4: "[Prompt: erase this file?]",
 }
 FILE_SELECT_TEXT_COUNT = 32
-FILE_SELECT_EMPTY = " [empty file]"   # sFileSelectUnk_79ec84[language][0]
+FILE_SELECT_EMPTY = " [empty file]"   # sFileSelectEmptyFileTexts[language][0]
 
 
 def file_select_strings() -> list[str]:
@@ -581,9 +581,9 @@ def apply_text(rom: bytearray, regions: list[Region], layout, widths: list[int])
     empty_table = arena.table([arena.string(FILE_SELECT_EMPTY)] * 4)
     zeros = arena.alloc(bytes(16), align=4)
     offsets_table = arena.table([zeros] * FILE_SELECT_TEXT_COUNT)
-    for symbol, target in (("sFileSelectUnk_79ec68", fs_table),
-                           ("sFileSelectUnk_79ec84", empty_table),
-                           ("sFileSelectUnk_79e928", offsets_table)):
+    for symbol, target in (("sFileSelectTexts", fs_table),
+                           ("sFileSelectEmptyFileTexts", empty_table),
+                           ("sFileSelectTextTileOffsets", offsets_table)):
         r = region(symbol)
         put(r, struct.pack("<I", target) * (r.size // 4))
     notes.append(f"text: arena {arena.pos} of {blob.size} bytes used")

@@ -29,8 +29,8 @@ extern const u8 sEraseSramUnk_58b3c2[4][2];
 // Defined in src/text.c
 
 // Text graphics for each language
-extern const u32* const sEraseSramUnk_79c228[][2];
+extern const u32* const sEraseSramTextGfxPointers[][2];
 // OAM frame data pointers
-extern const struct FrameData* const sEraseSramUnk_79c260[];
+extern const struct FrameData* const sEraseSramOam[];
 
 #endif /* ERASE_SRAM_DATA_H */

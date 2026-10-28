@@ -51,7 +51,7 @@ and `0x48C` suggest a second Latin set; it is not used by our strings.
 | --- | --- | --- | --- |
 | Monologues (`sMonologueText<Lang>_<N>`, 19 per language) | `SpecialCutsceneProcessMonologue` | VRAM `0x0000`, line L at tiles `L*64` (top) / `L*64+32` (bottom), 28 columns, 9 lines | BG0, map `sIntroTilemap_662804`, palette rows 12-15 (`sIntroPal_663820`). Each tile fades in: the code decrements the palette number of its map entry three times (15 → 12). |
 | Subtitles over the new-file intro and ending scenes (same monologues) | `NewFileIntroProcessAdamText`, `EndingProcessAdamText` | VRAM `0xD000`/`0xD800` (2 lines, 32 columns) | BG0 (char base 2, HOFS -8), map `sIntroSamusShipFlyingTextTilemap` at `0xE000`, palette row 15 (`sPal_598a8c`, or row 15 of the scene's full palette) |
-| File select header, menu, prompts, "no data" label | `FileSelectDrawText`, `FileSelectDrawFileInfo` | char base 2 (`0x8000`), 32 tiles per row: header row 0, files rows 2/4/6, menu row 12 (`0xB000`), prompts row 18 (`0xC800`); per-line tile offsets from `sFileSelectUnk_79e928` | BG2 (`sFileSelectUnk_73cfac`), BG1 (`sFileSelectUnk_73d380` via EWRAM), BG0 (`sFileSelectUnk_73d5ec`); palette `sFileSelectUnk_7476a0` + row 0 overrides |
+| File select header, menu, prompts, "no data" label | `FileSelectDrawText`, `FileSelectDrawFileInfo` | char base 2 (`0x8000`), 32 tiles per row: header row 0, files rows 2/4/6, menu row 12 (`0xB000`), prompts row 18 (`0xC800`); per-line tile offsets from `sFileSelectTextTileOffsets` | BG2 (`sFileSelectUnk_73cfac`), BG1 (`sFileSelectUnk_73d380` via EWRAM), BG0 (`sFileSelectUnk_73d5ec`); palette `sFileSelectUnk_7476a0` + row 0 overrides |
 | Message / location banners (`sMessageTextPointers`, `sLocationTextPointers`) | `TextDisplayMessage`, `TextDrawMessageBanner`, `TextDrawLocationText` | OBJ VRAM `0x4000 + slot * 0x800`, up to 28 tiles, 2 lines | the banner sprite |
 | Navigation conversations (`sNavConversationTextPointers`, `sMessageTextPointers[43+]`) | `navigation_conversation.c` | VRAM `0x7000`, 2 lines of 224 px | pause screen BG |
 
@@ -118,7 +118,7 @@ unit-tested with a fake ROM (`tools/open_assets/test_font.py`).
 
 - Japanese/Hiragana use the same English placeholders; kana and accented
   glyphs are left empty.
-- The ending dialogue table (`sEndingUnk_79c3ac`) and the title intro texts
+- The ending dialogue table (`sEndingDialogueTextTables`) and the title intro texts
   are not filled yet.
 - Spaces in the file select "no data" label and in navigation text are
   skipped by the game, leaving a gap in the paper band.

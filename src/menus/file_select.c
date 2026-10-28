@@ -180,7 +180,7 @@ void FileSelectInit(void)
     DMA3_COPY_32(sFileSelectUnk_740d08, PALRAM_OBJ, PAL_SIZE / sizeof(u32));
 
     FILE_SELECT_DATA.unk_8 = 0;
-    FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][0];
+    FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][0];
 
     Sram_WriteFileInfo();
     FILE_SELECT_DATA.selectedFile = gMostRecentSaveFile;
@@ -289,7 +289,7 @@ u32 FileSelectInput(void)
             if (FILE_SELECT_DATA.timer == 1)
             {
                 FILE_SELECT_DATA.unk_8 = 1;
-                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][1];
+                FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][1];
                 FileSelectDrawText(2);
                 FileSelectSetupOam(11, 0x52, 0x76, 1);
             }
@@ -411,7 +411,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 3)
             {
                 FILE_SELECT_DATA.unk_8 = 24;
-                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][24];
+                FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][24];
                 FileSelectDrawText(3);
             }
             else if (FILE_SELECT_DATA.timer == 12)
@@ -506,7 +506,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 3)
             {
                 FILE_SELECT_DATA.unk_8 = 2;
-                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][2];
+                FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][2];
                 FileSelectDrawText(3);
             }
             else if (FILE_SELECT_DATA.timer == 12)
@@ -567,7 +567,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 2)
             {
                 FILE_SELECT_DATA.unk_8 = 3;
-                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][3];
+                FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][3];
                 FileSelectDrawText(3);
             }
             else if (FILE_SELECT_DATA.timer == 4)
@@ -659,7 +659,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 3)
             {
                 FILE_SELECT_DATA.unk_8 = 2;
-                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][2];
+                FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][2];
                 FileSelectDrawText(3);
             }
             else if (FILE_SELECT_DATA.timer == 12)
@@ -685,7 +685,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 11)
             {
                 FILE_SELECT_DATA.unk_8 = 2;
-                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][2];
+                FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][2];
                 FileSelectDrawText(3);
             }
             else if (FILE_SELECT_DATA.timer == 12)
@@ -763,7 +763,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 3)
             {
                 FILE_SELECT_DATA.unk_8 = 4;
-                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][4];
+                FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][4];
                 FileSelectDrawText(3);
             }
             else if (FILE_SELECT_DATA.timer == 12)
@@ -969,7 +969,7 @@ u8 FileSelectSetupOam(u8 type, s16 xPosition, s16 yPosition, u8 unk)
     else if (type == 7)
     {
         FILE_SELECT_DATA.oam[i].priority = 2;
-        FILE_SELECT_DATA.oam[i].pOam = sFileSelectUnk_79e890[gMostRecentSaveFile];
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectFileOverlayOam[gMostRecentSaveFile];
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessFileOverlay;
     }
     else if (type == 8)
@@ -1343,7 +1343,7 @@ void FileSelectProcessDeleteArrow(struct FileSelectOam* pOam)
             }
         }
 
-        pOam->pOam = sFileSelectUnk_79e8a4[FILE_SELECT_DATA.selectedFile][FILE_SELECT_DATA.unk_F];
+        pOam->pOam = sFileSelectDeleteArrowOam[FILE_SELECT_DATA.selectedFile][FILE_SELECT_DATA.unk_F];
 
         if (gChangedInput & KEY_B)
         {
@@ -1628,7 +1628,7 @@ void FileSelectProcessAudioSelect(struct FileSelectOam* pOam)
 void FileSelectProcessFileOverlay(struct FileSelectOam* pOam)
 {
     if (FILE_SELECT_DATA.subroutine == 0)
-        pOam->pOam = sFileSelectUnk_79e890[FILE_SELECT_DATA.selectedFile];
+        pOam->pOam = sFileSelectFileOverlayOam[FILE_SELECT_DATA.selectedFile];
 }
 
 /**
@@ -1991,7 +1991,7 @@ void FileSelectDrawFileInfo(u8 file)
             DMA3_FILL_32(0, dst, 0x300);
             DMA3_FILL_32(0, (u8*)dst + 0x400, 0x300);
 
-            pText = sFileSelectUnk_79ec84[gLanguage][0];
+            pText = sFileSelectEmptyFileTexts[gLanguage][0];
             FILE_SELECT_DATA.textTile = 8;
 
             for (; *pText != 0xFF00; pText++)
@@ -2161,9 +2161,9 @@ void FileSelectDrawText(u8 text)
     FILE_SELECT_DATA.textPixelOffset = 0;
 
     if (FILE_SELECT_DATA.unk_8 == 24)
-        pOffsets = sFileSelectUnk_79e928[gLanguage][5];
+        pOffsets = sFileSelectTextTileOffsets[gLanguage][5];
     else
-        pOffsets = sFileSelectUnk_79e928[gLanguage][FILE_SELECT_DATA.unk_8];
+        pOffsets = sFileSelectTextTileOffsets[gLanguage][FILE_SELECT_DATA.unk_8];
 
     if (text == 1)
     {
@@ -2291,7 +2291,7 @@ u32 FileSelectProcessCorruptedFile(void)
             else
                 FILE_SELECT_DATA.unk_8 = FILE_SELECT_DATA.corruptedFile + 8;
 
-            FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][FILE_SELECT_DATA.unk_8];
+            FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][FILE_SELECT_DATA.unk_8];
             FileSelectDrawCorruptionText(2);
             FileSelectSetupOam(10, 0x78, 0x64, 0);
             FILE_SELECT_DATA.dispcntAction = 3;
@@ -2369,7 +2369,7 @@ void FileSelectDrawFileCorruptedText(u8 file)
     DMA3_FILL_32(0, dst, 0x300);
     DMA3_FILL_32(0, (u8*)dst + 0x400, 0x300);
 
-    pText = sFileSelectUnk_79ec84[gLanguage][0];
+    pText = sFileSelectEmptyFileTexts[gLanguage][0];
     FILE_SELECT_DATA.textTile = 8;
 
     for (; *pText != 0xFF00; pText++)
@@ -2475,32 +2475,32 @@ void FileSelectSetUpAreaNameOam(u8 type, s16 xPosition, s16 yPosition, s16 area)
     switch (area)
     {
         case 1:
-            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectUnk_79e944[gLanguage][1];
+            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectAreaNameOam[gLanguage][1];
             break;
 
         case 2:
-            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectUnk_79e944[gLanguage][2];
+            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectAreaNameOam[gLanguage][2];
             break;
 
         case 3:
-            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectUnk_79e944[gLanguage][3];
+            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectAreaNameOam[gLanguage][3];
             break;
 
         case 4:
-            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectUnk_79e944[gLanguage][4];
+            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectAreaNameOam[gLanguage][4];
             break;
 
         case 5:
-            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectUnk_79e944[gLanguage][5];
+            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectAreaNameOam[gLanguage][5];
             break;
 
         case 6:
-            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectUnk_79e944[gLanguage][6];
+            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectAreaNameOam[gLanguage][6];
             break;
 
         case 0:
         default:
-            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectUnk_79e944[gLanguage][0];
+            FILE_SELECT_DATA.oam[slot].pOam = sFileSelectAreaNameOam[gLanguage][0];
             break;
     }
 }

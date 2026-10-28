@@ -17,7 +17,7 @@ extern const u8 sGameOverUnk_73cca8[];
 
 // Defined in src/new_file_intro.c
 
-extern const struct FrameData* const sGameOverUnk_79e868[3];
-extern const u8* const sGameOverUnk_79e874[7];
+extern const struct FrameData* const sGameOverCursorOam[3];
+extern const u8* const sGameOverTextGfxPointers[7];
 
 #endif /* GAME_OVER_DATA_H */

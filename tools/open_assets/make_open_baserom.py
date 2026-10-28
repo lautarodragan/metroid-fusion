@@ -320,7 +320,8 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     empty_string = layout.address(regions, TEXT_RANGE[0])  # a terminator
 
     # Per-language string pointer tables -> empty strings
-    tps = [r for r in blobs if sym[r.path] and TEXT_POINTERS_RE.match(sym[r.path])]
+    # (by symbol, whether or not the table is still a Blob_* entry)
+    tps = [r for r in regions if sym[r.path] and TEXT_POINTERS_RE.match(sym[r.path])]
     for r in tps:
         put(r, struct.pack("<I", empty_string) * (r.size // 4))
     if not tps:
@@ -329,7 +330,8 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     string_table = layout.region_address(tps[0])  # a table of empty strings
 
     # OAM-safe ranges
-    oam = sorted((r for r in blobs if in_ranges(r, OAM_SAFE_RANGES)), key=lambda r: r.addr)
+    # every region in the ranges, identified (graphics, palettes, OAM data) or not
+    oam = sorted((r for r in regions if in_ranges(r, OAM_SAFE_RANGES)), key=lambda r: r.addr)
     lz_sources = scan_lz_sources()
     lz = [r for r in oam if sym[r.path] in lz_sources]
     built = {r.path: layout.region_address(r) for r in oam}

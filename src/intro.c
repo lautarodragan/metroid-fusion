@@ -259,12 +259,12 @@ void IntroShipAlertInit(void)
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
     for (i = 0; i < 6; i++)
-        LZ77UncompVram(sIntroUnk_79c45c[i], VRAM_OBJ + i * 0x1000);
+        LZ77UncompVram(sIntroShipAlertObjGfxPointers[i], VRAM_OBJ + i * 0x1000);
 
     DMA3_COPY_32(sIntroUnk_65c268, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     for (i = 0; i < 5; i++)
-        LZ77UncompVram(sIntroUnk_79c448[i], VRAM_BASE + i * 0x1000);
+        LZ77UncompVram(sIntroShipAlertBgGfxPointers[i], VRAM_BASE + i * 0x1000);
 
     LZ77UncompVram(sIntroUnk_6593e4, VRAM_BASE + 0xF000);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
@@ -2091,7 +2091,7 @@ void IntroProcessSpaceViewParticle(struct SpecialCutsceneOam* pOam)
         pOam->unk_8 = rng + 1;
         rng = SpecialCutsceneGetRandomNumber() & 3;
         pOam->unk_4 = rng;
-        pOam->pOam = sIntroUnk_79c394[pOam->unk_4];
+        pOam->pOam = sIntroSpaceViewParticleOam[pOam->unk_4];
         pOam->spawnX = pOam->xPosition;
         pOam->stage = 1;
     }
@@ -2110,7 +2110,7 @@ void IntroProcessSpaceViewParticle(struct SpecialCutsceneOam* pOam)
             else
                 pOam->unk_4 = 0;
 
-            pOam->pOam = sIntroUnk_79c394[pOam->unk_4];
+            pOam->pOam = sIntroSpaceViewParticleOam[pOam->unk_4];
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
         }

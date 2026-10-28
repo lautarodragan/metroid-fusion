@@ -82,10 +82,10 @@ extern const struct FrameData sUnk_633244[];
 extern const u16 sSr388CollisionUnk_636a38[];
 
 // Defined as raw bytes in new_file_intro.c, but this is a table of pointers to OAM frame data
-extern const struct FrameData* sIntroUnk_79c394[];
+extern const struct FrameData* sIntroSpaceViewParticleOam[];
 
 // Defined as raw bytes in new_file_intro.c, but these are tables of pointers to compressed graphics
-extern const u32* sIntroUnk_79c448[];
-extern const u32* sIntroUnk_79c45c[];
+extern const u32* sIntroShipAlertBgGfxPointers[];
+extern const u32* sIntroShipAlertObjGfxPointers[];
 
 #endif /* CUTSCENE_UNK_DATA_H */

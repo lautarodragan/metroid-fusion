@@ -125,7 +125,7 @@ void GameOverInit(void)
     LZ77UncompVram(sGameOverUnk_73422c, VRAM_BASE);
 
     if (gLanguage > LANGUAGE_HIRAGANA)
-        LZ77UncompVram(sGameOverUnk_79e874[gLanguage], VRAM_BASE);
+        LZ77UncompVram(sGameOverTextGfxPointers[gLanguage], VRAM_BASE);
 
     LZ77UncompVram(sGameOverUnk_73c6e4, VRAM_BASE + 0xF800);
     LZ77UncompVram(sGameOverUnk_73cca8, VRAM_BASE + 0xF000);
@@ -200,7 +200,7 @@ u8 GameOverSetupOam(u8 type, u16 xPosition, u16 yPosition)
     if (type == GAME_OVER_OAM_TYPE_CURSOR)
     {
         GAME_OVER_DATA.oam[i].priority = 3;
-        GAME_OVER_DATA.oam[i].pOam = sGameOverUnk_79e868[0];
+        GAME_OVER_DATA.oam[i].pOam = sGameOverCursorOam[0];
         GAME_OVER_DATA.oam[i].pHandler = GameOverProcessCursor;
     }
     else if (type == GAME_OVER_OAM_TYPE_2)
@@ -246,14 +246,14 @@ void GameOverProcessCursor(struct GameOverOam* pOam)
         {
             SoundPlay(SOUND_1FE);
             FadeMusic(10);
-            pOam->pOam = sGameOverUnk_79e868[1];
+            pOam->pOam = sGameOverCursorOam[1];
             GAME_OVER_DATA.choice = GAME_OVER_CHOICE_CONTINUE;
         }
         else if ((s16)pOam->yPosition == GAME_OVER_CURSOR_Y_QUIT)
         {
             SoundPlay(SOUND_1FE);
             FadeMusic(10);
-            pOam->pOam = sGameOverUnk_79e868[2];
+            pOam->pOam = sGameOverCursorOam[2];
             GAME_OVER_DATA.choice = GAME_OVER_CHOICE_QUIT;
         }
 

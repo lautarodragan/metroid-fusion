@@ -48,11 +48,11 @@ extern const u8 sFileSelectUnk_7476a0[];
 
 // Defined in src/new_file_intro.c
 
-extern const struct FrameData* const sFileSelectUnk_79e890[5];
-extern const struct FrameData* const sFileSelectUnk_79e8a4[11][3];
-extern const u16* const* const sFileSelectUnk_79e928[LANGUAGE_COUNT];
-extern const struct FrameData* const sFileSelectUnk_79e944[][7];
-extern const u16* const* const sFileSelectUnk_79ec68[LANGUAGE_COUNT];
-extern const u16* const* const sFileSelectUnk_79ec84[LANGUAGE_COUNT];
+extern const struct FrameData* const sFileSelectFileOverlayOam[5];
+extern const struct FrameData* const sFileSelectDeleteArrowOam[11][3];
+extern const u16* const* const sFileSelectTextTileOffsets[LANGUAGE_COUNT];
+extern const struct FrameData* const sFileSelectAreaNameOam[][7];
+extern const u16* const* const sFileSelectTexts[LANGUAGE_COUNT];
+extern const u16* const* const sFileSelectEmptyFileTexts[LANGUAGE_COUNT];
 
 #endif /* FILE_SELECT_DATA_H */

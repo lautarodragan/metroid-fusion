@@ -32769,15 +32769,15 @@
     "size": 1
   },
   {
-    "path": "Blob_79c170_79c17c.bin",
-    "count": "0xC",
+    "path": "menus/pause_screen/nav_conversation_pop_up_functions.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x79C170"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c17c_79c180.bin",
+    "path": "menus/pause_screen/nav_conversation_sa_x_close_up_delays.bin",
     "count": "0x4",
     "addr": {
       "us": "0x79C17C"
@@ -32785,7 +32785,7 @@
     "size": 1
   },
   {
-    "path": "Blob_79c180_79c1a4.bin",
+    "path": "menus/pause_screen/bsl_diagram_oam_ids.bin",
     "count": "0x24",
     "addr": {
       "us": "0x79C180"
@@ -32793,7 +32793,7 @@
     "size": 1
   },
   {
-    "path": "Blob_79c1a4_79c210.bin",
+    "path": "menus/pause_screen/bsl_diagram_target_offsets.bin",
     "count": "0x6C",
     "addr": {
       "us": "0x79C1A4"
@@ -32801,7 +32801,7 @@
     "size": 1
   },
   {
-    "path": "Blob_79c210_79c228.bin",
+    "path": "menus/pause_screen/bsl_diagram_fixed_target_offsets.bin",
     "count": "0x18",
     "addr": {
       "us": "0x79C210"
@@ -32809,387 +32809,403 @@
     "size": 1
   },
   {
-    "path": "Blob_79c228_79c260.bin",
-    "count": "0x38",
+    "path": "menus/erase_sram/text_gfx_pointers.bin",
+    "count": "0xE",
     "addr": {
       "us": "0x79C228"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c260_79c27c.bin",
-    "count": "0x1C",
+    "path": "menus/erase_sram/oam_pointers.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x79C260"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c394_79c3ac.bin",
-    "count": "0x18",
+    "path": "intro/space_view_particle_frame_data_pointers.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x79C394"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c3ac_79c3c8.bin",
-    "count": "0x1C",
+    "path": "ending/dialogue_text_tables.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x79C3AC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c448_79c45c.bin",
-    "count": "0x14",
+    "path": "intro/ship_alert_bg_gfx_pointers.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x79C448"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c45c_79c4a8.bin",
-    "count": "0x4C",
+    "path": "intro/ship_alert_obj_gfx_pointers.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x79C45C"
     },
+    "size": 4
+  },
+  {
+    "path": "Blob_79c474_79c4a8.bin",
+    "count": "0x34",
+    "addr": {
+      "us": "0x79C474"
+    },
     "size": 1
   },
   {
-    "path": "Blob_79c4a8_79c4cc.bin",
-    "count": "0x24",
+    "path": "cutscenes/elevator_monologue_bg_pal_pointers.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x79C4A8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c4cc_79c4f0.bin",
-    "count": "0x24",
+    "path": "cutscenes/elevator_monologue_obj_pal_pointers.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x79C4CC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c4f0_79c514.bin",
-    "count": "0x24",
+    "path": "cutscenes/elevator_monologue_bg_gfx_pointers.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x79C4F0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c514_79c538.bin",
-    "count": "0x24",
+    "path": "cutscenes/elevator_monologue_obj_gfx_pointers.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x79C514"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c538_79c55c.bin",
-    "count": "0x24",
+    "path": "cutscenes/elevator_monologue_bg_tilemap_pointers.bin",
+    "count": "0x9",
     "addr": {
       "us": "0x79C538"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c55c_79c5a4.bin",
-    "count": "0x48",
+    "path": "cutscenes/elevator_monologue_oam_pointers.bin",
+    "count": "0x12",
     "addr": {
       "us": "0x79C55C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c5c0_79c680.bin",
-    "count": "0xC0",
+    "path": "text/japanese/message_pointers.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x79C5C0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c680_79c6e8.bin",
-    "count": "0x68",
+    "path": "text/japanese/location_pointers.bin",
+    "count": "0x1A",
     "addr": {
       "us": "0x79C680"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c6e8_79c7a8.bin",
-    "count": "0xC0",
+    "path": "text/hiragana/message_pointers.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x79C6E8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c7a8_79c810.bin",
-    "count": "0x68",
+    "path": "text/hiragana/location_pointers.bin",
+    "count": "0x1A",
     "addr": {
       "us": "0x79C7A8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c810_79c8d0.bin",
-    "count": "0xC0",
+    "path": "text/english/message_pointers.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x79C810"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c8d0_79c938.bin",
-    "count": "0x68",
+    "path": "text/english/location_pointers.bin",
+    "count": "0x1A",
     "addr": {
       "us": "0x79C8D0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c938_79c9f8.bin",
-    "count": "0xC0",
+    "path": "text/german/message_pointers.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x79C938"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79c9f8_79ca60.bin",
-    "count": "0x68",
+    "path": "text/german/location_pointers.bin",
+    "count": "0x1A",
     "addr": {
       "us": "0x79C9F8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79ca60_79cb20.bin",
-    "count": "0xC0",
+    "path": "text/french/message_pointers.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x79CA60"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79cb20_79cb88.bin",
-    "count": "0x68",
+    "path": "text/french/location_pointers.bin",
+    "count": "0x1A",
     "addr": {
       "us": "0x79CB20"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79cb88_79cc48.bin",
-    "count": "0xC0",
+    "path": "text/italian/message_pointers.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x79CB88"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79cc48_79ccb0.bin",
-    "count": "0x68",
+    "path": "text/italian/location_pointers.bin",
+    "count": "0x1A",
     "addr": {
       "us": "0x79CC48"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79ccb0_79cd70.bin",
-    "count": "0xC0",
+    "path": "text/spanish/message_pointers.bin",
+    "count": "0x30",
     "addr": {
       "us": "0x79CCB0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79cd70_79cdd8.bin",
-    "count": "0x68",
+    "path": "text/spanish/location_pointers.bin",
+    "count": "0x1A",
     "addr": {
       "us": "0x79CD70"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79ce10_79cfd8.bin",
-    "count": "0x1C8",
+    "path": "text/japanese/nav_conversation_pointers.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x79CE10"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79cfd8_79d194.bin",
-    "count": "0x1BC",
+    "path": "text/japanese/pause_screen_pointers.bin",
+    "count": "0x6F",
     "addr": {
       "us": "0x79CFD8"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79d194_79d35c.bin",
-    "count": "0x1C8",
+    "path": "text/hiragana/nav_conversation_pointers.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x79D194"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79d35c_79d50c.bin",
-    "count": "0x1B0",
+    "path": "text/hiragana/pause_screen_pointers.bin",
+    "count": "0x6C",
     "addr": {
       "us": "0x79D35C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79d50c_79d6d4.bin",
-    "count": "0x1C8",
+    "path": "text/english/nav_conversation_pointers.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x79D50C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79d6d4_79d890.bin",
-    "count": "0x1BC",
+    "path": "text/english/pause_screen_pointers.bin",
+    "count": "0x6F",
     "addr": {
       "us": "0x79D6D4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79d890_79da58.bin",
-    "count": "0x1C8",
+    "path": "text/german/nav_conversation_pointers.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x79D890"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79da58_79dc14.bin",
-    "count": "0x1BC",
+    "path": "text/german/pause_screen_pointers.bin",
+    "count": "0x6F",
     "addr": {
       "us": "0x79DA58"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79dc14_79dddc.bin",
-    "count": "0x1C8",
+    "path": "text/french/nav_conversation_pointers.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x79DC14"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79dddc_79df98.bin",
-    "count": "0x1BC",
+    "path": "text/french/pause_screen_pointers.bin",
+    "count": "0x6F",
     "addr": {
       "us": "0x79DDDC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79df98_79e160.bin",
-    "count": "0x1C8",
+    "path": "text/italian/nav_conversation_pointers.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x79DF98"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e160_79e31c.bin",
-    "count": "0x1BC",
+    "path": "text/italian/pause_screen_pointers.bin",
+    "count": "0x6F",
     "addr": {
       "us": "0x79E160"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e31c_79e4e4.bin",
-    "count": "0x1C8",
+    "path": "text/spanish/nav_conversation_pointers.bin",
+    "count": "0x72",
     "addr": {
       "us": "0x79E31C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e4e4_79e6a0.bin",
-    "count": "0x1BC",
+    "path": "text/spanish/pause_screen_pointers.bin",
+    "count": "0x6F",
     "addr": {
       "us": "0x79E4E4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e868_79e874.bin",
-    "count": "0xC",
+    "path": "menus/game_over/cursor_oam_pointers.bin",
+    "count": "0x3",
     "addr": {
       "us": "0x79E868"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e874_79e890.bin",
-    "count": "0x1C",
+    "path": "menus/game_over/text_gfx_pointers.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x79E874"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e890_79e8a4.bin",
-    "count": "0x14",
+    "path": "menus/file_select/file_overlay_oam_pointers.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x79E890"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e8a4_79e928.bin",
-    "count": "0x84",
+    "path": "menus/file_select/delete_arrow_oam_pointers.bin",
+    "count": "0x21",
     "addr": {
       "us": "0x79E8A4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e928_79e944.bin",
-    "count": "0x1C",
+    "path": "menus/file_select/text_tile_offsets_pointers.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x79E928"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79e944_79ec68.bin",
-    "count": "0x324",
+    "path": "menus/file_select/area_name_oam_pointers.bin",
+    "count": "0x31",
     "addr": {
       "us": "0x79E944"
     },
+    "size": 4
+  },
+  {
+    "path": "Blob_79ea08_79ec68.bin",
+    "count": "0x260",
+    "addr": {
+      "us": "0x79EA08"
+    },
     "size": 1
   },
   {
-    "path": "Blob_79ec68_79ec84.bin",
-    "count": "0x1C",
+    "path": "menus/file_select/text_pointers.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x79EC68"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_79ec84_79eca0.bin",
-    "count": "0x1C",
+    "path": "menus/file_select/empty_file_text_pointers.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x79EC84"
     },
-    "size": 1
+    "size": 4
   }
 ]
