@@ -5,19 +5,19 @@
 
 #include "structs/cutscene.h"
 
-extern const struct FrameData sEndingUnk_6331ec[];
-extern const struct FrameData sEndingUnk_633294[];
-extern const struct FrameData sEndingUnk_6332fc[];
-extern const struct FrameData sEndingUnk_633364[];
-extern const struct FrameData sEndingUnk_6333cc[];
-extern const struct FrameData sEndingUnk_633434[];
-extern const struct FrameData sEndingUnk_63345c[];
-extern const struct FrameData sEndingUnk_6338a4[];
-extern const struct FrameData sEndingUnk_6338d4[];
-extern const struct FrameData sEndingUnk_6339d4[];
-extern const struct FrameData sEndingUnk_633c4c[];
-extern const struct FrameData sEndingUnk_633e64[];
-extern const struct FrameData sEndingUnk_633e8c[];
+extern const struct FrameData sEndingDialogueType5Oam_Opening[11];
+extern const struct FrameData sEndingAdamPanel0Oam[13];
+extern const struct FrameData sEndingAdamPanel0Oam_Closing[13];
+extern const struct FrameData sEndingAdamPanel1Oam[13];
+extern const struct FrameData sEndingAdamPanel1Oam_Closing[13];
+extern const struct FrameData sEndingAdamIconOam_Opening[5];
+extern const struct FrameData sEndingAdamIconOam_Closing[137];
+extern const struct FrameData sEndingAdamIconOam_Idle[6];
+extern const struct FrameData sEndingDialogueType2Oam[32];
+extern const struct FrameData sEndingSr388RadarViewOam_Opening[79];
+extern const struct FrameData sEndingSamusViewRadarViewOam_Opening[67];
+extern const struct FrameData sEndingNextPageArrowOam[5];
+extern const struct FrameData sEndingTextCursorOam[7];
 extern const struct FrameData sEndingUnk_633f24[];
 
 extern u16** sEndingUnk_79c3ac[];

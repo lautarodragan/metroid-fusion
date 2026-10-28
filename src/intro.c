@@ -414,7 +414,7 @@ void IntroSamusDriftingOutInit(void)
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
-    LZ77UncompVram(sIntroUnk_6101b8, VRAM_OBJ);
+    LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
     DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sTitleScreenSpaceBackgroundGfx, VRAM_BASE);
@@ -918,7 +918,7 @@ void IntroProcessDriftingShip(struct SpecialCutsceneOam* pOam)
         pOam->animationDurationCounter = 0;
         pOam->currentAnimationFrame = 0;
         pOam->affineMode = OAM_AFFINE_MODE_NORMAL;
-        pOam->pOam = sIntroUnk_60ad48;
+        pOam->pOam = sIntroDriftingShipOam_End;
         pOam->stage = 6;
         SoundPlay_3b1c(SOUND_1F3);
         INTRO_DATA.timer = 0;
@@ -1037,11 +1037,11 @@ void IntroProcessDepthParticle(struct SpecialCutsceneOam* pOam)
         if ((s16)pOam->unk_A < 100)
         {
             if ((s16)pOam->unk_A == 25)
-                pOam->pOam = sIntroUnk_60ac18;
+                pOam->pOam = sIntroDepthParticleOam_1;
             else if ((s16)pOam->unk_A == 50)
-                pOam->pOam = sIntroUnk_60ac28;
+                pOam->pOam = sIntroDepthParticleOam_2;
             else if ((s16)pOam->unk_A == 70)
-                pOam->pOam = sIntroUnk_60ac38;
+                pOam->pOam = sIntroDepthParticleOam_3;
 
             divisor = -pOam->unk_4 + 100;
             x = pOam->spawnX / divisor;
@@ -1204,42 +1204,42 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
         INTRO_DATA.oam[slot].spawnY = yPosition;
         INTRO_DATA.oam[slot].scaling = Q_8_8(1);
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acd0;
+        INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessDriftingShip;
     }
     else if (type == 11)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acd0;
+        INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSpawning;
     }
     else if (type == 12)
     {
         INTRO_DATA.oam[slot].unk_4 = -40;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad28;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBack;
     }
     else if (type == 13)
     {
         INTRO_DATA.oam[slot].unk_4 = -30;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad18;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_1;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBack;
     }
     else if (type == 14)
     {
         INTRO_DATA.oam[slot].unk_4 = -20;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad08;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_2;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBack;
     }
     else if (type == 15)
     {
         INTRO_DATA.oam[slot].unk_4 = -10;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acf8;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_3;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBack;
     }
     else if (type == 16)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ac08;
+        INTRO_DATA.oam[slot].pOam = sIntroDepthParticleOam_0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessDepthParticle;
     }
     else if (type == 19)
@@ -1387,7 +1387,7 @@ void IntroSpaceViewInit(void)
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
-    LZ77UncompVram(sIntroUnk_6101b8, VRAM_OBJ);
+    LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
     DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sIntroBslSpaceBgGfx, VRAM_BASE);
@@ -1629,7 +1629,7 @@ void IntroFlyingViewInit(void)
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
-    LZ77UncompVram(sIntroUnk_6101b8, VRAM_OBJ);
+    LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
     DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sTitleScreenSpaceBackgroundGfx, VRAM_BASE);
@@ -2246,11 +2246,11 @@ void IntroProcessIdleDepthParticle(struct SpecialCutsceneOam* pOam)
         if ((s16)pOam->unk_A < 100)
         {
             if ((s16)pOam->unk_A == 25)
-                pOam->pOam = sIntroUnk_60ac18;
+                pOam->pOam = sIntroDepthParticleOam_1;
             else if ((s16)pOam->unk_A == 50)
-                pOam->pOam = sIntroUnk_60ac28;
+                pOam->pOam = sIntroDepthParticleOam_2;
             else if ((s16)pOam->unk_A == 70)
-                pOam->pOam = sIntroUnk_60ac38;
+                pOam->pOam = sIntroDepthParticleOam_3;
 
             divisor = -pOam->unk_4 + 100;
             x = pOam->spawnX / divisor;
@@ -2332,18 +2332,18 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
         INTRO_DATA.oam[slot].scaling = Q_8_8(1.5f);
         INTRO_DATA.oam[slot].priority = 1;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_DOUBLE_SIZED;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ac98;
+        INTRO_DATA.oam[slot].pOam = sIntroSamusShipEnteringOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessSamusSHipEntering;
     }
     else if (type == 4)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60af10;
+        INTRO_DATA.oam[slot].pOam = sIntroSplashTextOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessSplashText;
     }
     else if (type == 5)
     {
         INTRO_DATA.oam[slot].priority = 3;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ac38;
+        INTRO_DATA.oam[slot].pOam = sIntroDepthParticleOam_3;
         INTRO_DATA.oam[slot].pFunction = IntroProcessSpaceViewParticle;
     }
     else if (type == 10)
@@ -2353,47 +2353,47 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
         INTRO_DATA.oam[slot].scaling = Q_8_8(1);
         INTRO_DATA.oam[slot].priority = 1;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acd0;
+        INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessIdleShipBackview;
     }
     else if (type == 11)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acd0;
+        INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSpawning_2;
     }
     else if (type == 12)
     {
         INTRO_DATA.oam[slot].unk_4 = -40;
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad28;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
     }
     else if (type == 13)
     {
         INTRO_DATA.oam[slot].unk_4 = -30;
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad18;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_1;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
     }
     else if (type == 14)
     {
         INTRO_DATA.oam[slot].unk_4 = -20;
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad08;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_2;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
     }
     else if (type == 15)
     {
         INTRO_DATA.oam[slot].unk_4 = -10;
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acf8;
+        INTRO_DATA.oam[slot].pOam = sIntroBslShipBackOam_3;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
     }
     else if (type == 16)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ac08;
+        INTRO_DATA.oam[slot].pOam = sIntroDepthParticleOam_0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessIdleDepthParticle;
     }
 

@@ -72,13 +72,13 @@ void DiedOnSr388CollisionInit(void)
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
-    LZ77UncompVram(sSr388CollisionUnk_6238f4, VRAM_OBJ);
-    DMA3_COPY_32(sSr388CollisionUnk_636c38, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sBslCrashingObjGfx, VRAM_OBJ);
+    DMA3_COPY_32(sBslCrashingObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
-    LZ77UncompVram(sSr388CollisionUnk_62b5f4, VRAM_BASE);
-    LZ77UncompVram(sSr388CollisionUnk_638c14, VRAM_BASE + 0xF000);
-    LZ77UncompVram(sSr388CollisionUnk_639bc4, VRAM_BASE + 0xF800);
-    DMA3_COPY_32(sSr388CollisionUnk_637038, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    LZ77UncompVram(sBslCrashingBgGfx, VRAM_BASE);
+    LZ77UncompVram(sBslCrashingBg1Tilemap, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sBslCrashingBg3Tilemap, VRAM_BASE + 0xF800);
+    DMA3_COPY_32(sBslCrashingBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     gBg1XPosition = 0;
     gBg1YPosition = 8;
@@ -329,7 +329,7 @@ void DiedOnSr388CollisionProcessFallingBsl(struct SpecialCutsceneOam* pOam)
 
         if (pOam->type == 1)
         {
-            pOam->pOam = sSr388CollisionUnk_6362b8;
+            pOam->pOam = sBslCrashingFallingBslOam_End;
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             INTRO_DATA.subStage = 2;
@@ -419,7 +419,7 @@ u8 DiedOnSr388CollisionSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 de
         INTRO_DATA.oam[slot].scaling = Q_8_8(1);
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
-        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636020;
+        INTRO_DATA.oam[slot].pOam = sBslCrashingFallingBslOam;
         INTRO_DATA.oam[slot].pFunction = DiedOnSr388CollisionProcessFallingBsl;
     }
     else if (type == 2)
@@ -428,13 +428,13 @@ u8 DiedOnSr388CollisionSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 de
         INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
-        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636038;
+        INTRO_DATA.oam[slot].pOam = sBslCrashingFallingBslTransparentOam;
         INTRO_DATA.oam[slot].pFunction = DiedOnSr388CollisionProcessFallingBsl;
     }
     else if (type == 3)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sSr388CollisionUnk_636050;
+        INTRO_DATA.oam[slot].pOam = sBslCrashingType3Oam;
         INTRO_DATA.oam[slot].pFunction = unk_979d0;
     }
 
@@ -461,7 +461,7 @@ void DiedOnSr388CollisionVblank(void)
     if (INTRO_DATA.unk_110 == 1)
     {
         INTRO_DATA.unk_110 = 0;
-        DMA3_COPY_32(&sSr388CollisionUnk_636a38[INTRO_DATA.unk_111 * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(&sBslCrashingAnimatedBgPal[INTRO_DATA.unk_111 * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 }
 

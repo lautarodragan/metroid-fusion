@@ -3,8 +3,8 @@
 
 #include "types.h"
 
-extern const u8 sCutsceneUnk_63a184[3][4];
-extern const u8 sCutsceneUnk_63a190[3][4];
+extern const u8 sCutsceneOamXFlipOffsets[3][4];
+extern const u8 sCutsceneOamYFlipOffsets[3][4];
 extern const u8 sCutsceneUnk_663e5c[];
 extern const u8 sCutsceneUnk_663e74[];
 extern const u8 sCutsceneUnk_675098[];
