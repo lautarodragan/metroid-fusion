@@ -26,7 +26,7 @@ struct NavConversationPopUp {
     const u8* pAnimation;
     u8 animationLength;
     const u16* pPalette;
-    u32 unk_C;
+    const u16* pCyclePalette;
     u32 unk_10:8;
     u32 unk_11_0:4;
     u32 unk_11_4:4;
@@ -49,6 +49,20 @@ extern const struct NavConversationPopUp sNavConversationUnk_57bc50[5];
 extern const struct NavConversationPopUpsPerConversation sNavConversationUnk_57bcc8[3];
 extern const Func_T sNavConversationUnk_79c170[3];
 
+extern const u16 sUnk_57bcd4[];
+extern const u16 sUnk_57bcf4[];
+extern const u16 sUnk_57bd34[];
+extern const u16 sUnk_57bdb4[];
+extern const u8 sUnk_57beb4[];
+extern const u8 sUnk_57beb8[];
+extern const u8 sUnk_57bebc[];
+
+extern const u32 sNavConversationUnk_57c0c4[];
+extern const u32 sNavConversationUnk_57fca0[];
+extern const u32 sNavConversationUnk_580238[];
+extern const u32 sNavConversationUnk_5807d0[];
+extern const u32 sNavConversationUnk_580d68[];
+
 u32 unk_7a0fc(u8 messageId);
 void NavigationConversationGetCurrentConversation(void);
 u32 NavigationConversationHandler(void);
@@ -67,5 +81,7 @@ void NavigationConversationFadeInPopUpPalette(void);
 void NavigationConversationUpdateXParasitePopUp(void);
 void NavigationConversationClearPopUpGraphics(void);
 void unk_7c3b4(void);
+void unk_7c440(void);
+void NavigationConversationLoadSpecialGraphics(void);
 
 #endif /* NAVIGATION_CONVERSATION_H */
