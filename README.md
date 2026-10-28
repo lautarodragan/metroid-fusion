@@ -78,7 +78,7 @@ The default built ROM is mf_us.gba
 
 ## Emulator tests
 
-`tests/run_emu_tests.sh` builds the ROM from the open placeholder baserom (`tools/open_assets/`, no Nintendo data) in a scratch directory and runs pytest tests in a headless mGBA (libretro core, HLE BIOS): boot sequence up to the first room, screenshot regression and RAM checks. Needs `libretro-mgba` and `pytest`. See [docs/emu_tests.md](docs/emu_tests.md).
+`tests/run_emu_tests.sh` builds the ROM from the open placeholder baserom (`tools/open_assets/`, a generated test fixture that needs no original ROM) in a scratch directory and runs pytest tests in a headless mGBA (libretro core, HLE BIOS): boot sequence up to the first room, screenshot regression and RAM checks. Needs `libretro-mgba` and `pytest`. See [docs/emu_tests.md](docs/emu_tests.md).
 
 ## Contributing
 
