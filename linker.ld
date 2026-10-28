@@ -297,6 +297,7 @@ SECTIONS {
         . = 0x000053f9; gUnk_30053f9 = .;
         . = 0x000053fc; gHazeProcessCodePointer = .;
         . = 0x00005400; gMaintainedInput = .;
+        . = 0x00005404; gSpecialCutsceneRandomSeed = .;
 
         . = 0x00005408; *libgcc.a:dp-bit.o(.bss);
         . = 0x00005420; *libgcc.a:fp-bit.o(.bss);
@@ -513,6 +514,8 @@ SECTIONS {
         asm/disasm_0x08098158.o(.text);
         src/special_cutscene.o(.text);
         asm/disasm_0x08096B98.o(.text);
+        src/special_cutscene_misc.o(.text);
+        src/cutscene_handler.o(.text);
         asm/disasm_0x0809A848.o(.text);
 
         src/sa_x_close_up.o(.text);

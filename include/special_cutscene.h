@@ -37,6 +37,9 @@ typedef void (*SpecialCutsceneOamFunc_T)(struct SpecialCutsceneOam*);
 
 extern u8 gUnk_3001238;
 
+extern u16 gSpecialCutsceneRandomSeed;
+#define SPECIAL_CUTSCENE_RANDOM_SEED_HIGH (((u8*)&gSpecialCutsceneRandomSeed)[1])
+
 boolu32 NewFileIntroCheckMonologueEnded(void);
 boolu32 EndingCheckMonologueEnded(void);
 void SpecialCutsceneProcessMonologue(void);
@@ -58,6 +61,9 @@ void SpecialCutsceneDestroyOamOfType(u8 type);
 void SpecialCutsceneProcessOam(void);
 void SpecialCutsceneDrawAllOam(void);
 void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam);
+void NewFileIntroInit(void);
+u8 SpecialCutsceneGetRandomNumber(void);
+void NewFileIntroVblank(void);
 void unk_99940(void);
 
 #endif /* SPECIAL_CUTSCENE_H */
