@@ -58,7 +58,7 @@ script with the reason:
 2. builds `mf_us.gba` as usual,
 3. builds `mf_us_shifted.gba` with `make SHIFT=1`: the same objects, linked
    with `SHIFT_AMOUNT` (default `0x100`) bytes of padding after the
-   interrupt handler, again before `asm/disasm_0x08056140.o` (mid code) and
+   interrupt handler, again before `src/sprites_AI/gunship_end.o` (mid code) and
    again at the start of `.rodata`, so almost every symbol moves, by three
    different amounts,
 4. runs `tools/check_shift.py`, which compares both builds using their ELF

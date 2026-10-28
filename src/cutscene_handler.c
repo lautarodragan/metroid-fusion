@@ -348,33 +348,33 @@ u8 CutsceneElevatorMonologueSetupOam(u8 type, s16 xPosition, s16 yPosition)
 
     if (type == 1)
     {
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_D = 15;
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_E = 0x3E0;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].paletteOffset = 15;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].tileOffset = 0x3E0;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_663e5c;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = CutsceneMonologueProcessCursor;
     }
     else if (type == 2)
     {
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_B = 3;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 3;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_79c55c[gCurrentCutscene - 1][0];
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = unk_9d09c;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = (CutsceneMonologueOamFunc_T)unk_9d09c;
     }
     else if (type == 3)
     {
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_A = 2;
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_B = 3;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].objMode = 2;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 3;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_79c55c[gCurrentCutscene - 1][0];
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = unk_9d09c;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = (CutsceneMonologueOamFunc_T)unk_9d09c;
     }
     else if (type == 4)
     {
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_B = 3;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 3;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_79c55c[gCurrentCutscene - 1][1];
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = CutsceneProcessElevatorScrolling;
     }
     else if (type == 5)
     {
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_B = 3;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 3;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_79c55c[gCurrentCutscene - 1][1];
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = unk_9a1a8;
     }
@@ -417,16 +417,16 @@ void CutsceneProcessElevatorScrolling(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 10)
         {
             pOam->stage = 2;
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
         }
-        else if (pOam->timer > 3)
+        else if (pOam->unk_8 > 3)
         {
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
             gWrittenToBldalpha_Eva++;
         }
         else
         {
-            pOam->timer++;
+            pOam->unk_8++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition -= 3) & 0xFFFF);
@@ -436,16 +436,16 @@ void CutsceneProcessElevatorScrolling(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 4)
         {
             pOam->stage = 1;
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
         }
-        else if (pOam->timer > 3)
+        else if (pOam->unk_8 > 3)
         {
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
             gWrittenToBldalpha_Eva--;
         }
         else
         {
-            pOam->timer++;
+            pOam->unk_8++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition -= 3) & 0xFFFF);
@@ -487,16 +487,16 @@ void unk_9a1a8(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 10)
         {
             pOam->stage = 2;
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
         }
-        else if (pOam->timer > 3)
+        else if (pOam->unk_8 > 3)
         {
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
             gWrittenToBldalpha_Eva++;
         }
         else
         {
-            pOam->timer++;
+            pOam->unk_8++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition += 3) & 0xFFFF);
@@ -506,16 +506,16 @@ void unk_9a1a8(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 4)
         {
             pOam->stage = 1;
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
         }
-        else if (pOam->timer > 3)
+        else if (pOam->unk_8 > 3)
         {
-            pOam->timer = 0;
+            pOam->unk_8 = 0;
             gWrittenToBldalpha_Eva--;
         }
         else
         {
-            pOam->timer++;
+            pOam->unk_8++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition += 3) & 0xFFFF);
@@ -687,9 +687,9 @@ u8 CutsceneInternalMonologueSetupOam(u8 type, s16 xPosition, s16 yPosition)
 
     if (type == 1)
     {
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_B = 2;
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_D = 15;
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].unk_E = 0x3E0;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 2;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].paletteOffset = 15;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].tileOffset = 0x3E0;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sCutsceneUnk_663e5c;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = CutsceneMonologueProcessCursor;
     }
