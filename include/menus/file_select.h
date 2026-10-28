@@ -43,5 +43,8 @@ u32 unk_a147c(void);
 
 void Sram_WriteFileInfo(void);
 void Sram_SetCurrentFile(u8 file);
+void Sram_CheckLoadSaveFile(void);
+void Sram_CopyFile(u8 file, u8 stage);
+void Sram_EraseFile(u8 stage);
 
 #endif /* FILE_SELECT_H */

@@ -248,3 +248,652 @@ void unk_9eaa4(void)
 {
     UpdateAudio();
 }
+
+/**
+ * @brief 9eab0 | a68 | Handles the input on the file select screen
+ *
+ * @return u32 Result (0 if still running)
+ */
+u32 FileSelectInput(void)
+{
+    u32 result;
+
+    result = 0;
+
+    FileSelectProcessOam();
+
+    switch (FILE_SELECT_DATA.subroutine)
+    {
+        case 0:
+            if (gChangedInput & (KEY_A | KEY_START))
+            {
+                if (FILE_SELECT_DATA.selectedFile == 3)
+                    break;
+
+                if (FILE_SELECT_DATA.selectedFile == 4)
+                    FILE_SELECT_DATA.subroutine = 34;
+                else
+                    FILE_SELECT_DATA.subroutine = 1;
+            }
+            else if (gChangedInput & KEY_B)
+            {
+                FILE_SELECT_DATA.subroutine = 34;
+            }
+            break;
+
+        case 1:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FILE_SELECT_DATA.unk_8 = 1;
+                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][1];
+                FileSelectDrawText(2);
+                FileSelectSetupOam(11, 0x52, 0x76, 1);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE ||
+                    gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_11 == TRUE ||
+                    gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists == TRUE)
+                {
+                    DMA3_COPY_32(EWRAM_BASE + 0x340, VRAM_BASE + 0xEB40, 0x100 / sizeof(u32));
+                    FILE_SELECT_DATA.subroutine = 3;
+                }
+                else
+                {
+                    DMA3_COPY_32(EWRAM_BASE + 0x800, VRAM_BASE + 0xEB40, 0x100 / sizeof(u32));
+                    FILE_SELECT_DATA.subroutine = 2;
+                }
+
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_E = 0;
+                FileSelectSetupOam(2, 0x16, 0x67, 1);
+                FILE_SELECT_DATA.dispcntAction = 3;
+            }
+            break;
+
+        case 2:
+            if (gChangedInput & KEY_B)
+            {
+                FILE_SELECT_DATA.subroutine = 4;
+            }
+            else if (gChangedInput & (KEY_A | KEY_START))
+            {
+                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                    FILE_SELECT_DATA.subroutine = 9;
+                else
+                    FILE_SELECT_DATA.subroutine = 5;
+            }
+            break;
+
+        case 4:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectDestroyOamOfType(2);
+                FILE_SELECT_DATA.dispcntAction = 4;
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 0;
+            }
+            break;
+
+        case 3:
+            if (gChangedInput & KEY_B)
+            {
+                FILE_SELECT_DATA.subroutine = 4;
+            }
+            else if (gChangedInput & (KEY_A | KEY_START))
+            {
+                if (FILE_SELECT_DATA.unk_E == 0)
+                {
+                    if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists == FALSE)
+                    {
+                        if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                            FILE_SELECT_DATA.subroutine = 9;
+                        else if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_11 == TRUE)
+                            FILE_SELECT_DATA.subroutine = 5;
+                    }
+                    else if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists == TRUE)
+                    {
+                        if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                            FILE_SELECT_DATA.subroutine = 9;
+                        else
+                            FILE_SELECT_DATA.subroutine = 7;
+                    }
+                }
+                else if (FILE_SELECT_DATA.unk_E == 1)
+                {
+                    FILE_SELECT_DATA.subroutine = 16;
+                    FILE_SELECT_DATA.timer = 0;
+                }
+                else if (FILE_SELECT_DATA.unk_E == 2)
+                {
+                    FILE_SELECT_DATA.subroutine = 27;
+                }
+            }
+            break;
+
+        case 5:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 42)
+            {
+                FILE_SELECT_DATA.subroutine = 6;
+                FILE_SELECT_DATA.timer = 0;
+            }
+            break;
+
+        case 7:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 42)
+            {
+                FILE_SELECT_DATA.subroutine = 8;
+                FILE_SELECT_DATA.timer = 0;
+            }
+            break;
+
+        case 9:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectSetupOam(23, 0x9C, 0x78, 1);
+                FILE_SELECT_DATA.dispcntAction = 2;
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 3)
+            {
+                FILE_SELECT_DATA.unk_8 = 24;
+                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][24];
+                FileSelectDrawText(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 10;
+                FileSelectSetupOam(24, 0x66, 0x69, 1);
+                FILE_SELECT_DATA.dispcntAction = 1;
+            }
+            break;
+
+        case 10:
+            if (gChangedInput & KEY_B)
+            {
+                FILE_SELECT_DATA.subroutine = 11;
+            }
+            else if (gChangedInput & (KEY_A | KEY_START))
+            {
+                if (FILE_SELECT_DATA.unk_10 == 0)
+                    FILE_SELECT_DATA.subroutine = 12;
+                else
+                    FILE_SELECT_DATA.subroutine = 13;
+            }
+            break;
+
+        case 11:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectDestroyOamOfType(24);
+                FILE_SELECT_DATA.dispcntAction = 2;
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.subroutine = 3;
+            }
+            break;
+
+        case 12:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 42)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists == TRUE)
+                    FILE_SELECT_DATA.subroutine = 14;
+                else
+                    FILE_SELECT_DATA.subroutine = 15;
+            }
+            break;
+
+        case 13:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists = FALSE;
+                gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_11 = FALSE;
+            }
+            else if (FILE_SELECT_DATA.timer == 42)
+            {
+                FILE_SELECT_DATA.subroutine = 15;
+                FILE_SELECT_DATA.timer = 0;
+            }
+            break;
+
+        case 8:
+        case 14:
+            gMostRecentSaveFile = FILE_SELECT_DATA.selectedFile;
+            Sram_CheckLoadSaveFile();
+            result = 2;
+            break;
+
+        case 6:
+        case 15:
+            gMostRecentSaveFile = FILE_SELECT_DATA.selectedFile;
+            Sram_CheckLoadSaveFile();
+            result = 1;
+            break;
+
+        case 16:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FILE_SELECT_DATA.dispcntAction = 2;
+                FileSelectSetupOam(12, 0x9C, 0x78, 1);
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 3)
+            {
+                FILE_SELECT_DATA.unk_8 = 2;
+                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][2];
+                FileSelectDrawText(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.subroutine = 17;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_F = 0;
+                if (FILE_SELECT_DATA.selectedFile == 0)
+                {
+                    FILE_SELECT_DATA.unk_F = 1;
+                    FileSelectSetupOam(3, 0x84, 0x30, 1);
+                }
+                else
+                {
+                    FileSelectSetupOam(3, 0x84, 0x30, 1);
+                }
+                FILE_SELECT_DATA.dispcntAction = 1;
+            }
+            break;
+
+        case 17:
+            if (gChangedInput & KEY_B)
+            {
+                FILE_SELECT_DATA.subroutine = 18;
+            }
+            else if (gChangedInput & (KEY_A | KEY_START))
+            {
+                if (gSaveFilesInfo[FILE_SELECT_DATA.unk_F].unk_10 == TRUE ||
+                    gSaveFilesInfo[FILE_SELECT_DATA.unk_F].unk_11 == TRUE ||
+                    gSaveFilesInfo[FILE_SELECT_DATA.unk_F].exists == TRUE)
+                    FILE_SELECT_DATA.subroutine = 19;
+                else
+                    FILE_SELECT_DATA.subroutine = 20;
+            }
+            break;
+
+        case 18:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectDestroyOamOfType(3);
+                FILE_SELECT_DATA.dispcntAction = 2;
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 3;
+            }
+            break;
+
+        case 19:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FILE_SELECT_DATA.dispcntAction = 2;
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                FILE_SELECT_DATA.unk_8 = 3;
+                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][3];
+                FileSelectDrawText(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 4)
+            {
+                FILE_SELECT_DATA.dispcntAction = 1;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 22;
+                FILE_SELECT_DATA.unk_10 = 1;
+                FileSelectSetupOam(4, sFileSelectUnk_73dbb0[gLanguage][1], 0x91, 1);
+            }
+            break;
+
+        case 20:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                gMostRecentSaveFile = FILE_SELECT_DATA.selectedFile;
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 0);
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 1);
+            }
+            else if (FILE_SELECT_DATA.timer == 3)
+            {
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 2);
+            }
+            else if (FILE_SELECT_DATA.timer == 4)
+            {
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 3);
+            }
+            else if (FILE_SELECT_DATA.timer == 6)
+            {
+                FileSelectDrawFileInfo(FILE_SELECT_DATA.unk_F);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 21;
+            }
+            break;
+
+        case 21:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FILE_SELECT_DATA.dispcntAction = 5;
+                FileSelectDestroyOamOfType(2);
+                FileSelectDestroyOamOfType(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 4)
+            {
+
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.unk_F = 0;
+                FILE_SELECT_DATA.unk_E = 0;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 0;
+            }
+            break;
+
+        case 22:
+            if (gChangedInput & KEY_B)
+            {
+                FILE_SELECT_DATA.subroutine = 23;
+            }
+            else if (gChangedInput & (KEY_A | KEY_START))
+            {
+                if (FILE_SELECT_DATA.unk_10 == 0)
+                    FILE_SELECT_DATA.subroutine = 25;
+                else
+                    FILE_SELECT_DATA.subroutine = 24;
+            }
+            break;
+
+        case 23:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectDestroyOamOfType(4);
+                FILE_SELECT_DATA.dispcntAction = 2;
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 3)
+            {
+                FILE_SELECT_DATA.unk_8 = 2;
+                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][2];
+                FileSelectDrawText(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.dispcntAction = 1;
+                FILE_SELECT_DATA.subroutine = 17;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_10 = 0;
+            }
+            break;
+
+        case 24:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 9)
+            {
+                FileSelectDestroyOamOfType(4);
+                FILE_SELECT_DATA.dispcntAction = 2;
+            }
+            else if (FILE_SELECT_DATA.timer == 10)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 11)
+            {
+                FILE_SELECT_DATA.unk_8 = 2;
+                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][2];
+                FileSelectDrawText(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.dispcntAction = 1;
+                FILE_SELECT_DATA.subroutine = 17;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_10 = 0;
+            }
+            break;
+
+        case 25:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                gMostRecentSaveFile = FILE_SELECT_DATA.selectedFile;
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 0);
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 1);
+            }
+            else if (FILE_SELECT_DATA.timer == 3)
+            {
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 2);
+            }
+            else if (FILE_SELECT_DATA.timer == 4)
+            {
+                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 3);
+            }
+            else if (FILE_SELECT_DATA.timer == 11)
+            {
+                FileSelectDrawFileInfo(FILE_SELECT_DATA.unk_F);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.subroutine = 26;
+                FILE_SELECT_DATA.timer = 0;
+            }
+            break;
+
+        case 26:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectDestroyOamOfType(2);
+                FileSelectDestroyOamOfType(3);
+                FileSelectDestroyOamOfType(4);
+                FILE_SELECT_DATA.dispcntAction = 5;
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.unk_F = 0;
+                FILE_SELECT_DATA.unk_E = 0;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 0;
+            }
+            break;
+
+        case 27:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectSetupOam(13, 0x9C, 0x78, 1);
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 3)
+            {
+                FILE_SELECT_DATA.unk_8 = 4;
+                FILE_SELECT_DATA.pText = sFileSelectUnk_79ec68[gLanguage][4];
+                FileSelectDrawText(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.unk_10 = 1;
+                FileSelectSetupOam(5, sFileSelectUnk_73dbbe[gLanguage][1], 0x91, 1);
+                FILE_SELECT_DATA.dispcntAction = 1;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 28;
+            }
+            break;
+
+        case 28:
+            if (gChangedInput & KEY_B)
+            {
+                FILE_SELECT_DATA.subroutine = 29;
+            }
+            else if (gChangedInput & (KEY_A | KEY_START))
+            {
+                if (FILE_SELECT_DATA.unk_10 == 0)
+                    FILE_SELECT_DATA.subroutine = 32;
+                else
+                    FILE_SELECT_DATA.subroutine = 30;
+            }
+            break;
+
+        case 29:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectDestroyOamOfType(5);
+                FILE_SELECT_DATA.dispcntAction = 2;
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.subroutine = 3;
+            }
+            break;
+
+        case 30:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 8)
+            {
+                FileSelectDestroyOamOfType(5);
+                FILE_SELECT_DATA.dispcntAction = 2;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.subroutine = 31;
+            }
+            break;
+
+        case 31:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 6)
+            {
+
+            }
+            else if (FILE_SELECT_DATA.timer == 11)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.subroutine = 3;
+            }
+            break;
+
+        case 32:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                gMostRecentSaveFile = FILE_SELECT_DATA.selectedFile;
+                Sram_EraseFile(0);
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                Sram_EraseFile(1);
+            }
+            else if (FILE_SELECT_DATA.timer == 3)
+            {
+                Sram_EraseFile(2);
+            }
+            else if (FILE_SELECT_DATA.timer == 4)
+            {
+                Sram_EraseFile(3);
+            }
+            else if (FILE_SELECT_DATA.timer == 11)
+            {
+                FileSelectDrawFileInfo(FILE_SELECT_DATA.selectedFile);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.subroutine = 33;
+                FILE_SELECT_DATA.timer = 0;
+            }
+            break;
+
+        case 33:
+            FILE_SELECT_DATA.timer++;
+            if (FILE_SELECT_DATA.timer == 1)
+            {
+                FileSelectDestroyOamOfType(2);
+                FileSelectDestroyOamOfType(5);
+                FILE_SELECT_DATA.dispcntAction = 5;
+            }
+            else if (FILE_SELECT_DATA.timer == 2)
+            {
+                DMA3_FILL_32(0, VRAM_BASE + 0xC800, 0x1800);
+            }
+            else if (FILE_SELECT_DATA.timer == 12)
+            {
+                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.unk_F = 0;
+                FILE_SELECT_DATA.unk_E = 0;
+                FILE_SELECT_DATA.timer = 0;
+                FILE_SELECT_DATA.subroutine = 0;
+            }
+            break;
+
+        case 34:
+            result = 3;
+            break;
+    }
+
+    FileSelectDrawAllOam();
+
+    return result;
+}
