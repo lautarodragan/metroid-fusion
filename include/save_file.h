@@ -29,5 +29,15 @@ void SramWrite_MostRecentSaveFile(void);
 void SramRead_MostRecentSaveFile(void);
 void SramWrite_Language(void);
 void SramRead_Language(void);
+void Sram_InitSaveFile(void);
+void Sram_ResetForDemo(void);
+void Sram_CheckLoadSaveFile(void);
+void Sram_EraseFile(u8 stage);
+void Sram_CopyFile(u8 dst, u8 stage);
+void Sram_WriteFileInfo(void);
+void Sram_LoadingfileVblank(void);
+void Sram_AfterLoadingFileVblank(void);
+s32 Sram_ChecLoadSaveFileWithBlank(void);
+void Sram_SetCurrentFile(u8 file);
 
 #endif /* SAVE_FILE_H */

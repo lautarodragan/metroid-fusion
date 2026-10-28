@@ -1,4 +1,5 @@
 #include "save_file.h"
+#include "callbacks.h"
 #include "dma.h"
 #include "globals.h"
 #include "gba.h"
@@ -8,6 +9,8 @@
 #include "sram_misc.h"
 #include "sram/sram.h"
 #include "types.h"
+
+#include "audio/track_internal.h"
 
 #include "data/sram_data.h"
 #include "data/sram_pointers.h"
@@ -26,6 +29,8 @@
 #include "structs/save_file.h"
 
 extern const struct Door* sAreaDoorPointers[AREA_END];
+
+#define SAVE_FILE_POINTER(file) ((struct SaveFile*)sSaveDataEwramPointers[(file)])
 
 #define WORLD_DATA_MINIMAP_SIZE 0x380
 #define WORLD_DATA_COLLECTED_TANKS_OFFSET 0xC80
@@ -501,4 +506,224 @@ void Sram_ResetForDemo(void)
     gDisablePauseFlag = FALSE;
     gSamusDoorPositionOffset = 0;
     gDebugFlag = FALSE;
+}
+
+/**
+ * @brief 80664 | e0 | Checks whether the current save file should be loaded, initializes a new one otherwise
+ * 
+ */
+void Sram_CheckLoadSaveFile(void)
+{
+    gButtonAssignments = sSramUnk_5822c8[0];
+    gBootDebugOptions = sSramUnk_5822e4[0];
+
+    gIsLoadingFile = gSaveFilesInfo[gMostRecentSaveFile].exists;
+    if (gIsLoadingFile == FALSE)
+    {
+        Sram_InitSaveFile();
+        gGameCompletion.completedGame = gSaveFilesInfo[gMostRecentSaveFile].gameCompletion.completedGame;
+        gGameCompletion.introPlayed = gSaveFilesInfo[gMostRecentSaveFile].gameCompletion.introPlayed;
+        gGameCompletion.unk_2 = FALSE;
+    }
+    else
+    {
+        SramLoad_CurrentSave();
+    }
+
+    gUnk_3000be3 = FALSE;
+    gMonochromeFading = 0;
+    gDisableSoftReset = FALSE;
+    gMaxInGameTimeFlag = FALSE;
+    gDisableMusicFlag = FALSE;
+    gSkipDoorTransition = FALSE;
+    gPauseScreenFlag = 0;
+    gUnk_3000b85 = 0;
+    gDisablePauseFlag = FALSE;
+    gSamusDoorPositionOffset = 0;
+    gDebugFlag = FALSE;
+}
+
+/**
+ * @brief 80744 | a8 | Erases the current save file
+ * 
+ * @param stage Stage
+ */
+void Sram_EraseFile(u8 stage)
+{
+    struct SaveFileInfo emptyInfo;
+
+    memset(&emptyInfo, 0, sizeof(emptyInfo));
+
+    if (stage == 0)
+    {
+        gDisableSoftReset = TRUE;
+        gSaveFilesInfo[gMostRecentSaveFile] = emptyInfo;
+        BitFill(3, USHORT_MAX, (void*)sSaveDataEwramPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+    }
+    else if (stage == 1)
+    {
+        WriteMostRecentFileToSram();
+    }
+    else if (stage == 2)
+    {
+        BitFill(3, USHORT_MAX, (void*)sSaveDataEwramBackupPointers[gMostRecentSaveFile], sizeof(struct SaveFile), 16);
+    }
+    else
+    {
+        if (stage == 3)
+            WriteMostRecentFileBackupToSram();
+
+        gDisableSoftReset = FALSE;
+    }
+}
+
+/**
+ * @brief 807ec | c8 | Copies the current save file to another file
+ * 
+ * @param dst Destination file
+ * @param stage Stage
+ */
+void Sram_CopyFile(u8 dst, u8 stage)
+{
+    u8 currentFile;
+
+    if (stage == 0)
+    {
+        gDisableSoftReset = TRUE;
+        gSaveFilesInfo[dst] = gSaveFilesInfo[gMostRecentSaveFile];
+        DmaTransfer(3, sSaveDataEwramPointers[gMostRecentSaveFile], (void*)sSaveDataEwramPointers[dst],
+            sizeof(struct SaveFile), 16);
+    }
+    else if (stage == 1)
+    {
+        currentFile = gMostRecentSaveFile;
+        gMostRecentSaveFile = dst;
+        WriteMostRecentFileToSram();
+        gMostRecentSaveFile = currentFile;
+    }
+    else if (stage == 2)
+    {
+        DmaTransfer(3, sSaveDataEwramBackupPointers[gMostRecentSaveFile], (void*)sSaveDataEwramBackupPointers[dst],
+            sizeof(struct SaveFile), 16);
+    }
+    else
+    {
+        if (stage == 3)
+        {
+            currentFile = gMostRecentSaveFile;
+            gMostRecentSaveFile = dst;
+            WriteMostRecentFileBackupToSram();
+            gMostRecentSaveFile = currentFile;
+        }
+
+        gDisableSoftReset = FALSE;
+    }
+}
+
+/**
+ * @brief 808b4 | 9c | Updates the info of every save file
+ * 
+ */
+void Sram_WriteFileInfo(void)
+{
+    s32 i;
+    struct SaveFile* pFile;
+
+    for (i = 0; i < ARRAY_SIZE(gSaveFilesInfo); i++)
+    {
+        if (gSaveFilesInfo[i].exists == TRUE)
+        {
+            pFile = SAVE_FILE_POINTER(i);
+
+            gSaveFilesInfo[i].currentArea = pFile->currentArea;
+            gSaveFilesInfo[i].eventCounter = pFile->eventCounter;
+            gSaveFilesInfo[i].currentEnergy = pFile->equipment.currentEnergy;
+            gSaveFilesInfo[i].maxEnergy = pFile->equipment.maxEnergy;
+            gSaveFilesInfo[i].currentMissiles = pFile->equipment.currentMissiles;
+            gSaveFilesInfo[i].maxMissiles = pFile->equipment.maxMissiles;
+            gSaveFilesInfo[i].weaponsStatus = pFile->equipment.weaponsStatus;
+            gSaveFilesInfo[i].igtHours = pFile->inGameTimer.hours;
+            gSaveFilesInfo[i].igtMinutes = pFile->inGameTimer.minutes;
+            gSaveFilesInfo[i].unk_F = pFile->unk_1C;
+            gSaveFilesInfo[i].gameCompletion.completedGame = pFile->gameCompletion.completedGame;
+            gSaveFilesInfo[i].gameCompletion.introPlayed = pFile->gameCompletion.introPlayed;
+        }
+
+        if (!gSaveFilesInfo[i].exists || !gSaveFilesInfo[i].unk_F)
+        {
+            gSaveFilesInfo[i].exists = FALSE;
+            gSaveFilesInfo[i].currentArea = 0;
+            gSaveFilesInfo[i].eventCounter = 0;
+            gSaveFilesInfo[i].currentEnergy = 0;
+            gSaveFilesInfo[i].maxEnergy = 0;
+            gSaveFilesInfo[i].currentMissiles = 0;
+            gSaveFilesInfo[i].maxMissiles = 0;
+            gSaveFilesInfo[i].weaponsStatus = 0;
+            gSaveFilesInfo[i].igtHours = 0;
+            gSaveFilesInfo[i].igtMinutes = 0;
+        }
+    }
+}
+
+/**
+ * @brief 80950 | c | V-blank code while a file is loading
+ * 
+ */
+void Sram_LoadingfileVblank(void)
+{
+    vu8 c = 0;
+}
+
+/**
+ * @brief 8095c | c | V-blank code after a file was loaded
+ * 
+ */
+void Sram_AfterLoadingFileVblank(void)
+{
+    UpdateAudio();
+}
+
+/**
+ * @brief 80968 | 2c | Checks whether the current save file should be loaded, with the appropriate v-blank code
+ * 
+ * @return s32 bool, loading file
+ */
+s32 Sram_ChecLoadSaveFileWithBlank(void)
+{
+    CallbackSetVBlank(Sram_AfterLoadingFileVblank);
+    Sram_CheckLoadSaveFile();
+    CallbackSetVBlank(Sram_LoadingfileVblank);
+
+    return gIsLoadingFile;
+}
+
+/**
+ * @brief 80994 | 5c | Rewrites a save file to SRAM if it was corrupted
+ * 
+ * @param file File
+ */
+void Sram_SetCurrentFile(u8 file)
+{
+    u8 currentFile;
+
+    currentFile = gMostRecentSaveFile;
+    gMostRecentSaveFile = file;
+
+    switch (gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag)
+    {
+        case 1:
+            WriteMostRecentFileToSram();
+            break;
+
+        case 2:
+            WriteMostRecentFileToSram();
+            WriteMostRecentFileBackupToSram();
+            break;
+
+        case 0:
+            break;
+    }
+
+    gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag = 0;
+    gMostRecentSaveFile = currentFile;
 }
