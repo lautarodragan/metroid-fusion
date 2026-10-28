@@ -10,7 +10,7 @@
 ## Important: clean room
 
 Anyone wanting to contribute **MUST** read the following and adhere to the
-steps outlined, in order to not violate any copyright.
+steps outlined.
 
 This decompile is a
 [clean room design](https://en.wikipedia.org/wiki/Clean_room_design).
