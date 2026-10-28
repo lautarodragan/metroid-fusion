@@ -20,12 +20,14 @@ extern const struct FrameData sIntroUnk_60ac08[];
 extern const struct FrameData sIntroUnk_60ac18[];
 extern const struct FrameData sIntroUnk_60ac28[];
 extern const struct FrameData sIntroUnk_60ac38[];
+extern const struct FrameData sIntroUnk_60ac98[];
 extern const struct FrameData sIntroUnk_60acd0[];
 extern const struct FrameData sIntroUnk_60acf8[];
 extern const struct FrameData sIntroUnk_60ad08[];
 extern const struct FrameData sIntroUnk_60ad18[];
 extern const struct FrameData sIntroUnk_60ad28[];
 extern const struct FrameData sIntroUnk_60ad48[];
+extern const struct FrameData sIntroUnk_60af10[];
 extern const struct FrameData sIntroUnk_65bb38[];
 extern const struct FrameData sIntroUnk_65bd00[];
 extern const struct FrameData sIntroUnk_65bd48[];
@@ -37,6 +39,9 @@ extern const struct FrameData sIntroUnk_65c128[];
 extern const struct FrameData sIntroUnk_65c180[];
 extern const struct FrameData sIntroUnk_65c1d8[];
 extern const struct FrameData sIntroUnk_65c230[];
+
+// Defined as raw bytes in new_file_intro.c, but this is a table of pointers to OAM frame data
+extern const struct FrameData* sIntroUnk_79c394[];
 
 // Defined as raw bytes in new_file_intro.c, but these are tables of pointers to compressed graphics
 extern const u32* sIntroUnk_79c448[];

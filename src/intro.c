@@ -1901,3 +1901,462 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
         }
     }
 }
+
+ /**
+ * @brief 9458c | 14c | Handles Samus' ship entering the screen
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void IntroProcessSamusSHipEntering(struct SpecialCutsceneOam* pOam)
+{
+    s32 rotation;
+    s32 cos;
+    s32 sin;
+    s32 x;
+    s32 y;
+
+    rotation = 0;
+
+    if (pOam->stage == 0)
+    {
+        pOam->spawnX = 100;
+        pOam->spawnY = 30;
+        pOam->unk_4 = pOam->xPosition;
+        pOam->unk_8 = pOam->yPosition - 30;
+        pOam->timer = 64;
+        pOam->stage = 1;
+        SoundPlay(SOUND_1EA);
+    }
+    else if (pOam->stage == 1)
+    {
+        pOam->timer++;
+        pOam->scaling -= 2;
+
+        if (pOam->timer == 128)
+        {
+            pOam->stage = 2;
+            pOam->scaling = Q_8_8(1);
+        }
+    }
+    else if (pOam->stage == 2)
+    {
+        pOam->spawnX = 0;
+        pOam->spawnY = 8;
+        pOam->unk_4 = pOam->xPosition;
+        pOam->unk_8 = pOam->yPosition;
+        pOam->timer = 128;
+        pOam->stage = 3;
+    }
+    else if (pOam->stage == 3)
+    {
+        pOam->timer += 2;
+        if (pOam->timer == 192)
+            pOam->stage = 4;
+    }
+    else if (pOam->stage == 4)
+    {
+        pOam->timer++;
+        pOam->unk_A++;
+        if (pOam->unk_A == 8)
+        {
+            pOam->unk_A = 0;
+            pOam->unk_4--;
+        }
+    }
+    else if (pOam->stage == 5)
+    {
+        pOam->spawnX = 280 - pOam->xPosition;
+        pOam->spawnY = 60;
+        pOam->unk_4 = pOam->xPosition + pOam->spawnX;
+        pOam->unk_8 = pOam->yPosition;
+        pOam->timer = 128;
+        pOam->stage = 6;
+    }
+    else if (pOam->stage == 6)
+    {
+        pOam->timer++;
+        if (pOam->timer == 0)
+        {
+            pOam->type = 0;
+            pOam->unk_18_0 = 0;
+        }
+    }
+
+    cos = pOam->spawnX * COS(pOam->timer);
+    sin = pOam->spawnY * SIN(pOam->timer);
+
+    x = cos * COS(rotation) - sin * SIN(0);
+    y = cos * SIN(0) + sin * COS(rotation);
+
+    pOam->xPosition = (x >> 16) + pOam->unk_4;
+    pOam->yPosition = (y >> 16) + pOam->unk_8;
+}
+
+ /**
+ * @brief 946d8 | 2c | Handles the splash text
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void IntroProcessSplashText(struct SpecialCutsceneOam* pOam)
+{
+    const struct FrameData* frame;
+
+    frame = &pOam->pOam[pOam->currentAnimationFrame];
+    if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
+    {
+        pOam->type = 0;
+        pOam->unk_18_0 = 0;
+    }
+}
+
+ /**
+ * @brief 94704 | b4 | Handles a particle in the intro space view cutscene
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void IntroProcessSpaceViewParticle(struct SpecialCutsceneOam* pOam)
+{
+    s32 rng;
+
+    if (pOam->stage == 0)
+    {
+        rng = SpecialCutsceneGetRandomNumber() & 7;
+        pOam->unk_8 = rng + 1;
+        rng = SpecialCutsceneGetRandomNumber() & 3;
+        pOam->unk_4 = rng;
+        pOam->pOam = sIntroUnk_79c394[pOam->unk_4];
+        pOam->spawnX = pOam->xPosition;
+        pOam->stage = 1;
+    }
+    else if (pOam->stage == 1)
+    {
+        pOam->unk_A++;
+        pOam->xPosition = ((pOam->unk_8 * pOam->unk_A) >> 4) + pOam->spawnX;
+
+        pOam->timer++;
+        if (pOam->timer == 8)
+        {
+            pOam->timer = 0;
+
+            if (pOam->unk_4 < 5)
+                pOam->unk_4++;
+            else
+                pOam->unk_4 = 0;
+
+            pOam->pOam = sIntroUnk_79c394[pOam->unk_4];
+            pOam->animationDurationCounter = 0;
+            pOam->currentAnimationFrame = 0;
+        }
+    }
+
+    if (pOam->xPosition >= SCREEN_SIZE_X || pOam->yPosition >= SCREEN_SIZE_Y)
+    {
+        pOam->type = 0;
+        pOam->unk_18_0 = 0;
+    }
+}
+
+ /**
+ * @brief 947b8 | 40 | Handles the idle ship back view
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void IntroProcessIdleShipBackview(struct SpecialCutsceneOam* pOam)
+{
+    if (pOam->stage == 0)
+    {
+        pOam->unk_A = 0;
+        pOam->spawnX = pOam->xPosition;
+        pOam->spawnY = pOam->yPosition;
+        pOam->stage = 1;
+    }
+    else if (pOam->stage == 1)
+    {
+        pOam->timer++;
+        pOam->yPosition = (SIN(pOam->timer) >> 5) + pOam->spawnY;
+    }
+}
+
+ /**
+ * @brief 947f8 | 64 | Spawns the parts of the BSL ship (space view)
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void IntroProcessBslShipSpawning_2(struct SpecialCutsceneOam* pOam)
+{
+    if (pOam->stage == 0)
+    {
+        IntroSpaceViewSetupOam(12, pOam->xPosition + 122, pOam->yPosition, FALSE);
+        IntroSpaceViewSetupOam(13, pOam->xPosition + 50, pOam->yPosition + 1, FALSE);
+        IntroSpaceViewSetupOam(14, pOam->xPosition + 36, pOam->yPosition, FALSE);
+        IntroSpaceViewSetupOam(15, pOam->xPosition, pOam->yPosition, FALSE);
+        pOam->type = 0;
+    }
+}
+
+ /**
+ * @brief 9485c | d8 | Handles the back of the BSL ship (space view)
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void IntroProcessBslShipBackview(struct SpecialCutsceneOam* pOam)
+{
+    if (pOam->stage == 0)
+    {
+        pOam->timer++;
+        if (pOam->timer == 20)
+        {
+            pOam->spawnX++;
+            pOam->timer = 0;
+
+            if (pOam->unk_A == 4)
+                pOam->unk_A = 0;
+
+            if (pOam->unk_A < 2)
+                pOam->yPosition++;
+            else if (pOam->unk_A < 4)
+                pOam->yPosition--;
+
+            if (pOam->spawnX == 300)
+            {
+                pOam->stage = 1;
+                pOam->timer = 0;
+            }
+
+            pOam->unk_A++;
+        }
+    }
+    else if (pOam->stage == 1)
+    {
+        pOam->spawnX = pOam->xPosition;
+        pOam->spawnY = pOam->yPosition;
+        pOam->unk_A = 0;
+        pOam->stage = 2;
+    }
+    else if (pOam->stage == 2)
+    {
+        pOam->timer++;
+        if (pOam->timer == 2)
+        {
+            pOam->unk_A++;
+            pOam->timer = 0;
+        }
+
+        pOam->xPosition = (((900 - pOam->spawnX) * pOam->unk_A) >> 12) + pOam->spawnX;
+        pOam->yPosition = (((pOam->unk_4 - pOam->spawnY) * pOam->unk_A) >> 11) + pOam->spawnY;
+
+        if (pOam->xPosition > 320)
+        {
+            pOam->unk_A = 0;
+            pOam->spawnX = pOam->xPosition;
+            pOam->spawnY = pOam->yPosition;
+            pOam->stage = 3;
+        }
+    }
+}
+
+ /**
+ * @brief 94934 | c4 | Handles an idle depth particle
+ *
+ * @param pOam Cutscene OAM data pointer
+ */
+void IntroProcessIdleDepthParticle(struct SpecialCutsceneOam* pOam)
+{
+    s32 x;
+    s32 y;
+    s32 divisor;
+
+    pOam->unk_4 = pOam->unk_A;
+
+    if (pOam->stage == 0)
+    {
+        pOam->spawnX = (pOam->xPosition - SCREEN_X_MIDDLE) * 100;
+        pOam->spawnY = (pOam->yPosition - SCREEN_Y_MIDDLE) * 100;
+        pOam->stage = 1;
+    }
+    else
+    {
+        if ((s16)pOam->unk_A < 100)
+        {
+            if ((s16)pOam->unk_A == 25)
+                pOam->pOam = sIntroUnk_60ac18;
+            else if ((s16)pOam->unk_A == 50)
+                pOam->pOam = sIntroUnk_60ac28;
+            else if ((s16)pOam->unk_A == 70)
+                pOam->pOam = sIntroUnk_60ac38;
+
+            divisor = -pOam->unk_4 + 100;
+            x = pOam->spawnX / divisor;
+            pOam->xPosition = x + SCREEN_X_MIDDLE;
+            y = pOam->spawnY / divisor + SCREEN_Y_MIDDLE;
+            pOam->yPosition = y;
+
+            if ((u16)(x + 128) > 256 || (s16)y > 168 || (s16)y < -8)
+            {
+                pOam->type = 0;
+                pOam->unk_18_0 = 0;
+            }
+        }
+        else
+        {
+            pOam->type = 0;
+            pOam->unk_18_0 = 0;
+        }
+    }
+
+    pOam->unk_A++;
+}
+
+ /**
+ * @brief 949f8 | 3f4 | Spawns an OAM for the intro space view cutscene
+ *
+ * @param type Type
+ * @param xPosition X position
+ * @param yPosition Y position
+ * @param descendingSearch Search for a free slot in descending order
+ * @return u8 Slot
+ */
+u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
+{
+    s8 slot;
+
+    if (!descendingSearch)
+    {
+        for (slot = 0; slot < ARRAY_SIZE(INTRO_DATA.oam); slot++)
+        {
+            if (INTRO_DATA.oam[slot].type == 0)
+                break;
+        }
+
+        if (slot > 19)
+            return 20;
+    }
+    else
+    {
+        for (slot = ARRAY_SIZE(INTRO_DATA.oam) - 1; slot >= 0; slot--)
+        {
+            if (INTRO_DATA.oam[slot].type == 0)
+                break;
+        }
+
+        if (slot < 0)
+            return 20;
+    }
+
+    DMA3_FILL_32(0, &INTRO_DATA.oam[slot], sizeof(struct SpecialCutsceneOam));
+
+    INTRO_DATA.oam[slot].xPosition = xPosition;
+    INTRO_DATA.oam[slot].yPosition = yPosition;
+    INTRO_DATA.oam[slot].type = type;
+    INTRO_DATA.oam[slot].unk_18_0 = 1;
+
+    if (type == 1)
+    {
+        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSpaceViewScrolling;
+    }
+    else if (type == 2)
+    {
+        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSideways;
+    }
+    else if (type == 3)
+    {
+        INTRO_DATA.oam[slot].scaling = Q_8_8(1.5f);
+        INTRO_DATA.oam[slot].priority = 1;
+        INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_DOUBLE_SIZED;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ac98;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSamusSHipEntering;
+    }
+    else if (type == 4)
+    {
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60af10;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSplashText;
+    }
+    else if (type == 5)
+    {
+        INTRO_DATA.oam[slot].priority = 3;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ac38;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSpaceViewParticle;
+    }
+    else if (type == 10)
+    {
+        INTRO_DATA.oam[slot].spawnX = xPosition;
+        INTRO_DATA.oam[slot].spawnY = yPosition;
+        INTRO_DATA.oam[slot].scaling = Q_8_8(1);
+        INTRO_DATA.oam[slot].priority = 1;
+        INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_AFFINE;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acd0;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessIdleShipBackview;
+    }
+    else if (type == 11)
+    {
+        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acd0;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSpawning_2;
+    }
+    else if (type == 12)
+    {
+        INTRO_DATA.oam[slot].unk_4 = -40;
+        INTRO_DATA.oam[slot].priority = 1;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad28;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
+    }
+    else if (type == 13)
+    {
+        INTRO_DATA.oam[slot].unk_4 = -30;
+        INTRO_DATA.oam[slot].priority = 1;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad18;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
+    }
+    else if (type == 14)
+    {
+        INTRO_DATA.oam[slot].unk_4 = -20;
+        INTRO_DATA.oam[slot].priority = 1;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ad08;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
+    }
+    else if (type == 15)
+    {
+        INTRO_DATA.oam[slot].unk_4 = -10;
+        INTRO_DATA.oam[slot].priority = 1;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60acf8;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipBackview;
+    }
+    else if (type == 16)
+    {
+        INTRO_DATA.oam[slot].priority = 2;
+        INTRO_DATA.oam[slot].pOam = sIntroUnk_60ac08;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessIdleDepthParticle;
+    }
+
+    return slot;
+}
+
+ /**
+ * @brief 94dec | 94 | V-blank for the intro space view cutscene
+ *
+ */
+void IntroSpaceViewVblank(void)
+{
+    DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
+
+    WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
+    WRITE_16(REG_BLDY, gWrittenToBldy);
+
+    WRITE_16(REG_BG1HOFS, gBg1XPosition);
+    WRITE_16(REG_BG1VOFS, gBg1YPosition);
+    WRITE_16(REG_BG2HOFS, gBg2XPosition);
+    WRITE_16(REG_BG2VOFS, gBg2YPosition);
+    WRITE_16(REG_BG3HOFS, gBg3XPosition);
+    WRITE_16(REG_BG3VOFS, gBg3YPosition);
+}
+
+ /**
+ * @brief 94e80 | 4 | Empty function
+ *
+ */
+void unk_94e80(void)
+{
+    return;
+}
