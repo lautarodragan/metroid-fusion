@@ -9,7 +9,7 @@ core (Debian/Ubuntu package ``libretro-mgba``) and exposes what the tests need:
 * take a screenshot (RGB888) and write/read PNG files (no Pillow needed),
 * save and restore emulator state (to share a booted game between tests).
 
-No Nintendo BIOS is used: the core runs with its built-in HLE BIOS
+The official BIOS is not used: the core runs with its built-in HLE BIOS
 (``mgba_use_bios=OFF``), and the system directory handed to it is an empty
 temporary directory, so a stray ``gba_bios.bin`` can never be picked up.
 

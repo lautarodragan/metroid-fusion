@@ -1,9 +1,10 @@
-# Emulator tests (without the Nintendo ROM)
+# Emulator tests (without the original ROM)
 
 The tests in `tests/emu/` run the ROM built from the **open base ROM**
-(`tools/open_assets/`, our own placeholder content) in a windowless GBA
-emulator driven from Python. They don't need, read or download the original
-ROM or the Nintendo BIOS, so they run in CI.
+(`tools/open_assets/`, a generated placeholder baserom used as a test
+fixture, see [Generated test baserom](test_baserom_research.md)) in a
+windowless GBA emulator driven from Python. They don't need, read or download
+the original ROM or the official BIOS, so they run in CI.
 
 ## Requirements
 
@@ -71,7 +72,7 @@ tests/run_emu_tests.sh --update-references
 ```
 
 Look at the new PNGs and commit them along with the change. The references
-only show placeholder art we generated, so they can be versioned.
+only show generated placeholder content.
 
 ## Determinism
 

@@ -13,7 +13,7 @@
 
 # Research
 
-- [Base ROM with open assets](docs/open_assets_research.md)
+- [Generated test baserom](docs/test_baserom_research.md)
 
 # Reference
 
