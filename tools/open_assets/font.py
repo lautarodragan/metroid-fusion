@@ -626,13 +626,13 @@ def file_select_layers(rom: bytearray, region) -> list[str]:
     upper = text_tilemap(rows(0, 1, 2, 3, 4, 5, 6, 7), range(1, 31), FS_PAL, FS_BLANK_TILE)
     lower = text_tilemap(rows(12, 13, 18, 19, 20, 21), range(1, 31), FS_PAL, FS_BLANK_TILE)
     menu = text_tilemap(rows(12, 13, 18, 19), range(1, 31), FS_PAL, FS_BLANK_TILE)
-    put_lz(rom, region("sFileSelectUnk_73cfac"), upper)     # BG2, always shown
-    put_lz(rom, region("sFileSelectUnk_73d5ec"), lower)     # BG0, prompts
-    put_lz(rom, region("sFileSelectUnk_73d380"), menu)      # BG1 (through EWRAM), file menu
+    put_lz(rom, region("sFileSelectBg2Tilemap"), upper)     # BG2, always shown
+    put_lz(rom, region("sFileSelectBg0Tilemap"), lower)     # BG0, prompts
+    put_lz(rom, region("sFileSelectBg1Tilemap"), menu)      # BG1 (through EWRAM), file menu
     row = text_palette_row()
-    full = region("sFileSelectUnk_7476a0")                  # whole BG palette
+    full = region("sFileSelectBgPal")                  # whole BG palette
     rom[full.addr:full.addr + full.size] = (row * (full.size // 32 + 1))[:full.size]
-    for symbol in ("sFileSelectUnk_73db84", "sFileSelectUnk_73dac4"):  # row 0 overrides
+    for symbol in ("sFileSelectBgPal_73db84", "sFileSelectBgPal_73dac4"):  # row 0 overrides
         r = region(symbol)
         rom[r.addr:r.addr + r.size] = (row * (r.size // 32 + 1))[:r.size]
     return ["text: file select maps and palette"]
