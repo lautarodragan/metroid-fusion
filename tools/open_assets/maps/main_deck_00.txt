@@ -1,0 +1,39 @@
+; Main Deck room 0: where a new game starts (docking bay).
+; Samus appears at block (25, 7.5), above the landing pad, and leaves
+; through the hatch on the left (door 1 -> room 3, door 2).
+; The outer two rows/columns are hidden by the camera.
+area: MainDeck
+room: 0
+size: 34x14
+
+[fg]
+##################################
+##################################
+##################################
+####...........................###
+####...........................###
+####...........................###
+####...........................###
+##DO...........................###
+##DO.................=========.###
+##DO...........................###
+##DO...........................###
+##################################
+##################################
+##################################
+
+[bg]
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+ppppLLLLLLLLLLLLLLLLLLLLLLLLLLLppp
+ppppppwwwwwwpppppwwwwwwpppppwwpppp
+ppppppwwwwwwpppppwwwwwwpppppwwpppp
+pppppppppppppppppppppppppppppppppp
+ppppvvvvppppgpppppppgpppppppgppppp
+ppppvvvvppppgpppppppgpppppppgppppp
+pppp--------g-------g-------g---pp
+ppppppppppppgpppppppgpppppppgppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp
+pppppppppppppppppppppppppppppppppp

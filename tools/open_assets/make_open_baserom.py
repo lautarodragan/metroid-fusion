@@ -37,6 +37,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import formats  # noqa: E402
+import rooms  # noqa: E402
+import tiles  # noqa: E402
 from inventory import ROOT, Region, load_regions  # noqa: E402
 from layout import Layout, scan_lz_sources  # noqa: E402
 
@@ -403,6 +405,9 @@ def generate(args) -> int:
         rom[r.addr:r.addr + len(data)] = data
 
     layout_notes = apply_known_layouts(rom, regions, layout)
+    # semantic tileset, common tiles, far backgrounds and the room layouts
+    layout_notes += tiles.apply_tilesets(rom, regions, layout, meta)
+    layout_notes += rooms.apply_rooms(rom, regions, layout, meta)
     validate(rom, regions, meta)
     # No database region starts below 0xa5224, and the extractor never reads
     # the header, so the first bytes carry a marker identifying the file.
