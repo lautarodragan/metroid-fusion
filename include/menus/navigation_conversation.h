@@ -25,12 +25,13 @@ struct NavConversationPopUpsPerConversation {
 struct NavConversationPopUp {
     u8 unk_0[8];
     const u16* pPalette;
-    u8 unk_C[5];
-    u8 unk_11_0:4;
-    u8 unk_11_4:4;
-    u8 unk_12_0:4;
-    u8 unk_12_4:4;
-    u8 unk_13;
+    u32 unk_C;
+    u32 unk_10:8;
+    u32 unk_11_0:4;
+    u32 unk_11_4:4;
+    u32 unk_12_0:4;
+    u32 unk_12_4:4;
+    u32 unk_13:8;
     const u32* pGraphics;
 };
 

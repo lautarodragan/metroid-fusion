@@ -250,6 +250,7 @@ _0807BFC8: .4byte 0x00000125
 _0807BFCC: .4byte 0x0000021D
 _0807BFD0: .4byte 0x0000021B
 
+
 	thumb_func_start NavigationConversationFadeInPopUpPalette
 NavigationConversationFadeInPopUpPalette: @ 0x0807BFD4
 	push {r4, r5, r6, r7, lr}

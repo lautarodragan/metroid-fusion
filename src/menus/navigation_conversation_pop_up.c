@@ -4,6 +4,9 @@
 #include "globals.h"
 #include "dma.h"
 #include "syscalls.h"
+#include "audio_wrappers.h"
+
+#include "constants/audio.h"
 
 /**
  * @brief 7bc98 | f8 | Loads the graphics of the pop ups of a navigation conversation
