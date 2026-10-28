@@ -1,3 +1,3 @@
-<!-- Página generada a partir de docs/bugs_and_glitches.md: editar ese archivo, no este. -->
+<!-- Page generated from docs/bugs_and_glitches.md: edit that file, not this one. -->
 
 {{#include ../../../docs/bugs_and_glitches.md}}

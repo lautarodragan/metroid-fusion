@@ -1,44 +1,42 @@
-# Contribuir
+# Contributing
 
-<!-- Basado en CONTRIBUTING.md de la raíz del repositorio. Si cambian las
-     reglas allí, actualizar también esta página. -->
+<!-- Based on CONTRIBUTING.md at the repository root. If the rules change
+     there, update this page too. -->
 
-> La versión de referencia es
+> The reference version is
 > [CONTRIBUTING.md](https://github.com/lautarodragan/metroid-fusion/blob/main/CONTRIBUTING.md)
-> en el repositorio (en inglés). Si esta traducción y ese archivo difieren,
-> vale el original.
+> in the repository. If this page and that file differ, the original wins.
 
-## Importante: clean room
+## Important: clean room
 
-Cualquiera que quiera contribuir **DEBE** leer lo siguiente y seguir los pasos
-indicados, para no violar ningún copyright.
+Anyone wanting to contribute **MUST** read the following and adhere to the
+steps outlined, in order to not violate any copyright.
 
-Esta decompilación es un
-[diseño de sala limpia (*clean room design*)](https://en.wikipedia.org/wiki/Clean_room_design).
-**NO DEBE** incorporar ningún código que pertenezca a Nintendo ni a otros
-terceros.
+This decompile is a
+[clean room design](https://en.wikipedia.org/wiki/Clean_room_design).
+It **MUST NOT** incorporate any code owned by Nintendo or other third parties.
 
-Para lograrlo, todo el código tiene que escribirse completamente desde cero,
-sin consultar ningún código de terceros, **haya sido filtrado o no**.
+In order to achieve this, all code has to be written completely fresh, without
+reference to any third party code, **no matter if leaked or not**.
 
-De esto se deriva el siguiente requisito para quienes contribuyen:
+Derived from this there is the following requirement for contributors:
 
-- Quienes contribuyen **NO DEBEN** estudiar ni consultar ningún código que
-  pertenezca a Nintendo o a otros terceros.
+- Contributors **MUST NOT** study or refer to any code owned by Nintendo or
+  other third parties.
 
-## Enviar un cambio
+## Submitting a change
 
-1. Cloná este repositorio y seguí las instrucciones de [setup](setup.md), si
-   todavía no lo hiciste.
-2. Para cada conjunto de cambios que quieras enviar, creá una rama a partir de
-   `main` (asegurate de estar en el último commit).
-3. Cuando estés por enviar los cambios, verificá que el ROM siga compilando
+1. Clone this repository and follow the [setup](setup.md) instructions if you
+   haven't already.
+2. For any set of changes you want to submit, create a branch off of `main`
+   (make sure you're on the latest commit).
+3. When ready to submit your changes, make sure the ROM still compiles
    (`make`).
-4. Si compila, verificá que el ROM siga coincidiendo con el base ROM
+4. If the ROM compiles, make sure the ROM still matches the base ROM
    (`make check`).
-   - Recomendado: corré `./check_roms.sh` para generar y verificar los ROMs de
-     todas las regiones soportadas (puede requerir `chmod +x check_roms.sh`).
-     Necesitás un base ROM por cada región soportada.
-   - Sin base ROM, usá `make check-synthetic`
-     ([Verificación sin ROM](docs/synthetic_check.md)).
-5. Abrí un PR en GitHub con una descripción que resuma tus cambios.
+   - Recommended: run `./check_roms.sh` to build and check ROMs for every
+     supported region (may require `chmod +x check_roms.sh`). You will need a
+     base ROM for each supported region.
+   - Without a base ROM, use `make check-synthetic`
+     ([Verifying without the ROM](docs/synthetic_check.md)).
+5. Open a PR on GitHub, and add a description that summarizes your changes.

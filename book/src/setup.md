@@ -1,67 +1,67 @@
-# Setup y build
+# Setup and build
 
-## Dependencias
+## Dependencies
 
 - [agbcc](https://github.com/pret/agbcc)
 - `binutils-arm-none-eabi`
-- Un base ROM por cada ROM que quieras generar (por ejemplo
-  `mf_us_baserom.gba` para generar `mf_us.gba`). Si no tenés el ROM original,
-  igual podés verificar tus cambios con el
-  [check sintético](docs/synthetic_check.md).
+- A base ROM for each ROM you want to build (for example
+  `mf_us_baserom.gba` to build `mf_us.gba`). If you don't have the original
+  ROM, you can still verify your changes with the
+  [synthetic check](docs/synthetic_check.md).
 - `python3`
 - `g++`
 
 ## Setup
 
-- **Solo Windows:** instalá y configurá
+- **Windows only:** install and configure
   [WSL](https://docs.microsoft.com/en-us/windows/wsl/install).
-- Corré `sudo apt update`, por las dudas.
-- Instalá `binutils-arm-none-eabi`: `sudo apt-get install binutils-arm-none-eabi`
-- Instalá `git`: `sudo apt-get install git`
-- Instalá `make`: `sudo apt-get install make`
+- Run `sudo apt update`, just in case.
+- Install `binutils-arm-none-eabi`: `sudo apt-get install binutils-arm-none-eabi`
+- Install `git`: `sudo apt-get install git`
+- Install `make`: `sudo apt-get install make`
 
 ### agbcc
 
-La forma más rápida es usar el script del repositorio:
+The quickest way is to use the repository's script:
 
 ```sh
 tools/setup_toolchain.sh
 ```
 
-Clona, compila e instala agbcc en un solo paso (en `/opt/agbcc`, con symlinks
-en `/usr/local/bin`; mirá el script para ver las opciones).
+It clones, builds and installs agbcc in a single step (in `/opt/agbcc`, with
+symlinks in `/usr/local/bin`; see the script for the options).
 
-Si preferís hacerlo a mano:
+If you'd rather do it by hand:
 
-1. Cloná agbcc: `git clone https://github.com/pret/agbcc`
-2. Entrá a la carpeta (`cd agbcc`) y compilalo (`./build.sh`).
-3. Después, una de dos:
-   - Instalá agbcc dentro de este proyecto con su script `./install.sh <path>`,
-     donde `<path>` es la raíz de este repositorio, o
-   - Agregá agbcc al `PATH` (`export PATH="<agbcc_path>:$PATH"`, donde
-     `<agbcc_path>` es la ruta completa al directorio de agbcc).
+1. Clone agbcc: `git clone https://github.com/pret/agbcc`
+2. Enter the folder (`cd agbcc`) and build it (`./build.sh`).
+3. Then, either:
+   - Install agbcc inside this project with its `./install.sh <path>` script,
+     where `<path>` is the root of this repository, or
+   - Add agbcc to your `PATH` (`export PATH="<agbcc_path>:$PATH"`, where
+     `<agbcc_path>` is the full path to the agbcc directory).
 
 ## Build
 
-- Corré `make clean` si hace falta.
-  - `make clean DATA=1` borra también los datos extraídos.
-- Corré el extractor de datos si hace falta: `python3 tools/extractor.py`
-  - Con `-r` elegís una región distinta de `us` (por ejemplo `-r jp`).
-  - Con `-d` se extraen solo los datos de debug del ROM beta de USA (necesario
-    para generar un ROM con funciones de debug).
-- Corré `make` (se recomienda `-j` para acelerar).
-- Para generar otra versión del ROM, cualquiera de estas dos:
-  - Indicala directamente (por ejemplo `make us_debug` para el ROM de USA con
-    funciones de debug).
-  - Usá las variables `REGION` (nombre de la región, por defecto `us`) y
-    `DEBUG` (`0` o `1`, por defecto `0`).
-- Para simplificar, podés combinar los comandos:
+- Run `make clean` if needed.
+  - `make clean DATA=1` also deletes the extracted data.
+- Run the data extractor if needed: `python3 tools/extractor.py`
+  - Use `-r` to pick a region other than `us` (for example `-r jp`).
+  - Use `-d` to extract only the debug data from the USA beta ROM (needed to
+    build a ROM with debug functions).
+- Run `make` (`-j` is recommended to speed it up).
+- To build another version of the ROM, either:
+  - Name it directly (for example `make us_debug` for the USA ROM with debug
+    functions).
+  - Use the `REGION` (region name, `us` by default) and `DEBUG` (`0` or `1`,
+    `0` by default) variables.
+- For simplicity, you can chain the commands:
   `python3 tools/extractor.py && make -j`
 
-## Verificar que el ROM coincide
+## Verifying that the ROM matches
 
-- `make check` compara el ROM generado con el original.
-- `./check_roms.sh` genera y verifica los ROMs de todas las regiones
-  soportadas (necesitás un base ROM por región).
-- `make check-synthetic` verifica sin el ROM original; ver
-  [Verificación sin ROM](docs/synthetic_check.md).
+- `make check` compares the built ROM with the original.
+- `./check_roms.sh` builds and verifies the ROMs for every supported region
+  (you need a base ROM per region).
+- `make check-synthetic` verifies without the original ROM; see
+  [Verifying without the ROM](docs/synthetic_check.md).

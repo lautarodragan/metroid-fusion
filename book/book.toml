@@ -1,12 +1,12 @@
 [book]
 title = "Metroid Fusion Decomp"
-description = "Documentación de la decompilación de Metroid Fusion (GBA)"
-language = "es"
+description = "Documentation for the Metroid Fusion (GBA) decompilation"
+language = "en"
 src = "src"
 
 [build]
-# Varios capítulos incluyen archivos de ../docs con {{#include}}; esto hace que
-# `mdbook serve` también recargue cuando cambian.
+# Several chapters include files from ../docs with {{#include}}; this makes
+# `mdbook serve` also reload when they change.
 extra-watch-dirs = ["../docs"]
 
 [output.html]
