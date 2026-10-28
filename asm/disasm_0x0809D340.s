@@ -1054,7 +1054,3 @@ _0809DB64: .4byte 0x03001238
 _0809DB68: .4byte 0x000003FF
 _0809DB6C: .4byte 0xFFFFFC00
 
-	thumb_func_start unk_9db70
-unk_9db70: @ 0x0809DB70
-	bx lr
-	.align 2, 0

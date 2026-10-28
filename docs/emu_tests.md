@@ -55,7 +55,8 @@ objects whose data changed.
 | File | Test |
 | --- | --- |
 | `test_boot.py` | The first 600 frames run (PC always in code, increasing frame counter). The scripted walkthrough goes through the modes in order: title intro → title screen → file select → new file intro → map → in game. No invalid PC and no resets during the whole walkthrough. |
-| `test_screenshots.py` | Screenshots at 5 points (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`) compared against `tests/emu/reference/*.png`. A pixel differs if any channel differs by more than 24; the test fails if more than 0.5 % of the pixels differ. On failure, `<name>.actual.png` and `<name>.diff.png` are saved to `tests/emu/output/` (or `--emu-output` / `$MF_EMU_OUTPUT`; in CI they are uploaded as an artifact). |
+| `test_screenshots.py` | Screenshots at 8 points (`title_intro`, `title_screen`, `file_select`, `new_file_intro`, `in_game`, and `room_0`, `room_3`, `room_6` from the room walk) compared against `tests/emu/reference/*.png`. A pixel differs if any channel differs by more than 24; the test fails if more than 0.5 % of the pixels differ. On failure, `<name>.actual.png` and `<name>.diff.png` are saved to `tests/emu/output/` (or `--emu-output` / `$MF_EMU_OUTPUT`; in CI they are uploaded as an artifact). |
+| `test_rooms.py` | The scripted walk after reaching the game (`ROOM_WALK` in `scenario.py`) goes through the first three rooms of the generated baserom: room 0 → left hatch → room 3 → upper left door → room 6. `gCurrentArea`/`gCurrentRoom` at each checkpoint must be (0, 0), (0, 3), (0, 6), and Samus must stand on the expected floor on arrival. See [the rooms](open_assets_rooms.md). |
 | `test_ingame.py` | In the first room (`gCurrentArea` = 0, `gCurrentRoom` = 0): holding right increases `gSamusData.xPosition` and left decreases it; A makes Samus jump (`yPosition` goes down) and Samus lands back on the floor. Determinism: same state + same input → same RAM/VRAM/OAM hash and same image; two power-ons give the same RAM. |
 | `test_sprites.py` | Placeholder sprites are really drawn: Samus' sprites are on screen and visible (not hidden behind the background); for 9 scripted poses (standing, running, jumping, spin jump, aiming up, aiming diagonally, crouching, shooting, facing left) Samus is rendered from OAM + OBJ VRAM + OBJ palettes (`oam_view.py`, without the room behind) and compared with `tests/emu/reference/samus_<pose>.png`, and the poses must all look different; shooting puts a beam sprite on screen; the energy counter is visible. See [Placeholder sprites](open_assets_sprites.md). |
 
@@ -141,10 +142,12 @@ Nothing in `src/` or `asm/`: only placeholder data, in `apply_known_layouts` in
    get a 0 header (they decompress to nothing).
 3. **File select tables**: per-language pointers to graphics (→ empty LZ77)
    and to text tables (→ empty texts).
-4. **Text**: all terminators; the `s*TextPointers*` tables point to an empty
-   text. Each new file intro monologue (`sMonologueText<Language>_<N>`) is
-   "arrow, arrow, one character, arrow, end", so that both the scenes that
-   wait for "more text" and the ones that wait for "end" advance with A.
+4. **Text**: a readable font fitted to `sCharacterWidths` and short
+   placeholder strings for every table, with the tilemaps/palettes of the
+   text layers (`tools/open_assets/font.py`, see
+   [Text and font](test_baserom_font.md)). Each monologue is "page 1,
+   arrow, arrow, page 2, arrow, end", so that both the scenes that wait for
+   "more text" and the ones that wait for "end" advance with A.
 5. **Voicegroups** (`sVoicegroup_*`): every voice plays the first sample.
 6. **Samus visible in the first room**: spriteset 8 lists the gunship (its
    AI clears `gDisableDrawingSamusAndScrollingFlag` on a new game), empty

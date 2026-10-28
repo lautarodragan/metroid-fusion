@@ -30,6 +30,73 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
 void IntroSpaceViewVblank(void);
 void Dma3Transfer_Unused2(void* src, void* dst, u16 size, u16 count);
 
+/**
+ * @brief 9209c | 1a0 | Setup for the Samus in ship cutscene (unused)
+ *
+ */
+void unk_9209c(void)
+{
+    u16 i;
+    u16* pEva;
+    u16* pEvb;
+
+    WRITE_16(REG_IME, FALSE);
+    WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) & ~DSTAT_IF_HBLANK);
+    WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
+    WRITE_16(REG_IME, TRUE);
+
+    CallbackSetVBlank(unk_99940);
+
+    DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
+
+    for (i = 0; i < ARRAY_SIZE(sIntroSamusSittingBgGfxPointers); i++)
+        LZ77UncompVram(sIntroSamusSittingBgGfxPointers[i], VRAM_BASE + 0x8000 + i * 0x1000);
+
+    LZ77UncompVram(sIntroUnk_658be0, VRAM_BASE + 0xE800);
+    LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
+
+    DMA3_COPY_32(sIntroUnk_6591e4, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+
+    WRITE_16(REG_BG0HOFS, 0);
+    WRITE_16(REG_BG0VOFS, 0);
+    WRITE_16(REG_BG1HOFS, 0);
+    WRITE_16(REG_BG1VOFS, 0);
+    WRITE_16(REG_BG2HOFS, 0);
+    WRITE_16(REG_BG2VOFS, 0);
+    WRITE_16(REG_BG3HOFS, 0);
+    WRITE_16(REG_BG3VOFS, 0);
+
+    gBg2XPosition = 8;
+    gBg2YPosition = 8;
+    gBg3XPosition = 8;
+    gBg3YPosition = 8;
+
+    WRITE_16(REG_BG0CNT, CREATE_BGCNT(2, 28, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
+    WRITE_16(REG_BG1CNT, CREATE_BGCNT(2, 29, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
+
+    WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
+    gWrittenToBldy = BLDY_MAX_VALUE;
+    WRITE_16(REG_BLDY, BLDY_MAX_VALUE);
+
+    // Both addresses are loaded before the stores
+    pEva = &gWrittenToBldalpha_Eva;
+    pEvb = &gWrittenToBldalpha_Evb;
+    *pEva = 0;
+    *pEvb = BLDALPHA_MAX_VALUE;
+    WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
+
+    SpecialCutsceneProcessOam();
+    SpecialCutsceneDrawAllOam();
+
+    INTRO_DATA.pText = sCutsceneTextNone;
+
+    DMA3_FILL_32(0, VRAM_BASE + 0xD000, (VRAM_SIZE / 6) / sizeof(u32));
+
+    WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG1 | DCNT_OBJ);
+
+    CallbackSetVBlank(unk_93884);
+}
+
  /**
  * @brief 9223c | 294 | Processes the Samus in ship cutscene
  *

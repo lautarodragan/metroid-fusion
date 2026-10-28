@@ -37,10 +37,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import font  # noqa: E402
 import formats  # noqa: E402
 import hud_gfx  # noqa: E402
+import rooms  # noqa: E402
 import samus_gfx  # noqa: E402
 import sprite_gfx  # noqa: E402
+import tiles  # noqa: E402
 from inventory import ROOT, Region, load_regions  # noqa: E402
 from layout import Layout, scan_lz_sources  # noqa: E402
 
@@ -442,6 +445,11 @@ def generate(args) -> int:
     layout_notes = apply_known_layouts(rom, regions, layout)
     layout_notes += clear_empty_bg_tiles(rom, regions)
     layout_notes += default_button_assignments(rom, regions, layout)
+    # semantic tileset, common tiles, far backgrounds and the room layouts
+    layout_notes += tiles.apply_tilesets(rom, regions, layout, meta)
+    layout_notes += rooms.apply_rooms(rom, regions, layout, meta)
+    layout_notes += font.apply(rom, regions, layout, args.font_from_rom)  # font + text, see font.py
+    # sprites: Samus, HUD, projectiles/effects, enemies and objects
     layout_notes += samus_gfx.apply(rom, regions, layout)
     layout_notes += hud_gfx.apply(rom, regions, layout)
     layout_notes += sprite_gfx.apply(rom, regions, layout)
@@ -466,6 +474,8 @@ def generate(args) -> int:
         print(f"{len(failures)} regions could not get their ideal placeholder:")
         for f in failures[:20]:
             print("  " + f)
+    if args.font_from_rom:
+        print(font.FONT_FROM_ROM_NOTE.format(out=out), file=sys.stderr)
     return 0
 
 
@@ -492,6 +502,9 @@ def main() -> int:
     ap.add_argument("--elf", help="ELF of a previous build (default: the --map path with .elf)")
     ap.add_argument("--gfx-lz-size", type=lambda s: int(s, 0), default=0x800,
                     help="decompressed size for LZ77 graphics placeholders (default 0x800)")
+    ap.add_argument("--font-from-rom", metavar="ROM",
+                    help="local option: read only the font glyphs from your own baserom "
+                         "(Metroid Fusion USA, checked by sha1) instead of the open font (see font.py)")
     return generate(ap.parse_args())
 
 

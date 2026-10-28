@@ -14,6 +14,91 @@
 void PlayCharacterAppearingSound();
 
 /**
+ * @brief 98158 | 134 | Fades in the monologue text tiles that are still appearing
+ *
+ */
+void unk_98158(void)
+{
+    u16 col;
+    u16 end;
+    u16* pTop;
+    u16* pBottom;
+    u16 top;
+    u16 bottom;
+    u16 palTop;
+    u16 palBottom;
+    // Declared last: the pseudo register numbering affects which spill slots gcse's temporaries get
+    u16 row;
+
+    col = INTRO_DATA.unk_10;
+
+    row = INTRO_DATA.unk_12 / 2;
+    while (row <= INTRO_DATA.unk_E / 2)
+    {
+        if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
+        {
+            if (INTRO_DATA.unk_C < MONOLOGUE_LINE_LENGTH)
+                end = INTRO_DATA.unk_C + 1;
+            else
+                end = MONOLOGUE_LINE_LENGTH;
+        }
+        else if (row == INTRO_DATA.unk_E / 2)
+        {
+            if (INTRO_DATA.unk_C < MONOLOGUE_LINE_LENGTH)
+                end = INTRO_DATA.unk_C;
+            else
+                end = MONOLOGUE_LINE_LENGTH;
+        }
+        else
+        {
+            end = MONOLOGUE_LINE_LENGTH;
+        }
+
+        for (; col < end; col++)
+        {
+            if (INTRO_DATA_ARRAYS.unk_110[col + row * MONOLOGUE_LINE_LENGTH] == 5)
+            {
+                INTRO_DATA_ARRAYS.unk_110[col + row * MONOLOGUE_LINE_LENGTH] = 0;
+                INTRO_TEXT_TILE_DELAY[col + row * MONOLOGUE_LINE_LENGTH]--;
+
+                if ((s8)INTRO_TEXT_TILE_DELAY[col + row * MONOLOGUE_LINE_LENGTH] > 0)
+                {
+                    pTop = VRAM_BASE + 0x4842 + (col * 2 + row * 128);
+                    pBottom = VRAM_BASE + 0x4882 + (col * 2 + row * 128);
+
+                    top = *pTop;
+                    bottom = *pBottom;
+                    palTop = top >> 12;
+                    palBottom = bottom >> 12;
+                    palTop--;
+                    palBottom--;
+
+                    *pTop = palTop << 12 | (top & 0xFFF);
+                    *pBottom = palBottom << 12 | (bottom & 0xFFF);
+                }
+                else if ((s8)INTRO_TEXT_TILE_DELAY[col + row * MONOLOGUE_LINE_LENGTH] == 0)
+                {
+                    INTRO_DATA.unk_10 = col;
+                    INTRO_DATA.unk_12 = row * 2;
+                }
+                else
+                {
+                    INTRO_TEXT_TILE_DELAY[col + row * MONOLOGUE_LINE_LENGTH] |= UCHAR_MAX;
+                    break;
+                }
+            }
+            else
+            {
+                INTRO_DATA_ARRAYS.unk_110[col + row * MONOLOGUE_LINE_LENGTH]++;
+            }
+        }
+
+        col = 0;
+        row++;
+    }
+}
+
+/**
  * @brief 9828c | 220 | Processes Adam's text in the ending
  *
  * @return boolu32 Finished

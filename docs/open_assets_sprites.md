@@ -176,8 +176,10 @@ different colours.
   `src/data/sprite_data.c`) lists the gunship (`PSPRITE_GUNSHIP`, slot 0). A
   new game starts with `gDisableDrawingSamusAndScrollingFlag` set; only the
   gunship's AI clears it, so without it Samus was never drawn. Other
-  spritesets are still empty (`sprite_gfx.SPRITESETS`).
-- **Empty room tiles are transparent**: metatile 0 points to BG tile 0,
+  spritesets are still empty (`sprite_gfx.SPRITESETS`); the sprites the
+  first rooms use are listed in [Rooms of the test baserom](open_assets_rooms.md).
+- **Empty room tiles are transparent** (a fallback; the room tileset in
+  `tiles.py` runs afterwards and draws its own): metatile 0 points to BG tile 0,
   which `AnimatedGraphicsLoad` fills from the first animated tiles entry,
   and the empty BG0 uses the first common tile; both are cleared
   (`EMPTY_BG_TILES` in `make_open_baserom.py`). Opaque, they covered all

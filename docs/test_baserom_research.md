@@ -176,7 +176,10 @@ the space is wasted.
   voicegroups pointing to a valid sample, text full of terminators and text
   pointer tables pointing to a terminator; it validates everything by decoding
   it. It never overwrites an existing file without `--force`.
-- `test_formats.py`: round-trip tests (`python3 tools/open_assets/test_formats.py`).
+- `font.py`: readable font (Spleen 6x12 fitted to `sCharacterWidths`),
+  placeholder strings and text layers; see
+  [Text and font](test_baserom_font.md).
+- `test_formats.py`, `test_font.py`: unit tests (`python3 -m pytest tools/open_assets`).
 
 Current result: all 3492 regions get content; 209 of the 210
 `gfx_lz` fit with 2 KiB decompressed (only one with 256 B), the 144
@@ -208,6 +211,10 @@ no external code was installed).
    10 000 frames with random input.
 
 ### 3.2 Phase B: one test room (estimate: 1-3 weeks)
+
+> Status: the tileset and room part is done for the first three rooms
+> (Main Deck 0, 3, 6), with a walk through two doors in the emulator tests;
+> see [Rooms of the test baserom](open_assets_rooms.md).
 
 1. Pick a small room (the `test*` rooms in `rooms/test` or the first one in
    the Main Deck) and generate: a tileset with 4-8 readable blocks (floor,
