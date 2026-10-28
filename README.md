@@ -4,7 +4,7 @@ This is a work in progress decompilation of Metroid Fusion.
 
 Documentation: https://lautarodragan.github.io/metroid-fusion/ (sources in [book/](book/))
 
-3598/3607 functions decompiled (99.75%, 9 left)
+3601/3607 functions decompiled (99.83%, 6 left)
 
 0x5dca90/0x6f9d24 bytes of data not in blobs (84.03%, 0x11d294 left)
 
