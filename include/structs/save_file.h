@@ -32,6 +32,11 @@ struct SramHeader {
     u8 unk_20[SRAM_HEADER_SIZE - 0x20];
 };
 
+// gCamera is 20 bytes long, the camera struct only describes the first 16
+struct SaveCamera {
+    u8 data[20];
+};
+
 struct SaveMusicInfo {
     u16 musicTrack;
     u16 unk_1E;
@@ -59,7 +64,7 @@ struct SaveFile {
     u16 previousSoundEvent;
     u8 unk_2A;
     u8 securityHatchLevelBackup;
-    u8 camera[20];
+    struct SaveCamera camera;
     u16 bg0XPosition;
     u16 bg0YPosition;
     u16 bg1XPosition;
@@ -112,6 +117,8 @@ extern u8 gMostRecentSaveFile;
 extern u8 gUnk_3000010;
 extern u8 gSramTestFailed;
 extern u8 gUnk_3000b90;
+extern u8 gUnk_300004c;
+extern u8 gUnk_300004d;
 extern struct SaveFileInfo gSaveFilesInfo[3];
 
 #endif /* SAVE_FILE_STRUCT_H */

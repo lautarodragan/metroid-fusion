@@ -8,7 +8,16 @@
 #include "data/sram_data.h"
 #include "data/sram_pointers.h"
 
+#include "structs/audio.h"
+#include "structs/bg_clip.h"
+#include "structs/block.h"
+#include "structs/connection.h"
+#include "structs/event.h"
+#include "structs/minimap.h"
+#include "structs/samus.h"
 #include "structs/save_file.h"
+#include "structs/scroll.h"
+#include "structs/sprite.h"
 
 #define SAVE_FILE_POINTER(file) ((struct SaveFile*)sSaveDataEwramPointers[(file)])
 
@@ -382,4 +391,103 @@ void Sram_QuickSave(u8 stage)
     }
 
     gDisableSoftReset = FALSE;
+}
+
+/**
+ * @brief 7f450 | 370 | Writes the current game state to the current save file in EWRAM
+ * 
+ */
+void SramWrite_ToEwram(void)
+{
+    struct SaveFile* pFile;
+    s32 i;
+    u32* src;
+    u32 checksum;
+    struct SaveMusicInfo musicInfo;
+
+    musicInfo.musicTrack = gMusicInfo.musicTrack;
+    musicInfo.unk_1E = gMusicInfo.unk_1E;
+    musicInfo.unk_20 = gMusicInfo.unk_20;
+    musicInfo.priority = gMusicInfo.priority;
+    musicInfo.unk_2 = gMusicInfo.unk_2;
+
+    pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
+
+    Sram_StringCopy_MetroidEpisode4A(pFile->magic, sSramUnk_582200);
+    pFile->checksum = 0;
+    pFile->notChecksum = UINT_MAX;
+
+    pFile->gameCompletion = gGameCompletion;
+    pFile->unk_1C = gUnk_3000b90;
+
+    pFile->currentArea = gCurrentArea;
+    pFile->currentRoom = gCurrentRoom;
+    pFile->lastDoorUsed = gLastDoorUsed;
+    pFile->abilityCount = gAbilityCount;
+    pFile->eventCounter = gEventCounter;
+    pFile->previousNavigationConversation = gPreviousNavigationConversation;
+    pFile->previousCutscene = gPreviousCutscene;
+    pFile->minimapX = gMinimapX;
+    pFile->minimapY = gMinimapY;
+    pFile->soundEventCounter = gSoundEventCounter;
+    pFile->previousSoundEvent = gPreviousSoundEvent;
+    pFile->unk_2A = gUnk_300004d;
+    pFile->securityHatchLevelBackup = gSecurityHatchLevelBackup;
+
+    pFile->camera = *(struct SaveCamera*)&gCamera;
+
+    pFile->bg0XPosition = gBg0XPosition;
+    pFile->bg0YPosition = gBg0YPosition;
+    pFile->bg1XPosition = gBg1XPosition;
+    pFile->bg1YPosition = gBg1YPosition;
+    pFile->bg2XPosition = gBg2XPosition;
+    pFile->bg2YPosition = gBg2YPosition;
+    pFile->bg3XPosition = gBg3XPosition;
+    pFile->bg3YPosition = gBg3YPosition;
+
+    for (i = 0; i < MAX_AMOUNT_OF_AREAS; i++)
+        pFile->numberOfNeverReformBlocks[i] = gNumberOfNeverReformBlocks[i];
+
+    for (i = 0; i < MAX_AMOUNT_OF_AREAS; i++)
+        pFile->numberOfCollectedTanks[i] = gNumberOfCollectedTanks[i];
+
+    pFile->samusData = gSamusData;
+    pFile->samusAnimationInfo = gSamusAnimationInfo;
+    pFile->samusEcho = gSamusEcho;
+    pFile->samusEnvironmentalEffects[0] = gSamusEnvironmentalEffects[0];
+    pFile->samusEnvironmentalEffects[1] = gSamusEnvironmentalEffects[1];
+    pFile->equipment = gEquipment;
+
+    pFile->preventMovementTimer = gPreventMovementTimer;
+    pFile->disableDrawingSamusAndScrollingFlag = gDisableDrawingSamusAndScrollingFlag;
+
+    pFile->atmosphericStabilizersOnline = gAtmosphericStabilizersOnline;
+    pFile->missileGeronsDestroyed = gMissileGeronsDestroyed;
+    pFile->superMissileGeronsDestroyed = gSuperMissileGeronsDestroyed;
+    pFile->powerBombGeronsDestroyed = gPowerBombGeronsDestroyed;
+    pFile->gadorasDestroyed = gGadorasDestroyed;
+    pFile->missileHatchDestroyed = gMissileHatchDestroyed;
+    pFile->waterLowered = gWaterLowered;
+
+    pFile->inGameTimer = gInGameTimer;
+    pFile->musicInfo = musicInfo;
+
+    Sram_StringCopy_SAVE_END(pFile->endMagic, sSramUnk_5821f8);
+
+    src = (u32*)sSaveDataEwramPointers[gMostRecentSaveFile];
+    checksum = 0;
+    for (i = sizeof(struct SaveFile) / 32 - 1; i >= 0; i--)
+    {
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+        checksum += *src++;
+    }
+
+    pFile->checksum = checksum;
+    pFile->notChecksum = ~checksum;
 }
