@@ -518,7 +518,7 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
             y = MOD_AND(part1 + yPosition, 256);
             x = MOD_AND(part2 + xPosition, 512);
 
-            tmpX = x - xPosition + xOffset;
+            tmpX = (x - xPosition) + xOffset;
             tmpY = (y - yPosition) + yOffset;
 
             scaledX = (tmpX * xScaling >> 8) - tmpX;
@@ -536,7 +536,7 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
                 yScaling = -yScaling;
             }
 
-            x = (s16)x + (s16)scaledX;
+            x += scaledX;
             y += scaledY;
 
             unk_2 = xOffset + (x - xPosition);
@@ -545,7 +545,7 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
             x = (unk_2 * COS(pOam->rotation) - unk_3 * SIN(pOam->rotation)) >> 8;
             y = (unk_2 * SIN(pOam->rotation) + unk_3 * COS(pOam->rotation)) >> 8;
 
-            x = x - xOffset;
+            x -= xOffset;
             y -= yOffset;
 
             gOamData[slot].split.y = MOD_AND(y + yPosition - BLOCK_SIZE, 256);
@@ -609,7 +609,7 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
             y = MOD_AND(part1 + yPosition, 256);
             x = MOD_AND(part2 + xPosition, 512);
 
-            tmpX = x - xPosition + xOffset;
+            tmpX = (x - xPosition) + xOffset;
             tmpY = (y - yPosition) + yOffset;
 
             scaledX = (tmpX * xScaling >> 8) - tmpX;
@@ -627,7 +627,7 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
                 yScaling = -yScaling;
             }
 
-            x = (s16)x + (s16)scaledX;
+            x += scaledX;
             y += scaledY;
 
             unk_2 = xOffset + (x - xPosition);
