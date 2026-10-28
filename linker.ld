@@ -546,7 +546,6 @@ SECTIONS {
         src/menus/game_over.o(.text);
         src/menus/file_select.o(.text);
         src/ending_igt.o(.text);
-        asm/disasm_0x080a1664.o(.text);
 
         src/ending.o(.text);
 

@@ -29,10 +29,22 @@ void EndingImageDisplayLinePermanently(u32 line);
 
 // Defined in src/data/ending_data.c
 extern const struct EndingImageTextOam sEndingUnk_74dc48[];
+extern const struct EndingImageTextOam sEndingUnk_74dc90[];
+extern const struct EndingImageTextOam sEndingUnk_74dcfc[];
+extern const struct EndingImageTextOam sEndingUnk_74dd80[];
 extern const struct EndingImageTextOam sEndingUnk_74de4c[];
+extern const struct EndingImageTextOam sEndingUnk_74de94[];
+extern const struct EndingImageTextOam sEndingUnk_74df30[];
 extern const struct EndingImageTextOam sEndingUnk_74dfd8[];
+extern const struct EndingImageTextOam sEndingUnk_74e020[];
+extern const struct EndingImageTextOam sEndingUnk_74e0e0[];
 extern const struct EndingImageTextOam sEndingUnk_74e1d0[];
+extern const struct EndingImageTextOam sEndingUnk_74e218[];
+extern const struct EndingImageTextOam sEndingUnk_74e2f0[];
+extern const struct EndingImageTextOam sEndingUnk_74e374[];
 extern const struct EndingImageTextOam sEndingUnk_74e440[];
+extern const struct EndingImageTextOam sEndingUnk_74e488[];
+extern const struct EndingImageTextOam sEndingUnk_74e53c[];
 
 static boolu32 (*sEndingSamusPosingFunctionPointers[7]) (void) = {
     EndingSamusPosingInit,
@@ -49,6 +61,95 @@ static boolu32 (*sEndingImageFunctionPointers[3]) (void) = {
     EndingFadeIn,
     EndingImage
 };
+
+// Not wrapped in do { } while (0): the extra loop level changes register allocation
+#define ENDING_LOAD_TEXT_OAM(data, count)                              \
+    ENDING_DATA.unk_9B = (count) + 6;                                  \
+    for (i = 0; i < (count); i++)                                      \
+    {                                                                  \
+        ENDING_DATA.unk_124[i + 6] = (data)[i].unk_0;                  \
+        ENDING_DATA.unk_142[i + 6] = (data)[i].unk_1;                  \
+        ENDING_DATA.unk_160[i + 6] = (data)[i].unk_2;                  \
+        ENDING_DATA.oamXPositions[i + 6] = (data)[i].xPosition;        \
+        ENDING_DATA.oamYPositions[i + 6] = (data)[i].yPosition;        \
+        ENDING_DATA.oamFramePointers[i + 6] = (data)[i].pFrame;        \
+    }
+
+/**
+ * @brief a1664 | 4fc | Loads the text OAM of a line of the ending image
+ *
+ * @param line Line
+ */
+void EndingImageLoadTextOam(u32 line)
+{
+    s32 i;
+
+    switch (gLanguage)
+    {
+        case LANGUAGE_GERMAN:
+            if (line == 0)
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74de94, 13);
+            }
+            else
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74df30, 14);
+            }
+            break;
+
+        case LANGUAGE_FRENCH:
+            if (line == 0)
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e020, 16);
+            }
+            else
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e0e0, 20);
+            }
+            break;
+
+        case LANGUAGE_ITALIAN:
+            if (line == 0)
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e218, 18);
+            }
+            else if (line == 1)
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e2f0, 11);
+            }
+            else
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e374, 17);
+            }
+            break;
+
+        case LANGUAGE_SPANISH:
+            if (line == 0)
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e488, 15);
+            }
+            else
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74e53c, 19);
+            }
+            break;
+
+        default:
+            if (line == 0)
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74dc90, 9);
+            }
+            else if (line == 1)
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74dcfc, 11);
+            }
+            else
+            {
+                ENDING_LOAD_TEXT_OAM(sEndingUnk_74dd80, 17);
+            }
+            break;
+    }
+}
 
 #define ENDING_DISPLAY_LINE(data)                                      \
 do {                                                                   \
