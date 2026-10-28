@@ -20,14 +20,14 @@ extern const u8* const sCutsceneUnk_79c514[];
 extern const u8* const sCutsceneUnk_79c538[];
 extern const struct FrameData* const sCutsceneUnk_79c55c[][2];
 
-extern const u8 sCutsceneUnk_65fb5c[];
-extern const u8 sCutsceneUnk_663598[];
-extern const u16 sCutsceneUnk_6636a0[];
-extern const u16 sCutsceneUnk_6638a0[];
-extern const struct FrameData sCutsceneUnk_663e5c[];
-extern const u8 sCutsceneUnk_6724c0[];
-extern const u16 sCutsceneUnk_674958[];
-extern const u8 sCutsceneUnk_674ad8[];
+extern const u8 sCutsceneMonologueCursorGfx[];
+extern const u32 sCutsceneElevatorMonologueBg1Tilemap[];
+extern const u16 sCutsceneMonologueBgPal[];
+extern const u16 sCutsceneMonologueCursorPal[];
+extern const struct FrameData sCutsceneMonologueCursorHiddenOam[];
+extern const u32 sCutsceneFederationMonologueBg2Gfx[];
+extern const u16 sCutsceneFederationMonologueBgPal[];
+extern const u32 sCutsceneFederationMonologueBg2Tilemap[];
 
 boolu32 CutsceneHandler(void);
 void CutsceneInit(void);

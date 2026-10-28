@@ -52,10 +52,10 @@ void unk_9209c(void)
     for (i = 0; i < ARRAY_SIZE(sIntroSamusSittingBgGfxPointers); i++)
         LZ77UncompVram(sIntroSamusSittingBgGfxPointers[i], VRAM_BASE + 0x8000 + i * 0x1000);
 
-    LZ77UncompVram(sIntroUnk_658be0, VRAM_BASE + 0xE800);
+    LZ77UncompVram(sIntroSamusInShipTilemap, VRAM_BASE + 0xE800);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sIntroUnk_6591e4, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSamusInShipPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     WRITE_16(REG_BG0HOFS, 0);
     WRITE_16(REG_BG0VOFS, 0);
@@ -118,8 +118,8 @@ boolu32 IntroSamusInShipProcess(void)
             }
             else if (INTRO_DATA.timer == 6)
             {
-                LZ77UncompVram(sIntroUnk_658be0, VRAM_BASE + 0xE800);
-                DMA3_COPY_32(sIntroUnk_6591e4, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
+                LZ77UncompVram(sIntroSamusInShipTilemap, VRAM_BASE + 0xE800);
+                DMA3_COPY_32(sIntroSamusInShipPal, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
                 gWrittenToBldalpha_Eva = 0;
                 gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
                 WRITE_16(REG_BG1HOFS, 0);
@@ -261,15 +261,15 @@ void IntroShipAlertInit(void)
     for (i = 0; i < 6; i++)
         LZ77UncompVram(sIntroUnk_79c45c[i], VRAM_OBJ + i * 0x1000);
 
-    DMA3_COPY_32(sIntroUnk_65c268, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroShipAlertObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     for (i = 0; i < 5; i++)
         LZ77UncompVram(sIntroUnk_79c448[i], VRAM_BASE + i * 0x1000);
 
-    LZ77UncompVram(sIntroUnk_6593e4, VRAM_BASE + 0xF000);
+    LZ77UncompVram(sIntroShipAlertBg1Tilemap, VRAM_BASE + 0xF000);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sIntroUnk_6599a4, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroShipAlertBgPal, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
 
     WRITE_16(REG_BG0HOFS, 0);
     WRITE_16(REG_BG0VOFS, 0);
@@ -1244,63 +1244,63 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     }
     else if (type == 19)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bb38;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertTimeAndDistanceOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessTimeAndDistanceOam;
     }
     else if (type == 20)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bd00;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd00;
         INTRO_DATA.oam[slot].pFunction = unk_9397c;
     }
     else if (type == 21)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bd48;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd48;
         INTRO_DATA.oam[slot].pFunction = unk_9397c;
     }
     else if (type == 22)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bd60;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertAsteroidsPopUpOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessAsteroidsPopUp;
     }
     else if (type == 23)
     {
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65be00;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65be00;
         INTRO_DATA.oam[slot].pFunction = unk_93334;
     }
     else if (type == 24)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65bf10;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65bf10;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 25)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c0d0;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c0d0;
         INTRO_DATA.oam[slot].pFunction = unk_93300;
     }
     else if (type == 26)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c128;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c128;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 27)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c180;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c180;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 28)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c1d8;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c1d8;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 29)
     {
         INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pOam = sIntroUnk_65c230;
+        INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c230;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
 
@@ -1548,8 +1548,8 @@ boolu32 IntroSpaceViewPartProcess(void)
             }
             else if (INTRO_DATA.timer == 6)
             {
-                LZ77UncompVram(sIntroUnk_658be0, VRAM_BASE + 0xE000);
-                DMA3_COPY_32(sIntroUnk_6591e4, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
+                LZ77UncompVram(sIntroSamusInShipTilemap, VRAM_BASE + 0xE000);
+                DMA3_COPY_32(sIntroSamusInShipPal, PALRAM_BASE, 8 * PAL_ROW_SIZE / sizeof(u32));
                 gWrittenToBldalpha_Eva = 0;
                 gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
                 WRITE_16(REG_BG1HOFS, 0);
