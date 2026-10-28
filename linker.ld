@@ -510,7 +510,8 @@ SECTIONS {
         src/menus/easy_sleep_menu.o(.text);
         src/save_file.o(.text);
         asm/disasm_0x0807fdb0.o(.text);
-        asm/disasm_0x0807fe60.o(.text);
+        src/save_file_misc.o(.text);
+        asm/disasm_0x08080068.o(.text);
 
         src/projectile.o(.text);
         src/menus/title_screen.o(.text);
