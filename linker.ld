@@ -528,7 +528,6 @@ SECTIONS {
         src/died_on_sr388.o(.text);
         src/special_cutscene_monologue.o(.text);
         src/special_cutscene.o(.text);
-        asm/disasm_0x08096B98.o(.text);
         src/special_cutscene_misc.o(.text);
         src/cutscene_handler.o(.text);
         src/cutscenes/secret_conversation.o(.text);
