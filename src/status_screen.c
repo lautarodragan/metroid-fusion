@@ -122,3 +122,44 @@ void StatusScreenDrawNumber(u8 section, u16 value, u8 palette, boolu8 isMax)
     for (; width != i; i++)
         dst[i] = palette << 12 | 0x8C;
 }
+
+/**
+ * @brief 7e834 | 148 | Draws the beam or suit section of the status screen
+ * 
+ * @param section Section
+ * @param value Acquired items flags
+ */
+void StatusScreenDrawBeamOrSuit(u8 section, u8 value)
+{
+    s32 i;
+    s32 j;
+    s32 last;
+    s32 dstPos;
+    s32 srcPos;
+    u16* tilemap;
+
+    tilemap = STATUS_SCREEN_TILEMAP;
+    last = 0;
+    for (i = 0; i < sStatusScreenSectionSizes[section]; i++)
+    {
+        dstPos = (STATUS_SCREEN_DST_TOP(section) + (i + 1)) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section);
+        srcPos = (STATUS_SCREEN_SRC_TOP(section) + (i + 1)) * HALF_BLOCK_SIZE + STATUS_SCREEN_SRC_LEFT(section);
+
+        if (sPauseDebugItemFlagsPointers[section][i] & value)
+        {
+            last = i + 1;
+            for (j = 0; j <= STATUS_SCREEN_DST_RIGHT(section) - STATUS_SCREEN_DST_LEFT(section); j++)
+                tilemap[dstPos + j] = tilemap[srcPos + j];
+        }
+    }
+
+    if (last != 0)
+    {
+        // Draw the bottom of the section after the last acquired item
+        dstPos = (STATUS_SCREEN_DST_TOP(section) + 1 + last) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section);
+        srcPos = STATUS_SCREEN_SRC_BOTTOM(section) * HALF_BLOCK_SIZE + STATUS_SCREEN_SRC_LEFT(section);
+
+        for (j = 0; j <= STATUS_SCREEN_DST_RIGHT(section) - STATUS_SCREEN_DST_LEFT(section); j++)
+            tilemap[dstPos + j] = tilemap[srcPos + j];
+    }
+}
