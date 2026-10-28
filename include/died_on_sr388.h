@@ -5,17 +5,10 @@
 
 #include "structs/cutscene.h"
 
-extern const u8 sSr388CollisionUnk_6238f4[];
-extern const u8 sSr388CollisionUnk_62b5f4[];
-extern const struct FrameData sSr388CollisionUnk_636020[];
-extern const struct FrameData sSr388CollisionUnk_636038[];
-extern const struct FrameData sSr388CollisionUnk_636050[];
-extern const struct FrameData sSr388CollisionUnk_6362b8[];
-extern const u16 sSr388CollisionUnk_636a38[];
-extern const u16 sSr388CollisionUnk_636c38[];
-extern const u16 sSr388CollisionUnk_637038[];
-extern const u8 sSr388CollisionUnk_638c14[];
-extern const u8 sSr388CollisionUnk_639bc4[];
+extern const struct FrameData sBslCrashingFallingBslOam[3];
+extern const struct FrameData sBslCrashingFallingBslTransparentOam[3];
+extern const struct FrameData sBslCrashingType3Oam[71];
+extern const struct FrameData sBslCrashingFallingBslOam_End[29];
 
 boolu32 DiedFromSr388CollisionHandler(void);
 void DiedOnSr388CollisionInit(void);
