@@ -9,6 +9,7 @@
 #include "structs/ending.h"
 #include "structs/intro.h"
 #include "structs/menus/game_over.h"
+#include "structs/menus/file_select.h"
 
 struct InGameData {
     u8 clipdataCode[640];
@@ -23,6 +24,7 @@ union NonGameplayRam {
     struct IntroData intro;
     struct EndingData ending;
     struct GameOverData gameOver;
+    struct FileSelectData fileSelect;
     u8 size[1344];
 };
 
@@ -34,6 +36,7 @@ extern union NonGameplayRam gNonGameplayRam;
 #define SA_X_CLOSE_UP_DATA gNonGameplayRam.saXCloseUp
 #define ENDING_DATA gNonGameplayRam.ending
 #define GAME_OVER_DATA gNonGameplayRam.gameOver
+#define FILE_SELECT_DATA gNonGameplayRam.fileSelect
 
 extern u8 gSpriteGfxBackup[0x8000];
 
