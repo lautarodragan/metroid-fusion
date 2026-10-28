@@ -325,7 +325,9 @@ const s16 sSineTable[Q_8_8(1.f) + PI / 2] = {
     Q_8_8(0.99609375),  // sin(319*(π/128))
 };
 
-const u8 sInterruptHandlers[] = INCBIN_U8("data/Blob_a5224_a5258.bin");
+// Interrupt handlers, in the order InterruptCode (asm/intr_main.s) tests the IF bits
+// Pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u32 sInterruptHandlers[13] = INCBIN_U32("data/interrupt_handlers.bin");
 
 const void* const sSaveDataSramPointers[3] = {
     SRAM_BASE + 0x200 + sizeof(struct SaveFile) * 0,

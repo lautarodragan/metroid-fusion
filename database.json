@@ -1,305 +1,313 @@
 [
   {
-    "path": "Blob_a5224_a5258.bin",
-    "count": "0x34",
+    "path": "interrupt_handlers.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA5224"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_a5710_a59e0.bin",
-    "count": "0x2D0",
+    "path": "voicegroups/a5710.bin",
+    "count": "0x3C",
     "addr": {
       "us": "0xA5710"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a59e0_a5b3c.bin",
-    "count": "0x15C",
+    "path": "voicegroups/a59e0.bin",
+    "count": "0x1D",
     "addr": {
       "us": "0xA59E0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5b3c_a5bd8.bin",
-    "count": "0x9C",
+    "path": "voicegroups/a5b3c.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA5B3C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5bd8_a5ca4.bin",
-    "count": "0xCC",
+    "path": "voicegroups/a5bd8.bin",
+    "count": "0x11",
     "addr": {
       "us": "0xA5BD8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5ca4_a5cf8.bin",
-    "count": "0x54",
+    "path": "voicegroups/a5ca4.bin",
+    "count": "0x7",
     "addr": {
       "us": "0xA5CA4"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5cf8_a5d94.bin",
-    "count": "0x9C",
+    "path": "voicegroups/a5cf8.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA5CF8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5d94_a5e3c.bin",
-    "count": "0xA8",
+    "path": "voicegroups/a5d94.bin",
+    "count": "0xE",
     "addr": {
       "us": "0xA5D94"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5e3c_a5f68.bin",
-    "count": "0x12C",
+    "path": "voicegroups/a5e3c.bin",
+    "count": "0x19",
     "addr": {
       "us": "0xA5E3C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5f68_a5fbc.bin",
-    "count": "0x54",
+    "path": "voicegroups/a5f68.bin",
+    "count": "0x7",
     "addr": {
       "us": "0xA5F68"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a5fbc_a6094.bin",
-    "count": "0xD8",
+    "path": "voicegroups/a5fbc.bin",
+    "count": "0x12",
     "addr": {
       "us": "0xA5FBC"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6094_a61fc.bin",
-    "count": "0x168",
+    "path": "voicegroups/a6094.bin",
+    "count": "0x1E",
     "addr": {
       "us": "0xA6094"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a61fc_a62f8.bin",
-    "count": "0xFC",
+    "path": "voicegroups/a61fc.bin",
+    "count": "0x15",
     "addr": {
       "us": "0xA61FC"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a62f8_a64c0.bin",
-    "count": "0x1C8",
+    "path": "voicegroups/a62f8.bin",
+    "count": "0x26",
     "addr": {
       "us": "0xA62F8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a64c0_a6544.bin",
-    "count": "0x84",
+    "path": "voicegroups/a64c0.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA64C0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6544_a6628.bin",
-    "count": "0xE4",
+    "path": "voicegroups/a6544.bin",
+    "count": "0x13",
     "addr": {
       "us": "0xA6544"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6628_a6718.bin",
-    "count": "0xF0",
+    "path": "voicegroups/a6628.bin",
+    "count": "0x14",
     "addr": {
       "us": "0xA6628"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6718_a682c.bin",
-    "count": "0x114",
+    "path": "voicegroups/a6718.bin",
+    "count": "0x17",
     "addr": {
       "us": "0xA6718"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a682c_a6af0.bin",
-    "count": "0x2C4",
+    "path": "voicegroups/a682c.bin",
+    "count": "0x3B",
     "addr": {
       "us": "0xA682C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6af0_a6d54.bin",
-    "count": "0x264",
+    "path": "voicegroups/a6af0.bin",
+    "count": "0x33",
     "addr": {
       "us": "0xA6AF0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a6d54_a71ec.bin",
-    "count": "0x498",
+    "path": "voicegroups/a6d54.bin",
+    "count": "0x62",
     "addr": {
       "us": "0xA6D54"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a71ec_a74c8.bin",
-    "count": "0x2DC",
+    "path": "voicegroups/a71ec.bin",
+    "count": "0x3D",
     "addr": {
       "us": "0xA71EC"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a74c8_a7654.bin",
-    "count": "0x18C",
+    "path": "voicegroups/a74c8.bin",
+    "count": "0x21",
     "addr": {
       "us": "0xA74C8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7654_a7750.bin",
-    "count": "0xFC",
+    "path": "voicegroups/a7654.bin",
+    "count": "0x15",
     "addr": {
       "us": "0xA7654"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7750_a7798.bin",
-    "count": "0x48",
+    "path": "voicegroups/a7750.bin",
+    "count": "0x6",
     "addr": {
       "us": "0xA7750"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7798_a7aa4.bin",
-    "count": "0x30C",
+    "path": "voicegroups/a7798.bin",
+    "count": "0x41",
     "addr": {
       "us": "0xA7798"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7aa4_a7d14.bin",
-    "count": "0x270",
+    "path": "voicegroups/a7aa4.bin",
+    "count": "0x34",
     "addr": {
       "us": "0xA7AA4"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7d14_a7e10.bin",
-    "count": "0xFC",
+    "path": "voicegroups/a7d14.bin",
+    "count": "0x15",
     "addr": {
       "us": "0xA7D14"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7e10_a7f24.bin",
-    "count": "0x114",
+    "path": "voicegroups/a7e10.bin",
+    "count": "0x17",
     "addr": {
       "us": "0xA7E10"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a7f24_a8008.bin",
-    "count": "0xE4",
+    "path": "voicegroups/a7f24.bin",
+    "count": "0x13",
     "addr": {
       "us": "0xA7F24"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a8008_a808c.bin",
-    "count": "0x84",
+    "path": "voicegroups/a8008.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA8008"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a808c_a81e8.bin",
-    "count": "0x15C",
+    "path": "voicegroups/a808c.bin",
+    "count": "0x1D",
     "addr": {
       "us": "0xA808C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a81e8_a826c.bin",
-    "count": "0x84",
+    "path": "voicegroups/a81e8.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA81E8"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a826c_a82f0.bin",
-    "count": "0x84",
+    "path": "voicegroups/a826c.bin",
+    "count": "0xB",
     "addr": {
       "us": "0xA826C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a82f0_a838c.bin",
-    "count": "0x9C",
+    "path": "voicegroups/a82f0.bin",
+    "count": "0xD",
     "addr": {
       "us": "0xA82F0"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a838c_a8554.bin",
-    "count": "0x1C8",
+    "path": "voicegroups/a838c.bin",
+    "count": "0x26",
     "addr": {
       "us": "0xA838C"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a8554_a8af4.bin",
-    "count": "0x5A0",
+    "path": "voicegroups/a8554.bin",
+    "count": "0x78",
     "addr": {
       "us": "0xA8554"
     },
-    "size": 1
+    "size": 12
   },
   {
-    "path": "Blob_a8af4_a8cdc.bin",
-    "count": "0x1E8",
+    "path": "voicegroups/a8af4.bin",
+    "count": "0x28",
     "addr": {
       "us": "0xA8AF4"
+    },
+    "size": 12
+  },
+  {
+    "path": "Blob_a8cd4_a8cdc.bin",
+    "count": "0x8",
+    "addr": {
+      "us": "0xA8CD4"
     },
     "size": 1
   },

@@ -279,8 +279,12 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
         assert len(data) <= r.size, r.path
         rom[r.addr:r.addr + len(data)] = data
 
+    # Pointer tables of known layout, de-blobbed or not ("misc" .bin regions)
+    known = [r for r in regions if r.category in ("blob", "misc")]
+    sym.update({r.path: layout.symbol_of(r) for r in known})
+
     # Interrupt handlers
-    table = [r for r in blobs if sym[r.path] == INTERRUPT_TABLE_SYMBOL]
+    table = [r for r in known if sym[r.path] == INTERRUPT_TABLE_SYMBOL]
     if len(table) != 1:
         raise SystemExit(f"expected one region INCBINed as {INTERRUPT_TABLE_SYMBOL}, found {len(table)}")
     words = [layout.function(f) for f in INTERRUPT_HANDLERS] if layout.have_build else []
@@ -291,7 +295,7 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     samples = sorted((r for r in regions if r.category == "sound_sample"), key=lambda r: r.addr)
     sample = layout.region_address(samples[0])
     voice = struct.pack("<BBBBI4B", 0, 60, 0, 0, sample, 0xFF, 0, 0xFF, 0xA5)
-    vgs = [r for r in blobs if sym[r.path] and VOICEGROUP_RE.match(sym[r.path])]
+    vgs = [r for r in known if sym[r.path] and VOICEGROUP_RE.match(sym[r.path])]
     if not vgs:
         raise SystemExit("no voicegroup regions (sVoicegroup_*) found")
     for r in vgs:
