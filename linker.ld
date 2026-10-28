@@ -506,6 +506,8 @@ SECTIONS {
         src/new_file_intro.o(.text);
 
         asm/disasm_0x0808F5C4.o(.text);
+        asm/disasm_0x08096B98.o(.text);
+        asm/disasm_0x0809A848.o(.text);
 
         src/sa_x_close_up.o(.text);
 
