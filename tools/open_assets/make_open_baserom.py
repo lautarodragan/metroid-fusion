@@ -389,7 +389,7 @@ EMPTY_BG_TILES = [("animated_tiles/tiles.gfx", 0x80), ("common/common_tiles.gfx"
 # Default button assignments of a new file (struct ButtonAssignments:
 # arm missiles, diagonal aim, swap missiles, pause). Zero-filled, missiles,
 # diagonal aiming and the pause menu cannot be used.
-BUTTON_ASSIGNMENTS_SYMBOL = "sSramUnk_5822c8"
+BUTTON_ASSIGNMENTS_SYMBOL = "sDefaultButtonAssignments"
 BUTTON_ASSIGNMENTS = (0x100, 0x200, 0x004, 0x008)   # R, L, SELECT, START
 
 

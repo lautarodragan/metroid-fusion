@@ -27705,23 +27705,23 @@
     "size": 1
   },
   {
-    "path": "Blob_58217c_5821b3.bin",
-    "count": "0x37",
+    "path": "menus/pause_screen/status_screen_section_dst.bin",
+    "count": "0xB",
     "addr": {
       "us": "0x58217C"
     },
-    "size": 1
+    "size": 5
   },
   {
-    "path": "Blob_5821b3_5821d6.bin",
-    "count": "0x23",
+    "path": "menus/pause_screen/status_screen_item_src.bin",
+    "count": "0x7",
     "addr": {
       "us": "0x5821B3"
     },
-    "size": 1
+    "size": 5
   },
   {
-    "path": "Blob_5821d6_5821e8.bin",
+    "path": "menus/pause_screen/status_screen_ammo_header_info.bin",
     "count": "0x12",
     "addr": {
       "us": "0x5821D6"
@@ -27729,7 +27729,7 @@
     "size": 1
   },
   {
-    "path": "Blob_5821e8_5821f8.bin",
+    "path": "sram/test_data.bin",
     "count": "0x10",
     "addr": {
       "us": "0x5821E8"
@@ -27737,7 +27737,7 @@
     "size": 1
   },
   {
-    "path": "Blob_5821f8_582200.bin",
+    "path": "sram/save_file_end_magic.bin",
     "count": "0x8",
     "addr": {
       "us": "0x5821F8"
@@ -27745,7 +27745,7 @@
     "size": 1
   },
   {
-    "path": "Blob_582200_582248.bin",
+    "path": "sram/save_file_magic.bin",
     "count": "0x48",
     "addr": {
       "us": "0x582200"
@@ -27753,7 +27753,7 @@
     "size": 1
   },
   {
-    "path": "Blob_582248_58225c.bin",
+    "path": "sram/header_magic.bin",
     "count": "0x14",
     "addr": {
       "us": "0x582248"
@@ -27761,31 +27761,31 @@
     "size": 1
   },
   {
-    "path": "Blob_582288_5822a8.bin",
-    "count": "0x20",
+    "path": "sram/most_recent_save_file_magic.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x582288"
     },
-    "size": 1
+    "size": 16
   },
   {
-    "path": "Blob_5822a8_5822c8.bin",
-    "count": "0x20",
+    "path": "sram/language_data_magic.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x5822A8"
     },
-    "size": 1
+    "size": 16
   },
   {
-    "path": "Blob_5822c8_5822d4.bin",
-    "count": "0xC",
+    "path": "sram/default_button_assignments.bin",
+    "count": "0x6",
     "addr": {
       "us": "0x5822C8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5822d4_5822e4.bin",
+    "path": "sram/default_in_game_time.bin",
     "count": "0x10",
     "addr": {
       "us": "0x5822D4"
@@ -27793,7 +27793,7 @@
     "size": 1
   },
   {
-    "path": "Blob_5822e4_5822f0.bin",
+    "path": "sram/default_boot_debug_options.bin",
     "count": "0xC",
     "addr": {
       "us": "0x5822E4"
@@ -27801,55 +27801,63 @@
     "size": 1
   },
   {
-    "path": "Blob_5822f0_5823d0.bin",
-    "count": "0xE0",
+    "path": "menus/erase_sram/obj.pal",
+    "count": "0x70",
     "addr": {
       "us": "0x5822F0"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_5823d0_582bbc.bin",
-    "count": "0x7EC",
+    "path": "menus/erase_sram/bg.pal",
+    "count": "0x100",
     "addr": {
       "us": "0x5823D0"
     },
+    "size": 2
+  },
+  {
+    "path": "Blob_5825d0_582bbc.bin",
+    "count": "0x5EC",
+    "addr": {
+      "us": "0x5825D0"
+    },
     "size": 1
   },
   {
-    "path": "Blob_582bbc_58340c.bin",
-    "count": "0x850",
+    "path": "menus/erase_sram/obj.gfx.lz",
+    "count": "0x214",
     "addr": {
       "us": "0x582BBC"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58340c_58abe4.bin",
-    "count": "0x77D8",
+    "path": "menus/erase_sram/bg.gfx.lz",
+    "count": "0x1DF6",
     "addr": {
       "us": "0x58340C"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58abe4_58adf0.bin",
-    "count": "0x20C",
+    "path": "menus/erase_sram/bg_d000.tm.lz",
+    "count": "0x83",
     "addr": {
       "us": "0x58ABE4"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58adf0_58b3b0.bin",
-    "count": "0x5C0",
+    "path": "menus/erase_sram/bg_f000.tm.lz",
+    "count": "0x170",
     "addr": {
       "us": "0x58ADF0"
     },
-    "size": 1
+    "size": 4
   },
   {
-    "path": "Blob_58b3b0_58b3b4.bin",
+    "path": "menus/erase_sram/cursor_oam_ids.bin",
     "count": "0x4",
     "addr": {
       "us": "0x58B3B0"
@@ -27857,28 +27865,28 @@
     "size": 1
   },
   {
-    "path": "Blob_58b3b4_58b3be.bin",
-    "count": "0xA",
+    "path": "menus/erase_sram/sounds.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x58B3B4"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_58b3be_58b3c2.bin",
-    "count": "0x4",
+    "path": "menus/erase_sram/cursor_base_positions.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x58B3BE"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "Blob_58b3c2_58b3cc.bin",
-    "count": "0xA",
+    "path": "menus/erase_sram/cursor_offsets.bin",
+    "count": "0x5",
     "addr": {
       "us": "0x58B3C2"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "projectiles/normal_beam.pal",

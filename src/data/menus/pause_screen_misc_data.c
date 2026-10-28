@@ -571,10 +571,17 @@ const u8 sDebugSectionInfo[PAUSE_DEBUG_SECTION_END][5] = {
 };
 
 static const u8 sBlob_58217b_58217c[] = INCBIN_U8("data/Blob_58217b_58217c.bin");
-const u8 sStatusScreenUnk_58217c[] = INCBIN_U8("data/Blob_58217c_5821b3.bin");
-const u8 sStatusScreenUnk_5821b3[] = INCBIN_U8("data/Blob_5821b3_5821d6.bin");
-const u8 sStatusScreenUnk_5821d6[] = INCBIN_U8("data/Blob_5821d6_5821e8.bin");
-const u8 sSramUnk_5821e8[] = INCBIN_U8("data/Blob_5821e8_5821f8.bin");
-const u8 sSramUnk_5821f8[] = INCBIN_U8("data/Blob_5821f8_582200.bin");
-const u8 sSramUnk_582200[] = INCBIN_U8("data/Blob_582200_582248.bin");
-const u8 sSramUnk_582248[] = INCBIN_U8("data/Blob_582248_58225c.bin");
+// Destination tilemap info for each status screen section (top, bottom, left, right, ...)
+const u8 sStatusScreenSectionDstInfo[11][5] = INCBIN_U8("data/menus/pause_screen/status_screen_section_dst.bin");
+// Source tilemap info for each item section
+const u8 sStatusScreenItemSrcInfo[7][5] = INCBIN_U8("data/menus/pause_screen/status_screen_item_src.bin");
+// Tilemap info for the ammo headers (4 bytes each)
+const u8 sStatusScreenAmmoHeaderInfo[18] = INCBIN_U8("data/menus/pause_screen/status_screen_ammo_header_info.bin");
+// Data written to SRAM to test it
+const u8 sSramTestData[16] = INCBIN_U8("data/sram/test_data.bin");
+// "SAVE END" string at the end of a save file
+const u8 sSaveFileEndMagic[8] = INCBIN_U8("data/sram/save_file_end_magic.bin");
+// Magic string at the start of a save file
+const u8 sSaveFileMagic[72] = INCBIN_U8("data/sram/save_file_magic.bin");
+// Magic string of the SRAM header
+const u8 sSramHeaderMagic[20] = INCBIN_U8("data/sram/header_magic.bin");

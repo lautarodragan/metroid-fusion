@@ -9,26 +9,26 @@
 // Defined in src/data/menus/pause_screen_misc_data.c
 
 // Data written to SRAM to test it
-extern const u8 sSramUnk_5821e8[];
+extern const u8 sSramTestData[16];
 // "SAVE END" string at the end of a save file
-extern const u8 sSramUnk_5821f8[];
+extern const u8 sSaveFileEndMagic[8];
 // Magic string at the start of a save file
-extern const u8 sSramUnk_582200[];
+extern const u8 sSaveFileMagic[72];
 // Magic string of the SRAM header
-extern const u8 sSramUnk_582248[];
+extern const u8 sSramHeaderMagic[20];
 
 // Defined in src/data/sram_pointers.c
 
 // Magic strings of the most recent save file data
-extern const u8 sSramUnk_582288[2][16];
+extern const u8 sMostRecentSaveFileMagic[2][16];
 // Magic strings of the language data
-extern const u8 sSramUnk_5822a8[2][16];
+extern const u8 sLanguageDataMagic[2][16];
 
 // Button assignments used for demos
-extern const struct ButtonAssignments sSramUnk_5822c8[];
+extern const struct ButtonAssignments sDefaultButtonAssignments[];
 // Default in game timer
-extern const struct InGameTime sSramUnk_5822d4[];
+extern const struct InGameTime sDefaultInGameTime[];
 // Boot debug options used for demos
-extern const struct BootDebugOptions sSramUnk_5822e4[];
+extern const struct BootDebugOptions sDefaultBootDebugOptions[];
 
 #endif /* SRAM_DATA_H */
