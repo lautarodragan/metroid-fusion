@@ -1,4 +1,5 @@
 #include "fixed_point.h"
+#include "profile.h"
 #include "macros.h"
 
 /**
@@ -41,6 +42,8 @@ s16 FixedDivision(s16 a, s16 b)
 s16 FixedInverse(s16 a)
 {
     s32 one;
+
+    PROFILE_COUNT(PROF_FIXED_INVERSE_COUNT);
 
     one = Q_16_16(1.f);
     return one / a;

@@ -4,6 +4,8 @@
 #include "macros.h"
 #include "fixed_point.h"
 #include "gba.h"
+#include "profile.h"
+#include "optimize.h"
 
 #include "data/sprite_data.h"
 #include "data/generic_data.h"
@@ -27,6 +29,21 @@ void SpriteUpdateRandomNumber(u8 slot)
     gSpriteRandomNumber = sRandomNumberTable[offset % ARRAY_SIZE(sRandomNumberTable)];
 }
 
+#ifdef PROFILE_DETAIL
+#define PROFILE_SPRITE_DRAW(slot) do {                  \
+    struct ProfileMark _pm;                             \
+    u32 _d;                                             \
+    PROFILE_START(_pm);                                 \
+    SpriteDraw(slot);                                   \
+    _d = PROFILE_ELAPSED(_pm);                          \
+    gProfile.cur.drawCycles[slot] += _d;                \
+    gProfile.cur.cycles[PROF_SPRITE_DRAW] += _d;        \
+    gProfile.cur.cycles[PROF_SPRITE_DRAW_COUNT]++;      \
+} while (0)
+#else
+#define PROFILE_SPRITE_DRAW(slot) SpriteDraw(slot)
+#endif
+
 /**
  * @brief e7e8 | 2d4 | Updates the sprites
  * 
@@ -38,12 +55,17 @@ void SpriteUpdate(void)
     if (gSubGameMode1 == SUB_GAME_MODE_PLAYING)
     {
         // Update the debris
-        SpriteDebrisUpdateAll();
+        PROFILE_CALL(PROF_SPRITE_DEBRIS, SpriteDebrisUpdateAll());
 
         if (!SpriteUtilCheckSamusStopSpritesPose())
         {
+#ifdef PROFILE_DETAIL
+            struct ProfileMark mark;
+            u32 elapsed;
+#endif
+
             // Handle collision
-            SpriteUtilSamusAndSpriteCollision();
+            PROFILE_CALL(PROF_SPRITE_SAMUS_COLLISION, SpriteUtilSamusAndSpriteCollision());
 
             // Update every sprite
             for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -52,8 +74,11 @@ void SpriteUpdate(void)
                     continue;
 
                 // Copy to current sprite
-                gCurrentSprite = gSpriteData[i];
+                PROFILE_CALL(PROF_SPRITE_COPY, gCurrentSprite = gSpriteData[i]);
 
+#ifdef PROFILE_DETAIL
+                PROFILE_START(mark);
+#endif
                 // Update RNG and stun
                 SpriteUpdateRandomNumber(i);
                 SpriteUtilUpdateStunTimer();
@@ -63,17 +88,28 @@ void SpriteUpdate(void)
                     sSecondarySpritesAiPointers[gCurrentSprite.spriteId]();
                 else
                     sPrimarySpritesAiPointers[gCurrentSprite.spriteId]();
+#ifdef PROFILE_DETAIL
+                elapsed = PROFILE_ELAPSED(mark);
+                gProfile.cur.aiCycles[i] += elapsed;
+                gProfile.cur.cycles[PROF_SPRITE_AI] += elapsed;
+#endif
 
                 if (gCurrentSprite.status & SPRITE_STATUS_EXISTS)
                 {
+#ifdef PROFILE_DETAIL
+                    PROFILE_START(mark);
+#endif
                     // If sprite still exists, update standing, animation and on screen flag
                     SpriteUtilSamusStandingOnSprite();
                     SpriteUpdateAnimation();
                     SpriteCheckOnScreen();
+#ifdef PROFILE_DETAIL
+                    PROFILE_END(mark, PROF_SPRITE_ANIM);
+#endif
                 }
 
                 // Copy back to sprite data
-                gSpriteData[i] = gCurrentSprite;
+                PROFILE_CALL(PROF_SPRITE_COPY, gSpriteData[i] = gCurrentSprite);
             }
         }
         else
@@ -189,7 +225,7 @@ void SpriteUpdate(void)
  * @brief eabc | 48 | Updates the animation of the current sprite
  * 
  */
-void SpriteUpdateAnimation(void)
+IWRAM_CODE void SpriteUpdateAnimation(void)
 {
     // Don't update animation if freezed
     if (gCurrentSprite.freezeTimer != 0)
@@ -213,6 +249,44 @@ void SpriteUpdateAnimation(void)
         gCurrentSprite.currentAnimationFrame = 0;
     }
 }
+
+#ifdef OPTIMIZE_DRAW_ORDER
+/**
+ * @brief Draws the sprites whose gSpriteDrawOrder is between first and last, by draw order then
+ * slot (OPTIMIZE_DRAW_ORDER: one sorted list instead of scanning every slot for every draw order)
+ *
+ * @param first First draw order
+ * @param last Last draw order
+ */
+static void SpriteDrawSorted(u32 first, u32 last)
+{
+    u8 sorted[MAX_AMOUNT_OF_SPRITES];
+    s32 count;
+    s32 i;
+    s32 k;
+    u32 drawOrder;
+
+    count = 0;
+    for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
+    {
+        drawOrder = gSpriteDrawOrder[i];
+        if (drawOrder < first || drawOrder > last)
+            continue;
+
+        for (k = count; k > 0 && gSpriteDrawOrder[sorted[k - 1]] > drawOrder; k--)
+            sorted[k] = sorted[k - 1];
+        sorted[k] = i;
+        count++;
+    }
+
+    for (k = 0; k < count; k++)
+    {
+        i = sorted[k];
+        gCurrentSprite = gSpriteData[i];
+        PROFILE_SPRITE_DRAW(i);
+    }
+}
+#endif // OPTIMIZE_DRAW_ORDER
 
 /**
  * @brief eb04 | 9c | To document
@@ -245,6 +319,9 @@ void unk_eb04(void)
             gSpriteDrawOrder[i] = 0;
     }
 
+#ifdef OPTIMIZE_DRAW_ORDER
+    SpriteDrawSorted(1, 8);
+#else
     for (drawOrder = 1; drawOrder < 9; drawOrder++)
     {
         for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -252,10 +329,11 @@ void unk_eb04(void)
             if (gSpriteDrawOrder[i] == drawOrder)
             {
                 gCurrentSprite = gSpriteData[i];
-                SpriteDraw(i);
+                PROFILE_SPRITE_DRAW(i);
             }
         }
     }
+#endif
 }
 
 /**
@@ -289,6 +367,9 @@ void SpriteDrawAll(void)
             gSpriteDrawOrder[i] = 0;
     }
 
+#ifdef OPTIMIZE_DRAW_ORDER
+    SpriteDrawSorted(1, 8);
+#else
     for (drawOrder = 1; drawOrder < 9; drawOrder++)
     {
         for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -296,10 +377,11 @@ void SpriteDrawAll(void)
             if (gSpriteDrawOrder[i] == drawOrder)
             {
                 gCurrentSprite = gSpriteData[i];
-                SpriteDraw(i);
+                PROFILE_SPRITE_DRAW(i);
             }
         }
     }
+#endif
 }
 
 /**
@@ -330,6 +412,9 @@ void unk_ec38(void)
             gSpriteDrawOrder[i] = 0;
     }
 
+#ifdef OPTIMIZE_DRAW_ORDER
+    SpriteDrawSorted(9, 16);
+#else
     for (drawOrder = 9; drawOrder < 17; drawOrder++)
     {
         for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -337,10 +422,11 @@ void unk_ec38(void)
             if (gSpriteDrawOrder[i] == drawOrder)
             {
                 gCurrentSprite = gSpriteData[i];
-                SpriteDraw(i);
+                PROFILE_SPRITE_DRAW(i);
             }
         }
     }
+#endif
 }
 
 /**
@@ -348,7 +434,7 @@ void unk_ec38(void)
  * 
  * @param slot Sprite slot
  */
-void SpriteDraw(s32 slot)
+IWRAM_CODE void SpriteDraw(s32 slot)
 {
     const u16* src;
     u16* dst;

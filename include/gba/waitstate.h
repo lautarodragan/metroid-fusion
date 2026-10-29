@@ -35,8 +35,13 @@
 #define WAIT_TERMOUT_16_76MHZ (1 << 11 | 1 << 12)
 #define WAIT_TERMOUT_MASK (1 << 11 | 1 << 12)
 
-#define WAIT_PREFETCH (1 << 13)
+// Bit 13 is unused
+// Game Pak prefetch buffer: while the CPU does not use the cartridge bus, the
+// buffer fetches the following halfwords of code, so sequential code fetches
+// from ROM can take 1 cycle instead of the bank's wait states
+#define WAIT_PREFETCH (1 << 14)
 
-#define WAIT_GAMEPACK_CGB (1 << 14)
+// Game Pak type flag (read only): set for a CGB cartridge
+#define WAIT_GAMEPACK_CGB (1 << 15)
 
 #endif /* GBA_WAITSTATE_H */

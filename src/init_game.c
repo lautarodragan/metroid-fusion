@@ -3,6 +3,8 @@
 #include "macros.h"
 
 #include "softreset.h"
+#include "profile.h"
+#include "optimize.h"
 
 /**
  * @brief 798 | 118 | Initializes the game
@@ -16,6 +18,11 @@ void InitializeGame(void)
 
     DMA3_FILL_32(0, EWRAM_BASE, EWRAM_SIZE);
     DMA3_FILL_32(0, IWRAM_BASE, IWRAM_SIZE - 0x200);
+
+#ifdef OPTIMIZE_IWRAM
+    // Functions that run from IWRAM
+    DMA3_COPY_32(gIwramCodeLoad, gIwramCodeStart, (u32)(gIwramCodeEnd - gIwramCodeStart) / 4);
+#endif
 
     ClearGfxRam();
     LoadInterruptCode();
@@ -32,7 +39,7 @@ void InitializeGame(void)
         | WAIT_BANK0_SUBSEQUENT_1CYCLE
         | WAIT_BANK1_3CYCLES | WAIT_BANK1_SUBSEQUENT_1CYCLE
         | WAIT_BANK2_3CYCLES | WAIT_BANK2_SUBSEQUENT_1CYCLE
-        | WAIT_GAMEPACK_CGB);
+        | WAIT_PREFETCH);
 
     gSubGameMode1 = 0;
     gSubGameMode2 = 0;
@@ -58,4 +65,8 @@ void InitializeGame(void)
     gChangedInput = KEY_NONE;
 
     gDisableSoftReset = FALSE;
+
+#ifdef PROFILE
+    ProfileInit();
+#endif
 }

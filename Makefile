@@ -66,6 +66,50 @@ ifeq ($(SHIFT),1)
 	LD_CPPFLAGS += -DSHIFT_TEST=$(SHIFT_AMOUNT)
 endif
 
+# Non-matching variants (see book/src/performance.md):
+#   PROFILE=1     cycle profiler, frame totals (include/profile.h), *_profile.gba
+#   PROFILE=2     cycle profiler, every subsystem, *_profile2.gba
+#   OPTIMIZE=...  performance changes, *_opt.gba: OPTIMIZE=1 enables all of
+#                 them, or a list of names enables some (e.g.
+#                 OPTIMIZE="PROJ_HIT DRAW_ORDER"), each one as
+#                 -DOPTIMIZE_<name>
+PROFILE ?= 0
+OPTIMIZE ?= 0
+# OPTIMIZE=1: the changes worth having (IWRAM is opt-in: OPTIMIZE="PROJ_HIT DRAW_ORDER IWRAM",
+# about 1% of a frame for 3 KB of IWRAM, see book/src/performance.md)
+OPTIMIZE_ALL = PROJ_HIT DRAW_ORDER
+VARIANT_CPPFLAGS =
+ifeq ($(PROFILE),1)
+	VARIANT_CPPFLAGS += -DPROFILE
+	TARGET := $(TARGET)_profile
+endif
+ifeq ($(PROFILE),2)
+	VARIANT_CPPFLAGS += -DPROFILE -DPROFILE_DETAIL
+	TARGET := $(TARGET)_profile2
+endif
+ifneq ($(OPTIMIZE),0)
+	ifeq ($(OPTIMIZE),1)
+		OPTIMIZE_NAMES = $(OPTIMIZE_ALL)
+	else
+		OPTIMIZE_NAMES = $(OPTIMIZE)
+	endif
+	VARIANT_CPPFLAGS += -DOPTIMIZE $(addprefix -DOPTIMIZE_,$(OPTIMIZE_NAMES))
+	TARGET := $(TARGET)_opt
+endif
+CPPFLAGS += $(VARIANT_CPPFLAGS)
+# Holds the variant flags of the last build (see the rule of %.s below)
+FLAGS_STAMP = .build_flags
+
+# OPTIMIZE_IWRAM: the files with IWRAM_CODE functions are compiled with long
+# calls, and the calls made from IWRAM are fixed by tools/iwram_calls.py
+IWRAM_SRC = src/sprite.c src/projectile.c src/particle.c
+ifneq (,$(filter IWRAM,$(OPTIMIZE_NAMES)))
+  $(IWRAM_SRC:.c=.s): CFLAGS += -mlong-calls
+  IWRAM_FIXUP = 1
+  # .iwram_code lies inside the address range of the (NOLOAD) iwram variables section
+  LDFLAGS += --no-check-sections
+endif
+
 TARGET := $(TARGET).gba
 
 # Default target
@@ -236,6 +280,8 @@ help:
 	@echo '  REGION=<region>: selects the region of the ROM, possible values are "us", "eu", "jp", "cn", and "eu_beta"'
 	@echo '  DEBUG=1: enables the debug code'
 	@echo '  SHIFT=1: link a shift test ROM (*_shifted.gba) with SHIFT_AMOUNT (default 0x100) bytes of padding in the code and data'
+	@echo '  PROFILE=1|2: non-matching build with a cycle profiler, frame totals or detailed (*_profile.gba, *_profile2.gba)'
+	@echo '  OPTIMIZE=1|"NAME ...": non-matching build with performance changes (*_opt.gba)'
 
 $(TARGET): $(ELF)
 	$(MSG) OBJCOPY $@
@@ -247,7 +293,7 @@ $(ELF) $(MAP): $(OBJ) $(LD_SCRIPT)
 	$(MSG) LD $@
 	$Q$(LD) $(LDFLAGS) -n -T $(LD_SCRIPT) -Map=$(MAP) $(LIBS) -o $@
 
-$(LD_SCRIPT): linker.ld
+$(LD_SCRIPT): linker.ld $(FLAGS_STAMP)
 	$(MSG) CPP $@
 	$Q$(CPP) $(CPPFLAGS) $(LD_CPPFLAGS) $< -o $@
 
@@ -266,9 +312,27 @@ endif
 	$(MSG) AS $@
 	$Q$(AS) $(ASFLAGS) $< -o $@
 
+# The objects of C files depend on the variant flags: switching between the
+# normal build and a variant rebuilds them (.build_flags holds the flags of
+# the last build)
+ifneq ($(SETUP_PREREQS),0)
+  ifneq ($(strip $(VARIANT_CPPFLAGS)),$(strip $(file <$(FLAGS_STAMP))))
+    $(file >$(FLAGS_STAMP),$(strip $(VARIANT_CPPFLAGS)))
+  endif
+endif
+$(CSRC:.c=.s): $(FLAGS_STAMP)
+# (there is no header dependency tracking; the variant headers are the exception)
+VARIANT_HEADERS = include/profile.h include/optimize.h
+$(patsubst %.c,%.s,$(shell grep -l -e '"profile.h"' -e '"optimize.h"' $(CSRC) 2>/dev/null)): $(wildcard $(VARIANT_HEADERS))
+$(FLAGS_STAMP):
+	$Qtouch -t 197001010000 $@
+
 %.s: %.c
 	$(MSG) CC $@
 	$Q$(PREPROC) $< $(PREPROCFLAGS) | $(CPP) $(CPPFLAGS) | $(CC) -o $@ $(CFLAGS) && printf '\t.align 2, 0 @ dont insert nops\n' >> $@
+ifeq ($(IWRAM_FIXUP),1)
+	$Q$(if $(filter $<,$(IWRAM_SRC)),$(PYTHON) tools/iwram_calls.py $@,:)
+endif
 
 src/dma.s: CFLAGS = -O1 -mthumb-interwork -fhex-asm
 src/dma.s: src/dma.c

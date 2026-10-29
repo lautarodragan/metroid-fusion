@@ -317,6 +317,11 @@ SECTIONS {
         . = 0x000055b0; gTrackData2 = .;
         . = 0x000055f0; gTrackData5 = .;
 
+#ifdef PROFILE
+        /* Free IWRAM between the last variable and the stacks (see include/profile.h) */
+        . = 0x00005630; gProfile = .;
+#endif
+
         . = 0x00007ffc; gInterruptCodePointer = .;
 
     } >iwram
@@ -538,6 +543,10 @@ SECTIONS {
         src/ending_igt.o(.text);
 
         src/ending.o(.text);
+
+#ifdef PROFILE
+        src/profile.o(.text);
+#endif
 
         *libgcc.a:_call_via_rX.o(.text);
         *libgcc.a:_divsi3.o(.text);
@@ -1142,4 +1151,19 @@ SECTIONS {
         src/new_file_intro.o(.data);
         src/ending.o(.data);
     } >rom
+
+#ifdef OPTIMIZE_IWRAM
+    /* OPTIMIZE_IWRAM (include/optimize.h): functions that run from IWRAM, stored in ROM after
+       the data and copied by InitializeGame. In the free IWRAM after the sound track data
+       (and after the profiler's area, gProfile), below the stacks. */
+    .iwram_code 0x03005900 : AT (LOADADDR(.data) + SIZEOF(.data)) {
+        gIwramCodeStart = .;
+        asm/iwram_call_via.o(.iwram_code);
+        *(.iwram_code);
+        . = ALIGN(4);
+        gIwramCodeEnd = .;
+    }
+    gIwramCodeLoad = LOADADDR(.iwram_code);
+    ASSERT(gIwramCodeEnd <= 0x03007400, "IWRAM code too large: it would reach the stacks")
+#endif
 }

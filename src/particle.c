@@ -1,4 +1,5 @@
 #include "particle.h"
+#include "optimize.h"
 
 #include "gba.h"
 #include "globals.h"
@@ -149,7 +150,7 @@ void ParticleCheckOnScreen(void)
  *
  * @param particleSlot Particle slot (unused)
  */
-void ParticleDraw(s32 particleSlot)
+IWRAM_CODE void ParticleDraw(s32 particleSlot)
 {
     s32 prevSlot;
     s32 partCount;

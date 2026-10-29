@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "syscalls.h"
+#include "profile.h"
 
 #include "constants/demo.h"
 #include "constants/sprite.h"
@@ -16,8 +17,11 @@ void AgbMain(void)
 
     while (TRUE)
     {
+#ifdef PROFILE
+        gProfile.loopStart = ProfileReadTimer();
+#endif
         gClearedEveryFrame = 0;
-        UpdateAudio();
+        PROFILE_FRAME_CALL(PROF_AUDIO, UpdateAudio());
 
         if (gRebootGame)
             break;
@@ -146,7 +150,15 @@ void AgbMain(void)
                 break;
 
             case GAME_MODE_IN_GAME:
+#ifdef PROFILE
+            {
+                u32 leaving;
+
+                PROFILE_FRAME_CALL(PROF_HANDLER, leaving = InGameHandler());
+                if (leaving)
+#else
                 if (InGameHandler())
+#endif
                 {
                     if (gPauseScreenFlag != 0)
                     {
@@ -178,6 +190,9 @@ void AgbMain(void)
                         }
                     }
                 }
+#ifdef PROFILE
+            }
+#endif
                 break;
 
             case GAME_MODE_MAP_SCREEN:
@@ -347,6 +362,9 @@ void AgbMain(void)
                 break;
         }
 
+#ifdef PROFILE
+        ProfileEndFrame();
+#endif
         gVBlankRequestFlag &= ~1;
         do {
             SYSCALL(2);

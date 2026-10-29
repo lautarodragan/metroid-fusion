@@ -70,6 +70,10 @@ The default built ROM is mf_us.gba
   - Specify the flags, REGION (takes the region name, defaults to `us`) and DEBUG (takes 0 or 1, defaults to 0)
 - Optionally, you can combine the commands to make it easier: `python3 tools/extractor.py && make -j`
 
+## Performance builds
+
+`make PROFILE=1` (or `2`) builds a ROM with a cycle profiler, and `make OPTIMIZE=1` a ROM with changes that remove the lag measured in boss fights (same game state at every logic frame). Neither changes the normal build. See [book/src/performance.md](book/src/performance.md).
+
 ## Checking without a baserom
 
 `make check-synthetic` builds the ROM from a deterministic synthetic baserom and compares it with the golden sha1 in `mf_us_synthetic.sha1`. It catches code changes that would break matching without needing the real ROM. See [book/src/synthetic-check.md](book/src/synthetic-check.md) for what it covers and when the golden value may be updated.

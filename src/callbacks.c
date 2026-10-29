@@ -3,6 +3,7 @@
 #include "gba.h"
 #include "globals.h"
 #include "io.h"
+#include "profile.h"
 
 /**
  * @brief b5c | 2c | Calls the v-blank callback
@@ -10,8 +11,18 @@
  */
 void CallbackCallVblank(void)
 {
+#ifdef PROFILE
+    u32 start;
+
+    PROFILE_ISR_START(start);
+#endif
+
     if (gVBlankCallback)
         gVBlankCallback();
+
+#ifdef PROFILE
+    PROFILE_ISR_END(start, PROF_VBLANK);
+#endif
 
     WRITE_16(REG_IF, READ_16(REG_IF) | IF_VBLANK);
     gVBlankRequestFlag = TRUE;
