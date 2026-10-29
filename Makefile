@@ -325,7 +325,7 @@ $(CSRC:.c=.s): $(FLAGS_STAMP)
 VARIANT_HEADERS = include/profile.h include/optimize.h
 $(patsubst %.c,%.s,$(shell grep -l -e '"profile.h"' -e '"optimize.h"' $(CSRC) 2>/dev/null)): $(wildcard $(VARIANT_HEADERS))
 $(FLAGS_STAMP):
-	$Qtouch -d @0 $@
+	$Qtouch -t 197001010000 $@
 
 %.s: %.c
 	$(MSG) CC $@
