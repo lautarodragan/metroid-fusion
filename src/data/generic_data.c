@@ -1,6 +1,8 @@
 #include "data/generic_data.h"
 #include "gba/memory.h"
 #include "structs/save_file.h"
+#include "callbacks.h"
+#include "music_wrappers.h"
 
 const s16 sSineTable[Q_8_8(1.f) + PI / 2] = {
     Q_8_8(0),           // sin(0*(π/128))
@@ -326,8 +328,21 @@ const s16 sSineTable[Q_8_8(1.f) + PI / 2] = {
 };
 
 // Interrupt handlers, in the order InterruptCode (asm/intr_main.s) tests the IF bits
-// Pointer table, targets unresolved (see tools/find_blob_pointers.py)
-const u32 sInterruptHandlers[13] = INCBIN_U32("data/interrupt_handlers.bin");
+const Func_T sInterruptHandlers[13] = {
+    Dma2IntrCode,
+    CallbackCallVblank,
+    CallbackCallHBlank,
+    CallbackCallVCount,
+    Callback_Empty,
+    Callback_Empty,
+    Callback_Empty,
+    Callback_Empty,
+    Callback_Empty,
+    Callback_Empty,
+    Callback_Empty,
+    Callback_Empty,
+    Callback_Empty
+};
 
 const void* const sSaveDataSramPointers[3] = {
     SRAM_BASE + 0x200 + sizeof(struct SaveFile) * 0,

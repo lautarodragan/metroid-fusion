@@ -12,6 +12,27 @@
 #include "structs/event.h"
 #include "structs/samus.h"
 
+extern const u32 sEraseSramTextGfxEnglish_0[];
+extern const u32 sEraseSramTextGfxEnglish_1[];
+extern const u32 sEraseSramTextGfxFrench_0[];
+extern const u32 sEraseSramTextGfxFrench_1[];
+extern const u32 sEraseSramTextGfxGerman_0[];
+extern const u32 sEraseSramTextGfxGerman_1[];
+extern const u32 sEraseSramTextGfxItalian_0[];
+extern const u32 sEraseSramTextGfxItalian_1[];
+extern const u32 sEraseSramTextGfxJapanese_0[];
+extern const u32 sEraseSramTextGfxJapanese_1[];
+extern const u32 sEraseSramTextGfxSpanish_0[];
+extern const u32 sEraseSramTextGfxSpanish_1[];
+
+// FrameData arrays used by sEraseSramOam
+extern const struct FrameData sEraseSramOam_582a3c[];
+extern const struct FrameData sEraseSramOam_582b24[];
+extern const struct FrameData sEraseSramOam_582b7c[];
+extern const struct FrameData sEraseSramOam_582b8c[];
+extern const struct FrameData sEraseSramOam_582b9c[];
+extern const struct FrameData sEraseSramOam_582bac[];
+
 static u32 sArray_79c128[9] = {
     [0] = UINT_MAX ^ (UINT_MAX << 0 * sizeof(u32)),
     [1] = UINT_MAX ^ (UINT_MAX << 1 * sizeof(u32)),
@@ -36,13 +57,60 @@ static u32 sArray_79c14c[9] = {
     [8] = UINT_MAX
 };
 
-u32 sNavConversationPopUpFunctions[] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_up_functions.bin"); // pointer table (functions), targets unresolved (see tools/find_blob_pointers.py)
+// Not const in the original (stored with the initialized data), unlike the declaration in
+// menus/navigation_conversation.h, which is why that header is not included here
+void unk_7bde0(void);
+void NavigationConversationUpdateXParasitePopUp(void);
+void NavigationConversationClearPopUpGraphics(void);
+
+Func_T sNavConversationPopUpFunctions[3] = {
+    unk_7bde0,
+    NavigationConversationUpdateXParasitePopUp,
+    NavigationConversationClearPopUpGraphics
+};
 u8 sNavConversationSaXCloseUpDelays[4] = INCBIN_U8("data/menus/pause_screen/nav_conversation_sa_x_close_up_delays.bin"); // frames between the BG3 screens of the SA-X close up (unk_7c630)
 u8 sBslDiagramOamIds[36] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_oam_ids.bin"); // BSL diagram OAM id per rotation step
 u8 sBslDiagramTargetOffsets[36 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_target_offsets.bin"); // s8 [36][3]: x offset, y offset, target OAM id per rotation step
 u8 sBslDiagramFixedTargetOffsets[8 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_fixed_target_offsets.bin"); // s8 [8][3]: x offset, y offset, target OAM id per navigation location
-u32 sEraseSramTextGfxPointers[] = INCBIN_U32("data/menus/erase_sram/text_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sEraseSramOam[] = INCBIN_U32("data/menus/erase_sram/oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u32* sEraseSramTextGfxPointers[LANGUAGE_COUNT][2] = {
+    {
+        sEraseSramTextGfxJapanese_0,
+        sEraseSramTextGfxJapanese_1
+    },
+    {
+        sEraseSramTextGfxJapanese_0,
+        sEraseSramTextGfxJapanese_1
+    },
+    {
+        sEraseSramTextGfxEnglish_0,
+        sEraseSramTextGfxEnglish_1
+    },
+    {
+        sEraseSramTextGfxGerman_0,
+        sEraseSramTextGfxGerman_1
+    },
+    {
+        sEraseSramTextGfxFrench_0,
+        sEraseSramTextGfxFrench_1
+    },
+    {
+        sEraseSramTextGfxItalian_0,
+        sEraseSramTextGfxItalian_1
+    },
+    {
+        sEraseSramTextGfxSpanish_0,
+        sEraseSramTextGfxSpanish_1
+    }
+};
+const struct FrameData* sEraseSramOam[7] = {
+    sEraseSramOam_582a3c,
+    sEraseSramOam_582a3c,
+    sEraseSramOam_582b24,
+    sEraseSramOam_582b7c,
+    sEraseSramOam_582b8c,
+    sEraseSramOam_582b9c,
+    sEraseSramOam_582bac
+};
 
  /**
  * @brief 79118 | 24 | Gets the width of a text character

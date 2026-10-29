@@ -22632,25 +22632,302 @@ const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW] = INCBIN_U16("data/menus/t
 
 const u32 sTitleScreenSpaceBackgroundTilemap[172] = INCBIN_U32("data/menus/title_screen/space_background.tm.lz");
 
-// Not referenced by code; most likely the OAM frames of the FrameData arrays below
-static const u8 sBlob_6094d0_60ac08[] = INCBIN_U8("data/Blob_6094d0_60ac08.bin");
+// Not referenced by code
+static const u8 sBlob_6094d0_6098a8[] = INCBIN_U8("data/Blob_6094d0_6098a8.bin");
+// OAM frames of the FrameData arrays below
+const u16 sOamFrame_6098a8[] = INCBIN_U16("data/oam_frames/6098a8.bin");
+const u16 sOamFrame_6098b0[] = INCBIN_U16("data/oam_frames/6098b0.bin");
+const u16 sOamFrame_6098b8[] = INCBIN_U16("data/oam_frames/6098b8.bin");
+const u16 sOamFrame_6098c0[] = INCBIN_U16("data/oam_frames/6098c0.bin");
+const u16 sOamFrame_6098c8[] = INCBIN_U16("data/oam_frames/6098c8.bin");
+const u16 sOamFrame_6098d0[] = INCBIN_U16("data/oam_frames/6098d0.bin");
+const u16 sOamFrame_6098d8[] = INCBIN_U16("data/oam_frames/6098d8.bin");
+const u16 sOamFrame_6098e0[] = INCBIN_U16("data/oam_frames/6098e0.bin");
+const u16 sOamFrame_6098e8[] = INCBIN_U16("data/oam_frames/6098e8.bin");
+const u16 sOamFrame_6098fe[] = INCBIN_U16("data/oam_frames/6098fe.bin");
+const u16 sOamFrame_609944[] = INCBIN_U16("data/oam_frames/609944.bin");
+const u16 sOamFrame_609952[] = INCBIN_U16("data/oam_frames/609952.bin");
+const u16 sOamFrame_609978[] = INCBIN_U16("data/oam_frames/609978.bin");
+const u16 sOamFrame_609992[] = INCBIN_U16("data/oam_frames/609992.bin");
+const u16 sOamFrame_6099a0[] = INCBIN_U16("data/oam_frames/6099a0.bin");
+const u16 sOamFrame_609da8[] = INCBIN_U16("data/oam_frames/609da8.bin");
+const u16 sOamFrame_609daa[] = INCBIN_U16("data/oam_frames/609daa.bin");
+const u16 sOamFrame_609db2[] = INCBIN_U16("data/oam_frames/609db2.bin");
+const u16 sOamFrame_609dd2[] = INCBIN_U16("data/oam_frames/609dd2.bin");
+const u16 sOamFrame_609e0a[] = INCBIN_U16("data/oam_frames/609e0a.bin");
+const u16 sOamFrame_609e54[] = INCBIN_U16("data/oam_frames/609e54.bin");
+const u16 sOamFrame_609ea4[] = INCBIN_U16("data/oam_frames/609ea4.bin");
+const u16 sOamFrame_609efa[] = INCBIN_U16("data/oam_frames/609efa.bin");
+const u16 sOamFrame_609f44[] = INCBIN_U16("data/oam_frames/609f44.bin");
+const u16 sOamFrame_609f7c[] = INCBIN_U16("data/oam_frames/609f7c.bin");
+const u16 sOamFrame_609f96[] = INCBIN_U16("data/oam_frames/609f96.bin");
+const u16 sOamFrame_609faa[] = INCBIN_U16("data/oam_frames/609faa.bin");
+const u16 sOamFrame_609fb2[] = INCBIN_U16("data/oam_frames/609fb2.bin");
+const u16 sOamFrame_609fc0[] = INCBIN_U16("data/oam_frames/609fc0.bin");
+const u16 sOamFrame_609fc8[] = INCBIN_U16("data/oam_frames/609fc8.bin");
+const u16 sOamFrame_609fd6[] = INCBIN_U16("data/oam_frames/609fd6.bin");
+const u16 sOamFrame_609fe4[] = INCBIN_U16("data/oam_frames/609fe4.bin");
+const u16 sOamFrame_609fec[] = INCBIN_U16("data/oam_frames/609fec.bin");
+const u16 sOamFrame_609ffa[] = INCBIN_U16("data/oam_frames/609ffa.bin");
+const u16 sOamFrame_60a014[] = INCBIN_U16("data/oam_frames/60a014.bin");
+const u16 sOamFrame_60a02e[] = INCBIN_U16("data/oam_frames/60a02e.bin");
+const u16 sOamFrame_60a036[] = INCBIN_U16("data/oam_frames/60a036.bin");
+const u16 sOamFrame_60a044[] = INCBIN_U16("data/oam_frames/60a044.bin");
+const u16 sOamFrame_60a058[] = INCBIN_U16("data/oam_frames/60a058.bin");
+const u16 sOamFrame_60a072[] = INCBIN_U16("data/oam_frames/60a072.bin");
+const u16 sOamFrame_60a092[] = INCBIN_U16("data/oam_frames/60a092.bin");
+const u16 sOamFrame_60a0b8[] = INCBIN_U16("data/oam_frames/60a0b8.bin");
+const u16 sOamFrame_60a0e4[] = INCBIN_U16("data/oam_frames/60a0e4.bin");
+const u16 sOamFrame_60a116[] = INCBIN_U16("data/oam_frames/60a116.bin");
+const u16 sOamFrame_60a14e[] = INCBIN_U16("data/oam_frames/60a14e.bin");
+const u16 sOamFrame_60a18c[] = INCBIN_U16("data/oam_frames/60a18c.bin");
+const u16 sOamFrame_60a1d0[] = INCBIN_U16("data/oam_frames/60a1d0.bin");
+const u16 sOamFrame_60a21a[] = INCBIN_U16("data/oam_frames/60a21a.bin");
+const u16 sOamFrame_60a26a[] = INCBIN_U16("data/oam_frames/60a26a.bin");
+const u16 sOamFrame_60a2c0[] = INCBIN_U16("data/oam_frames/60a2c0.bin");
+const u16 sOamFrame_60a31c[] = INCBIN_U16("data/oam_frames/60a31c.bin");
+const u16 sOamFrame_60a37e[] = INCBIN_U16("data/oam_frames/60a37e.bin");
+const u16 sOamFrame_60a386[] = INCBIN_U16("data/oam_frames/60a386.bin");
+const u16 sOamFrame_60a394[] = INCBIN_U16("data/oam_frames/60a394.bin");
+const u16 sOamFrame_60a3a8[] = INCBIN_U16("data/oam_frames/60a3a8.bin");
+const u16 sOamFrame_60a3c2[] = INCBIN_U16("data/oam_frames/60a3c2.bin");
+const u16 sOamFrame_60a3e2[] = INCBIN_U16("data/oam_frames/60a3e2.bin");
+const u16 sOamFrame_60a408[] = INCBIN_U16("data/oam_frames/60a408.bin");
+const u16 sOamFrame_60a434[] = INCBIN_U16("data/oam_frames/60a434.bin");
+const u16 sOamFrame_60a466[] = INCBIN_U16("data/oam_frames/60a466.bin");
+const u16 sOamFrame_60a49e[] = INCBIN_U16("data/oam_frames/60a49e.bin");
+const u16 sOamFrame_60a4dc[] = INCBIN_U16("data/oam_frames/60a4dc.bin");
+const u16 sOamFrame_60a520[] = INCBIN_U16("data/oam_frames/60a520.bin");
+const u16 sOamFrame_60a56a[] = INCBIN_U16("data/oam_frames/60a56a.bin");
+const u16 sOamFrame_60a5ba[] = INCBIN_U16("data/oam_frames/60a5ba.bin");
+const u16 sOamFrame_60a5c2[] = INCBIN_U16("data/oam_frames/60a5c2.bin");
+const u16 sOamFrame_60a5d0[] = INCBIN_U16("data/oam_frames/60a5d0.bin");
+const u16 sOamFrame_60a5e4[] = INCBIN_U16("data/oam_frames/60a5e4.bin");
+const u16 sOamFrame_60a5fe[] = INCBIN_U16("data/oam_frames/60a5fe.bin");
+const u16 sOamFrame_60a61e[] = INCBIN_U16("data/oam_frames/60a61e.bin");
+const u16 sOamFrame_60a644[] = INCBIN_U16("data/oam_frames/60a644.bin");
+const u16 sOamFrame_60a670[] = INCBIN_U16("data/oam_frames/60a670.bin");
+const u16 sOamFrame_60a6a2[] = INCBIN_U16("data/oam_frames/60a6a2.bin");
+const u16 sOamFrame_60a6aa[] = INCBIN_U16("data/oam_frames/60a6aa.bin");
+const u16 sOamFrame_60a6b8[] = INCBIN_U16("data/oam_frames/60a6b8.bin");
+const u16 sOamFrame_60a6cc[] = INCBIN_U16("data/oam_frames/60a6cc.bin");
+const u16 sOamFrame_60a71c[] = INCBIN_U16("data/oam_frames/60a71c.bin");
+const u16 sOamFrame_60a76c[] = INCBIN_U16("data/oam_frames/60a76c.bin");
+const u16 sOamFrame_60a7bc[] = INCBIN_U16("data/oam_frames/60a7bc.bin");
+const u16 sOamFrame_60a812[] = INCBIN_U16("data/oam_frames/60a812.bin");
+const u16 sOamFrame_60a850[] = INCBIN_U16("data/oam_frames/60a850.bin");
+const u16 sOamFrame_60a88e[] = INCBIN_U16("data/oam_frames/60a88e.bin");
+const u16 sOamFrame_60a8cc[] = INCBIN_U16("data/oam_frames/60a8cc.bin");
+const u16 sOamFrame_60a910[] = INCBIN_U16("data/oam_frames/60a910.bin");
+const u16 sOamFrame_60a954[] = INCBIN_U16("data/oam_frames/60a954.bin");
+const u16 sOamFrame_60a998[] = INCBIN_U16("data/oam_frames/60a998.bin");
+const u16 sOamFrame_60a9d6[] = INCBIN_U16("data/oam_frames/60a9d6.bin");
+const u16 sOamFrame_60aa14[] = INCBIN_U16("data/oam_frames/60aa14.bin");
+const u16 sOamFrame_60aa6a[] = INCBIN_U16("data/oam_frames/60aa6a.bin");
+const u16 sOamFrame_60aaba[] = INCBIN_U16("data/oam_frames/60aaba.bin");
+const u16 sOamFrame_60ab04[] = INCBIN_U16("data/oam_frames/60ab04.bin");
+const u16 sOamFrame_60ab36[] = INCBIN_U16("data/oam_frames/60ab36.bin");
+const u16 sOamFrame_60ab5c[] = INCBIN_U16("data/oam_frames/60ab5c.bin");
+const u16 sOamFrame_60aba2[] = INCBIN_U16("data/oam_frames/60aba2.bin");
+const u16 sOamFrame_60abb6[] = INCBIN_U16("data/oam_frames/60abb6.bin");
+const u16 sOamFrame_60abca[] = INCBIN_U16("data/oam_frames/60abca.bin");
+const u16 sOamFrame_60abd8[] = INCBIN_U16("data/oam_frames/60abd8.bin");
+const u16 sOamFrame_60abec[] = INCBIN_U16("data/oam_frames/60abec.bin");
+const u16 sOamFrame_60abf4[] = INCBIN_U16("data/oam_frames/60abf4.bin");
 
-// struct FrameData arrays (2 words per entry) of the intro space scenes.
-// pointer table, targets unresolved (see tools/find_blob_pointers.py): the
-// pFrame fields are raw ROM addresses, declared as struct FrameData in
-// include/data/cutscene_unk_data.h
-const u32 sIntroDepthParticleOam_0[4] = INCBIN_U32("data/new_file_intro/depth_particle_0_oam.bin");
-const u32 sIntroDepthParticleOam_1[4] = INCBIN_U32("data/new_file_intro/depth_particle_1_oam.bin");
-const u32 sIntroDepthParticleOam_2[4] = INCBIN_U32("data/new_file_intro/depth_particle_2_oam.bin");
-const u32 sIntroDepthParticleOam_3[24] = INCBIN_U32("data/new_file_intro/depth_particle_3_oam.bin");
-const u32 sIntroSamusShipEnteringOam[14] = INCBIN_U32("data/new_file_intro/samus_ship_entering_oam.bin");
-const u32 sIntroSamusShipBackviewOam[10] = INCBIN_U32("data/new_file_intro/samus_ship_backview_oam.bin");
-const u32 sIntroBslShipBackOam_3[4] = INCBIN_U32("data/new_file_intro/bsl_ship_back_3_oam.bin");
-const u32 sIntroBslShipBackOam_2[4] = INCBIN_U32("data/new_file_intro/bsl_ship_back_2_oam.bin");
-const u32 sIntroBslShipBackOam_1[4] = INCBIN_U32("data/new_file_intro/bsl_ship_back_1_oam.bin");
-const u32 sIntroBslShipBackOam_0[8] = INCBIN_U32("data/new_file_intro/bsl_ship_back_0_oam.bin");
-const u32 sIntroDriftingShipOam_End[114] = INCBIN_U32("data/new_file_intro/drifting_ship_end_oam.bin");
-const u32 sIntroSplashTextOam[142] = INCBIN_U32("data/new_file_intro/splash_text_oam.bin");
+// FrameData arrays of the intro space scenes
+const struct FrameData sIntroDepthParticleOam_0[2] = {
+    { sOamFrame_6098a8, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroDepthParticleOam_1[2] = {
+    { sOamFrame_6098b0, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroDepthParticleOam_2[2] = {
+    { sOamFrame_6098b8, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroDepthParticleOam_3[12] = {
+    { sOamFrame_6098c0, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6098c8, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6098d0, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6098d8, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6098e0, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6098e8, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroSamusShipEnteringOam[7] = {
+    { sOamFrame_60aba2, 1 },
+    { sOamFrame_6098fe, 1 },
+    { sOamFrame_60abb6, 1 },
+    { sOamFrame_60aba2, 1 },
+    { sOamFrame_6098fe, 1 },
+    { sOamFrame_60abca, 1 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroSamusShipBackviewOam[5] = {
+    { sOamFrame_60abd8, 1 },
+    { sOamFrame_60abec, 1 },
+    { sOamFrame_60abf4, 1 },
+    { sOamFrame_60abec, 1 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroBslShipBackOam_3[2] = {
+    { sOamFrame_609944, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroBslShipBackOam_2[2] = {
+    { sOamFrame_609952, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroBslShipBackOam_1[2] = {
+    { sOamFrame_609978, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroBslShipBackOam_0[4] = {
+    { sOamFrame_609992, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6099a0, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroDriftingShipOam_End[57] = {
+    { sOamFrame_609daa, 4 },
+    { sOamFrame_609db2, 4 },
+    { sOamFrame_609dd2, 4 },
+    { sOamFrame_609e0a, 4 },
+    { sOamFrame_609e54, 4 },
+    { sOamFrame_609ea4, 4 },
+    { sOamFrame_609efa, 6 },
+    { sOamFrame_609f44, 7 },
+    { sOamFrame_609f7c, 8 },
+    { sOamFrame_609f96, 9 },
+    { sOamFrame_609faa, 10 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_609fb2, 1 },
+    { sOamFrame_609fc0, 1 },
+    { sOamFrame_609fc8, 1 },
+    { sOamFrame_609fc0, 1 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_609fd6, 1 },
+    { sOamFrame_609fe4, 1 },
+    { sOamFrame_609fec, 1 },
+    { sOamFrame_609fe4, 1 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_609ffa, 140 },
+    { sOamFrame_609da8, 140 },
+    { sOamFrame_60a014, 180 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_60a02e, 4 },
+    { sOamFrame_60a036, 4 },
+    { sOamFrame_60a044, 4 },
+    { sOamFrame_60a058, 4 },
+    { sOamFrame_60a072, 4 },
+    { sOamFrame_60a092, 4 },
+    { sOamFrame_60a0b8, 4 },
+    { sOamFrame_60a0e4, 4 },
+    { sOamFrame_60a116, 4 },
+    { sOamFrame_60a14e, 4 },
+    { sOamFrame_60a18c, 4 },
+    { sOamFrame_60a1d0, 4 },
+    { sOamFrame_60a21a, 4 },
+    { sOamFrame_60a26a, 4 },
+    { sOamFrame_60a2c0, 4 },
+    { sOamFrame_60a31c, 100 },
+    { sOamFrame_609da8, 100 },
+    { sOamFrame_60a37e, 6 },
+    { sOamFrame_60a386, 6 },
+    { sOamFrame_60a394, 6 },
+    { sOamFrame_60a3a8, 6 },
+    { sOamFrame_60a3c2, 6 },
+    { sOamFrame_60a3e2, 6 },
+    { sOamFrame_60a408, 6 },
+    { sOamFrame_60a434, 6 },
+    { sOamFrame_60a466, 6 },
+    { sOamFrame_60a49e, 6 },
+    { sOamFrame_60a4dc, 6 },
+    { sOamFrame_60a520, 6 },
+    { sOamFrame_60a56a, 120 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroSplashTextOam[71] = {
+    { sOamFrame_60a02e, 4 },
+    { sOamFrame_60a036, 4 },
+    { sOamFrame_60a044, 4 },
+    { sOamFrame_60a058, 4 },
+    { sOamFrame_60a072, 4 },
+    { sOamFrame_60a092, 4 },
+    { sOamFrame_60a0b8, 4 },
+    { sOamFrame_60a0e4, 4 },
+    { sOamFrame_60a116, 4 },
+    { sOamFrame_60a14e, 4 },
+    { sOamFrame_60a18c, 4 },
+    { sOamFrame_60a1d0, 4 },
+    { sOamFrame_60a21a, 4 },
+    { sOamFrame_60a26a, 4 },
+    { sOamFrame_60a2c0, 4 },
+    { sOamFrame_60a31c, 100 },
+    { sOamFrame_609da8, 100 },
+    { sOamFrame_60a5ba, 6 },
+    { sOamFrame_60a5c2, 6 },
+    { sOamFrame_60a5d0, 6 },
+    { sOamFrame_60a5e4, 6 },
+    { sOamFrame_60a5fe, 6 },
+    { sOamFrame_60a61e, 6 },
+    { sOamFrame_60a644, 6 },
+    { sOamFrame_60a670, 120 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_60a6a2, 3 },
+    { sOamFrame_60a6aa, 3 },
+    { sOamFrame_60a6b8, 3 },
+    { sOamFrame_60a6cc, 3 },
+    { sOamFrame_60a71c, 3 },
+    { sOamFrame_60a76c, 3 },
+    { sOamFrame_60a7bc, 3 },
+    { sOamFrame_60a812, 3 },
+    { sOamFrame_60a850, 3 },
+    { sOamFrame_60a88e, 3 },
+    { sOamFrame_60a8cc, 3 },
+    { sOamFrame_60a910, 3 },
+    { sOamFrame_60a954, 3 },
+    { sOamFrame_60a998, 3 },
+    { sOamFrame_60a9d6, 3 },
+    { sOamFrame_60aa14, 3 },
+    { sOamFrame_60aa6a, 3 },
+    { sOamFrame_60aaba, 3 },
+    { sOamFrame_60ab04, 3 },
+    { sOamFrame_60ab36, 3 },
+    { sOamFrame_60ab5c, 3 },
+    { sOamFrame_609da8, 200 },
+    { sOamFrame_60a6a2, 3 },
+    { sOamFrame_60a6aa, 3 },
+    { sOamFrame_60a6b8, 3 },
+    { sOamFrame_60a6cc, 3 },
+    { sOamFrame_60a71c, 3 },
+    { sOamFrame_60a76c, 3 },
+    { sOamFrame_60a7bc, 3 },
+    { sOamFrame_60a812, 3 },
+    { sOamFrame_60a850, 3 },
+    { sOamFrame_60a88e, 3 },
+    { sOamFrame_60a8cc, 3 },
+    { sOamFrame_60a910, 3 },
+    { sOamFrame_60a954, 3 },
+    { sOamFrame_60a998, 3 },
+    { sOamFrame_60a9d6, 3 },
+    { sOamFrame_60aa14, 3 },
+    { sOamFrame_60aa6a, 3 },
+    { sOamFrame_60aaba, 3 },
+    { sOamFrame_60ab04, 3 },
+    { sOamFrame_60ab36, 3 },
+    { sOamFrame_60ab5c, 3 },
+    { sOamFrame_609da8, 126 },
+    FRAME_DATA_TERMINATOR
+};
 
 const u8 sIntroSpaceTilemap[1320] = INCBIN_U8("data/new_file_intro/space_bg.tm.lz");
 const u8 sIntroBslTilemap[1586] = INCBIN_U8("data/new_file_intro/bsl_bg.tm.lz");
@@ -22712,41 +22989,935 @@ const u32 sEndingAnimalsBg3Gfx[6083] = INCBIN_U32("data/ending/animals_bg3.gfx.l
 const u32 sEndingAnimalsBg2Gfx[2131] = INCBIN_U32("data/ending/animals_bg2.gfx.lz");
 const u32 sBslCrashingObjGfx[2961] = INCBIN_U32("data/ending/bsl_crashing_obj.gfx.lz");
 const u32 sEndingShipFrontViewBgGfx[5039] = INCBIN_U32("data/ending/ship_front_view_bg.gfx.lz");
-// The end of this file, after the LZ77 stream, may also hold the OAM frames
-// that the FrameData arrays below point to (their size is not known)
-const u32 sBslCrashingBgGfx[7934] = INCBIN_U32("data/ending/bsl_crashing_bg.gfx.lz");
+// Followed by the OAM frames of the ending FrameData arrays below
+const u32 sBslCrashingBgGfx[4683] = INCBIN_U32("data/ending/bsl_crashing_bg.gfx.lz");
+const u16 sOamFrame_62ff20[13] = INCBIN_U16("data/oam_frames/62ff20.bin");
+const u16 sOamFrame_62ff3a[13] = INCBIN_U16("data/oam_frames/62ff3a.bin");
+const u16 sOamFrame_62ff54[22] = INCBIN_U16("data/oam_frames/62ff54.bin");
+const u16 sOamFrame_62ff80[19] = INCBIN_U16("data/oam_frames/62ff80.bin");
+const u16 sOamFrame_62ffa6[19] = INCBIN_U16("data/oam_frames/62ffa6.bin");
+const u16 sOamFrame_62ffcc[34] = INCBIN_U16("data/oam_frames/62ffcc.bin");
+const u16 sOamFrame_630010[34] = INCBIN_U16("data/oam_frames/630010.bin");
+const u16 sOamFrame_630054[34] = INCBIN_U16("data/oam_frames/630054.bin");
+const u16 sOamFrame_630098[43] = INCBIN_U16("data/oam_frames/630098.bin");
+const u16 sOamFrame_6300ee[28] = INCBIN_U16("data/oam_frames/6300ee.bin");
+const u16 sOamFrame_630126[37] = INCBIN_U16("data/oam_frames/630126.bin");
+const u16 sOamFrame_630170[37] = INCBIN_U16("data/oam_frames/630170.bin");
+const u16 sOamFrame_6301ba[43] = INCBIN_U16("data/oam_frames/6301ba.bin");
+const u16 sOamFrame_630210[40] = INCBIN_U16("data/oam_frames/630210.bin");
+const u16 sOamFrame_630260[52] = INCBIN_U16("data/oam_frames/630260.bin");
+const u16 sOamFrame_6302c8[52] = INCBIN_U16("data/oam_frames/6302c8.bin");
+const u16 sOamFrame_630330[58] = INCBIN_U16("data/oam_frames/630330.bin");
+const u16 sOamFrame_6303a4[55] = INCBIN_U16("data/oam_frames/6303a4.bin");
+const u16 sOamFrame_630412[61] = INCBIN_U16("data/oam_frames/630412.bin");
+const u16 sOamFrame_63048c[61] = INCBIN_U16("data/oam_frames/63048c.bin");
+const u16 sOamFrame_630506[67] = INCBIN_U16("data/oam_frames/630506.bin");
+const u16 sOamFrame_63058c[19] = INCBIN_U16("data/oam_frames/63058c.bin");
+const u16 sOamFrame_6305b2[31] = INCBIN_U16("data/oam_frames/6305b2.bin");
+const u16 sOamFrame_6305f0[34] = INCBIN_U16("data/oam_frames/6305f0.bin");
+const u16 sOamFrame_630634[28] = INCBIN_U16("data/oam_frames/630634.bin");
+const u16 sOamFrame_63066c[49] = INCBIN_U16("data/oam_frames/63066c.bin");
+const u16 sOamFrame_6306ce[49] = INCBIN_U16("data/oam_frames/6306ce.bin");
+const u16 sOamFrame_630730[52] = INCBIN_U16("data/oam_frames/630730.bin");
+const u16 sOamFrame_630798[58] = INCBIN_U16("data/oam_frames/630798.bin");
+const u16 sOamFrame_63080c[61] = INCBIN_U16("data/oam_frames/63080c.bin");
+const u16 sOamFrame_630886[67] = INCBIN_U16("data/oam_frames/630886.bin");
+const u16 sOamFrame_63090c[70] = INCBIN_U16("data/oam_frames/63090c.bin");
+const u16 sOamFrame_630998[28] = INCBIN_U16("data/oam_frames/630998.bin");
+const u16 sOamFrame_6309d0[10] = INCBIN_U16("data/oam_frames/6309d0.bin");
+const u16 sOamFrame_6309e4[10] = INCBIN_U16("data/oam_frames/6309e4.bin");
+const u16 sOamFrame_6309f8[10] = INCBIN_U16("data/oam_frames/6309f8.bin");
+const u16 sOamFrame_630a0c[10] = INCBIN_U16("data/oam_frames/630a0c.bin");
+const u16 sOamFrame_630a20[7] = INCBIN_U16("data/oam_frames/630a20.bin");
+const u16 sOamFrame_630a2e[4] = INCBIN_U16("data/oam_frames/630a2e.bin");
+const u16 sOamFrame_630a36[4] = INCBIN_U16("data/oam_frames/630a36.bin");
+const u16 sOamFrame_630a3e[4] = INCBIN_U16("data/oam_frames/630a3e.bin");
+const u16 sOamFrame_630a46[4] = INCBIN_U16("data/oam_frames/630a46.bin");
+const u16 sOamFrame_630a4e[10] = INCBIN_U16("data/oam_frames/630a4e.bin");
+const u16 sOamFrame_630a62[16] = INCBIN_U16("data/oam_frames/630a62.bin");
+const u16 sOamFrame_630a82[22] = INCBIN_U16("data/oam_frames/630a82.bin");
+const u16 sOamFrame_630aae[55] = INCBIN_U16("data/oam_frames/630aae.bin");
+const u16 sOamFrame_630b1c[55] = INCBIN_U16("data/oam_frames/630b1c.bin");
+const u16 sOamFrame_630b8a[61] = INCBIN_U16("data/oam_frames/630b8a.bin");
+const u16 sOamFrame_630c04[61] = INCBIN_U16("data/oam_frames/630c04.bin");
+const u16 sOamFrame_630c7e[4] = INCBIN_U16("data/oam_frames/630c7e.bin");
+const u16 sOamFrame_630c86[4] = INCBIN_U16("data/oam_frames/630c86.bin");
+const u16 sOamFrame_630c8e[7] = INCBIN_U16("data/oam_frames/630c8e.bin");
+const u16 sOamFrame_630c9c[10] = INCBIN_U16("data/oam_frames/630c9c.bin");
+const u16 sOamFrame_630cb0[16] = INCBIN_U16("data/oam_frames/630cb0.bin");
+const u16 sOamFrame_630cd0[22] = INCBIN_U16("data/oam_frames/630cd0.bin");
+const u16 sOamFrame_630cfc[55] = INCBIN_U16("data/oam_frames/630cfc.bin");
+const u16 sOamFrame_630d6a[55] = INCBIN_U16("data/oam_frames/630d6a.bin");
+const u16 sOamFrame_630dd8[61] = INCBIN_U16("data/oam_frames/630dd8.bin");
+const u16 sOamFrame_630e52[67] = INCBIN_U16("data/oam_frames/630e52.bin");
+const u16 sOamFrame_630ed8[22] = INCBIN_U16("data/oam_frames/630ed8.bin");
+const u16 sOamFrame_630f04[22] = INCBIN_U16("data/oam_frames/630f04.bin");
+const u16 sOamFrame_630f30[43] = INCBIN_U16("data/oam_frames/630f30.bin");
+const u16 sOamFrame_630f86[43] = INCBIN_U16("data/oam_frames/630f86.bin");
+const u16 sOamFrame_630fdc[22] = INCBIN_U16("data/oam_frames/630fdc.bin");
+const u16 sOamFrame_631008[22] = INCBIN_U16("data/oam_frames/631008.bin");
+const u16 sOamFrame_631034[43] = INCBIN_U16("data/oam_frames/631034.bin");
+const u16 sOamFrame_63108a[43] = INCBIN_U16("data/oam_frames/63108a.bin");
+const u16 sOamFrame_6310e0[34] = INCBIN_U16("data/oam_frames/6310e0.bin");
+const u16 sOamFrame_631124[37] = INCBIN_U16("data/oam_frames/631124.bin");
+const u16 sOamFrame_63116e[34] = INCBIN_U16("data/oam_frames/63116e.bin");
+const u16 sOamFrame_6311b2[37] = INCBIN_U16("data/oam_frames/6311b2.bin");
+const u16 sOamFrame_6311fc[4] = INCBIN_U16("data/oam_frames/6311fc.bin");
+const u16 sOamFrame_631204[4] = INCBIN_U16("data/oam_frames/631204.bin");
+const u16 sOamFrame_63120c[4] = INCBIN_U16("data/oam_frames/63120c.bin");
+const u16 sOamFrame_631214[7] = INCBIN_U16("data/oam_frames/631214.bin");
+const u16 sOamFrame_631222[22] = INCBIN_U16("data/oam_frames/631222.bin");
+const u16 sOamFrame_63124e[31] = INCBIN_U16("data/oam_frames/63124e.bin");
+const u16 sOamFrame_63128c[34] = INCBIN_U16("data/oam_frames/63128c.bin");
+const u16 sOamFrame_6312d0[4] = INCBIN_U16("data/oam_frames/6312d0.bin");
+const u16 sOamFrame_6312d8[4] = INCBIN_U16("data/oam_frames/6312d8.bin");
+const u16 sOamFrame_6312e0[4] = INCBIN_U16("data/oam_frames/6312e0.bin");
+const u16 sOamFrame_6312e8[7] = INCBIN_U16("data/oam_frames/6312e8.bin");
+const u16 sOamFrame_6312f6[22] = INCBIN_U16("data/oam_frames/6312f6.bin");
+const u16 sOamFrame_631322[31] = INCBIN_U16("data/oam_frames/631322.bin");
+const u16 sOamFrame_631360[34] = INCBIN_U16("data/oam_frames/631360.bin");
+const u16 sOamFrame_6313a4[10] = INCBIN_U16("data/oam_frames/6313a4.bin");
+const u16 sOamFrame_6313b8[10] = INCBIN_U16("data/oam_frames/6313b8.bin");
+const u16 sOamFrame_6313cc[10] = INCBIN_U16("data/oam_frames/6313cc.bin");
+const u16 sOamFrame_6313e0[49] = INCBIN_U16("data/oam_frames/6313e0.bin");
+const u16 sOamFrame_631442[49] = INCBIN_U16("data/oam_frames/631442.bin");
+const u16 sOamFrame_6314a4[49] = INCBIN_U16("data/oam_frames/6314a4.bin");
+const u16 sOamFrame_631506[49] = INCBIN_U16("data/oam_frames/631506.bin");
+const u16 sOamFrame_631568[49] = INCBIN_U16("data/oam_frames/631568.bin");
+const u16 sOamFrame_6315ca[49] = INCBIN_U16("data/oam_frames/6315ca.bin");
+const u16 sOamFrame_63162c[49] = INCBIN_U16("data/oam_frames/63162c.bin");
+const u16 sOamFrame_63168e[49] = INCBIN_U16("data/oam_frames/63168e.bin");
+const u16 sOamFrame_6316f0[55] = INCBIN_U16("data/oam_frames/6316f0.bin");
+const u16 sOamFrame_63175e[49] = INCBIN_U16("data/oam_frames/63175e.bin");
+const u16 sOamFrame_6317c0[49] = INCBIN_U16("data/oam_frames/6317c0.bin");
+const u16 sOamFrame_631822[49] = INCBIN_U16("data/oam_frames/631822.bin");
+const u16 sOamFrame_631884[49] = INCBIN_U16("data/oam_frames/631884.bin");
+const u16 sOamFrame_6318e6[49] = INCBIN_U16("data/oam_frames/6318e6.bin");
+const u16 sOamFrame_631948[49] = INCBIN_U16("data/oam_frames/631948.bin");
+const u16 sOamFrame_6319aa[49] = INCBIN_U16("data/oam_frames/6319aa.bin");
+const u16 sOamFrame_631a0c[49] = INCBIN_U16("data/oam_frames/631a0c.bin");
+const u16 sOamFrame_631a6e[55] = INCBIN_U16("data/oam_frames/631a6e.bin");
+const u16 sOamFrame_631adc[49] = INCBIN_U16("data/oam_frames/631adc.bin");
+const u16 sOamFrame_631b3e[49] = INCBIN_U16("data/oam_frames/631b3e.bin");
+const u16 sOamFrame_631ba0[49] = INCBIN_U16("data/oam_frames/631ba0.bin");
+const u16 sOamFrame_631c02[49] = INCBIN_U16("data/oam_frames/631c02.bin");
+const u16 sOamFrame_631c64[49] = INCBIN_U16("data/oam_frames/631c64.bin");
+const u16 sOamFrame_631cc6[49] = INCBIN_U16("data/oam_frames/631cc6.bin");
+const u16 sOamFrame_631d28[49] = INCBIN_U16("data/oam_frames/631d28.bin");
+const u16 sOamFrame_631d8a[49] = INCBIN_U16("data/oam_frames/631d8a.bin");
+const u16 sOamFrame_631dec[55] = INCBIN_U16("data/oam_frames/631dec.bin");
+const u16 sOamFrame_631e5a[49] = INCBIN_U16("data/oam_frames/631e5a.bin");
+const u16 sOamFrame_631ebc[49] = INCBIN_U16("data/oam_frames/631ebc.bin");
+const u16 sOamFrame_631f1e[49] = INCBIN_U16("data/oam_frames/631f1e.bin");
+const u16 sOamFrame_631f80[49] = INCBIN_U16("data/oam_frames/631f80.bin");
+const u16 sOamFrame_631fe2[49] = INCBIN_U16("data/oam_frames/631fe2.bin");
+const u16 sOamFrame_632044[49] = INCBIN_U16("data/oam_frames/632044.bin");
+const u16 sOamFrame_6320a6[49] = INCBIN_U16("data/oam_frames/6320a6.bin");
+const u16 sOamFrame_632108[49] = INCBIN_U16("data/oam_frames/632108.bin");
+const u16 sOamFrame_63216a[55] = INCBIN_U16("data/oam_frames/63216a.bin");
+const u16 sOamFrame_6321d8[49] = INCBIN_U16("data/oam_frames/6321d8.bin");
+const u16 sOamFrame_63223a[49] = INCBIN_U16("data/oam_frames/63223a.bin");
+const u16 sOamFrame_63229c[49] = INCBIN_U16("data/oam_frames/63229c.bin");
+const u16 sOamFrame_6322fe[49] = INCBIN_U16("data/oam_frames/6322fe.bin");
+const u16 sOamFrame_632360[49] = INCBIN_U16("data/oam_frames/632360.bin");
+const u16 sOamFrame_6323c2[49] = INCBIN_U16("data/oam_frames/6323c2.bin");
+const u16 sOamFrame_632424[49] = INCBIN_U16("data/oam_frames/632424.bin");
+const u16 sOamFrame_632486[49] = INCBIN_U16("data/oam_frames/632486.bin");
+const u16 sOamFrame_6324e8[55] = INCBIN_U16("data/oam_frames/6324e8.bin");
+const u16 sOamFrame_632556[49] = INCBIN_U16("data/oam_frames/632556.bin");
+const u16 sOamFrame_6325b8[49] = INCBIN_U16("data/oam_frames/6325b8.bin");
+const u16 sOamFrame_63261a[49] = INCBIN_U16("data/oam_frames/63261a.bin");
+const u16 sOamFrame_63267c[49] = INCBIN_U16("data/oam_frames/63267c.bin");
+const u16 sOamFrame_6326de[49] = INCBIN_U16("data/oam_frames/6326de.bin");
+const u16 sOamFrame_632740[49] = INCBIN_U16("data/oam_frames/632740.bin");
+const u16 sOamFrame_6327a2[49] = INCBIN_U16("data/oam_frames/6327a2.bin");
+const u16 sOamFrame_632804[49] = INCBIN_U16("data/oam_frames/632804.bin");
+const u16 sOamFrame_632866[55] = INCBIN_U16("data/oam_frames/632866.bin");
+const u16 sOamFrame_6328d4[49] = INCBIN_U16("data/oam_frames/6328d4.bin");
+const u16 sOamFrame_632936[49] = INCBIN_U16("data/oam_frames/632936.bin");
+const u16 sOamFrame_632998[49] = INCBIN_U16("data/oam_frames/632998.bin");
+const u16 sOamFrame_6329fa[49] = INCBIN_U16("data/oam_frames/6329fa.bin");
+const u16 sOamFrame_632a5c[49] = INCBIN_U16("data/oam_frames/632a5c.bin");
+const u16 sOamFrame_632abe[49] = INCBIN_U16("data/oam_frames/632abe.bin");
+const u16 sOamFrame_632b20[49] = INCBIN_U16("data/oam_frames/632b20.bin");
+const u16 sOamFrame_632b82[101] = INCBIN_U16("data/oam_frames/632b82.bin");
+const u16 sOamFrame_632c4c[4] = INCBIN_U16("data/oam_frames/632c4c.bin");
+const u16 sOamFrame_632c54[4] = INCBIN_U16("data/oam_frames/632c54.bin");
+const u16 sOamFrame_632c5c[4] = INCBIN_U16("data/oam_frames/632c5c.bin");
+const u16 sOamFrame_632c64[4] = INCBIN_U16("data/oam_frames/632c64.bin");
+const u16 sOamFrame_632c6c[4] = INCBIN_U16("data/oam_frames/632c6c.bin");
+const u16 sOamFrame_632c74[4] = INCBIN_U16("data/oam_frames/632c74.bin");
+const u16 sOamFrame_632c7c[4] = INCBIN_U16("data/oam_frames/632c7c.bin");
+const u16 sOamFrame_632c84[4] = INCBIN_U16("data/oam_frames/632c84.bin");
+const u16 sOamFrame_632c8c[4] = INCBIN_U16("data/oam_frames/632c8c.bin");
+const u16 sOamFrame_632c94[4] = INCBIN_U16("data/oam_frames/632c94.bin");
+const u16 sOamFrame_632c9c[4] = INCBIN_U16("data/oam_frames/632c9c.bin");
+const u16 sOamFrame_632ca4[4] = INCBIN_U16("data/oam_frames/632ca4.bin");
+const u16 sOamFrame_632cac[4] = INCBIN_U16("data/oam_frames/632cac.bin");
+const u16 sOamFrame_632cb4[4] = INCBIN_U16("data/oam_frames/632cb4.bin");
+const u16 sOamFrame_632cbc[16] = INCBIN_U16("data/oam_frames/632cbc.bin");
+const u16 sOamFrame_632cdc[16] = INCBIN_U16("data/oam_frames/632cdc.bin");
+const u16 sOamFrame_632cfc[19] = INCBIN_U16("data/oam_frames/632cfc.bin");
+const u16 sOamFrame_632d22[16] = INCBIN_U16("data/oam_frames/632d22.bin");
+const u16 sOamFrame_632d42[19] = INCBIN_U16("data/oam_frames/632d42.bin");
+const u16 sOamFrame_632d68[19] = INCBIN_U16("data/oam_frames/632d68.bin");
+const u16 sOamFrame_632d8e[22] = INCBIN_U16("data/oam_frames/632d8e.bin");
+const u16 sOamFrame_632dba[19] = INCBIN_U16("data/oam_frames/632dba.bin");
+const u16 sOamFrame_632de0[22] = INCBIN_U16("data/oam_frames/632de0.bin");
+const u16 sOamFrame_632e0c[31] = INCBIN_U16("data/oam_frames/632e0c.bin");
+const u16 sOamFrame_632e4a[34] = INCBIN_U16("data/oam_frames/632e4a.bin");
+const u16 sOamFrame_632e8e[31] = INCBIN_U16("data/oam_frames/632e8e.bin");
+const u16 sOamFrame_632ecc[34] = INCBIN_U16("data/oam_frames/632ecc.bin");
+const u16 sOamFrame_632f10[34] = INCBIN_U16("data/oam_frames/632f10.bin");
+const u16 sOamFrame_632f54[43] = INCBIN_U16("data/oam_frames/632f54.bin");
+const u16 sOamFrame_632faa[7] = INCBIN_U16("data/oam_frames/632faa.bin");
+const u16 sOamFrame_632fb8[10] = INCBIN_U16("data/oam_frames/632fb8.bin");
+const u16 sOamFrame_632fcc[10] = INCBIN_U16("data/oam_frames/632fcc.bin");
+const u16 sOamFrame_632fe0[10] = INCBIN_U16("data/oam_frames/632fe0.bin");
+const u16 sOamFrame_632ff4[10] = INCBIN_U16("data/oam_frames/632ff4.bin");
+const u16 sOamFrame_633008[10] = INCBIN_U16("data/oam_frames/633008.bin");
+const u16 sOamFrame_63301c[10] = INCBIN_U16("data/oam_frames/63301c.bin");
+const u16 sOamFrame_633030[4] = INCBIN_U16("data/oam_frames/633030.bin");
+const u16 sOamFrame_633038[4] = INCBIN_U16("data/oam_frames/633038.bin");
+const u16 sOamFrame_633040[4] = INCBIN_U16("data/oam_frames/633040.bin");
+const u16 sOamFrame_633048[4] = INCBIN_U16("data/oam_frames/633048.bin");
+const u16 sOamFrame_633050[4] = INCBIN_U16("data/oam_frames/633050.bin");
+const u16 sOamFrame_633058[4] = INCBIN_U16("data/oam_frames/633058.bin");
+const u16 sOamFrame_633060[4] = INCBIN_U16("data/oam_frames/633060.bin");
+const u16 sOamFrame_633068[4] = INCBIN_U16("data/oam_frames/633068.bin");
+const u16 sOamFrame_633070[4] = INCBIN_U16("data/oam_frames/633070.bin");
+const u16 sOamFrame_633078[4] = INCBIN_U16("data/oam_frames/633078.bin");
+const u16 sOamFrame_633080[4] = INCBIN_U16("data/oam_frames/633080.bin");
+const u16 sOamFrame_633088[4] = INCBIN_U16("data/oam_frames/633088.bin");
+const u16 sOamFrame_633090[127] = INCBIN_U16("data/oam_frames/633090.bin");
+const u16 sOamFrame_63318e[43] = INCBIN_U16("data/oam_frames/63318e.bin");
+const u16 sOamFrame_6331e4[4] = INCBIN_U16("data/oam_frames/6331e4.bin");
 
-// struct FrameData arrays (2 words per entry), declared as struct FrameData in
-// include/ending_dialogue.h, include/died_on_sr388.h and
-// include/data/cutscene_unk_data.h.
-// pointer table, targets unresolved (see tools/find_blob_pointers.py)
-const u32 sEndingDialogueType5Oam_Opening[22] = INCBIN_U32("data/ending/dialogue_type5_opening_oam.bin");
-const u32 sEndingDialogueType5Oam_Closing[20] = INCBIN_U32("data/ending/dialogue_type5_closing_oam.bin");
-const u32 sEndingAdamPanel0Oam[26] = INCBIN_U32("data/ending/adam_panel_0_oam.bin");
-const u32 sEndingAdamPanel0Oam_Closing[26] = INCBIN_U32("data/ending/adam_panel_0_closing_oam.bin");
-const u32 sEndingAdamPanel1Oam[26] = INCBIN_U32("data/ending/adam_panel_1_oam.bin");
-const u32 sEndingAdamPanel1Oam_Closing[26] = INCBIN_U32("data/ending/adam_panel_1_closing_oam.bin");
-const u32 sEndingAdamIconOam_Opening[10] = INCBIN_U32("data/ending/adam_icon_opening_oam.bin");
-const u32 sEndingAdamIconOam_Closing[274] = INCBIN_U32("data/ending/adam_icon_closing_oam.bin");
-const u32 sEndingAdamIconOam_Idle[12] = INCBIN_U32("data/ending/adam_icon_idle_oam.bin");
-const u32 sEndingDialogueType2Oam[64] = INCBIN_U32("data/ending/dialogue_type2_oam.bin");
-const u32 sEndingSr388RadarViewOam_Opening[158] = INCBIN_U32("data/ending/sr388_radar_view_opening_oam.bin");
-const u32 sEndingSamusViewRadarViewOam_Opening[134] = INCBIN_U32("data/ending/samus_view_radar_view_opening_oam.bin");
-const u32 sEndingNextPageArrowOam[10] = INCBIN_U32("data/ending/next_page_arrow_oam.bin");
-const u32 sEndingTextCursorOam[14] = INCBIN_U32("data/ending/text_cursor_oam.bin");
-const u32 sEndingSr388RadarViewOam_Idle[18] = INCBIN_U32("data/ending/sr388_radar_view_idle_oam.bin");
-const u32 sEndingSamusViewRadarViewOam_Idle[6] = INCBIN_U32("data/ending/samus_view_radar_view_idle_oam.bin");
-// FrameData array (type 30 of the ending dialogue) followed by data of unknown
-// size, most likely the OAM frames of the BSL crashing cutscene
-const u8 sEndingUnk_633f24[] = INCBIN_U8("data/Blob_633f24_636020.bin");
-const u32 sBslCrashingFallingBslOam[6] = INCBIN_U32("data/ending/bsl_crashing_falling_bsl_oam.bin");
-const u32 sBslCrashingFallingBslTransparentOam[6] = INCBIN_U32("data/ending/bsl_crashing_falling_bsl_transparent_oam.bin");
-const u32 sBslCrashingType3Oam[142] = INCBIN_U32("data/ending/bsl_crashing_type3_oam.bin");
-const u32 sEndingLeavingSmallShipOam[6] = INCBIN_U32("data/ending/leaving_small_ship_oam.bin");
-const u32 sEndingLeavingBigShipOam[6] = INCBIN_U32("data/ending/leaving_big_ship_oam.bin");
-const u32 sBslCrashingFallingBslOam_End[58] = INCBIN_U32("data/ending/bsl_crashing_falling_bsl_end_oam.bin");
-const u32 sEndingFrontFacingShipOam[6] = INCBIN_U32("data/ending/front_facing_ship_oam.bin");
-const u32 sEndingFrontFacingShipThrustersOam[32] = INCBIN_U32("data/ending/front_facing_ship_thrusters_oam.bin");
+// FrameData arrays of the ending dialogue, the ending and the died on SR388 cutscene
+const struct FrameData sEndingDialogueType5Oam_Opening[11] = {
+    { sOamFrame_630a2e, 30 },
+    { sOamFrame_62ff20, 1 },
+    { sOamFrame_62ff3a, 1 },
+    { sOamFrame_62ff54, 1 },
+    { sOamFrame_62ff80, 2 },
+    { sOamFrame_62ffa6, 2 },
+    { sOamFrame_62ffcc, 2 },
+    { sOamFrame_630010, 2 },
+    { sOamFrame_630054, 2 },
+    { sOamFrame_630098, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingDialogueType5Oam_Closing[10] = {
+    { sOamFrame_630098, 2 },
+    { sOamFrame_630054, 2 },
+    { sOamFrame_630010, 2 },
+    { sOamFrame_62ffcc, 2 },
+    { sOamFrame_62ffa6, 2 },
+    { sOamFrame_62ff80, 1 },
+    { sOamFrame_62ff54, 1 },
+    { sOamFrame_62ff3a, 1 },
+    { sOamFrame_62ff20, 1 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingAdamPanel0Oam[13] = {
+    { sOamFrame_6300ee, 1 },
+    { sOamFrame_630126, 1 },
+    { sOamFrame_630170, 1 },
+    { sOamFrame_6301ba, 1 },
+    { sOamFrame_630210, 1 },
+    { sOamFrame_630260, 1 },
+    { sOamFrame_6302c8, 1 },
+    { sOamFrame_630330, 2 },
+    { sOamFrame_6303a4, 2 },
+    { sOamFrame_630412, 2 },
+    { sOamFrame_63048c, 2 },
+    { sOamFrame_630506, 50 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingAdamPanel0Oam_Closing[13] = {
+    { sOamFrame_630506, 2 },
+    { sOamFrame_63048c, 2 },
+    { sOamFrame_630412, 2 },
+    { sOamFrame_6303a4, 2 },
+    { sOamFrame_630330, 1 },
+    { sOamFrame_6302c8, 1 },
+    { sOamFrame_630260, 1 },
+    { sOamFrame_630210, 1 },
+    { sOamFrame_6301ba, 1 },
+    { sOamFrame_630170, 1 },
+    { sOamFrame_630126, 1 },
+    { sOamFrame_6300ee, 50 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingAdamPanel1Oam[13] = {
+    { sOamFrame_63058c, 1 },
+    { sOamFrame_6305b2, 1 },
+    { sOamFrame_6305f0, 1 },
+    { sOamFrame_630634, 1 },
+    { sOamFrame_63066c, 1 },
+    { sOamFrame_6306ce, 1 },
+    { sOamFrame_630730, 1 },
+    { sOamFrame_630798, 2 },
+    { sOamFrame_63080c, 2 },
+    { sOamFrame_630886, 2 },
+    { sOamFrame_63090c, 2 },
+    { sOamFrame_630998, 50 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingAdamPanel1Oam_Closing[13] = {
+    { sOamFrame_630998, 2 },
+    { sOamFrame_63090c, 2 },
+    { sOamFrame_630886, 2 },
+    { sOamFrame_63080c, 2 },
+    { sOamFrame_630798, 1 },
+    { sOamFrame_630730, 1 },
+    { sOamFrame_6306ce, 1 },
+    { sOamFrame_63066c, 1 },
+    { sOamFrame_630634, 1 },
+    { sOamFrame_6305f0, 1 },
+    { sOamFrame_6305b2, 1 },
+    { sOamFrame_63058c, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingAdamIconOam_Opening[5] = {
+    { sOamFrame_6309d0, 8 },
+    { sOamFrame_6309e4, 8 },
+    { sOamFrame_6309f8, 8 },
+    { sOamFrame_630a0c, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingAdamIconOam_Closing[137] = {
+    { sOamFrame_630a0c, 8 },
+    { sOamFrame_6309f8, 8 },
+    { sOamFrame_6309e4, 8 },
+    { sOamFrame_6309d0, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630a20, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630a36, 2 },
+    { sOamFrame_630a3e, 2 },
+    { sOamFrame_630a46, 2 },
+    { sOamFrame_630a4e, 2 },
+    { sOamFrame_630a62, 2 },
+    { sOamFrame_630a82, 2 },
+    { sOamFrame_630aae, 2 },
+    { sOamFrame_630b1c, 2 },
+    { sOamFrame_630b8a, 2 },
+    { sOamFrame_630c04, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630c04, 2 },
+    { sOamFrame_630b8a, 2 },
+    { sOamFrame_630b1c, 2 },
+    { sOamFrame_630aae, 2 },
+    { sOamFrame_630a82, 2 },
+    { sOamFrame_630a62, 2 },
+    { sOamFrame_630a4e, 2 },
+    { sOamFrame_630a46, 2 },
+    { sOamFrame_630a3e, 2 },
+    { sOamFrame_630a36, 2 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630ed8, 2 },
+    { sOamFrame_630f04, 2 },
+    { sOamFrame_630f30, 2 },
+    { sOamFrame_630f86, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630f86, 2 },
+    { sOamFrame_630f30, 2 },
+    { sOamFrame_630f04, 2 },
+    { sOamFrame_630ed8, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630fdc, 2 },
+    { sOamFrame_631008, 2 },
+    { sOamFrame_631034, 2 },
+    { sOamFrame_63108a, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_63108a, 2 },
+    { sOamFrame_631034, 2 },
+    { sOamFrame_631008, 2 },
+    { sOamFrame_630fdc, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    { sOamFrame_630a2e, 2 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630c7e, 2 },
+    { sOamFrame_630c86, 2 },
+    { sOamFrame_630c8e, 2 },
+    { sOamFrame_630c9c, 2 },
+    { sOamFrame_630cb0, 2 },
+    { sOamFrame_630cd0, 2 },
+    { sOamFrame_630cfc, 2 },
+    { sOamFrame_630d6a, 2 },
+    { sOamFrame_630dd8, 2 },
+    { sOamFrame_630e52, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630e52, 2 },
+    { sOamFrame_630dd8, 2 },
+    { sOamFrame_630d6a, 2 },
+    { sOamFrame_630cfc, 2 },
+    { sOamFrame_630cd0, 2 },
+    { sOamFrame_630cb0, 2 },
+    { sOamFrame_630c9c, 2 },
+    { sOamFrame_630c8e, 2 },
+    { sOamFrame_630c86, 2 },
+    { sOamFrame_630c7e, 2 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6310e0, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6310e0, 8 },
+    { sOamFrame_631124, 8 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_63116e, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_63116e, 8 },
+    { sOamFrame_6311b2, 8 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6311fc, 2 },
+    { sOamFrame_631204, 2 },
+    { sOamFrame_63120c, 2 },
+    { sOamFrame_631214, 2 },
+    { sOamFrame_631222, 2 },
+    { sOamFrame_63124e, 2 },
+    { sOamFrame_63128c, 2 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_63128c, 2 },
+    { sOamFrame_63124e, 2 },
+    { sOamFrame_631222, 2 },
+    { sOamFrame_631214, 2 },
+    { sOamFrame_63120c, 2 },
+    { sOamFrame_631204, 2 },
+    { sOamFrame_6311fc, 2 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6312d0, 2 },
+    { sOamFrame_6312d8, 2 },
+    { sOamFrame_6312e0, 2 },
+    { sOamFrame_6312e8, 2 },
+    { sOamFrame_6312f6, 2 },
+    { sOamFrame_631322, 2 },
+    { sOamFrame_631360, 2 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_631360, 2 },
+    { sOamFrame_631322, 2 },
+    { sOamFrame_6312f6, 2 },
+    { sOamFrame_6312e8, 2 },
+    { sOamFrame_6312e0, 2 },
+    { sOamFrame_6312d8, 2 },
+    { sOamFrame_6312d0, 2 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingAdamIconOam_Idle[6] = {
+    { sOamFrame_630a0c, 8 },
+    { sOamFrame_6313a4, 8 },
+    { sOamFrame_6313b8, 8 },
+    { sOamFrame_6313cc, 8 },
+    { sOamFrame_6313a4, 8 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingDialogueType2Oam[32] = {
+    { sOamFrame_632c4c, 3 },
+    { sOamFrame_632c54, 3 },
+    { sOamFrame_632c5c, 3 },
+    { sOamFrame_632c64, 3 },
+    { sOamFrame_632c6c, 3 },
+    { sOamFrame_632c74, 3 },
+    { sOamFrame_632c7c, 3 },
+    { sOamFrame_632c84, 3 },
+    { sOamFrame_632c8c, 3 },
+    { sOamFrame_632c94, 3 },
+    { sOamFrame_632c9c, 3 },
+    { sOamFrame_632ca4, 3 },
+    { sOamFrame_632cac, 3 },
+    { sOamFrame_632cb4, 3 },
+    { sOamFrame_632cbc, 3 },
+    { sOamFrame_632cdc, 3 },
+    { sOamFrame_632cfc, 3 },
+    { sOamFrame_632d22, 3 },
+    { sOamFrame_632d42, 3 },
+    { sOamFrame_632d68, 3 },
+    { sOamFrame_632d8e, 3 },
+    { sOamFrame_632dba, 3 },
+    { sOamFrame_632de0, 3 },
+    { sOamFrame_632e0c, 3 },
+    { sOamFrame_632e4a, 3 },
+    { sOamFrame_632e8e, 3 },
+    { sOamFrame_632ecc, 3 },
+    { sOamFrame_632f10, 21 },
+    { sOamFrame_632f54, 64 },
+    { sOamFrame_632f54, 255 },
+    { sOamFrame_632f54, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingSr388RadarViewOam_Opening[79] = {
+    { sOamFrame_6313e0, 2 },
+    { sOamFrame_631442, 2 },
+    { sOamFrame_6314a4, 2 },
+    { sOamFrame_631506, 2 },
+    { sOamFrame_631568, 2 },
+    { sOamFrame_6315ca, 2 },
+    { sOamFrame_63162c, 2 },
+    { sOamFrame_63168e, 2 },
+    { sOamFrame_6316f0, 60 },
+    { sOamFrame_631442, 2 },
+    { sOamFrame_6314a4, 2 },
+    { sOamFrame_631506, 2 },
+    { sOamFrame_631568, 2 },
+    { sOamFrame_6315ca, 2 },
+    { sOamFrame_63162c, 2 },
+    { sOamFrame_63168e, 2 },
+    { sOamFrame_6316f0, 60 },
+    { sOamFrame_63175e, 2 },
+    { sOamFrame_6317c0, 2 },
+    { sOamFrame_631822, 2 },
+    { sOamFrame_631884, 2 },
+    { sOamFrame_6318e6, 2 },
+    { sOamFrame_631948, 2 },
+    { sOamFrame_6319aa, 2 },
+    { sOamFrame_631a0c, 2 },
+    { sOamFrame_631a6e, 60 },
+    { sOamFrame_631adc, 2 },
+    { sOamFrame_631b3e, 2 },
+    { sOamFrame_631ba0, 2 },
+    { sOamFrame_631c02, 2 },
+    { sOamFrame_631c64, 2 },
+    { sOamFrame_631cc6, 2 },
+    { sOamFrame_631d28, 2 },
+    { sOamFrame_631d8a, 2 },
+    { sOamFrame_631dec, 60 },
+    { sOamFrame_631e5a, 2 },
+    { sOamFrame_631ebc, 2 },
+    { sOamFrame_631f1e, 2 },
+    { sOamFrame_631f80, 2 },
+    { sOamFrame_631fe2, 2 },
+    { sOamFrame_632044, 2 },
+    { sOamFrame_6320a6, 2 },
+    { sOamFrame_632108, 2 },
+    { sOamFrame_63216a, 60 },
+    { sOamFrame_6321d8, 2 },
+    { sOamFrame_63223a, 2 },
+    { sOamFrame_63229c, 2 },
+    { sOamFrame_6322fe, 2 },
+    { sOamFrame_632360, 2 },
+    { sOamFrame_6323c2, 2 },
+    { sOamFrame_632424, 2 },
+    { sOamFrame_632486, 2 },
+    { sOamFrame_6324e8, 60 },
+    { sOamFrame_632556, 2 },
+    { sOamFrame_6325b8, 2 },
+    { sOamFrame_63261a, 2 },
+    { sOamFrame_63267c, 2 },
+    { sOamFrame_6326de, 2 },
+    { sOamFrame_632740, 2 },
+    { sOamFrame_6327a2, 2 },
+    { sOamFrame_632804, 2 },
+    { sOamFrame_632866, 60 },
+    { sOamFrame_6328d4, 2 },
+    { sOamFrame_632936, 2 },
+    { sOamFrame_632998, 2 },
+    { sOamFrame_6329fa, 2 },
+    { sOamFrame_632a5c, 2 },
+    { sOamFrame_632abe, 2 },
+    { sOamFrame_632b20, 2 },
+    { sOamFrame_632b82, 60 },
+    { sOamFrame_6328d4, 2 },
+    { sOamFrame_632936, 2 },
+    { sOamFrame_632998, 2 },
+    { sOamFrame_6329fa, 2 },
+    { sOamFrame_632a5c, 2 },
+    { sOamFrame_632abe, 2 },
+    { sOamFrame_632b20, 2 },
+    { sOamFrame_632b82, 60 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingSamusViewRadarViewOam_Opening[67] = {
+    { sOamFrame_632faa, 81 },
+    { sOamFrame_632fb8, 60 },
+    { sOamFrame_633030, 40 },
+    { sOamFrame_632fcc, 60 },
+    { sOamFrame_633038, 40 },
+    { sOamFrame_632fe0, 60 },
+    { sOamFrame_633040, 40 },
+    { sOamFrame_632ff4, 60 },
+    { sOamFrame_633048, 40 },
+    { sOamFrame_633008, 60 },
+    { sOamFrame_633050, 40 },
+    { sOamFrame_63301c, 60 },
+    { sOamFrame_633050, 35 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_6313e0, 2 },
+    { sOamFrame_631442, 2 },
+    { sOamFrame_6314a4, 2 },
+    { sOamFrame_631506, 2 },
+    { sOamFrame_631568, 2 },
+    { sOamFrame_6315ca, 2 },
+    { sOamFrame_63162c, 2 },
+    { sOamFrame_63168e, 2 },
+    { sOamFrame_6316f0, 60 },
+    { sOamFrame_63175e, 2 },
+    { sOamFrame_6317c0, 2 },
+    { sOamFrame_631822, 2 },
+    { sOamFrame_631884, 2 },
+    { sOamFrame_6318e6, 2 },
+    { sOamFrame_631948, 2 },
+    { sOamFrame_6319aa, 2 },
+    { sOamFrame_631a0c, 2 },
+    { sOamFrame_631a6e, 60 },
+    { sOamFrame_631e5a, 2 },
+    { sOamFrame_631ebc, 2 },
+    { sOamFrame_631f1e, 2 },
+    { sOamFrame_631f80, 2 },
+    { sOamFrame_631fe2, 2 },
+    { sOamFrame_632044, 2 },
+    { sOamFrame_6320a6, 2 },
+    { sOamFrame_632108, 2 },
+    { sOamFrame_63216a, 60 },
+    { sOamFrame_632556, 2 },
+    { sOamFrame_6325b8, 2 },
+    { sOamFrame_63261a, 2 },
+    { sOamFrame_63267c, 2 },
+    { sOamFrame_6326de, 2 },
+    { sOamFrame_632740, 2 },
+    { sOamFrame_6327a2, 2 },
+    { sOamFrame_632804, 2 },
+    { sOamFrame_632866, 60 },
+    { sOamFrame_6328d4, 2 },
+    { sOamFrame_632936, 2 },
+    { sOamFrame_632998, 2 },
+    { sOamFrame_6329fa, 2 },
+    { sOamFrame_632a5c, 2 },
+    { sOamFrame_632abe, 2 },
+    { sOamFrame_632b20, 2 },
+    { sOamFrame_632b82, 60 },
+    { sOamFrame_6328d4, 2 },
+    { sOamFrame_632936, 2 },
+    { sOamFrame_632998, 2 },
+    { sOamFrame_6329fa, 2 },
+    { sOamFrame_632a5c, 2 },
+    { sOamFrame_632abe, 2 },
+    { sOamFrame_632b20, 2 },
+    { sOamFrame_632b82, 60 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingNextPageArrowOam[5] = {
+    { sOamFrame_633060, 8 },
+    { sOamFrame_633068, 8 },
+    { sOamFrame_633070, 8 },
+    { sOamFrame_633068, 8 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingTextCursorOam[7] = {
+    { sOamFrame_633058, 30 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_633078, 8 },
+    { sOamFrame_633080, 8 },
+    { sOamFrame_633088, 8 },
+    { sOamFrame_633080, 8 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingSr388RadarViewOam_Idle[9] = {
+    { sOamFrame_6328d4, 2 },
+    { sOamFrame_632936, 2 },
+    { sOamFrame_632998, 2 },
+    { sOamFrame_6329fa, 2 },
+    { sOamFrame_632a5c, 2 },
+    { sOamFrame_632abe, 2 },
+    { sOamFrame_632b20, 2 },
+    { sOamFrame_632b82, 60 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingSamusViewRadarViewOam_Idle[3] = {
+    { sOamFrame_633050, 40 },
+    { sOamFrame_63301c, 60 },
+    FRAME_DATA_TERMINATOR
+};
+// FrameData array (type 30 of the ending dialogue), followed by the OAM frames of the BSL
+// crashing cutscene
+const struct FrameData sEndingUnk_633f24[6] = {
+    { sOamFrame_633090, 3 },
+    { sOamFrame_6331e4, 1 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_630098, 2 },
+    { sOamFrame_63318e, 2 },
+    FRAME_DATA_TERMINATOR
+};
+const u16 sOamFrame_633f54[] = INCBIN_U16("data/oam_frames/633f54.bin");
+const u16 sOamFrame_633f5c[] = INCBIN_U16("data/oam_frames/633f5c.bin");
+const u16 sOamFrame_633fb2[] = INCBIN_U16("data/oam_frames/633fb2.bin");
+const u16 sOamFrame_634008[] = INCBIN_U16("data/oam_frames/634008.bin");
+const u16 sOamFrame_63405e[] = INCBIN_U16("data/oam_frames/63405e.bin");
+const u16 sOamFrame_6340ae[] = INCBIN_U16("data/oam_frames/6340ae.bin");
+const u16 sOamFrame_634104[] = INCBIN_U16("data/oam_frames/634104.bin");
+const u16 sOamFrame_634160[] = INCBIN_U16("data/oam_frames/634160.bin");
+const u16 sOamFrame_6341c2[] = INCBIN_U16("data/oam_frames/6341c2.bin");
+const u16 sOamFrame_63421e[] = INCBIN_U16("data/oam_frames/63421e.bin");
+const u16 sOamFrame_63427a[] = INCBIN_U16("data/oam_frames/63427a.bin");
+const u16 sOamFrame_6342dc[] = INCBIN_U16("data/oam_frames/6342dc.bin");
+const u16 sOamFrame_634344[] = INCBIN_U16("data/oam_frames/634344.bin");
+const u16 sOamFrame_6343ac[] = INCBIN_U16("data/oam_frames/6343ac.bin");
+const u16 sOamFrame_63441a[] = INCBIN_U16("data/oam_frames/63441a.bin");
+const u16 sOamFrame_634476[] = INCBIN_U16("data/oam_frames/634476.bin");
+const u16 sOamFrame_6344ea[] = INCBIN_U16("data/oam_frames/6344ea.bin");
+const u16 sOamFrame_63455e[] = INCBIN_U16("data/oam_frames/63455e.bin");
+const u16 sOamFrame_6345cc[] = INCBIN_U16("data/oam_frames/6345cc.bin");
+const u16 sOamFrame_634634[] = INCBIN_U16("data/oam_frames/634634.bin");
+const u16 sOamFrame_6346a2[] = INCBIN_U16("data/oam_frames/6346a2.bin");
+const u16 sOamFrame_634710[] = INCBIN_U16("data/oam_frames/634710.bin");
+const u16 sOamFrame_63477e[] = INCBIN_U16("data/oam_frames/63477e.bin");
+const u16 sOamFrame_6347f2[] = INCBIN_U16("data/oam_frames/6347f2.bin");
+const u16 sOamFrame_634872[] = INCBIN_U16("data/oam_frames/634872.bin");
+const u16 sOamFrame_6348f8[] = INCBIN_U16("data/oam_frames/6348f8.bin");
+const u16 sOamFrame_63497e[] = INCBIN_U16("data/oam_frames/63497e.bin");
+const u16 sOamFrame_634a16[] = INCBIN_U16("data/oam_frames/634a16.bin");
+const u16 sOamFrame_634aae[] = INCBIN_U16("data/oam_frames/634aae.bin");
+const u16 sOamFrame_634b46[] = INCBIN_U16("data/oam_frames/634b46.bin");
+const u16 sOamFrame_634bd2[] = INCBIN_U16("data/oam_frames/634bd2.bin");
+const u16 sOamFrame_634c5e[] = INCBIN_U16("data/oam_frames/634c5e.bin");
+const u16 sOamFrame_634cea[] = INCBIN_U16("data/oam_frames/634cea.bin");
+const u16 sOamFrame_634d76[] = INCBIN_U16("data/oam_frames/634d76.bin");
+const u16 sOamFrame_634e08[] = INCBIN_U16("data/oam_frames/634e08.bin");
+const u16 sOamFrame_634e9a[] = INCBIN_U16("data/oam_frames/634e9a.bin");
+const u16 sOamFrame_634f1a[] = INCBIN_U16("data/oam_frames/634f1a.bin");
+const u16 sOamFrame_634fa0[] = INCBIN_U16("data/oam_frames/634fa0.bin");
+const u16 sOamFrame_635020[] = INCBIN_U16("data/oam_frames/635020.bin");
+const u16 sOamFrame_635094[] = INCBIN_U16("data/oam_frames/635094.bin");
+const u16 sOamFrame_63510e[] = INCBIN_U16("data/oam_frames/63510e.bin");
+const u16 sOamFrame_635182[] = INCBIN_U16("data/oam_frames/635182.bin");
+const u16 sOamFrame_6351fc[] = INCBIN_U16("data/oam_frames/6351fc.bin");
+const u16 sOamFrame_635270[] = INCBIN_U16("data/oam_frames/635270.bin");
+const u16 sOamFrame_6352f0[] = INCBIN_U16("data/oam_frames/6352f0.bin");
+const u16 sOamFrame_635364[] = INCBIN_U16("data/oam_frames/635364.bin");
+const u16 sOamFrame_6353d2[] = INCBIN_U16("data/oam_frames/6353d2.bin");
+const u16 sOamFrame_63544c[] = INCBIN_U16("data/oam_frames/63544c.bin");
+const u16 sOamFrame_6354ba[] = INCBIN_U16("data/oam_frames/6354ba.bin");
+const u16 sOamFrame_635528[] = INCBIN_U16("data/oam_frames/635528.bin");
+const u16 sOamFrame_635596[] = INCBIN_U16("data/oam_frames/635596.bin");
+const u16 sOamFrame_6355f8[] = INCBIN_U16("data/oam_frames/6355f8.bin");
+const u16 sOamFrame_635660[] = INCBIN_U16("data/oam_frames/635660.bin");
+const u16 sOamFrame_6356c2[] = INCBIN_U16("data/oam_frames/6356c2.bin");
+const u16 sOamFrame_63572a[] = INCBIN_U16("data/oam_frames/63572a.bin");
+const u16 sOamFrame_635786[] = INCBIN_U16("data/oam_frames/635786.bin");
+const u16 sOamFrame_6357d6[] = INCBIN_U16("data/oam_frames/6357d6.bin");
+const u16 sOamFrame_635826[] = INCBIN_U16("data/oam_frames/635826.bin");
+const u16 sOamFrame_635870[] = INCBIN_U16("data/oam_frames/635870.bin");
+const u16 sOamFrame_6358b4[] = INCBIN_U16("data/oam_frames/6358b4.bin");
+const u16 sOamFrame_6358ec[] = INCBIN_U16("data/oam_frames/6358ec.bin");
+const u16 sOamFrame_63591e[] = INCBIN_U16("data/oam_frames/63591e.bin");
+const u16 sOamFrame_63594a[] = INCBIN_U16("data/oam_frames/63594a.bin");
+const u16 sOamFrame_635970[] = INCBIN_U16("data/oam_frames/635970.bin");
+const u16 sOamFrame_635996[] = INCBIN_U16("data/oam_frames/635996.bin");
+const u16 sOamFrame_6359b6[] = INCBIN_U16("data/oam_frames/6359b6.bin");
+const u16 sOamFrame_6359d0[] = INCBIN_U16("data/oam_frames/6359d0.bin");
+const u16 sOamFrame_6359e4[] = INCBIN_U16("data/oam_frames/6359e4.bin");
+const u16 sOamFrame_6359f8[] = INCBIN_U16("data/oam_frames/6359f8.bin");
+const u16 sOamFrame_635a0c[] = INCBIN_U16("data/oam_frames/635a0c.bin");
+const u16 sOamFrame_635a20[] = INCBIN_U16("data/oam_frames/635a20.bin");
+const u16 sOamFrame_635a28[] = INCBIN_U16("data/oam_frames/635a28.bin");
+const u16 sOamFrame_635a36[] = INCBIN_U16("data/oam_frames/635a36.bin");
+const u16 sOamFrame_635a3e[] = INCBIN_U16("data/oam_frames/635a3e.bin");
+const u16 sOamFrame_635a4c[] = INCBIN_U16("data/oam_frames/635a4c.bin");
+const u16 sOamFrame_635a5a[] = INCBIN_U16("data/oam_frames/635a5a.bin");
+const u16 sOamFrame_635b34[] = INCBIN_U16("data/oam_frames/635b34.bin");
+const u16 sOamFrame_635bfc[] = INCBIN_U16("data/oam_frames/635bfc.bin");
+const u16 sOamFrame_635c04[] = INCBIN_U16("data/oam_frames/635c04.bin");
+const u16 sOamFrame_635c24[] = INCBIN_U16("data/oam_frames/635c24.bin");
+const u16 sOamFrame_635c5c[] = INCBIN_U16("data/oam_frames/635c5c.bin");
+const u16 sOamFrame_635ca6[] = INCBIN_U16("data/oam_frames/635ca6.bin");
+const u16 sOamFrame_635cf6[] = INCBIN_U16("data/oam_frames/635cf6.bin");
+const u16 sOamFrame_635d4c[] = INCBIN_U16("data/oam_frames/635d4c.bin");
+const u16 sOamFrame_635d96[] = INCBIN_U16("data/oam_frames/635d96.bin");
+const u16 sOamFrame_635dce[] = INCBIN_U16("data/oam_frames/635dce.bin");
+const u16 sOamFrame_635de8[] = INCBIN_U16("data/oam_frames/635de8.bin");
+const u16 sOamFrame_635dfc[] = INCBIN_U16("data/oam_frames/635dfc.bin");
+const u16 sOamFrame_635e9a[] = INCBIN_U16("data/oam_frames/635e9a.bin");
+const u16 sOamFrame_635ea2[] = INCBIN_U16("data/oam_frames/635ea2.bin");
+const u16 sOamFrame_635eaa[] = INCBIN_U16("data/oam_frames/635eaa.bin");
+const u16 sOamFrame_635eb2[] = INCBIN_U16("data/oam_frames/635eb2.bin");
+const u16 sOamFrame_635eba[] = INCBIN_U16("data/oam_frames/635eba.bin");
+const u16 sOamFrame_635ec2[] = INCBIN_U16("data/oam_frames/635ec2.bin");
+const u16 sOamFrame_635eca[] = INCBIN_U16("data/oam_frames/635eca.bin");
+const u16 sOamFrame_635ed2[] = INCBIN_U16("data/oam_frames/635ed2.bin");
+const u16 sOamFrame_635eda[] = INCBIN_U16("data/oam_frames/635eda.bin");
+const u16 sOamFrame_635ee2[] = INCBIN_U16("data/oam_frames/635ee2.bin");
+const u16 sOamFrame_635eea[] = INCBIN_U16("data/oam_frames/635eea.bin");
+const u16 sOamFrame_635ef2[] = INCBIN_U16("data/oam_frames/635ef2.bin");
+const u16 sOamFrame_635efa[] = INCBIN_U16("data/oam_frames/635efa.bin");
+const u16 sOamFrame_635f02[] = INCBIN_U16("data/oam_frames/635f02.bin");
+const u16 sOamFrame_635f0a[] = INCBIN_U16("data/oam_frames/635f0a.bin");
+const u16 sOamFrame_635f66[] = INCBIN_U16("data/oam_frames/635f66.bin");
+const u16 sOamFrame_635fc2[] = INCBIN_U16("data/oam_frames/635fc2.bin");
+const u16 sOamFrame_635fca[] = INCBIN_U16("data/oam_frames/635fca.bin");
+const u16 sOamFrame_635fd8[] = INCBIN_U16("data/oam_frames/635fd8.bin");
+const u16 sOamFrame_635fe0[] = INCBIN_U16("data/oam_frames/635fe0.bin");
+const u16 sOamFrame_635fe8[] = INCBIN_U16("data/oam_frames/635fe8.bin");
+const u16 sOamFrame_635ff0[] = INCBIN_U16("data/oam_frames/635ff0.bin");
+const u16 sOamFrame_635ff8[] = INCBIN_U16("data/oam_frames/635ff8.bin");
+const u16 sOamFrame_63600c[] = INCBIN_U16("data/oam_frames/63600c.bin");
+const struct FrameData sBslCrashingFallingBslOam[3] = {
+    { sOamFrame_635a20, 100 },
+    { sOamFrame_635a28, 100 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sBslCrashingFallingBslTransparentOam[3] = {
+    { sOamFrame_633f54, 100 },
+    { sOamFrame_635a36, 100 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sBslCrashingType3Oam[71] = {
+    { sOamFrame_633f54, 131 },
+    { sOamFrame_635a0c, 1 },
+    { sOamFrame_6359f8, 1 },
+    { sOamFrame_6359e4, 1 },
+    { sOamFrame_6359d0, 1 },
+    { sOamFrame_6359b6, 1 },
+    { sOamFrame_635996, 1 },
+    { sOamFrame_635970, 1 },
+    { sOamFrame_63594a, 1 },
+    { sOamFrame_63591e, 1 },
+    { sOamFrame_6358ec, 1 },
+    { sOamFrame_6358b4, 1 },
+    { sOamFrame_635870, 1 },
+    { sOamFrame_635826, 1 },
+    { sOamFrame_6357d6, 1 },
+    { sOamFrame_635786, 1 },
+    { sOamFrame_63572a, 1 },
+    { sOamFrame_6356c2, 1 },
+    { sOamFrame_635660, 1 },
+    { sOamFrame_6355f8, 1 },
+    { sOamFrame_635596, 1 },
+    { sOamFrame_635528, 1 },
+    { sOamFrame_6354ba, 1 },
+    { sOamFrame_63544c, 1 },
+    { sOamFrame_6353d2, 1 },
+    { sOamFrame_635364, 1 },
+    { sOamFrame_6352f0, 1 },
+    { sOamFrame_635270, 1 },
+    { sOamFrame_6351fc, 1 },
+    { sOamFrame_635182, 1 },
+    { sOamFrame_63510e, 1 },
+    { sOamFrame_635094, 1 },
+    { sOamFrame_635020, 1 },
+    { sOamFrame_634fa0, 1 },
+    { sOamFrame_634f1a, 1 },
+    { sOamFrame_634e9a, 1 },
+    { sOamFrame_634e08, 1 },
+    { sOamFrame_634d76, 1 },
+    { sOamFrame_634cea, 1 },
+    { sOamFrame_634c5e, 1 },
+    { sOamFrame_634bd2, 1 },
+    { sOamFrame_634b46, 1 },
+    { sOamFrame_634aae, 1 },
+    { sOamFrame_634a16, 1 },
+    { sOamFrame_63497e, 1 },
+    { sOamFrame_6348f8, 1 },
+    { sOamFrame_634872, 1 },
+    { sOamFrame_6347f2, 1 },
+    { sOamFrame_63477e, 1 },
+    { sOamFrame_634710, 1 },
+    { sOamFrame_6346a2, 1 },
+    { sOamFrame_634634, 1 },
+    { sOamFrame_6345cc, 1 },
+    { sOamFrame_63455e, 1 },
+    { sOamFrame_6344ea, 1 },
+    { sOamFrame_634476, 1 },
+    { sOamFrame_63441a, 1 },
+    { sOamFrame_6343ac, 1 },
+    { sOamFrame_634344, 1 },
+    { sOamFrame_6342dc, 1 },
+    { sOamFrame_63427a, 1 },
+    { sOamFrame_63421e, 1 },
+    { sOamFrame_6341c2, 1 },
+    { sOamFrame_634160, 1 },
+    { sOamFrame_634104, 1 },
+    { sOamFrame_6340ae, 1 },
+    { sOamFrame_63405e, 1 },
+    { sOamFrame_634008, 1 },
+    { sOamFrame_633fb2, 1 },
+    { sOamFrame_633f5c, 1 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingLeavingSmallShipOam[3] = {
+    { sOamFrame_635a3e, 2 },
+    { sOamFrame_635a4c, 2 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingLeavingBigShipOam[3] = {
+    { sOamFrame_635a5a, 2 },
+    { sOamFrame_635b34, 2 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sBslCrashingFallingBslOam_End[29] = {
+    { sOamFrame_635bfc, 4 },
+    { sOamFrame_635c04, 4 },
+    { sOamFrame_635c24, 4 },
+    { sOamFrame_635c5c, 4 },
+    { sOamFrame_635ca6, 4 },
+    { sOamFrame_635cf6, 4 },
+    { sOamFrame_635d4c, 6 },
+    { sOamFrame_635d96, 7 },
+    { sOamFrame_635dce, 8 },
+    { sOamFrame_635de8, 9 },
+    { sOamFrame_635dfc, 10 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635e9a, 5 },
+    { sOamFrame_635ea2, 5 },
+    { sOamFrame_635eaa, 5 },
+    { sOamFrame_635eb2, 5 },
+    { sOamFrame_635eba, 5 },
+    { sOamFrame_635ec2, 5 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635eca, 4 },
+    { sOamFrame_635ed2, 4 },
+    { sOamFrame_635eda, 4 },
+    { sOamFrame_635ee2, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635eea, 4 },
+    { sOamFrame_635ef2, 4 },
+    { sOamFrame_635efa, 4 },
+    { sOamFrame_635f02, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingFrontFacingShipOam[3] = {
+    { sOamFrame_635f0a, 3 },
+    { sOamFrame_635f66, 2 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sEndingFrontFacingShipThrustersOam[16] = {
+    { sOamFrame_635fc2, 1 },
+    { sOamFrame_633f54, 1 },
+    { sOamFrame_635fca, 1 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635fd8, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635fe0, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635fe8, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635ff0, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_635ff8, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_63600c, 4 },
+    FRAME_DATA_TERMINATOR
+};
 
 const u16 sEndingInShipBgPal[16 * PAL_ROW] = INCBIN_U16("data/ending/in_ship_bg.pal");
 const u16 sEndingInShipObjPal[16 * PAL_ROW] = INCBIN_U16("data/ending/in_ship_obj.pal");
@@ -22810,41 +23981,483 @@ const u32 sIntroSamusHelmetCloseupBgGfx3[812] = INCBIN_U32("data/new_file_intro/
 const u32 sIntroSamusHelmetCloseupBgGfx4[844] = INCBIN_U32("data/new_file_intro/samus_helmet_closeup_bg_4.gfx.lz");
 const u32 sIntroSamusHelmetCloseupBgGfx5[403] = INCBIN_U32("data/new_file_intro/samus_helmet_closeup_bg_5.gfx.lz");
 
-// Not referenced by name, probably reached through the ship alert graphics pointer tables
-// (sIntroUnk_79c448, sIntroUnk_79c45c)
-static const u8 sBlob_64e470_658be0[] = INCBIN_U8("data/Blob_64e470_658be0.bin");
+// Ship alert graphics (sIntroShipAlertBgGfxPointers, sIntroShipAlertObjGfxPointers) and the
+// graphics of the unreferenced sIntroGfxPointers_79c474
+const u32 sIntroShipAlertBgGfx_0[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_0.gfx.lz");
+const u32 sIntroShipAlertBgGfx_1[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_1.gfx.lz");
+const u32 sIntroShipAlertBgGfx_2[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_2.gfx.lz");
+const u32 sIntroShipAlertBgGfx_3[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_3.gfx.lz");
+const u32 sIntroShipAlertBgGfx_4[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_4.gfx.lz");
+const u32 sIntroShipAlertObjGfx_0[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_0.gfx.lz");
+const u32 sIntroShipAlertObjGfx_1[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_1.gfx.lz");
+const u32 sIntroShipAlertObjGfx_2[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_2.gfx.lz");
+const u32 sIntroShipAlertObjGfx_3[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_3.gfx.lz");
+const u32 sIntroShipAlertObjGfx_4[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_4.gfx.lz");
+const u32 sIntroShipAlertObjGfx_5[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_5.gfx.lz");
+const u32 sIntroGfx_652bd4[] = INCBIN_U32("data/new_file_intro/652bd4.gfx.lz");
+const u32 sIntroGfx_653980[] = INCBIN_U32("data/new_file_intro/653980.gfx.lz");
+const u32 sIntroGfx_6546f4[] = INCBIN_U32("data/new_file_intro/6546f4.gfx.lz");
+const u32 sIntroGfx_6552a0[] = INCBIN_U32("data/new_file_intro/6552a0.gfx.lz");
+const u32 sIntroGfx_655f3c[] = INCBIN_U32("data/new_file_intro/655f3c.gfx.lz");
+const u32 sIntroGfx_656cd0[] = INCBIN_U32("data/new_file_intro/656cd0.gfx.lz");
+const u32 sIntroGfx_657408[] = INCBIN_U32("data/new_file_intro/657408.gfx.lz");
+const u32 sIntroGfx_6579c4[] = INCBIN_U32("data/new_file_intro/6579c4.gfx.lz");
+const u32 sIntroGfx_657d2c[] = INCBIN_U32("data/new_file_intro/657d2c.gfx.lz");
+const u32 sIntroGfx_657f60[] = INCBIN_U32("data/new_file_intro/657f60.gfx.lz");
+const u32 sIntroGfx_658150[] = INCBIN_U32("data/new_file_intro/658150.gfx.lz");
+const u32 sIntroGfx_658468[] = INCBIN_U32("data/new_file_intro/658468.gfx.lz");
+const u32 sIntroGfx_658848[] = INCBIN_U32("data/new_file_intro/658848.gfx.lz");
 const u32 sIntroSamusInShipTilemap[385] = INCBIN_U32("data/new_file_intro/samus_in_ship.tm.lz");
 const u16 sIntroSamusInShipPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_in_ship.pal");
 const u32 sIntroShipAlertBg1Tilemap[368] = INCBIN_U32("data/new_file_intro/ship_alert_bg1.tm.lz");
 const u16 sIntroShipAlertBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_bg.pal");
-// Rest after the 8 palette rows the ship alert copies, not referenced by name (probably holds the
-// OAM frames of the FrameData arrays below)
-static const u8 sBlob_659aa4_65bb38[] = INCBIN_U8("data/Blob_659aa4_65bb38.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
-const u32 sIntroShipAlertTimeAndDistanceOam[114] = INCBIN_U32("data/new_file_intro/ship_alert_time_and_distance_oam.bin");
-const u32 sIntroShipAlertOam_65bd00[18] = INCBIN_U32("data/new_file_intro/ship_alert_65bd00_oam.bin");
-const u32 sIntroShipAlertOam_65bd48[6] = INCBIN_U32("data/new_file_intro/ship_alert_65bd48_oam.bin");
-const u32 sIntroShipAlertAsteroidsPopUpOam[40] = INCBIN_U32("data/new_file_intro/ship_alert_asteroids_pop_up_oam.bin");
-const u32 sIntroShipAlertOam_65be00[68] = INCBIN_U32("data/new_file_intro/ship_alert_65be00_oam.bin");
-const u32 sIntroShipAlertBigNumberOam_65bf10[112] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65bf10_oam.bin");
-const u32 sIntroShipAlertBigNumberOam_65c0d0[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c0d0_oam.bin");
-const u32 sIntroShipAlertBigNumberOam_65c128[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c128_oam.bin");
-const u32 sIntroShipAlertBigNumberOam_65c180[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c180_oam.bin");
-const u32 sIntroShipAlertBigNumberOam_65c1d8[22] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c1d8_oam.bin");
-const u32 sIntroShipAlertBigNumberOam_65c230[14] = INCBIN_U32("data/new_file_intro/ship_alert_big_number_65c230_oam.bin");
+// Rest after the 8 palette rows the ship alert copies, not referenced by name
+static const u8 sBlob_659aa4_659ba4[] = INCBIN_U8("data/Blob_659aa4_659ba4.bin");
+// OAM frames of the FrameData arrays below
+const u16 sOamFrame_659ba4[] = INCBIN_U16("data/oam_frames/659ba4.bin");
+const u16 sOamFrame_659bd0[] = INCBIN_U16("data/oam_frames/659bd0.bin");
+const u16 sOamFrame_659bf0[] = INCBIN_U16("data/oam_frames/659bf0.bin");
+const u16 sOamFrame_659c34[] = INCBIN_U16("data/oam_frames/659c34.bin");
+const u16 sOamFrame_659c72[] = INCBIN_U16("data/oam_frames/659c72.bin");
+const u16 sOamFrame_659cb6[] = INCBIN_U16("data/oam_frames/659cb6.bin");
+const u16 sOamFrame_659cfa[] = INCBIN_U16("data/oam_frames/659cfa.bin");
+const u16 sOamFrame_659d38[] = INCBIN_U16("data/oam_frames/659d38.bin");
+const u16 sOamFrame_659d76[] = INCBIN_U16("data/oam_frames/659d76.bin");
+const u16 sOamFrame_659da8[] = INCBIN_U16("data/oam_frames/659da8.bin");
+const u16 sOamFrame_659de0[] = INCBIN_U16("data/oam_frames/659de0.bin");
+const u16 sOamFrame_659de8[] = INCBIN_U16("data/oam_frames/659de8.bin");
+const u16 sOamFrame_659df0[] = INCBIN_U16("data/oam_frames/659df0.bin");
+const u16 sOamFrame_659df8[] = INCBIN_U16("data/oam_frames/659df8.bin");
+const u16 sOamFrame_659e00[] = INCBIN_U16("data/oam_frames/659e00.bin");
+const u16 sOamFrame_659e08[] = INCBIN_U16("data/oam_frames/659e08.bin");
+const u16 sOamFrame_659e10[] = INCBIN_U16("data/oam_frames/659e10.bin");
+const u16 sOamFrame_659e18[] = INCBIN_U16("data/oam_frames/659e18.bin");
+const u16 sOamFrame_659e32[] = INCBIN_U16("data/oam_frames/659e32.bin");
+const u16 sOamFrame_659e5e[] = INCBIN_U16("data/oam_frames/659e5e.bin");
+const u16 sOamFrame_659e90[] = INCBIN_U16("data/oam_frames/659e90.bin");
+const u16 sOamFrame_659ec8[] = INCBIN_U16("data/oam_frames/659ec8.bin");
+const u16 sOamFrame_659f1e[] = INCBIN_U16("data/oam_frames/659f1e.bin");
+const u16 sOamFrame_659f86[] = INCBIN_U16("data/oam_frames/659f86.bin");
+const u16 sOamFrame_659ff4[] = INCBIN_U16("data/oam_frames/659ff4.bin");
+const u16 sOamFrame_65a080[] = INCBIN_U16("data/oam_frames/65a080.bin");
+const u16 sOamFrame_65a09a[] = INCBIN_U16("data/oam_frames/65a09a.bin");
+const u16 sOamFrame_65a0b4[] = INCBIN_U16("data/oam_frames/65a0b4.bin");
+const u16 sOamFrame_65a0ce[] = INCBIN_U16("data/oam_frames/65a0ce.bin");
+const u16 sOamFrame_65a0e8[] = INCBIN_U16("data/oam_frames/65a0e8.bin");
+const u16 sOamFrame_65a102[] = INCBIN_U16("data/oam_frames/65a102.bin");
+const u16 sOamFrame_65a11c[] = INCBIN_U16("data/oam_frames/65a11c.bin");
+const u16 sOamFrame_65a136[] = INCBIN_U16("data/oam_frames/65a136.bin");
+const u16 sOamFrame_65a150[] = INCBIN_U16("data/oam_frames/65a150.bin");
+const u16 sOamFrame_65a16a[] = INCBIN_U16("data/oam_frames/65a16a.bin");
+const u16 sOamFrame_65a184[] = INCBIN_U16("data/oam_frames/65a184.bin");
+const u16 sOamFrame_65a18c[] = INCBIN_U16("data/oam_frames/65a18c.bin");
+const u16 sOamFrame_65a194[] = INCBIN_U16("data/oam_frames/65a194.bin");
+const u16 sOamFrame_65a19c[] = INCBIN_U16("data/oam_frames/65a19c.bin");
+const u16 sOamFrame_65a1a4[] = INCBIN_U16("data/oam_frames/65a1a4.bin");
+const u16 sOamFrame_65a1ac[] = INCBIN_U16("data/oam_frames/65a1ac.bin");
+const u16 sOamFrame_65a1b4[] = INCBIN_U16("data/oam_frames/65a1b4.bin");
+const u16 sOamFrame_65a1bc[] = INCBIN_U16("data/oam_frames/65a1bc.bin");
+const u16 sOamFrame_65a1c4[] = INCBIN_U16("data/oam_frames/65a1c4.bin");
+const u16 sOamFrame_65a1cc[] = INCBIN_U16("data/oam_frames/65a1cc.bin");
+const u16 sOamFrame_65a1d4[] = INCBIN_U16("data/oam_frames/65a1d4.bin");
+const u16 sOamFrame_65a1e8[] = INCBIN_U16("data/oam_frames/65a1e8.bin");
+const u16 sOamFrame_65a202[] = INCBIN_U16("data/oam_frames/65a202.bin");
+const u16 sOamFrame_65a21c[] = INCBIN_U16("data/oam_frames/65a21c.bin");
+const u16 sOamFrame_65a23c[] = INCBIN_U16("data/oam_frames/65a23c.bin");
+const u16 sOamFrame_65a25c[] = INCBIN_U16("data/oam_frames/65a25c.bin");
+const u16 sOamFrame_65a27c[] = INCBIN_U16("data/oam_frames/65a27c.bin");
+const u16 sOamFrame_65a29c[] = INCBIN_U16("data/oam_frames/65a29c.bin");
+const u16 sOamFrame_65a2bc[] = INCBIN_U16("data/oam_frames/65a2bc.bin");
+const u16 sOamFrame_65a2dc[] = INCBIN_U16("data/oam_frames/65a2dc.bin");
+const u16 sOamFrame_65a2fc[] = INCBIN_U16("data/oam_frames/65a2fc.bin");
+const u16 sOamFrame_65a328[] = INCBIN_U16("data/oam_frames/65a328.bin");
+const u16 sOamFrame_65a354[] = INCBIN_U16("data/oam_frames/65a354.bin");
+const u16 sOamFrame_65a380[] = INCBIN_U16("data/oam_frames/65a380.bin");
+const u16 sOamFrame_65a3ac[] = INCBIN_U16("data/oam_frames/65a3ac.bin");
+const u16 sOamFrame_65a3d8[] = INCBIN_U16("data/oam_frames/65a3d8.bin");
+const u16 sOamFrame_65a404[] = INCBIN_U16("data/oam_frames/65a404.bin");
+const u16 sOamFrame_65a430[] = INCBIN_U16("data/oam_frames/65a430.bin");
+const u16 sOamFrame_65a462[] = INCBIN_U16("data/oam_frames/65a462.bin");
+const u16 sOamFrame_65a49a[] = INCBIN_U16("data/oam_frames/65a49a.bin");
+const u16 sOamFrame_65a4d2[] = INCBIN_U16("data/oam_frames/65a4d2.bin");
+const u16 sOamFrame_65a50a[] = INCBIN_U16("data/oam_frames/65a50a.bin");
+const u16 sOamFrame_65a542[] = INCBIN_U16("data/oam_frames/65a542.bin");
+const u16 sOamFrame_65a57a[] = INCBIN_U16("data/oam_frames/65a57a.bin");
+const u16 sOamFrame_65a5b2[] = INCBIN_U16("data/oam_frames/65a5b2.bin");
+const u16 sOamFrame_65a5f0[] = INCBIN_U16("data/oam_frames/65a5f0.bin");
+const u16 sOamFrame_65a634[] = INCBIN_U16("data/oam_frames/65a634.bin");
+const u16 sOamFrame_65a678[] = INCBIN_U16("data/oam_frames/65a678.bin");
+const u16 sOamFrame_65a6bc[] = INCBIN_U16("data/oam_frames/65a6bc.bin");
+const u16 sOamFrame_65a700[] = INCBIN_U16("data/oam_frames/65a700.bin");
+const u16 sOamFrame_65a744[] = INCBIN_U16("data/oam_frames/65a744.bin");
+const u16 sOamFrame_65a788[] = INCBIN_U16("data/oam_frames/65a788.bin");
+const u16 sOamFrame_65a7cc[] = INCBIN_U16("data/oam_frames/65a7cc.bin");
+const u16 sOamFrame_65a816[] = INCBIN_U16("data/oam_frames/65a816.bin");
+const u16 sOamFrame_65a866[] = INCBIN_U16("data/oam_frames/65a866.bin");
+const u16 sOamFrame_65a8b6[] = INCBIN_U16("data/oam_frames/65a8b6.bin");
+const u16 sOamFrame_65a906[] = INCBIN_U16("data/oam_frames/65a906.bin");
+const u16 sOamFrame_65a956[] = INCBIN_U16("data/oam_frames/65a956.bin");
+const u16 sOamFrame_65a9a6[] = INCBIN_U16("data/oam_frames/65a9a6.bin");
+const u16 sOamFrame_65a9fc[] = INCBIN_U16("data/oam_frames/65a9fc.bin");
+const u16 sOamFrame_65aa58[] = INCBIN_U16("data/oam_frames/65aa58.bin");
+const u16 sOamFrame_65aaba[] = INCBIN_U16("data/oam_frames/65aaba.bin");
+const u16 sOamFrame_65ab22[] = INCBIN_U16("data/oam_frames/65ab22.bin");
+const u16 sOamFrame_65ab90[] = INCBIN_U16("data/oam_frames/65ab90.bin");
+const u16 sOamFrame_65abf2[] = INCBIN_U16("data/oam_frames/65abf2.bin");
+const u16 sOamFrame_65ac60[] = INCBIN_U16("data/oam_frames/65ac60.bin");
+const u16 sOamFrame_65ace6[] = INCBIN_U16("data/oam_frames/65ace6.bin");
+const u16 sOamFrame_65ad7e[] = INCBIN_U16("data/oam_frames/65ad7e.bin");
+const u16 sOamFrame_65adaa[] = INCBIN_U16("data/oam_frames/65adaa.bin");
+const u16 sOamFrame_65add6[] = INCBIN_U16("data/oam_frames/65add6.bin");
+const u16 sOamFrame_65adf6[] = INCBIN_U16("data/oam_frames/65adf6.bin");
+const u16 sOamFrame_65ae16[] = INCBIN_U16("data/oam_frames/65ae16.bin");
+const u16 sOamFrame_65ae3c[] = INCBIN_U16("data/oam_frames/65ae3c.bin");
+const u16 sOamFrame_65ae62[] = INCBIN_U16("data/oam_frames/65ae62.bin");
+const u16 sOamFrame_65ae8e[] = INCBIN_U16("data/oam_frames/65ae8e.bin");
+const u16 sOamFrame_65aeba[] = INCBIN_U16("data/oam_frames/65aeba.bin");
+const u16 sOamFrame_65aee6[] = INCBIN_U16("data/oam_frames/65aee6.bin");
+const u16 sOamFrame_65af12[] = INCBIN_U16("data/oam_frames/65af12.bin");
+const u16 sOamFrame_65af3e[] = INCBIN_U16("data/oam_frames/65af3e.bin");
+const u16 sOamFrame_65af5e[] = INCBIN_U16("data/oam_frames/65af5e.bin");
+const u16 sOamFrame_65af7e[] = INCBIN_U16("data/oam_frames/65af7e.bin");
+const u16 sOamFrame_65afa4[] = INCBIN_U16("data/oam_frames/65afa4.bin");
+const u16 sOamFrame_65afca[] = INCBIN_U16("data/oam_frames/65afca.bin");
+const u16 sOamFrame_65aff6[] = INCBIN_U16("data/oam_frames/65aff6.bin");
+const u16 sOamFrame_65b01c[] = INCBIN_U16("data/oam_frames/65b01c.bin");
+const u16 sOamFrame_65b04e[] = INCBIN_U16("data/oam_frames/65b04e.bin");
+const u16 sOamFrame_65b080[] = INCBIN_U16("data/oam_frames/65b080.bin");
+const u16 sOamFrame_65b0b2[] = INCBIN_U16("data/oam_frames/65b0b2.bin");
+const u16 sOamFrame_65b0e4[] = INCBIN_U16("data/oam_frames/65b0e4.bin");
+const u16 sOamFrame_65b104[] = INCBIN_U16("data/oam_frames/65b104.bin");
+const u16 sOamFrame_65b124[] = INCBIN_U16("data/oam_frames/65b124.bin");
+const u16 sOamFrame_65b14a[] = INCBIN_U16("data/oam_frames/65b14a.bin");
+const u16 sOamFrame_65b170[] = INCBIN_U16("data/oam_frames/65b170.bin");
+const u16 sOamFrame_65b196[] = INCBIN_U16("data/oam_frames/65b196.bin");
+const u16 sOamFrame_65b1bc[] = INCBIN_U16("data/oam_frames/65b1bc.bin");
+const u16 sOamFrame_65b1e2[] = INCBIN_U16("data/oam_frames/65b1e2.bin");
+const u16 sOamFrame_65b202[] = INCBIN_U16("data/oam_frames/65b202.bin");
+const u16 sOamFrame_65b222[] = INCBIN_U16("data/oam_frames/65b222.bin");
+const u16 sOamFrame_65b248[] = INCBIN_U16("data/oam_frames/65b248.bin");
+const u16 sOamFrame_65b26e[] = INCBIN_U16("data/oam_frames/65b26e.bin");
+const u16 sOamFrame_65b29a[] = INCBIN_U16("data/oam_frames/65b29a.bin");
+const u16 sOamFrame_65b2c6[] = INCBIN_U16("data/oam_frames/65b2c6.bin");
+const u16 sOamFrame_65b2f2[] = INCBIN_U16("data/oam_frames/65b2f2.bin");
+const u16 sOamFrame_65b31e[] = INCBIN_U16("data/oam_frames/65b31e.bin");
+const u16 sOamFrame_65b34a[] = INCBIN_U16("data/oam_frames/65b34a.bin");
+const u16 sOamFrame_65b36a[] = INCBIN_U16("data/oam_frames/65b36a.bin");
+const u16 sOamFrame_65b38a[] = INCBIN_U16("data/oam_frames/65b38a.bin");
+const u16 sOamFrame_65b3b0[] = INCBIN_U16("data/oam_frames/65b3b0.bin");
+const u16 sOamFrame_65b3d6[] = INCBIN_U16("data/oam_frames/65b3d6.bin");
+const u16 sOamFrame_65b402[] = INCBIN_U16("data/oam_frames/65b402.bin");
+const u16 sOamFrame_65b428[] = INCBIN_U16("data/oam_frames/65b428.bin");
+const u16 sOamFrame_65b45a[] = INCBIN_U16("data/oam_frames/65b45a.bin");
+const u16 sOamFrame_65b48c[] = INCBIN_U16("data/oam_frames/65b48c.bin");
+const u16 sOamFrame_65b4be[] = INCBIN_U16("data/oam_frames/65b4be.bin");
+const u16 sOamFrame_65b4f0[] = INCBIN_U16("data/oam_frames/65b4f0.bin");
+const u16 sOamFrame_65b510[] = INCBIN_U16("data/oam_frames/65b510.bin");
+const u16 sOamFrame_65b530[] = INCBIN_U16("data/oam_frames/65b530.bin");
+const u16 sOamFrame_65b556[] = INCBIN_U16("data/oam_frames/65b556.bin");
+const u16 sOamFrame_65b57c[] = INCBIN_U16("data/oam_frames/65b57c.bin");
+const u16 sOamFrame_65b5a8[] = INCBIN_U16("data/oam_frames/65b5a8.bin");
+const u16 sOamFrame_65b5d4[] = INCBIN_U16("data/oam_frames/65b5d4.bin");
+const u16 sOamFrame_65b600[] = INCBIN_U16("data/oam_frames/65b600.bin");
+const u16 sOamFrame_65b62c[] = INCBIN_U16("data/oam_frames/65b62c.bin");
+const u16 sOamFrame_65b658[] = INCBIN_U16("data/oam_frames/65b658.bin");
+const u16 sOamFrame_65b684[] = INCBIN_U16("data/oam_frames/65b684.bin");
+const u16 sOamFrame_65b6a4[] = INCBIN_U16("data/oam_frames/65b6a4.bin");
+const u16 sOamFrame_65b6c4[] = INCBIN_U16("data/oam_frames/65b6c4.bin");
+const u16 sOamFrame_65b6ea[] = INCBIN_U16("data/oam_frames/65b6ea.bin");
+const u16 sOamFrame_65b710[] = INCBIN_U16("data/oam_frames/65b710.bin");
+const u16 sOamFrame_65b73c[] = INCBIN_U16("data/oam_frames/65b73c.bin");
+const u16 sOamFrame_65b768[] = INCBIN_U16("data/oam_frames/65b768.bin");
+const u16 sOamFrame_65b794[] = INCBIN_U16("data/oam_frames/65b794.bin");
+const u16 sOamFrame_65b7c0[] = INCBIN_U16("data/oam_frames/65b7c0.bin");
+const u16 sOamFrame_65b7ec[] = INCBIN_U16("data/oam_frames/65b7ec.bin");
+const u16 sOamFrame_65b80c[] = INCBIN_U16("data/oam_frames/65b80c.bin");
+const u16 sOamFrame_65b832[] = INCBIN_U16("data/oam_frames/65b832.bin");
+const u16 sOamFrame_65b85e[] = INCBIN_U16("data/oam_frames/65b85e.bin");
+const u16 sOamFrame_65b884[] = INCBIN_U16("data/oam_frames/65b884.bin");
+const u16 sOamFrame_65b8b0[] = INCBIN_U16("data/oam_frames/65b8b0.bin");
+const u16 sOamFrame_65b8dc[] = INCBIN_U16("data/oam_frames/65b8dc.bin");
+const u16 sOamFrame_65b908[] = INCBIN_U16("data/oam_frames/65b908.bin");
+const u16 sOamFrame_65b934[] = INCBIN_U16("data/oam_frames/65b934.bin");
+const u16 sOamFrame_65b960[] = INCBIN_U16("data/oam_frames/65b960.bin");
+const u16 sOamFrame_65b986[] = INCBIN_U16("data/oam_frames/65b986.bin");
+const u16 sOamFrame_65b9ac[] = INCBIN_U16("data/oam_frames/65b9ac.bin");
+const u16 sOamFrame_65b9d8[] = INCBIN_U16("data/oam_frames/65b9d8.bin");
+const u16 sOamFrame_65ba04[] = INCBIN_U16("data/oam_frames/65ba04.bin");
+const u16 sOamFrame_65ba30[] = INCBIN_U16("data/oam_frames/65ba30.bin");
+const u16 sOamFrame_65ba5c[] = INCBIN_U16("data/oam_frames/65ba5c.bin");
+const u16 sOamFrame_65ba88[] = INCBIN_U16("data/oam_frames/65ba88.bin");
+const u16 sOamFrame_65baa8[] = INCBIN_U16("data/oam_frames/65baa8.bin");
+const u16 sOamFrame_65bac8[] = INCBIN_U16("data/oam_frames/65bac8.bin");
+const u16 sOamFrame_65baee[] = INCBIN_U16("data/oam_frames/65baee.bin");
+const u16 sOamFrame_65bb0e[] = INCBIN_U16("data/oam_frames/65bb0e.bin");
+const u16 sOamFrame_65bb2e[] = INCBIN_U16("data/oam_frames/65bb2e.bin");
+// FrameData arrays of the ship alert
+const struct FrameData sIntroShipAlertTimeAndDistanceOam[57] = {
+    { sOamFrame_65bb2e, 80 },
+    { sOamFrame_65a1d4, 1 },
+    { sOamFrame_65a1e8, 1 },
+    { sOamFrame_65a202, 1 },
+    { sOamFrame_65a21c, 1 },
+    { sOamFrame_65a23c, 1 },
+    { sOamFrame_65a25c, 1 },
+    { sOamFrame_65a27c, 1 },
+    { sOamFrame_65a29c, 1 },
+    { sOamFrame_65a2bc, 1 },
+    { sOamFrame_65a2dc, 1 },
+    { sOamFrame_65a2fc, 1 },
+    { sOamFrame_65a328, 1 },
+    { sOamFrame_65a354, 1 },
+    { sOamFrame_65a380, 1 },
+    { sOamFrame_65a3ac, 1 },
+    { sOamFrame_65a3d8, 1 },
+    { sOamFrame_65a404, 1 },
+    { sOamFrame_65a430, 1 },
+    { sOamFrame_65a462, 1 },
+    { sOamFrame_65a49a, 1 },
+    { sOamFrame_65a4d2, 1 },
+    { sOamFrame_65a50a, 1 },
+    { sOamFrame_65a542, 1 },
+    { sOamFrame_65a57a, 1 },
+    { sOamFrame_65a5b2, 1 },
+    { sOamFrame_65a5f0, 1 },
+    { sOamFrame_65a634, 1 },
+    { sOamFrame_65a678, 1 },
+    { sOamFrame_65a6bc, 1 },
+    { sOamFrame_65a700, 1 },
+    { sOamFrame_65a744, 1 },
+    { sOamFrame_65a788, 1 },
+    { sOamFrame_65a7cc, 1 },
+    { sOamFrame_65a816, 1 },
+    { sOamFrame_65a866, 1 },
+    { sOamFrame_65a8b6, 1 },
+    { sOamFrame_65a906, 1 },
+    { sOamFrame_65a956, 10 },
+    { sOamFrame_65bb2e, 10 },
+    { sOamFrame_65a956, 10 },
+    { sOamFrame_65bb2e, 10 },
+    { sOamFrame_65a956, 10 },
+    { sOamFrame_65bb2e, 10 },
+    { sOamFrame_65a9a6, 1 },
+    { sOamFrame_65a9fc, 1 },
+    { sOamFrame_65aa58, 1 },
+    { sOamFrame_65aaba, 1 },
+    { sOamFrame_65ab22, 1 },
+    { sOamFrame_65ab90, 1 },
+    { sOamFrame_65abf2, 10 },
+    { sOamFrame_65ac60, 6 },
+    { sOamFrame_65ace6, 240 },
+    { sOamFrame_65ace6, 240 },
+    { sOamFrame_65ace6, 240 },
+    { sOamFrame_65ace6, 240 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertOam_65bd00[9] = {
+    { sOamFrame_659bf0, 8 },
+    { sOamFrame_659c34, 8 },
+    { sOamFrame_659c72, 8 },
+    { sOamFrame_659cb6, 8 },
+    { sOamFrame_659cfa, 8 },
+    { sOamFrame_659d38, 8 },
+    { sOamFrame_659d76, 8 },
+    { sOamFrame_659da8, 8 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertOam_65bd48[3] = {
+    { sOamFrame_659ba4, 30 },
+    { sOamFrame_659bd0, 30 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertAsteroidsPopUpOam[20] = {
+    { sOamFrame_65bb2e, 60 },
+    { sOamFrame_659de0, 3 },
+    { sOamFrame_659de8, 3 },
+    { sOamFrame_659df0, 3 },
+    { sOamFrame_659df8, 2 },
+    { sOamFrame_659e00, 2 },
+    { sOamFrame_659e08, 2 },
+    { sOamFrame_659e10, 20 },
+    { sOamFrame_659e18, 2 },
+    { sOamFrame_659e32, 2 },
+    { sOamFrame_659e5e, 2 },
+    { sOamFrame_659e90, 2 },
+    { sOamFrame_659ec8, 2 },
+    { sOamFrame_659f1e, 2 },
+    { sOamFrame_659f86, 2 },
+    { sOamFrame_659ff4, 240 },
+    { sOamFrame_659ff4, 240 },
+    { sOamFrame_659ff4, 240 },
+    { sOamFrame_659ff4, 240 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertOam_65be00[34] = {
+    { sOamFrame_65bb2e, 114 },
+    { sOamFrame_65bb0e, 3 },
+    { sOamFrame_65baee, 3 },
+    { sOamFrame_65bac8, 3 },
+    { sOamFrame_65baa8, 3 },
+    { sOamFrame_65ba88, 3 },
+    { sOamFrame_65ba5c, 3 },
+    { sOamFrame_65ba30, 3 },
+    { sOamFrame_65ba04, 3 },
+    { sOamFrame_65b9d8, 3 },
+    { sOamFrame_65b9ac, 3 },
+    { sOamFrame_65b986, 3 },
+    { sOamFrame_65b960, 3 },
+    { sOamFrame_65b934, 3 },
+    { sOamFrame_65b908, 3 },
+    { sOamFrame_65b8dc, 3 },
+    { sOamFrame_65b8b0, 3 },
+    { sOamFrame_65b884, 3 },
+    { sOamFrame_65b85e, 3 },
+    { sOamFrame_65b832, 3 },
+    { sOamFrame_65b80c, 3 },
+    { sOamFrame_65b7ec, 3 },
+    { sOamFrame_65b7c0, 3 },
+    { sOamFrame_65b794, 3 },
+    { sOamFrame_65b768, 3 },
+    { sOamFrame_65b73c, 3 },
+    { sOamFrame_65b710, 3 },
+    { sOamFrame_65b6ea, 3 },
+    { sOamFrame_65b6c4, 3 },
+    { sOamFrame_65b6a4, 3 },
+    { sOamFrame_65b684, 3 },
+    { sOamFrame_65b658, 3 },
+    { sOamFrame_65b62c, 3 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertBigNumberOam_65bf10[56] = {
+    { sOamFrame_65b600, 3 },
+    { sOamFrame_65b5d4, 3 },
+    { sOamFrame_65b5a8, 3 },
+    { sOamFrame_65b57c, 3 },
+    { sOamFrame_65b556, 3 },
+    { sOamFrame_65b530, 3 },
+    { sOamFrame_65b510, 3 },
+    { sOamFrame_65b4f0, 3 },
+    { sOamFrame_65b4be, 3 },
+    { sOamFrame_65b48c, 3 },
+    { sOamFrame_65b45a, 3 },
+    { sOamFrame_65b428, 3 },
+    { sOamFrame_65b402, 3 },
+    { sOamFrame_65b3d6, 3 },
+    { sOamFrame_65b3b0, 3 },
+    { sOamFrame_65b38a, 3 },
+    { sOamFrame_65b36a, 3 },
+    { sOamFrame_65b34a, 3 },
+    { sOamFrame_65b31e, 3 },
+    { sOamFrame_65b2f2, 3 },
+    { sOamFrame_65b2c6, 3 },
+    { sOamFrame_65b29a, 3 },
+    { sOamFrame_65b26e, 3 },
+    { sOamFrame_65b248, 3 },
+    { sOamFrame_65b222, 3 },
+    { sOamFrame_65b202, 3 },
+    { sOamFrame_65b1e2, 3 },
+    { sOamFrame_65b1bc, 3 },
+    { sOamFrame_65b196, 3 },
+    { sOamFrame_65b170, 3 },
+    { sOamFrame_65b14a, 3 },
+    { sOamFrame_65b124, 3 },
+    { sOamFrame_65b104, 3 },
+    { sOamFrame_65b0e4, 3 },
+    { sOamFrame_65b0b2, 3 },
+    { sOamFrame_65b080, 3 },
+    { sOamFrame_65b04e, 3 },
+    { sOamFrame_65b01c, 3 },
+    { sOamFrame_65aff6, 3 },
+    { sOamFrame_65afca, 3 },
+    { sOamFrame_65afa4, 3 },
+    { sOamFrame_65af7e, 3 },
+    { sOamFrame_65af5e, 3 },
+    { sOamFrame_65af3e, 3 },
+    { sOamFrame_65af12, 3 },
+    { sOamFrame_65aee6, 3 },
+    { sOamFrame_65aeba, 3 },
+    { sOamFrame_65ae8e, 3 },
+    { sOamFrame_65ae62, 3 },
+    { sOamFrame_65ae3c, 3 },
+    { sOamFrame_65ae16, 3 },
+    { sOamFrame_65adf6, 3 },
+    { sOamFrame_65add6, 3 },
+    { sOamFrame_65adaa, 3 },
+    { sOamFrame_65ad7e, 3 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertBigNumberOam_65c0d0[11] = {
+    { sOamFrame_65a080, 1 },
+    { sOamFrame_65a09a, 1 },
+    { sOamFrame_65a0b4, 1 },
+    { sOamFrame_65a0ce, 1 },
+    { sOamFrame_65a0e8, 1 },
+    { sOamFrame_65a102, 1 },
+    { sOamFrame_65a11c, 1 },
+    { sOamFrame_65a136, 1 },
+    { sOamFrame_65a150, 1 },
+    { sOamFrame_65a16a, 1 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertBigNumberOam_65c128[11] = {
+    { sOamFrame_65a1ac, 8 },
+    { sOamFrame_65a1a4, 8 },
+    { sOamFrame_65a19c, 8 },
+    { sOamFrame_65a194, 8 },
+    { sOamFrame_65a18c, 8 },
+    { sOamFrame_65a184, 8 },
+    { sOamFrame_65a1cc, 8 },
+    { sOamFrame_65a1c4, 8 },
+    { sOamFrame_65a1bc, 8 },
+    { sOamFrame_65a1b4, 8 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertBigNumberOam_65c180[11] = {
+    { sOamFrame_65a1cc, 80 },
+    { sOamFrame_65a1c4, 80 },
+    { sOamFrame_65a1bc, 80 },
+    { sOamFrame_65a1b4, 80 },
+    { sOamFrame_65a1ac, 80 },
+    { sOamFrame_65a1a4, 80 },
+    { sOamFrame_65a19c, 80 },
+    { sOamFrame_65a194, 80 },
+    { sOamFrame_65a18c, 80 },
+    { sOamFrame_65a184, 80 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertBigNumberOam_65c1d8[11] = {
+    { sOamFrame_65a1b4, 60 },
+    { sOamFrame_65a1ac, 60 },
+    { sOamFrame_65a1a4, 60 },
+    { sOamFrame_65a19c, 60 },
+    { sOamFrame_65a194, 60 },
+    { sOamFrame_65a18c, 60 },
+    { sOamFrame_65a184, 60 },
+    { sOamFrame_65a1cc, 60 },
+    { sOamFrame_65a1c4, 60 },
+    { sOamFrame_65a1bc, 60 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sIntroShipAlertBigNumberOam_65c230[7] = {
+    { sOamFrame_65a1a4, 200 },
+    { sOamFrame_65a1a4, 200 },
+    { sOamFrame_65a1a4, 200 },
+    { sOamFrame_65a19c, 200 },
+    { sOamFrame_65a19c, 200 },
+    { sOamFrame_65a19c, 200 },
+    FRAME_DATA_TERMINATOR
+};
 const u16 sIntroShipAlertObjPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_obj.pal");
-// Not referenced by name, probably reached through the elevator monologue pointer tables
-// (the sElevatorMonologue*Pointers tables)
-static const u8 sBlob_65c468_65fb5c[] = INCBIN_U8("data/Blob_65c468_65fb5c.bin");
-// Starts with the LZ77 compressed graphics of the monologue cursor (decompressed to the last
-// 0x400 bytes of OBJ VRAM), too large to be only that: the rest is not identified
-const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/Blob_65fb5c_662804.bin");
+// Elevator monologue graphics, palettes and tilemaps (the sElevatorMonologue*Pointers tables)
+const u8 sElevatorMonologueBgGfx_65c468[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_65c468.gfx.lz");
+// LZ77 compressed graphics of the monologue cursor (decompressed to the last 0x400 bytes of OBJ
+// VRAM)
+const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/cutscenes/monologue/cursor.gfx.lz");
+const u8 sElevatorMonologueObjGfx_65fc24[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_65fc24.gfx.lz");
 
 const u32 sIntroTilemap_662804[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
 
-// Not referenced by name, probably reached through the elevator monologue pointer tables
-static const u8 sBlob_662cfc_663598[] = INCBIN_U8("data/Blob_662cfc_663598.bin");
+const u8 sElevatorMonologueBgTilemap_662cfc[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_662cfc.tm.lz");
 const u32 sCutsceneElevatorMonologueBg1Tilemap[66] = INCBIN_U32("data/cutscenes/elevator_monologue/bg1.tm.lz");
 // The monologue inits copy 16 rows from here, the last 4 rows come from sIntroPal_663820
 const u16 sCutsceneMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/bg.pal");
@@ -22852,16 +24465,88 @@ const u16 sCutsceneMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/mon
 const u16 sIntroPal_663820[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820.pal");
 
 const u16 sCutsceneMonologueCursorPal[1 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/cursor.pal");
-// Rest after the palette row the monologues copy, not referenced by name (probably holds the OAM
-// frames of the FrameData arrays below)
-static const u8 sBlob_6638c0_663e5c[] = INCBIN_U8("data/Blob_6638c0_663e5c.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
-const u32 sCutsceneMonologueCursorHiddenOam[6] = INCBIN_U32("data/cutscenes/monologue/cursor_hidden_oam.bin");
+// Elevator monologue palettes, then the OAM frames of the FrameData arrays below
+const u16 sElevatorMonologueBgPal_6638c0[] = INCBIN_U16("data/cutscenes/elevator_monologue/bg_6638c0.pal");
+const u16 sElevatorMonologueObjPal_663a20[] = INCBIN_U16("data/cutscenes/elevator_monologue/obj_663a20.pal");
+const u16 sOamFrame_663ae0[] = INCBIN_U16("data/oam_frames/663ae0.bin");
+const u16 sOamFrame_663c32[] = INCBIN_U16("data/oam_frames/663c32.bin");
+const u16 sOamFrame_663d84[] = INCBIN_U16("data/oam_frames/663d84.bin");
+const struct FrameData sElevatorMonologueOam_663dd0[5] = {
+    { sOamFrame_663ae0, 120 },
+    { sOamFrame_663c32, 4 },
+    { sOamFrame_663ae0, 4 },
+    { sOamFrame_663c32, 4 },
+    FRAME_DATA_TERMINATOR
+};
+
+const struct FrameData sElevatorMonologueOam_663df8[2] = {
+    { sOamFrame_663d84, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const u16 sOamFrame_663e08[] = INCBIN_U16("data/oam_frames/663e08.bin");
+const u16 sOamFrame_663e16[] = INCBIN_U16("data/oam_frames/663e16.bin");
+const u16 sOamFrame_663e24[] = INCBIN_U16("data/oam_frames/663e24.bin");
+const u16 sOamFrame_663e32[] = INCBIN_U16("data/oam_frames/663e32.bin");
+const u16 sOamFrame_663e40[] = INCBIN_U16("data/oam_frames/663e40.bin");
+const u16 sOamFrame_663e4e[] = INCBIN_U16("data/oam_frames/663e4e.bin");
+// FrameData arrays of the monologue cursor and the elevator monologues
+const struct FrameData sCutsceneMonologueCursorHiddenOam[3] = {
+    { sOamFrame_663e08, 4 },
+    { sOamFrame_663e16, 4 },
+    FRAME_DATA_TERMINATOR
+};
 // Starts with the FrameData array of the monologue cursor (next page arrow), much larger than
 // that: the rest is not identified (probably the elevator monologue data reached through the
 // sElevatorMonologue*Pointers tables)
-const u8 sCutsceneMonologueCursorNextPageOam[] = INCBIN_U8("data/Blob_663e74_6724c0.bin");
+const struct FrameData sCutsceneMonologueCursorNextPageOam[7] = {
+    { sOamFrame_663e24, 6 },
+    { sOamFrame_663e32, 6 },
+    { sOamFrame_663e40, 6 },
+    { sOamFrame_663e4e, 6 },
+    { sOamFrame_663e40, 6 },
+    { sOamFrame_663e32, 6 },
+    FRAME_DATA_TERMINATOR
+};
+const u8 sElevatorMonologueBgGfx_663eac[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_663eac.gfx.lz");
+const u8 sElevatorMonologueObjGfx_667c18[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_667c18.gfx.lz");
+const u16 sOamFrame_66a764[] = INCBIN_U16("data/oam_frames/66a764.bin");
+const u16 sOamFrame_66a8a4[] = INCBIN_U16("data/oam_frames/66a8a4.bin");
+const u16 sOamFrame_66a9e4[] = INCBIN_U16("data/oam_frames/66a9e4.bin");
+const struct FrameData sElevatorMonologueOam_66aa30[5] = {
+    { sOamFrame_66a764, 120 },
+    { sOamFrame_66a8a4, 4 },
+    { sOamFrame_66a764, 4 },
+    { sOamFrame_66a8a4, 4 },
+    FRAME_DATA_TERMINATOR
+};
+
+const struct FrameData sElevatorMonologueOam_66aa58[2] = {
+    { sOamFrame_66a9e4, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const u16 sElevatorMonologueBgPal_66aa68[] = INCBIN_U16("data/cutscenes/elevator_monologue/bg_66aa68.pal");
+const u16 sElevatorMonologueObjPal_66abc8[] = INCBIN_U16("data/cutscenes/elevator_monologue/obj_66abc8.pal");
+const u8 sElevatorMonologueBgTilemap_66ac88[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_66ac88.tm.lz");
+const u8 sElevatorMonologueBgGfx_66b524[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_66b524.gfx.lz");
+const u8 sElevatorMonologueObjGfx_66ec18[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_66ec18.gfx.lz");
+const u16 sOamFrame_671760[] = INCBIN_U16("data/oam_frames/671760.bin");
+const u16 sOamFrame_671870[] = INCBIN_U16("data/oam_frames/671870.bin");
+const u16 sOamFrame_671980[] = INCBIN_U16("data/oam_frames/671980.bin");
+const struct FrameData sElevatorMonologueOam_6719cc[5] = {
+    { sOamFrame_671760, 120 },
+    { sOamFrame_671870, 4 },
+    { sOamFrame_671760, 4 },
+    { sOamFrame_671870, 4 },
+    FRAME_DATA_TERMINATOR
+};
+
+const struct FrameData sElevatorMonologueOam_6719f4[2] = {
+    { sOamFrame_671980, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const u16 sElevatorMonologueBgPal_671a04[] = INCBIN_U16("data/cutscenes/elevator_monologue/bg_671a04.pal");
+const u16 sElevatorMonologueObjPal_671b64[] = INCBIN_U16("data/cutscenes/elevator_monologue/obj_671b64.pal");
+const u8 sElevatorMonologueBgTilemap_671c24[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_671c24.tm.lz");
 const u32 sCutsceneFederationMonologueBg2Gfx[2342] = INCBIN_U32("data/cutscenes/federation_monologue/bg2.gfx.lz");
 const u16 sCutsceneFederationMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/federation_monologue/bg.pal");
 const u32 sCutsceneFederationMonologueBg2Tilemap[368] = INCBIN_U32("data/cutscenes/federation_monologue/bg2.tm.lz");
@@ -22875,40 +24560,289 @@ const u16 sCutsceneSecretConversationAnimatedPal3[1 * PAL_ROW] = INCBIN_U16("dat
 const u32 sCutsceneSecretConversationBg2Tilemap[307] = INCBIN_U32("data/cutscenes/secret_conversation/bg2.tm.lz");
 const u32 sCutsceneSecretConversationObjGfx[467] = INCBIN_U32("data/cutscenes/secret_conversation/obj.gfx.lz");
 const u16 sCutsceneSecretConversationObjPal[2 * PAL_ROW] = INCBIN_U16("data/cutscenes/secret_conversation/obj.pal");
-// Rest after the 2 palette rows the secret conversation copies, not referenced by name (probably
-// holds the OAM frames of the FrameData arrays below)
-static const u8 sBlob_6788e8_679280[] = INCBIN_U8("data/Blob_6788e8_679280.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
-const u32 sCutsceneSecretConversationNavigationPanelOam_679280[10] = INCBIN_U32("data/cutscenes/secret_conversation/navigation_panel_679280_oam.bin");
-const u32 sCutsceneSecretConversationNavigationPanelOam_6792a8[10] = INCBIN_U32("data/cutscenes/secret_conversation/navigation_panel_6792a8_oam.bin");
-const u32 sCutsceneSecretConversationIncomingDispatchOam_6792d0[32] = INCBIN_U32("data/cutscenes/secret_conversation/incoming_dispatch_6792d0_oam.bin");
-const u32 sCutsceneSecretConversationIncomingDispatchOam_679350[20] = INCBIN_U32("data/cutscenes/secret_conversation/incoming_dispatch_679350_oam.bin");
-const u32 sCutsceneSecretConversationOam_6793a0[4] = INCBIN_U32("data/cutscenes/secret_conversation/6793a0_oam.bin");
-const u32 sCutsceneSecretConversationOam_6793b0[28] = INCBIN_U32("data/cutscenes/secret_conversation/6793b0_oam.bin");
+// OAM frames of the FrameData arrays below
+const u16 sOamFrame_6788e8[] = INCBIN_U16("data/oam_frames/6788e8.bin");
+const u16 sOamFrame_67890e[] = INCBIN_U16("data/oam_frames/67890e.bin");
+const u16 sOamFrame_678982[] = INCBIN_U16("data/oam_frames/678982.bin");
+const u16 sOamFrame_6789f6[] = INCBIN_U16("data/oam_frames/6789f6.bin");
+const u16 sOamFrame_678a6a[] = INCBIN_U16("data/oam_frames/678a6a.bin");
+const u16 sOamFrame_678ad2[] = INCBIN_U16("data/oam_frames/678ad2.bin");
+const u16 sOamFrame_678b3a[] = INCBIN_U16("data/oam_frames/678b3a.bin");
+const u16 sOamFrame_678b54[] = INCBIN_U16("data/oam_frames/678b54.bin");
+const u16 sOamFrame_678b6e[] = INCBIN_U16("data/oam_frames/678b6e.bin");
+const u16 sOamFrame_678b88[] = INCBIN_U16("data/oam_frames/678b88.bin");
+const u16 sOamFrame_678ba2[] = INCBIN_U16("data/oam_frames/678ba2.bin");
+const u16 sOamFrame_678bbc[] = INCBIN_U16("data/oam_frames/678bbc.bin");
+const u16 sOamFrame_678bd6[] = INCBIN_U16("data/oam_frames/678bd6.bin");
+const u16 sOamFrame_678c20[] = INCBIN_U16("data/oam_frames/678c20.bin");
+const u16 sOamFrame_678c6a[] = INCBIN_U16("data/oam_frames/678c6a.bin");
+const u16 sOamFrame_678cb4[] = INCBIN_U16("data/oam_frames/678cb4.bin");
+const u16 sOamFrame_678d10[] = INCBIN_U16("data/oam_frames/678d10.bin");
+const u16 sOamFrame_678d66[] = INCBIN_U16("data/oam_frames/678d66.bin");
+const u16 sOamFrame_678dc8[] = INCBIN_U16("data/oam_frames/678dc8.bin");
+const u16 sOamFrame_678e42[] = INCBIN_U16("data/oam_frames/678e42.bin");
+const u16 sOamFrame_678eec[] = INCBIN_U16("data/oam_frames/678eec.bin");
+const u16 sOamFrame_678fc6[] = INCBIN_U16("data/oam_frames/678fc6.bin");
+const u16 sOamFrame_67903a[] = INCBIN_U16("data/oam_frames/67903a.bin");
+const u16 sOamFrame_6790ae[] = INCBIN_U16("data/oam_frames/6790ae.bin");
+const u16 sOamFrame_679122[] = INCBIN_U16("data/oam_frames/679122.bin");
+const u16 sOamFrame_679196[] = INCBIN_U16("data/oam_frames/679196.bin");
+const u16 sOamFrame_67920a[] = INCBIN_U16("data/oam_frames/67920a.bin");
+// FrameData arrays of the secret conversation
+const struct FrameData sCutsceneSecretConversationNavigationPanelOam_679280[5] = {
+    { sOamFrame_678b88, 16 },
+    { sOamFrame_678ba2, 16 },
+    { sOamFrame_678bbc, 16 },
+    { sOamFrame_678ba2, 16 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneSecretConversationNavigationPanelOam_6792a8[5] = {
+    { sOamFrame_678b3a, 16 },
+    { sOamFrame_678b54, 16 },
+    { sOamFrame_678b6e, 16 },
+    { sOamFrame_678b54, 16 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneSecretConversationIncomingDispatchOam_6792d0[16] = {
+    { sOamFrame_678c6a, 3 },
+    { sOamFrame_678cb4, 3 },
+    { sOamFrame_678d10, 2 },
+    { sOamFrame_678d66, 1 },
+    { sOamFrame_678dc8, 1 },
+    { sOamFrame_678e42, 1 },
+    { sOamFrame_678eec, 1 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_678eec, 1 },
+    { sOamFrame_678e42, 1 },
+    { sOamFrame_678dc8, 1 },
+    { sOamFrame_678d66, 1 },
+    { sOamFrame_678d10, 2 },
+    { sOamFrame_678cb4, 3 },
+    { sOamFrame_678c6a, 3 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneSecretConversationIncomingDispatchOam_679350[10] = {
+    { sOamFrame_678fc6, 8 },
+    { sOamFrame_67903a, 8 },
+    { sOamFrame_6790ae, 8 },
+    { sOamFrame_679122, 8 },
+    { sOamFrame_679196, 8 },
+    { sOamFrame_67920a, 8 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_678bd6, 8 },
+    { sOamFrame_678c20, 8 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneSecretConversationOam_6793a0[2] = {
+    { sOamFrame_6788e8, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneSecretConversationOam_6793b0[14] = {
+    { sOamFrame_67890e, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_678ad2, 255 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_678982, 4 },
+    { sOamFrame_6789f6, 4 },
+    { sOamFrame_678a6a, 4 },
+    { sOamFrame_678ad2, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_678ad2, 6 },
+    { sOamFrame_678a6a, 6 },
+    { sOamFrame_6789f6, 6 },
+    { sOamFrame_678982, 6 },
+    FRAME_DATA_TERMINATOR
+};
 const u32 sCutsceneBslSpaceBgGfx[4331] = INCBIN_U32("data/cutscenes/bsl_space/bg.gfx.lz");
-// Starts with the LZ77 compressed OBJ graphics of the BSL space view. OAM frames usually come
-// right before their FrameData arrays, so the end probably holds the frames of the arrays below
-const u8 sCutsceneBslSpaceObjGfx[] = INCBIN_U8("data/Blob_67d7cc_680d54.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
-const u32 sCutsceneRestrictedLabDetachingBslPartOam_680d54[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/bsl_part_680d54_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingBslPartOam_680d64[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/bsl_part_680d64_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingBslPartOam_680d74[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/bsl_part_680d74_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680d84[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680d84_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680d94[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680d94_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680da4[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680da4_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680dcc[24] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680dcc_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680e2c[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680e2c_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680e3c[36] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680e3c_oam.bin");
-const u32 sCutsceneBslExplodingExplosionsOam[24] = INCBIN_U32("data/cutscenes/bsl_exploding/explosions_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingFallingLabOam[18] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/falling_lab_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680f74[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680f74_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680f9c[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680f9c_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680fc4[10] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680fc4_oam.bin");
-const u32 sCutsceneRestrictedLabDetachingOam_680fec[4] = INCBIN_U32("data/cutscenes/restricted_lab_detaching/680fec_oam.bin");
-const u32 sCutsceneBslExplodingOam_680ffc[4] = INCBIN_U32("data/cutscenes/bsl_exploding/680ffc_oam.bin");
-const u32 sCutsceneBslExplodingBslFarOam[4] = INCBIN_U32("data/cutscenes/bsl_exploding/bsl_far_oam.bin");
+// LZ77 compressed OBJ graphics of the BSL space view, followed by the OAM frames of the
+// FrameData arrays below
+const u8 sCutsceneBslSpaceObjGfx[] = INCBIN_U8("data/Blob_67d7cc_6808ac.bin");
+const u16 sOamFrame_6808ac[] = INCBIN_U16("data/oam_frames/6808ac.bin");
+const u16 sOamFrame_6808b4[] = INCBIN_U16("data/oam_frames/6808b4.bin");
+const u16 sOamFrame_6808bc[] = INCBIN_U16("data/oam_frames/6808bc.bin");
+const u16 sOamFrame_6808dc[] = INCBIN_U16("data/oam_frames/6808dc.bin");
+const u16 sOamFrame_680914[] = INCBIN_U16("data/oam_frames/680914.bin");
+const u16 sOamFrame_68095e[] = INCBIN_U16("data/oam_frames/68095e.bin");
+const u16 sOamFrame_6809ae[] = INCBIN_U16("data/oam_frames/6809ae.bin");
+const u16 sOamFrame_680a04[] = INCBIN_U16("data/oam_frames/680a04.bin");
+const u16 sOamFrame_680a4e[] = INCBIN_U16("data/oam_frames/680a4e.bin");
+const u16 sOamFrame_680a86[] = INCBIN_U16("data/oam_frames/680a86.bin");
+const u16 sOamFrame_680aa0[] = INCBIN_U16("data/oam_frames/680aa0.bin");
+const u16 sOamFrame_680ab4[] = INCBIN_U16("data/oam_frames/680ab4.bin");
+const u16 sOamFrame_680aee[] = INCBIN_U16("data/oam_frames/680aee.bin");
+const u16 sOamFrame_680b08[] = INCBIN_U16("data/oam_frames/680b08.bin");
+const u16 sOamFrame_680b1c[] = INCBIN_U16("data/oam_frames/680b1c.bin");
+const u16 sOamFrame_680b24[] = INCBIN_U16("data/oam_frames/680b24.bin");
+const u16 sOamFrame_680b2c[] = INCBIN_U16("data/oam_frames/680b2c.bin");
+const u16 sOamFrame_680b34[] = INCBIN_U16("data/oam_frames/680b34.bin");
+const u16 sOamFrame_680b3c[] = INCBIN_U16("data/oam_frames/680b3c.bin");
+const u16 sOamFrame_680b44[] = INCBIN_U16("data/oam_frames/680b44.bin");
+const u16 sOamFrame_680b4c[] = INCBIN_U16("data/oam_frames/680b4c.bin");
+const u16 sOamFrame_680b54[] = INCBIN_U16("data/oam_frames/680b54.bin");
+const u16 sOamFrame_680b5c[] = INCBIN_U16("data/oam_frames/680b5c.bin");
+const u16 sOamFrame_680b64[] = INCBIN_U16("data/oam_frames/680b64.bin");
+const u16 sOamFrame_680b6c[] = INCBIN_U16("data/oam_frames/680b6c.bin");
+const u16 sOamFrame_680b74[] = INCBIN_U16("data/oam_frames/680b74.bin");
+const u16 sOamFrame_680b7c[] = INCBIN_U16("data/oam_frames/680b7c.bin");
+const u16 sOamFrame_680b84[] = INCBIN_U16("data/oam_frames/680b84.bin");
+const u16 sOamFrame_680b8c[] = INCBIN_U16("data/oam_frames/680b8c.bin");
+const u16 sOamFrame_680b94[] = INCBIN_U16("data/oam_frames/680b94.bin");
+const u16 sOamFrame_680b9c[] = INCBIN_U16("data/oam_frames/680b9c.bin");
+const u16 sOamFrame_680ba4[] = INCBIN_U16("data/oam_frames/680ba4.bin");
+const u16 sOamFrame_680bac[] = INCBIN_U16("data/oam_frames/680bac.bin");
+const u16 sOamFrame_680bb4[] = INCBIN_U16("data/oam_frames/680bb4.bin");
+const u16 sOamFrame_680bbc[] = INCBIN_U16("data/oam_frames/680bbc.bin");
+const u16 sOamFrame_680bc4[] = INCBIN_U16("data/oam_frames/680bc4.bin");
+const u16 sOamFrame_680bcc[] = INCBIN_U16("data/oam_frames/680bcc.bin");
+const u16 sOamFrame_680bd4[] = INCBIN_U16("data/oam_frames/680bd4.bin");
+const u16 sOamFrame_680bdc[] = INCBIN_U16("data/oam_frames/680bdc.bin");
+const u16 sOamFrame_680be4[] = INCBIN_U16("data/oam_frames/680be4.bin");
+const u16 sOamFrame_680bec[] = INCBIN_U16("data/oam_frames/680bec.bin");
+const u16 sOamFrame_680c92[] = INCBIN_U16("data/oam_frames/680c92.bin");
+const u16 sOamFrame_680c9a[] = INCBIN_U16("data/oam_frames/680c9a.bin");
+const u16 sOamFrame_680ca2[] = INCBIN_U16("data/oam_frames/680ca2.bin");
+const u16 sOamFrame_680caa[] = INCBIN_U16("data/oam_frames/680caa.bin");
+const u16 sOamFrame_680cb2[] = INCBIN_U16("data/oam_frames/680cb2.bin");
+const u16 sOamFrame_680cba[] = INCBIN_U16("data/oam_frames/680cba.bin");
+const u16 sOamFrame_680cc2[] = INCBIN_U16("data/oam_frames/680cc2.bin");
+const u16 sOamFrame_680cca[] = INCBIN_U16("data/oam_frames/680cca.bin");
+const u16 sOamFrame_680cd2[] = INCBIN_U16("data/oam_frames/680cd2.bin");
+const u16 sOamFrame_680cda[] = INCBIN_U16("data/oam_frames/680cda.bin");
+const u16 sOamFrame_680ce2[] = INCBIN_U16("data/oam_frames/680ce2.bin");
+const u16 sOamFrame_680cea[] = INCBIN_U16("data/oam_frames/680cea.bin");
+const u16 sOamFrame_680cf2[] = INCBIN_U16("data/oam_frames/680cf2.bin");
+const u16 sOamFrame_680cfa[] = INCBIN_U16("data/oam_frames/680cfa.bin");
+const u16 sOamFrame_680d02[] = INCBIN_U16("data/oam_frames/680d02.bin");
+const u16 sOamFrame_680d0a[] = INCBIN_U16("data/oam_frames/680d0a.bin");
+const u16 sOamFrame_680d12[] = INCBIN_U16("data/oam_frames/680d12.bin");
+const u16 sOamFrame_680d1a[] = INCBIN_U16("data/oam_frames/680d1a.bin");
+const u16 sOamFrame_680d22[] = INCBIN_U16("data/oam_frames/680d22.bin");
+const u16 sOamFrame_680d2a[] = INCBIN_U16("data/oam_frames/680d2a.bin");
+const u16 sOamFrame_680d32[] = INCBIN_U16("data/oam_frames/680d32.bin");
+// FrameData arrays of the restricted lab detaching and BSL exploding cutscenes
+const struct FrameData sCutsceneRestrictedLabDetachingBslPartOam_680d54[2] = {
+    { sOamFrame_680aee, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingBslPartOam_680d64[2] = {
+    { sOamFrame_680b08, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingBslPartOam_680d74[2] = {
+    { sOamFrame_680b1c, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680d84[2] = {
+    { sOamFrame_680b24, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680d94[2] = {
+    { sOamFrame_680b2c, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680da4[5] = {
+    { sOamFrame_680b34, 2 },
+    { sOamFrame_680b3c, 2 },
+    { sOamFrame_680b44, 2 },
+    { sOamFrame_680b4c, 2 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680dcc[12] = {
+    { sOamFrame_680bc4, 8 },
+    { sOamFrame_680bd4, 8 },
+    { sOamFrame_680bdc, 8 },
+    { sOamFrame_680be4, 8 },
+    { sOamFrame_680bec, 8 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680b7c, 4 },
+    { sOamFrame_680b84, 4 },
+    { sOamFrame_680b8c, 4 },
+    { sOamFrame_680b94, 4 },
+    { sOamFrame_680b9c, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680e2c[2] = {
+    { sOamFrame_680b54, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680e3c[18] = {
+    { sOamFrame_680b5c, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680b64, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680b6c, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680b74, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680ba4, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680bac, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680bb4, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680bbc, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680bcc, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneBslExplodingExplosionsOam[12] = {
+    { sOamFrame_6808b4, 4 },
+    { sOamFrame_6808bc, 4 },
+    { sOamFrame_6808dc, 4 },
+    { sOamFrame_680914, 4 },
+    { sOamFrame_68095e, 4 },
+    { sOamFrame_6809ae, 4 },
+    { sOamFrame_680a04, 6 },
+    { sOamFrame_680a4e, 7 },
+    { sOamFrame_680a86, 8 },
+    { sOamFrame_680aa0, 9 },
+    { sOamFrame_680ab4, 10 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingFallingLabOam[9] = {
+    { sOamFrame_6808ac, 4 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_680c92, 5 },
+    { sOamFrame_680c9a, 5 },
+    { sOamFrame_680ca2, 5 },
+    { sOamFrame_680caa, 5 },
+    { sOamFrame_680cb2, 5 },
+    { sOamFrame_680cba, 5 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680f74[5] = {
+    { sOamFrame_680cc2, 4 },
+    { sOamFrame_680cca, 4 },
+    { sOamFrame_680cd2, 4 },
+    { sOamFrame_680cda, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680f9c[5] = {
+    { sOamFrame_680ce2, 4 },
+    { sOamFrame_680cea, 4 },
+    { sOamFrame_680cf2, 4 },
+    { sOamFrame_680cfa, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680fc4[5] = {
+    { sOamFrame_680d02, 4 },
+    { sOamFrame_680d0a, 4 },
+    { sOamFrame_680d12, 4 },
+    { sOamFrame_680d1a, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneRestrictedLabDetachingOam_680fec[2] = {
+    { sOamFrame_680d22, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneBslExplodingOam_680ffc[2] = {
+    { sOamFrame_680d32, 4 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sCutsceneBslExplodingBslFarOam[2] = {
+    { sOamFrame_680d2a, 4 },
+    FRAME_DATA_TERMINATOR
+};
 const u16 sCutsceneBslSpaceBgFadePal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/bsl_space/bg_fade.pal");
 const u16 sCutsceneBslSpaceObjPal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/bsl_space/obj.pal");
 const u16 sCutsceneRestrictedLabDetachingObjRow0CyclePal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/restricted_lab_detaching/obj_row0_cycle.pal");

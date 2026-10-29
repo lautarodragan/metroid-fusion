@@ -6,13 +6,13 @@ Documentation: https://lautarodragan.github.io/metroid-fusion/ (sources in [book
 
 3607/3607 functions decompiled (100.00%, 0 left)
 
-0x65978a/0x6f9d24 bytes of data not in blobs (91.02%, 0xa059a left)
+0x6f36d8/0x6f9d24 bytes of data not in blobs (99.64%, 0x664c left)
 
 These numbers are computed by `python3 tools/progress.py` (see its docstring for the method).
 
 Progress can be seen here: https://docs.google.com/spreadsheets/d/1HvJ-jynb-4P9tfEBVJmkQFpIg6mJRDRUBvDIBiLxQIo/
 
-**Shiftability:** code and C data reference everything by symbol, and `make check-shift` verifies that a shifted build keeps every pointer it emits correct. Pointer tables stored inside extracted blobs (data still copied from the baserom) are not converted yet, so moving data can still break the ROM at run time. `tools/find_blob_pointers.py` lists them using the real baserom. See [book/src/shiftability.md](book/src/shiftability.md).
+**Shiftability:** code and data reference everything by symbol, including the pointer tables that used to be raw bytes extracted from the baserom (interrupt handlers, voicegroups, text, OAM and graphics tables), and `make check-shift` verifies that a shifted build keeps every pointer it emits correct. Run side by side with the original ROM and compared frame by frame (screen and RAM), a shifted build of the real data behaves the same through boot, menus, a save, a navigation conversation, an elevator ride and all 393 rooms. `tools/find_blob_pointers.py` looks for pointers left in extracted data using the real baserom. See [book/src/shiftability.md](book/src/shiftability.md).
 
 This repository can be used to build multiple ROMs. The ROMs are named like this: `mf_{region}.gba` (or `mf_{region}_debug.gba`)
 

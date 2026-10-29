@@ -1,8 +1,10 @@
 """Build mf_us.gba from an open (placeholder) baserom, in two passes.
 
-Some placeholder regions hold pointers into the build (interrupt handlers,
-pointer tables; see apply_known_layouts in make_open_baserom.py), so the
-baserom depends on where the linker places code and data:
+The pointer tables of the game are written in the sources as symbols, but a
+few placeholder values are still addresses in the build (the OAM-safe word,
+the sample of voices that have no pointer of their own; see
+apply_known_layouts in make_open_baserom.py), so the baserom depends on where
+the linker places code and data:
 
 1. generate the open baserom (pointers at their database offsets, or taken
    from an existing build), extract and build;

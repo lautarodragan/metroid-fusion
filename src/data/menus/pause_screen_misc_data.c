@@ -2,6 +2,7 @@
 
 #include "macros.h"
 #include "constants/menus/pause_screen.h"
+#include "structs/menus/navigation_conversation.h"
 
 // The start of this file needs to be 4-byte aligned, but sPauseScreenAreaNameOamIds is not,
 // so it cannot be the first item
@@ -231,9 +232,8 @@ const u8 sCharacterWidths[1184] = {
     8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
 };
 
-// Initial struct NavConversationPopUpInfo (starts with a graphics pointer).
-// pointer table, targets unresolved (see tools/find_blob_pointers.py)
-const u32 sNavConversationPopUpInfoInit[3] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_up_info.bin");
+// Initial struct NavConversationPopUpInfo
+const u32 sNavConversationPopUpInfoInit[3] = { 0, 0, 0 };
 
 const u8 sNavConversationTextBoxCursorYPositions[NAV_TEXT_BOX_COUNT][2] = {
     [NAV_TEXT_BOX_BOTTOM] = { 128, 150 },
@@ -278,14 +278,85 @@ const u8 sNavConversationPortraitOamIds[6][3] = {
     }
 };
 
-// The first byte is a mosaic value (unk_7b674); the rest is not
-// referenced by code and most likely holds the animations, palettes and LZ77
-// graphics that sNavConversationPopUps points to
-const u8 sUnk_576802[] = INCBIN_U8("data/Blob_576802_57bc50.bin");
-// struct NavConversationPopUp (animation, palette, cycle palette and graphics pointers).
-// pointer table, targets unresolved (see tools/find_blob_pointers.py); the targets are
-// most likely in the blob above
-const u32 sNavConversationPopUps[5 * 6] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_ups.bin");
+// The first byte is a mosaic value (unk_7b674)
+const u8 sUnk_576802[] = INCBIN_U8("data/Blob_576802_576804.bin");
+// Palettes, LZ77 graphics and animations of the navigation conversation pop-ups
+const u16 sNavConversationPopUpPal_576804[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576804.pal");
+const u16 sNavConversationPopUpCyclePal_576824[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576824.pal");
+const u16 sNavConversationPopUpPal_576844[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576844.pal");
+const u16 sNavConversationPopUpCyclePal_576864[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576864.pal");
+const u16 sNavConversationPopUpPal_576884[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576884.pal");
+const u16 sNavConversationPopUpCyclePal_5768a4[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_5768a4.pal");
+const u16 sNavConversationPopUpPal_5768c4[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_5768c4.pal");
+const u16 sNavConversationPopUpCyclePal_5768e4[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_5768e4.pal");
+const u32 sNavConversationPopUpGfx_576904[] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_up_576904.gfx.lz");
+const u32 sNavConversationPopUpGfx_577024[] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_up_577024.gfx.lz");
+const u32 sNavConversationPopUpGfx_578750[] = INCBIN_U32("data/menus/pause_screen/nav_conversation_pop_up_578750.gfx.lz");
+const u8 sNavConversationPopUpAnimation_57bbc4[] = INCBIN_U8("data/menus/pause_screen/nav_conversation_pop_up_57bbc4.bin");
+const u8 sNavConversationPopUpAnimation_57bbd0[] = INCBIN_U8("data/menus/pause_screen/nav_conversation_pop_up_57bbd0.bin");
+const u8 sNavConversationPopUpAnimation_57bbf0[] = INCBIN_U8("data/menus/pause_screen/nav_conversation_pop_up_57bbf0.bin");
+const struct NavConversationPopUp sNavConversationPopUps[5] = {
+    [0] = {
+        .pAnimation = sNavConversationPopUpAnimation_57bbc4,
+        .animationLength = 6,
+        .pPalette = sNavConversationPopUpPal_576804,
+        .pCyclePalette = sNavConversationPopUpCyclePal_576824,
+        .unk_10 = 0,
+        .tiles = { .count = 6, .slot = 0 },
+        .unk_12_0 = 8,
+        .unk_12_4 = 0,
+        .unk_13 = 0,
+        .pGraphics = sNavConversationPopUpGfx_576904
+    },
+    [1] = {
+        .pAnimation = sNavConversationPopUpAnimation_57bbc4,
+        .animationLength = 6,
+        .pPalette = sNavConversationPopUpPal_576804,
+        .pCyclePalette = sNavConversationPopUpCyclePal_576824,
+        .unk_10 = 0,
+        .tiles = { .count = 6, .slot = 0 },
+        .unk_12_0 = 8,
+        .unk_12_4 = 0,
+        .unk_13 = 0,
+        .pGraphics = sNavConversationPopUpGfx_576904
+    },
+    [2] = {
+        .pAnimation = sNavConversationPopUpAnimation_57bbd0,
+        .animationLength = 16,
+        .pPalette = sNavConversationPopUpPal_576844,
+        .pCyclePalette = sNavConversationPopUpCyclePal_576864,
+        .unk_10 = 0,
+        .tiles = { .count = 4, .slot = 1 },
+        .unk_12_0 = 4,
+        .unk_12_4 = 2,
+        .unk_13 = 0,
+        .pGraphics = sNavConversationPopUpGfx_577024
+    },
+    [3] = {
+        .pAnimation = sNavConversationPopUpAnimation_57bbf0,
+        .animationLength = 48,
+        .pPalette = sNavConversationPopUpPal_576884,
+        .pCyclePalette = sNavConversationPopUpCyclePal_5768a4,
+        .unk_10 = 0,
+        .tiles = { .count = 6, .slot = 0 },
+        .unk_12_0 = 8,
+        .unk_12_4 = 0,
+        .unk_13 = 0,
+        .pGraphics = sNavConversationPopUpGfx_578750
+    },
+    [4] = {
+        .pAnimation = sNavConversationPopUpAnimation_57bbd0,
+        .animationLength = 16,
+        .pPalette = sNavConversationPopUpPal_5768c4,
+        .pCyclePalette = sNavConversationPopUpCyclePal_5768e4,
+        .unk_10 = 0,
+        .tiles = { .count = 4, .slot = 1 },
+        .unk_12_0 = 4,
+        .unk_12_4 = 2,
+        .unk_13 = 0,
+        .pGraphics = sNavConversationPopUpGfx_577024
+    }
+};
 // struct NavConversationPopUpsPerConversation
 const u8 sNavConversationPopUpsPerConversation[3 * 4] = INCBIN_U8("data/menus/pause_screen/nav_conversation_pop_ups_per_conversation.bin");
 // Colors 2 and 3 of BG palette rows 1 and 2 during a navigation conversation, per step

@@ -26,7 +26,9 @@ The check:
 3. extracts the data and builds `mf_us.gba`.
 4. runs `tools/check_data_placement.py`, which confirms that every
    `database.json` entry referenced by the sources is emitted at its address
-   in the ROM, and names any data file that moved.
+   in the ROM, and names any data file that moved. An entry included piece
+   by piece around pointers written as symbols (the voicegroups) may differ
+   from the baserom only in aligned words that hold ROM addresses.
 5. compares the ROM against `mf_us_synthetic.sha1`.
 
 The check overwrites `mf_us_baserom.gba`, `data/` and
@@ -47,8 +49,9 @@ followed by the shift test (`tools/check_shift.sh`, see
   long as the same bytes end up at the same addresses.
 - Turning extracted data into C or asm literals (replacing a `.bin` with the
   real values) **changes the synthetic sha1** even when it matches the real ROM,
-  because the synthetic ROM holds random bytes in that place. Such changes still
-  need to be verified against the real ROM (`make check`).
+  because the synthetic ROM holds random bytes in that place. The same goes for
+  pointer tables written as symbols: the random bytes become real addresses.
+  Such changes still need to be verified against the real ROM (`make check`).
 
 ## Updating the golden sha1
 

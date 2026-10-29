@@ -13,7 +13,7 @@ extern const u16 sEraseSramBgPal[16 * 16];
 // Object graphics
 extern const u32 sEraseSramObjGfx[532];
 // Background graphics
-extern const u32 sEraseSramBgGfx[7670];
+extern const u32 sEraseSramBgGfx[5147];
 // Tilemaps
 extern const u32 sEraseSramTilemap_D000[131];
 extern const u32 sEraseSramTilemap_F000[368];

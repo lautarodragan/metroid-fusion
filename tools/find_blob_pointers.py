@@ -27,6 +27,11 @@ To fix a pointer table, turn it into C (an array of symbols), or split the
 blob around it and replace each pointer word, for example with
 tools/split_blob.py and a small .s or C file. tools/check_shift.sh then
 covers it.
+
+Some entries are included piece by piece around pointers that the source
+writes as symbols (the voicegroups in sound/voicegroups.s). When the normal
+and the shifted build (make SHIFT=1) are both built, the words that differ
+between them are such pointers: they are left out and counted as resolved.
 """
 
 import argparse
@@ -38,6 +43,7 @@ from pathlib import Path
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from elfsyms import Elf, STT_FUNC, STT_OBJECT  # noqa: E402
+from check_shift import Delta, rom_symbols  # noqa: E402
 
 ROM_START = 0x08000000
 KNOWN_TITLES = (b"METROID4USA", b"METROID4EUR", b"METROID4JPN", b"METFUSIONCHN", b"METROIDAGBJ")
@@ -122,6 +128,8 @@ def main() -> int:
     parser.add_argument("--all", action="store_true", help="scan every database.json entry")
     parser.add_argument("--likely", action="store_true", help="only report words marked *")
     parser.add_argument("--json", metavar="FILE", help="also write the results as JSON")
+    parser.add_argument("--no-shifted", action="store_true",
+                        help="do not use the shifted build to leave out the words written as symbols")
     args = parser.parse_args()
 
     rom = Path(args.baserom or f"mf_{args.region}_baserom.gba").read_bytes()
@@ -132,8 +140,20 @@ def main() -> int:
     entries = db_entries(args.region)
     look = Lookup(entries, args.elf or f"mf_{args.region}.elf")
 
+    # Words that the shifted build changes are written as symbols in the source
+    changed = None
+    prefix = f"mf_{args.region}"
+    files = [Path(prefix + s) for s in (".gba", ".elf", "_shifted.gba", "_shifted.elf")]
+    if not args.no_shifted and all(f.exists() for f in files):
+        rom_a, rom_b = files[0].read_bytes(), files[2].read_bytes()
+        delta = Delta(rom_symbols(Elf(str(files[1]))), rom_symbols(Elf(str(files[3]))))
+
+        def changed(off):
+            q = off + delta(ROM_START + off)
+            return rom_a[off:off + 4] != rom_b[q:q + 4]
+
     results = []
-    total = likely_total = 0
+    total = likely_total = resolved = 0
     for start, end, path in entries:
         if not args.all and not unknown_format(path):
             continue
@@ -141,6 +161,9 @@ def main() -> int:
         for off in range((start + 3) & ~3, end - 3, 4):
             v = int.from_bytes(rom[off:off + 4], "little")
             if not ROM_START <= v < rom_end:
+                continue
+            if changed is not None and changed(off):
+                resolved += 1
                 continue
             likely, desc = look.describe(v)
             if args.likely and not likely:
@@ -159,6 +182,10 @@ def main() -> int:
             print(f"  {mark} {w['offset']:#08x} {w['where'] or '':<40} {w['value']:#010x} -> {w['target']}")
 
     print(f"\n{total} word(s) in ROM range in {len(results)} entries, {likely_total} likely pointers (*)")
+    if changed is not None:
+        print(f"{resolved} word(s) left out: written as symbols (they differ in {files[2]})")
+    else:
+        print(f"(build {files[0]} and {files[2]} to leave out the words written as symbols)")
     if args.json:
         Path(args.json).write_text(json.dumps(results, indent=2) + "\n")
     return 0

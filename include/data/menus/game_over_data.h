@@ -9,7 +9,7 @@
 
 extern const u8 sGameOverOamXFlipOffsets[3][4];
 extern const u32 sGameOverBgGfx[5651];
-extern const u32 sGameOverObjGfx[2559];
+extern const u32 sGameOverObjGfx[184];
 extern const struct FrameData sGameOverCursorOverlayOam[];
 extern const u16 sGameOverBgPal[16 * PAL_ROW];
 extern const u16 sGameOverObjPal[16 * PAL_ROW];
