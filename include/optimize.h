@@ -1,6 +1,8 @@
 #ifndef OPTIMIZE_H
 #define OPTIMIZE_H
 
+#include "types.h"
+
 /*
  * Performance changes of the OPTIMIZE build (make OPTIMIZE=1, or
  * OPTIMIZE="NAME ..." for some of them; see book/src/performance.md).
@@ -16,6 +18,21 @@
  *   (rebuilt after every hit, since a hit can spawn or remove projectiles).
  * - OPTIMIZE_DRAW_ORDER: the same for the 3 sprite drawing passes
  *   (unk_eb04, SpriteDrawAll, unk_ec38).
+ * - OPTIMIZE_IWRAM: functions marked IWRAM_CODE run from IWRAM (one cycle per
+ *   16-bit fetch, no cartridge wait states) instead of ROM; the code is the
+ *   same. They are linked in the .iwram_code section (linker.ld, after the
+ *   profiler's area) and copied there by InitializeGame. Their files are
+ *   compiled with -mlong-calls (see the Makefile and tools/iwram_calls.py).
  */
+
+#ifdef OPTIMIZE_IWRAM
+#define IWRAM_CODE __attribute__((section(".iwram_code")))
+
+extern const u8 gIwramCodeLoad[];
+extern u8 gIwramCodeStart[];
+extern u8 gIwramCodeEnd[];
+#else
+#define IWRAM_CODE
+#endif
 
 #endif /* OPTIMIZE_H */

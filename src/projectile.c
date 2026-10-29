@@ -514,7 +514,7 @@ void ProjectileDrawAll_True(void)
  * 
  * @param projectileSlot Projectile slot (unused)
  */
-void ProjectileDraw(s32 projectileSlot)
+IWRAM_CODE void ProjectileDraw(s32 projectileSlot)
 {
     const u16* src;
     u16* dst;

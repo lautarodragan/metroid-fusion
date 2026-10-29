@@ -225,7 +225,7 @@ void SpriteUpdate(void)
  * @brief eabc | 48 | Updates the animation of the current sprite
  * 
  */
-void SpriteUpdateAnimation(void)
+IWRAM_CODE void SpriteUpdateAnimation(void)
 {
     // Don't update animation if freezed
     if (gCurrentSprite.freezeTimer != 0)
@@ -434,7 +434,7 @@ void unk_ec38(void)
  * 
  * @param slot Sprite slot
  */
-void SpriteDraw(s32 slot)
+IWRAM_CODE void SpriteDraw(s32 slot)
 {
     const u16* src;
     u16* dst;

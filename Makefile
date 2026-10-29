@@ -75,6 +75,8 @@ endif
 #                 -DOPTIMIZE_<name>
 PROFILE ?= 0
 OPTIMIZE ?= 0
+# OPTIMIZE=1: the changes worth having (IWRAM is opt-in: OPTIMIZE="PROJ_HIT DRAW_ORDER IWRAM",
+# about 1% of a frame for 3 KB of IWRAM, see book/src/performance.md)
 OPTIMIZE_ALL = PROJ_HIT DRAW_ORDER
 VARIANT_CPPFLAGS =
 ifeq ($(PROFILE),1)
@@ -95,6 +97,18 @@ ifneq ($(OPTIMIZE),0)
 	TARGET := $(TARGET)_opt
 endif
 CPPFLAGS += $(VARIANT_CPPFLAGS)
+# Holds the variant flags of the last build (see the rule of %.s below)
+FLAGS_STAMP = .build_flags
+
+# OPTIMIZE_IWRAM: the files with IWRAM_CODE functions are compiled with long
+# calls, and the calls made from IWRAM are fixed by tools/iwram_calls.py
+IWRAM_SRC = src/sprite.c src/projectile.c src/particle.c
+ifneq (,$(filter IWRAM,$(OPTIMIZE_NAMES)))
+  $(IWRAM_SRC:.c=.s): CFLAGS += -mlong-calls
+  IWRAM_FIXUP = 1
+  # .iwram_code lies inside the address range of the (NOLOAD) iwram variables section
+  LDFLAGS += --no-check-sections
+endif
 
 TARGET := $(TARGET).gba
 
@@ -279,7 +293,7 @@ $(ELF) $(MAP): $(OBJ) $(LD_SCRIPT)
 	$(MSG) LD $@
 	$Q$(LD) $(LDFLAGS) -n -T $(LD_SCRIPT) -Map=$(MAP) $(LIBS) -o $@
 
-$(LD_SCRIPT): linker.ld
+$(LD_SCRIPT): linker.ld $(FLAGS_STAMP)
 	$(MSG) CPP $@
 	$Q$(CPP) $(CPPFLAGS) $(LD_CPPFLAGS) $< -o $@
 
@@ -301,7 +315,6 @@ endif
 # The objects of C files depend on the variant flags: switching between the
 # normal build and a variant rebuilds them (.build_flags holds the flags of
 # the last build)
-FLAGS_STAMP = .build_flags
 ifneq ($(SETUP_PREREQS),0)
   ifneq ($(strip $(VARIANT_CPPFLAGS)),$(strip $(file <$(FLAGS_STAMP))))
     $(file >$(FLAGS_STAMP),$(strip $(VARIANT_CPPFLAGS)))
@@ -317,6 +330,9 @@ $(FLAGS_STAMP):
 %.s: %.c
 	$(MSG) CC $@
 	$Q$(PREPROC) $< $(PREPROCFLAGS) | $(CPP) $(CPPFLAGS) | $(CC) -o $@ $(CFLAGS) && printf '\t.align 2, 0 @ dont insert nops\n' >> $@
+ifeq ($(IWRAM_FIXUP),1)
+	$Q$(if $(filter $<,$(IWRAM_SRC)),$(PYTHON) tools/iwram_calls.py $@,:)
+endif
 
 src/dma.s: CFLAGS = -O1 -mthumb-interwork -fhex-asm
 src/dma.s: src/dma.c

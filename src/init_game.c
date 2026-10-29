@@ -4,6 +4,7 @@
 
 #include "softreset.h"
 #include "profile.h"
+#include "optimize.h"
 
 /**
  * @brief 798 | 118 | Initializes the game
@@ -17,6 +18,11 @@ void InitializeGame(void)
 
     DMA3_FILL_32(0, EWRAM_BASE, EWRAM_SIZE);
     DMA3_FILL_32(0, IWRAM_BASE, IWRAM_SIZE - 0x200);
+
+#ifdef OPTIMIZE_IWRAM
+    // Functions that run from IWRAM
+    DMA3_COPY_32(gIwramCodeLoad, gIwramCodeStart, (u32)(gIwramCodeEnd - gIwramCodeStart) / 4);
+#endif
 
     ClearGfxRam();
     LoadInterruptCode();
