@@ -143,44 +143,4 @@ const MusicFunc_T sMusicCommandFunctionPointers[30] = {
     [EOT - FINE] = AudioCommand_EndOfTie
 };
 
-// Voicegroups: arrays of 12 byte voices (type, key, length, pan/sweep, wave/sample/sub-voicegroup
-// pointer, attack, decay, sustain, release). The pointers are unresolved (see
-// tools/find_blob_pointers.py).
-const u32 sVoicegroup_a5710[60 * 3] = INCBIN_U32("data/voicegroups/a5710.bin");
-const u32 sVoicegroup_a59e0[29 * 3] = INCBIN_U32("data/voicegroups/a59e0.bin");
-const u32 sVoicegroup_a5b3c[13 * 3] = INCBIN_U32("data/voicegroups/a5b3c.bin");
-const u32 sVoicegroup_a5bd8[17 * 3] = INCBIN_U32("data/voicegroups/a5bd8.bin");
-const u32 sVoicegroup_a5ca4[7 * 3] = INCBIN_U32("data/voicegroups/a5ca4.bin");
-const u32 sVoicegroup_a5cf8[13 * 3] = INCBIN_U32("data/voicegroups/a5cf8.bin");
-const u32 sVoicegroup_a5d94[14 * 3] = INCBIN_U32("data/voicegroups/a5d94.bin");
-const u32 sVoicegroup_a5e3c[25 * 3] = INCBIN_U32("data/voicegroups/a5e3c.bin");
-const u32 sVoicegroup_a5f68[7 * 3] = INCBIN_U32("data/voicegroups/a5f68.bin");
-const u32 sVoicegroup_a5fbc[18 * 3] = INCBIN_U32("data/voicegroups/a5fbc.bin");
-const u32 sVoicegroup_a6094[30 * 3] = INCBIN_U32("data/voicegroups/a6094.bin");
-const u32 sVoicegroup_a61fc[21 * 3] = INCBIN_U32("data/voicegroups/a61fc.bin");
-const u32 sVoicegroup_a62f8[38 * 3] = INCBIN_U32("data/voicegroups/a62f8.bin");
-const u32 sVoicegroup_a64c0[11 * 3] = INCBIN_U32("data/voicegroups/a64c0.bin");
-const u32 sVoicegroup_a6544[19 * 3] = INCBIN_U32("data/voicegroups/a6544.bin");
-const u32 sVoicegroup_a6628[20 * 3] = INCBIN_U32("data/voicegroups/a6628.bin");
-const u32 sVoicegroup_a6718[23 * 3] = INCBIN_U32("data/voicegroups/a6718.bin");
-const u32 sVoicegroup_a682c[59 * 3] = INCBIN_U32("data/voicegroups/a682c.bin");
-const u32 sVoicegroup_a6af0[51 * 3] = INCBIN_U32("data/voicegroups/a6af0.bin");
-const u32 sVoicegroup_a6d54[98 * 3] = INCBIN_U32("data/voicegroups/a6d54.bin");
-const u32 sVoicegroup_a71ec[61 * 3] = INCBIN_U32("data/voicegroups/a71ec.bin");
-const u32 sVoicegroup_a74c8[33 * 3] = INCBIN_U32("data/voicegroups/a74c8.bin");
-const u32 sVoicegroup_a7654[21 * 3] = INCBIN_U32("data/voicegroups/a7654.bin");
-const u32 sVoicegroup_a7750[6 * 3] = INCBIN_U32("data/voicegroups/a7750.bin");
-const u32 sVoicegroup_a7798[65 * 3] = INCBIN_U32("data/voicegroups/a7798.bin");
-const u32 sVoicegroup_a7aa4[52 * 3] = INCBIN_U32("data/voicegroups/a7aa4.bin");
-const u32 sVoicegroup_a7d14[21 * 3] = INCBIN_U32("data/voicegroups/a7d14.bin");
-const u32 sVoicegroup_a7e10[23 * 3] = INCBIN_U32("data/voicegroups/a7e10.bin");
-const u32 sVoicegroup_a7f24[19 * 3] = INCBIN_U32("data/voicegroups/a7f24.bin");
-const u32 sVoicegroup_a8008[11 * 3] = INCBIN_U32("data/voicegroups/a8008.bin");
-const u32 sVoicegroup_a808c[29 * 3] = INCBIN_U32("data/voicegroups/a808c.bin");
-const u32 sVoicegroup_a81e8[11 * 3] = INCBIN_U32("data/voicegroups/a81e8.bin");
-const u32 sVoicegroup_a826c[11 * 3] = INCBIN_U32("data/voicegroups/a826c.bin");
-const u32 sVoicegroup_a82f0[13 * 3] = INCBIN_U32("data/voicegroups/a82f0.bin");
-const u32 sVoicegroup_a838c[38 * 3] = INCBIN_U32("data/voicegroups/a838c.bin");
-const u32 sVoicegroup_a8554[120 * 3] = INCBIN_U32("data/voicegroups/a8554.bin");
-const u32 sVoicegroup_a8af4[40 * 3] = INCBIN_U32("data/voicegroups/a8af4.bin");
-static const u8 sBlob_a8cd4_a8cdc[] = INCBIN_U8("data/Blob_a8cd4_a8cdc.bin");
+// The voicegroups follow, in sound/voicegroups.s

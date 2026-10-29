@@ -13,6 +13,10 @@ so the result does not depend on the baserom contents:
 - literal pools and other data inside code ($d mapping symbols)
 - .rodata/.data, except the ranges extracted from the baserom
   (database.json), whose content is unknown (see tools/find_blob_pointers.py)
+- inside the extracted ranges, the words that differ between the two builds:
+  data included piece by piece around pointers written as symbols (the
+  voicegroups in sound/voicegroups.s). Each such word must point to a symbol
+  and follow it.
 
 A word "points to a symbol" when it equals the address of a symbol, the
 address of a Thumb function plus one, or an address inside a sized object.
@@ -221,14 +225,37 @@ def main() -> int:
             if got != want:
                 bad.append((p, v, got, want, hit[1]))
 
+    # Extracted ranges: words the build changed (pointers written as symbols between .incbin pieces)
+    extracted_checked = 0
+    for start, end in extracted:
+        if not any(s <= start and end <= e for s, e in data):
+            continue
+        for p in range((start + 3) & ~3, end - 3, 4):
+            q = p + delta(p) - ROM_START
+            v = int.from_bytes(rom_a[p - ROM_START:p - ROM_START + 4], "little")
+            got = int.from_bytes(rom_b[q:q + 4], "little")
+            if got == v:
+                continue
+            hit = targets.resolve(v) if ROM_START <= v < rom_end else None
+            if hit is None:
+                bad.append((p, v, got, None, "not a pointer, but differs in the shifted build"))
+                continue
+            extracted_checked += 1
+            want = v + delta(hit[0])
+            if got != want:
+                bad.append((p, v, got, want, hit[1]))
+    checked += extracted_checked
+
     def where(addr):
         hit = targets.resolve(addr)
         return hit[1] if hit else "?"
 
-    print(f"shift check: {len(ranges)} ranges, {scanned} words scanned, {checked} pointers checked, "
-          f"{len(bad)} not shifted, {len(unresolved)} other in-range words")
+    print(f"shift check: {len(ranges)} ranges, {scanned} words scanned, {checked} pointers checked "
+          f"({extracted_checked} inside extracted data), {len(bad)} not shifted, "
+          f"{len(unresolved)} other in-range words")
     for p, v, got, want, name in bad[:100]:
-        print(f"  {p:#010x} ({where(p)}): {v:#010x} -> {name}; shifted build has {got:#010x}, expected {want:#010x}")
+        expected = f"expected {want:#010x}" if want is not None else "expected the same value"
+        print(f"  {p:#010x} ({where(p)}): {v:#010x} -> {name}; shifted build has {got:#010x}, {expected}")
     if len(bad) > 100:
         print(f"  ... and {len(bad) - 100} more")
     if args.verbose:

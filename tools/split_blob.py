@@ -163,6 +163,7 @@ def main() -> int:
             path = path or (blob_name(a, b) + ".bin" if is_blob else default_path(args.blob, a))
             if path in paths and path != args.blob:
                 sys.exit(f"{path} is already in {DATABASE}")
+            paths.add(path)
         else:
             typ = m["type"]
             if is_blob:

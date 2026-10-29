@@ -82,6 +82,160 @@ extern const u16 sFileSelectTextTileOffsets_73dc02[];
 extern const u16 sFileSelectTextTileOffsets_73dc08[];
 extern const u16 sFileSelectTextTileOffsets_73dc14[];
 
+// File select strings
+extern const u16 sFileSelectTextJapanese_0[];
+extern const u16 sFileSelectTextJapanese_1[];
+extern const u16 sFileSelectTextJapanese_2[];
+extern const u16 sFileSelectTextJapanese_3[];
+extern const u16 sFileSelectTextJapanese_4[];
+extern const u16 sFileSelectTextJapanese_5[];
+extern const u16 sFileSelectTextJapanese_6[];
+extern const u16 sFileSelectTextJapanese_7[];
+extern const u16 sFileSelectTextJapanese_8[];
+extern const u16 sFileSelectTextJapanese_9[];
+extern const u16 sFileSelectTextJapanese_10[];
+extern const u16 sFileSelectTextJapanese_11[];
+extern const u16 sFileSelectTextJapanese_12[];
+extern const u16 sFileSelectTextJapanese_13[];
+extern const u16 sFileSelectTextJapanese_14[];
+extern const u16 sFileSelectTextJapanese_15[];
+extern const u16 sFileSelectTextJapanese_16[];
+extern const u16 sFileSelectTextJapanese_17[];
+extern const u16 sFileSelectTextJapanese_18[];
+extern const u16 sFileSelectTextJapanese_19[];
+extern const u16 sFileSelectTextJapanese_20[];
+extern const u16 sFileSelectTextJapanese_21[];
+extern const u16 sFileSelectTextJapanese_22[];
+extern const u16 sFileSelectTextJapanese_23[];
+extern const u16 sFileSelectTextJapanese_24[];
+extern const u16 sFileSelectTextEnglish_0[];
+extern const u16 sFileSelectTextEnglish_1[];
+extern const u16 sFileSelectTextEnglish_2[];
+extern const u16 sFileSelectTextEnglish_3[];
+extern const u16 sFileSelectTextEnglish_4[];
+extern const u16 sFileSelectTextEnglish_5[];
+extern const u16 sFileSelectTextEnglish_6[];
+extern const u16 sFileSelectTextEnglish_7[];
+extern const u16 sFileSelectTextEnglish_8[];
+extern const u16 sFileSelectTextEnglish_9[];
+extern const u16 sFileSelectTextEnglish_10[];
+extern const u16 sFileSelectTextEnglish_11[];
+extern const u16 sFileSelectTextEnglish_12[];
+extern const u16 sFileSelectTextEnglish_13[];
+extern const u16 sFileSelectTextEnglish_14[];
+extern const u16 sFileSelectTextEnglish_15[];
+extern const u16 sFileSelectTextEnglish_16[];
+extern const u16 sFileSelectTextEnglish_17[];
+extern const u16 sFileSelectTextEnglish_18[];
+extern const u16 sFileSelectTextEnglish_19[];
+extern const u16 sFileSelectTextEnglish_20[];
+extern const u16 sFileSelectTextEnglish_21[];
+extern const u16 sFileSelectTextEnglish_22[];
+extern const u16 sFileSelectTextEnglish_23[];
+extern const u16 sFileSelectTextEnglish_24[];
+extern const u16 sFileSelectTextGerman_0[];
+extern const u16 sFileSelectTextGerman_1[];
+extern const u16 sFileSelectTextGerman_2[];
+extern const u16 sFileSelectTextGerman_3[];
+extern const u16 sFileSelectTextGerman_4[];
+extern const u16 sFileSelectTextGerman_5[];
+extern const u16 sFileSelectTextGerman_6[];
+extern const u16 sFileSelectTextGerman_7[];
+extern const u16 sFileSelectTextGerman_8[];
+extern const u16 sFileSelectTextGerman_9[];
+extern const u16 sFileSelectTextGerman_10[];
+extern const u16 sFileSelectTextGerman_11[];
+extern const u16 sFileSelectTextGerman_12[];
+extern const u16 sFileSelectTextGerman_13[];
+extern const u16 sFileSelectTextGerman_14[];
+extern const u16 sFileSelectTextGerman_15[];
+extern const u16 sFileSelectTextGerman_16[];
+extern const u16 sFileSelectTextGerman_17[];
+extern const u16 sFileSelectTextGerman_18[];
+extern const u16 sFileSelectTextGerman_19[];
+extern const u16 sFileSelectTextGerman_20[];
+extern const u16 sFileSelectTextGerman_21[];
+extern const u16 sFileSelectTextGerman_22[];
+extern const u16 sFileSelectTextGerman_23[];
+extern const u16 sFileSelectTextGerman_24[];
+extern const u16 sFileSelectTextFrench_0[];
+extern const u16 sFileSelectTextFrench_1[];
+extern const u16 sFileSelectTextFrench_2[];
+extern const u16 sFileSelectTextFrench_3[];
+extern const u16 sFileSelectTextFrench_4[];
+extern const u16 sFileSelectTextFrench_5[];
+extern const u16 sFileSelectTextFrench_6[];
+extern const u16 sFileSelectTextFrench_7[];
+extern const u16 sFileSelectTextFrench_8[];
+extern const u16 sFileSelectTextFrench_9[];
+extern const u16 sFileSelectTextFrench_10[];
+extern const u16 sFileSelectTextFrench_11[];
+extern const u16 sFileSelectTextFrench_12[];
+extern const u16 sFileSelectTextFrench_13[];
+extern const u16 sFileSelectTextFrench_14[];
+extern const u16 sFileSelectTextFrench_15[];
+extern const u16 sFileSelectTextFrench_16[];
+extern const u16 sFileSelectTextFrench_17[];
+extern const u16 sFileSelectTextFrench_18[];
+extern const u16 sFileSelectTextFrench_19[];
+extern const u16 sFileSelectTextFrench_20[];
+extern const u16 sFileSelectTextFrench_21[];
+extern const u16 sFileSelectTextFrench_22[];
+extern const u16 sFileSelectTextFrench_23[];
+extern const u16 sFileSelectTextFrench_24[];
+extern const u16 sFileSelectTextItalian_0[];
+extern const u16 sFileSelectTextItalian_1[];
+extern const u16 sFileSelectTextItalian_2[];
+extern const u16 sFileSelectTextItalian_3[];
+extern const u16 sFileSelectTextItalian_4[];
+extern const u16 sFileSelectTextItalian_5[];
+extern const u16 sFileSelectTextItalian_6[];
+extern const u16 sFileSelectTextItalian_7[];
+extern const u16 sFileSelectTextItalian_8[];
+extern const u16 sFileSelectTextItalian_9[];
+extern const u16 sFileSelectTextItalian_10[];
+extern const u16 sFileSelectTextItalian_11[];
+extern const u16 sFileSelectTextItalian_12[];
+extern const u16 sFileSelectTextItalian_13[];
+extern const u16 sFileSelectTextItalian_14[];
+extern const u16 sFileSelectTextItalian_15[];
+extern const u16 sFileSelectTextItalian_16[];
+extern const u16 sFileSelectTextItalian_17[];
+extern const u16 sFileSelectTextItalian_18[];
+extern const u16 sFileSelectTextItalian_19[];
+extern const u16 sFileSelectTextItalian_20[];
+extern const u16 sFileSelectTextItalian_21[];
+extern const u16 sFileSelectTextItalian_22[];
+extern const u16 sFileSelectTextItalian_23[];
+extern const u16 sFileSelectTextItalian_24[];
+extern const u16 sFileSelectTextSpanish_0[];
+extern const u16 sFileSelectTextSpanish_1[];
+extern const u16 sFileSelectTextSpanish_2[];
+extern const u16 sFileSelectTextSpanish_3[];
+extern const u16 sFileSelectTextSpanish_4[];
+extern const u16 sFileSelectTextSpanish_5[];
+extern const u16 sFileSelectTextSpanish_6[];
+extern const u16 sFileSelectTextSpanish_7[];
+extern const u16 sFileSelectTextSpanish_8[];
+extern const u16 sFileSelectTextSpanish_9[];
+extern const u16 sFileSelectTextSpanish_10[];
+extern const u16 sFileSelectTextSpanish_11[];
+extern const u16 sFileSelectTextSpanish_12[];
+extern const u16 sFileSelectTextSpanish_13[];
+extern const u16 sFileSelectTextSpanish_14[];
+extern const u16 sFileSelectTextSpanish_15[];
+extern const u16 sFileSelectTextSpanish_16[];
+extern const u16 sFileSelectTextSpanish_17[];
+extern const u16 sFileSelectTextSpanish_18[];
+extern const u16 sFileSelectTextSpanish_19[];
+extern const u16 sFileSelectTextSpanish_20[];
+extern const u16 sFileSelectTextSpanish_21[];
+extern const u16 sFileSelectTextSpanish_22[];
+extern const u16 sFileSelectTextSpanish_23[];
+extern const u16 sFileSelectTextSpanish_24[];
+extern const u16 sFileSelectEmptyFileText_0[];
+extern const u16 sFileSelectEmptyFileText_1[];
+
 void unk_99940(void); // For V-blank callback
 u8 SpecialCutsceneGetRandomNumber(void);
 
@@ -2716,9 +2870,196 @@ const struct FrameData* sFileSelectAreaNameOam[LANGUAGE_COUNT][7] = {
         sFileSelectFilePanelOam3_740a28
     }
 };
-u8 sBlob_79ea08_79ec68[] = INCBIN_U8("data/Blob_79ea08_79ec68.bin"); // not referenced directly; probably pointed to by the tables around it
-u32 sFileSelectTexts[] = INCBIN_U32("data/menus/file_select/text_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sFileSelectEmptyFileTexts[] = INCBIN_U32("data/menus/file_select/empty_file_text_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u16* sFileSelectTextsJapanese[25] = {
+    sFileSelectTextJapanese_0,
+    sFileSelectTextJapanese_1,
+    sFileSelectTextJapanese_2,
+    sFileSelectTextJapanese_3,
+    sFileSelectTextJapanese_4,
+    sFileSelectTextJapanese_5,
+    sFileSelectTextJapanese_6,
+    sFileSelectTextJapanese_7,
+    sFileSelectTextJapanese_8,
+    sFileSelectTextJapanese_9,
+    sFileSelectTextJapanese_10,
+    sFileSelectTextJapanese_11,
+    sFileSelectTextJapanese_12,
+    sFileSelectTextJapanese_13,
+    sFileSelectTextJapanese_14,
+    sFileSelectTextJapanese_15,
+    sFileSelectTextJapanese_16,
+    sFileSelectTextJapanese_17,
+    sFileSelectTextJapanese_18,
+    sFileSelectTextJapanese_19,
+    sFileSelectTextJapanese_20,
+    sFileSelectTextJapanese_21,
+    sFileSelectTextJapanese_22,
+    sFileSelectTextJapanese_23,
+    sFileSelectTextJapanese_24
+};
+
+const u16* sFileSelectTextsEnglish[25] = {
+    sFileSelectTextEnglish_0,
+    sFileSelectTextEnglish_1,
+    sFileSelectTextEnglish_2,
+    sFileSelectTextEnglish_3,
+    sFileSelectTextEnglish_4,
+    sFileSelectTextEnglish_5,
+    sFileSelectTextEnglish_6,
+    sFileSelectTextEnglish_7,
+    sFileSelectTextEnglish_8,
+    sFileSelectTextEnglish_9,
+    sFileSelectTextEnglish_10,
+    sFileSelectTextEnglish_11,
+    sFileSelectTextEnglish_12,
+    sFileSelectTextEnglish_13,
+    sFileSelectTextEnglish_14,
+    sFileSelectTextEnglish_15,
+    sFileSelectTextEnglish_16,
+    sFileSelectTextEnglish_17,
+    sFileSelectTextEnglish_18,
+    sFileSelectTextEnglish_19,
+    sFileSelectTextEnglish_20,
+    sFileSelectTextEnglish_21,
+    sFileSelectTextEnglish_22,
+    sFileSelectTextEnglish_23,
+    sFileSelectTextEnglish_24
+};
+
+const u16* sFileSelectTextsGerman[25] = {
+    sFileSelectTextGerman_0,
+    sFileSelectTextGerman_1,
+    sFileSelectTextGerman_2,
+    sFileSelectTextGerman_3,
+    sFileSelectTextGerman_4,
+    sFileSelectTextGerman_5,
+    sFileSelectTextGerman_6,
+    sFileSelectTextGerman_7,
+    sFileSelectTextGerman_8,
+    sFileSelectTextGerman_9,
+    sFileSelectTextGerman_10,
+    sFileSelectTextGerman_11,
+    sFileSelectTextGerman_12,
+    sFileSelectTextGerman_13,
+    sFileSelectTextGerman_14,
+    sFileSelectTextGerman_15,
+    sFileSelectTextGerman_16,
+    sFileSelectTextGerman_17,
+    sFileSelectTextGerman_18,
+    sFileSelectTextGerman_19,
+    sFileSelectTextGerman_20,
+    sFileSelectTextGerman_21,
+    sFileSelectTextGerman_22,
+    sFileSelectTextGerman_23,
+    sFileSelectTextGerman_24
+};
+
+const u16* sFileSelectTextsFrench[25] = {
+    sFileSelectTextFrench_0,
+    sFileSelectTextFrench_1,
+    sFileSelectTextFrench_2,
+    sFileSelectTextFrench_3,
+    sFileSelectTextFrench_4,
+    sFileSelectTextFrench_5,
+    sFileSelectTextFrench_6,
+    sFileSelectTextFrench_7,
+    sFileSelectTextFrench_8,
+    sFileSelectTextFrench_9,
+    sFileSelectTextFrench_10,
+    sFileSelectTextFrench_11,
+    sFileSelectTextFrench_12,
+    sFileSelectTextFrench_13,
+    sFileSelectTextFrench_14,
+    sFileSelectTextFrench_15,
+    sFileSelectTextFrench_16,
+    sFileSelectTextFrench_17,
+    sFileSelectTextFrench_18,
+    sFileSelectTextFrench_19,
+    sFileSelectTextFrench_20,
+    sFileSelectTextFrench_21,
+    sFileSelectTextFrench_22,
+    sFileSelectTextFrench_23,
+    sFileSelectTextFrench_24
+};
+
+const u16* sFileSelectTextsItalian[25] = {
+    sFileSelectTextItalian_0,
+    sFileSelectTextItalian_1,
+    sFileSelectTextItalian_2,
+    sFileSelectTextItalian_3,
+    sFileSelectTextItalian_4,
+    sFileSelectTextItalian_5,
+    sFileSelectTextItalian_6,
+    sFileSelectTextItalian_7,
+    sFileSelectTextItalian_8,
+    sFileSelectTextItalian_9,
+    sFileSelectTextItalian_10,
+    sFileSelectTextItalian_11,
+    sFileSelectTextItalian_12,
+    sFileSelectTextItalian_13,
+    sFileSelectTextItalian_14,
+    sFileSelectTextItalian_15,
+    sFileSelectTextItalian_16,
+    sFileSelectTextItalian_17,
+    sFileSelectTextItalian_18,
+    sFileSelectTextItalian_19,
+    sFileSelectTextItalian_20,
+    sFileSelectTextItalian_21,
+    sFileSelectTextItalian_22,
+    sFileSelectTextItalian_23,
+    sFileSelectTextItalian_24
+};
+
+const u16* sFileSelectTextsSpanish[25] = {
+    sFileSelectTextSpanish_0,
+    sFileSelectTextSpanish_1,
+    sFileSelectTextSpanish_2,
+    sFileSelectTextSpanish_3,
+    sFileSelectTextSpanish_4,
+    sFileSelectTextSpanish_5,
+    sFileSelectTextSpanish_6,
+    sFileSelectTextSpanish_7,
+    sFileSelectTextSpanish_8,
+    sFileSelectTextSpanish_9,
+    sFileSelectTextSpanish_10,
+    sFileSelectTextSpanish_11,
+    sFileSelectTextSpanish_12,
+    sFileSelectTextSpanish_13,
+    sFileSelectTextSpanish_14,
+    sFileSelectTextSpanish_15,
+    sFileSelectTextSpanish_16,
+    sFileSelectTextSpanish_17,
+    sFileSelectTextSpanish_18,
+    sFileSelectTextSpanish_19,
+    sFileSelectTextSpanish_20,
+    sFileSelectTextSpanish_21,
+    sFileSelectTextSpanish_22,
+    sFileSelectTextSpanish_23,
+    sFileSelectTextSpanish_24
+};
+
+const u16* sFileSelectEmptyFileTextPointers[2] = {
+    sFileSelectEmptyFileText_0,
+    sFileSelectEmptyFileText_1
+};
+const u16** sFileSelectTexts[LANGUAGE_COUNT] = {
+    [LANGUAGE_JAPANESE] = sFileSelectTextsJapanese,
+    [LANGUAGE_HIRAGANA] = sFileSelectTextsJapanese,
+    [LANGUAGE_ENGLISH] = sFileSelectTextsEnglish,
+    [LANGUAGE_GERMAN] = sFileSelectTextsGerman,
+    [LANGUAGE_FRENCH] = sFileSelectTextsFrench,
+    [LANGUAGE_ITALIAN] = sFileSelectTextsItalian,
+    [LANGUAGE_SPANISH] = sFileSelectTextsSpanish
+};
+const u16** sFileSelectEmptyFileTexts[LANGUAGE_COUNT] = {
+    [LANGUAGE_JAPANESE] = sFileSelectEmptyFileTextPointers,
+    [LANGUAGE_HIRAGANA] = sFileSelectEmptyFileTextPointers,
+    [LANGUAGE_ENGLISH] = sFileSelectEmptyFileTextPointers,
+    [LANGUAGE_GERMAN] = sFileSelectEmptyFileTextPointers,
+    [LANGUAGE_FRENCH] = sFileSelectEmptyFileTextPointers,
+    [LANGUAGE_ITALIAN] = sFileSelectEmptyFileTextPointers,
+    [LANGUAGE_SPANISH] = sFileSelectEmptyFileTextPointers
+};
 
 /**
  * @brief 87610 | f8 | Handler for intro
