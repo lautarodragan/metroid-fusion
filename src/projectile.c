@@ -1,4 +1,5 @@
 #include "projectile.h"
+#include "profile.h"
 #include "gba.h"
 #include "macros.h"
 #include "globals.h"
@@ -424,7 +425,7 @@ void ProjectileUpdate(void)
     }
 
     // Handle projectile/sprite collision
-    ProjectileCheckHittingSprite();
+    PROFILE_CALL(PROF_PROJ_HIT, ProjectileCheckHittingSprite());
 
     // Update projectiles
     for (i = 0; i < MAX_AMOUNT_OF_PROJECTILES; i++)

@@ -5,6 +5,7 @@
 #include "callbacks.h"
 #include "samus.h"
 #include "hud_generic.h"
+#include "profile.h"
 
 #include "constants/demo.h"
 #include "constants/sa_x.h"
@@ -83,8 +84,16 @@ u32 InGameHandler(void)
                 }
                 else
                 {
+#ifdef PROFILE_DETAIL
+                    struct ProfileMark mark;
+
+                    PROFILE_START(mark);
+#endif
                     SamusUpdatePhysics();
                     SamusUpdateCollisionData();
+#ifdef PROFILE_DETAIL
+                    PROFILE_END(mark, PROF_SAMUS_PHYSICS);
+#endif
                 }
             }
 
@@ -128,36 +137,36 @@ u32 InGameHandler(void)
     }
     else if (gSubGameMode1 != 0)
     {
-        RoomUpdateAnimatedGraphicsAndPalette();
-        SpriteUpdate();
+        PROFILE_CALL(PROF_ROOM_ANIM, RoomUpdateAnimatedGraphicsAndPalette());
+        PROFILE_CALL(PROF_SPRITE_UPDATE, SpriteUpdate());
 
         if (!gDisableDrawingSamusAndScrollingFlag)
         {
-            ScrollProcessGeneral();
-            SamusCallUpdateGraphics();
+            PROFILE_CALL(PROF_SCROLL, ScrollProcessGeneral());
+            PROFILE_CALL(PROF_SAMUS_GFX, SamusCallUpdateGraphics());
         }
         else if (gDisableScrolling == 0x2)
         {
-            ScrollProcessGeneral();
+            PROFILE_CALL(PROF_SCROLL, ScrollProcessGeneral());
         }
 
-        ProjectileUpdate();
-        HudDraw();
-        unk_eb04();
-        ParticleUpdate();
-        ProjectileDrawAll_False();
+        PROFILE_CALL(PROF_PROJ_UPDATE, ProjectileUpdate());
+        PROFILE_CALL(PROF_HUD, HudDraw());
+        PROFILE_CALL(PROF_DRAW_HIGH, unk_eb04());
+        PROFILE_CALL(PROF_PARTICLE, ParticleUpdate());
+        PROFILE_CALL(PROF_PROJ_DRAW, ProjectileDrawAll_False());
 
-        SpriteDrawAll();
+        PROFILE_CALL(PROF_DRAW_ALL, SpriteDrawAll());
 
         if (!gDisableDrawingSamusAndScrollingFlag)
-            SamusDraw();
+            PROFILE_CALL(PROF_SAMUS_DRAW, SamusDraw());
 
-        unk_ec38();
-        ProjectileDrawAll_True();
+        PROFILE_CALL(PROF_DRAW_LOW, unk_ec38());
+        PROFILE_CALL(PROF_PROJ_DRAW, ProjectileDrawAll_True());
         
-        ResetFreeOam();
-        RoomUpdate();
-        SamusCallCheckPlayLowHealthSound();
+        PROFILE_CALL(PROF_RESET_OAM, ResetFreeOam());
+        PROFILE_CALL(PROF_ROOM_UPDATE, RoomUpdate());
+        PROFILE_CALL(PROF_LOW_HEALTH, SamusCallCheckPlayLowHealthSound());
     }
 
     return leaving;

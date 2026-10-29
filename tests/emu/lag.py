@@ -106,18 +106,23 @@ class LogicStepper:
     def step(self, keys=None) -> int:
         """Run one logic frame with ``keys`` held; returns its lag frames.
 
-        Must start at a boundary (call :meth:`sync` once first); ends at the
-        next one.
+        Should start at a boundary (call :meth:`sync` once first); ends at
+        the next one. If the frame counter does not advance in the first
+        emulated frame (the game is not in its main loop yet, e.g. right
+        after power-on, or waits for something else), the frames until it
+        advances are counted as lag of this logic frame.
         """
         emu = self.emu
         if keys is not None:
             emu.set_input(keys)
         before = frame_counter(emu)
         emu.run(1)
-        if frame_counter(emu) == before:
-            raise LagError("the frame counter did not advance after a logic-frame boundary "
-                           "(not started at a boundary?)")
         lag = 0
+        while frame_counter(emu) == before:
+            if lag >= self.max_lag:
+                raise LagError(f"the frame counter did not advance in {lag} frames")
+            emu.run(1)
+            lag += 1
         while not at_boundary(emu):
             if lag >= self.max_lag:
                 raise LagError(f"logic frame still running after {lag} lag frames")
@@ -154,3 +159,56 @@ def count_lag_frames(emu, frames: int, keys=None) -> LagStats:
     if lag is not None:
         stats.add(lag)
     return stats
+
+
+# ---------------------------------------------------------------------------
+# PROFILE builds (make PROFILE=1, include/profile.h)
+# ---------------------------------------------------------------------------
+
+PROFILE_MAGIC = 0x464F5250
+FRAME_CYCLES = 280896          # 228 lines of 1232 cycles
+PROFILE_SPRITE_SLOTS = 24
+
+
+def profile_regions(header=None) -> list[str]:
+    """Names of ``enum ProfileRegion`` (include/profile.h), without ``PROF_``."""
+    import re
+    from pathlib import Path
+    header = Path(header) if header else Path(__file__).resolve().parents[2] / "include" / "profile.h"
+    text = header.read_text()
+    body = text[text.index("enum ProfileRegion"):]
+    body = body[body.index("{") + 1:body.index("};")]
+    names = re.findall(r"^\s*PROF_(\w+)\s*,", body, re.M)
+    return [n for n in names if n != "COUNT"]
+
+
+class ProfileReader:
+    """Reads ``gProfile.last`` (the counts of the last logic frame)."""
+
+    def __init__(self, emu, header=None):
+        self.emu = emu
+        self.regions = profile_regions(header)
+        if "gProfile" not in emu.symbols:
+            raise LagError("not a PROFILE build (no gProfile in the map)")
+        self.base = emu.symbols["gProfile"]
+        n = len(self.regions)
+        frame_words = n + 2 * PROFILE_SPRITE_SLOTS
+        # struct Profile: magic, frames, isrCycles, loopStart, cur, last
+        self.last = self.base + 16 + 4 * frame_words
+        self.frame_words = frame_words
+
+    def ok(self) -> bool:
+        return self.emu.u32(self.base) == PROFILE_MAGIC
+
+    def frames(self) -> int:
+        return self.emu.u32(self.base + 4)
+
+    def read(self) -> dict:
+        import struct
+        n = len(self.regions)
+        words = struct.unpack(f"<{self.frame_words}I", self.emu.read(self.last, 4 * self.frame_words))
+        return {
+            "cycles": dict(zip(self.regions, words[:n])),
+            "ai": list(words[n:n + PROFILE_SPRITE_SLOTS]),
+            "draw": list(words[n + PROFILE_SPRITE_SLOTS:]),
+        }

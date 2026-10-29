@@ -4,6 +4,7 @@
 #include "macros.h"
 #include "fixed_point.h"
 #include "gba.h"
+#include "profile.h"
 
 #include "data/sprite_data.h"
 #include "data/generic_data.h"
@@ -27,6 +28,21 @@ void SpriteUpdateRandomNumber(u8 slot)
     gSpriteRandomNumber = sRandomNumberTable[offset % ARRAY_SIZE(sRandomNumberTable)];
 }
 
+#ifdef PROFILE_DETAIL
+#define PROFILE_SPRITE_DRAW(slot) do {                  \
+    struct ProfileMark _pm;                             \
+    u32 _d;                                             \
+    PROFILE_START(_pm);                                 \
+    SpriteDraw(slot);                                   \
+    _d = PROFILE_ELAPSED(_pm);                          \
+    gProfile.cur.drawCycles[slot] += _d;                \
+    gProfile.cur.cycles[PROF_SPRITE_DRAW] += _d;        \
+    gProfile.cur.cycles[PROF_SPRITE_DRAW_COUNT]++;      \
+} while (0)
+#else
+#define PROFILE_SPRITE_DRAW(slot) SpriteDraw(slot)
+#endif
+
 /**
  * @brief e7e8 | 2d4 | Updates the sprites
  * 
@@ -38,12 +54,17 @@ void SpriteUpdate(void)
     if (gSubGameMode1 == SUB_GAME_MODE_PLAYING)
     {
         // Update the debris
-        SpriteDebrisUpdateAll();
+        PROFILE_CALL(PROF_SPRITE_DEBRIS, SpriteDebrisUpdateAll());
 
         if (!SpriteUtilCheckSamusStopSpritesPose())
         {
+#ifdef PROFILE_DETAIL
+            struct ProfileMark mark;
+            u32 elapsed;
+#endif
+
             // Handle collision
-            SpriteUtilSamusAndSpriteCollision();
+            PROFILE_CALL(PROF_SPRITE_SAMUS_COLLISION, SpriteUtilSamusAndSpriteCollision());
 
             // Update every sprite
             for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -52,8 +73,11 @@ void SpriteUpdate(void)
                     continue;
 
                 // Copy to current sprite
-                gCurrentSprite = gSpriteData[i];
+                PROFILE_CALL(PROF_SPRITE_COPY, gCurrentSprite = gSpriteData[i]);
 
+#ifdef PROFILE_DETAIL
+                PROFILE_START(mark);
+#endif
                 // Update RNG and stun
                 SpriteUpdateRandomNumber(i);
                 SpriteUtilUpdateStunTimer();
@@ -63,17 +87,28 @@ void SpriteUpdate(void)
                     sSecondarySpritesAiPointers[gCurrentSprite.spriteId]();
                 else
                     sPrimarySpritesAiPointers[gCurrentSprite.spriteId]();
+#ifdef PROFILE_DETAIL
+                elapsed = PROFILE_ELAPSED(mark);
+                gProfile.cur.aiCycles[i] += elapsed;
+                gProfile.cur.cycles[PROF_SPRITE_AI] += elapsed;
+#endif
 
                 if (gCurrentSprite.status & SPRITE_STATUS_EXISTS)
                 {
+#ifdef PROFILE_DETAIL
+                    PROFILE_START(mark);
+#endif
                     // If sprite still exists, update standing, animation and on screen flag
                     SpriteUtilSamusStandingOnSprite();
                     SpriteUpdateAnimation();
                     SpriteCheckOnScreen();
+#ifdef PROFILE_DETAIL
+                    PROFILE_END(mark, PROF_SPRITE_ANIM);
+#endif
                 }
 
                 // Copy back to sprite data
-                gSpriteData[i] = gCurrentSprite;
+                PROFILE_CALL(PROF_SPRITE_COPY, gSpriteData[i] = gCurrentSprite);
             }
         }
         else
@@ -252,7 +287,7 @@ void unk_eb04(void)
             if (gSpriteDrawOrder[i] == drawOrder)
             {
                 gCurrentSprite = gSpriteData[i];
-                SpriteDraw(i);
+                PROFILE_SPRITE_DRAW(i);
             }
         }
     }
@@ -296,7 +331,7 @@ void SpriteDrawAll(void)
             if (gSpriteDrawOrder[i] == drawOrder)
             {
                 gCurrentSprite = gSpriteData[i];
-                SpriteDraw(i);
+                PROFILE_SPRITE_DRAW(i);
             }
         }
     }
@@ -337,7 +372,7 @@ void unk_ec38(void)
             if (gSpriteDrawOrder[i] == drawOrder)
             {
                 gCurrentSprite = gSpriteData[i];
-                SpriteDraw(i);
+                PROFILE_SPRITE_DRAW(i);
             }
         }
     }

@@ -1,4 +1,5 @@
 #include "room.h"
+#include "profile.h"
 
 #include "globals.h"
 #include "macros.h"
@@ -1331,6 +1332,12 @@ void RoomUpdateHatchFlashingAnimation(void)
  */
 void RoomUpdate(void)
 {
+#ifdef PROFILE_DETAIL
+    struct ProfileMark mark;
+
+    PROFILE_START(mark);
+#endif
+
     if (!gDisableScrolling && gColorFading.stage == 0)
     {
         RoomUpdateBackgroundPositions();
@@ -1356,6 +1363,11 @@ void RoomUpdate(void)
     {
         RoomUpdateBackgroundPositions();
     }
+
+#ifdef PROFILE_DETAIL
+    PROFILE_END(mark, PROF_ROOM_TILEMAP);
+    PROFILE_START(mark);
+#endif
     
     if (gSubGameMode1 == 2)
     {
@@ -1370,6 +1382,11 @@ void RoomUpdate(void)
             EventCheckRoomEventTrigger();
     }
 
+#ifdef PROFILE_DETAIL
+    PROFILE_END(mark, PROF_ROOM_CHECKS);
+    PROFILE_START(mark);
+#endif
+
     if (HazeProcess())
     {
         HazeProcess();
@@ -1377,6 +1394,10 @@ void RoomUpdate(void)
         if (gHazeInfo.enabled)
             gHazeInfo.active = TRUE;
     }
+
+#ifdef PROFILE_DETAIL
+    PROFILE_END(mark, PROF_HAZE);
+#endif
 
     PowerBombExplosionProcess();
 }

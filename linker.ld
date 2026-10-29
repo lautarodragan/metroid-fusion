@@ -317,6 +317,11 @@ SECTIONS {
         . = 0x000055b0; gTrackData2 = .;
         . = 0x000055f0; gTrackData5 = .;
 
+#ifdef PROFILE
+        /* Free IWRAM between the last variable and the stacks (see include/profile.h) */
+        . = 0x00005630; gProfile = .;
+#endif
+
         . = 0x00007ffc; gInterruptCodePointer = .;
 
     } >iwram
@@ -538,6 +543,10 @@ SECTIONS {
         src/ending_igt.o(.text);
 
         src/ending.o(.text);
+
+#ifdef PROFILE
+        src/profile.o(.text);
+#endif
 
         *libgcc.a:_call_via_rX.o(.text);
         *libgcc.a:_divsi3.o(.text);

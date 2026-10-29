@@ -3,6 +3,7 @@
 #include "macros.h"
 
 #include "softreset.h"
+#include "profile.h"
 
 /**
  * @brief 798 | 118 | Initializes the game
@@ -58,4 +59,8 @@ void InitializeGame(void)
     gChangedInput = KEY_NONE;
 
     gDisableSoftReset = FALSE;
+
+#ifdef PROFILE
+    ProfileInit();
+#endif
 }
