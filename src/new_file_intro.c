@@ -19,6 +19,51 @@
 #include "data/projectile_data.h"
 #include "data/audio.h"
 
+extern const u16 sElevatorMonologueBgPal_6638c0[];
+extern const u16 sElevatorMonologueBgPal_66aa68[];
+extern const u16 sElevatorMonologueBgPal_671a04[];
+extern const u16 sElevatorMonologueObjPal_663a20[];
+extern const u16 sElevatorMonologueObjPal_66abc8[];
+extern const u16 sElevatorMonologueObjPal_671b64[];
+extern const u32 sIntroGfx_652bd4[];
+extern const u32 sIntroGfx_653980[];
+extern const u32 sIntroGfx_6546f4[];
+extern const u32 sIntroGfx_6552a0[];
+extern const u32 sIntroGfx_655f3c[];
+extern const u32 sIntroGfx_656cd0[];
+extern const u32 sIntroGfx_657408[];
+extern const u32 sIntroGfx_6579c4[];
+extern const u32 sIntroGfx_657d2c[];
+extern const u32 sIntroGfx_657f60[];
+extern const u32 sIntroGfx_658150[];
+extern const u32 sIntroGfx_658468[];
+extern const u32 sIntroGfx_658848[];
+extern const u32 sIntroShipAlertBgGfx_0[];
+extern const u32 sIntroShipAlertBgGfx_1[];
+extern const u32 sIntroShipAlertBgGfx_2[];
+extern const u32 sIntroShipAlertBgGfx_3[];
+extern const u32 sIntroShipAlertBgGfx_4[];
+extern const u32 sIntroShipAlertObjGfx_0[];
+extern const u32 sIntroShipAlertObjGfx_1[];
+extern const u32 sIntroShipAlertObjGfx_2[];
+extern const u32 sIntroShipAlertObjGfx_3[];
+extern const u32 sIntroShipAlertObjGfx_4[];
+extern const u32 sIntroShipAlertObjGfx_5[];
+extern const u8 sElevatorMonologueBgGfx_65c468[];
+extern const u8 sElevatorMonologueBgGfx_663eac[];
+extern const u8 sElevatorMonologueBgGfx_66b524[];
+extern const u8 sElevatorMonologueBgTilemap_662cfc[];
+extern const u8 sElevatorMonologueBgTilemap_66ac88[];
+extern const u8 sElevatorMonologueBgTilemap_671c24[];
+extern const u8 sElevatorMonologueObjGfx_65fc24[];
+extern const u8 sElevatorMonologueObjGfx_667c18[];
+extern const u8 sElevatorMonologueObjGfx_66ec18[];
+extern const u8 sGameOverTextGfxFrench[];
+extern const u8 sGameOverTextGfxGerman[];
+extern const u8 sGameOverTextGfxItalian[];
+extern const u8 sGameOverTextGfxJapanese[];
+extern const u8 sGameOverTextGfxSpanish[];
+
 // FrameData arrays and tile offset arrays used by the tables below
 extern const struct FrameData sElevatorMonologueOam_663dd0[];
 extern const struct FrameData sElevatorMonologueOam_663df8[];
@@ -377,14 +422,91 @@ static const u32* sIntroSamusHelmetCloseupBgGfxPointers[6] = {
     sIntroSamusHelmetCloseupBgGfx5
 };
 
-u32 sIntroShipAlertBgGfxPointers[] = INCBIN_U32("data/intro/ship_alert_bg_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sIntroShipAlertObjGfxPointers[6] = INCBIN_U32("data/intro/ship_alert_obj_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u8 sBlob_79c474_79c4a8[] = INCBIN_U8("data/Blob_79c474_79c4a8.bin"); // not referenced directly
-u32 sElevatorMonologueBgPalPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_pal_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sElevatorMonologueObjPalPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_obj_pal_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sElevatorMonologueBgGfxPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sElevatorMonologueObjGfxPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_obj_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sElevatorMonologueBgTilemapPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_tilemap_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u32* sIntroShipAlertBgGfxPointers[5] = {
+    sIntroShipAlertBgGfx_0,
+    sIntroShipAlertBgGfx_1,
+    sIntroShipAlertBgGfx_2,
+    sIntroShipAlertBgGfx_3,
+    sIntroShipAlertBgGfx_4
+};
+const u32* sIntroShipAlertObjGfxPointers[6] = {
+    sIntroShipAlertObjGfx_0,
+    sIntroShipAlertObjGfx_1,
+    sIntroShipAlertObjGfx_2,
+    sIntroShipAlertObjGfx_3,
+    sIntroShipAlertObjGfx_4,
+    sIntroShipAlertObjGfx_5
+};
+const u32* sIntroGfxPointers_79c474[13] = {
+    sIntroGfx_652bd4,
+    sIntroGfx_653980,
+    sIntroGfx_6546f4,
+    sIntroGfx_6552a0,
+    sIntroGfx_655f3c,
+    sIntroGfx_656cd0,
+    sIntroGfx_657408,
+    sIntroGfx_6579c4,
+    sIntroGfx_657d2c,
+    sIntroGfx_657f60,
+    sIntroGfx_658150,
+    sIntroGfx_658468,
+    sIntroGfx_658848
+};
+const u16* sElevatorMonologueBgPalPointers[9] = {
+    sElevatorMonologueBgPal_6638c0,
+    sElevatorMonologueBgPal_66aa68,
+    sElevatorMonologueBgPal_6638c0,
+    sElevatorMonologueBgPal_6638c0,
+    sElevatorMonologueBgPal_66aa68,
+    sElevatorMonologueBgPal_671a04,
+    sElevatorMonologueBgPal_6638c0,
+    sElevatorMonologueBgPal_6638c0,
+    sElevatorMonologueBgPal_6638c0
+};
+const u16* sElevatorMonologueObjPalPointers[9] = {
+    sElevatorMonologueObjPal_663a20,
+    sElevatorMonologueObjPal_663a20,
+    sElevatorMonologueObjPal_663a20,
+    sElevatorMonologueObjPal_663a20,
+    sElevatorMonologueObjPal_66abc8,
+    sElevatorMonologueObjPal_671b64,
+    sElevatorMonologueObjPal_663a20,
+    sElevatorMonologueObjPal_663a20,
+    sElevatorMonologueObjPal_663a20
+};
+const u8* sElevatorMonologueBgGfxPointers[9] = {
+    sElevatorMonologueBgGfx_65c468,
+    sElevatorMonologueBgGfx_663eac,
+    sElevatorMonologueBgGfx_65c468,
+    sElevatorMonologueBgGfx_65c468,
+    sElevatorMonologueBgGfx_663eac,
+    sElevatorMonologueBgGfx_66b524,
+    sElevatorMonologueBgGfx_65c468,
+    sElevatorMonologueBgGfx_65c468,
+    sElevatorMonologueBgGfx_65c468
+};
+const u8* sElevatorMonologueObjGfxPointers[9] = {
+    sElevatorMonologueObjGfx_65fc24,
+    sElevatorMonologueObjGfx_65fc24,
+    sElevatorMonologueObjGfx_65fc24,
+    sElevatorMonologueObjGfx_65fc24,
+    sElevatorMonologueObjGfx_667c18,
+    sElevatorMonologueObjGfx_66ec18,
+    sElevatorMonologueObjGfx_65fc24,
+    sElevatorMonologueObjGfx_65fc24,
+    sElevatorMonologueObjGfx_65fc24
+};
+const u8* sElevatorMonologueBgTilemapPointers[9] = {
+    sElevatorMonologueBgTilemap_662cfc,
+    sElevatorMonologueBgTilemap_66ac88,
+    sElevatorMonologueBgTilemap_662cfc,
+    sElevatorMonologueBgTilemap_662cfc,
+    sElevatorMonologueBgTilemap_66ac88,
+    sElevatorMonologueBgTilemap_671c24,
+    sElevatorMonologueBgTilemap_662cfc,
+    sElevatorMonologueBgTilemap_662cfc,
+    sElevatorMonologueBgTilemap_662cfc
+};
 const struct FrameData* sElevatorMonologueOam[9][2] = {
     {
         sElevatorMonologueOam_663dd0,
@@ -2739,7 +2861,15 @@ const struct FrameData* sGameOverCursorOam[3] = {
     sGameOverCursorOverlayOam_73c29c,
     sGameOverCursorOverlayOam_73c29c
 };
-u32 sGameOverTextGfxPointers[] = INCBIN_U32("data/menus/game_over/text_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u8* sGameOverTextGfxPointers[LANGUAGE_COUNT] = {
+    sGameOverTextGfxJapanese,
+    sGameOverTextGfxJapanese,
+    sGameOverTextGfxJapanese,
+    sGameOverTextGfxGerman,
+    sGameOverTextGfxFrench,
+    sGameOverTextGfxItalian,
+    sGameOverTextGfxSpanish
+};
 const struct FrameData* sFileSelectFileOverlayOam[5] = {
     sFileSelectDeleteArrowIdleOam,
     sFileSelectDeleteArrowIdleOam_740ac8,

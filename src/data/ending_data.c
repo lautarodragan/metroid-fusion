@@ -78,7 +78,213 @@ const u16 sEnding_3_Pal[PAL_ROW * 16] = INCBIN_U16("data/ending/ending_3.pal");
 const u16 sEnding_4_Pal[PAL_ROW * 16] = INCBIN_U16("data/ending/ending_4.pal");
 const u16 sResultsTextPal[PAL_ROW * 4] = INCBIN_U16("data/ending/results_text.pal");
 
-static const u8 sBlob_74a7d8_74b0b0[] = INCBIN_U8("data/Blob_74a7d8_74b0b0.bin");
+const u16 sOamFrame_74a7d8[] = INCBIN_U16("data/oam_frames/74a7d8.bin");
+const u16 sOamFrame_74a7f8[] = INCBIN_U16("data/oam_frames/74a7f8.bin");
+const u16 sOamFrame_74a812[] = INCBIN_U16("data/oam_frames/74a812.bin");
+const u16 sOamFrame_74a826[] = INCBIN_U16("data/oam_frames/74a826.bin");
+const u16 sOamFrame_74a82e[] = INCBIN_U16("data/oam_frames/74a82e.bin");
+const u16 sOamFrame_74a836[] = INCBIN_U16("data/oam_frames/74a836.bin");
+const u16 sOamFrame_74a83e[] = INCBIN_U16("data/oam_frames/74a83e.bin");
+const u16 sOamFrame_74a846[] = INCBIN_U16("data/oam_frames/74a846.bin");
+const u16 sOamFrame_74a84e[] = INCBIN_U16("data/oam_frames/74a84e.bin");
+const u16 sOamFrame_74a856[] = INCBIN_U16("data/oam_frames/74a856.bin");
+const u16 sOamFrame_74a85e[] = INCBIN_U16("data/oam_frames/74a85e.bin");
+const u16 sOamFrame_74a866[] = INCBIN_U16("data/oam_frames/74a866.bin");
+const u16 sOamFrame_74a86e[] = INCBIN_U16("data/oam_frames/74a86e.bin");
+const u16 sOamFrame_74a888[] = INCBIN_U16("data/oam_frames/74a888.bin");
+const u16 sOamFrame_74a890[] = INCBIN_U16("data/oam_frames/74a890.bin");
+const u16 sOamFrame_74a898[] = INCBIN_U16("data/oam_frames/74a898.bin");
+const u16 sOamFrame_74a8a0[] = INCBIN_U16("data/oam_frames/74a8a0.bin");
+const u16 sOamFrame_74a8a8[] = INCBIN_U16("data/oam_frames/74a8a8.bin");
+const u16 sOamFrame_74a8b0[] = INCBIN_U16("data/oam_frames/74a8b0.bin");
+const u16 sOamFrame_74a8b8[] = INCBIN_U16("data/oam_frames/74a8b8.bin");
+const u16 sOamFrame_74a8c0[] = INCBIN_U16("data/oam_frames/74a8c0.bin");
+const u16 sOamFrame_74a8c8[] = INCBIN_U16("data/oam_frames/74a8c8.bin");
+const u16 sOamFrame_74a8d0[] = INCBIN_U16("data/oam_frames/74a8d0.bin");
+const u16 sOamFrame_74a8d8[] = INCBIN_U16("data/oam_frames/74a8d8.bin");
+const u16 sOamFrame_74a8e0[] = INCBIN_U16("data/oam_frames/74a8e0.bin");
+const u16 sOamFrame_74a900[] = INCBIN_U16("data/oam_frames/74a900.bin");
+const u16 sOamFrame_74a908[] = INCBIN_U16("data/oam_frames/74a908.bin");
+const u16 sOamFrame_74a910[] = INCBIN_U16("data/oam_frames/74a910.bin");
+const u16 sOamFrame_74a918[] = INCBIN_U16("data/oam_frames/74a918.bin");
+const u16 sOamFrame_74a920[] = INCBIN_U16("data/oam_frames/74a920.bin");
+const u16 sOamFrame_74a928[] = INCBIN_U16("data/oam_frames/74a928.bin");
+const u16 sOamFrame_74a930[] = INCBIN_U16("data/oam_frames/74a930.bin");
+const u16 sOamFrame_74a938[] = INCBIN_U16("data/oam_frames/74a938.bin");
+const u16 sOamFrame_74a940[] = INCBIN_U16("data/oam_frames/74a940.bin");
+const u16 sOamFrame_74a948[] = INCBIN_U16("data/oam_frames/74a948.bin");
+const u16 sOamFrame_74a950[] = INCBIN_U16("data/oam_frames/74a950.bin");
+const u16 sOamFrame_74a958[] = INCBIN_U16("data/oam_frames/74a958.bin");
+const u16 sOamFrame_74a960[] = INCBIN_U16("data/oam_frames/74a960.bin");
+const u16 sOamFrame_74a968[] = INCBIN_U16("data/oam_frames/74a968.bin");
+const u16 sOamFrame_74a970[] = INCBIN_U16("data/oam_frames/74a970.bin");
+const u16 sOamFrame_74a978[] = INCBIN_U16("data/oam_frames/74a978.bin");
+const u16 sOamFrame_74a980[] = INCBIN_U16("data/oam_frames/74a980.bin");
+const u16 sOamFrame_74a988[] = INCBIN_U16("data/oam_frames/74a988.bin");
+const u16 sOamFrame_74a9a8[] = INCBIN_U16("data/oam_frames/74a9a8.bin");
+const u16 sOamFrame_74a9c8[] = INCBIN_U16("data/oam_frames/74a9c8.bin");
+const u16 sOamFrame_74a9e2[] = INCBIN_U16("data/oam_frames/74a9e2.bin");
+const u16 sOamFrame_74aa02[] = INCBIN_U16("data/oam_frames/74aa02.bin");
+const u16 sOamFrame_74aa0a[] = INCBIN_U16("data/oam_frames/74aa0a.bin");
+const u16 sOamFrame_74aa12[] = INCBIN_U16("data/oam_frames/74aa12.bin");
+const u16 sOamFrame_74aa1a[] = INCBIN_U16("data/oam_frames/74aa1a.bin");
+const u16 sOamFrame_74aa22[] = INCBIN_U16("data/oam_frames/74aa22.bin");
+const u16 sOamFrame_74aa2a[] = INCBIN_U16("data/oam_frames/74aa2a.bin");
+const u16 sOamFrame_74aa32[] = INCBIN_U16("data/oam_frames/74aa32.bin");
+const u16 sOamFrame_74aa3a[] = INCBIN_U16("data/oam_frames/74aa3a.bin");
+const u16 sOamFrame_74aa42[] = INCBIN_U16("data/oam_frames/74aa42.bin");
+const u16 sOamFrame_74aa4a[] = INCBIN_U16("data/oam_frames/74aa4a.bin");
+const u16 sOamFrame_74aa52[] = INCBIN_U16("data/oam_frames/74aa52.bin");
+const u16 sOamFrame_74aa5a[] = INCBIN_U16("data/oam_frames/74aa5a.bin");
+const u16 sOamFrame_74aa62[] = INCBIN_U16("data/oam_frames/74aa62.bin");
+const u16 sOamFrame_74aa6a[] = INCBIN_U16("data/oam_frames/74aa6a.bin");
+const u16 sOamFrame_74aa72[] = INCBIN_U16("data/oam_frames/74aa72.bin");
+const u16 sOamFrame_74aa7a[] = INCBIN_U16("data/oam_frames/74aa7a.bin");
+const u16 sOamFrame_74aa82[] = INCBIN_U16("data/oam_frames/74aa82.bin");
+const u16 sOamFrame_74aaae[] = INCBIN_U16("data/oam_frames/74aaae.bin");
+const u16 sOamFrame_74aab6[] = INCBIN_U16("data/oam_frames/74aab6.bin");
+const u16 sOamFrame_74aabe[] = INCBIN_U16("data/oam_frames/74aabe.bin");
+const u16 sOamFrame_74aac6[] = INCBIN_U16("data/oam_frames/74aac6.bin");
+const u16 sOamFrame_74aace[] = INCBIN_U16("data/oam_frames/74aace.bin");
+const u16 sOamFrame_74aad6[] = INCBIN_U16("data/oam_frames/74aad6.bin");
+const u16 sOamFrame_74aade[] = INCBIN_U16("data/oam_frames/74aade.bin");
+const u16 sOamFrame_74aae6[] = INCBIN_U16("data/oam_frames/74aae6.bin");
+const u16 sOamFrame_74aaee[] = INCBIN_U16("data/oam_frames/74aaee.bin");
+const u16 sOamFrame_74aaf6[] = INCBIN_U16("data/oam_frames/74aaf6.bin");
+const u16 sOamFrame_74aafe[] = INCBIN_U16("data/oam_frames/74aafe.bin");
+const u16 sOamFrame_74ab06[] = INCBIN_U16("data/oam_frames/74ab06.bin");
+const u16 sOamFrame_74ab0e[] = INCBIN_U16("data/oam_frames/74ab0e.bin");
+const u16 sOamFrame_74ab16[] = INCBIN_U16("data/oam_frames/74ab16.bin");
+const u16 sOamFrame_74ab1e[] = INCBIN_U16("data/oam_frames/74ab1e.bin");
+const u16 sOamFrame_74ab26[] = INCBIN_U16("data/oam_frames/74ab26.bin");
+const u16 sOamFrame_74ab2e[] = INCBIN_U16("data/oam_frames/74ab2e.bin");
+const u16 sOamFrame_74ab36[] = INCBIN_U16("data/oam_frames/74ab36.bin");
+const u16 sOamFrame_74ab3e[] = INCBIN_U16("data/oam_frames/74ab3e.bin");
+const u16 sOamFrame_74ab46[] = INCBIN_U16("data/oam_frames/74ab46.bin");
+const u16 sOamFrame_74ab4e[] = INCBIN_U16("data/oam_frames/74ab4e.bin");
+const u16 sOamFrame_74ab62[] = INCBIN_U16("data/oam_frames/74ab62.bin");
+const u16 sOamFrame_74ab82[] = INCBIN_U16("data/oam_frames/74ab82.bin");
+const u16 sOamFrame_74ab9c[] = INCBIN_U16("data/oam_frames/74ab9c.bin");
+const u16 sOamFrame_74abc2[] = INCBIN_U16("data/oam_frames/74abc2.bin");
+const u16 sOamFrame_74abca[] = INCBIN_U16("data/oam_frames/74abca.bin");
+const u16 sOamFrame_74abd2[] = INCBIN_U16("data/oam_frames/74abd2.bin");
+const u16 sOamFrame_74abda[] = INCBIN_U16("data/oam_frames/74abda.bin");
+const u16 sOamFrame_74abe2[] = INCBIN_U16("data/oam_frames/74abe2.bin");
+const u16 sOamFrame_74abea[] = INCBIN_U16("data/oam_frames/74abea.bin");
+const u16 sOamFrame_74abf2[] = INCBIN_U16("data/oam_frames/74abf2.bin");
+const u16 sOamFrame_74abfa[] = INCBIN_U16("data/oam_frames/74abfa.bin");
+const u16 sOamFrame_74ac02[] = INCBIN_U16("data/oam_frames/74ac02.bin");
+const u16 sOamFrame_74ac0a[] = INCBIN_U16("data/oam_frames/74ac0a.bin");
+const u16 sOamFrame_74ac12[] = INCBIN_U16("data/oam_frames/74ac12.bin");
+const u16 sOamFrame_74ac1a[] = INCBIN_U16("data/oam_frames/74ac1a.bin");
+const u16 sOamFrame_74ac22[] = INCBIN_U16("data/oam_frames/74ac22.bin");
+const u16 sOamFrame_74ac2a[] = INCBIN_U16("data/oam_frames/74ac2a.bin");
+const u16 sOamFrame_74ac32[] = INCBIN_U16("data/oam_frames/74ac32.bin");
+const u16 sOamFrame_74ac3a[] = INCBIN_U16("data/oam_frames/74ac3a.bin");
+const u16 sOamFrame_74ac42[] = INCBIN_U16("data/oam_frames/74ac42.bin");
+const u16 sOamFrame_74ac4a[] = INCBIN_U16("data/oam_frames/74ac4a.bin");
+const u16 sOamFrame_74ac52[] = INCBIN_U16("data/oam_frames/74ac52.bin");
+const u16 sOamFrame_74ac6c[] = INCBIN_U16("data/oam_frames/74ac6c.bin");
+const u16 sOamFrame_74ac74[] = INCBIN_U16("data/oam_frames/74ac74.bin");
+const u16 sOamFrame_74ac7c[] = INCBIN_U16("data/oam_frames/74ac7c.bin");
+const u16 sOamFrame_74ac84[] = INCBIN_U16("data/oam_frames/74ac84.bin");
+const u16 sOamFrame_74ac8c[] = INCBIN_U16("data/oam_frames/74ac8c.bin");
+const u16 sOamFrame_74ac94[] = INCBIN_U16("data/oam_frames/74ac94.bin");
+const u16 sOamFrame_74ac9c[] = INCBIN_U16("data/oam_frames/74ac9c.bin");
+const u16 sOamFrame_74aca4[] = INCBIN_U16("data/oam_frames/74aca4.bin");
+const u16 sOamFrame_74acac[] = INCBIN_U16("data/oam_frames/74acac.bin");
+const u16 sOamFrame_74acb4[] = INCBIN_U16("data/oam_frames/74acb4.bin");
+const u16 sOamFrame_74acbc[] = INCBIN_U16("data/oam_frames/74acbc.bin");
+const u16 sOamFrame_74acc4[] = INCBIN_U16("data/oam_frames/74acc4.bin");
+const u16 sOamFrame_74ace4[] = INCBIN_U16("data/oam_frames/74ace4.bin");
+const u16 sOamFrame_74acec[] = INCBIN_U16("data/oam_frames/74acec.bin");
+const u16 sOamFrame_74acf4[] = INCBIN_U16("data/oam_frames/74acf4.bin");
+const u16 sOamFrame_74acfc[] = INCBIN_U16("data/oam_frames/74acfc.bin");
+const u16 sOamFrame_74ad04[] = INCBIN_U16("data/oam_frames/74ad04.bin");
+const u16 sOamFrame_74ad0c[] = INCBIN_U16("data/oam_frames/74ad0c.bin");
+const u16 sOamFrame_74ad14[] = INCBIN_U16("data/oam_frames/74ad14.bin");
+const u16 sOamFrame_74ad1c[] = INCBIN_U16("data/oam_frames/74ad1c.bin");
+const u16 sOamFrame_74ad24[] = INCBIN_U16("data/oam_frames/74ad24.bin");
+const u16 sOamFrame_74ad2c[] = INCBIN_U16("data/oam_frames/74ad2c.bin");
+const u16 sOamFrame_74ad34[] = INCBIN_U16("data/oam_frames/74ad34.bin");
+const u16 sOamFrame_74ad3c[] = INCBIN_U16("data/oam_frames/74ad3c.bin");
+const u16 sOamFrame_74ad44[] = INCBIN_U16("data/oam_frames/74ad44.bin");
+const u16 sOamFrame_74ad4c[] = INCBIN_U16("data/oam_frames/74ad4c.bin");
+const u16 sOamFrame_74ad54[] = INCBIN_U16("data/oam_frames/74ad54.bin");
+const u16 sOamFrame_74ad5c[] = INCBIN_U16("data/oam_frames/74ad5c.bin");
+const u16 sOamFrame_74ad64[] = INCBIN_U16("data/oam_frames/74ad64.bin");
+const u16 sOamFrame_74ad6c[] = INCBIN_U16("data/oam_frames/74ad6c.bin");
+const u16 sOamFrame_74ad8c[] = INCBIN_U16("data/oam_frames/74ad8c.bin");
+const u16 sOamFrame_74adac[] = INCBIN_U16("data/oam_frames/74adac.bin");
+const u16 sOamFrame_74adc6[] = INCBIN_U16("data/oam_frames/74adc6.bin");
+const u16 sOamFrame_74ade6[] = INCBIN_U16("data/oam_frames/74ade6.bin");
+const u16 sOamFrame_74adee[] = INCBIN_U16("data/oam_frames/74adee.bin");
+const u16 sOamFrame_74adf6[] = INCBIN_U16("data/oam_frames/74adf6.bin");
+const u16 sOamFrame_74adfe[] = INCBIN_U16("data/oam_frames/74adfe.bin");
+const u16 sOamFrame_74ae06[] = INCBIN_U16("data/oam_frames/74ae06.bin");
+const u16 sOamFrame_74ae0e[] = INCBIN_U16("data/oam_frames/74ae0e.bin");
+const u16 sOamFrame_74ae16[] = INCBIN_U16("data/oam_frames/74ae16.bin");
+const u16 sOamFrame_74ae1e[] = INCBIN_U16("data/oam_frames/74ae1e.bin");
+const u16 sOamFrame_74ae26[] = INCBIN_U16("data/oam_frames/74ae26.bin");
+const u16 sOamFrame_74ae2e[] = INCBIN_U16("data/oam_frames/74ae2e.bin");
+const u16 sOamFrame_74ae36[] = INCBIN_U16("data/oam_frames/74ae36.bin");
+const u16 sOamFrame_74ae3e[] = INCBIN_U16("data/oam_frames/74ae3e.bin");
+const u16 sOamFrame_74ae46[] = INCBIN_U16("data/oam_frames/74ae46.bin");
+const u16 sOamFrame_74ae4e[] = INCBIN_U16("data/oam_frames/74ae4e.bin");
+const u16 sOamFrame_74ae56[] = INCBIN_U16("data/oam_frames/74ae56.bin");
+const u16 sOamFrame_74ae5e[] = INCBIN_U16("data/oam_frames/74ae5e.bin");
+const u16 sOamFrame_74ae84[] = INCBIN_U16("data/oam_frames/74ae84.bin");
+const u16 sOamFrame_74ae8c[] = INCBIN_U16("data/oam_frames/74ae8c.bin");
+const u16 sOamFrame_74ae94[] = INCBIN_U16("data/oam_frames/74ae94.bin");
+const u16 sOamFrame_74ae9c[] = INCBIN_U16("data/oam_frames/74ae9c.bin");
+const u16 sOamFrame_74aea4[] = INCBIN_U16("data/oam_frames/74aea4.bin");
+const u16 sOamFrame_74aeac[] = INCBIN_U16("data/oam_frames/74aeac.bin");
+const u16 sOamFrame_74aeb4[] = INCBIN_U16("data/oam_frames/74aeb4.bin");
+const u16 sOamFrame_74aebc[] = INCBIN_U16("data/oam_frames/74aebc.bin");
+const u16 sOamFrame_74aec4[] = INCBIN_U16("data/oam_frames/74aec4.bin");
+const u16 sOamFrame_74aecc[] = INCBIN_U16("data/oam_frames/74aecc.bin");
+const u16 sOamFrame_74aed4[] = INCBIN_U16("data/oam_frames/74aed4.bin");
+const u16 sOamFrame_74aedc[] = INCBIN_U16("data/oam_frames/74aedc.bin");
+const u16 sOamFrame_74aee4[] = INCBIN_U16("data/oam_frames/74aee4.bin");
+const u16 sOamFrame_74aeec[] = INCBIN_U16("data/oam_frames/74aeec.bin");
+const u16 sOamFrame_74aef4[] = INCBIN_U16("data/oam_frames/74aef4.bin");
+const u16 sOamFrame_74aefc[] = INCBIN_U16("data/oam_frames/74aefc.bin");
+const u16 sOamFrame_74af04[] = INCBIN_U16("data/oam_frames/74af04.bin");
+const u16 sOamFrame_74af0c[] = INCBIN_U16("data/oam_frames/74af0c.bin");
+const u16 sOamFrame_74af14[] = INCBIN_U16("data/oam_frames/74af14.bin");
+const u16 sOamFrame_74af1c[] = INCBIN_U16("data/oam_frames/74af1c.bin");
+const u16 sOamFrame_74af42[] = INCBIN_U16("data/oam_frames/74af42.bin");
+const u16 sOamFrame_74af62[] = INCBIN_U16("data/oam_frames/74af62.bin");
+const u16 sOamFrame_74af7c[] = INCBIN_U16("data/oam_frames/74af7c.bin");
+const u16 sOamFrame_74af96[] = INCBIN_U16("data/oam_frames/74af96.bin");
+const u16 sOamFrame_74af9e[] = INCBIN_U16("data/oam_frames/74af9e.bin");
+const u16 sOamFrame_74afa6[] = INCBIN_U16("data/oam_frames/74afa6.bin");
+const u16 sOamFrame_74afae[] = INCBIN_U16("data/oam_frames/74afae.bin");
+const u16 sOamFrame_74afb6[] = INCBIN_U16("data/oam_frames/74afb6.bin");
+const u16 sOamFrame_74afbe[] = INCBIN_U16("data/oam_frames/74afbe.bin");
+const u16 sOamFrame_74afc6[] = INCBIN_U16("data/oam_frames/74afc6.bin");
+const u16 sOamFrame_74afce[] = INCBIN_U16("data/oam_frames/74afce.bin");
+const u16 sOamFrame_74afd6[] = INCBIN_U16("data/oam_frames/74afd6.bin");
+const u16 sOamFrame_74afde[] = INCBIN_U16("data/oam_frames/74afde.bin");
+const u16 sOamFrame_74afe6[] = INCBIN_U16("data/oam_frames/74afe6.bin");
+const u16 sOamFrame_74afee[] = INCBIN_U16("data/oam_frames/74afee.bin");
+const u16 sOamFrame_74aff6[] = INCBIN_U16("data/oam_frames/74aff6.bin");
+const u16 sOamFrame_74affe[] = INCBIN_U16("data/oam_frames/74affe.bin");
+const u16 sOamFrame_74b01e[] = INCBIN_U16("data/oam_frames/74b01e.bin");
+const u16 sOamFrame_74b026[] = INCBIN_U16("data/oam_frames/74b026.bin");
+const u16 sOamFrame_74b02e[] = INCBIN_U16("data/oam_frames/74b02e.bin");
+const u16 sOamFrame_74b036[] = INCBIN_U16("data/oam_frames/74b036.bin");
+const u16 sOamFrame_74b03e[] = INCBIN_U16("data/oam_frames/74b03e.bin");
+const u16 sOamFrame_74b046[] = INCBIN_U16("data/oam_frames/74b046.bin");
+const u16 sOamFrame_74b04e[] = INCBIN_U16("data/oam_frames/74b04e.bin");
+const u16 sOamFrame_74b056[] = INCBIN_U16("data/oam_frames/74b056.bin");
+const u16 sOamFrame_74b05e[] = INCBIN_U16("data/oam_frames/74b05e.bin");
+const u16 sOamFrame_74b066[] = INCBIN_U16("data/oam_frames/74b066.bin");
+const u16 sOamFrame_74b06e[] = INCBIN_U16("data/oam_frames/74b06e.bin");
+const u16 sOamFrame_74b076[] = INCBIN_U16("data/oam_frames/74b076.bin");
+const u16 sOamFrame_74b07e[] = INCBIN_U16("data/oam_frames/74b07e.bin");
+const u16 sOamFrame_74b086[] = INCBIN_U16("data/oam_frames/74b086.bin");
+const u16 sOamFrame_74b08e[] = INCBIN_U16("data/oam_frames/74b08e.bin");
 
 const struct CreditsEntry sCredits[310] = {
 	[0] = {
@@ -1323,23 +1529,250 @@ const struct CreditsEntry sCredits[310] = {
 	},
 };
 
-const u8 sEndingImageTextOamEnglishLines[] = INCBIN_U8("data/ending/image_text_oam_english_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamEnglish_0[] = INCBIN_U8("data/ending/image_text_oam_english_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamEnglish_1[] = INCBIN_U8("data/ending/image_text_oam_english_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamEnglish_2[] = INCBIN_U8("data/ending/image_text_oam_english_2.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamGermanLines[] = INCBIN_U8("data/ending/image_text_oam_german_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamGerman_0[] = INCBIN_U8("data/ending/image_text_oam_german_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamGerman_1[] = INCBIN_U8("data/ending/image_text_oam_german_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamFrenchLines[] = INCBIN_U8("data/ending/image_text_oam_french_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamFrench_0[] = INCBIN_U8("data/ending/image_text_oam_french_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamFrench_1[] = INCBIN_U8("data/ending/image_text_oam_french_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamItalianLines[] = INCBIN_U8("data/ending/image_text_oam_italian_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamItalian_0[] = INCBIN_U8("data/ending/image_text_oam_italian_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamItalian_1[] = INCBIN_U8("data/ending/image_text_oam_italian_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamItalian_2[] = INCBIN_U8("data/ending/image_text_oam_italian_2.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamSpanishLines[] = INCBIN_U8("data/ending/image_text_oam_spanish_lines.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamSpanish_0[] = INCBIN_U8("data/ending/image_text_oam_spanish_0.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
-const u8 sEndingImageTextOamSpanish_1[] = INCBIN_U8("data/ending/image_text_oam_spanish_1.bin"); // struct EndingImageTextOam [], pointers unresolved (see tools/find_blob_pointers.py)
+const struct EndingImageTextOam sEndingImageTextOamEnglishLines[6] = {
+    { 2, 0, 0, 120, 40, (u16*)sOamFrame_74a812 },
+    { 2, 0, 0, 120, 60, (u16*)sOamFrame_74a7d8 },
+    { 2, 0, 0, 120, 92, (u16*)sOamFrame_74a86e },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74a8e0 },
+    { 2, 0, 0, 124, 128, (u16*)sOamFrame_74a7f8 },
+    { 2, 0, 0, 120, 158, (u16*)sOamFrame_74a988 }
+};
+const struct EndingImageTextOam sEndingImageTextOamEnglish_0[9] = {
+    { 1, 1, 0, 120, 40, (u16*)sOamFrame_74a826 },
+    { 1, 5, 0, 120, 40, (u16*)sOamFrame_74a82e },
+    { 1, 9, 0, 120, 40, (u16*)sOamFrame_74a836 },
+    { 1, 13, 0, 120, 40, (u16*)sOamFrame_74a83e },
+    { 1, 17, 0, 120, 40, (u16*)sOamFrame_74a846 },
+    { 1, 21, 0, 120, 40, (u16*)sOamFrame_74a84e },
+    { 1, 25, 0, 120, 40, (u16*)sOamFrame_74a856 },
+    { 1, 29, 0, 120, 40, (u16*)sOamFrame_74a85e },
+    { 1, 33, 0, 120, 40, (u16*)sOamFrame_74a866 }
+};
+const struct EndingImageTextOam sEndingImageTextOamEnglish_1[11] = {
+    { 1, 1, 0, 120, 92, (u16*)sOamFrame_74a888 },
+    { 1, 5, 0, 120, 92, (u16*)sOamFrame_74a890 },
+    { 1, 9, 0, 120, 92, (u16*)sOamFrame_74a898 },
+    { 1, 13, 0, 120, 92, (u16*)sOamFrame_74a8a0 },
+    { 1, 17, 0, 120, 92, (u16*)sOamFrame_74a8a8 },
+    { 1, 21, 0, 120, 92, (u16*)sOamFrame_74a8b0 },
+    { 1, 25, 0, 120, 92, (u16*)sOamFrame_74a8b8 },
+    { 1, 29, 0, 120, 92, (u16*)sOamFrame_74a8c0 },
+    { 1, 33, 0, 120, 92, (u16*)sOamFrame_74a8c8 },
+    { 1, 37, 0, 120, 92, (u16*)sOamFrame_74a8d0 },
+    { 1, 41, 0, 120, 92, (u16*)sOamFrame_74a8d8 }
+};
+const struct EndingImageTextOam sEndingImageTextOamEnglish_2[17] = {
+    { 1, 1, 0, 120, 108, (u16*)sOamFrame_74a900 },
+    { 1, 5, 0, 120, 108, (u16*)sOamFrame_74a908 },
+    { 1, 9, 0, 120, 108, (u16*)sOamFrame_74a910 },
+    { 1, 13, 0, 120, 108, (u16*)sOamFrame_74a918 },
+    { 1, 17, 0, 120, 108, (u16*)sOamFrame_74a920 },
+    { 1, 21, 0, 120, 108, (u16*)sOamFrame_74a928 },
+    { 1, 25, 0, 120, 108, (u16*)sOamFrame_74a930 },
+    { 1, 29, 0, 120, 108, (u16*)sOamFrame_74a938 },
+    { 1, 33, 0, 120, 108, (u16*)sOamFrame_74a940 },
+    { 1, 37, 0, 120, 108, (u16*)sOamFrame_74a948 },
+    { 1, 41, 0, 120, 108, (u16*)sOamFrame_74a950 },
+    { 1, 45, 0, 120, 108, (u16*)sOamFrame_74a958 },
+    { 1, 49, 0, 120, 108, (u16*)sOamFrame_74a960 },
+    { 1, 53, 0, 120, 108, (u16*)sOamFrame_74a968 },
+    { 1, 57, 0, 120, 108, (u16*)sOamFrame_74a970 },
+    { 1, 61, 0, 120, 108, (u16*)sOamFrame_74a978 },
+    { 1, 65, 0, 120, 108, (u16*)sOamFrame_74a980 }
+};
+const struct EndingImageTextOam sEndingImageTextOamGermanLines[6] = {
+    { 2, 0, 0, 120, 40, (u16*)sOamFrame_74af7c },
+    { 2, 0, 0, 120, 60, (u16*)sOamFrame_74af42 },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74b08e },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74affe },
+    { 2, 0, 0, 124, 128, (u16*)sOamFrame_74af62 },
+    { 2, 0, 0, 120, 158, (u16*)sOamFrame_74b08e }
+};
+const struct EndingImageTextOam sEndingImageTextOamGerman_0[13] = {
+    { 1, 1, 0, 120, 40, (u16*)sOamFrame_74af96 },
+    { 1, 5, 0, 120, 40, (u16*)sOamFrame_74af9e },
+    { 1, 9, 0, 120, 40, (u16*)sOamFrame_74afa6 },
+    { 1, 13, 0, 120, 40, (u16*)sOamFrame_74afae },
+    { 1, 17, 0, 120, 40, (u16*)sOamFrame_74afb6 },
+    { 1, 21, 0, 120, 40, (u16*)sOamFrame_74afbe },
+    { 1, 25, 0, 120, 40, (u16*)sOamFrame_74afc6 },
+    { 1, 29, 0, 120, 40, (u16*)sOamFrame_74afce },
+    { 1, 33, 0, 120, 40, (u16*)sOamFrame_74afd6 },
+    { 1, 37, 0, 120, 40, (u16*)sOamFrame_74afde },
+    { 1, 41, 0, 120, 40, (u16*)sOamFrame_74afe6 },
+    { 1, 45, 0, 120, 40, (u16*)sOamFrame_74afee },
+    { 1, 49, 0, 120, 40, (u16*)sOamFrame_74aff6 }
+};
+const struct EndingImageTextOam sEndingImageTextOamGerman_1[14] = {
+    { 1, 1, 0, 120, 108, (u16*)sOamFrame_74b01e },
+    { 1, 5, 0, 120, 108, (u16*)sOamFrame_74b026 },
+    { 1, 9, 0, 120, 108, (u16*)sOamFrame_74b02e },
+    { 1, 13, 0, 120, 108, (u16*)sOamFrame_74b036 },
+    { 1, 17, 0, 120, 108, (u16*)sOamFrame_74b03e },
+    { 1, 21, 0, 120, 108, (u16*)sOamFrame_74b046 },
+    { 1, 25, 0, 120, 108, (u16*)sOamFrame_74b04e },
+    { 1, 29, 0, 120, 108, (u16*)sOamFrame_74b056 },
+    { 1, 33, 0, 120, 108, (u16*)sOamFrame_74b05e },
+    { 1, 37, 0, 120, 108, (u16*)sOamFrame_74b066 },
+    { 1, 41, 0, 120, 108, (u16*)sOamFrame_74b06e },
+    { 1, 45, 0, 120, 108, (u16*)sOamFrame_74b076 },
+    { 1, 49, 0, 120, 108, (u16*)sOamFrame_74b07e },
+    { 1, 53, 0, 120, 108, (u16*)sOamFrame_74b086 }
+};
+const struct EndingImageTextOam sEndingImageTextOamFrenchLines[6] = {
+    { 2, 0, 0, 120, 40, (u16*)sOamFrame_74a9e2 },
+    { 2, 0, 0, 120, 60, (u16*)sOamFrame_74a9a8 },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74ab4e },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74aa82 },
+    { 2, 0, 0, 124, 128, (u16*)sOamFrame_74a9c8 },
+    { 2, 0, 0, 120, 158, (u16*)sOamFrame_74ab4e }
+};
+const struct EndingImageTextOam sEndingImageTextOamFrench_0[16] = {
+    { 1, 1, 0, 120, 40, (u16*)sOamFrame_74aa02 },
+    { 1, 5, 0, 120, 40, (u16*)sOamFrame_74aa0a },
+    { 1, 9, 0, 120, 40, (u16*)sOamFrame_74aa12 },
+    { 1, 13, 0, 120, 40, (u16*)sOamFrame_74aa1a },
+    { 1, 17, 0, 120, 40, (u16*)sOamFrame_74aa22 },
+    { 1, 21, 0, 120, 40, (u16*)sOamFrame_74aa2a },
+    { 1, 25, 0, 120, 40, (u16*)sOamFrame_74aa32 },
+    { 1, 29, 0, 120, 40, (u16*)sOamFrame_74aa3a },
+    { 1, 33, 0, 120, 40, (u16*)sOamFrame_74aa42 },
+    { 1, 37, 0, 120, 40, (u16*)sOamFrame_74aa4a },
+    { 1, 41, 0, 120, 40, (u16*)sOamFrame_74aa52 },
+    { 1, 45, 0, 120, 40, (u16*)sOamFrame_74aa5a },
+    { 1, 49, 0, 120, 40, (u16*)sOamFrame_74aa62 },
+    { 1, 53, 0, 120, 40, (u16*)sOamFrame_74aa6a },
+    { 1, 57, 0, 120, 40, (u16*)sOamFrame_74aa72 },
+    { 1, 61, 0, 120, 40, (u16*)sOamFrame_74aa7a }
+};
+const struct EndingImageTextOam sEndingImageTextOamFrench_1[20] = {
+    { 1, 1, 0, 120, 108, (u16*)sOamFrame_74aaae },
+    { 1, 5, 0, 120, 108, (u16*)sOamFrame_74aab6 },
+    { 1, 9, 0, 120, 108, (u16*)sOamFrame_74aabe },
+    { 1, 13, 0, 120, 108, (u16*)sOamFrame_74aac6 },
+    { 1, 17, 0, 120, 108, (u16*)sOamFrame_74aace },
+    { 1, 21, 0, 120, 108, (u16*)sOamFrame_74aad6 },
+    { 1, 25, 0, 120, 108, (u16*)sOamFrame_74aade },
+    { 1, 29, 0, 120, 108, (u16*)sOamFrame_74aae6 },
+    { 1, 33, 0, 120, 108, (u16*)sOamFrame_74aaee },
+    { 1, 37, 0, 120, 108, (u16*)sOamFrame_74aaf6 },
+    { 1, 41, 0, 120, 108, (u16*)sOamFrame_74aafe },
+    { 1, 45, 0, 120, 108, (u16*)sOamFrame_74ab06 },
+    { 1, 49, 0, 120, 108, (u16*)sOamFrame_74ab0e },
+    { 1, 53, 0, 120, 108, (u16*)sOamFrame_74ab16 },
+    { 1, 57, 0, 120, 108, (u16*)sOamFrame_74ab1e },
+    { 1, 61, 0, 120, 108, (u16*)sOamFrame_74ab26 },
+    { 1, 65, 0, 120, 108, (u16*)sOamFrame_74ab2e },
+    { 1, 69, 0, 120, 108, (u16*)sOamFrame_74ab36 },
+    { 1, 73, 0, 120, 108, (u16*)sOamFrame_74ab3e },
+    { 1, 77, 0, 120, 108, (u16*)sOamFrame_74ab46 }
+};
+const struct EndingImageTextOam sEndingImageTextOamItalianLines[6] = {
+    { 2, 0, 0, 120, 40, (u16*)sOamFrame_74ab9c },
+    { 2, 0, 0, 120, 60, (u16*)sOamFrame_74ab62 },
+    { 2, 0, 0, 120, 92, (u16*)sOamFrame_74ac52 },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74acc4 },
+    { 2, 0, 0, 124, 128, (u16*)sOamFrame_74ab82 },
+    { 2, 0, 0, 120, 158, (u16*)sOamFrame_74ad6c }
+};
+const struct EndingImageTextOam sEndingImageTextOamItalian_0[18] = {
+    { 1, 1, 0, 120, 40, (u16*)sOamFrame_74abc2 },
+    { 1, 5, 0, 120, 40, (u16*)sOamFrame_74abca },
+    { 1, 9, 0, 120, 40, (u16*)sOamFrame_74abd2 },
+    { 1, 13, 0, 120, 40, (u16*)sOamFrame_74abda },
+    { 1, 17, 0, 120, 40, (u16*)sOamFrame_74abe2 },
+    { 1, 21, 0, 120, 40, (u16*)sOamFrame_74abea },
+    { 1, 25, 0, 120, 40, (u16*)sOamFrame_74abf2 },
+    { 1, 29, 0, 120, 40, (u16*)sOamFrame_74abfa },
+    { 1, 33, 0, 120, 40, (u16*)sOamFrame_74ac02 },
+    { 1, 37, 0, 120, 40, (u16*)sOamFrame_74ac0a },
+    { 1, 41, 0, 120, 40, (u16*)sOamFrame_74ac12 },
+    { 1, 45, 0, 120, 40, (u16*)sOamFrame_74ac1a },
+    { 1, 49, 0, 120, 40, (u16*)sOamFrame_74ac22 },
+    { 1, 53, 0, 120, 40, (u16*)sOamFrame_74ac2a },
+    { 1, 57, 0, 120, 40, (u16*)sOamFrame_74ac32 },
+    { 1, 61, 0, 120, 40, (u16*)sOamFrame_74ac3a },
+    { 1, 65, 0, 120, 40, (u16*)sOamFrame_74ac42 },
+    { 1, 69, 0, 120, 40, (u16*)sOamFrame_74ac4a }
+};
+const struct EndingImageTextOam sEndingImageTextOamItalian_1[11] = {
+    { 1, 1, 0, 120, 92, (u16*)sOamFrame_74ac6c },
+    { 1, 5, 0, 120, 92, (u16*)sOamFrame_74ac74 },
+    { 1, 9, 0, 120, 92, (u16*)sOamFrame_74ac7c },
+    { 1, 13, 0, 120, 92, (u16*)sOamFrame_74ac84 },
+    { 1, 17, 0, 120, 92, (u16*)sOamFrame_74ac8c },
+    { 1, 21, 0, 120, 92, (u16*)sOamFrame_74ac94 },
+    { 1, 25, 0, 120, 92, (u16*)sOamFrame_74ac9c },
+    { 1, 29, 0, 120, 92, (u16*)sOamFrame_74aca4 },
+    { 1, 33, 0, 120, 92, (u16*)sOamFrame_74acac },
+    { 1, 37, 0, 120, 92, (u16*)sOamFrame_74acb4 },
+    { 1, 41, 0, 120, 92, (u16*)sOamFrame_74acbc }
+};
+const struct EndingImageTextOam sEndingImageTextOamItalian_2[17] = {
+    { 1, 1, 0, 120, 108, (u16*)sOamFrame_74ace4 },
+    { 1, 5, 0, 120, 108, (u16*)sOamFrame_74acec },
+    { 1, 9, 0, 120, 108, (u16*)sOamFrame_74acf4 },
+    { 1, 13, 0, 120, 108, (u16*)sOamFrame_74acfc },
+    { 1, 17, 0, 120, 108, (u16*)sOamFrame_74ad04 },
+    { 1, 21, 0, 120, 108, (u16*)sOamFrame_74ad0c },
+    { 1, 25, 0, 120, 108, (u16*)sOamFrame_74ad14 },
+    { 1, 29, 0, 120, 108, (u16*)sOamFrame_74ad1c },
+    { 1, 33, 0, 120, 108, (u16*)sOamFrame_74ad24 },
+    { 1, 37, 0, 120, 108, (u16*)sOamFrame_74ad2c },
+    { 1, 41, 0, 120, 108, (u16*)sOamFrame_74ad34 },
+    { 1, 45, 0, 120, 108, (u16*)sOamFrame_74ad3c },
+    { 1, 49, 0, 120, 108, (u16*)sOamFrame_74ad44 },
+    { 1, 53, 0, 120, 108, (u16*)sOamFrame_74ad4c },
+    { 1, 57, 0, 120, 108, (u16*)sOamFrame_74ad54 },
+    { 1, 61, 0, 120, 108, (u16*)sOamFrame_74ad5c },
+    { 1, 65, 0, 120, 108, (u16*)sOamFrame_74ad64 }
+};
+const struct EndingImageTextOam sEndingImageTextOamSpanishLines[6] = {
+    { 2, 0, 0, 120, 40, (u16*)sOamFrame_74adc6 },
+    { 2, 0, 0, 120, 60, (u16*)sOamFrame_74ad8c },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74af1c },
+    { 2, 0, 0, 120, 108, (u16*)sOamFrame_74ae5e },
+    { 2, 0, 0, 124, 128, (u16*)sOamFrame_74adac },
+    { 2, 0, 0, 120, 158, (u16*)sOamFrame_74af1c }
+};
+const struct EndingImageTextOam sEndingImageTextOamSpanish_0[15] = {
+    { 1, 1, 0, 120, 40, (u16*)sOamFrame_74ade6 },
+    { 1, 5, 0, 120, 40, (u16*)sOamFrame_74adee },
+    { 1, 9, 0, 120, 40, (u16*)sOamFrame_74adf6 },
+    { 1, 13, 0, 120, 40, (u16*)sOamFrame_74adfe },
+    { 1, 17, 0, 120, 40, (u16*)sOamFrame_74ae06 },
+    { 1, 21, 0, 120, 40, (u16*)sOamFrame_74ae0e },
+    { 1, 25, 0, 120, 40, (u16*)sOamFrame_74ae16 },
+    { 1, 29, 0, 120, 40, (u16*)sOamFrame_74ae1e },
+    { 1, 33, 0, 120, 40, (u16*)sOamFrame_74ae26 },
+    { 1, 37, 0, 120, 40, (u16*)sOamFrame_74ae2e },
+    { 1, 41, 0, 120, 40, (u16*)sOamFrame_74ae36 },
+    { 1, 45, 0, 120, 40, (u16*)sOamFrame_74ae3e },
+    { 1, 49, 0, 120, 40, (u16*)sOamFrame_74ae46 },
+    { 1, 53, 0, 120, 40, (u16*)sOamFrame_74ae4e },
+    { 1, 57, 0, 120, 40, (u16*)sOamFrame_74ae56 }
+};
+const struct EndingImageTextOam sEndingImageTextOamSpanish_1[19] = {
+    { 1, 1, 0, 120, 108, (u16*)sOamFrame_74ae84 },
+    { 1, 5, 0, 120, 108, (u16*)sOamFrame_74ae8c },
+    { 1, 9, 0, 120, 108, (u16*)sOamFrame_74ae94 },
+    { 1, 13, 0, 120, 108, (u16*)sOamFrame_74ae9c },
+    { 1, 17, 0, 120, 108, (u16*)sOamFrame_74aea4 },
+    { 1, 21, 0, 120, 108, (u16*)sOamFrame_74aeac },
+    { 1, 25, 0, 120, 108, (u16*)sOamFrame_74aeb4 },
+    { 1, 29, 0, 120, 108, (u16*)sOamFrame_74aebc },
+    { 1, 33, 0, 120, 108, (u16*)sOamFrame_74aec4 },
+    { 1, 37, 0, 120, 108, (u16*)sOamFrame_74aecc },
+    { 1, 41, 0, 120, 108, (u16*)sOamFrame_74aed4 },
+    { 1, 45, 0, 120, 108, (u16*)sOamFrame_74aedc },
+    { 1, 49, 0, 120, 108, (u16*)sOamFrame_74aee4 },
+    { 1, 53, 0, 120, 108, (u16*)sOamFrame_74aeec },
+    { 1, 57, 0, 120, 108, (u16*)sOamFrame_74aef4 },
+    { 1, 61, 0, 120, 108, (u16*)sOamFrame_74aefc },
+    { 1, 65, 0, 120, 108, (u16*)sOamFrame_74af04 },
+    { 1, 69, 0, 120, 108, (u16*)sOamFrame_74af0c },
+    { 1, 73, 0, 120, 108, (u16*)sOamFrame_74af14 }
+};
 
 const u32* const sPreResultsSamusBgGfxPointers1[4] = {
     sPreResultsSamusSuitedGfx3,

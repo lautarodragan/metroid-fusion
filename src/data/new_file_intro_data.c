@@ -23989,7 +23989,30 @@ const u32 sIntroSamusHelmetCloseupBgGfx5[403] = INCBIN_U32("data/new_file_intro/
 
 // Not referenced by name, probably reached through the ship alert graphics pointer tables
 // (sIntroUnk_79c448, sIntroUnk_79c45c)
-static const u8 sBlob_64e470_658be0[] = INCBIN_U8("data/Blob_64e470_658be0.bin");
+const u32 sIntroShipAlertBgGfx_0[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_0.gfx.lz");
+const u32 sIntroShipAlertBgGfx_1[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_1.gfx.lz");
+const u32 sIntroShipAlertBgGfx_2[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_2.gfx.lz");
+const u32 sIntroShipAlertBgGfx_3[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_3.gfx.lz");
+const u32 sIntroShipAlertBgGfx_4[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_4.gfx.lz");
+const u32 sIntroShipAlertObjGfx_0[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_0.gfx.lz");
+const u32 sIntroShipAlertObjGfx_1[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_1.gfx.lz");
+const u32 sIntroShipAlertObjGfx_2[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_2.gfx.lz");
+const u32 sIntroShipAlertObjGfx_3[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_3.gfx.lz");
+const u32 sIntroShipAlertObjGfx_4[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_4.gfx.lz");
+const u32 sIntroShipAlertObjGfx_5[] = INCBIN_U32("data/new_file_intro/ship_alert_obj_5.gfx.lz");
+const u32 sIntroGfx_652bd4[] = INCBIN_U32("data/new_file_intro/652bd4.gfx.lz");
+const u32 sIntroGfx_653980[] = INCBIN_U32("data/new_file_intro/653980.gfx.lz");
+const u32 sIntroGfx_6546f4[] = INCBIN_U32("data/new_file_intro/6546f4.gfx.lz");
+const u32 sIntroGfx_6552a0[] = INCBIN_U32("data/new_file_intro/6552a0.gfx.lz");
+const u32 sIntroGfx_655f3c[] = INCBIN_U32("data/new_file_intro/655f3c.gfx.lz");
+const u32 sIntroGfx_656cd0[] = INCBIN_U32("data/new_file_intro/656cd0.gfx.lz");
+const u32 sIntroGfx_657408[] = INCBIN_U32("data/new_file_intro/657408.gfx.lz");
+const u32 sIntroGfx_6579c4[] = INCBIN_U32("data/new_file_intro/6579c4.gfx.lz");
+const u32 sIntroGfx_657d2c[] = INCBIN_U32("data/new_file_intro/657d2c.gfx.lz");
+const u32 sIntroGfx_657f60[] = INCBIN_U32("data/new_file_intro/657f60.gfx.lz");
+const u32 sIntroGfx_658150[] = INCBIN_U32("data/new_file_intro/658150.gfx.lz");
+const u32 sIntroGfx_658468[] = INCBIN_U32("data/new_file_intro/658468.gfx.lz");
+const u32 sIntroGfx_658848[] = INCBIN_U32("data/new_file_intro/658848.gfx.lz");
 const u32 sIntroSamusInShipTilemap[385] = INCBIN_U32("data/new_file_intro/samus_in_ship.tm.lz");
 const u16 sIntroSamusInShipPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_in_ship.pal");
 const u32 sIntroShipAlertBg1Tilemap[368] = INCBIN_U32("data/new_file_intro/ship_alert_bg1.tm.lz");
@@ -24434,15 +24457,16 @@ const struct FrameData sIntroShipAlertBigNumberOam_65c230[7] = {
 const u16 sIntroShipAlertObjPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_obj.pal");
 // Not referenced by name, probably reached through the elevator monologue pointer tables
 // (the sElevatorMonologue*Pointers tables)
-static const u8 sBlob_65c468_65fb5c[] = INCBIN_U8("data/Blob_65c468_65fb5c.bin");
+const u8 sElevatorMonologueBgGfx_65c468[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_65c468.gfx.lz");
 // Starts with the LZ77 compressed graphics of the monologue cursor (decompressed to the last
 // 0x400 bytes of OBJ VRAM), too large to be only that: the rest is not identified
-const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/Blob_65fb5c_662804.bin");
+const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/Blob_65fb5c_65fc24.bin");
+const u8 sElevatorMonologueObjGfx_65fc24[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_65fc24.gfx.lz");
 
 const u32 sIntroTilemap_662804[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
 
 // Not referenced by name, probably reached through the elevator monologue pointer tables
-static const u8 sBlob_662cfc_663598[] = INCBIN_U8("data/Blob_662cfc_663598.bin");
+const u8 sElevatorMonologueBgTilemap_662cfc[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_662cfc.tm.lz");
 const u32 sCutsceneElevatorMonologueBg1Tilemap[66] = INCBIN_U32("data/cutscenes/elevator_monologue/bg1.tm.lz");
 // The monologue inits copy 16 rows from here, the last 4 rows come from sIntroPal_663820
 const u16 sCutsceneMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/bg.pal");
@@ -24452,7 +24476,8 @@ const u16 sIntroPal_663820[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820
 const u16 sCutsceneMonologueCursorPal[1 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/cursor.pal");
 // Rest after the palette row the monologues copy, not referenced by name (probably holds the OAM
 // frames of the FrameData arrays below)
-static const u8 sBlob_6638c0_663ae0[] = INCBIN_U8("data/Blob_6638c0_663ae0.bin");
+const u16 sElevatorMonologueBgPal_6638c0[] = INCBIN_U16("data/cutscenes/elevator_monologue/bg_6638c0.pal");
+const u16 sElevatorMonologueObjPal_663a20[] = INCBIN_U16("data/cutscenes/elevator_monologue/obj_663a20.pal");
 const u16 sOamFrame_663ae0[] = INCBIN_U16("data/oam_frames/663ae0.bin");
 const u16 sOamFrame_663c32[] = INCBIN_U16("data/oam_frames/663c32.bin");
 const u16 sOamFrame_663d84[] = INCBIN_U16("data/oam_frames/663d84.bin");
@@ -24493,7 +24518,8 @@ const struct FrameData sCutsceneMonologueCursorNextPageOam[7] = {
     { sOamFrame_663e32, 6 },
     FRAME_DATA_TERMINATOR
 };
-const u8 sBlob_663eac_66a764[] = INCBIN_U8("data/Blob_663eac_66a764.bin");
+const u8 sElevatorMonologueBgGfx_663eac[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_663eac.gfx.lz");
+const u8 sElevatorMonologueObjGfx_667c18[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_667c18.gfx.lz");
 const u16 sOamFrame_66a764[] = INCBIN_U16("data/oam_frames/66a764.bin");
 const u16 sOamFrame_66a8a4[] = INCBIN_U16("data/oam_frames/66a8a4.bin");
 const u16 sOamFrame_66a9e4[] = INCBIN_U16("data/oam_frames/66a9e4.bin");
@@ -24509,7 +24535,11 @@ const struct FrameData sElevatorMonologueOam_66aa58[2] = {
     { sOamFrame_66a9e4, 255 },
     FRAME_DATA_TERMINATOR
 };
-const u8 sBlob_66aa68_671760[] = INCBIN_U8("data/Blob_66aa68_671760.bin");
+const u16 sElevatorMonologueBgPal_66aa68[] = INCBIN_U16("data/cutscenes/elevator_monologue/bg_66aa68.pal");
+const u16 sElevatorMonologueObjPal_66abc8[] = INCBIN_U16("data/cutscenes/elevator_monologue/obj_66abc8.pal");
+const u8 sElevatorMonologueBgTilemap_66ac88[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_66ac88.tm.lz");
+const u8 sElevatorMonologueBgGfx_66b524[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_66b524.gfx.lz");
+const u8 sElevatorMonologueObjGfx_66ec18[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_66ec18.gfx.lz");
 const u16 sOamFrame_671760[] = INCBIN_U16("data/oam_frames/671760.bin");
 const u16 sOamFrame_671870[] = INCBIN_U16("data/oam_frames/671870.bin");
 const u16 sOamFrame_671980[] = INCBIN_U16("data/oam_frames/671980.bin");
@@ -24525,7 +24555,9 @@ const struct FrameData sElevatorMonologueOam_6719f4[2] = {
     { sOamFrame_671980, 255 },
     FRAME_DATA_TERMINATOR
 };
-const u8 sBlob_671a04_6724c0[] = INCBIN_U8("data/Blob_671a04_6724c0.bin");
+const u16 sElevatorMonologueBgPal_671a04[] = INCBIN_U16("data/cutscenes/elevator_monologue/bg_671a04.pal");
+const u16 sElevatorMonologueObjPal_671b64[] = INCBIN_U16("data/cutscenes/elevator_monologue/obj_671b64.pal");
+const u8 sElevatorMonologueBgTilemap_671c24[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_671c24.tm.lz");
 const u32 sCutsceneFederationMonologueBg2Gfx[2342] = INCBIN_U32("data/cutscenes/federation_monologue/bg2.gfx.lz");
 const u16 sCutsceneFederationMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/federation_monologue/bg.pal");
 const u32 sCutsceneFederationMonologueBg2Tilemap[368] = INCBIN_U32("data/cutscenes/federation_monologue/bg2.tm.lz");

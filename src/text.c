@@ -12,6 +12,19 @@
 #include "structs/event.h"
 #include "structs/samus.h"
 
+extern const u32 sEraseSramTextGfxEnglish_0[];
+extern const u32 sEraseSramTextGfxEnglish_1[];
+extern const u32 sEraseSramTextGfxFrench_0[];
+extern const u32 sEraseSramTextGfxFrench_1[];
+extern const u32 sEraseSramTextGfxGerman_0[];
+extern const u32 sEraseSramTextGfxGerman_1[];
+extern const u32 sEraseSramTextGfxItalian_0[];
+extern const u32 sEraseSramTextGfxItalian_1[];
+extern const u32 sEraseSramTextGfxJapanese_0[];
+extern const u32 sEraseSramTextGfxJapanese_1[];
+extern const u32 sEraseSramTextGfxSpanish_0[];
+extern const u32 sEraseSramTextGfxSpanish_1[];
+
 // FrameData arrays used by sEraseSramOam
 extern const struct FrameData sEraseSramOam_582a3c[];
 extern const struct FrameData sEraseSramOam_582b24[];
@@ -59,7 +72,36 @@ u8 sNavConversationSaXCloseUpDelays[4] = INCBIN_U8("data/menus/pause_screen/nav_
 u8 sBslDiagramOamIds[36] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_oam_ids.bin"); // BSL diagram OAM id per rotation step
 u8 sBslDiagramTargetOffsets[36 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_target_offsets.bin"); // s8 [36][3]: x offset, y offset, target OAM id per rotation step
 u8 sBslDiagramFixedTargetOffsets[8 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_fixed_target_offsets.bin"); // s8 [8][3]: x offset, y offset, target OAM id per navigation location
-u32 sEraseSramTextGfxPointers[] = INCBIN_U32("data/menus/erase_sram/text_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const u32* sEraseSramTextGfxPointers[LANGUAGE_COUNT][2] = {
+    {
+        sEraseSramTextGfxJapanese_0,
+        sEraseSramTextGfxJapanese_1
+    },
+    {
+        sEraseSramTextGfxJapanese_0,
+        sEraseSramTextGfxJapanese_1
+    },
+    {
+        sEraseSramTextGfxEnglish_0,
+        sEraseSramTextGfxEnglish_1
+    },
+    {
+        sEraseSramTextGfxGerman_0,
+        sEraseSramTextGfxGerman_1
+    },
+    {
+        sEraseSramTextGfxFrench_0,
+        sEraseSramTextGfxFrench_1
+    },
+    {
+        sEraseSramTextGfxItalian_0,
+        sEraseSramTextGfxItalian_1
+    },
+    {
+        sEraseSramTextGfxSpanish_0,
+        sEraseSramTextGfxSpanish_1
+    }
+};
 const struct FrameData* sEraseSramOam[7] = {
     sEraseSramOam_582a3c,
     sEraseSramOam_582a3c,

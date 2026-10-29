@@ -139,7 +139,19 @@ const struct FrameData sEraseSramOam_582bac[2] = {
     FRAME_DATA_TERMINATOR
 };
 const u32 sEraseSramObjGfx[532] = INCBIN_U32("data/menus/erase_sram/obj.gfx.lz");
-const u32 sEraseSramBgGfx[7670] = INCBIN_U32("data/menus/erase_sram/bg.gfx.lz");
+const u32 sEraseSramBgGfx[5147] = INCBIN_U32("data/menus/erase_sram/bg.gfx.lz");
+const u32 sEraseSramTextGfxEnglish_0[185] = INCBIN_U32("data/menus/erase_sram/text_english_0.gfx.lz");
+const u32 sEraseSramTextGfxFrench_0[187] = INCBIN_U32("data/menus/erase_sram/text_french_0.gfx.lz");
+const u32 sEraseSramTextGfxGerman_0[205] = INCBIN_U32("data/menus/erase_sram/text_german_0.gfx.lz");
+const u32 sEraseSramTextGfxItalian_0[221] = INCBIN_U32("data/menus/erase_sram/text_italian_0.gfx.lz");
+const u32 sEraseSramTextGfxJapanese_0[245] = INCBIN_U32("data/menus/erase_sram/text_japanese_0.gfx.lz");
+const u32 sEraseSramTextGfxSpanish_0[208] = INCBIN_U32("data/menus/erase_sram/text_spanish_0.gfx.lz");
+const u32 sEraseSramTextGfxEnglish_1[191] = INCBIN_U32("data/menus/erase_sram/text_english_1.gfx.lz");
+const u32 sEraseSramTextGfxFrench_1[209] = INCBIN_U32("data/menus/erase_sram/text_french_1.gfx.lz");
+const u32 sEraseSramTextGfxGerman_1[222] = INCBIN_U32("data/menus/erase_sram/text_german_1.gfx.lz");
+const u32 sEraseSramTextGfxItalian_1[201] = INCBIN_U32("data/menus/erase_sram/text_italian_1.gfx.lz");
+const u32 sEraseSramTextGfxJapanese_1[245] = INCBIN_U32("data/menus/erase_sram/text_japanese_1.gfx.lz");
+const u32 sEraseSramTextGfxSpanish_1[204] = INCBIN_U32("data/menus/erase_sram/text_spanish_1.gfx.lz");
 const u32 sEraseSramTilemap_D000[131] = INCBIN_U32("data/menus/erase_sram/bg_d000.tm.lz");
 const u32 sEraseSramTilemap_F000[368] = INCBIN_U32("data/menus/erase_sram/bg_f000.tm.lz");
 const u8 sEraseSramCursorOamIds[4] = INCBIN_U8("data/menus/erase_sram/cursor_oam_ids.bin");

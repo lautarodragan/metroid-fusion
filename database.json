@@ -27641,14 +27641,6 @@
     "size": 2
   },
   {
-    "path": "menus/pause_screen/nav_conversation_pop_up_info.bin",
-    "count": "0x3",
-    "addr": {
-      "us": "0x5766D4"
-    },
-    "size": 4
-  },
-  {
     "path": "menus/pause_screen/nav_conversation_targets.bin",
     "count": "0x21",
     "addr": {
@@ -27665,20 +27657,124 @@
     "size": 1
   },
   {
-    "path": "Blob_576802_57bc50.bin",
-    "count": "0x544E",
+    "path": "Blob_576802_576804.bin",
+    "count": "0x2",
     "addr": {
       "us": "0x576802"
     },
     "size": 1
   },
   {
-    "path": "menus/pause_screen/nav_conversation_pop_ups.bin",
-    "count": "0x5",
+    "path": "menus/pause_screen/nav_conversation_pop_up_576804.pal",
+    "count": "0x10",
     "addr": {
-      "us": "0x57BC50"
+      "us": "0x576804"
     },
-    "size": 24
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_576824.pal",
+    "count": "0x10",
+    "addr": {
+      "us": "0x576824"
+    },
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_576844.pal",
+    "count": "0x10",
+    "addr": {
+      "us": "0x576844"
+    },
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_576864.pal",
+    "count": "0x10",
+    "addr": {
+      "us": "0x576864"
+    },
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_576884.pal",
+    "count": "0x10",
+    "addr": {
+      "us": "0x576884"
+    },
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_5768a4.pal",
+    "count": "0x10",
+    "addr": {
+      "us": "0x5768A4"
+    },
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_5768c4.pal",
+    "count": "0x10",
+    "addr": {
+      "us": "0x5768C4"
+    },
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_5768e4.pal",
+    "count": "0x10",
+    "addr": {
+      "us": "0x5768E4"
+    },
+    "size": 2
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_576904.gfx.lz",
+    "count": "0x1C8",
+    "addr": {
+      "us": "0x576904"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_577024.gfx.lz",
+    "count": "0x5CB",
+    "addr": {
+      "us": "0x577024"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_578750.gfx.lz",
+    "count": "0xD1D",
+    "addr": {
+      "us": "0x578750"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_57bbc4.bin",
+    "count": "0xC",
+    "addr": {
+      "us": "0x57BBC4"
+    },
+    "size": 1
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_57bbd0.bin",
+    "count": "0x20",
+    "addr": {
+      "us": "0x57BBD0"
+    },
+    "size": 1
+  },
+  {
+    "path": "menus/pause_screen/nav_conversation_pop_up_57bbf0.bin",
+    "count": "0x60",
+    "addr": {
+      "us": "0x57BBF0"
+    },
+    "size": 1
   },
   {
     "path": "menus/pause_screen/nav_conversation_pop_ups_per_conversation.bin",
@@ -28218,9 +28314,105 @@
   },
   {
     "path": "menus/erase_sram/bg.gfx.lz",
-    "count": "0x1DF6",
+    "count": "0x141B",
     "addr": {
       "us": "0x58340C"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_english_0.gfx.lz",
+    "count": "0xB9",
+    "addr": {
+      "us": "0x588478"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_french_0.gfx.lz",
+    "count": "0xBB",
+    "addr": {
+      "us": "0x58875C"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_german_0.gfx.lz",
+    "count": "0xCD",
+    "addr": {
+      "us": "0x588A48"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_italian_0.gfx.lz",
+    "count": "0xDD",
+    "addr": {
+      "us": "0x588D7C"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_japanese_0.gfx.lz",
+    "count": "0xF5",
+    "addr": {
+      "us": "0x5890F0"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_spanish_0.gfx.lz",
+    "count": "0xD0",
+    "addr": {
+      "us": "0x5894C4"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_english_1.gfx.lz",
+    "count": "0xBF",
+    "addr": {
+      "us": "0x589804"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_french_1.gfx.lz",
+    "count": "0xD1",
+    "addr": {
+      "us": "0x589B00"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_german_1.gfx.lz",
+    "count": "0xDE",
+    "addr": {
+      "us": "0x589E44"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_italian_1.gfx.lz",
+    "count": "0xC9",
+    "addr": {
+      "us": "0x58A1BC"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_japanese_1.gfx.lz",
+    "count": "0xF5",
+    "addr": {
+      "us": "0x58A4E0"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/erase_sram/text_spanish_1.gfx.lz",
+    "count": "0xCC",
+    "addr": {
+      "us": "0x58A8B4"
     },
     "size": 4
   },
@@ -33433,12 +33625,196 @@
     "size": 4
   },
   {
-    "path": "Blob_64e470_658be0.bin",
-    "count": "0xA770",
+    "path": "new_file_intro/ship_alert_bg_0.gfx.lz",
+    "count": "0x1CE",
     "addr": {
       "us": "0x64E470"
     },
-    "size": 1
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_bg_1.gfx.lz",
+    "count": "0x239",
+    "addr": {
+      "us": "0x64EBA8"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_bg_2.gfx.lz",
+    "count": "0x2D9",
+    "addr": {
+      "us": "0x64F48C"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_bg_3.gfx.lz",
+    "count": "0x221",
+    "addr": {
+      "us": "0x64FFF0"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_bg_4.gfx.lz",
+    "count": "0x222",
+    "addr": {
+      "us": "0x650874"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_obj_0.gfx.lz",
+    "count": "0x1B1",
+    "addr": {
+      "us": "0x6510FC"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_obj_1.gfx.lz",
+    "count": "0x1CB",
+    "addr": {
+      "us": "0x6517C0"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_obj_2.gfx.lz",
+    "count": "0xC7",
+    "addr": {
+      "us": "0x651EEC"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_obj_3.gfx.lz",
+    "count": "0xE3",
+    "addr": {
+      "us": "0x652208"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_obj_4.gfx.lz",
+    "count": "0x100",
+    "addr": {
+      "us": "0x652594"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/ship_alert_obj_5.gfx.lz",
+    "count": "0x90",
+    "addr": {
+      "us": "0x652994"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/652bd4.gfx.lz",
+    "count": "0x36B",
+    "addr": {
+      "us": "0x652BD4"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/653980.gfx.lz",
+    "count": "0x35D",
+    "addr": {
+      "us": "0x653980"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/6546f4.gfx.lz",
+    "count": "0x2EB",
+    "addr": {
+      "us": "0x6546F4"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/6552a0.gfx.lz",
+    "count": "0x327",
+    "addr": {
+      "us": "0x6552A0"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/655f3c.gfx.lz",
+    "count": "0x365",
+    "addr": {
+      "us": "0x655F3C"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/656cd0.gfx.lz",
+    "count": "0x1CE",
+    "addr": {
+      "us": "0x656CD0"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/657408.gfx.lz",
+    "count": "0x16F",
+    "addr": {
+      "us": "0x657408"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/6579c4.gfx.lz",
+    "count": "0xDA",
+    "addr": {
+      "us": "0x6579C4"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/657d2c.gfx.lz",
+    "count": "0x8D",
+    "addr": {
+      "us": "0x657D2C"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/657f60.gfx.lz",
+    "count": "0x7C",
+    "addr": {
+      "us": "0x657F60"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/658150.gfx.lz",
+    "count": "0xC6",
+    "addr": {
+      "us": "0x658150"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/658468.gfx.lz",
+    "count": "0xF8",
+    "addr": {
+      "us": "0x658468"
+    },
+    "size": 4
+  },
+  {
+    "path": "new_file_intro/658848.gfx.lz",
+    "count": "0xE6",
+    "addr": {
+      "us": "0x658848"
+    },
+    "size": 4
   },
   {
     "path": "new_file_intro/samus_in_ship.tm.lz",
@@ -34929,7 +35305,7 @@
     "size": 2
   },
   {
-    "path": "Blob_65c468_65fb5c.bin",
+    "path": "cutscenes/elevator_monologue/bg_65c468.gfx.lz",
     "count": "0x36F4",
     "addr": {
       "us": "0x65C468"
@@ -34937,10 +35313,18 @@
     "size": 1
   },
   {
-    "path": "Blob_65fb5c_662804.bin",
-    "count": "0x2CA8",
+    "path": "Blob_65fb5c_65fc24.bin",
+    "count": "0xC8",
     "addr": {
       "us": "0x65FB5C"
+    },
+    "size": 1
+  },
+  {
+    "path": "cutscenes/elevator_monologue/obj_65fc24.gfx.lz",
+    "count": "0x2BE0",
+    "addr": {
+      "us": "0x65FC24"
     },
     "size": 1
   },
@@ -34953,7 +35337,7 @@
     "size": 4
   },
   {
-    "path": "Blob_662cfc_663598.bin",
+    "path": "cutscenes/elevator_monologue/bg_662cfc.tm.lz",
     "count": "0x89C",
     "addr": {
       "us": "0x662CFC"
@@ -34993,12 +35377,20 @@
     "size": 2
   },
   {
-    "path": "Blob_6638c0_663ae0.bin",
-    "count": "0x220",
+    "path": "cutscenes/elevator_monologue/bg_6638c0.pal",
+    "count": "0xB0",
     "addr": {
       "us": "0x6638C0"
     },
-    "size": 1
+    "size": 2
+  },
+  {
+    "path": "cutscenes/elevator_monologue/obj_663a20.pal",
+    "count": "0x60",
+    "addr": {
+      "us": "0x663A20"
+    },
+    "size": 2
   },
   {
     "path": "oam_frames/663ae0.bin",
@@ -35073,10 +35465,18 @@
     "size": 2
   },
   {
-    "path": "Blob_663eac_66a764.bin",
-    "count": "0x68B8",
+    "path": "cutscenes/elevator_monologue/bg_663eac.gfx.lz",
+    "count": "0x3D6C",
     "addr": {
       "us": "0x663EAC"
+    },
+    "size": 1
+  },
+  {
+    "path": "cutscenes/elevator_monologue/obj_667c18.gfx.lz",
+    "count": "0x2B4C",
+    "addr": {
+      "us": "0x667C18"
     },
     "size": 1
   },
@@ -35105,10 +35505,42 @@
     "size": 2
   },
   {
-    "path": "Blob_66aa68_671760.bin",
-    "count": "0x6CF8",
+    "path": "cutscenes/elevator_monologue/bg_66aa68.pal",
+    "count": "0xB0",
     "addr": {
       "us": "0x66AA68"
+    },
+    "size": 2
+  },
+  {
+    "path": "cutscenes/elevator_monologue/obj_66abc8.pal",
+    "count": "0x60",
+    "addr": {
+      "us": "0x66ABC8"
+    },
+    "size": 2
+  },
+  {
+    "path": "cutscenes/elevator_monologue/bg_66ac88.tm.lz",
+    "count": "0x89C",
+    "addr": {
+      "us": "0x66AC88"
+    },
+    "size": 1
+  },
+  {
+    "path": "cutscenes/elevator_monologue/bg_66b524.gfx.lz",
+    "count": "0x36F4",
+    "addr": {
+      "us": "0x66B524"
+    },
+    "size": 1
+  },
+  {
+    "path": "cutscenes/elevator_monologue/obj_66ec18.gfx.lz",
+    "count": "0x2B48",
+    "addr": {
+      "us": "0x66EC18"
     },
     "size": 1
   },
@@ -35137,10 +35569,26 @@
     "size": 2
   },
   {
-    "path": "Blob_671a04_6724c0.bin",
-    "count": "0xABC",
+    "path": "cutscenes/elevator_monologue/bg_671a04.pal",
+    "count": "0xB0",
     "addr": {
       "us": "0x671A04"
+    },
+    "size": 2
+  },
+  {
+    "path": "cutscenes/elevator_monologue/obj_671b64.pal",
+    "count": "0x60",
+    "addr": {
+      "us": "0x671B64"
+    },
+    "size": 2
+  },
+  {
+    "path": "cutscenes/elevator_monologue/bg_671c24.tm.lz",
+    "count": "0x89C",
+    "addr": {
+      "us": "0x671C24"
     },
     "size": 1
   },
@@ -53770,11 +54218,51 @@
   },
   {
     "path": "menus/game_over/obj.gfx.lz",
-    "count": "0x9E8",
+    "count": "0xB8",
     "addr": {
       "us": "0x739A78"
     },
     "size": 4
+  },
+  {
+    "path": "menus/game_over/text_japanese.gfx.lz",
+    "count": "0x6D8",
+    "addr": {
+      "us": "0x739D58"
+    },
+    "size": 1
+  },
+  {
+    "path": "menus/game_over/text_german.gfx.lz",
+    "count": "0x6F8",
+    "addr": {
+      "us": "0x73A430"
+    },
+    "size": 1
+  },
+  {
+    "path": "menus/game_over/text_french.gfx.lz",
+    "count": "0x7E0",
+    "addr": {
+      "us": "0x73AB28"
+    },
+    "size": 1
+  },
+  {
+    "path": "menus/game_over/text_italian.gfx.lz",
+    "count": "0x7A4",
+    "addr": {
+      "us": "0x73B308"
+    },
+    "size": 1
+  },
+  {
+    "path": "menus/game_over/text_spanish.gfx.lz",
+    "count": "0x76C",
+    "addr": {
+      "us": "0x73BAAC"
+    },
+    "size": 1
   },
   {
     "path": "oam_frames/73c218.bin",
@@ -56281,148 +56769,1660 @@
     "size": 2
   },
   {
-    "path": "Blob_74a7d8_74b0b0.bin",
-    "count": "0x8D8",
+    "path": "oam_frames/74a7d8.bin",
+    "count": "0x10",
     "addr": {
       "us": "0x74A7D8"
     },
-    "size": 1
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_english_lines.bin",
-    "count": "0x6",
-    "addr": {
-      "us": "0x74DC48"
-    },
-    "size": 12
-  },
-  {
-    "path": "ending/image_text_oam_english_0.bin",
-    "count": "0x9",
-    "addr": {
-      "us": "0x74DC90"
-    },
-    "size": 12
-  },
-  {
-    "path": "ending/image_text_oam_english_1.bin",
-    "count": "0xB",
-    "addr": {
-      "us": "0x74DCFC"
-    },
-    "size": 12
-  },
-  {
-    "path": "ending/image_text_oam_english_2.bin",
-    "count": "0x11",
-    "addr": {
-      "us": "0x74DD80"
-    },
-    "size": 12
-  },
-  {
-    "path": "ending/image_text_oam_german_lines.bin",
-    "count": "0x6",
-    "addr": {
-      "us": "0x74DE4C"
-    },
-    "size": 12
-  },
-  {
-    "path": "ending/image_text_oam_german_0.bin",
+    "path": "oam_frames/74a7f8.bin",
     "count": "0xD",
     "addr": {
-      "us": "0x74DE94"
+      "us": "0x74A7F8"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_german_1.bin",
-    "count": "0xE",
+    "path": "oam_frames/74a812.bin",
+    "count": "0xA",
     "addr": {
-      "us": "0x74DF30"
+      "us": "0x74A812"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_french_lines.bin",
-    "count": "0x6",
+    "path": "oam_frames/74a826.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74DFD8"
+      "us": "0x74A826"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_french_0.bin",
+    "path": "oam_frames/74a82e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A82E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a836.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A836"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a83e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A83E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a846.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A846"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a84e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A84E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a856.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A856"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a85e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A85E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a866.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A866"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a86e.bin",
+    "count": "0xD",
+    "addr": {
+      "us": "0x74A86E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a888.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A888"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a890.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A890"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a898.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A898"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8a0.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8A0"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8a8.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8A8"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8b0.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8B0"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8b8.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8B8"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8c0.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8C0"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8c8.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8C8"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8d0.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8D0"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8d8.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A8D8"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a8e0.bin",
     "count": "0x10",
     "addr": {
-      "us": "0x74E020"
+      "us": "0x74A8E0"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_french_1.bin",
-    "count": "0x14",
+    "path": "oam_frames/74a900.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74E0E0"
+      "us": "0x74A900"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_italian_lines.bin",
-    "count": "0x6",
+    "path": "oam_frames/74a908.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74E1D0"
+      "us": "0x74A908"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_italian_0.bin",
-    "count": "0x12",
+    "path": "oam_frames/74a910.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74E218"
+      "us": "0x74A910"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_italian_1.bin",
-    "count": "0xB",
+    "path": "oam_frames/74a918.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74E2F0"
+      "us": "0x74A918"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_italian_2.bin",
-    "count": "0x11",
+    "path": "oam_frames/74a920.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74E374"
+      "us": "0x74A920"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_spanish_lines.bin",
-    "count": "0x6",
+    "path": "oam_frames/74a928.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74E440"
+      "us": "0x74A928"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_spanish_0.bin",
-    "count": "0xF",
+    "path": "oam_frames/74a930.bin",
+    "count": "0x4",
     "addr": {
-      "us": "0x74E488"
+      "us": "0x74A930"
     },
-    "size": 12
+    "size": 2
   },
   {
-    "path": "ending/image_text_oam_spanish_1.bin",
+    "path": "oam_frames/74a938.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A938"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a940.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A940"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a948.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A948"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a950.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A950"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a958.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A958"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a960.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A960"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a968.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A968"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a970.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A970"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a978.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A978"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a980.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74A980"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a988.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74A988"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a9a8.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74A9A8"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a9c8.bin",
+    "count": "0xD",
+    "addr": {
+      "us": "0x74A9C8"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74a9e2.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74A9E2"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa02.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA02"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa0a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA0A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa12.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA12"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa1a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA1A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa22.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA22"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa2a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA2A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa32.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA32"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa3a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA3A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa42.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA42"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa4a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA4A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa52.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA52"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa5a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA5A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa62.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA62"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa6a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA6A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa72.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA72"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa7a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AA7A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aa82.bin",
+    "count": "0x16",
+    "addr": {
+      "us": "0x74AA82"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aaae.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAAE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aab6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAB6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aabe.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AABE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aac6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAC6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aace.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AACE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aad6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAD6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aade.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AADE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aae6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAE6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aaee.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAEE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aaf6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAF6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aafe.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AAFE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab06.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB06"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab0e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB0E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab16.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB16"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab1e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB1E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab26.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB26"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab2e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB2E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab36.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB36"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab3e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB3E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab46.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AB46"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab4e.bin",
+    "count": "0xA",
+    "addr": {
+      "us": "0x74AB4E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab62.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74AB62"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab82.bin",
+    "count": "0xD",
+    "addr": {
+      "us": "0x74AB82"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ab9c.bin",
     "count": "0x13",
     "addr": {
-      "us": "0x74E53C"
+      "us": "0x74AB9C"
     },
-    "size": 12
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abc2.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABC2"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abca.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABCA"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abd2.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABD2"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abda.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABDA"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abe2.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABE2"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abea.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABEA"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abf2.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABF2"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74abfa.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ABFA"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac02.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC02"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac0a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC0A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac12.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC12"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac1a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC1A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac22.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC22"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac2a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC2A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac32.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC32"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac3a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC3A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac42.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC42"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac4a.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC4A"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac52.bin",
+    "count": "0xD",
+    "addr": {
+      "us": "0x74AC52"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac6c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC6C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac74.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC74"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac7c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC7C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac84.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC84"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac8c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC8C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac94.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC94"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ac9c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AC9C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aca4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACA4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74acac.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACAC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74acb4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACB4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74acbc.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACBC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74acc4.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74ACC4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ace4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACE4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74acec.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACEC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74acf4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACF4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74acfc.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ACFC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad04.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD04"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad0c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD0C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad14.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD14"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad1c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD1C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad24.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD24"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad2c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD2C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad34.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD34"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad3c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD3C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad44.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD44"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad4c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD4C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad54.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD54"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad5c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD5C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad64.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AD64"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad6c.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74AD6C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ad8c.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74AD8C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74adac.bin",
+    "count": "0xD",
+    "addr": {
+      "us": "0x74ADAC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74adc6.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74ADC6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ade6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ADE6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74adee.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ADEE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74adf6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ADF6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74adfe.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74ADFE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae06.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE06"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae0e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE0E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae16.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE16"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae1e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE1E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae26.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE26"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae2e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE2E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae36.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE36"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae3e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE3E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae46.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE46"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae4e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE4E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae56.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE56"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae5e.bin",
+    "count": "0x13",
+    "addr": {
+      "us": "0x74AE5E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae84.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE84"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae8c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE8C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae94.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE94"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74ae9c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AE9C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aea4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEA4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aeac.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEAC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aeb4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEB4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aebc.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEBC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aec4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEC4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aecc.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AECC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aed4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AED4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aedc.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEDC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aee4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEE4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aeec.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEEC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aef4.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEF4"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aefc.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AEFC"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af04.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AF04"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af0c.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AF0C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af14.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AF14"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af1c.bin",
+    "count": "0x13",
+    "addr": {
+      "us": "0x74AF1C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af42.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74AF42"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af62.bin",
+    "count": "0xD",
+    "addr": {
+      "us": "0x74AF62"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af7c.bin",
+    "count": "0xD",
+    "addr": {
+      "us": "0x74AF7C"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af96.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AF96"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74af9e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AF9E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afa6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFA6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afae.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFAE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afb6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFB6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afbe.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFBE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afc6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFC6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afce.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFCE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afd6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFD6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afde.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFDE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afe6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFE6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74afee.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFEE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74aff6.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74AFF6"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74affe.bin",
+    "count": "0x10",
+    "addr": {
+      "us": "0x74AFFE"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b01e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B01E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b026.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B026"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b02e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B02E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b036.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B036"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b03e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B03E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b046.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B046"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b04e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B04E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b056.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B056"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b05e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B05E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b066.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B066"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b06e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B06E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b076.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B076"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b07e.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B07E"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b086.bin",
+    "count": "0x4",
+    "addr": {
+      "us": "0x74B086"
+    },
+    "size": 2
+  },
+  {
+    "path": "oam_frames/74b08e.bin",
+    "count": "0x11",
+    "addr": {
+      "us": "0x74B08E"
+    },
+    "size": 2
   },
   {
     "path": "ending/digits_top.gfx",
@@ -56879,85 +58879,5 @@
       "us": "0x79C210"
     },
     "size": 1
-  },
-  {
-    "path": "menus/erase_sram/text_gfx_pointers.bin",
-    "count": "0xE",
-    "addr": {
-      "us": "0x79C228"
-    },
-    "size": 4
-  },
-  {
-    "path": "intro/ship_alert_bg_gfx_pointers.bin",
-    "count": "0x5",
-    "addr": {
-      "us": "0x79C448"
-    },
-    "size": 4
-  },
-  {
-    "path": "intro/ship_alert_obj_gfx_pointers.bin",
-    "count": "0x6",
-    "addr": {
-      "us": "0x79C45C"
-    },
-    "size": 4
-  },
-  {
-    "path": "Blob_79c474_79c4a8.bin",
-    "count": "0x34",
-    "addr": {
-      "us": "0x79C474"
-    },
-    "size": 1
-  },
-  {
-    "path": "cutscenes/elevator_monologue_bg_pal_pointers.bin",
-    "count": "0x9",
-    "addr": {
-      "us": "0x79C4A8"
-    },
-    "size": 4
-  },
-  {
-    "path": "cutscenes/elevator_monologue_obj_pal_pointers.bin",
-    "count": "0x9",
-    "addr": {
-      "us": "0x79C4CC"
-    },
-    "size": 4
-  },
-  {
-    "path": "cutscenes/elevator_monologue_bg_gfx_pointers.bin",
-    "count": "0x9",
-    "addr": {
-      "us": "0x79C4F0"
-    },
-    "size": 4
-  },
-  {
-    "path": "cutscenes/elevator_monologue_obj_gfx_pointers.bin",
-    "count": "0x9",
-    "addr": {
-      "us": "0x79C514"
-    },
-    "size": 4
-  },
-  {
-    "path": "cutscenes/elevator_monologue_bg_tilemap_pointers.bin",
-    "count": "0x9",
-    "addr": {
-      "us": "0x79C538"
-    },
-    "size": 4
-  },
-  {
-    "path": "menus/game_over/text_gfx_pointers.bin",
-    "count": "0x7",
-    "addr": {
-      "us": "0x79E874"
-    },
-    "size": 4
   }
 ]

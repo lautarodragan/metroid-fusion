@@ -173,7 +173,7 @@ sVoicegroup_a5cf8:
     voice_ptr "data/voicegroups/a5cf8.bin", 2, DirectSoundData_080C9BE4
     voice_ptr "data/voicegroups/a5cf8.bin", 3, DirectSoundData_080CA0BC
     voice_ptr "data/voicegroups/a5cf8.bin", 4, DirectSoundData_080B83C0
-    voice_keysplit "data/voicegroups/a5cf8.bin", 5, sVoicegroup_a5cf8, sKeysplitTable_a8c20
+    voice_keysplit "data/voicegroups/a5cf8.bin", 5, sVoicegroup_a5cf8, sKeysplitTable_a8c44 - 36
     voice_ptr "data/voicegroups/a5cf8.bin", 6, DirectSoundData_080B0E50
     voice_ptr "data/voicegroups/a5cf8.bin", 7, DirectSoundData_080B8B88
     voice_ptr "data/voicegroups/a5cf8.bin", 8, DirectSoundData_080B0E50
@@ -1360,14 +1360,28 @@ sVoicegroup_a8af4:
     voice_ptr "data/voicegroups/a8af4.bin", 22, DirectSoundData_08234300
     voice_ptr "data/voicegroups/a8af4.bin", 23, DirectSoundData_08236BE0
     voice_ptr "data/voicegroups/a8af4.bin", 24, DirectSoundData_0823C1F8
+    voice_ptr "data/voicegroups/a8af4.bin", 25, DirectSoundData_0823FACC
+    voice_ptr "data/voicegroups/a8af4.bin", 26, DirectSoundData_082438E4
+    voice_ptr "data/voicegroups/a8af4.bin", 27, DirectSoundData_082466E0
     .size sVoicegroup_a8af4, . - sVoicegroup_a8af4
 
-@ Data after the voices: keysplit table, CGB wave data
-    .type sKeysplitTable_a8c20, object
-    .global sKeysplitTable_a8c20
-sKeysplitTable_a8c20:
-    .incbin "data/voicegroups/a8af4.bin", 0x12c, 0x8c
-    .size sKeysplitTable_a8c20, . - sKeysplitTable_a8c20
+@ Data after the voices: the keysplit table of sVoicegroup_a5cf8's keysplit voice (voice
+@ indexes for keys 36 to 107; the voice points 36 bytes before it), CGB wave data
+    .type sKeysplitTable_a8c44, object
+    .global sKeysplitTable_a8c44
+sKeysplitTable_a8c44:
+    .incbin "data/voicegroups/a8af4.bin", 0x150, 0x48
+    .size sKeysplitTable_a8c44, . - sKeysplitTable_a8c44
+    .type sWaveData_a8c8c, object
+    .global sWaveData_a8c8c
+sWaveData_a8c8c:
+    .incbin "data/voicegroups/a8af4.bin", 0x198, 0x10
+    .size sWaveData_a8c8c, . - sWaveData_a8c8c
+    .type sWaveData_a8c9c, object
+    .global sWaveData_a8c9c
+sWaveData_a8c9c:
+    .incbin "data/voicegroups/a8af4.bin", 0x1a8, 0x10
+    .size sWaveData_a8c9c, . - sWaveData_a8c9c
     .type sWaveData_a8cac, object
     .global sWaveData_a8cac
 sWaveData_a8cac:
