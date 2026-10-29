@@ -1,5 +1,6 @@
 #include "projectile.h"
 #include "profile.h"
+#include "optimize.h"
 #include "gba.h"
 #include "macros.h"
 #include "globals.h"
@@ -1415,11 +1416,43 @@ void ProjectileSetBeamTrail(u8 particle, u8 delay)
  * @brief 82888 | 764 | Checks if the projectiles are hitting sprite
  * 
  */
+#ifdef OPTIMIZE_PROJ_HIT
+/**
+ * @brief Lists the projectiles that can hit a sprite (OPTIMIZE_PROJ_HIT)
+ *
+ * @param candidates Projectile slots (out)
+ * @return s32 Number of projectiles
+ */
+static s32 ProjectileGetHitCandidates(u8* candidates)
+{
+    s32 j;
+    s32 count;
+
+    count = 0;
+    for (j = 0; j < MAX_AMOUNT_OF_PROJECTILES; j++)
+    {
+        if ((gProjectileData[j].status & (PROJ_STATUS_EXISTS | PROJ_STATUS_CAN_AFFECT_ENVIRONMENT)) ==
+            (PROJ_STATUS_EXISTS | PROJ_STATUS_CAN_AFFECT_ENVIRONMENT))
+            candidates[count++] = j;
+    }
+
+    return count;
+}
+#endif // OPTIMIZE_PROJ_HIT
+
 void ProjectileCheckHittingSprite(void)
 {
     u8 i;
     u8 j;
     u8 drawOrder;
+#ifdef OPTIMIZE_PROJ_HIT
+    u8 candidates[MAX_AMOUNT_OF_PROJECTILES];
+    u8 sorted[MAX_AMOUNT_OF_SPRITES];
+    s32 candidateCount;
+    s32 spriteCount;
+    s32 n;
+    s32 k;
+#endif
     u16 xCheck;
     u32 contactDamage;
     u16 spriteCheck;
@@ -1560,12 +1593,39 @@ void ProjectileCheckHittingSprite(void)
             gSpriteDrawOrder[i] = 0;
     }
 
+#ifdef OPTIMIZE_PROJ_HIT
+    // Nothing can be hit without a projectile that can hit (only a hit spawns projectiles)
+    candidateCount = ProjectileGetHitCandidates(candidates);
+    if (candidateCount == 0)
+        return;
+
+    // Sprites with a draw order of 1 to 16, sorted by draw order then slot (the order of the
+    // original loops: for each draw order, every slot)
+    spriteCount = 0;
+    for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
+    {
+        drawOrder = gSpriteDrawOrder[i];
+        if (drawOrder == 0 || drawOrder >= 17)
+            continue;
+
+        for (k = spriteCount; k > 0 && gSpriteDrawOrder[sorted[k - 1]] > drawOrder; k--)
+            sorted[k] = sorted[k - 1];
+        sorted[k] = i;
+        spriteCount++;
+    }
+
+    for (n = 0; n < spriteCount; n++)
+    {
+        i = sorted[n];
+        {
+#else // !OPTIMIZE_PROJ_HIT
     for (drawOrder = 1; drawOrder < 17; drawOrder++)
     {
         for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
         {
             if (gSpriteDrawOrder[i] != drawOrder)
                 continue;
+#endif // OPTIMIZE_PROJ_HIT
 
             o1Y = gSpriteData[i].yPosition;
             o1X = gSpriteData[i].xPosition;
@@ -1577,8 +1637,14 @@ void ProjectileCheckHittingSprite(void)
 
             spriteCheck = PROJ_STATUS_EXISTS | PROJ_STATUS_CAN_AFFECT_ENVIRONMENT;
 
+#ifdef OPTIMIZE_PROJ_HIT
+            for (k = 0; k < candidateCount; k++)
+            {
+                j = candidates[k];
+#else
             for (j = 0; j < MAX_AMOUNT_OF_PROJECTILES; j++)
             {
+#endif
                 if ((gProjectileData[j].status & spriteCheck) != spriteCheck)
                     continue;
 
@@ -1715,6 +1781,15 @@ void ProjectileCheckHittingSprite(void)
                             unk_84cac(i, j, o2Y, o2X);
                         break;
                 }
+
+#ifdef OPTIMIZE_PROJ_HIT
+                // A hit can remove or spawn projectiles: list them again and go on with the
+                // projectiles after this one, like the original loop
+                candidateCount = ProjectileGetHitCandidates(candidates);
+                for (k = 0; k < candidateCount && candidates[k] <= j; k++)
+                    ;
+                k--;
+#endif
             }
         }
     }

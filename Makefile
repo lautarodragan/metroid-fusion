@@ -71,11 +71,11 @@ endif
 #   PROFILE=2     cycle profiler, every subsystem, *_profile2.gba
 #   OPTIMIZE=...  performance changes, *_opt.gba: OPTIMIZE=1 enables all of
 #                 them, or a list of names enables some (e.g.
-#                 OPTIMIZE="SPRITE_DRAW DRAW_ORDER"), each one as
+#                 OPTIMIZE="PROJ_HIT DRAW_ORDER"), each one as
 #                 -DOPTIMIZE_<name>
 PROFILE ?= 0
 OPTIMIZE ?= 0
-OPTIMIZE_ALL = SPRITE_DRAW
+OPTIMIZE_ALL = PROJ_HIT DRAW_ORDER
 VARIANT_CPPFLAGS =
 ifeq ($(PROFILE),1)
 	VARIANT_CPPFLAGS += -DPROFILE

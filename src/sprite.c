@@ -5,6 +5,7 @@
 #include "fixed_point.h"
 #include "gba.h"
 #include "profile.h"
+#include "optimize.h"
 
 #include "data/sprite_data.h"
 #include "data/generic_data.h"
@@ -249,6 +250,44 @@ void SpriteUpdateAnimation(void)
     }
 }
 
+#ifdef OPTIMIZE_DRAW_ORDER
+/**
+ * @brief Draws the sprites whose gSpriteDrawOrder is between first and last, by draw order then
+ * slot (OPTIMIZE_DRAW_ORDER: one sorted list instead of scanning every slot for every draw order)
+ *
+ * @param first First draw order
+ * @param last Last draw order
+ */
+static void SpriteDrawSorted(u32 first, u32 last)
+{
+    u8 sorted[MAX_AMOUNT_OF_SPRITES];
+    s32 count;
+    s32 i;
+    s32 k;
+    u32 drawOrder;
+
+    count = 0;
+    for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
+    {
+        drawOrder = gSpriteDrawOrder[i];
+        if (drawOrder < first || drawOrder > last)
+            continue;
+
+        for (k = count; k > 0 && gSpriteDrawOrder[sorted[k - 1]] > drawOrder; k--)
+            sorted[k] = sorted[k - 1];
+        sorted[k] = i;
+        count++;
+    }
+
+    for (k = 0; k < count; k++)
+    {
+        i = sorted[k];
+        gCurrentSprite = gSpriteData[i];
+        PROFILE_SPRITE_DRAW(i);
+    }
+}
+#endif // OPTIMIZE_DRAW_ORDER
+
 /**
  * @brief eb04 | 9c | To document
  * 
@@ -280,6 +319,9 @@ void unk_eb04(void)
             gSpriteDrawOrder[i] = 0;
     }
 
+#ifdef OPTIMIZE_DRAW_ORDER
+    SpriteDrawSorted(1, 8);
+#else
     for (drawOrder = 1; drawOrder < 9; drawOrder++)
     {
         for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -291,6 +333,7 @@ void unk_eb04(void)
             }
         }
     }
+#endif
 }
 
 /**
@@ -324,6 +367,9 @@ void SpriteDrawAll(void)
             gSpriteDrawOrder[i] = 0;
     }
 
+#ifdef OPTIMIZE_DRAW_ORDER
+    SpriteDrawSorted(1, 8);
+#else
     for (drawOrder = 1; drawOrder < 9; drawOrder++)
     {
         for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -335,6 +381,7 @@ void SpriteDrawAll(void)
             }
         }
     }
+#endif
 }
 
 /**
@@ -365,6 +412,9 @@ void unk_ec38(void)
             gSpriteDrawOrder[i] = 0;
     }
 
+#ifdef OPTIMIZE_DRAW_ORDER
+    SpriteDrawSorted(9, 16);
+#else
     for (drawOrder = 9; drawOrder < 17; drawOrder++)
     {
         for (i = 0; i < MAX_AMOUNT_OF_SPRITES; i++)
@@ -376,6 +426,7 @@ void unk_ec38(void)
             }
         }
     }
+#endif
 }
 
 /**
