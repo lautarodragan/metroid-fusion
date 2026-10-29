@@ -6,7 +6,8 @@
     tools/split_blob.py menus/game_over/obj.gfx.lz 0x739d58=sGameOverTextGfx:u32:menus/game_over/text.gfx.lz
 
 Each ADDR=NAME[:TYPE[:PATH]] starts a new piece at ROM offset ADDR (a
-0x08xxxxxx address is accepted too) named NAME. The pieces are written as
+0x08xxxxxx address is accepted too) named NAME. In a Blob_* entry, NAME "-"
+starts an unnamed piece (the rest of the blob after a named piece). The pieces are written as
 consecutive INCBIN arrays in the source file that included the entry, and as
 consecutive entries in database.json, so the bytes and their addresses do
 not change. Named pieces are not static, so asm and other C files can
@@ -101,7 +102,7 @@ def parse_splits(specs, start, end):
     points = {}
     for addr, name, typ, path in splits:
         addr = parse_addr(addr)
-        if not name or not re.fullmatch(r"[A-Za-z_]\w*", name):
+        if not name or not re.fullmatch(r"[A-Za-z_]\w*|-", name):
             sys.exit(f"bad split name {name!r}")
         if typ is not None and typ not in TYPE_SIZE:
             sys.exit(f"bad type {typ!r}")
@@ -133,6 +134,8 @@ def main() -> int:
     end = start + int(entry["count"], 16) * esize
     is_blob = Path(args.blob).name.startswith("Blob_")
     points = parse_splits(args.splits, start, end)
+    if not is_blob and any(v[0] == "-" for v in points.values()):
+        sys.exit("unnamed pieces (-) are only possible in Blob_* entries")
 
     src, text = find_source(args.blob)
     if src is None:
@@ -153,7 +156,7 @@ def main() -> int:
     new_lines = []
     paths = {e["path"] for e in db}
     for a, b in zip(bounds, bounds[1:]):
-        if a in points:
+        if a in points and points[a][0] != "-":
             name, typ, path = points[a]
             typ = piece_type(m["type"], a, b - a, typ)
             static = ""

@@ -361,7 +361,7 @@ extern const u32 sEndingAnimalsBg3Gfx[6083];
 extern const u32 sEndingAnimalsBg2Gfx[2131];
 extern const u32 sBslCrashingObjGfx[2961];
 extern const u32 sEndingShipFrontViewBgGfx[5039];
-extern const u32 sBslCrashingBgGfx[7934];
+extern const u32 sBslCrashingBgGfx[4683];
 
 extern const u16 sEndingInShipBgPal[16 * PAL_ROW];
 extern const u16 sEndingInShipObjPal[16 * PAL_ROW];

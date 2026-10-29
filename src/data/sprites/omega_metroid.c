@@ -1,5 +1,6 @@
 #include "data/sprites/omega_metroid.h"
 #include "macros.h"
+#include "oam.h"
 
 const s16 sOmegaMetroidFirstJumpYSpeeds[36] = {
     -28, -24, -20, -14, -16, -12, -10, -8,
@@ -3260,16 +3261,88 @@ const u32 sGunshipEndGfx[7 * 512] = INCBIN_U32("data/sprites/gunship_end.gfx");
 const u16 sGunshipEndPal[7 * 16] = INCBIN_U16("data/sprites/gunship_end.pal");
 
 // Not referenced by code; most likely the OAM frames of the FrameData arrays below
-static const u8 sBlob_39e638_39eb48[] = INCBIN_U8("data/Blob_39e638_39eb48.bin");
+const u16 sOamFrame_39e638[] = INCBIN_U16("data/oam_frames/39e638.bin");
+const u16 sOamFrame_39e688[] = INCBIN_U16("data/oam_frames/39e688.bin");
+const u16 sOamFrame_39e6d2[] = INCBIN_U16("data/oam_frames/39e6d2.bin");
+const u16 sOamFrame_39e71c[] = INCBIN_U16("data/oam_frames/39e71c.bin");
+const u16 sOamFrame_39e766[] = INCBIN_U16("data/oam_frames/39e766.bin");
+const u16 sOamFrame_39e7b0[] = INCBIN_U16("data/oam_frames/39e7b0.bin");
+const u16 sOamFrame_39e81e[] = INCBIN_U16("data/oam_frames/39e81e.bin");
+const u16 sOamFrame_39e88c[] = INCBIN_U16("data/oam_frames/39e88c.bin");
+const u16 sOamFrame_39e8fa[] = INCBIN_U16("data/oam_frames/39e8fa.bin");
+const u16 sOamFrame_39e968[] = INCBIN_U16("data/oam_frames/39e968.bin");
+const u16 sOamFrame_39e970[] = INCBIN_U16("data/oam_frames/39e970.bin");
+const u16 sOamFrame_39e97e[] = INCBIN_U16("data/oam_frames/39e97e.bin");
+const u16 sOamFrame_39e98c[] = INCBIN_U16("data/oam_frames/39e98c.bin");
+const u16 sOamFrame_39e9be[] = INCBIN_U16("data/oam_frames/39e9be.bin");
+const u16 sOamFrame_39e9f0[] = INCBIN_U16("data/oam_frames/39e9f0.bin");
+const u16 sOamFrame_39e9f8[] = INCBIN_U16("data/oam_frames/39e9f8.bin");
+const u16 sOamFrame_39ea30[] = INCBIN_U16("data/oam_frames/39ea30.bin");
+const u16 sOamFrame_39ea68[] = INCBIN_U16("data/oam_frames/39ea68.bin");
+const u16 sOamFrame_39ea8e[] = INCBIN_U16("data/oam_frames/39ea8e.bin");
+const u16 sOamFrame_39eab4[] = INCBIN_U16("data/oam_frames/39eab4.bin");
+const u16 sOamFrame_39eada[] = INCBIN_U16("data/oam_frames/39eada.bin");
+const u16 sOamFrame_39eb00[] = INCBIN_U16("data/oam_frames/39eb00.bin");
+const struct FrameData sGunshipEndOam_39eb38[2] = {
+    { sOamFrame_39e638, 255 },
+    FRAME_DATA_TERMINATOR
+};
 
 // struct FrameData arrays (2 words per entry) of the gunship (end).
 // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-const u32 sGunshipEndOam_Landed[14 * 2] = INCBIN_U32("data/sprites/gunship_end_landed_oam.bin");
-const u32 sGunshipEndBeamOam_Idle[10 * 2] = INCBIN_U32("data/sprites/gunship_end_beam_oam.bin");
-const u32 sGunshipEndOam_StartingEngine[5 * 2] = INCBIN_U32("data/sprites/gunship_end_starting_engine_oam.bin");
-const u32 sGunshipEndBottomOam_Idle[7 * 2] = INCBIN_U32("data/sprites/gunship_end_bottom_oam.bin");
-const u32 sGunshipEndOam_Flying[2 * 2] = INCBIN_U32("data/sprites/gunship_end_flying_oam.bin");
-const u32 sGunshipEndOam_TakingOff[3 * 2] = INCBIN_U32("data/sprites/gunship_end_taking_off_oam.bin");
+const struct FrameData sGunshipEndOam_Landed[14] = {
+    { sOamFrame_39e766, 16 },
+    { sOamFrame_39e71c, 16 },
+    { sOamFrame_39e6d2, 16 },
+    { sOamFrame_39e688, 16 },
+    { sOamFrame_39e6d2, 16 },
+    { sOamFrame_39e71c, 16 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_39e7b0, 12 },
+    { sOamFrame_39e81e, 12 },
+    { sOamFrame_39e88c, 12 },
+    { sOamFrame_39e8fa, 12 },
+    { sOamFrame_39e88c, 12 },
+    { sOamFrame_39e81e, 12 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sGunshipEndBeamOam_Idle[10] = {
+    { sOamFrame_39e968, 3 },
+    { sOamFrame_39e970, 3 },
+    { sOamFrame_39e97e, 3 },
+    { sOamFrame_39e970, 3 },
+    FRAME_DATA_TERMINATOR,
+    { sOamFrame_39e98c, 2 },
+    { sOamFrame_39e9f0, 1 },
+    { sOamFrame_39e9be, 2 },
+    { sOamFrame_39e9f0, 3 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sGunshipEndOam_StartingEngine[5] = {
+    { sOamFrame_39e9f8, 2 },
+    { sOamFrame_39eb00, 2 },
+    { sOamFrame_39ea30, 2 },
+    { sOamFrame_39eb00, 6 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sGunshipEndBottomOam_Idle[7] = {
+    { sOamFrame_39eada, 16 },
+    { sOamFrame_39eab4, 16 },
+    { sOamFrame_39ea8e, 16 },
+    { sOamFrame_39ea68, 16 },
+    { sOamFrame_39ea8e, 16 },
+    { sOamFrame_39eab4, 16 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sGunshipEndOam_Flying[2] = {
+    { sOamFrame_39eb00, 255 },
+    FRAME_DATA_TERMINATOR
+};
+const struct FrameData sGunshipEndOam_TakingOff[3] = {
+    { sOamFrame_39e9f8, 2 },
+    { sOamFrame_39ea30, 2 },
+    FRAME_DATA_TERMINATOR
+};
 
 const u32 sElectricWaterDamageBox2Gfx[1 * 512] = INCBIN_U32("data/sprites/electric_water_damage_box_2.gfx");
 const u16 sElectricWaterDamageBox2Pal[1 * 16] = INCBIN_U16("data/sprites/electric_water_damage_box_2.pal");

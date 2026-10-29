@@ -19,6 +19,69 @@
 #include "data/projectile_data.h"
 #include "data/audio.h"
 
+// FrameData arrays and tile offset arrays used by the tables below
+extern const struct FrameData sElevatorMonologueOam_663dd0[];
+extern const struct FrameData sElevatorMonologueOam_663df8[];
+extern const struct FrameData sElevatorMonologueOam_66aa30[];
+extern const struct FrameData sElevatorMonologueOam_66aa58[];
+extern const struct FrameData sElevatorMonologueOam_6719cc[];
+extern const struct FrameData sElevatorMonologueOam_6719f4[];
+extern const struct FrameData sFileSelectAudioLogosOam4_740800[];
+extern const struct FrameData sFileSelectAudioLogosOam4_740820[];
+extern const struct FrameData sFileSelectAudioLogosOam4_740840[];
+extern const struct FrameData sFileSelectDeleteArrowIdleOam[];
+extern const struct FrameData sFileSelectDeleteArrowIdleOam_740ac8[];
+extern const struct FrameData sFileSelectDeleteArrowIdleOam_740ad8[];
+extern const struct FrameData sFileSelectDeleteArrowIdleOam_740ae8[];
+extern const struct FrameData sFileSelectDeleteArrowIdleOam_740b08[];
+extern const struct FrameData sFileSelectDeleteArrowIdleOam_740b28[];
+extern const struct FrameData sFileSelectFilePanelOam3_7409d8[];
+extern const struct FrameData sFileSelectFilePanelOam3_7409e8[];
+extern const struct FrameData sFileSelectFilePanelOam3_7409f8[];
+extern const struct FrameData sFileSelectFilePanelOam3_740a08[];
+extern const struct FrameData sFileSelectFilePanelOam3_740a18[];
+extern const struct FrameData sFileSelectFilePanelOam3_740a28[];
+extern const struct FrameData sFileSelectFilePanelOam3_740a38[];
+extern const struct FrameData sFileSelectOam_7408c0[];
+extern const struct FrameData sFileSelectOam_740ba8[];
+extern const struct FrameData sFileSelectOam_740bb8[];
+extern const struct FrameData sFileSelectOam_740bc8[];
+extern const struct FrameData sFileSelectOam_740bd8[];
+extern const struct FrameData sFileSelectOam_740be8[];
+extern const struct FrameData sFileSelectOam_740bf8[];
+extern const struct FrameData sFileSelectOam_740c08[];
+extern const struct FrameData sFileSelectOam_740c18[];
+extern const struct FrameData sFileSelectOam_740c28[];
+extern const struct FrameData sFileSelectOam_740c38[];
+extern const struct FrameData sFileSelectOam_740c48[];
+extern const struct FrameData sFileSelectOam_740c58[];
+extern const struct FrameData sFileSelectOam_740c68[];
+extern const struct FrameData sFileSelectOam_740c78[];
+extern const struct FrameData sFileSelectOam_740c88[];
+extern const struct FrameData sFileSelectOam_740c98[];
+extern const struct FrameData sFileSelectOam_740ca8[];
+extern const struct FrameData sFileSelectOam_740cb8[];
+extern const struct FrameData sFileSelectOam_740cc8[];
+extern const struct FrameData sFileSelectOam_740cd8[];
+extern const struct FrameData sFileSelectOam_740ce8[];
+extern const struct FrameData sFileSelectOam_740cf8[];
+extern const struct FrameData sGameOverCursorOverlayOam[];
+extern const struct FrameData sGameOverCursorOverlayOam_73c29c[];
+extern const struct FrameData sIntroDepthParticleOam_0[];
+extern const struct FrameData sIntroDepthParticleOam_1[];
+extern const struct FrameData sIntroDepthParticleOam_2[];
+extern const struct FrameData sIntroDepthParticleOam_3[];
+extern const u16 sFileSelectTextTileOffsets_73dbcc[];
+extern const u16 sFileSelectTextTileOffsets_73dbd8[];
+extern const u16 sFileSelectTextTileOffsets_73dbde[];
+extern const u16 sFileSelectTextTileOffsets_73dbe4[];
+extern const u16 sFileSelectTextTileOffsets_73dbea[];
+extern const u16 sFileSelectTextTileOffsets_73dbf6[];
+extern const u16 sFileSelectTextTileOffsets_73dbfc[];
+extern const u16 sFileSelectTextTileOffsets_73dc02[];
+extern const u16 sFileSelectTextTileOffsets_73dc08[];
+extern const u16 sFileSelectTextTileOffsets_73dc14[];
+
 void unk_99940(void); // For V-blank callback
 u8 SpecialCutsceneGetRandomNumber(void);
 
@@ -95,7 +158,14 @@ static const u16* sPalPointers_79c354[16] = {
 	sIntroSamusCuredFadePal_15
 };
 
-u32 sIntroSpaceViewParticleOam[] = INCBIN_U32("data/intro/space_view_particle_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const struct FrameData* sIntroSpaceViewParticleOam[6] = {
+    sIntroDepthParticleOam_0,
+    sIntroDepthParticleOam_1,
+    sIntroDepthParticleOam_2,
+    sIntroDepthParticleOam_3,
+    sIntroDepthParticleOam_2,
+    sIntroDepthParticleOam_1
+};
 u16** sEndingDialogueTextTables[LANGUAGE_COUNT] = {
     [LANGUAGE_JAPANESE] = (u16**)sNavConversationTextPointersJapanese,
     [LANGUAGE_HIRAGANA] = (u16**)sNavConversationTextPointersHiragana,
@@ -161,7 +231,44 @@ u32 sElevatorMonologueObjPalPointers[] = INCBIN_U32("data/cutscenes/elevator_mon
 u32 sElevatorMonologueBgGfxPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 u32 sElevatorMonologueObjGfxPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_obj_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 u32 sElevatorMonologueBgTilemapPointers[] = INCBIN_U32("data/cutscenes/elevator_monologue_bg_tilemap_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sElevatorMonologueOam[] = INCBIN_U32("data/cutscenes/elevator_monologue_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const struct FrameData* sElevatorMonologueOam[9][2] = {
+    {
+        sElevatorMonologueOam_663dd0,
+        sElevatorMonologueOam_663df8
+    },
+    {
+        sElevatorMonologueOam_663dd0,
+        sElevatorMonologueOam_663df8
+    },
+    {
+        sElevatorMonologueOam_663dd0,
+        sElevatorMonologueOam_663df8
+    },
+    {
+        sElevatorMonologueOam_663dd0,
+        sElevatorMonologueOam_663df8
+    },
+    {
+        sElevatorMonologueOam_66aa30,
+        sElevatorMonologueOam_66aa58
+    },
+    {
+        sElevatorMonologueOam_6719cc,
+        sElevatorMonologueOam_6719f4
+    },
+    {
+        sElevatorMonologueOam_663dd0,
+        sElevatorMonologueOam_663df8
+    },
+    {
+        sElevatorMonologueOam_663dd0,
+        sElevatorMonologueOam_663df8
+    },
+    {
+        sElevatorMonologueOam_663dd0,
+        sElevatorMonologueOam_663df8
+    }
+};
 
 u16** sMonologueTextPointers[LANGUAGE_COUNT] = {
     sMonologueTextPointersJapanese,
@@ -2473,12 +2580,142 @@ static u16* sMonologueTextPointersSpanish[19] = {
 	(u16*)sMonologueTextSpanish_18
 };
 
-u32 sGameOverCursorOam[] = INCBIN_U32("data/menus/game_over/cursor_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const struct FrameData* sGameOverCursorOam[3] = {
+    sGameOverCursorOverlayOam,
+    sGameOverCursorOverlayOam_73c29c,
+    sGameOverCursorOverlayOam_73c29c
+};
 u32 sGameOverTextGfxPointers[] = INCBIN_U32("data/menus/game_over/text_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sFileSelectFileOverlayOam[] = INCBIN_U32("data/menus/file_select/file_overlay_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sFileSelectDeleteArrowOam[] = INCBIN_U32("data/menus/file_select/delete_arrow_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sFileSelectTextTileOffsets[] = INCBIN_U32("data/menus/file_select/text_tile_offsets_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sFileSelectAreaNameOam[7 * 7] = INCBIN_U32("data/menus/file_select/area_name_oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const struct FrameData* sFileSelectFileOverlayOam[5] = {
+    sFileSelectDeleteArrowIdleOam,
+    sFileSelectDeleteArrowIdleOam_740ac8,
+    sFileSelectDeleteArrowIdleOam_740ad8,
+    sFileSelectOam_7408c0,
+    sFileSelectOam_7408c0
+};
+const struct FrameData* sFileSelectDeleteArrowOam[3][3] = {
+    {
+        sFileSelectAudioLogosOam4_740800,
+        sFileSelectAudioLogosOam4_740800,
+        sFileSelectAudioLogosOam4_740820
+    },
+    {
+        sFileSelectAudioLogosOam4_740840,
+        sFileSelectAudioLogosOam4_740840,
+        sFileSelectDeleteArrowIdleOam_740ae8
+    },
+    {
+        sFileSelectDeleteArrowIdleOam_740b08,
+        sFileSelectDeleteArrowIdleOam_740b28,
+        sFileSelectDeleteArrowIdleOam_740b28
+    }
+};
+const u16* sFileSelectTextTileOffsetsJapanese[6] = {
+    sFileSelectTextTileOffsets_73dbcc,
+    sFileSelectTextTileOffsets_73dbd8,
+    sFileSelectTextTileOffsets_73dbde,
+    sFileSelectTextTileOffsets_73dbde,
+    sFileSelectTextTileOffsets_73dbde,
+    sFileSelectTextTileOffsets_73dbe4
+};
+const u16* sFileSelectTextTileOffsetsEnglish[6] = {
+    sFileSelectTextTileOffsets_73dbea,
+    sFileSelectTextTileOffsets_73dbf6,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dc02
+};
+const u16* sFileSelectTextTileOffsetsFrench[6] = {
+    sFileSelectTextTileOffsets_73dc08,
+    sFileSelectTextTileOffsets_73dbf6,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dc02
+};
+const u16* sFileSelectTextTileOffsetsSpanish[6] = {
+    sFileSelectTextTileOffsets_73dc14,
+    sFileSelectTextTileOffsets_73dbf6,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dbfc,
+    sFileSelectTextTileOffsets_73dc02
+};
+const u16** sFileSelectTextTileOffsets[LANGUAGE_COUNT] = {
+    [LANGUAGE_JAPANESE] = sFileSelectTextTileOffsetsJapanese,
+    [LANGUAGE_HIRAGANA] = sFileSelectTextTileOffsetsJapanese,
+    [LANGUAGE_ENGLISH] = sFileSelectTextTileOffsetsEnglish,
+    [LANGUAGE_GERMAN] = sFileSelectTextTileOffsetsEnglish,
+    [LANGUAGE_FRENCH] = sFileSelectTextTileOffsetsFrench,
+    [LANGUAGE_ITALIAN] = sFileSelectTextTileOffsetsEnglish,
+    [LANGUAGE_SPANISH] = sFileSelectTextTileOffsetsSpanish
+};
+const struct FrameData* sFileSelectAreaNameOam[LANGUAGE_COUNT][7] = {
+    {
+        sFileSelectFilePanelOam3_740a38,
+        sFileSelectFilePanelOam3_7409d8,
+        sFileSelectFilePanelOam3_7409e8,
+        sFileSelectFilePanelOam3_7409f8,
+        sFileSelectFilePanelOam3_740a08,
+        sFileSelectFilePanelOam3_740a18,
+        sFileSelectFilePanelOam3_740a28
+    },
+    {
+        sFileSelectFilePanelOam3_740a38,
+        sFileSelectFilePanelOam3_7409d8,
+        sFileSelectFilePanelOam3_7409e8,
+        sFileSelectFilePanelOam3_7409f8,
+        sFileSelectFilePanelOam3_740a08,
+        sFileSelectFilePanelOam3_740a18,
+        sFileSelectFilePanelOam3_740a28
+    },
+    {
+        sFileSelectFilePanelOam3_740a38,
+        sFileSelectFilePanelOam3_7409d8,
+        sFileSelectFilePanelOam3_7409e8,
+        sFileSelectFilePanelOam3_7409f8,
+        sFileSelectFilePanelOam3_740a08,
+        sFileSelectFilePanelOam3_740a18,
+        sFileSelectFilePanelOam3_740a28
+    },
+    {
+        sFileSelectOam_740c08,
+        sFileSelectOam_740ba8,
+        sFileSelectOam_740bb8,
+        sFileSelectOam_740bc8,
+        sFileSelectOam_740bd8,
+        sFileSelectOam_740be8,
+        sFileSelectOam_740bf8
+    },
+    {
+        sFileSelectOam_740c78,
+        sFileSelectOam_740c18,
+        sFileSelectOam_740c28,
+        sFileSelectOam_740c38,
+        sFileSelectOam_740c48,
+        sFileSelectOam_740c58,
+        sFileSelectOam_740c68
+    },
+    {
+        sFileSelectOam_740ce8,
+        sFileSelectOam_740c88,
+        sFileSelectOam_740c98,
+        sFileSelectOam_740ca8,
+        sFileSelectOam_740cb8,
+        sFileSelectOam_740cc8,
+        sFileSelectOam_740cd8
+    },
+    {
+        sFileSelectOam_740cf8,
+        sFileSelectFilePanelOam3_7409d8,
+        sFileSelectFilePanelOam3_7409e8,
+        sFileSelectFilePanelOam3_7409f8,
+        sFileSelectFilePanelOam3_740a08,
+        sFileSelectFilePanelOam3_740a18,
+        sFileSelectFilePanelOam3_740a28
+    }
+};
 u8 sBlob_79ea08_79ec68[] = INCBIN_U8("data/Blob_79ea08_79ec68.bin"); // not referenced directly; probably pointed to by the tables around it
 u32 sFileSelectTexts[] = INCBIN_U32("data/menus/file_select/text_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
 u32 sFileSelectEmptyFileTexts[] = INCBIN_U32("data/menus/file_select/empty_file_text_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)

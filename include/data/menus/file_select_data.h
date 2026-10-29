@@ -21,7 +21,7 @@ extern const u16 sFileSelectBgPal_73db84[];
 extern const u8 sFileSelectOamXFlipOffsets[3][4];
 extern const u8 sFileSelectChoiceCursorXPositions_73dbb0[LANGUAGE_COUNT][2];
 extern const u8 sFileSelectChoiceCursorXPositions_73dbbe[LANGUAGE_COUNT][2];
-extern const u32 sFileSelectObjGfx[2792];
+extern const u32 sFileSelectObjGfx[1413];
 extern const struct FrameData sFileSelectAudioLogosOam1[];
 extern const struct FrameData sFileSelectAudioLogosOam2[];
 extern const struct FrameData sFileSelectAudioLogosOam3[];
@@ -50,7 +50,7 @@ extern const u16 sFileSelectBgPal[16 * PAL_ROW];
 // Defined in src/new_file_intro.c
 
 extern const struct FrameData* const sFileSelectFileOverlayOam[5];
-extern const struct FrameData* const sFileSelectDeleteArrowOam[11][3];
+extern const struct FrameData* const sFileSelectDeleteArrowOam[3][3];
 extern const u16* const* const sFileSelectTextTileOffsets[LANGUAGE_COUNT];
 extern const struct FrameData* const sFileSelectAreaNameOam[][7];
 extern const u16* const* const sFileSelectTexts[LANGUAGE_COUNT];

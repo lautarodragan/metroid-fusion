@@ -12,6 +12,14 @@
 #include "structs/event.h"
 #include "structs/samus.h"
 
+// FrameData arrays used by sEraseSramOam
+extern const struct FrameData sEraseSramOam_582a3c[];
+extern const struct FrameData sEraseSramOam_582b24[];
+extern const struct FrameData sEraseSramOam_582b7c[];
+extern const struct FrameData sEraseSramOam_582b8c[];
+extern const struct FrameData sEraseSramOam_582b9c[];
+extern const struct FrameData sEraseSramOam_582bac[];
+
 static u32 sArray_79c128[9] = {
     [0] = UINT_MAX ^ (UINT_MAX << 0 * sizeof(u32)),
     [1] = UINT_MAX ^ (UINT_MAX << 1 * sizeof(u32)),
@@ -52,7 +60,15 @@ u8 sBslDiagramOamIds[36] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_oam_id
 u8 sBslDiagramTargetOffsets[36 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_target_offsets.bin"); // s8 [36][3]: x offset, y offset, target OAM id per rotation step
 u8 sBslDiagramFixedTargetOffsets[8 * 3] = INCBIN_U8("data/menus/pause_screen/bsl_diagram_fixed_target_offsets.bin"); // s8 [8][3]: x offset, y offset, target OAM id per navigation location
 u32 sEraseSramTextGfxPointers[] = INCBIN_U32("data/menus/erase_sram/text_gfx_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
-u32 sEraseSramOam[] = INCBIN_U32("data/menus/erase_sram/oam_pointers.bin"); // pointer table, targets unresolved (see tools/find_blob_pointers.py)
+const struct FrameData* sEraseSramOam[7] = {
+    sEraseSramOam_582a3c,
+    sEraseSramOam_582a3c,
+    sEraseSramOam_582b24,
+    sEraseSramOam_582b7c,
+    sEraseSramOam_582b8c,
+    sEraseSramOam_582b9c,
+    sEraseSramOam_582bac
+};
 
  /**
  * @brief 79118 | 24 | Gets the width of a text character
