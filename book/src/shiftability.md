@@ -15,27 +15,32 @@ being written as a number.
   object is pinned to an address.
 - `make check-shift` proves that every pointer the build emits (literal
   pools, jump tables, C data) follows what it points to.
-- **Not yet covered: pointers stored inside extracted data.** The bytes
-  listed in `database.json` are copied from the baserom unchanged. A blob
-  that holds a pointer table keeps the old addresses when something before
-  its targets moves. The synthetic baserom cannot show where these are, so
-  they have to be found with the real ROM using
-  [`tools/find_blob_pointers.py`](#finding-pointers-inside-blobs).
+- Pointers stored inside data extracted from the baserom are symbols too.
+  The tables that were extracted as raw bytes are now C or asm that names
+  what they point to, and the data they point into is split so that every
+  target has a symbol:
+  - `sInterruptHandlers`, `sNavConversationPopUpFunctions`: arrays of
+    functions.
+  - the per-language message, location, navigation conversation, pause
+    screen and file select text tables: arrays of strings. The text blob is
+    split into one region per string (`text/<language>/<table>_<index>.bin`).
+  - the `struct FrameData` arrays of the intro, cutscenes, ending, menus and
+    gunship, and the OAM pointer tables that use them: C, pointing to OAM
+    frames split out of the blobs and LZ77 files that held them
+    (`oam_frames/<offset>.bin`, `sOamFrame_<offset>`).
+  - graphics, palette and tilemap pointer tables (erase SRAM, game over,
+    ship alert, elevator monologues), `sNavConversationPopUps`, the ending
+    image text OAM: C, their targets split out the same way.
+  - the voicegroups (`sound/voicegroups.s`): each voice is included from
+    `data/voicegroups/<offset>.bin` with `.incbin`, except its sample, wave,
+    drum kit or keysplit pointers, written as symbols (macros in
+    `asm/voicegroup.inc`).
 
-  From the code that uses them, these blobs are known to be pointer tables
-  (or to contain pointers), so they will certainly need converting:
-  - `sInterruptHandlers` (`src/data/generic_data.c`): interrupt handler
-    function pointers
-  - `sVoicegroup_*` (`src/data/audio.c`): instrument definitions, which
-    point to the direct sound samples, wave data and sub-voicegroups
-  - `sMessageTextPointers*`, `sLocationTextPointers*`,
-    `sNavConversationTextPointers*`, `sPauseScreenTextPointers*`
-    (`src/new_file_intro.c`): per-language tables of pointers into the text
-    blobs
-
-Until the internal blob pointers are converted, changes that move data
-located after any of their targets will break the ROM at run time, even
-though it links and the checks below pass.
+  Run side by side with the original ROM and compared every frame (screen
+  and RAM, ROM pointers in RAM translated between the layouts), the shifted
+  build (`make SHIFT=1`) of the real data behaves like the original through
+  boot, title, file select, the intro, the menus, a save, a navigation
+  conversation, an elevator ride and all 393 rooms.
 
 ## Checks
 
@@ -74,7 +79,10 @@ only words aligned within an aligned object and pointing exactly to the
 start of an object or function count, so byte tables that happen to look
 like addresses are not reported. The extracted ranges are skipped because
 their content comes from the baserom (random with the synthetic one); that
-is what `find_blob_pointers.py` is for.
+is what `find_blob_pointers.py` is for. The exception are the words of
+extracted ranges that differ between the two builds: data included piece by
+piece around pointers written as symbols (the voicegroups). Each of them
+must point to a symbol (or inside a sized object) and follow it.
 
 The check works with the synthetic or the real baserom. It needs the data
 to be extracted, so run it after `tools/check_synthetic.sh` or
@@ -91,8 +99,9 @@ meaning the literal at `0x0809222c` is a number, not a reference to
 
 ## Finding pointers inside blobs
 
-`tools/find_blob_pointers.py` needs the real baserom (it warns when it gets
-the synthetic one, whose results are noise):
+`tools/find_blob_pointers.py` looks for pointers that are still raw bytes in
+extracted data. It needs the real baserom (it warns when it gets the
+synthetic one, whose results are noise):
 
 ```sh
 python3 tools/find_blob_pointers.py                    # reads mf_us_baserom.gba
@@ -108,7 +117,15 @@ if it is built; its addresses are the same as the baserom's). Words that
 point exactly to the start of an object, a `database.json` entry or a
 function (+1) are marked `*`; consecutive marked words are almost certainly
 a pointer table. Unmarked words are usually graphics or other data that
-looks like an address by chance.
+looks like an address by chance. When `mf_us.gba` and `mf_us_shifted.gba`
+are both built, words that differ between them are pointers the source
+already writes as symbols (inside data included piece by piece, like the
+voicegroups) and are left out.
+
+With the conversions above, `--likely` reports a single word: an isolated
+function address inside graphics (`Blob_606a00_609020`), a coincidence.
+Without `--likely`, the remaining in-range words are in graphics, palettes,
+tilemaps, samples and text (values that look like addresses by chance).
 
 To convert a pointer table, replace its bytes with C (an array of the
 symbols it points to) or asm (`.4byte symbol`), splitting the blob around it
@@ -117,24 +134,32 @@ those. Then `make check-shift` covers the new pointers too.
 
 ## Splitting a blob
 
-`tools/split_blob.py` splits a `database.json` blob and the `INCBIN_U8`
-array that includes it into consecutive pieces, so the bytes stay where they
-are:
+`tools/split_blob.py` splits a `database.json` entry and the `INCBIN` array
+that includes it into consecutive pieces, so the bytes stay where they are:
 
 ```sh
 python3 tools/split_blob.py Blob_6b2fac_71e20c.bin 0x6c0000=sFoo 0x6c1000=sBar
-python3 tools/split_blob.py Blob_6b2fac_71e20c.bin @splits.txt   # "ADDR NAME" per line
+python3 tools/split_blob.py Blob_6b2fac_71e20c.bin @splits.txt   # "ADDR NAME [TYPE [PATH]]" per line
+python3 tools/split_blob.py menus/game_over/obj.gfx.lz 0x739d58=sGameOverTextGfxJapanese:u8:menus/game_over/text_japanese.gfx.lz
 ```
 
-Each named piece is a non-static `u8` array (u8 arrays have no alignment, so
-no padding is added) stored as `Blob_<start>_<end>.bin`, so it still counts
-as a blob in `tools/extractor.py -b`. Declare the piece where C code uses it
-and replace the literal with its name. Pieces referenced from asm only need
-no declaration.
+Each named piece is a non-static array. Its element type is the type of the
+original array when its address and size allow it, else the largest of
+u16/u8 that fits (or the TYPE given), so splitting never adds padding. A
+piece of a `Blob_*` entry is stored as `Blob_<start>_<end>.bin` by default,
+so it still counts as a blob in `tools/extractor.py -b`; give it a PATH
+once its content is identified (`text/english/message_3.bin`,
+`oam_frames/<offset>.bin`, `....gfx.lz`). In a blob, the name `-` starts an
+unnamed piece (the rest of the blob after a named one). The bytes before the
+first split point keep the original declaration (a `Blob_*` entry gets the
+static `sBlob_<start>_<end>` name of its new range). Declare the piece where
+C code uses it and replace the literal with its name. Pieces referenced from
+asm only need no declaration.
 
 Names given so far follow the code that uses the address: a descriptive name
 where it is clear (`sSpriteset<N>`, `sVoicegroup_<offset>`,
-`sMonologueText<Language>_<N>`, `sGunshipEndGfx`, ...), otherwise
+`sMonologueText<Language>_<N>`, `sMessageText<Language>_<N>`,
+`sOamFrame_<offset>`, `sGunshipEndGfx`, ...), otherwise
 `s<Area>Unk_<offset>` (area of the asm function using it, e.g.
 `sIntroUnk_6131c8`) or `sUnk_<offset>`. Literals that addressed single bytes
 of one object are written as `symbol+offset` instead.

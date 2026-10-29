@@ -22632,8 +22632,9 @@ const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW] = INCBIN_U16("data/menus/t
 
 const u32 sTitleScreenSpaceBackgroundTilemap[172] = INCBIN_U32("data/menus/title_screen/space_background.tm.lz");
 
-// Not referenced by code; most likely the OAM frames of the FrameData arrays below
+// Not referenced by code
 static const u8 sBlob_6094d0_6098a8[] = INCBIN_U8("data/Blob_6094d0_6098a8.bin");
+// OAM frames of the FrameData arrays below
 const u16 sOamFrame_6098a8[] = INCBIN_U16("data/oam_frames/6098a8.bin");
 const u16 sOamFrame_6098b0[] = INCBIN_U16("data/oam_frames/6098b0.bin");
 const u16 sOamFrame_6098b8[] = INCBIN_U16("data/oam_frames/6098b8.bin");
@@ -22734,10 +22735,7 @@ const u16 sOamFrame_60abd8[] = INCBIN_U16("data/oam_frames/60abd8.bin");
 const u16 sOamFrame_60abec[] = INCBIN_U16("data/oam_frames/60abec.bin");
 const u16 sOamFrame_60abf4[] = INCBIN_U16("data/oam_frames/60abf4.bin");
 
-// struct FrameData arrays (2 words per entry) of the intro space scenes.
-// pointer table, targets unresolved (see tools/find_blob_pointers.py): the
-// pFrame fields are raw ROM addresses, declared as struct FrameData in
-// include/data/cutscene_unk_data.h
+// FrameData arrays of the intro space scenes
 const struct FrameData sIntroDepthParticleOam_0[2] = {
     { sOamFrame_6098a8, 4 },
     FRAME_DATA_TERMINATOR
@@ -22991,8 +22989,7 @@ const u32 sEndingAnimalsBg3Gfx[6083] = INCBIN_U32("data/ending/animals_bg3.gfx.l
 const u32 sEndingAnimalsBg2Gfx[2131] = INCBIN_U32("data/ending/animals_bg2.gfx.lz");
 const u32 sBslCrashingObjGfx[2961] = INCBIN_U32("data/ending/bsl_crashing_obj.gfx.lz");
 const u32 sEndingShipFrontViewBgGfx[5039] = INCBIN_U32("data/ending/ship_front_view_bg.gfx.lz");
-// The end of this file, after the LZ77 stream, may also hold the OAM frames
-// that the FrameData arrays below point to (their size is not known)
+// Followed by the OAM frames of the ending FrameData arrays below
 const u32 sBslCrashingBgGfx[4683] = INCBIN_U32("data/ending/bsl_crashing_bg.gfx.lz");
 const u16 sOamFrame_62ff20[13] = INCBIN_U16("data/oam_frames/62ff20.bin");
 const u16 sOamFrame_62ff3a[13] = INCBIN_U16("data/oam_frames/62ff3a.bin");
@@ -23196,10 +23193,7 @@ const u16 sOamFrame_633090[127] = INCBIN_U16("data/oam_frames/633090.bin");
 const u16 sOamFrame_63318e[43] = INCBIN_U16("data/oam_frames/63318e.bin");
 const u16 sOamFrame_6331e4[4] = INCBIN_U16("data/oam_frames/6331e4.bin");
 
-// struct FrameData arrays (2 words per entry), declared as struct FrameData in
-// include/ending_dialogue.h, include/died_on_sr388.h and
-// include/data/cutscene_unk_data.h.
-// pointer table, targets unresolved (see tools/find_blob_pointers.py)
+// FrameData arrays of the ending dialogue, the ending and the died on SR388 cutscene
 const struct FrameData sEndingDialogueType5Oam_Opening[11] = {
     { sOamFrame_630a2e, 30 },
     { sOamFrame_62ff20, 1 },
@@ -23655,8 +23649,8 @@ const struct FrameData sEndingSamusViewRadarViewOam_Idle[3] = {
     { sOamFrame_63301c, 60 },
     FRAME_DATA_TERMINATOR
 };
-// FrameData array (type 30 of the ending dialogue) followed by data of unknown
-// size, most likely the OAM frames of the BSL crashing cutscene
+// FrameData array (type 30 of the ending dialogue), followed by the OAM frames of the BSL
+// crashing cutscene
 const struct FrameData sEndingUnk_633f24[6] = {
     { sOamFrame_633090, 3 },
     { sOamFrame_6331e4, 1 },
@@ -23987,8 +23981,8 @@ const u32 sIntroSamusHelmetCloseupBgGfx3[812] = INCBIN_U32("data/new_file_intro/
 const u32 sIntroSamusHelmetCloseupBgGfx4[844] = INCBIN_U32("data/new_file_intro/samus_helmet_closeup_bg_4.gfx.lz");
 const u32 sIntroSamusHelmetCloseupBgGfx5[403] = INCBIN_U32("data/new_file_intro/samus_helmet_closeup_bg_5.gfx.lz");
 
-// Not referenced by name, probably reached through the ship alert graphics pointer tables
-// (sIntroUnk_79c448, sIntroUnk_79c45c)
+// Ship alert graphics (sIntroShipAlertBgGfxPointers, sIntroShipAlertObjGfxPointers) and the
+// graphics of the unreferenced sIntroGfxPointers_79c474
 const u32 sIntroShipAlertBgGfx_0[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_0.gfx.lz");
 const u32 sIntroShipAlertBgGfx_1[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_1.gfx.lz");
 const u32 sIntroShipAlertBgGfx_2[] = INCBIN_U32("data/new_file_intro/ship_alert_bg_2.gfx.lz");
@@ -24017,9 +24011,9 @@ const u32 sIntroSamusInShipTilemap[385] = INCBIN_U32("data/new_file_intro/samus_
 const u16 sIntroSamusInShipPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_in_ship.pal");
 const u32 sIntroShipAlertBg1Tilemap[368] = INCBIN_U32("data/new_file_intro/ship_alert_bg1.tm.lz");
 const u16 sIntroShipAlertBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_bg.pal");
-// Rest after the 8 palette rows the ship alert copies, not referenced by name (probably holds the
-// OAM frames of the FrameData arrays below)
+// Rest after the 8 palette rows the ship alert copies, not referenced by name
 static const u8 sBlob_659aa4_659ba4[] = INCBIN_U8("data/Blob_659aa4_659ba4.bin");
+// OAM frames of the FrameData arrays below
 const u16 sOamFrame_659ba4[] = INCBIN_U16("data/oam_frames/659ba4.bin");
 const u16 sOamFrame_659bd0[] = INCBIN_U16("data/oam_frames/659bd0.bin");
 const u16 sOamFrame_659bf0[] = INCBIN_U16("data/oam_frames/659bf0.bin");
@@ -24200,8 +24194,7 @@ const u16 sOamFrame_65bac8[] = INCBIN_U16("data/oam_frames/65bac8.bin");
 const u16 sOamFrame_65baee[] = INCBIN_U16("data/oam_frames/65baee.bin");
 const u16 sOamFrame_65bb0e[] = INCBIN_U16("data/oam_frames/65bb0e.bin");
 const u16 sOamFrame_65bb2e[] = INCBIN_U16("data/oam_frames/65bb2e.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
+// FrameData arrays of the ship alert
 const struct FrameData sIntroShipAlertTimeAndDistanceOam[57] = {
     { sOamFrame_65bb2e, 80 },
     { sOamFrame_65a1d4, 1 },
@@ -24455,17 +24448,15 @@ const struct FrameData sIntroShipAlertBigNumberOam_65c230[7] = {
     FRAME_DATA_TERMINATOR
 };
 const u16 sIntroShipAlertObjPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_obj.pal");
-// Not referenced by name, probably reached through the elevator monologue pointer tables
-// (the sElevatorMonologue*Pointers tables)
+// Elevator monologue graphics, palettes and tilemaps (the sElevatorMonologue*Pointers tables)
 const u8 sElevatorMonologueBgGfx_65c468[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_65c468.gfx.lz");
-// Starts with the LZ77 compressed graphics of the monologue cursor (decompressed to the last
-// 0x400 bytes of OBJ VRAM), too large to be only that: the rest is not identified
-const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/Blob_65fb5c_65fc24.bin");
+// LZ77 compressed graphics of the monologue cursor (decompressed to the last 0x400 bytes of OBJ
+// VRAM)
+const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/cutscenes/monologue/cursor.gfx.lz");
 const u8 sElevatorMonologueObjGfx_65fc24[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_65fc24.gfx.lz");
 
 const u32 sIntroTilemap_662804[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
 
-// Not referenced by name, probably reached through the elevator monologue pointer tables
 const u8 sElevatorMonologueBgTilemap_662cfc[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_662cfc.tm.lz");
 const u32 sCutsceneElevatorMonologueBg1Tilemap[66] = INCBIN_U32("data/cutscenes/elevator_monologue/bg1.tm.lz");
 // The monologue inits copy 16 rows from here, the last 4 rows come from sIntroPal_663820
@@ -24474,8 +24465,7 @@ const u16 sCutsceneMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/mon
 const u16 sIntroPal_663820[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820.pal");
 
 const u16 sCutsceneMonologueCursorPal[1 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/cursor.pal");
-// Rest after the palette row the monologues copy, not referenced by name (probably holds the OAM
-// frames of the FrameData arrays below)
+// Elevator monologue palettes, then the OAM frames of the FrameData arrays below
 const u16 sElevatorMonologueBgPal_6638c0[] = INCBIN_U16("data/cutscenes/elevator_monologue/bg_6638c0.pal");
 const u16 sElevatorMonologueObjPal_663a20[] = INCBIN_U16("data/cutscenes/elevator_monologue/obj_663a20.pal");
 const u16 sOamFrame_663ae0[] = INCBIN_U16("data/oam_frames/663ae0.bin");
@@ -24499,8 +24489,7 @@ const u16 sOamFrame_663e24[] = INCBIN_U16("data/oam_frames/663e24.bin");
 const u16 sOamFrame_663e32[] = INCBIN_U16("data/oam_frames/663e32.bin");
 const u16 sOamFrame_663e40[] = INCBIN_U16("data/oam_frames/663e40.bin");
 const u16 sOamFrame_663e4e[] = INCBIN_U16("data/oam_frames/663e4e.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
+// FrameData arrays of the monologue cursor and the elevator monologues
 const struct FrameData sCutsceneMonologueCursorHiddenOam[3] = {
     { sOamFrame_663e08, 4 },
     { sOamFrame_663e16, 4 },
@@ -24571,8 +24560,7 @@ const u16 sCutsceneSecretConversationAnimatedPal3[1 * PAL_ROW] = INCBIN_U16("dat
 const u32 sCutsceneSecretConversationBg2Tilemap[307] = INCBIN_U32("data/cutscenes/secret_conversation/bg2.tm.lz");
 const u32 sCutsceneSecretConversationObjGfx[467] = INCBIN_U32("data/cutscenes/secret_conversation/obj.gfx.lz");
 const u16 sCutsceneSecretConversationObjPal[2 * PAL_ROW] = INCBIN_U16("data/cutscenes/secret_conversation/obj.pal");
-// Rest after the 2 palette rows the secret conversation copies, not referenced by name (probably
-// holds the OAM frames of the FrameData arrays below)
+// OAM frames of the FrameData arrays below
 const u16 sOamFrame_6788e8[] = INCBIN_U16("data/oam_frames/6788e8.bin");
 const u16 sOamFrame_67890e[] = INCBIN_U16("data/oam_frames/67890e.bin");
 const u16 sOamFrame_678982[] = INCBIN_U16("data/oam_frames/678982.bin");
@@ -24600,8 +24588,7 @@ const u16 sOamFrame_6790ae[] = INCBIN_U16("data/oam_frames/6790ae.bin");
 const u16 sOamFrame_679122[] = INCBIN_U16("data/oam_frames/679122.bin");
 const u16 sOamFrame_679196[] = INCBIN_U16("data/oam_frames/679196.bin");
 const u16 sOamFrame_67920a[] = INCBIN_U16("data/oam_frames/67920a.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
+// FrameData arrays of the secret conversation
 const struct FrameData sCutsceneSecretConversationNavigationPanelOam_679280[5] = {
     { sOamFrame_678b88, 16 },
     { sOamFrame_678ba2, 16 },
@@ -24667,8 +24654,8 @@ const struct FrameData sCutsceneSecretConversationOam_6793b0[14] = {
     FRAME_DATA_TERMINATOR
 };
 const u32 sCutsceneBslSpaceBgGfx[4331] = INCBIN_U32("data/cutscenes/bsl_space/bg.gfx.lz");
-// Starts with the LZ77 compressed OBJ graphics of the BSL space view. OAM frames usually come
-// right before their FrameData arrays, so the end probably holds the frames of the arrays below
+// LZ77 compressed OBJ graphics of the BSL space view, followed by the OAM frames of the
+// FrameData arrays below
 const u8 sCutsceneBslSpaceObjGfx[] = INCBIN_U8("data/Blob_67d7cc_6808ac.bin");
 const u16 sOamFrame_6808ac[] = INCBIN_U16("data/oam_frames/6808ac.bin");
 const u16 sOamFrame_6808b4[] = INCBIN_U16("data/oam_frames/6808b4.bin");
@@ -24732,8 +24719,7 @@ const u16 sOamFrame_680d1a[] = INCBIN_U16("data/oam_frames/680d1a.bin");
 const u16 sOamFrame_680d22[] = INCBIN_U16("data/oam_frames/680d22.bin");
 const u16 sOamFrame_680d2a[] = INCBIN_U16("data/oam_frames/680d2a.bin");
 const u16 sOamFrame_680d32[] = INCBIN_U16("data/oam_frames/680d32.bin");
-// struct FrameData arrays (OAM frame pointer, timer), as raw words: pointer table, targets
-// unresolved (see tools/find_blob_pointers.py)
+// FrameData arrays of the restricted lab detaching and BSL exploding cutscenes
 const struct FrameData sCutsceneRestrictedLabDetachingBslPartOam_680d54[2] = {
     { sOamFrame_680aee, 255 },
     FRAME_DATA_TERMINATOR

@@ -3260,7 +3260,7 @@ const u16 sGunshipEndTakingOffScaling[68] = INCBIN_U16("data/sprites/gunship_end
 const u32 sGunshipEndGfx[7 * 512] = INCBIN_U32("data/sprites/gunship_end.gfx");
 const u16 sGunshipEndPal[7 * 16] = INCBIN_U16("data/sprites/gunship_end.pal");
 
-// Not referenced by code; most likely the OAM frames of the FrameData arrays below
+// OAM frames of the gunship (end) FrameData arrays below
 const u16 sOamFrame_39e638[] = INCBIN_U16("data/oam_frames/39e638.bin");
 const u16 sOamFrame_39e688[] = INCBIN_U16("data/oam_frames/39e688.bin");
 const u16 sOamFrame_39e6d2[] = INCBIN_U16("data/oam_frames/39e6d2.bin");
@@ -3283,13 +3283,13 @@ const u16 sOamFrame_39ea8e[] = INCBIN_U16("data/oam_frames/39ea8e.bin");
 const u16 sOamFrame_39eab4[] = INCBIN_U16("data/oam_frames/39eab4.bin");
 const u16 sOamFrame_39eada[] = INCBIN_U16("data/oam_frames/39eada.bin");
 const u16 sOamFrame_39eb00[] = INCBIN_U16("data/oam_frames/39eb00.bin");
+// Not referenced by code
 const struct FrameData sGunshipEndOam_39eb38[2] = {
     { sOamFrame_39e638, 255 },
     FRAME_DATA_TERMINATOR
 };
 
-// struct FrameData arrays (2 words per entry) of the gunship (end).
-// pointer table, targets unresolved (see tools/find_blob_pointers.py)
+// FrameData arrays of the gunship (end)
 const struct FrameData sGunshipEndOam_Landed[14] = {
     { sOamFrame_39e766, 16 },
     { sOamFrame_39e71c, 16 },
