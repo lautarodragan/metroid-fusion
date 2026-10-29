@@ -32,7 +32,7 @@ void InitializeGame(void)
         | WAIT_BANK0_SUBSEQUENT_1CYCLE
         | WAIT_BANK1_3CYCLES | WAIT_BANK1_SUBSEQUENT_1CYCLE
         | WAIT_BANK2_3CYCLES | WAIT_BANK2_SUBSEQUENT_1CYCLE
-        | WAIT_GAMEPACK_CGB);
+        | WAIT_PREFETCH);
 
     gSubGameMode1 = 0;
     gSubGameMode2 = 0;
