@@ -121,6 +121,14 @@ and ROM. Symbols are resolved only from the `.map`. The CPU registers are not
 part of the libretro API; `cpu_registers()` extracts them from mGBA's *save
 state* format and is meant for debugging.
 
+### Lag frames and logic frames
+
+`tests/emu/lag.py` counts lag frames (emulated frames in which the game's
+frame counter does not advance) and drives a build one logic frame of the
+game at a time (`LogicStepper`), which is how builds that run at different
+speeds can be compared. It also reads the cycle counts of `PROFILE` builds.
+See [Performance](performance.md).
+
 ### Debugging a hang
 
 1. With the harness, locate the frame (modes, `cpu_registers()`, `symbolize`).

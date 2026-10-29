@@ -10,6 +10,7 @@
 - [Verifying without the ROM (synthetic check)](synthetic-check.md)
 - [Shiftability](shiftability.md)
 - [Emulator tests](emu-tests.md)
+- [Performance: lag in boss fights](performance.md)
 
 # Research
 
