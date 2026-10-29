@@ -85,8 +85,10 @@ monologue rows 12-15 are the same palette faded from full (12) to faint
 
 ## Placeholder strings
 
-All languages get the same English placeholders, written into the unused
-start of the text blob (with the pointer tables that point to them):
+All languages get the same English placeholders, each written in place of
+the original string (every string is its own region, and the pointer tables
+are C arrays of their symbols), cut to the original string's length when
+longer:
 
 | Table | Example |
 | --- | --- |
@@ -95,7 +97,7 @@ start of the text blob (with the pointer tables that point to them):
 | Messages 21-42 / 43+ | `[Banner N]` / `[Message N: Navigation]` |
 | Locations | `[Location: sector 1]` (from `enum LocationText`) |
 | Navigation / pause | `[Navigation briefing N]`, `[Pause text N]` |
-| File select | `SELECT A FILE`, `START   COPY   ERASE`, `[Prompt: start this file?]`, `[empty file]`, `[Notice: file A damaged]` |
+| File select | `SELECT A FILE`, `START   COPY   ERASE`, `[Prompt: start this file?]`, `[empty]`, `[Notice: file A damaged]` |
 
 `font.encode()` takes printable ASCII, `\n` (`CHAR_NEW_LINE`), `{ARROW}`
 (`CHAR_NEXT_PAGE_ARROW`) and `{PAGE}` (`CHAR_NEW_PAGE`), and appends the

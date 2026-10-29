@@ -20,8 +20,9 @@ fitted into each character's original advance width, with a drop shadow.
 Only printable ASCII is drawn; every other cell stays empty.
 
 The strings are original placeholders that say what each text is for
-(``[Message: missiles]``), written into the text blob together with the
-pointer tables that reference them. Control codes keep cutscenes advancing.
+(``[Message: missiles]``), written in place into the region of each string
+(the pointer tables are C arrays of these regions' symbols), cut to the
+size of the original string. Control codes keep cutscenes advancing.
 
 ``--font-from-rom`` (make_open_baserom.py) instead copies the font regions
 from your own baserom, a local option (the output, like every .gba, is gitignored).
@@ -482,7 +483,7 @@ FILE_SELECT_TEXTS = {
     4: "[Prompt: erase this file?]",
 }
 FILE_SELECT_TEXT_COUNT = 32
-FILE_SELECT_EMPTY = " [empty file]"   # sFileSelectEmptyFileTexts[language][0]
+FILE_SELECT_EMPTY = " [empty]"   # sFileSelectEmptyFileTexts[language][0] (the original string holds 9 characters)
 
 
 def file_select_strings() -> list[str]:
@@ -501,38 +502,20 @@ def file_select_strings() -> list[str]:
 # Writing it into the baserom
 # ---------------------------------------------------------------------------
 
-TEXT_POINTERS_RE = re.compile(r"^s(\w+?)TextPointers(" + "|".join(LANGUAGES) + r")$")
-TEXT_BLOB_START = 0x6b2fac          # baserom offset of the (unused) start of the text blob
+# One region per string, named after the first table entry that uses it
+TABLE_STRING_RE = re.compile(r"^s(Message|Location|NavConversation|PauseScreen)Text(?:"
+                             + "|".join(LANGUAGES) + r")_(\d+)$")
+FILE_SELECT_STRING_RE = re.compile(r"^sFileSelectText(?:" + "|".join(LANGUAGES) + r")_(\d+)$")
+FILE_SELECT_EMPTY_RE = re.compile(r"^sFileSelectEmptyFileText_\d+$")
 
 
-class Arena:
-    """Sequential allocator inside one baserom region we own entirely."""
-
-    def __init__(self, rom: bytearray, region: Region, build_address: int, start: int = 0):
-        self.rom, self.r, self.base, self.pos = rom, region, build_address, start
-        self.cache: dict[bytes, int] = {}
-
-    def alloc(self, data: bytes, align: int = 2) -> int:
-        """Store ``data``; returns its build address (aligned there)."""
-        key = bytes([align]) + data
-        if key in self.cache:
-            return self.cache[key]
-        while (self.base + self.pos) % align:
-            self.pos += 1
-        if self.pos + len(data) > self.r.size:
-            raise SystemExit(f"text arena {self.r.path} full")
-        off = self.r.addr + self.pos
-        self.rom[off:off + len(data)] = data
-        addr = self.base + self.pos
-        self.pos += len(data)
-        self.cache[key] = addr
-        return addr
-
-    def string(self, text: str) -> int:
-        return self.alloc(pack(encode(text)))
-
-    def table(self, addresses: list[int]) -> int:
-        return self.alloc(struct.pack(f"<{len(addresses)}I", *addresses), align=4)
+def fit(text: str, size: int) -> bytes:
+    """``text`` encoded and cut to ``size`` bytes (terminator included), padded with terminators."""
+    codes = encode(text)
+    n = size // 2
+    if len(codes) > n:
+        codes = codes[:n - 1] + [CHAR_TERMINATOR]
+    return pack(codes + [CHAR_TERMINATOR] * (n - len(codes)))
 
 
 def apply_text(rom: bytearray, regions: list[Region], layout, widths: list[int]) -> list[str]:
@@ -550,10 +533,6 @@ def apply_text(rom: bytearray, regions: list[Region], layout, widths: list[int])
         assert len(data) <= r.size, (r.path, len(data), r.size)
         rom[r.addr:r.addr + len(data)] = data
 
-    blob = next(r for r in regions if r.addr <= TEXT_BLOB_START < r.addr + r.size)
-    # the first u16 stays a terminator: apply_known_layouts points empty texts there
-    arena = Arena(rom, blob, layout.region_address(blob), start=TEXT_BLOB_START - blob.addr + 2)
-
     # monologues: in place, they are pointed to from C
     mono_re = re.compile(r"^sMonologueText(" + "|".join(LANGUAGES) + r")_(\d+)$")
     n = 0
@@ -565,28 +544,27 @@ def apply_text(rom: bytearray, regions: list[Region], layout, widths: list[int])
             n += 1
     notes.append(f"text: {n} monologues")
 
-    # per-language pointer tables
+    # the strings of the per-language tables (message, location, navigation
+    # conversation, pause screen) and of the file select
+    strings = {kind: table_strings(kind, 256) for kind in ("Message", "Location", "NavConversation", "PauseScreen")}
+    fs_strings = file_select_strings()
     n = 0
     for r in regions:
-        m = TEXT_POINTERS_RE.match(sym[r.path] or "")
-        if not m:
+        s = sym[r.path] or ""
+        if m := TABLE_STRING_RE.match(s):
+            text = strings[m.group(1)][int(m.group(2))]
+        elif m := FILE_SELECT_STRING_RE.match(s):
+            i = int(m.group(1))
+            text = fs_strings[i] if i < len(fs_strings) else f"[File select text {i}]"
+        elif FILE_SELECT_EMPTY_RE.match(s):
+            text = FILE_SELECT_EMPTY
+        else:
             continue
-        strings = table_strings(m.group(1), r.size // 4)
-        put(r, struct.pack(f"<{len(strings)}I", *(arena.string(s) for s in strings)))
+        put(r, fit(text, r.size))
         n += 1
-    notes.append(f"text: {n} pointer tables")
-
-    # file select: string tables and per-line tile offsets
-    fs_table = arena.table([arena.string(s) for s in file_select_strings()])
-    empty_table = arena.table([arena.string(FILE_SELECT_EMPTY)] * 4)
-    zeros = arena.alloc(bytes(16), align=4)
-    offsets_table = arena.table([zeros] * FILE_SELECT_TEXT_COUNT)
-    for symbol, target in (("sFileSelectTexts", fs_table),
-                           ("sFileSelectEmptyFileTexts", empty_table),
-                           ("sFileSelectTextTileOffsets", offsets_table)):
-        r = region(symbol)
-        put(r, struct.pack("<I", target) * (r.size // 4))
-    notes.append(f"text: arena {arena.pos} of {blob.size} bytes used")
+    if not n:
+        raise SystemExit("font.py: no string regions (s<Table>Text<Language>_<N>) found")
+    notes.append(f"text: {n} strings")
 
     # text layers: monologue tilemap + palette
     put_lz(rom, region("sIntroTilemap_662804"), monologue_tilemap())

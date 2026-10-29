@@ -215,31 +215,30 @@ def gen_sound(r: Region, meta: dict, args):
 CHAR_NEXT_PAGE_ARROW = 0xFC00                 # include/constants/text.h
 PLACEHOLDER_CHAR = 0x0040
 
-# Interrupt vector table read by InterruptCode (asm/intr_main.s), in the order
-# it tests the IF bits: DMA2, VBlank, HBlank, VCount, Timer0-3, DMA0, DMA1,
-# DMA3, Keypad, Gamepak/other. Zero-filled, the first DMA2 interrupt jumps
-# to 0 and the console resets in a loop.
-INTERRUPT_TABLE_SYMBOL = "sInterruptHandlers"
-INTERRUPT_HANDLERS = ["Dma2IntrCode", "CallbackCallVblank", "CallbackCallHBlank",
-                      "CallbackCallVCount"] + ["Callback_Empty"] * 9
+# The pointer tables of the build (interrupt handlers, text, OAM, graphics,
+# voicegroup samples) are written in the sources as symbols, so the
+# placeholders only fill what they point to.
 
-VOICEGROUP_RE = re.compile(r"^sVoicegroup_\w+$")       # m4a voicegroups, 12 byte voices
+# m4a voicegroups (12 byte voices), included piece by piece by
+# sound/voicegroups.s around the pointers it writes as symbols
+VOICEGROUP_DIR = "voicegroups/"
 MONOLOGUE_RE = re.compile(r"^sMonologueText[A-Z]\w*_\d+$")
-TEXT_POINTERS_RE = re.compile(r"^s\w*TextPointers\w*$")  # per-language string tables
-# All the strings of every language (originally one blob). Filled with
-# terminators, except the monologue pages.
+# All the strings of every language (originally one blob, now one region per
+# string). Filled with terminators, except the monologue pages; font.py then
+# writes the placeholder strings.
 TEXT_RANGE = (0x6b2fac, 0x72eee0)
 
-# Cutscene, intro, ending and file select data that mixes LZ77 graphics with
-# OAM animation data (`struct FrameData` arrays, OAM frames, tables of
-# FrameData pointers). Zero-filled, an animation pointer leads the OAM
-# drawing code to read a huge part count and write past the OAM buffer
-# (overwriting gVBlankCallback). These ranges are filled with one 32-bit
-# word, the "OAM-safe word", repeated: the build address of a 64 KiB aligned
-# copy of itself. Whatever 4-aligned spot the code reads it from:
+# Cutscene, intro, ending and file select data that may still hold OAM
+# animation data inside unidentified blobs. These ranges are filled with one
+# 32-bit word, the "OAM-safe word", repeated: the build address of a 64 KiB
+# aligned copy of itself. Whatever 4-aligned spot the code reads it from:
 #   - as a FrameData array: pFrame = the word, timer = 0 (terminator),
 #   - as an OAM frame:      part count = low half = 0 (nothing drawn),
 #   - as a pointer table:   points to a valid FrameData array again.
+# The OAM frames the C FrameData arrays point to (oam_frames/*.bin, u16
+# aligned, so the word could be read from its middle) are zero-filled
+# instead: part count 0, nothing drawn. The file select text tile offsets
+# are zeros too.
 # Regions in these ranges that the code passes to LZ77UncompVram/Wram get a
 # zero header instead, so they decompress to nothing. Identified regions of a
 # placeholder format (.gfx.lz, .tm.lz, .pal...) get their placeholder instead.
@@ -252,9 +251,6 @@ OAM_SAFE_RANGES = [
     (0x73421e, 0x7478a0),   # game over / file select
     (0x74dc48, 0x74e620),   # ending OAM
     (0x74e650, 0x74eb50),
-    (0x79c394, 0x79c3c8),   # FrameData pointer tables (intro particles)
-    (0x79c448, 0x79c5a4),
-    (0x79e868, 0x79eca0),   # file select FrameData pointers and tables
 ]
 # Game over and file select: every region is filled as above, identified
 # graphics, tilemaps and palettes included (no placeholder format), so these
@@ -262,14 +258,8 @@ OAM_SAFE_RANGES = [
 OAM_SAFE_ALL_CATEGORIES_RANGES = [
     (0x73421e, 0x7478a0),
 ]
-# Tables inside the OAM-safe ranges that hold something else, by baserom
-# offset: (offset, kind, words). "lz": pointers to an LZ77 source that
-# decompresses to nothing; "text": pointers to an empty string table.
-OAM_SAFE_OVERRIDES = [
-    (0x79e874, "lz", 7),      # file select graphics, per language
-    (0x79ec68, "text", 7),    # file select strings, per language
-    (0x79ec84, "text", 7),
-]
+OAM_FRAMES_DIR = "oam_frames/"
+ZEROED_RE = re.compile(r"^sFileSelectTextTileOffsets_[0-9a-f]+$")
 
 
 def in_ranges(r: Region, ranges) -> bool:
@@ -286,29 +276,20 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
         assert len(data) <= r.size, r.path
         rom[r.addr:r.addr + len(data)] = data
 
-    # Pointer tables of known layout, de-blobbed or not ("misc" .bin regions)
-    known = [r for r in regions if r.category in ("blob", "misc")]
-
-    # Interrupt handlers
-    table = [r for r in known if sym[r.path] == INTERRUPT_TABLE_SYMBOL]
-    if len(table) != 1:
-        raise SystemExit(f"expected one region INCBINed as {INTERRUPT_TABLE_SYMBOL}, found {len(table)}")
-    words = [layout.function(f) for f in INTERRUPT_HANDLERS] if layout.have_build else []
-    put(table[0], struct.pack(f"<{len(words)}I", *words))
-    notes.append("interrupt handlers: " + ("from " + layout.source if words else "EMPTY (needs a previous build)"))
-
-    # Voicegroups: every voice plays the first direct sound sample
+    # Voicegroups: every voice plays the first direct sound sample. The words
+    # sound/voicegroups.s writes as symbols (samples, drum kits...) are not
+    # taken from here; the sample address only matters for voices without one.
     samples = sorted((r for r in regions if r.category == "sound_sample"), key=lambda r: r.addr)
     sample = layout.region_address(samples[0])
     voice = struct.pack("<BBBBI4B", 0, 60, 0, 0, sample, 0xFF, 0, 0xFF, 0xA5)
-    vgs = [r for r in known if sym[r.path] and VOICEGROUP_RE.match(sym[r.path])]
+    vgs = [r for r in regions if r.path.startswith(VOICEGROUP_DIR)]
     if not vgs:
-        raise SystemExit("no voicegroup regions (sVoicegroup_*) found")
+        raise SystemExit(f"no voicegroup regions ({VOICEGROUP_DIR}*) found")
     for r in vgs:
         put(r, voice * (r.size // 12))
     notes.append(f"voicegroups: {len(vgs)}")
 
-    # Text: terminators everywhere; monologue pages advance on A at a "next
+    # Text: terminators everywhere (font.py writes the strings); monologue pages advance on A at a "next
     # page" arrow. Some scenes wait for "more text follows" and then "end",
     # others only for "end"; two pages serve both: arrow, arrow, one
     # character, arrow, terminator.
@@ -327,26 +308,19 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     if not pages:
         raise SystemExit("no monologue regions (sMonologueText<Lang>_<N>) found")
     notes.append(f"text: {len(texts)} regions, {pages} monologues")
-    empty_string = layout.address(regions, TEXT_RANGE[0])  # a terminator
-
-    # Per-language string pointer tables -> empty strings
-    # by symbol, whether or not the table is still a Blob_* entry
-    tps = [r for r in regions if sym[r.path] and TEXT_POINTERS_RE.match(sym[r.path])]
-    for r in tps:
-        put(r, struct.pack("<I", empty_string) * (r.size // 4))
-    if not tps:
-        raise SystemExit("no text pointer tables (s*TextPointers*) found")
-    notes.append(f"text pointer tables: {len(tps)}")
-    string_table = layout.region_address(tps[0])  # a table of empty strings
 
     # OAM-safe ranges
     # blobs and identified regions without a placeholder format (FrameData
     # arrays and other tables, *.bin)
-    oam = sorted((r for r in regions if in_ranges(r, OAM_SAFE_RANGES) and
+    zeroed = [r for r in regions if r.path.startswith(OAM_FRAMES_DIR) or ZEROED_RE.match(sym[r.path] or "")]
+    if not any(r.path.startswith(OAM_FRAMES_DIR) for r in zeroed):
+        raise SystemExit(f"no OAM frame regions ({OAM_FRAMES_DIR}*) found")
+    oam = sorted((r for r in regions if in_ranges(r, OAM_SAFE_RANGES) and r not in zeroed and
                   (r.category in ("blob", "misc") or in_ranges(r, OAM_SAFE_ALL_CATEGORIES_RANGES))),
                  key=lambda r: r.addr)
     lz_sources = scan_lz_sources()
-    lz = [r for r in oam if layout.symbol_of(r) in lz_sources]
+    # LZ77 sources: passed by name, or LZ77 files reached through a pointer table
+    lz = [r for r in oam if layout.symbol_of(r) in lz_sources or r.category in ("gfx_lz", "tilemap_lz")]
     built = {r.path: layout.region_address(r) for r in oam}
     # the word: a 64 KiB aligned build address inside these regions, clear
     # of the zeroed LZ77 headers
@@ -364,23 +338,18 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     for r in oam:
         b = built[r.path]
         put(r, bytes(wb[(b + i) % 4] for i in range(r.size)))
-    lz_empty = None
     for r in lz:
         put(r, bytes(4))
-        if lz_empty is None and built[r.path] % 4 == 0:
-            lz_empty = built[r.path]
-    if lz_empty is None:
-        raise SystemExit("no LZ77 source found in the OAM-safe ranges")
-    for off, kind, n in OAM_SAFE_OVERRIDES:
-        target = {"lz": lz_empty, "text": string_table}[kind]
-        rom[off:off + 4 * n] = struct.pack("<I", target) * n
+    for r in zeroed:
+        put(r, bytes(r.size))
     # self check: the word is in place at the baserom offset that maps to it
     for r in oam:
         b = built[r.path]
         if b <= word < b + r.size:
             o = r.addr + word - b
             assert struct.unpack_from("<I", rom, o)[0] == word
-    notes.append(f"OAM-safe: {len(oam)} regions, word {word:#x}, {len(lz)} empty LZ77 sources")
+    notes.append(f"OAM-safe: {len(oam)} regions, word {word:#x}, {len(lz)} empty LZ77 sources, "
+                 f"{len(zeroed)} zeroed (OAM frames, tile offsets)")
     if layout.unresolved:
         notes.append(f"WARNING: {len(layout.unresolved)} regions not found in the build, "
                      f"assumed at their database offset: {sorted(layout.unresolved)[:5]}")
