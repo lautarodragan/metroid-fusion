@@ -321,6 +321,10 @@ SECTIONS {
         /* Free IWRAM between the last variable and the stacks (see include/profile.h) */
         . = 0x00005630; gProfile = .;
 #endif
+#ifdef LAGMETER
+        /* Free IWRAM below the stacks, above OPTIMIZE_IWRAM's code (see include/lagmeter.h) */
+        . = 0x00007000; gLagMeter = .;
+#endif
 
         . = 0x00007ffc; gInterruptCodePointer = .;
 
@@ -546,6 +550,10 @@ SECTIONS {
 
 #ifdef PROFILE
         src/profile.o(.text);
+#endif
+#ifdef LAGMETER
+        src/lagmeter.o(.text);
+        src/lagmeter.o(.rodata);
 #endif
 
         *libgcc.a:_call_via_rX.o(.text);

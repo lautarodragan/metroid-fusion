@@ -4,6 +4,7 @@
 
 #include "softreset.h"
 #include "profile.h"
+#include "lagmeter.h"
 #include "optimize.h"
 
 /**
@@ -68,5 +69,8 @@ void InitializeGame(void)
 
 #ifdef PROFILE
     ProfileInit();
+#endif
+#ifdef LAGMETER
+    LagMeterInit();
 #endif
 }

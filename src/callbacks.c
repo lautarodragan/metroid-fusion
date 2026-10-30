@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "io.h"
 #include "profile.h"
+#include "lagmeter.h"
 
 /**
  * @brief b5c | 2c | Calls the v-blank callback
@@ -26,6 +27,9 @@ void CallbackCallVblank(void)
 
     WRITE_16(REG_IF, READ_16(REG_IF) | IF_VBLANK);
     gVBlankRequestFlag = TRUE;
+#ifdef LAGMETER
+    LAGMETER_VBLANK();
+#endif
 }
 
 /**
