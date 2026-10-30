@@ -936,14 +936,13 @@ void OmegaMetroidFalling(void)
     ySpeed = sOmegaMetroidFallingYSpeeds[index];
     if (ySpeed == SHORT_MAX)
     {
-        do {
         ySpeed = sOmegaMetroidFallingYSpeeds[index - 1];
         gSubSpriteData1.yPosition += ySpeed;
-        } while (0);
     }
     else
     {
-        gCurrentSprite.OMEGA_METROID_JUMP_Y_SPEED_IDX++;
+        index++;
+        gCurrentSprite.OMEGA_METROID_JUMP_Y_SPEED_IDX = index;
         gSubSpriteData1.yPosition += ySpeed;
     }
 
@@ -1438,14 +1437,13 @@ void OmegaMetroidVerticalJump(void)
     ySpeed = sOmegaMetroidVerticalJumpYSpeeds[index];
     if (ySpeed == SHORT_MAX)
     {
-        do {
         ySpeed = sOmegaMetroidVerticalJumpYSpeeds[index - 1];
         gSubSpriteData1.yPosition += ySpeed;
-        } while (0);
     }
     else
     {
-        gCurrentSprite.OMEGA_METROID_JUMP_Y_SPEED_IDX++;
+        index++;
+        gCurrentSprite.OMEGA_METROID_JUMP_Y_SPEED_IDX = index;
         gSubSpriteData1.yPosition += ySpeed;
     }
 
