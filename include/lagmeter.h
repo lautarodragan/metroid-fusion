@@ -14,9 +14,10 @@
  *   playing) and writes them to save memory when Samus leaves the room (door, pause, death,
  *   cutscene...), in two areas of SRAM that the game never uses (see below). Frames in other
  *   modes (menus, pause, room loads, cutscenes) go to separate totals.
- * - Shows a small counter in the bottom left corner while playing: lag frames in this room
+ * - Can show a small counter in the bottom left corner while playing: lag frames in this room
  *   (since entering it) / lag frames in total (all sessions). L+R+SELECT cycles through
- *   off / counter / counter and the highest frame load of the last second, in percent.
+ *   hidden (the default) / counter / counter and the highest frame load of the last second,
+ *   in percent. Showing it costs a little time per frame, so leave it hidden when measuring.
  *
  * tools/lagmeter_report.py reads the .sav and prints the tables.
  *
@@ -93,8 +94,10 @@ struct LagMeter {
     u8 dirty;               // the text changed
     u8 windowFrames;
     u8 vramTimer;
-    u8 ownedTiles;          // tiles that hold the counter or the debug graphics (bit per tile)
-    u8 pad[3];
+    u8 ownedTiles;          // tiles that hold the counter (bit per tile)
+    u8 passFree;            // tiles found free (counter, debug graphics or one color) in this pass
+    u8 allFree;             // all 8 tiles were free in the last pass: the counter may be written
+    u8 pad;
     u8 text[16];            // characters (index in the font) to show
     u8 written[16];         // characters in VRAM
 };

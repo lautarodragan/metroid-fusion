@@ -14,8 +14,8 @@
  * See include/lagmeter.h. Everything here runs once per logic frame, outside the game's own
  * code: LagMeterStartFrame at the start of the main loop, LagMeterEndFrame right before the
  * V-blank wait. With the counter hidden (L+R+SELECT) the cost is about a hundred cycles per
- * frame; with it shown, a few hundred more (one of its 8 tiles is checked and rewritten per
- * frame, 2 OAM entries).
+ * frame; with it shown, about a hundred more on average (one of its 8 tiles is checked and
+ * rewritten every 4 frames, 2 OAM entries every frame).
  */
 
 #define FRAME_CYCLES 280896
@@ -47,8 +47,9 @@ static const u16 sLagMeterAreaFirstRecord[LAGMETER_AREAS + 1] = {
 };
 
 // The counter uses the last 8 tiles of OBJ VRAM (the end of graphics slot 7, which holds the
-// debug sprite graphics in most rooms; the area banner, the escape timer and a few spritesets
-// use it too, and the counter is hidden while they do)
+// debug sprite graphics or a plain fill in most rooms; the area banner, the escape timer and a
+// few spritesets use it too, and the counter is hidden while they do: a tile is only written
+// when it holds the counter, the debug graphics or a single color)
 #define LAGMETER_TILE 0x3F8
 #define LAGMETER_VRAM ((vu32*)(VRAM_OBJ + LAGMETER_TILE * 32))
 #define LAGMETER_X 2
@@ -217,7 +218,7 @@ void LagMeterInit(void)
     HEADER_WRITE(boots, HEADER_READ(boots) + 1);
 
     gLagMeter.totalLag = HEADER_READ(playLagFrames);
-    gLagMeter.display = 1;
+    gLagMeter.display = 0; // hidden: L+R+SELECT shows it
     gLagMeter.dirty = TRUE;
     for (i = 0; i < ARRAY_SIZE(gLagMeter.written); i++)
         gLagMeter.written[i] = UCHAR_MAX;
@@ -348,6 +349,7 @@ static void LagMeterUpdateTile(u32 tile)
     const u16* new1;
     u32 isOld;
     u32 isDebug;
+    u32 isUniform;
     u32 row;
     u32 word;
 
@@ -357,6 +359,7 @@ static void LagMeterUpdateTile(u32 tile)
 
     isOld = lm->written[tile * 2] < ARRAY_SIZE(sLagMeterFont) && lm->written[tile * 2 + 1] < ARRAY_SIZE(sLagMeterFont);
     isDebug = TRUE;
+    isUniform = TRUE;
     if (isOld)
     {
         old0 = sLagMeterFont[lm->written[tile * 2]];
@@ -370,7 +373,14 @@ static void LagMeterUpdateTile(u32 tile)
             isOld = FALSE;
         if (isDebug && word != debugGfx[row])
             isDebug = FALSE;
+        if (isUniform && word != dst[0])
+            isUniform = FALSE;
     }
+
+    // A tile filled with a single color is not graphics anyone draws (the end of slot 7 is
+    // filled like that in most rooms)
+    if (isUniform && (dst[0] & 0xF) == (dst[0] >> 28))
+        isDebug = TRUE;
 
     if (!isOld && !isDebug)
     {
@@ -378,8 +388,15 @@ static void LagMeterUpdateTile(u32 tile)
         lm->ownedTiles &= ~(1 << tile);
         lm->written[tile * 2] = UCHAR_MAX;
         lm->written[tile * 2 + 1] = UCHAR_MAX;
+        lm->allFree = FALSE;
         return;
     }
+
+    // Write only when the whole area was free in the last pass (a room whose sprites use part of
+    // it keeps its graphics)
+    lm->passFree |= 1 << tile;
+    if (!lm->allFree)
+        return;
 
     new0 = sLagMeterFont[lm->text[tile * 2]];
     new1 = sLagMeterFont[lm->text[tile * 2 + 1]];
@@ -428,15 +445,27 @@ void LagMeterEndFrame(void)
     if (lm->display == 0 || gMainGameMode != GAME_MODE_IN_GAME || gSubGameMode1 != SUB_GAME_MODE_PLAYING)
         return;
 
-    if (lm->dirty)
+    // Spread the cost: the text is rebuilt at most twice per second, one tile is checked and
+    // rewritten every 4 frames (the whole counter in 32 frames)
+    lm->vramTimer++;
+    if (lm->dirty && (lm->vramTimer & 31) == 0)
     {
         LagMeterUpdateText();
         lm->dirty = FALSE;
     }
 
-    LagMeterUpdateTile(lm->vramTimer++ & 7);
+    if ((lm->vramTimer & 3) == 0)
+    {
+        i = (lm->vramTimer >> 2) & 7;
+        LagMeterUpdateTile(i);
+        if (i == 7)
+        {
+            lm->allFree = lm->passFree == 0xFF;
+            lm->passFree = 0;
+        }
+    }
 
-    if (lm->ownedTiles != 0xFF || gNextOamSlot > OAM_BUFFER_DATA_SIZE - 2)
+    if (!lm->allFree || lm->ownedTiles != 0xFF || gNextOamSlot > OAM_BUFFER_DATA_SIZE - 2)
         return;
 
     // Two 32x8 sprites, in the last OAM slots (the game hid them, ResetFreeOam)
