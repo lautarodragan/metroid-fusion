@@ -80,14 +80,12 @@ void StatusScreenDrawNumber(u8 section, u16 value, u8 palette, boolu8 isMax)
     s32 started;
     s32 i;
 
-    // FIXME: Fake match, the empty asm statements only change register allocation priorities
-    asm("" : : "r"(palette));
-    dst = &STATUS_SCREEN_TILEMAP[STATUS_SCREEN_DST_TOP(section) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section)];
+    dst = STATUS_SCREEN_TILEMAP;
+    dst = &dst[STATUS_SCREEN_DST_TOP(section) * HALF_BLOCK_SIZE + STATUS_SCREEN_DST_LEFT(section)];
     width = STATUS_SCREEN_DST_RIGHT(section) - STATUS_SCREEN_DST_LEFT(section);
     power = sPauseDebugNumbersIncrementValues[width];
     width++;
     started = FALSE;
-    asm("" : : "r"(started));
 
     for (i = 0; power > 0; power /= 10, i++)
     {
