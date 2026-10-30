@@ -258,6 +258,12 @@ OAM_SAFE_RANGES = [
 OAM_SAFE_ALL_CATEGORIES_RANGES = [
     (0x73421e, 0x7478a0),
 ]
+# Identified regions in OAM_SAFE_RANGES that are filled as above anyway
+# instead of getting their placeholder format. The word has to sit at a 64
+# KiB aligned build address inside a filled region: 0x680000 is inside the
+# BSL space OBJ graphics (an LZ77 source, so it gets a zero header and
+# decompresses to nothing, as it did while it was a blob).
+OAM_SAFE_SYMBOLS = {"sCutsceneBslSpaceObjGfx"}
 OAM_FRAMES_DIR = "oam_frames/"
 ZEROED_RE = re.compile(r"^sFileSelectTextTileOffsets_[0-9a-f]+$")
 
@@ -316,8 +322,12 @@ def apply_known_layouts(rom: bytearray, regions: list[Region], layout: Layout) -
     if not any(r.path.startswith(OAM_FRAMES_DIR) for r in zeroed):
         raise SystemExit(f"no OAM frame regions ({OAM_FRAMES_DIR}*) found")
     oam = sorted((r for r in regions if in_ranges(r, OAM_SAFE_RANGES) and r not in zeroed and
-                  (r.category in ("blob", "misc") or in_ranges(r, OAM_SAFE_ALL_CATEGORIES_RANGES))),
+                  (r.category in ("blob", "misc") or in_ranges(r, OAM_SAFE_ALL_CATEGORIES_RANGES) or
+                   sym[r.path] in OAM_SAFE_SYMBOLS)),
                  key=lambda r: r.addr)
+    missing = OAM_SAFE_SYMBOLS - {sym[r.path] for r in oam}
+    if missing:
+        raise SystemExit(f"OAM-safe regions not found: {sorted(missing)}")
     lz_sources = scan_lz_sources()
     # LZ77 sources: passed by name, or LZ77 files reached through a pointer table
     lz = [r for r in oam if layout.symbol_of(r) in lz_sources or r.category in ("gfx_lz", "tilemap_lz")]
