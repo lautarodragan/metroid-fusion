@@ -817,15 +817,13 @@ u32 PauseDebugModifiyAbilityCount(u8 cursorX)
             gAbilityCount += increment;
 
         modified = TRUE;
-        // Needed to produce matching ASM
-        i = 0;
     }
     else if (gChangedInput & KEY_UP)
     {
-        if (gAbilityCount - increment <= 0)
-            gAbilityCount = 0;
-        else
+        if (gAbilityCount - increment > 0)
             gAbilityCount -= increment;
+        else
+            gAbilityCount = 0;
 
         modified = TRUE;
     }
