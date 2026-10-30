@@ -10,7 +10,7 @@
 
 extern const u32 sFileSelectBg2Tilemap[245];
 extern const u32 sFileSelectBg1Tilemap[155];
-extern const u32 sFileSelectBg0Tilemap[310];
+extern const u32 sFileSelectBg0Tilemap[154];
 extern const u16 sFileSelectBgPal_73dac4[];
 extern const u32 sFileSelectEnergyTankOneEmptyGfx[];
 extern const u32 sFileSelectEnergyTankOneFullGfx[];

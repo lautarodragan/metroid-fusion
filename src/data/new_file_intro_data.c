@@ -787,9 +787,7 @@ const struct FrameData sOam_598088[5] = {
 const u16 sIntroSamusShipPal[5 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_ship.pal");
 const u16 sPal_598150[2 * PAL_ROW] = INCBIN_U16("data/new_file_intro/598150.pal"); // Loaded to PALRAM but not used?
 
-const u32 sIntroSamusHelmetCloseupTilemap[172] = INCBIN_U32("data/new_file_intro/samus_helmet_closeup.tm.lz");
-
-static const u8 sBlob_598440_598818[] = INCBIN_U8("data/Blob_598440_598818.bin");
+const u32 sIntroSamusHelmetCloseupTilemap[418] = INCBIN_U32("data/new_file_intro/samus_helmet_closeup.tm.lz");
 
 const u16 sIntroSamusHelmetCloseupPal[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_helmet_closeup.pal");
 
@@ -21117,7 +21115,9 @@ const struct FrameData sIntroArrivingAtBslThrustersOam[4] = {
 	[3] = FRAME_DATA_TERMINATOR
 };
 
-static const u8 sBlob_5f4e54_5f4ed4[] = INCBIN_U8("data/Blob_5f4e54_5f4ed4.bin");
+// Rows 0-3 of the BG palette whose rows 4-15 are sPal_5f4ed4 (only the transparent color is set).
+// Not referenced by code: only rows 4-15 are copied
+const u16 sPal_5f4e54[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5f4e54.pal");
 
 const u16 sPal_5f4ed4[12 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5f4ed4.pal");
 const u16 sIntroArrivingAtBslSpaceMapPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/space_map.pal");
@@ -22619,21 +22619,15 @@ const u32 sIntroLandingOnBslHangarTilemap[396] = INCBIN_U32("data/new_file_intro
 
 const u32 sIntroSamusSittingGfx[4818] = INCBIN_U32("data/new_file_intro/samus_sitting.gfx.lz");
 const u16 sIntroSamusSittingPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_sitting.pal");
-const u32 sIntroSamusSittingTilemap[171] = INCBIN_U32("data/new_file_intro/samus_sitting.tm.lz");
+const u32 sIntroSamusSittingTilemap[417] = INCBIN_U32("data/new_file_intro/samus_sitting.tm.lz");
 
-static const u8 sBlob_605930_605d08[] = INCBIN_U8("data/Blob_605930_605d08.bin");
-
-const u32 sTitleScreenSpaceBackgroundGfx[830] = INCBIN_U32("data/menus/title_screen/space_background.gfx.lz");
-
-static const u8 sBlob_606a00_609020[] = INCBIN_U8("data/Blob_606a00_609020.bin");
+const u32 sTitleScreenSpaceBackgroundGfx[3270] = INCBIN_U32("data/menus/title_screen/space_background.gfx.lz");
 
 const u16 sPal_609020[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/609020.pal");
 const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW] = INCBIN_U16("data/menus/title_screen/space_background.pal");
 
-const u32 sTitleScreenSpaceBackgroundTilemap[172] = INCBIN_U32("data/menus/title_screen/space_background.tm.lz");
+const u32 sTitleScreenSpaceBackgroundTilemap[418] = INCBIN_U32("data/menus/title_screen/space_background.tm.lz");
 
-// Not referenced by code
-static const u8 sBlob_6094d0_6098a8[] = INCBIN_U8("data/Blob_6094d0_6098a8.bin");
 // OAM frames of the FrameData arrays below
 const u16 sOamFrame_6098a8[] = INCBIN_U16("data/oam_frames/6098a8.bin");
 const u16 sOamFrame_6098b0[] = INCBIN_U16("data/oam_frames/6098b0.bin");
@@ -24011,8 +24005,10 @@ const u32 sIntroSamusInShipTilemap[385] = INCBIN_U32("data/new_file_intro/samus_
 const u16 sIntroSamusInShipPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_in_ship.pal");
 const u32 sIntroShipAlertBg1Tilemap[368] = INCBIN_U32("data/new_file_intro/ship_alert_bg1.tm.lz");
 const u16 sIntroShipAlertBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_bg.pal");
-// Rest after the 8 palette rows the ship alert copies, not referenced by name
-static const u8 sBlob_659aa4_659ba4[] = INCBIN_U8("data/Blob_659aa4_659ba4.bin");
+// Rows 8-15 of the ship alert BG palette (sIntroShipAlertBgPal is rows 0-7). Rows 8-14 are
+// black, row 15 holds plain test colors (white, red, magenta, yellow, green, blue, cyan).
+// Not referenced by code: only rows 0-7 are copied
+const u16 sIntroShipAlertBgPalRows8To15[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_bg_rows_8_15.pal");
 // OAM frames of the FrameData arrays below
 const u16 sOamFrame_659ba4[] = INCBIN_U16("data/oam_frames/659ba4.bin");
 const u16 sOamFrame_659bd0[] = INCBIN_U16("data/oam_frames/659bd0.bin");
@@ -24654,9 +24650,9 @@ const struct FrameData sCutsceneSecretConversationOam_6793b0[14] = {
     FRAME_DATA_TERMINATOR
 };
 const u32 sCutsceneBslSpaceBgGfx[4331] = INCBIN_U32("data/cutscenes/bsl_space/bg.gfx.lz");
-// LZ77 compressed OBJ graphics of the BSL space view, followed by the OAM frames of the
-// FrameData arrays below
-const u8 sCutsceneBslSpaceObjGfx[] = INCBIN_U8("data/Blob_67d7cc_6808ac.bin");
+// LZ77 compressed OBJ graphics of the BSL space view
+const u32 sCutsceneBslSpaceObjGfx[3128] = INCBIN_U32("data/cutscenes/bsl_space/obj.gfx.lz");
+// OAM frames of the FrameData arrays below
 const u16 sOamFrame_6808ac[] = INCBIN_U16("data/oam_frames/6808ac.bin");
 const u16 sOamFrame_6808b4[] = INCBIN_U16("data/oam_frames/6808b4.bin");
 const u16 sOamFrame_6808bc[] = INCBIN_U16("data/oam_frames/6808bc.bin");

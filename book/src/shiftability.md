@@ -122,10 +122,12 @@ are both built, words that differ between them are pointers the source
 already writes as symbols (inside data included piece by piece, like the
 voicegroups) and are left out.
 
-With the conversions above, `--likely` reports a single word: an isolated
-function address inside graphics (`Blob_606a00_609020`), a coincidence.
-Without `--likely`, the remaining in-range words are in graphics, palettes,
-tilemaps, samples and text (values that look like addresses by chance).
+With the conversions above, `--likely` reports nothing. The last word it
+used to report, `0x0800eb05` at `0x608460` (the address of `unk_eb04` + 1),
+was inside the LZ77 stream of `sTitleScreenSpaceBackgroundGfx`, which the
+decompressor reads as compressed data: a coincidence. Without `--likely`,
+the remaining in-range words are in graphics, palettes, tilemaps, samples
+and text (values that look like addresses by chance).
 
 To convert a pointer table, replace its bytes with C (an array of the
 symbols it points to) or asm (`.4byte symbol`), splitting the blob around it
@@ -155,6 +157,15 @@ first split point keep the original declaration (a `Blob_*` entry gets the
 static `sBlob_<start>_<end>` name of its new range). Declare the piece where
 C code uses it and replace the literal with its name. Pieces referenced from
 asm only need no declaration.
+
+No `Blob_*` entry is left. The last ones turned out to be the ends of
+LZ77 streams cut short at extraction (an `.lz` entry must end where its
+stream ends, rounded up to 4; decompress it to find that point), unused
+palette rows, OAM frames and movement tables next to used ones, a CGB
+wave, and padding. Zero padding between objects is not extracted: the
+compiler aligns u16/u32 arrays by itself, and `ALIGN_2()` (4-byte
+alignment, zero fill) goes before a u8 array that starts 4-aligned in the
+original.
 
 Names given so far follow the code that uses the address: a descriptive name
 where it is clear (`sSpriteset<N>`, `sVoicegroup_<offset>`,

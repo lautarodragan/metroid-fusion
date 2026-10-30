@@ -11,7 +11,7 @@ The up-to-date status is in the repository's
 At the time of writing:
 
 - 3607/3607 functions decompiled (100.00%, 0 left).
-- 0x5dca90/0x6f9d24 bytes of data outside blobs (84.03%, 0x11d294 left).
+- 0x6f9d24/0x6f9d24 bytes of data outside blobs (100.00%, 0x0 left).
 
 `python3 tools/progress.py` computes both numbers from the current tree.
 

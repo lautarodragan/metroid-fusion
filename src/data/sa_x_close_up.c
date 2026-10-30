@@ -12,7 +12,8 @@ const u32 sSaXCloseUpTileTable2[305] = INCBIN_U32("data/sa_x_close_up/second.tt.
 
 const u8 sSaXCloseUpDurations[2] = { 25, 60 };
 
-static const u8 sBlob_73421e_734220[] = INCBIN_U8("data/Blob_73421e_734220.bin");
+// 4 byte alignment: the original has 2 bytes of zero padding here
+ALIGN_2();
 const u8 sGameOverOamXFlipOffsets[3][4] = INCBIN_U8("data/menus/game_over/oam_x_flip_offsets.bin"); // OAM width in tiles per shape and size, as sOamXFlipOffsets
 const u32 sGameOverBgGfx[5651] = INCBIN_U32("data/menus/game_over/bg.gfx.lz");
 const u32 sGameOverObjGfx[184] = INCBIN_U32("data/menus/game_over/obj.gfx.lz");
@@ -55,7 +56,9 @@ const u32 sGameOverBg3Tilemap[369] = INCBIN_U32("data/menus/game_over/bg3.tm.lz"
 const u32 sGameOverBg1Tilemap[193] = INCBIN_U32("data/menus/game_over/bg1.tm.lz");
 const u32 sFileSelectBg2Tilemap[245] = INCBIN_U32("data/menus/file_select/bg2.tm.lz");
 const u32 sFileSelectBg1Tilemap[155] = INCBIN_U32("data/menus/file_select/bg1.tm.lz");
-const u32 sFileSelectBg0Tilemap[310] = INCBIN_U32("data/menus/file_select/bg0.tm.lz");
+const u32 sFileSelectBg0Tilemap[154] = INCBIN_U32("data/menus/file_select/bg0.tm.lz");
+// A second LZ77 tilemap (32x32 entries) right after sFileSelectBg0Tilemap, not referenced by code
+const u32 sFileSelectUnusedTilemap_73d854[156] = INCBIN_U32("data/menus/file_select/unused_73d854.tm.lz");
 const u16 sFileSelectBgPal_73dac4[1 * PAL_ROW] = INCBIN_U16("data/menus/file_select/bg_73dac4.pal");
 const u32 sFileSelectEnergyTankOneEmptyGfx[TILE_SIZE / 4] = INCBIN_U32("data/menus/file_select/energy_tank_one_empty.gfx");
 const u32 sFileSelectEnergyTankOneFullGfx[TILE_SIZE / 4] = INCBIN_U32("data/menus/file_select/energy_tank_one_full.gfx");

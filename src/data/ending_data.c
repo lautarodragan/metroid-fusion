@@ -1857,4 +1857,6 @@ const u32 sResultsScreenItalianTextGfx[1221] = INCBIN_U32("data/ending/results_i
 const u32 sResultsScreenSpanishTextGfx[1197] = INCBIN_U32("data/ending/results_spanish_text.gfx.lz");
 const u32 sResultsScreenGermanTextGfx[1144] = INCBIN_U32("data/ending/results_german_text.gfx.lz");
 
-static const u8 sBlob_79a19c_79a29c[] = INCBIN_U8("data/Blob_79a19c_79a29c.bin");
+// 256 bytes of 0xFF after the last results screen graphics, not referenced by code
+// (free space or an unused table filled with -1)
+static const u8 sUnusedFill_79a19c[256] = { [0 ... 255] = 0xFF };

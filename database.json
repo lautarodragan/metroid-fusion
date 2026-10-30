@@ -289,17 +289,9 @@
   },
   {
     "path": "voicegroups/a8af4.bin",
-    "count": "0x28",
+    "count": "0x1E8",
     "addr": {
       "us": "0xA8AF4"
-    },
-    "size": 12
-  },
-  {
-    "path": "Blob_a8cd4_a8cdc.bin",
-    "count": "0x8",
-    "addr": {
-      "us": "0xA8CD4"
     },
     "size": 1
   },
@@ -11289,14 +11281,6 @@
     "size": 1
   },
   {
-    "path": "Blob_2e5cae_2e5cb0.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x2E5CAE"
-    },
-    "size": 1
-  },
-  {
     "path": "spritesets/0.bin",
     "count": "0x3",
     "addr": {
@@ -12335,14 +12319,6 @@
       "us": "0x2E615E"
     },
     "size": 2
-  },
-  {
-    "path": "Blob_2e6382_2e6384.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x2E6382"
-    },
-    "size": 1
   },
   {
     "path": "sprites/placeholder.gfx",
@@ -14033,12 +14009,20 @@
     "size": 2
   },
   {
-    "path": "Blob_39aa34_39aae0.bin",
-    "count": "0xAC",
+    "path": "sprites/gunship_end_unused_y_movement_1.bin",
+    "count": "0x51",
     "addr": {
       "us": "0x39AA34"
     },
-    "size": 1
+    "size": 2
+  },
+  {
+    "path": "sprites/gunship_end_unused_y_movement_2.bin",
+    "count": "0x5",
+    "addr": {
+      "us": "0x39AAD6"
+    },
+    "size": 2
   },
   {
     "path": "sprites/gunship_end_idle_y_movement.bin",
@@ -27617,14 +27601,6 @@
     "size": 1
   },
   {
-    "path": "Blob_576217_576218.bin",
-    "count": "0x1",
-    "addr": {
-      "us": "0x576217"
-    },
-    "size": 1
-  },
-  {
     "path": "menus/pause_screen/nav_target_main_deck_elevator_positions.bin",
     "count": "0x7",
     "addr": {
@@ -27653,14 +27629,6 @@
     "count": "0x4",
     "addr": {
       "us": "0x5767EC"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_576802_576804.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x576802"
     },
     "size": 1
   },
@@ -27905,14 +27873,6 @@
     "size": 4
   },
   {
-    "path": "Blob_58217b_58217c.bin",
-    "count": "0x1",
-    "addr": {
-      "us": "0x58217B"
-    },
-    "size": 1
-  },
-  {
     "path": "menus/pause_screen/status_screen_section_dst.bin",
     "count": "0xB",
     "addr": {
@@ -28025,12 +27985,12 @@
     "size": 2
   },
   {
-    "path": "Blob_5825d0_582656.bin",
-    "count": "0x86",
+    "path": "oam_frames/5825d0.bin",
+    "count": "0x43",
     "addr": {
       "us": "0x5825D0"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "oam_frames/582656.bin",
@@ -28818,19 +28778,11 @@
   },
   {
     "path": "new_file_intro/samus_helmet_closeup.tm.lz",
-    "count": "0xAC",
+    "count": "0x1A2",
     "addr": {
       "us": "0x598190"
     },
     "size": 4
-  },
-  {
-    "path": "Blob_598440_598818.bin",
-    "count": "0x3D8",
-    "addr": {
-      "us": "0x598440"
-    },
-    "size": 1
   },
   {
     "path": "new_file_intro/samus_helmet_closeup.pal",
@@ -29473,12 +29425,12 @@
     "size": 4
   },
   {
-    "path": "Blob_5f4e54_5f4ed4.bin",
-    "count": "0x80",
+    "path": "new_file_intro/5f4e54.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F4E54"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "new_file_intro/5f4ed4.pal",
@@ -29746,35 +29698,19 @@
   },
   {
     "path": "new_file_intro/samus_sitting.tm.lz",
-    "count": "0xAB",
+    "count": "0x1A1",
     "addr": {
       "us": "0x605684"
     },
     "size": 4
   },
   {
-    "path": "Blob_605930_605d08.bin",
-    "count": "0x3D8",
-    "addr": {
-      "us": "0x605930"
-    },
-    "size": 1
-  },
-  {
     "path": "menus/title_screen/space_background.gfx.lz",
-    "count": "0x33E",
+    "count": "0xCC6",
     "addr": {
       "us": "0x605D08"
     },
     "size": 4
-  },
-  {
-    "path": "Blob_606a00_609020.bin",
-    "count": "0x2620",
-    "addr": {
-      "us": "0x606A00"
-    },
-    "size": 1
   },
   {
     "path": "new_file_intro/609020.pal",
@@ -29794,19 +29730,11 @@
   },
   {
     "path": "menus/title_screen/space_background.tm.lz",
-    "count": "0xAC",
+    "count": "0x1A2",
     "addr": {
       "us": "0x609220"
     },
     "size": 4
-  },
-  {
-    "path": "Blob_6094d0_6098a8.bin",
-    "count": "0x3D8",
-    "addr": {
-      "us": "0x6094D0"
-    },
-    "size": 1
   },
   {
     "path": "oam_frames/6098a8.bin",
@@ -33849,12 +33777,12 @@
     "size": 2
   },
   {
-    "path": "Blob_659aa4_659ba4.bin",
-    "count": "0x100",
+    "path": "new_file_intro/ship_alert_bg_rows_8_15.pal",
+    "count": "0x80",
     "addr": {
       "us": "0x659AA4"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "oam_frames/659ba4.bin",
@@ -35921,12 +35849,12 @@
     "size": 4
   },
   {
-    "path": "Blob_67d7cc_6808ac.bin",
-    "count": "0x30E0",
+    "path": "cutscenes/bsl_space/obj.gfx.lz",
+    "count": "0xC38",
     "addr": {
       "us": "0x67D7CC"
     },
-    "size": 1
+    "size": 4
   },
   {
     "path": "oam_frames/6808ac.bin",
@@ -54193,14 +54121,6 @@
     "size": 4
   },
   {
-    "path": "Blob_73421e_734220.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x73421E"
-    },
-    "size": 1
-  },
-  {
     "path": "menus/game_over/oam_x_flip_offsets.bin",
     "count": "0xC",
     "addr": {
@@ -54386,9 +54306,17 @@
   },
   {
     "path": "menus/file_select/bg0.tm.lz",
-    "count": "0x136",
+    "count": "0x9A",
     "addr": {
       "us": "0x73D5EC"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/file_select/unused_73d854.tm.lz",
+    "count": "0x9C",
+    "addr": {
+      "us": "0x73D854"
     },
     "size": 4
   },
@@ -58839,14 +58767,6 @@
       "us": "0x798FBC"
     },
     "size": 4
-  },
-  {
-    "path": "Blob_79a19c_79a29c.bin",
-    "count": "0x100",
-    "addr": {
-      "us": "0x79A19C"
-    },
-    "size": 1
   },
   {
     "path": "menus/pause_screen/nav_conversation_sa_x_close_up_delays.bin",

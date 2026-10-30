@@ -37,8 +37,8 @@ const u8 sDefaultInGameTime[16] = INCBIN_U8("data/sram/default_in_game_time.bin"
 const u8 sDefaultBootDebugOptions[12] = INCBIN_U8("data/sram/default_boot_debug_options.bin");
 const u16 sEraseSramObjPal[7 * 16] = INCBIN_U16("data/menus/erase_sram/obj.pal");
 const u16 sEraseSramBgPal[16 * 16] = INCBIN_U16("data/menus/erase_sram/bg.pal");
-// Not referenced by code
-static const u8 sBlob_5825d0_582656[] = INCBIN_U8("data/Blob_5825d0_582656.bin");
+// OAM frame with 22 parts, not referenced by code (no FrameData array uses it)
+const u16 sOamFrame_5825d0[OAM_DATA_SIZE(22)] = INCBIN_U16("data/oam_frames/5825d0.bin");
 // OAM frames of the erase SRAM FrameData arrays below (used through sEraseSramOam)
 const u16 sOamFrame_582656[] = INCBIN_U16("data/oam_frames/582656.bin");
 const u16 sOamFrame_582706[] = INCBIN_U16("data/oam_frames/582706.bin");
