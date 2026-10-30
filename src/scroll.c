@@ -249,10 +249,8 @@ void ScrollProcess(struct RawCoordsX* pCoords)
 
     ScrollUpdateCurrent();
 
-    do {
     screenX = gCamera.xPosition;
     screenY = gCamera.yPosition;
-    } while (0);
 
     pScroll = gCurrentScrolls;
     if (pScroll->within != SCROLL_NOT_WITHIN_FLAG)
