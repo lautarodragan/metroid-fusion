@@ -14033,12 +14033,20 @@
     "size": 2
   },
   {
-    "path": "Blob_39aa34_39aae0.bin",
-    "count": "0xAC",
+    "path": "sprites/gunship_end_unused_y_movement_1.bin",
+    "count": "0x51",
     "addr": {
       "us": "0x39AA34"
     },
-    "size": 1
+    "size": 2
+  },
+  {
+    "path": "sprites/gunship_end_unused_y_movement_2.bin",
+    "count": "0x5",
+    "addr": {
+      "us": "0x39AAD6"
+    },
+    "size": 2
   },
   {
     "path": "sprites/gunship_end_idle_y_movement.bin",
@@ -28025,12 +28033,12 @@
     "size": 2
   },
   {
-    "path": "Blob_5825d0_582656.bin",
-    "count": "0x86",
+    "path": "oam_frames/5825d0.bin",
+    "count": "0x43",
     "addr": {
       "us": "0x5825D0"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "oam_frames/582656.bin",
@@ -29465,12 +29473,12 @@
     "size": 4
   },
   {
-    "path": "Blob_5f4e54_5f4ed4.bin",
-    "count": "0x80",
+    "path": "new_file_intro/5f4e54.pal",
+    "count": "0x40",
     "addr": {
       "us": "0x5F4E54"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "new_file_intro/5f4ed4.pal",
@@ -33817,12 +33825,12 @@
     "size": 2
   },
   {
-    "path": "Blob_659aa4_659ba4.bin",
-    "count": "0x100",
+    "path": "new_file_intro/ship_alert_bg_rows_8_15.pal",
+    "count": "0x80",
     "addr": {
       "us": "0x659AA4"
     },
-    "size": 1
+    "size": 2
   },
   {
     "path": "oam_frames/659ba4.bin",

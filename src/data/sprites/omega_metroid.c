@@ -3251,7 +3251,10 @@ const struct FrameData sOmegaMetroidPartOam_LeftLeg_Swiping[6] = {
     [5] = FRAME_DATA_TERMINATOR
 };
 
-static const u8 sBlob_39aa34_39aae0[] = INCBIN_U8("data/Blob_39aa34_39aae0.bin");
+// Two Y movement tables in the format of the gunship end ones that follow (s16, ending
+// with SHORT_MAX). Not referenced by code
+const s16 sGunshipEndUnusedYMovement1[81] = INCBIN_S16("data/sprites/gunship_end_unused_y_movement_1.bin");
+const s16 sGunshipEndUnusedYMovement2[5] = INCBIN_S16("data/sprites/gunship_end_unused_y_movement_2.bin");
 const s16 sGunshipEndIdleYMovement[114] = INCBIN_S16("data/sprites/gunship_end_idle_y_movement.bin");
 const s16 sGunshipEndEngineYMovement[96] = INCBIN_S16("data/sprites/gunship_end_engine_y_movement.bin");
 const u8 sGunshipEndTakingOffRotation[12] = INCBIN_U8("data/sprites/gunship_end_taking_off_rotation.bin");

@@ -21115,7 +21115,9 @@ const struct FrameData sIntroArrivingAtBslThrustersOam[4] = {
 	[3] = FRAME_DATA_TERMINATOR
 };
 
-static const u8 sBlob_5f4e54_5f4ed4[] = INCBIN_U8("data/Blob_5f4e54_5f4ed4.bin");
+// Rows 0-3 of the BG palette whose rows 4-15 are sPal_5f4ed4 (only the transparent color is set).
+// Not referenced by code: only rows 4-15 are copied
+const u16 sPal_5f4e54[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5f4e54.pal");
 
 const u16 sPal_5f4ed4[12 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5f4ed4.pal");
 const u16 sIntroArrivingAtBslSpaceMapPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/space_map.pal");
@@ -24003,8 +24005,10 @@ const u32 sIntroSamusInShipTilemap[385] = INCBIN_U32("data/new_file_intro/samus_
 const u16 sIntroSamusInShipPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_in_ship.pal");
 const u32 sIntroShipAlertBg1Tilemap[368] = INCBIN_U32("data/new_file_intro/ship_alert_bg1.tm.lz");
 const u16 sIntroShipAlertBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_bg.pal");
-// Rest after the 8 palette rows the ship alert copies, not referenced by name
-static const u8 sBlob_659aa4_659ba4[] = INCBIN_U8("data/Blob_659aa4_659ba4.bin");
+// Rows 8-15 of the ship alert BG palette (sIntroShipAlertBgPal is rows 0-7). Rows 8-14 are
+// black, row 15 holds plain test colors (white, red, magenta, yellow, green, blue, cyan).
+// Not referenced by code: only rows 0-7 are copied
+const u16 sIntroShipAlertBgPalRows8To15[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/ship_alert_bg_rows_8_15.pal");
 // OAM frames of the FrameData arrays below
 const u16 sOamFrame_659ba4[] = INCBIN_U16("data/oam_frames/659ba4.bin");
 const u16 sOamFrame_659bd0[] = INCBIN_U16("data/oam_frames/659bd0.bin");
