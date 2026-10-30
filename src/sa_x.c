@@ -1041,7 +1041,9 @@ u8 SaXElevatorBeforeShootingDoor(void)
 
     s32 ended;
     s32 i;
-    // FIXME: Fake match
+    // FIXME: Fake match. The struct copies below use r5-r7, so the new value of ended is kept in a
+    // high register during the loop. Without the binding it gets ip and the gSaXElevatorData pointer
+    // gets r8; the original has them the other way around
     register s32 tmp asm("r8");
 
     ended = FALSE;
