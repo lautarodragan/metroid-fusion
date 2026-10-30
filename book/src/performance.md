@@ -7,13 +7,23 @@ are in a separate, non-matching build (`make OPTIMIZE=1`); the normal build is
 untouched and still matches the ROM.
 
 **Short version.** In mGBA, the original game drops a frame only rarely in
-these fights (2 lag frames in a full Nightmare fight of 3,355 logic frames, 6
+these fights (2 lag frames in a full Nightmare fight of 3,596 logic frames, 6
 to 7 per 4,000 frames when Samus shoots nonstop, none in the BOX fights), but
 Nightmare's frames are right at the limit: on average 78% of the frame
 budget, with peaks above 100%. Two changes to how sprites are visited
 (projectile hit checks and the drawing passes) take 16% of the frame budget
 off every frame, in every room; with them no measured fight lags, and
 Nightmare peaks at 81%. The game state is the same at every logic frame.
+
+Across the whole game (all 393 rooms, see [Lag map](#lag-map-of-the-whole-game)),
+ordinary rooms do not lag in mGBA; the heaviest ones run at 80-95% of the
+budget at their peaks (Sector 4's flooded rooms, Zazabi's lair, the haze rooms
+of Sectors 3 and 5), and only Nightmare and Ridley actually cross it. But mGBA
+is not cycle-exact: NanoBoyAdvance, a more accurate emulator, runs the same
+code 1.3% slower per frame, and because so many frames sit just under the
+limit, it shows 5 times as many lag frames in the Nightmare fights (11 instead
+of 2). Real hardware is probably closer to NanoBoyAdvance; the
+[LAGMETER build](lag-meter.md) measures it on a console.
 
 ## Lag frames
 
@@ -98,9 +108,9 @@ mGBA 0.10.2 (libretro core, the emulator harness):
 | Scenario | Logic frames | Lag frames, original |
 | --- | ---: | ---: |
 | Control (docking bay) | 1,200 | 0 |
-| Nightmare, full fight | 3,355 | 2 |
-| BOX, full fight | 1,834 | 0 |
-| BOX 2, full fight | 2,987 | 0 |
+| Nightmare, full fight | 3,596 | 2 |
+| BOX, full fight | 2,075 | 0 |
+| BOX 2, full fight | 3,228 | 0 |
 | Nightmare, missiles nonstop | 4,000 | 7 |
 | Nightmare, beam nonstop | 4,000 | 6 |
 | BOX 2, beam nonstop | 4,000 | 0 |
@@ -117,7 +127,9 @@ chained into a 32-bit cycle counter (the game only uses timer 0). The counts
 of the last logic frame are in `gProfile` (free IWRAM at `0x3005630`, see
 `include/profile.h`), and `lag.ProfileReader` reads them at every boundary.
 The probes cost a few hundred cycles per frame, so this build lags a little
-more than the original (9 lag frames instead of 2 in the Nightmare fight),
+more than the original (9 lag frames instead of 2 in the Nightmare fight; in
+the room sweep below, where the original lags only once, it lags exactly as
+often),
 but its frame totals are those of the original code:
 
 | Scenario | Mean | Max | Frames > 95% | Frames > 100% |
@@ -294,15 +306,18 @@ intentional difference.
 
 ## Limitations
 
-- **Emulator timing.** All the cycle counts and lag frames come from mGBA
-  0.10.2, which emulates the wait states and the prefetch buffer but is not
-  cycle-exact. If real hardware is a few percent slower, the original's
-  Nightmare frames (19 of them above 95% in one fight) lag noticeably more
-  often there; the optimized build keeps a margin of about 20% of the frame.
+- **Emulator timing.** The cycle counts and lag frames come from mGBA
+  0.10.2, which approximates the prefetch buffer and is not cycle-exact.
+  NanoBoyAdvance runs the same frames 1.3% slower and lags 3 to 5 times as
+  often in the Nightmare and Ridley fights (see *Emulator accuracy*); the
+  console has not been measured yet (see *Real hardware*). The optimized build
+  keeps a margin of about 15% of the frame.
 - **Scripted play.** The fights are played by a simple policy, with some
   health taken by RAM writes; a human hits more often and causes more
   explosions and particles. The nonstop-shooting scenarios are the closest to
-  the worst case measured here.
+  the worst case measured here. The room sweep walks, jumps and shoots with a
+  fixed input for 20 seconds per room: it finds the rooms that are heavy by
+  themselves, not the worst moment a player can create in them.
 - The profiler does not time H-blank handlers: in a cutscene whose H-blank
   handler runs on every line, the extra cycles starve the main loop.
 
@@ -314,6 +329,7 @@ make PROFILE=2      # mf_us_profile2.gba: every subsystem and sprite slot
 make OPTIMIZE=1     # mf_us_opt.gba: PROJ_HIT and DRAW_ORDER
 make OPTIMIZE="PROJ_HIT DRAW_ORDER IWRAM"
 make PROFILE=1 OPTIMIZE=1   # mf_us_profile_opt.gba
+make LAGMETER=1     # mf_us_lagmeter.gba: lag counter and per-room log, for a console
 make check          # the normal build, which these flags do not change
 ```
 
