@@ -289,17 +289,9 @@
   },
   {
     "path": "voicegroups/a8af4.bin",
-    "count": "0x28",
+    "count": "0x1E8",
     "addr": {
       "us": "0xA8AF4"
-    },
-    "size": 12
-  },
-  {
-    "path": "Blob_a8cd4_a8cdc.bin",
-    "count": "0x8",
-    "addr": {
-      "us": "0xA8CD4"
     },
     "size": 1
   },

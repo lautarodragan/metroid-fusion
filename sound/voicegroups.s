@@ -1395,11 +1395,5 @@ sWaveData_a8cbc:
     .type sWaveData_a8ccc, object
     .global sWaveData_a8ccc
 sWaveData_a8ccc:
-    .incbin "data/voicegroups/a8af4.bin", 0x1d8, 0x8
+    .incbin "data/voicegroups/a8af4.bin", 0x1d8, 0x10
     .size sWaveData_a8ccc, . - sWaveData_a8ccc
-
-@ The last 8 bytes of sWaveData_a8ccc's 16 byte wave, and padding
-    .type sBlob_a8cd4_a8cdc, object
-sBlob_a8cd4_a8cdc:
-    .incbin "data/Blob_a8cd4_a8cdc.bin"
-    .size sBlob_a8cd4_a8cdc, . - sBlob_a8cd4_a8cdc
