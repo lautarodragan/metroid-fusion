@@ -11281,14 +11281,6 @@
     "size": 1
   },
   {
-    "path": "Blob_2e5cae_2e5cb0.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x2E5CAE"
-    },
-    "size": 1
-  },
-  {
     "path": "spritesets/0.bin",
     "count": "0x3",
     "addr": {
@@ -12327,14 +12319,6 @@
       "us": "0x2E615E"
     },
     "size": 2
-  },
-  {
-    "path": "Blob_2e6382_2e6384.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x2E6382"
-    },
-    "size": 1
   },
   {
     "path": "sprites/placeholder.gfx",
@@ -27617,14 +27601,6 @@
     "size": 1
   },
   {
-    "path": "Blob_576217_576218.bin",
-    "count": "0x1",
-    "addr": {
-      "us": "0x576217"
-    },
-    "size": 1
-  },
-  {
     "path": "menus/pause_screen/nav_target_main_deck_elevator_positions.bin",
     "count": "0x7",
     "addr": {
@@ -27653,14 +27629,6 @@
     "count": "0x4",
     "addr": {
       "us": "0x5767EC"
-    },
-    "size": 1
-  },
-  {
-    "path": "Blob_576802_576804.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x576802"
     },
     "size": 1
   },
@@ -27903,14 +27871,6 @@
       "us": "0x581500"
     },
     "size": 4
-  },
-  {
-    "path": "Blob_58217b_58217c.bin",
-    "count": "0x1",
-    "addr": {
-      "us": "0x58217B"
-    },
-    "size": 1
   },
   {
     "path": "menus/pause_screen/status_screen_section_dst.bin",
@@ -54161,14 +54121,6 @@
     "size": 4
   },
   {
-    "path": "Blob_73421e_734220.bin",
-    "count": "0x2",
-    "addr": {
-      "us": "0x73421E"
-    },
-    "size": 1
-  },
-  {
     "path": "menus/game_over/oam_x_flip_offsets.bin",
     "count": "0xC",
     "addr": {
@@ -58807,14 +58759,6 @@
       "us": "0x798FBC"
     },
     "size": 4
-  },
-  {
-    "path": "Blob_79a19c_79a29c.bin",
-    "count": "0x100",
-    "addr": {
-      "us": "0x79A19C"
-    },
-    "size": 1
   },
   {
     "path": "menus/pause_screen/nav_conversation_sa_x_close_up_delays.bin",

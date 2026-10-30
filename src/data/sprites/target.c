@@ -83,7 +83,5 @@ const s16 sTargetCirclesXMovement[81] = {
     SHORT_MAX
 };
 
-// Probably the 2 bytes of padding that align sPlaceholderSpriteGfx
-static const u8 sBlob_2e6382_2e6384[] = INCBIN_U8("data/Blob_2e6382_2e6384.bin");
 const u32 sPlaceholderSpriteGfx[1 * 512] = INCBIN_U32("data/sprites/placeholder.gfx");
 const u16 sPlaceholderSpritePal[1 * 16] = INCBIN_U16("data/sprites/placeholder.pal");

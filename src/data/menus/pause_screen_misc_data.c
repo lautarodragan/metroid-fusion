@@ -149,7 +149,8 @@ const u8 sMaintainedInputDelays[7] = {
     15, 10, 6, 4, 4, 4, 2,
 };
 
-static const u8 sBlob_576217_576218[] = INCBIN_U8("data/Blob_576217_576218.bin");
+// 4 byte alignment: the original has 1 byte of zero padding here
+ALIGN_2();
 // Map position (x, y) of the main deck elevator to each area
 const u8 sNavTargetMainDeckElevatorPositions[AREA_NORMAL_COUNT][2] = INCBIN_U8("data/menus/pause_screen/nav_target_main_deck_elevator_positions.bin");
 // Map position (x, y) of the elevator to the main deck in each area
@@ -278,8 +279,9 @@ const u8 sNavConversationPortraitOamIds[6][3] = {
     }
 };
 
-// The first byte is a mosaic value (unk_7b674)
-const u8 sUnk_576802[] = INCBIN_U8("data/Blob_576802_576804.bin");
+// Mosaic value (BG mosaic of size 14 horizontally and vertically) at which the pop-up
+// mosaic effect stops (unk_7b674 adds 0x11 per step); followed by 1 byte of padding
+const u8 sUnk_576802[1] = { 0xEE };
 // Palettes, LZ77 graphics and animations of the navigation conversation pop-ups
 const u16 sNavConversationPopUpPal_576804[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576804.pal");
 const u16 sNavConversationPopUpCyclePal_576824[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576824.pal");
@@ -641,7 +643,8 @@ const u8 sDebugSectionInfo[PAUSE_DEBUG_SECTION_END][5] = {
     },
 };
 
-static const u8 sBlob_58217b_58217c[] = INCBIN_U8("data/Blob_58217b_58217c.bin");
+// 4 byte alignment: the original has 1 byte of zero padding here
+ALIGN_2();
 // Destination tilemap info for each status screen section (top, bottom, left, right, ...)
 const u8 sStatusScreenSectionDstInfo[11][5] = INCBIN_U8("data/menus/pause_screen/status_screen_section_dst.bin");
 // Source tilemap info for each item section

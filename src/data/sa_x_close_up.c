@@ -12,7 +12,8 @@ const u32 sSaXCloseUpTileTable2[305] = INCBIN_U32("data/sa_x_close_up/second.tt.
 
 const u8 sSaXCloseUpDurations[2] = { 25, 60 };
 
-static const u8 sBlob_73421e_734220[] = INCBIN_U8("data/Blob_73421e_734220.bin");
+// 4 byte alignment: the original has 2 bytes of zero padding here
+ALIGN_2();
 const u8 sGameOverOamXFlipOffsets[3][4] = INCBIN_U8("data/menus/game_over/oam_x_flip_offsets.bin"); // OAM width in tiles per shape and size, as sOamXFlipOffsets
 const u32 sGameOverBgGfx[5651] = INCBIN_U32("data/menus/game_over/bg.gfx.lz");
 const u32 sGameOverObjGfx[184] = INCBIN_U32("data/menus/game_over/obj.gfx.lz");

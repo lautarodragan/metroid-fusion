@@ -3021,7 +3021,8 @@ const u16 sSecondarySpriteStats[SSPRITE_END][4] = {
     }
 };
 
-static const u8 sBlob_2e5cae_2e5cb0[] = INCBIN_U8("data/Blob_2e5cae_2e5cb0.bin");
+// The spritesets start 4-aligned: the original has 2 bytes of zero padding here
+ALIGN_2();
 // Spritesets: (sprite id, graphics slot) pairs, terminated by a pair
 // whose sprite id is PSPRITE_TARGET_CIRCLES (SpriteLoadSpriteset)
 const u8 sSpriteset0[3 * 2] = INCBIN_U8("data/spritesets/0.bin");
