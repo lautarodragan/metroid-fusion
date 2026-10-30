@@ -25,7 +25,7 @@ extern const struct FrameData sCutsceneSecretConversationIncomingDispatchOam_679
 extern const struct FrameData sCutsceneSecretConversationOam_6793a0[];
 extern const struct FrameData sCutsceneSecretConversationOam_6793b0[];
 extern const u32 sCutsceneBslSpaceBgGfx[];
-extern const u8 sCutsceneBslSpaceObjGfx[];
+extern const u32 sCutsceneBslSpaceObjGfx[3128];
 extern const struct FrameData sCutsceneRestrictedLabDetachingBslPartOam_680d54[];
 extern const struct FrameData sCutsceneRestrictedLabDetachingBslPartOam_680d64[];
 extern const struct FrameData sCutsceneRestrictedLabDetachingBslPartOam_680d74[];

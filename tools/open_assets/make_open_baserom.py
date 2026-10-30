@@ -243,7 +243,7 @@ TEXT_RANGE = (0x6b2fac, 0x72eee0)
 # zero header instead, so they decompress to nothing. Identified regions of a
 # placeholder format (.gfx.lz, .tm.lz, .pal...) get their placeholder instead.
 OAM_SAFE_RANGES = [
-    (0x6094d0, 0x60b148),   # title intro OAM (IntroSpaceView*)
+    (0x6098a8, 0x60b148),   # title intro OAM (IntroSpaceView*)
     (0x6131c8, 0x63a19c),   # intro / ending graphics and OAM
     (0x64e470, 0x662804),
     (0x662cfc, 0x663820),
