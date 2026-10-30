@@ -54306,9 +54306,17 @@
   },
   {
     "path": "menus/file_select/bg0.tm.lz",
-    "count": "0x136",
+    "count": "0x9A",
     "addr": {
       "us": "0x73D5EC"
+    },
+    "size": 4
+  },
+  {
+    "path": "menus/file_select/unused_73d854.tm.lz",
+    "count": "0x9C",
+    "addr": {
+      "us": "0x73D854"
     },
     "size": 4
   },

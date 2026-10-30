@@ -56,7 +56,9 @@ const u32 sGameOverBg3Tilemap[369] = INCBIN_U32("data/menus/game_over/bg3.tm.lz"
 const u32 sGameOverBg1Tilemap[193] = INCBIN_U32("data/menus/game_over/bg1.tm.lz");
 const u32 sFileSelectBg2Tilemap[245] = INCBIN_U32("data/menus/file_select/bg2.tm.lz");
 const u32 sFileSelectBg1Tilemap[155] = INCBIN_U32("data/menus/file_select/bg1.tm.lz");
-const u32 sFileSelectBg0Tilemap[310] = INCBIN_U32("data/menus/file_select/bg0.tm.lz");
+const u32 sFileSelectBg0Tilemap[154] = INCBIN_U32("data/menus/file_select/bg0.tm.lz");
+// A second LZ77 tilemap (32x32 entries) right after sFileSelectBg0Tilemap, not referenced by code
+const u32 sFileSelectUnusedTilemap_73d854[156] = INCBIN_U32("data/menus/file_select/unused_73d854.tm.lz");
 const u16 sFileSelectBgPal_73dac4[1 * PAL_ROW] = INCBIN_U16("data/menus/file_select/bg_73dac4.pal");
 const u32 sFileSelectEnergyTankOneEmptyGfx[TILE_SIZE / 4] = INCBIN_U32("data/menus/file_select/energy_tank_one_empty.gfx");
 const u32 sFileSelectEnergyTankOneFullGfx[TILE_SIZE / 4] = INCBIN_U32("data/menus/file_select/energy_tank_one_full.gfx");
