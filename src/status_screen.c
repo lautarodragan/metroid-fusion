@@ -274,7 +274,8 @@ void StatusScreenRemoveAmmoHeader(u8 position)
     s32 row;
     s32 dstPos;
     s32 srcPos;
-    u16* tilemap;
+    u16* src;
+    u16* dst;
 
     if (position == 1)
         row = 1;
@@ -283,9 +284,8 @@ void StatusScreenRemoveAmmoHeader(u8 position)
     else
         return;
 
-    tilemap = STATUS_SCREEN_TILEMAP;
-    // FIXME: Fake match, the empty asm statement only changes the register allocation priority of tilemap
-    asm("" : : "r"(tilemap));
+    dst = STATUS_SCREEN_TILEMAP;
+    src = STATUS_SCREEN_TILEMAP;
 
     for (i = 0; i < 2; i++)
     {
@@ -294,6 +294,6 @@ void StatusScreenRemoveAmmoHeader(u8 position)
         srcPos = (STATUS_SCREEN_HEADER_TOP(0) + i) * HALF_BLOCK_SIZE + STATUS_SCREEN_HEADER_LEFT(0);
 
         for (j = 0; j <= STATUS_SCREEN_HEADER_RIGHT(0) - STATUS_SCREEN_HEADER_LEFT(0); j++)
-            tilemap[dstPos + j] = STATUS_SCREEN_TILEMAP[srcPos + j];
+            dst[dstPos + j] = src[srcPos + j];
     }
 }
