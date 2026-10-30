@@ -8,7 +8,7 @@ void UpdateMusic(void);
 void UpdatePsgSounds(void);
 void UpdateTrack(struct TrackData* pTrack);
 
-void unk_1e14(struct SoundChannel* pChannel);
+void unk_1e14(volatile struct SoundChannel* pChannel);
 
 void AudioCommand_Fine(struct TrackData* pTrack, struct TrackVariables* pVariables);
 void unk_1f04(struct TrackData* pTrack, struct TrackVariables* pVariables);

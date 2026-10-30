@@ -127,7 +127,6 @@ void NavigationConversationProcessText(void)
         PAUSE_SCREEN_DATA.unk_1A = FALSE;
 
     NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18)++;
-    PAUSE_SCREEN_DATA.unk_250 |= 0;
 
     if (gButtonInput & (KEY_A | KEY_B | KEY_DOWN) && !PAUSE_SCREEN_DATA.unk_1A)
         skipping = TRUE;
@@ -153,7 +152,11 @@ void NavigationConversationProcessText(void)
         switch (character)
         {
             case 15:
-                // FIXME: Fake match, "+ type - type" is needed to reuse the value loaded before the switch
+                // FIXME: Fake match. "+ type - type" keeps *pText inside a u16 (HImode) expression, so GCSE
+                // replaces the load with the value loaded before the switch. A plain "value = *pText" is a
+                // zero_extend:SI of the load, a different GCSE expression that isn't available here, so it
+                // gets reloaded (an extra ldrh). Comparing *pText directly reuses the value but allocates
+                // registers differently
                 value = (u16)(*pText + type - type);
                 if (value == 0xFF00)
                 {
@@ -184,16 +187,14 @@ void NavigationConversationProcessText(void)
             case 14:
                 if (type == 0xE000)
                 {
-                    // FIXME: Fake match, see above
-                    value = (u16)(*pText + type - type);
-                    if (value == 0xE000)
+                    if (*pText == 0xE000)
                     {
                         if (PAUSE_SCREEN_DATA.typeFlags & 0x200)
                             PAUSE_SCREEN_DATA.typeFlags |= 0x400;
                     }
-                    else if (value == 0xE001)
+                    else if (*pText == 0xE001)
                     {
-                        NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = value;
+                        NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0xE001;
                     }
                 }
                 else if (type == 0xE100)

@@ -229,7 +229,9 @@ void NavigationConversationUpdateXParasitePopUp(void)
             PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
         tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
-        count = tiles.count; // FIXME: Fake match, dead store
+        // FIXME: Fake match. This dead read of the count makes CSE compute the left shift of the
+        // bitfield extraction here (right after the load), the read in the loop below reuses it
+        count = tiles.count;
         slot = tiles.slot;
         count = (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] & 3) * 0x100;
         count += (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] >> 2) * 0x1800;
@@ -261,7 +263,7 @@ void NavigationConversationUpdateXParasitePopUp(void)
             PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
         tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
-        count = tiles.count; // FIXME: Fake match, dead store
+        count = tiles.count; // FIXME: Fake match, dead store (see above)
         slot = tiles.slot;
         count = (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] & 7) * 0x80;
         count += (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] >> 3) * 0x1000;

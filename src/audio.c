@@ -1307,28 +1307,18 @@ static void unk_1da0(struct PsgSoundData* pSound, struct TrackVariables* pVariab
  * 
  * @param pChannel Sound channel pointer
  */
-void unk_1e14(struct SoundChannel* pChannel)
+void unk_1e14(volatile struct SoundChannel* pChannel)
 {
     // Linked list?
     if (pChannel->pVariables != NULL)
     {
         if (pChannel->pChannel2 != NULL)
-        {
-            // Needed to produce matching ASM
-            pChannel->pChannel1->pChannel2 += 0;
             pChannel->pChannel2->pChannel1 = pChannel->pChannel1;
-        }
 
         if (pChannel->pChannel1 != NULL)
-        {
-            // Needed to produce matching ASM
-            pChannel->pChannel2->pChannel1 += 0;
             pChannel->pChannel1->pChannel2 = pChannel->pChannel2;
-        }
         else
-        {
             pChannel->pVariables->pChannel = pChannel->pChannel2;
-        }
 
         pChannel->pVariables = NULL;
     }

@@ -794,7 +794,9 @@ s32 unk_7fdb0(u8 useBackup)
     }
 
     {
-        // FIXME: Fake match, forces the copy of magicResult into r0
+        // FIXME: Fake match. The original copies magicResult to r0 before the addition
+        // ("add r0, r7, #0; add r5, r5, r0"), a plain "checksumResult += magicResult" adds r7
+        // directly. Casts, other types and a separate result variable don't produce the copy
         register s32 magic asm("r0") = magicResult;
         asm("" : "+r"(magic));
         checksumResult += magic;

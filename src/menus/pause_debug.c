@@ -817,15 +817,13 @@ u32 PauseDebugModifiyAbilityCount(u8 cursorX)
             gAbilityCount += increment;
 
         modified = TRUE;
-        // Needed to produce matching ASM
-        i = 0;
     }
     else if (gChangedInput & KEY_UP)
     {
-        if (gAbilityCount - increment <= 0)
-            gAbilityCount = 0;
-        else
+        if (gAbilityCount - increment > 0)
             gAbilityCount -= increment;
+        else
+            gAbilityCount = 0;
 
         modified = TRUE;
     }
@@ -923,21 +921,26 @@ void PauseDebugDrawIgt(void)
     u16* dst;
     s32 power;
     s32 value;
-    // Needed to produce matching ASM
-    unsigned long long baseTile;
 
     dst = VRAM_BASE + 0xC800;
     position = PAUSE_DEBUG_SECTION_INFO_TOP(PAUSE_DEBUG_SECTION_IN_GAME_TIME) * HALF_BLOCK_SIZE + PAUSE_DEBUG_SECTION_INFO_LEFT(PAUSE_DEBUG_SECTION_IN_GAME_TIME);
 
     for (power = 100; power > 0; power /= 10, position++)
     {
-        baseTile = 0x3080;
         value = gInGameTimer.hours / power % 10;
 
-        if (power == 100 && value == 0)
-            dst[position] = 0x3080 + 12;
+        if (power == 100)
+        {
+            // Leading zero of the hours is drawn blank
+            if (value != 0)
+                dst[position] = 0x3080 + value;
+            else
+                dst[position] = 0x3080 + 12;
+        }
         else
-            do { dst[position] = value + baseTile; } while (0);
+        {
+            dst[position] = 0x3080 + value;
+        }
     }
 
     position++;
