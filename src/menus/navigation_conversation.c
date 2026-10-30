@@ -127,7 +127,6 @@ void NavigationConversationProcessText(void)
         PAUSE_SCREEN_DATA.unk_1A = FALSE;
 
     NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18)++;
-    PAUSE_SCREEN_DATA.unk_250 |= 0;
 
     if (gButtonInput & (KEY_A | KEY_B | KEY_DOWN) && !PAUSE_SCREEN_DATA.unk_1A)
         skipping = TRUE;
