@@ -246,7 +246,7 @@ void StopAllMusicAndSoundsNotPaused(void)
 
     for (i = (u16)gNumMusicPlayers - 1; i >= 0; i--)
     {
-        if (!(sMusicTrackDataRom[i].pTrack->unk_1E & TRUE))
+        if (!(sMusicTrackDataRom[i].pTrack->pauseFlags & TRUE))
             StopMusicOrSound(sMusicTrackDataRom[i].pTrack);
     }
 }

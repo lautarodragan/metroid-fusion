@@ -147,7 +147,7 @@ extern s8 gLanguage;
 struct GameCompletion {
     s8 completedGame;
     s8 introPlayed;
-    u8 unk_2;
+    u8 unk_2; // Cleared on a new file, never read in the final game
 };
 
 extern struct GameCompletion gGameCompletion;
@@ -220,7 +220,7 @@ struct IoRegisters {
 extern struct IoRegisters gIoRegisters;
 
 struct DefaultTransparency {
-    u8 unk_0;
+    u8 customEva; // Set when the room effect uses its own EVA (with EVB at 16), written but never read in the final game
     u8 evbCoef;
     u8 evaCoef;
     u16 bldcnt;

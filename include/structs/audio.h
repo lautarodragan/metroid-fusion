@@ -54,7 +54,8 @@ struct SoundChannel {
     // 0x2 = start, 0x4 = frequency changed, 0x10 = volume changed
     u8 flags;
     u32* pSize;
-    u32 unk_18;
+    // Position in the sample (14 fractional bits), advanced by the mixer (SoundCodeA); type 0x20 starts at the end
+    u32 samplePosition;
     u32 frequency;
     u32* pSample; // Type?
     u8* pData;
@@ -194,7 +195,7 @@ struct TrackData {
     u8 usePriority;
     // 0x1 = paused by PauseTracksAndBackupChannels (can't be started, stopped or updated),
     // 0x2 = resumed by ResumeTracksFromChannelBackup or played by SoundPlay_3b1c
-    u8 unk_1E;
+    u8 pauseFlags;
     u8 priority;
     u16 musicTrack;
     u8 maxSoundChannels;

@@ -17,7 +17,7 @@ struct PowerBomb {
     u8 animationState;
     u8 stage;
     u8 semiMinorAxis;
-    u8 unk_3;
+    u8 unk_3; // Cleared when the explosion begins, never read in the final game
     u16 xPosition;
     u16 yPosition;
     s16 hitboxLeft;
@@ -26,7 +26,7 @@ struct PowerBomb {
     s16 hitboxBottom;
     u8 powerBombPlaced;
     boolu8 ownedBySaX;
-    u8 unk_12; // Delays the start of the explosion by a frame when set (PB_STATE_STARTING), always cleared before being checked
+    boolu8 delayExplosion; // Delays the start of the explosion by a frame when set (PB_STATE_STARTING), always cleared before being checked
 };
 
 extern struct PowerBomb gCurrentPowerBomb;

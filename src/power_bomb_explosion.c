@@ -20,8 +20,8 @@ void PowerBombExplosionProcess(void)
     if (gCurrentPowerBomb.animationState == PB_STATE_NONE || gCurrentPowerBomb.animationState == PB_STATE_UNK_1)
         return;
 
-    PowerBombExplosionSet0x12To0();
-    if (!gCurrentPowerBomb.unk_12) // Most likely a cancelled feature
+    PowerBombExplosionClearDelayFlag();
+    if (!gCurrentPowerBomb.delayExplosion) // Most likely a cancelled feature
     {
         if (gCurrentPowerBomb.animationState == PB_STATE_STARTING)
             PowerBombExplosionBegin();
@@ -183,7 +183,7 @@ void PowerBombExplosionStart(u16 xPosition, u16 yPosition, u8 owner)
     if (gSubGameMode1 != SUB_GAME_MODE_PLAYING)
         return;
 
-    PowerBombExplosionSet0x12To0();
+    PowerBombExplosionClearDelayFlag();
 
     // Check if there isn't already an explosion
     if (gCurrentPowerBomb.animationState == PB_STATE_NONE)
@@ -192,7 +192,7 @@ void PowerBombExplosionStart(u16 xPosition, u16 yPosition, u8 owner)
         gCurrentPowerBomb.yPosition = yPosition;
         gCurrentPowerBomb.ownedBySaX = owner;
 
-        if (gCurrentPowerBomb.unk_12)
+        if (gCurrentPowerBomb.delayExplosion)
             gCurrentPowerBomb.animationState = PB_STATE_STARTING;
         else
             PowerBombExplosionBegin();
@@ -200,12 +200,12 @@ void PowerBombExplosionStart(u16 xPosition, u16 yPosition, u8 owner)
 }
 
 /**
- * @brief 683fc | c | Sets the field at offset 0x12 of the current power bomb to 0x0, purpose is unknown
+ * @brief 683fc | c | Clears the explosion delay flag of the current power bomb
  * 
  */
-void PowerBombExplosionSet0x12To0(void)
+void PowerBombExplosionClearDelayFlag(void)
 {
-    gCurrentPowerBomb.unk_12 = FALSE;
+    gCurrentPowerBomb.delayExplosion = FALSE;
 }
 
 /**
@@ -230,7 +230,7 @@ void PowerBombExplosionBegin(void)
     gCurrentPowerBomb.hitboxTop = 0;
     gCurrentPowerBomb.hitboxBottom = 0;
 
-    gCurrentPowerBomb.unk_12 = 0;
+    gCurrentPowerBomb.delayExplosion = 0;
     gCurrentPowerBomb.unk_3 = 0;
 
     ScreenShakeStartHorizontal(120, 0x80);

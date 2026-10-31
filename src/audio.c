@@ -152,9 +152,9 @@ void UpdateMusic(void)
             if (pChannel->flags & 0x2)
             {
                 if (pChannel->type == 0x20)
-                    pChannel->unk_18 = pChannel->pSample[3] << 14;
+                    pChannel->samplePosition = pChannel->pSample[3] << 14;
                 else
-                    pChannel->unk_18 = 0;
+                    pChannel->samplePosition = 0;
 
                 pChannel->envelopeVolume = 0;
                 pChannel->flags &= ~0x2;
@@ -676,7 +676,7 @@ void UpdateTrack(struct TrackData* pTrack)
 
     pTrack->occupied = TRUE;
 
-    if (!(pTrack->unk_1E & TRUE))
+    if (!(pTrack->pauseFlags & TRUE))
     {
         if (pTrack->flags & 0xF8)
         {

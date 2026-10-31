@@ -4,7 +4,7 @@
 #include "types.h"
 
 struct SaXCloseUpData {
-    u8 unk_0;
+    u8 skipProcess; // The close-up only plays while clear, never set in the final game
     u8 stage;
     u8 timer;
 };

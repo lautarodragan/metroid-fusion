@@ -1520,7 +1520,7 @@ void ParticleAbsorbingSuit(void)
     gCurrentParticle.xPosition = gArmCannonX;
     ParticleUpdateAnimation(sParticleOam_AbsorbingSuit);
 
-    if (gSamusData.unk_B == 0)
+    if (gSamusData.absorbingSuitTimer == 0)
         gCurrentParticle.status = 0;
 
     if (gCurrentParticle.stage == 0)

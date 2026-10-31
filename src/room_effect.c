@@ -262,14 +262,14 @@ void RoomEffectSetTransparency(void)
         gIoRegisters.bldalpha_evb = evb;
         gIoRegisters.bldalpha_eva = 16 - gIoRegisters.bldalpha_evb;
 
-        gDefaultTransparency.unk_0 = 0;
+        gDefaultTransparency.customEva = 0;
     }
     else
     {
         gIoRegisters.bldalpha_evb = 16;
         gIoRegisters.bldalpha_eva = eva;
 
-        gDefaultTransparency.unk_0 = 1;
+        gDefaultTransparency.customEva = 1;
     }
 
     gDefaultTransparency.evbCoef = gIoRegisters.bldalpha_evb;

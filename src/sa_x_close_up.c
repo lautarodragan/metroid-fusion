@@ -132,7 +132,7 @@ boolu32 SaXCloseUp(void)
     ended = FALSE;
 
     SA_X_CLOSE_UP_DATA.timer++;
-    if (SA_X_CLOSE_UP_DATA.unk_0 == 0 && SaXCloseUpProcess())
+    if (SA_X_CLOSE_UP_DATA.skipProcess == 0 && SaXCloseUpProcess())
         ended = TRUE;
 
     return ended;
