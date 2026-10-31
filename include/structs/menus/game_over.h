@@ -26,11 +26,13 @@ struct GameOverOam {
 };
 
 struct GameOverData {
-    u8 unk_0;
+    UNUSED(1);
     u8 optionSelected;
     u8 optionSelectedTimer;
     u8 choice;
     struct GameOverOam oam[3];
 };
+
+ASSERT_SIZE(struct GameOverData, 0x4C);
 
 #endif /* GAME_OVER_STRUCTS_H */
