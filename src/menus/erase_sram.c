@@ -398,9 +398,8 @@ void EraseSramUpdateCursorPosition(void)
 {
     u8 row;
 
-    // The volatile read is needed to match
-    ERASE_SRAM_DATA.oam[0].yPosition = sEraseSramCursorBasePositions[row = ERASE_SRAM_DATA.currentOption / 2][1] +
-        (s8)sEraseSramCursorOffsets[*(vu8*)&ERASE_SRAM_DATA.currentOption][1];
+    ERASE_SRAM_DATA.oam[0].yPosition = sEraseSramCursorBasePositions[row = ERASE_SRAM_DATA.currentOption >> 1][1] +
+        (s8)sEraseSramCursorOffsets[ERASE_SRAM_DATA.currentOption][1];
     ERASE_SRAM_DATA.oam[0].xPosition = sEraseSramCursorBasePositions[row][0] +
         (s8)sEraseSramCursorOffsets[ERASE_SRAM_DATA.currentOption][0];
 }
