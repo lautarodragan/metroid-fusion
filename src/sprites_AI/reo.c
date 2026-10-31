@@ -16,6 +16,13 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define REO_TIMER work1
+#define REO_SLOWING_DOWN work1 // Going up, set once back near the home Y position
+#define REO_WINGS_SLOT work2
+#define REO_IDLE_TIMER work3 // Frames moving horizontally while idle
+#define REO_Y_SPEED_IDX work4 // Also the index in the idle Y movement table
+#define REO_HOME_Y workX // Y position it goes back up to
+
 void ReoPlaySound(void)
 {
     if (MOD_AND(gFrameCounter8Bit, 32) == 0)
@@ -87,8 +94,8 @@ void ReoInit(void)
     gCurrentSprite.pOam = sReoOam_Idle;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.REO_TIMER = 0;
+    gCurrentSprite.REO_Y_SPEED_IDX = 0;
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS;
     SpriteUtilMakeSpriteFaceSamusDirection();
@@ -101,7 +108,7 @@ void ReoInit(void)
     }
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
-    gCurrentSprite.workX = gCurrentSprite.yPosition;
+    gCurrentSprite.REO_HOME_Y = gCurrentSprite.yPosition;
 
     ramSlot = SpriteSpawnSecondary(SSPRITE_REO_WING, gCurrentSprite.roomSlot, gCurrentSprite.spritesetGfxSlot,
         gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition, gCurrentSprite.xPosition,
@@ -109,7 +116,7 @@ void ReoInit(void)
     if (ramSlot == UCHAR_MAX)
         gCurrentSprite.status = 0;
 
-    gCurrentSprite.work2 = ramSlot;
+    gCurrentSprite.REO_WINGS_SLOT = ramSlot;
 }
 
 void ReoFallInit(void)
@@ -118,9 +125,9 @@ void ReoFallInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.pOam = sReoOam_Falling;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.REO_Y_SPEED_IDX = 0;
 
-    gSpriteData[gCurrentSprite.work2].status |= SPRITE_STATUS_NOT_DRAWN;
+    gSpriteData[gCurrentSprite.REO_WINGS_SLOT].status |= SPRITE_STATUS_NOT_DRAWN;
 }
 
 void ReoFalling(void)
@@ -157,11 +164,11 @@ void ReoFalling(void)
     {
         gCurrentSprite.yPosition = blockTop;
         gCurrentSprite.pose = 0x3a;
-        gCurrentSprite.work1 = 60;
+        gCurrentSprite.REO_TIMER = 60;
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.REO_Y_SPEED_IDX;
         movement = sSpritesFallingSpeedQuickAcceleration[offset];
         if (movement == SHORT_MAX)
         {
@@ -171,7 +178,7 @@ void ReoFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.REO_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
     }
@@ -179,14 +186,14 @@ void ReoFalling(void)
 
 void ReoLanding(void)
 {
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.REO_TIMER == 0)
     {
         gCurrentSprite.pose = 0x2d;
         gCurrentSprite.pOam = sReoOam_Idle;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
 
-        gSpriteData[gCurrentSprite.work2].status &= ~SPRITE_STATUS_NOT_DRAWN;
+        gSpriteData[gCurrentSprite.REO_WINGS_SLOT].status &= ~SPRITE_STATUS_NOT_DRAWN;
     }
 }
 
@@ -196,8 +203,8 @@ void ReoIdleInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.pOam = sReoOam_Idle;
-    gCurrentSprite.work3 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.REO_IDLE_TIMER = 0;
+    gCurrentSprite.REO_Y_SPEED_IDX = 0;
 }
 
 void ReoIdle(void)
@@ -213,9 +220,9 @@ void ReoIdle(void)
     if (ReoCheckFall())
         return;
 
-    gCurrentSprite.work3 += 1;
+    gCurrentSprite.REO_IDLE_TIMER += 1;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.REO_Y_SPEED_IDX;
     movement = sReoIdleYMovement[offset];
     if (movement == SHORT_MAX)
     {
@@ -224,16 +231,16 @@ void ReoIdle(void)
     }
 
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.REO_Y_SPEED_IDX = offset;
     gCurrentSprite.yPosition += movement;
 
-    if (ReoXMovement(2) || gCurrentSprite.work3 > 32)
+    if (ReoXMovement(2) || gCurrentSprite.REO_IDLE_TIMER > 32)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
-        gCurrentSprite.work3 = 0;
+        gCurrentSprite.REO_IDLE_TIMER = 0;
     }
 
-    if (gCurrentSprite.work4 == ARRAY_SIZE(sReoIdleYMovement) - 2)
+    if (gCurrentSprite.REO_Y_SPEED_IDX == ARRAY_SIZE(sReoIdleYMovement) - 2)
     {
         targetY = gSamusData.yPosition;
         spriteY = gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(1.5f);
@@ -262,8 +269,8 @@ void ReoIdle(void)
 
 void ReoGoingDownInit(void)
 {
-    gCurrentSprite.work1 = 8;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.REO_TIMER = 8;
+    gCurrentSprite.REO_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 0x2a;
 }
 
@@ -284,12 +291,12 @@ void ReoGoingDown(void)
         if (ReoXMovement(3))
             gCurrentSprite.pose = 0x2d;
 
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.REO_TIMER == 0)
             gCurrentSprite.pose = 0x2d;
     }
     else
     {
-        xMovement = DIV_SHIFT(gCurrentSprite.work4, 4);
+        xMovement = DIV_SHIFT(gCurrentSprite.REO_Y_SPEED_IDX, 4);
         if (xMovement > 4)
             xMovement = 6;
 
@@ -303,7 +310,7 @@ void ReoGoingDown(void)
         }
         else
         {
-            offset = gCurrentSprite.work4;
+            offset = gCurrentSprite.REO_Y_SPEED_IDX;
             yMovement = sReoGoingDownYSpeed[offset];
             if (yMovement == SHORT_MAX)
             {
@@ -313,7 +320,7 @@ void ReoGoingDown(void)
             else
             {
                 offset++;
-                gCurrentSprite.work4 = offset;
+                gCurrentSprite.REO_Y_SPEED_IDX = offset;
                 gCurrentSprite.yPosition += yMovement;
             }
         }
@@ -322,8 +329,8 @@ void ReoGoingDown(void)
 
 void ReoSlidingInit(void)
 {
-    gCurrentSprite.work1 = 8;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.REO_TIMER = 8;
+    gCurrentSprite.REO_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 0x2c;
 }
 
@@ -345,7 +352,7 @@ void ReoSliding(void)
         if (hitWall)
             gCurrentSprite.pose = 0x2d;
 
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.REO_TIMER == 0)
             gCurrentSprite.pose = 0x2d;
     }
     else
@@ -354,7 +361,7 @@ void ReoSliding(void)
             gCurrentSprite.xPosition);
         if (gPreviousCollisionCheck == COLLISION_SOLID)
         {
-            offset = gCurrentSprite.work4;
+            offset = gCurrentSprite.REO_Y_SPEED_IDX;
             yMovement = sReoSlidingYSpeed[offset];
             if (yMovement == SHORT_MAX)
             {
@@ -364,14 +371,14 @@ void ReoSliding(void)
             else
             {
                 offset++;
-                gCurrentSprite.work4 = offset;
+                gCurrentSprite.REO_Y_SPEED_IDX = offset;
                 gCurrentSprite.yPosition += yMovement;
             }
         }
         else
         {
-            gCurrentSprite.work1 = 0;
-            gCurrentSprite.work4 = 0;
+            gCurrentSprite.REO_TIMER = 0;
+            gCurrentSprite.REO_Y_SPEED_IDX = 0;
             gCurrentSprite.pose = 0x2a;
         }
     }
@@ -379,8 +386,8 @@ void ReoSliding(void)
 
 void ReoGoingUpInit(void)
 {
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.REO_SLOWING_DOWN = 0;
+    gCurrentSprite.REO_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 0x2e;
 }
 
@@ -394,12 +401,12 @@ void ReoGoingUp(void)
     SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(1.0f), gCurrentSprite.xPosition);
     if (gPreviousCollisionCheck != COLLISION_SOLID)
     {
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.REO_SLOWING_DOWN == 0)
         {
             ReoXMovement(6);
-            if (gCurrentSprite.workX + BLOCK_TO_SUB_PIXEL(1.5f) < gCurrentSprite.yPosition)
+            if (gCurrentSprite.REO_HOME_Y + BLOCK_TO_SUB_PIXEL(1.5f) < gCurrentSprite.yPosition)
             {
-                u8 offset = gCurrentSprite.work4;
+                u8 offset = gCurrentSprite.REO_Y_SPEED_IDX;
                 s16 yMovement = sReoGoingUpAcceleratingYSpeed[offset];
                 if (yMovement == SHORT_MAX)
                 {
@@ -409,22 +416,22 @@ void ReoGoingUp(void)
                 else
                 {
                     offset++;
-                    gCurrentSprite.work4 = offset;
+                    gCurrentSprite.REO_Y_SPEED_IDX = offset;
                     gCurrentSprite.yPosition += yMovement;
                 }
             }
             else
             {
-                gCurrentSprite.work1 = 1;
-                gCurrentSprite.work4 = 0;
+                gCurrentSprite.REO_SLOWING_DOWN = 1;
+                gCurrentSprite.REO_Y_SPEED_IDX = 0;
             }
         }
         else
         {
             ReoXMovement(3);
-            if (gCurrentSprite.workX < gCurrentSprite.yPosition)
+            if (gCurrentSprite.REO_HOME_Y < gCurrentSprite.yPosition)
             {
-                u8 offset = gCurrentSprite.work4;
+                u8 offset = gCurrentSprite.REO_Y_SPEED_IDX;
                 s16 yMovement = sReoGoingUpDeceleratingYSpeed[offset];
                 if (yMovement == SHORT_MAX)
                 {
@@ -434,7 +441,7 @@ void ReoGoingUp(void)
                 else
                 {
                     offset++;
-                    gCurrentSprite.work4 = offset;
+                    gCurrentSprite.REO_Y_SPEED_IDX = offset;
                     gCurrentSprite.yPosition += yMovement;
                 }
             }

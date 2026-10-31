@@ -16,6 +16,16 @@
 #include "structs/sprite.h"
 #include "structs/sprite_debris.h"
 
+#define HALZYN_MOSAIC_IDX work1 // Spawning from X
+#define HALZYN_TIMER work1 // Landing
+#define HALZYN_X_SPEED_IDX work3 // Swinging
+#define HALZYN_Y_DIRECTION work4 // Swinging, 1: going back up to the spawn Y position, 2: going back down
+#define HALZYN_Y_SPEED_IDX work4 // Lunging
+#define HALZYN_SPAWN_Y workY
+#define HALZYN_SPAWN_X workX
+
+#define HALZYN_WING_Y_SPEED_IDX work4
+
 /**
  * @brief 1db0c | 138 | Initializes a halzyn sprite
  * 
@@ -64,14 +74,14 @@ void HalzynInit(void)
     if (gCurrentSprite.pose == SPRITE_POSE_SPAWNING_FROM_X_INIT)
     {
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.HALZYN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
         return;
     }
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
 
-    gCurrentSprite.workY = gCurrentSprite.yPosition;
-    gCurrentSprite.workX = gCurrentSprite.xPosition;
+    gCurrentSprite.HALZYN_SPAWN_Y = gCurrentSprite.yPosition;
+    gCurrentSprite.HALZYN_SPAWN_X = gCurrentSprite.xPosition;
 
     gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
 
@@ -99,11 +109,11 @@ void HalzynSpawningFromX(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    gCurrentSprite.work1--;
+    gCurrentSprite.HALZYN_MOSAIC_IDX--;
 
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.HALZYN_MOSAIC_IDX != 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.HALZYN_MOSAIC_IDX];
     }
     else
     {
@@ -138,8 +148,8 @@ void HalzynSwingingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work3 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.HALZYN_X_SPEED_IDX = 0;
+    gCurrentSprite.HALZYN_Y_DIRECTION = 0;
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
 }
@@ -156,21 +166,21 @@ void HalzynSwinging(void)
 
     bounce = FALSE;
 
-    if (gCurrentSprite.work4 == 0)
+    if (gCurrentSprite.HALZYN_Y_DIRECTION == 0)
     {
-        xMovement = (u16)sHalzynSwingingXVelocity[gCurrentSprite.work3 / 4];
-        yMovement = (u16)sHalzynSwingingYVelocity[gCurrentSprite.work3 / 4];
+        xMovement = (u16)sHalzynSwingingXVelocity[gCurrentSprite.HALZYN_X_SPEED_IDX / 4];
+        yMovement = (u16)sHalzynSwingingYVelocity[gCurrentSprite.HALZYN_X_SPEED_IDX / 4];
 
         if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
         {
             SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - QUARTER_BLOCK_SIZE, gCurrentSprite.xPosition + (BLOCK_SIZE + HALF_BLOCK_SIZE));
 
-            if (gPreviousCollisionCheck != COLLISION_SOLID && gCurrentSprite.xPosition <= gCurrentSprite.workX + BLOCK_SIZE * 4)
+            if (gPreviousCollisionCheck != COLLISION_SOLID && gCurrentSprite.xPosition <= gCurrentSprite.HALZYN_SPAWN_X + BLOCK_SIZE * 4)
             {
                 gCurrentSprite.xPosition += xMovement;
 
-                if (gCurrentSprite.work3 < ARRAY_SIZE(sHalzynSwingingXVelocity) * 4 - 1)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.HALZYN_X_SPEED_IDX < ARRAY_SIZE(sHalzynSwingingXVelocity) * 4 - 1)
+                    gCurrentSprite.HALZYN_X_SPEED_IDX++;
                 else
                     bounce = TRUE;
             }
@@ -183,12 +193,12 @@ void HalzynSwinging(void)
         {
             SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - QUARTER_BLOCK_SIZE, gCurrentSprite.xPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE));
 
-            if (gPreviousCollisionCheck != COLLISION_SOLID && gCurrentSprite.xPosition >= gCurrentSprite.workX)
+            if (gPreviousCollisionCheck != COLLISION_SOLID && gCurrentSprite.xPosition >= gCurrentSprite.HALZYN_SPAWN_X)
             {
                 gCurrentSprite.xPosition -= xMovement;
 
-                if (gCurrentSprite.work3 < ARRAY_SIZE(sHalzynSwingingXVelocity) * 4 - 1)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.HALZYN_X_SPEED_IDX < ARRAY_SIZE(sHalzynSwingingXVelocity) * 4 - 1)
+                    gCurrentSprite.HALZYN_X_SPEED_IDX++;
                 else
                     bounce = TRUE;
             }
@@ -202,31 +212,31 @@ void HalzynSwinging(void)
 
         if (bounce)
         {
-            gCurrentSprite.work3 = 0;
+            gCurrentSprite.HALZYN_X_SPEED_IDX = 0;
 
             gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
 
-            if (gCurrentSprite.workY < gCurrentSprite.yPosition)
-                gCurrentSprite.work4 = 1;
-            else if (gCurrentSprite.workY > gCurrentSprite.yPosition)
-                gCurrentSprite.work4 = 2;
+            if (gCurrentSprite.HALZYN_SPAWN_Y < gCurrentSprite.yPosition)
+                gCurrentSprite.HALZYN_Y_DIRECTION = 1;
+            else if (gCurrentSprite.HALZYN_SPAWN_Y > gCurrentSprite.yPosition)
+                gCurrentSprite.HALZYN_Y_DIRECTION = 2;
             else
-                gCurrentSprite.work4 = 0;
+                gCurrentSprite.HALZYN_Y_DIRECTION = 0;
         }
     }
-    else if (gCurrentSprite.work4 == 1)
+    else if (gCurrentSprite.HALZYN_Y_DIRECTION == 1)
     {
         gCurrentSprite.yPosition -= PIXEL_SIZE / 4;
 
-        if (gCurrentSprite.yPosition == gCurrentSprite.workY)
-            gCurrentSprite.work4 = 0;
+        if (gCurrentSprite.yPosition == gCurrentSprite.HALZYN_SPAWN_Y)
+            gCurrentSprite.HALZYN_Y_DIRECTION = 0;
     }
-    else if (gCurrentSprite.work4 == 2)
+    else if (gCurrentSprite.HALZYN_Y_DIRECTION == 2)
     {
         gCurrentSprite.yPosition += PIXEL_SIZE / 4;
 
-        if (gCurrentSprite.yPosition == gCurrentSprite.workY)
-            gCurrentSprite.work4 = 0;
+        if (gCurrentSprite.yPosition == gCurrentSprite.HALZYN_SPAWN_Y)
+            gCurrentSprite.HALZYN_Y_DIRECTION = 0;
     }
 
     if (gCurrentSprite.status & SPRITE_STATUS_HIDDEN)
@@ -251,7 +261,7 @@ void HalzynLungingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.HALZYN_Y_SPEED_IDX = 0;
 
     SoundPlay(SOUND_HALZYN_LUNGE);
 }
@@ -291,7 +301,7 @@ void HalzynLunging(void)
         return;
     }
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.HALZYN_Y_SPEED_IDX;
     movement = sHalzynLungingVelocity[offset];
 
     if (movement == SHORT_MAX)
@@ -301,7 +311,7 @@ void HalzynLunging(void)
     }
     else
     {
-        gCurrentSprite.work4++;
+        gCurrentSprite.HALZYN_Y_SPEED_IDX++;
         gCurrentSprite.yPosition += movement;
     }
 }
@@ -318,8 +328,8 @@ void HalzynLandingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work1 = 30;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.HALZYN_TIMER = 30;
+    gCurrentSprite.HALZYN_Y_SPEED_IDX = 0;
 }
 
 /**
@@ -328,9 +338,9 @@ void HalzynLandingInit(void)
  */
 void HalzynLanding(void)
 {
-    gCurrentSprite.work1--;
+    gCurrentSprite.HALZYN_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.HALZYN_TIMER == 0)
         gCurrentSprite.pose = 0x2D;
 }
 
@@ -357,7 +367,7 @@ void HalzynFlyingUp(void)
 
     if (gPreviousCollisionCheck != COLLISION_AIR)
         gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
-    else if (gCurrentSprite.workY < gCurrentSprite.yPosition)
+    else if (gCurrentSprite.HALZYN_SPAWN_Y < gCurrentSprite.yPosition)
         gCurrentSprite.yPosition -= PIXEL_SIZE / 2;
     else if (SpriteUtilHasCurrentAnimationNearlyEnded())
         gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
@@ -478,7 +488,7 @@ void HalzynWingIdle(void)
         gCurrentSprite.properties |= SP_KILL_OFF_SCREEN;
         gCurrentSprite.samusCollision = SSC_NONE;
 
-        gCurrentSprite.work4 = 0;
+        gCurrentSprite.HALZYN_WING_Y_SPEED_IDX = 0;
 
         gCurrentSprite.pOam = sHalzynWingOam_Falling;
         gCurrentSprite.animationDurationCounter = 0;
@@ -583,7 +593,7 @@ void HalzynWingFalling(void)
         return;
     }
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.HALZYN_WING_Y_SPEED_IDX;
     movement = sSpritesFallingSpeedHovering[offset];
 
     if (movement == SHORT_MAX)
@@ -593,7 +603,7 @@ void HalzynWingFalling(void)
     }
     else
     {
-        gCurrentSprite.work4++;
+        gCurrentSprite.HALZYN_WING_Y_SPEED_IDX++;
         gCurrentSprite.yPosition += movement;
     }
 }
