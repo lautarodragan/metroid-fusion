@@ -322,6 +322,31 @@ void RoomRemoveNeverReformBlocksAndCollectedTanks(void)
 }
 
 /**
+ * @brief Clears the color fading state (inlined into RoomReset)
+ *
+ */
+static inline void RoomResetColorFading(void)
+{
+    gColorFading.unk_3 = 0;
+    gColorFading.fadeTimer = 0;
+    gColorFading.usePalette3 = 0;
+    gColorFading.status = 0;
+    gColorFading.stage = 0;
+}
+
+/**
+ * @brief Clears the current power bomb (and its screen shake, if one was active) (inlined into RoomReset)
+ *
+ */
+static inline void RoomResetPowerBomb(void)
+{
+    if (gCurrentPowerBomb.animationState != 0)
+        gScreenShakeX = sScreenShake_Empty;
+
+    gCurrentPowerBomb = sPowerBomb_Empty;
+}
+
+/**
  * @brief 64aec | 448 | Resets all the room related info during a transition
  *
  */
@@ -334,21 +359,8 @@ void RoomReset(void)
     u16 yOffset;
     s32 tmp;
 
-    // Needed to produce matching ASM. Any two variables will work. Without this,
-    // gPreviousCutscene and gLastDoorUsed below will have their registers swapped
-    if (gFrameCounter8Bit) {}
-    if (gFrameCounter16Bit) {}
-
-    gColorFading.unk_3 = 0;
-    gColorFading.fadeTimer = 0;
-    gColorFading.usePalette3 = 0;
-    gColorFading.status = 0;
-    gColorFading.stage = 0;
-
-    if (gCurrentPowerBomb.animationState != 0)
-        gScreenShakeX = sScreenShake_Empty;
-
-    gCurrentPowerBomb = sPowerBomb_Empty;
+    RoomResetColorFading();
+    RoomResetPowerBomb();
 
     gWrittenToBldcnt = 0;
     gScrollCounter = 0;
