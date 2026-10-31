@@ -30,15 +30,15 @@ struct EraseSramData {
     u8 currentOption;
     u8 nextOption;
     u8 language;
-    u8 unk_3;
     u16 timer;
     u16 bldcnt;
     u8 targetBldy;
-    u8 unk_9;
-    u8 unk_A;
-    u8 unk_B;
     struct MenuOam oam[3];
 };
+
+ASSERT_OFFSET(struct EraseSramData, timer, 0x4);
+ASSERT_OFFSET(struct EraseSramData, oam, 0xC);
+ASSERT_SIZE(struct EraseSramData, 0x30);
 
 #define ERASE_SRAM_DATA (*(struct EraseSramData*)&gNonGameplayRam)
 

@@ -8,10 +8,7 @@
 struct MenuOam {
     s16 yPosition;
     s16 xPosition;
-    u8 unk_4;
-    u8 unk_5;
-    u8 unk_6;
-    u8 unk_7;
+    UNUSED(4);
     u8 animationDurationCounter;
     u8 currentAnimationFrame;
     u8 oamId;
@@ -21,6 +18,8 @@ struct MenuOam {
     u8 notDrawn:1;
     u8 exists:2;
 };
+
+ASSERT_SIZE(struct MenuOam, 0xC);
 
 struct PauseScreenState {
     u8 current; // PauseScreenStateId
@@ -57,8 +56,6 @@ struct PauseScreenData {
     u16 navConvTextIndent;
     u8 navMessageStage; // 0 = waiting for input, 1 = drawing, 2 = drawn
     u8 navYesSelected; // Yes/No choice of the message
-    u8 unk_26;
-    u8 unk_27;
     struct PauseScreenState state;
     struct MenuOam oam[PAUSE_OAM_IDX_COUNT];
     u8 navTargetX;
@@ -76,44 +73,35 @@ struct PauseScreenData {
     u8 popUpAnimationTimer;
     u8 popUpAnimationFrame;
     u8 popUpPaletteFadeTimer;
-    u8 unk_21E;
-    u8 unk_21F;
+    UNUSED(2);
     u8 conversationNumber;
     u8 conversationOnRepeat;
-    u8 unk_222;
-    u8 unk_223;
+    UNUSED(2);
     u8 flashingColorIndex;
     u8 flashingColorTimer;
-    u8 unk_226;
-    u8 unk_227;
+    UNUSED(2);
     u8 popUpCyclePaletteIndex;
     u8 popUpCyclePaletteTimer;
-    u8 unk_22A;
-    u8 unk_22B;
+    UNUSED(2);
     u8 bgAnimatedPalFrame;
     u8 bgAnimatedPalTimer;
-    u8 unk_22E;
-    u8 unk_22F;
+    UNUSED(2);
     u8 downloadMapTimer;
     u8 downloadMapStage;
     u8 downloadMapLinesDrawn;
     u8 downloadMapCurrentLine;
     u8 downloadMapTrailingLineIndex; // Index in sPauseScreenDownloadScanLineTrailingOamIndices
-    u8 unk_235;
-    u8 unk_236;
-    u8 unk_237;
+    UNUSED(3);
     u8 bottomTextBoxStage;
     u8 bottomTextBoxTimer;
-    u8 unk_23A;
-    u8 unk_23B;
+    UNUSED(2);
     u8 topTextBoxStage;
     u8 topTextBoxTimer;
-    u8 unk_23E;
-    u8 unk_23F;
+    UNUSED(2);
     u8 bslDiagramStage;
     u8 bslDiagramRotating; // Prevents ending the conversation while rotating
     u8 bslDiagramTimer;
-    u8 unk_243;
+    UNUSED(1);
     u8 bslDiagramRotation; // Rotation step (0-35)
     u8 bslDiagramTargetRotation;
     u8 bslDiagramRotationDirection; // 1 or -1
@@ -121,11 +109,7 @@ struct PauseScreenData {
     u8 bslDiagramPalTimer;
     u8 bslDiagramFlashingLocation; // Palette color of the current location
     u8 bslDiagramTargetState; // 1 = hidden, 2 = placing, 3 = following the diagram
-    u8 unk_24B;
-    u8 unk_24C;
-    u8 unk_24D;
-    u8 unk_24E;
-    u8 unk_24F;
+    UNUSED(5);
     u8 areaTransitionFlags; // 1 = mosaic, 2 = window, 4 = screen covered (set by the transition), 8 = uncover (set by the caller)
     u8 areaTransitionStage;
     u8 areaTransitionTimer;
@@ -144,12 +128,10 @@ struct PauseScreenData {
     u8 canScrollLeft;
     u8 canScrollUp;
     u8 canScrollDown;
-    u8 unk_262;
-    u8 unk_263;
+    UNUSED(2);
     u8 specialImageActive; // Operations room image or SA-X close up
     u8 specialImageStage;
     u8 specialImageTimer;
-    u8 unk_267;
     u16 dispcnt;
     u16 dispcntBackup;
     u16 bg3CntBackup;
@@ -169,11 +151,13 @@ struct PauseScreenData {
     u8 currentTotalMissileTanks;
     u8 totalPowerBombTanks;
     u8 currentTotalPowerBombTanks;
-    u8 unk_281;
-    u8 unk_282;
-    u8 unk_283;
+    UNUSED(3);
     u8 debugIgtMinutes; // Minutes of the in game time last drawn by the pause debug menu
 };
+
+ASSERT_OFFSET(struct PauseScreenData, state, 0x28);
+ASSERT_OFFSET(struct PauseScreenData, dispcnt, 0x268);
+ASSERT_SIZE(struct PauseScreenData, 0x288);
 
 struct MaintainedInput {
     u8 delay;

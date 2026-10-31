@@ -8,6 +8,7 @@
 - [Setup and build](setup.md)
 - [Contributing](CONTRIBUTING.md)
   - [Matching tricks](matching-tricks.md)
+  - [Struct layout](struct-layout.md)
 - [Verifying without the ROM (synthetic check)](synthetic-check.md)
 - [Shiftability](shiftability.md)
 - [Emulator tests](emu-tests.md)

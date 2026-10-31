@@ -26,22 +26,22 @@ struct CutsceneOam {
     u8 exists:1;                    // 0x16
     u8 drawMode:2;
     u8 objMode:2;
-    u8 unk_16_5:1;
+    UNUSED_BITS(u8, 1);
     u8 xFlip:1;
     u8 yFlip:1;
     u16 tileOffset:10;              // 0x17 (straddles 0x17 and 0x18)
     u16 priority:2;                 // 0x18
     u16 paletteOffset:4;
-    u8 unk_19;
-    u8 unk_1A;
-    u8 unk_1B;
     const struct FrameData* pOam;   // 0x1C
     CutsceneOamFunc_T pFunction;    // 0x20
 };
 
+ASSERT_OFFSET(struct CutsceneOam, pOam, 0x1C);
+ASSERT_SIZE(struct CutsceneOam, 0x24);
+
 struct CutsceneData {
     u16 stage;                      // 0x0
-    u8 unk_2[6];
+    UNUSED(6);
     u16 timer;                      // 0x8
     s16 paletteUpdate;              // 0xA, the V-blank copies frame paletteFrame of the BG fade palette when set to 1
     s16 paletteFrame;               // 0xC
@@ -50,9 +50,11 @@ struct CutsceneData {
     u8 subStage;                    // 0x10
     u8 animatedPaletteTimer;        // 0x11
     u8 activeOamCount;              // 0x12
-    u8 unk_13[5];
+    UNUSED(5);
     struct CutsceneOam oam[16];     // 0x18
 };
+
+ASSERT_SIZE(struct CutsceneData, 0x258);
 
 struct CutsceneMonologueOam;
 
@@ -92,7 +94,7 @@ struct CutsceneMonologueData {
     u8 fadeTimer;                   // 0x16, delay between the screen fade steps
     u8 textUpdateState;             // 0x17, 1: draw the next character, 100: idle
     u8 indent;                      // 0x18
-    u8 unk_19[3];
+    UNUSED(3);
     u8 tilesFadeStage[9][CUTSCENE_MONOLOGUE_LINE_LENGTH];  // 0x1C
     u8 tilesFadeTimer[9][CUTSCENE_MONOLOGUE_LINE_LENGTH];  // 0x118
     struct CutsceneMonologueOam oam[5]; // 0x214

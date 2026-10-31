@@ -18,18 +18,22 @@ struct TitleScreenObject {
     u8 timer;
     u8 action;
     u8 objMode;
-    u8 unk_C;
+    UNUSED(1);
     const struct FrameData* pOam;
     TitleScreenObjectFunc_T pHandler;
 };
+
+ASSERT_SIZE(struct TitleScreenObject, 0x18);
 
 struct TitleScreenData {
     u16 timer;
     u16 idleTimer; // Frames without input, starts the demo at 1200
     u8 startDemo;
     u8 stage;
-    u8 padding_6[6];
+    UNUSED(6);
     struct TitleScreenObject objects[4];
 };
+
+ASSERT_SIZE(struct TitleScreenData, 0x6C);
 
 #endif /* TITLE_SCREEN_STRUCTS_H */

@@ -2,6 +2,7 @@
 #define SPECIAL_CUTSCENE_H
 
 #include "types.h"
+#include "macros.h"
 
 #include "constants/text.h"
 
@@ -21,21 +22,25 @@
 
 // Per tile fade timers of the monologue text, overlaid on the intro data (struct IntroData)
 struct IntroTextTilesFade {
-    u8 unk_0[0x110];
+    PADDING(0x110);
     u8 tilesFadeTimer[9 * MONOLOGUE_LINE_LENGTH];
 };
+
+ASSERT_OFFSET(struct IntroTextTilesFade, tilesFadeTimer, OFFSET_OF(struct IntroData, paletteUpdate1));
 
 #define INTRO_TEXT_TILES_FADE (*(struct IntroTextTilesFade*)&INTRO_DATA)
 
 // Palette animation arrays overlaid on the intro data (struct IntroData), starting at 0x110
 // (only used by SpecialCutsceneUpdatePaletteAnimations_Unused)
 struct IntroDataArrays {
-    u8 unk_0[0x110];
+    PADDING(0x110);
     u8 paletteAnimDelay[28];
     u8 paletteAnimTimer[28];
     u8 paletteAnimFrame[28];
     u8 paletteAnimUpdate[28];
 };
+
+ASSERT_OFFSET(struct IntroDataArrays, paletteAnimDelay, OFFSET_OF(struct IntroData, paletteUpdate1));
 
 #define INTRO_DATA_ARRAYS (*(struct IntroDataArrays*)&INTRO_DATA)
 

@@ -14,9 +14,11 @@ struct ColorFading {
     u8 timer;
     ColorFadingStatus status;
     u8 usePalette3:4;
-    u8 unk_5_4:4;
     u16 workTimer;
 };
+
+ASSERT_OFFSET(struct ColorFading, workTimer, 0x6);
+ASSERT_SIZE(struct ColorFading, 0x8);
 
 struct ColorFadingColorInfo {
     const u8* const colorArray;

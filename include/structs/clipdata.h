@@ -9,13 +9,14 @@ struct CollisionData {
     u32 type;
     s32 subPixelX;
     s32 subPixelY;
-    u32 unk_C;
-    u16 unk_10;
-    u16 unk_12;
+    UNUSED(8);
     s32 actor;
     u16 tileX;
     u16 tileY;
 };
+
+ASSERT_OFFSET(struct CollisionData, actor, 0x14);
+ASSERT_SIZE(struct CollisionData, 0x1C);
 
 struct TilemapAndClipPointers {
     u16* pTilemap;

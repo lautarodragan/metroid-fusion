@@ -97,10 +97,15 @@ struct LagMeter {
     u8 ownedTiles;          // tiles that hold the counter (bit per tile)
     u8 passFree;            // tiles found free (counter, debug graphics or one color) in this pass
     u8 allFree;             // all 8 tiles were free in the last pass: the counter may be written
-    u8 pad;
+    PADDING(1);
     u8 text[16];            // characters (index in the font) to show
     u8 written[16];         // characters in VRAM
 };
+
+// The lag meter tests read and write gLagMeter by offset
+ASSERT_OFFSET(struct LagMeter, display, 0x3A);
+ASSERT_OFFSET(struct LagMeter, text, 0x42);
+ASSERT_SIZE(struct LagMeter, 0x64);
 
 extern struct LagMeter gLagMeter;
 
