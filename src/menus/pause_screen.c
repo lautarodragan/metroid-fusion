@@ -540,7 +540,7 @@ bools32 PauseScreenInit(void)
     else if (gPauseScreenFlag == 1)
     {
         PAUSE_SCREEN_DATA.unk_0 = 2;
-        unk_36c4();
+        StopMusic();
     }
     else if (gPauseScreenFlag != 4)
     {        

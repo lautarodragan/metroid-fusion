@@ -424,10 +424,10 @@ void SramWrite_ToEwram(void)
     struct SaveMusicInfo musicInfo;
 
     musicInfo.musicTrack = gMusicInfo.musicTrack;
-    musicInfo.unk_1E = gMusicInfo.unk_1E;
-    musicInfo.unk_20 = gMusicInfo.unk_20;
+    musicInfo.secondMusicTrack = gMusicInfo.secondMusicTrack;
+    musicInfo.usingSecondMusicTrack = gMusicInfo.usingSecondMusicTrack;
     musicInfo.priority = gMusicInfo.priority;
-    musicInfo.unk_2 = gMusicInfo.unk_2;
+    musicInfo.persistentSound = gMusicInfo.persistentSound;
 
     pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
 
@@ -578,10 +578,10 @@ void SramRead_FromEwram(void)
 
     musicInfo = pFile->musicInfo;
     gMusicInfo.musicTrack = musicInfo.musicTrack;
-    gMusicInfo.unk_1E = musicInfo.unk_1E;
-    gMusicInfo.unk_20 = musicInfo.unk_20;
+    gMusicInfo.secondMusicTrack = musicInfo.secondMusicTrack;
+    gMusicInfo.usingSecondMusicTrack = musicInfo.usingSecondMusicTrack;
     gMusicInfo.priority = musicInfo.priority;
-    gMusicInfo.unk_2 = musicInfo.unk_2;
+    gMusicInfo.persistentSound = musicInfo.persistentSound;
 }
 
 /**

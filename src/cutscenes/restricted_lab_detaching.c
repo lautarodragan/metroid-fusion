@@ -74,7 +74,7 @@ void CutsceneRestrictedLabDetachingInit(void)
     WRITE_16(REG_IME, TRUE);
 
     CallbackSetVBlank(unk_9c1bc);
-    unk_36c4();
+    StopMusic();
 
     WRITE_16(REG_DISPCNT, 0);
 

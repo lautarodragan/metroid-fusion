@@ -31,8 +31,8 @@ void PlayCharacterAppearingSound();
 
 // Defined in music_wrappers.h
 void PlayMusic(u16 musicTrack, u8 priority);
-void unk_3bd4(u16 sound, u8 arg1);
-void unk_3c14(u16 sound, u8 arg1);
+void PlayMusicOrSoundFromId(u16 sound, u8 arg1);
+void StopMusicOrSoundFromId(u16 sound, u8 arg1);
 
 #define NAV_TEXT_TIMER(slot) (PAUSE_SCREEN_DATA.unk_E[(slot)])
 #define NAV_TEXT_POS(slot) ((&PAUSE_SCREEN_DATA.unk_E[2])[(slot)])
@@ -264,13 +264,13 @@ void NavigationConversationProcessText(void)
 
             case 10:
                 result = PAUSE_SCREEN_DATA.conversationOnRepeat != 0;
-                unk_3c14(*pText & 0xFFF, result);
+                StopMusicOrSoundFromId(*pText & 0xFFF, result);
                 result = 3;
                 break;
 
             case 9:
                 result = PAUSE_SCREEN_DATA.conversationOnRepeat != 0;
-                unk_3bd4(*pText & 0xFFF, result);
+                PlayMusicOrSoundFromId(*pText & 0xFFF, result);
                 result = 3;
                 break;
 

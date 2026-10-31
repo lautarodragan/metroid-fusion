@@ -672,7 +672,7 @@ void SaXNoc(void)
             
             if (gCurrentSprite.status == 0)
             {
-                unk_372c(0x50, 3, 8);
+                FadeMusicThenPlay(0x50, 3, 8);
                 EventCheckAdvance(EVENT_ESCAPED_NOC_SA_X);
             }
             break;

@@ -44,7 +44,7 @@ void InitializeAudio(void)
 
     DMA3_FILL_16(0, &gMusicInfo, 28);
 
-    gMusicInfo.unk_9 = (u8)gUnk_Audio0x64;
+    gMusicInfo.maxScanlines = (u8)gAudioMaxScanlines;
 
     for (i = 0; i < ARRAY_SIZE(gPsgSounds); i++)
     {
@@ -60,11 +60,11 @@ void InitializeAudio(void)
     {
         sMusicTrackDataRom[i].pTrack->pVariables = sMusicTrackDataRom[i].pVariables;
         sMusicTrackDataRom[i].pTrack->maxAmountOfTracks = sMusicTrackDataRom[i].maxAmountOfTracks;
-        sMusicTrackDataRom[i].pTrack->unk_1D = sMusicTrackDataRom[i].unk_A;
+        sMusicTrackDataRom[i].pTrack->usePriority = sMusicTrackDataRom[i].usePriority;
     }
 
      // SOUND_ACTION_DISABLE_STEREO | SOUND_ACTION_PWM(9) | SOUND_ACTION_FREQ_INDEX(SOUND_MODE_FREQ_10512) | SOUND_ACTION_VOLUME(15) | SOUND_ACTION_MAX_CHANNELS(6)
-    DoSoundAction((u32)gUnk_Audio0x193F600);
+    DoSoundAction((u32)gAudioInitSoundAction);
 
     for (i = 0; i < gMusicInfo.maxSoundChannels; i++)
     {
@@ -102,7 +102,7 @@ void DoSoundAction(u32 action)
         gMusicInfo.maxSoundChannels = (action & SOUND_ACTION_MAX_CHANNELS_FLAG) >> SOUND_ACTION_MAX_CHANNELS_SHIFT;
         for (i = ARRAY_SIZE(gMusicInfo.soundChannels); i >= 0 ; i--)
         {
-            gMusicInfo.soundChannels[i].unk_0 = 0;
+            gMusicInfo.soundChannels[i].status = 0;
         }
     }
 
@@ -167,15 +167,15 @@ void SetupSoundTransfer(void)
     gMusicInfo.sampleRate = sNativeSampleRate[gMusicInfo.freqIndex];
     gMusicInfo.pitch = sMusicPitchData[gMusicInfo.freqIndex];
     samplesPerFrame = sPcmSamplesPerVBlankTable[gMusicInfo.freqIndex];
-    gMusicInfo.unk_14 = samplesPerFrame;
+    gMusicInfo.samplesPerFrame = samplesPerFrame;
 
     unk_1 = samplesPerFrame / 16;
-    gMusicInfo.unk_C = unk_1; // samplesPerFrame / 16
-    unk_2 = 96 / gMusicInfo.unk_C;
-    gMusicInfo.unk_D = unk_2;  // PCM_DMA_BUF_SIZE / samplesPerFrame, number of frames to process sample?
-    gMusicInfo.unk_E = unk_2 * unk_1;  // 96
-    gMusicInfo.unk_10 = gMusicInfo.unk_E - 1; // 95
-    gMusicInfo.unk_11 = unk_1 * 2; // (samplesPerFrame / 16) * 2
+    gMusicInfo.blocksPerFrame = unk_1; // samplesPerFrame / 16
+    unk_2 = 96 / gMusicInfo.blocksPerFrame;
+    gMusicInfo.framesPerBuffer = unk_2;  // PCM_DMA_BUF_SIZE / samplesPerFrame, number of frames to process sample?
+    gMusicInfo.blocksPerBuffer = unk_2 * unk_1;  // 96
+    gMusicInfo.dmaBlock = gMusicInfo.blocksPerBuffer - 1; // 95
+    gMusicInfo.mixBlock = unk_1 * 2; // (samplesPerFrame / 16) * 2
 
     // First half of raw sound data goes into FIFO A, second half into FIF0 B
     WRITE_32(REG_DMA1_SRC, (u32)&gMusicInfo.soundRawData[0]);
@@ -236,10 +236,10 @@ void StopAllMusicAndSounds(void)
 }
 
 /**
- * @brief 27a8 | 40 | To document
+ * @brief 27a8 | 40 | Stops every music/sound currently playing, except the ones paused by PauseTracksAndBackupChannels
  * 
  */
-void unk_27a8(void)
+void StopAllMusicAndSoundsNotPaused(void)
 {
     s32 i;
 
@@ -257,7 +257,7 @@ void unk_27a8(void)
  */
 void FadeAllSounds(u16 timer)
 {
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
         ApplyMusicSoundFading(sMusicTrackDataRom[1].pTrack, timer);
     else
         ApplyMusicSoundFading(sMusicTrackDataRom[0].pTrack, timer);
@@ -288,11 +288,11 @@ void SoundPlayNotAlreadyPlaying(u16 sound)
 }
 
 /**
- * @brief 2894 | 68 | To document
+ * @brief 2894 | 68 | Plays a sound, or resumes it if it was stopped
  * 
  * @param sound Sound ID
  */
-void unk_2894(u16 sound)
+void SoundPlayOrResume(u16 sound)
 {
     struct TrackData* pTrack;
     const u8* pHeader;
@@ -308,7 +308,7 @@ void unk_2894(u16 sound)
     else if (pTrack->flags & 1)
     {
         if (pHeader == pTrack->pHeader)
-            unk_2938(pTrack);
+            ResumeMusicOrSound(pTrack);
         else
             InitTrack(pTrack, pHeader);
     }
@@ -319,26 +319,26 @@ void unk_2894(u16 sound)
 }
 
 /**
- * @brief 28fc | 3c | To document
+ * @brief 28fc | 3c | Resumes a sound if it was stopped
  * 
  * @param sound Sound ID
  */
-void unk_28fc(u16 sound)
+void SoundResume(u16 sound)
 {
     struct TrackData* pTrack;
 
     pTrack = sMusicTrackDataRom[sSoundDataEntries[sound].trackGroupNumber].pTrack;
 
     if (pTrack->flags & 1 && sSoundDataEntries[sound].pHeader == pTrack->pHeader)
-        unk_2938(pTrack);
+        ResumeMusicOrSound(pTrack);
 }
 
 /**
- * @brief 2938 | 3c | To document
+ * @brief 2938 | 3c | Resumes a stopped music or sound
  * 
  * @param pTrack Track data pointer
  */
-void unk_2938(struct TrackData* pTrack)
+void ResumeMusicOrSound(struct TrackData* pTrack)
 {
     s32 i;
     struct TrackVariables* pVariables;
@@ -356,7 +356,7 @@ void unk_2938(struct TrackData* pTrack)
 
             while (i < pTrack->amountOfTracks)
             {
-                pVariables->unk_5 = 0x40;
+                pVariables->volumeControl = 0x40;
                 i++;
                 pVariables++;
             }
@@ -367,15 +367,15 @@ void unk_2938(struct TrackData* pTrack)
 }
 
 /**
- * @brief 2974 | 34 | To document
+ * @brief 2974 | 34 | Resumes every stopped music/sound
  * 
  */
-void unk_2974(void)
+void ResumeAllMusicAndSounds(void)
 {
     s32 i;
 
     for (i = (u16)gNumMusicPlayers - 1; i >= 0; i--)
-        unk_2938(sMusicTrackDataRom[i].pTrack);
+        ResumeMusicOrSound(sMusicTrackDataRom[i].pTrack);
 }
 
 /**
@@ -407,7 +407,7 @@ void ApplyMusicSoundFading(struct TrackData* pTrack, u16 timer)
                 pTrack->flags |= 8;
 
                 volume = USHORT_MAX;
-                pTrack->maybe_volume = volume;
+                pTrack->fadeVolume = volume;
                 pTrack->fadingTimer = volume / timer;
             }
         }
@@ -437,7 +437,7 @@ void ApplyRawMusicSoundFading(struct TrackData* pTrack, u16 timer)
                 pTrack->flags |= 0x10;
 
                 volume = USHORT_MAX;
-                pTrack->maybe_volume = volume;
+                pTrack->fadeVolume = volume;
                 pTrack->fadingTimer = volume / timer;
             }
         }
@@ -447,36 +447,36 @@ void ApplyRawMusicSoundFading(struct TrackData* pTrack, u16 timer)
 }
 
 /**
- * @brief 2a40 | 94 | To document
+ * @brief 2a40 | 94 | Updates the fade out of a track, stops it when the volume reaches 0
  * 
  * @param pTrack Track data pointer
  */
-void unk_2a40(struct TrackData* pTrack)
+void UpdateTrackFadeOut(struct TrackData* pTrack)
 {
     s32 i;
     struct TrackVariables* pVariables;
 
     pVariables = pTrack->pVariables;
 
-    if (pTrack->maybe_volume - pTrack->fadingTimer >= 0)
+    if (pTrack->fadeVolume - pTrack->fadingTimer >= 0)
     {
-        pTrack->maybe_volume -= pTrack->fadingTimer;
+        pTrack->fadeVolume -= pTrack->fadingTimer;
         if (pTrack->flags & 0x80)
         {
-            pTrack->unk_24 += pTrack->unk_26;
-            if ((u16)(pTrack->unk_24 >> 0xc) != 0)
+            pTrack->crossFadeChannelCounter += pTrack->crossFadeChannelStep;
+            if ((u16)(pTrack->crossFadeChannelCounter >> 0xc) != 0)
             {
                 pTrack->maxSoundChannels--;
-                pTrack->unk_24 &= 0xFFF;
+                pTrack->crossFadeChannelCounter &= 0xFFF;
             }
 
-            pTrack->unk_23 = 0;
+            pTrack->crossFadeNoteCount = 0;
         }
 
         for (i = pTrack->amountOfTracks; i > 0; i--, pVariables++)
         {
-            pVariables->unk_5 = pTrack->maybe_volume / 1024;
-            pVariables->unk_0 |= 4;
+            pVariables->volumeControl = pTrack->fadeVolume / 1024;
+            pVariables->flags |= 4;
         }
     }
     else
@@ -520,7 +520,7 @@ void InitFadingMusic(struct TrackData* pTrack, const u8* pHeader, u16 timer)
     {
         if (pTrack->flags & 2)
         {
-            if (pTrack->unk_3 > pHeader[2])
+            if (pTrack->soundPriority > pHeader[2])
                 return;
 
             StopMusicOrSound(pTrack);
@@ -532,7 +532,7 @@ void InitFadingMusic(struct TrackData* pTrack, const u8* pHeader, u16 timer)
         {
             pTrack->occupied = TRUE;
             pTrack->flags = 0x20 | 2;
-            pTrack->maybe_volume = 0;
+            pTrack->fadeVolume = 0;
             pTrack->fadingTimer = USHORT_MAX / timer;
 
             pTrack->occupied = FALSE;
@@ -541,12 +541,12 @@ void InitFadingMusic(struct TrackData* pTrack, const u8* pHeader, u16 timer)
 }
 
 /**
- * @brief 2b6c | 38 | To document
+ * @brief 2b6c | 38 | Resumes a stopped music or sound with a fade in
  * 
  * @param pTrack Track data pointer
  * @param timer Fading timer
  */
-void unk_2b6c(struct TrackData* pTrack, u16 timer)
+void ResumeMusicOrSoundWithFadeIn(struct TrackData* pTrack, u16 timer)
 {
     if (!pTrack->occupied)
     {
@@ -554,7 +554,7 @@ void unk_2b6c(struct TrackData* pTrack, u16 timer)
         if (pTrack->flags & 1)
         {
             pTrack->flags = 0x20 | 2;
-            pTrack->maybe_volume = 0;
+            pTrack->fadeVolume = 0;
             pTrack->fadingTimer = USHORT_MAX / timer;
         }
 
@@ -563,37 +563,37 @@ void unk_2b6c(struct TrackData* pTrack, u16 timer)
 }
 
 /**
- * @brief 2ba4 | 94 | To document
+ * @brief 2ba4 | 94 | Updates the fade in of a track
  * 
  * @param pTrack Track data pointer
  */
-void unk_2ba4(struct TrackData* pTrack)
+void UpdateTrackFadeIn(struct TrackData* pTrack)
 {
     s32 i;
     struct TrackVariables* pVariables;
 
     pVariables = pTrack->pVariables;
 
-    if (pTrack->maybe_volume + pTrack->fadingTimer <= USHORT_MAX)
+    if (pTrack->fadeVolume + pTrack->fadingTimer <= USHORT_MAX)
     {
-        pTrack->maybe_volume += pTrack->fadingTimer;
+        pTrack->fadeVolume += pTrack->fadingTimer;
         if (pTrack->flags & 0x40)
         {
-            pTrack->unk_24 += pTrack->unk_26;
-            if ((u16)(pTrack->unk_24 >> 0xc) != 0)
+            pTrack->crossFadeChannelCounter += pTrack->crossFadeChannelStep;
+            if ((u16)(pTrack->crossFadeChannelCounter >> 0xc) != 0)
             {
                 pTrack->maxSoundChannels++;
-                pTrack->unk_24 &= 0xFFF;
+                pTrack->crossFadeChannelCounter &= 0xFFF;
             }
 
-            pTrack->unk_23 = 0;
+            pTrack->crossFadeNoteCount = 0;
         }
 
         i = pTrack->amountOfTracks;
         while (i > 0)
         {
-            pVariables->unk_5 = pTrack->maybe_volume / 1024;
-            pVariables->unk_0 |= 4;
+            pVariables->volumeControl = pTrack->fadeVolume / 1024;
+            pVariables->flags |= 4;
 
             i--;
             pVariables++;
@@ -604,8 +604,8 @@ void unk_2ba4(struct TrackData* pTrack)
         i = pTrack->amountOfTracks;
         while (i > 0)
         {
-            pVariables->unk_5 = 0x40;
-            pVariables->unk_0 |= 4;
+            pVariables->volumeControl = 0x40;
+            pVariables->flags |= 4;
 
             i--;
             pVariables++;
@@ -616,13 +616,13 @@ void unk_2ba4(struct TrackData* pTrack)
 }
 
 /**
- * @brief 2c38 | 128 | To document
+ * @brief 2c38 | 128 | Cross fades from the second music track to the first one
  * 
  * @param musicTrack1 First music track
  * @param musicTrack2 Second music track
  * @param timer Timer
  */
-void unk_2c38(u16 musicTrack1, u16 musicTrack2, u16 timer)
+void CrossFadeMusic(u16 musicTrack1, u16 musicTrack2, u16 timer)
 {
     struct TrackData* pTrack1;
     struct TrackData* pTrack2;
@@ -659,7 +659,7 @@ void unk_2c38(u16 musicTrack1, u16 musicTrack2, u16 timer)
                     if (pTrack1->flags & 2)
                     {
                         // Priority
-                        if (pTrack1->unk_3 > pHeader[2])
+                        if (pTrack1->soundPriority > pHeader[2])
                         {
                             //pTrack1->occupied = FALSE;
                             //pTrack2->occupied = FALSE;
@@ -681,18 +681,18 @@ void unk_2c38(u16 musicTrack1, u16 musicTrack2, u16 timer)
                     {
                         var_1 = pTrack2->flags;
                         pTrack2->flags = var_1 | 0x80;
-                        pTrack2->maybe_volume = USHORT_MAX;
+                        pTrack2->fadeVolume = USHORT_MAX;
                         pTrack2->fadingTimer = USHORT_MAX / timer;
-                        pTrack2->unk_26 = (gMusicInfo.maxSoundChannels * 4096) / timer;
-                        pTrack2->unk_24 = 0;
+                        pTrack2->crossFadeChannelStep = (gMusicInfo.maxSoundChannels * 4096) / timer;
+                        pTrack2->crossFadeChannelCounter = 0;
                         pTrack2->maxSoundChannels = gMusicInfo.maxSoundChannels;
 
                         InitTrack(pTrack1, pHeader);
                         pTrack1->flags = 0x40 | 0x2;
-                        pTrack1->maybe_volume = 0;
+                        pTrack1->fadeVolume = 0;
                         pTrack1->fadingTimer = pTrack2->fadingTimer;
-                        pTrack1->unk_26 = pTrack2->unk_26;
-                        pTrack1->unk_24 = 0;
+                        pTrack1->crossFadeChannelStep = pTrack2->crossFadeChannelStep;
+                        pTrack1->crossFadeChannelCounter = 0;
                         pTrack1->maxSoundChannels = 0;
                     }
                 }
@@ -707,12 +707,12 @@ void unk_2c38(u16 musicTrack1, u16 musicTrack2, u16 timer)
 }
 
 /**
- * @brief 2d60 | 30 | To document
+ * @brief 2d60 | 30 | Sets the tempo of a track relative to its normal tempo (0x100 = normal)
  * 
  * @param pTrack Track data pointer
  * @param param_2 Unknown
  */
-void unk_2d60(struct TrackData* pTrack, u16 param_2)
+void SetTrackTempoControl(struct TrackData* pTrack, u16 param_2)
 {
     u16 unk;
 
@@ -720,21 +720,21 @@ void unk_2d60(struct TrackData* pTrack, u16 param_2)
     {
         pTrack->occupied = TRUE;
 
-        unk = param_2 / 256 * pTrack->unk_A;
-        pTrack->unk_C = unk * 256 / 150;
+        unk = param_2 / 256 * pTrack->tempo;
+        pTrack->tempoInterval = unk * 256 / 150;
 
         pTrack->occupied = FALSE;
     }
 }
 
 /**
- * @brief 2d90 | 5c | To document
+ * @brief 2d90 | 5c | Sets the volume of the tracks of a track group (0x100 = 100%)
  * 
  * @param pTrack Track data pointer
  * @param variablesMask Track data variables mask
  * @param param_3 Unknown
  */
-void unk_2d90(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
+void SetTrackVolume(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
 {
     struct TrackVariables* pVariables;
     s32 i;
@@ -753,8 +753,8 @@ void unk_2d90(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
             {
                 if ((variablesMask >> i) & 1)
                 {
-                    pVariables->unk_5 = param_3;
-                    pVariables->unk_0 |= 4;
+                    pVariables->volumeControl = param_3;
+                    pVariables->flags |= 4;
                 }
 
                 i--;
@@ -767,13 +767,13 @@ void unk_2d90(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
 }
 
 /**
- * @brief 2dec | 5c | To document
+ * @brief 2dec | 5c | Sets the pitch of the tracks of a track group
  * 
  * @param pTrack Track data pointer
  * @param variablesMask Track data variables mask
  * @param param_3 Unknown
  */
-void unk_2dec(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
+void SetTrackPitch(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
 {
     struct TrackVariables* pVariables;
     s32 i;
@@ -789,9 +789,9 @@ void unk_2dec(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
         {
             if ((variablesMask >> i) & 1)
             {
-                pVariables->unk_1D = (s16)param_3 >> 8;
-                pVariables->unk_1F = param_3;
-                pVariables->unk_0 |= 8;
+                pVariables->keyShiftControl = (s16)param_3 >> 8;
+                pVariables->pitchControl = param_3;
+                pVariables->flags |= 8;
             }
 
             i--;
@@ -803,13 +803,13 @@ void unk_2dec(struct TrackData* pTrack, u16 variablesMask, u16 param_3)
 }
 
 /**
- * @brief 2e48 | 4c | To document
+ * @brief 2e48 | 4c | Sets the panning of the tracks of a track group
  * 
  * @param pTrack Track data pointer
  * @param variablesMask Track data variables mask
  * @param param_3 Unknown
  */
-void unk_2e48(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
+void SetTrackPanning(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
 {
     struct TrackVariables* pVariables;
     s32 i;
@@ -825,8 +825,8 @@ void unk_2e48(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
         {
             if ((variablesMask >> i) & 1)
             {
-                pVariables->unk_7 = (s8)param_3 >> 1;
-                pVariables->unk_0 |= 4;
+                pVariables->panControl = (s8)param_3 >> 1;
+                pVariables->flags |= 4;
             }
 
             i--;
@@ -838,13 +838,13 @@ void unk_2e48(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
 }
 
 /**
- * @brief 2e94 | 44 | To document
+ * @brief 2e94 | 44 | Sets the modulation depth of the tracks of a track group
  * 
  * @param pTrack Track data pointer
  * @param variablesMask Track data variables mask
  * @param param_3 Unknown
  */
-void unk_2e94(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
+void SetTrackModulationDepth(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
 {
     struct TrackVariables* pVariables;
     s32 i;
@@ -871,13 +871,13 @@ void unk_2e94(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
 }
 
 /**
- * @brief 2ed8 | 44 | To document
+ * @brief 2ed8 | 44 | Sets the LFO speed of the tracks of a track group
  * 
  * @param pTrack Track data pointer
  * @param variablesMask Track data variables mask
  * @param param_3 Unknown
  */
-void unk_2ed8(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
+void SetTrackLfoSpeed(struct TrackData* pTrack, u16 variablesMask, u8 param_3)
 {
     struct TrackVariables* pVariables;
     s32 i;

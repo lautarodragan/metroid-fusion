@@ -11,8 +11,8 @@
  */
 void Dma2IntrCode(void)
 {
-    gMusicInfo.unk_10++;
-    if (gMusicInfo.unk_10 == gMusicInfo.unk_E)
+    gMusicInfo.dmaBlock++;
+    if (gMusicInfo.dmaBlock == gMusicInfo.blocksPerBuffer)
     {
         // Flush DMA 1 and 2
         WRITE_32(REG_DMA1_CNT, C_32_2_16(DMA_DEST_FIXED | DMA_32BIT | DMA_ENABLE, sizeof(u32)));
@@ -23,7 +23,7 @@ void Dma2IntrCode(void)
         WRITE_16(REG_DMA1_CNT + 2, DMA_REPEAT | DMA_32BIT | DMA_START_VBLANK | DMA_START_HBLANK | DMA_ENABLE);
         WRITE_16(REG_DMA2_CNT + 2, DMA_REPEAT | DMA_32BIT | DMA_START_VBLANK | DMA_START_HBLANK | DMA_INTR_ENABLE | DMA_ENABLE);
 
-        gMusicInfo.unk_10 = 0;
+        gMusicInfo.dmaBlock = 0;
     }
 }
 
@@ -61,11 +61,11 @@ void RestartSound(void)
 }
 
 /**
- * @brief 3190 | 1a8 | To document
+ * @brief 3190 | 1a8 | Pauses the music and sound tracks, saving their direct sound channels in gSoundChannelBackup
  * 
  * @param isInterrupting Is interrupting
  */
-void unk_3190(u8 isInterrupting)
+void PauseTracksAndBackupChannels(u8 isInterrupting)
 {
     vu8 j;
     vu8 track;
@@ -89,7 +89,7 @@ void unk_3190(u8 isInterrupting)
         {
             if (track == 0)
             {
-                if (gMusicInfo.unk_20 == 0)
+                if (gMusicInfo.usingSecondMusicTrack == 0)
                     pTrack = sMusicTrackDataRom[1].pTrack;
                 else
                     pTrack = sMusicTrackDataRom[0].pTrack;
@@ -129,7 +129,7 @@ void unk_3190(u8 isInterrupting)
                         gSoundChannelBackup[currChannel].channel = *pChannel;
                         currChannel++;
 
-                        pChannel->unk_0 = 0;
+                        pChannel->status = 0;
                         pChannel->pVariables = NULL;
                         pChannelNext = pChannel->pChannel2;
                         pChannel->pChannel2 = NULL;
@@ -144,11 +144,11 @@ void unk_3190(u8 isInterrupting)
 }
 
 /**
- * @brief 3338 | 15c | To document
+ * @brief 3338 | 15c | Resumes the tracks paused by PauseTracksAndBackupChannels, restoring their direct sound channels
  * 
  * @param arg0
  */
-void unk_3338(u8 arg0)
+void ResumeTracksFromChannelBackup(u8 arg0)
 {
     vu8 j;
     vu8 track;
@@ -171,7 +171,7 @@ void unk_3338(u8 arg0)
         {
             if (track == 0)
             {
-                if (gMusicInfo.unk_20 == 0)
+                if (gMusicInfo.usingSecondMusicTrack == 0)
                     pTrack = sMusicTrackDataRom[1].pTrack;
                 else
                     pTrack = sMusicTrackDataRom[0].pTrack;
@@ -201,7 +201,7 @@ void unk_3338(u8 arg0)
                         
                     for (pChannel = pVariables->pChannel; pChannel != NULL; pChannel = pChannel->pChannel2)
                     {
-                        unk_1e14(pChannel);
+                        SoundChannelUnlink(pChannel);
                         *pChannel = gSoundChannelBackup[currChannel].channel;
                         currChannel++;
                     }
@@ -214,10 +214,10 @@ void unk_3338(u8 arg0)
 }
 
 /**
- * @brief 3494 | 4 | To document
+ * @brief 3494 | 4 | Empty function
  * 
  */
-void unk_3494(void)
+void Music_Empty(void)
 {
     // Empty
 }
@@ -268,7 +268,7 @@ void CheckPlayNewMusicTrack(void)
     {
         InitTrack(sMusicTrackDataRom[0].pTrack, sSoundDataEntries[gMusicInfo.musicTrackOnTransition].pHeader);
 
-        gMusicInfo.unk_20 = 0;
+        gMusicInfo.usingSecondMusicTrack = 0;
         gMusicInfo.musicTrack = gMusicInfo.musicTrackOnTransition;
         gMusicInfo.musicTrackOnTransition = MUSIC_NONE;
     }
@@ -298,7 +298,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
     
     if (priority != 0)
     {
-        if (gMusicInfo.unk_20 == 0)
+        if (gMusicInfo.usingSecondMusicTrack == 0)
         {
             if (musicTrack == gMusicInfo.musicTrack && (sMusicTrackDataRom[0].pTrack->flags & 2))
                 goto exit;
@@ -310,7 +310,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
         }
         else
         {
-            if (musicTrack == gMusicInfo.unk_1E && (sMusicTrackDataRom[1].pTrack->flags & 2))
+            if (musicTrack == gMusicInfo.secondMusicTrack && (sMusicTrackDataRom[1].pTrack->flags & 2))
                 goto exit;
 
             if (sMusicTrackDataRom[0].pTrack->unk_1E & 2)
@@ -326,7 +326,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
 
             if ((pTrack1->flags & 0x1A) != 2 || pHeader != pTrack1->pHeader)
             {
-                gMusicInfo.unk_20 = 0;
+                gMusicInfo.usingSecondMusicTrack = 0;
                 gMusicInfo.musicTrack = musicTrack;
                 
                 if (pTrack0->flags > 1 && !(pTrack0->unk_1E & 2))
@@ -342,8 +342,8 @@ void PlayMusic(u16 musicTrack, u8 priority)
             
             if ((pTrack1->flags & 0x1A) != 2 || pHeader != pTrack1->pHeader)
             {
-                gMusicInfo.unk_20 = 1;
-                gMusicInfo.unk_1E = musicTrack;
+                gMusicInfo.usingSecondMusicTrack = 1;
+                gMusicInfo.secondMusicTrack = musicTrack;
 
                 if (pTrack0->flags > 1 && !(pTrack0->unk_1E & 2))
                     StopMusicOrSound(pTrack0);
@@ -371,7 +371,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
                 StopMusicOrSound(pTrack0);
             
             pHeader = sSoundDataEntries[musicTrack].pHeader;
-            gMusicInfo.unk_20 = 0;
+            gMusicInfo.usingSecondMusicTrack = 0;
             gMusicInfo.musicTrack = musicTrack;
 block_32:
             gMusicInfo.occupied = FALSE;
@@ -384,14 +384,14 @@ exit:
 }
 
 /**
- * @brief 36c4 | 2c | To document
+ * @brief 36c4 | 2c | Stops the current music
  * 
  */
-void unk_36c4(void)
+void StopMusic(void)
 {
     struct TrackData* pTrack;
 
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
         pTrack = sMusicTrackDataRom[0].pTrack;
     else
         pTrack = sMusicTrackDataRom[1].pTrack;
@@ -408,7 +408,7 @@ void FadeMusic(u16 timer)
 {
     struct TrackData* pTrack;
     
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
         pTrack = sMusicTrackDataRom[0].pTrack;
     else
         pTrack = sMusicTrackDataRom[1].pTrack;
@@ -420,10 +420,10 @@ void FadeMusic(u16 timer)
 }
 
 /**
- * @brief 372c | 4c | To document
+ * @brief 372c | 4c | Fades the current music, then plays a music track
  * 
  */
-void unk_372c(u16 timer, u16 track, u8 priority)
+void FadeMusicThenPlay(u16 timer, u16 track, u8 priority)
 {
     struct TrackData *pTrack;
     
@@ -433,7 +433,7 @@ void unk_372c(u16 timer, u16 track, u8 priority)
     }
     else
     {
-        if (gMusicInfo.unk_20 == 0)
+        if (gMusicInfo.usingSecondMusicTrack == 0)
             pTrack = sMusicTrackDataRom[0].pTrack;
         else
             pTrack = sMusicTrackDataRom[1].pTrack;
@@ -445,13 +445,13 @@ void unk_372c(u16 timer, u16 track, u8 priority)
 }
 
 /**
- * @brief 3778 | 130 | To document
+ * @brief 3778 | 130 | Plays a music track with a fade in
  * 
  * @param arg0
  * @param arg1
  * @param arg2
  */
-void unk_3778(u16 arg0, u16 arg1, u8 arg2)
+void PlayMusicWithFadeIn(u16 arg0, u16 arg1, u8 arg2)
 {
     const u8 *pHeader;
     u32 flag1;
@@ -470,7 +470,7 @@ void unk_3778(u16 arg0, u16 arg1, u8 arg2)
     
     if (arg2 != 0)
     {
-        if (gMusicInfo.unk_20 == 0)
+        if (gMusicInfo.usingSecondMusicTrack == 0)
         {
             if (arg0 != gMusicInfo.musicTrack || !(sMusicTrackDataRom[0].pTrack->flags & 2))
             {
@@ -486,7 +486,7 @@ void unk_3778(u16 arg0, u16 arg1, u8 arg2)
                 flag2 = TRUE;
             }
         }
-        else if (arg0 != gMusicInfo.unk_1E || !(sMusicTrackDataRom[1].pTrack->flags & 2))
+        else if (arg0 != gMusicInfo.secondMusicTrack || !(sMusicTrackDataRom[1].pTrack->flags & 2))
         {
             if (sMusicTrackDataRom[0].pTrack->unk_1E & 2)
                 flag1 = TRUE;
@@ -519,7 +519,7 @@ void unk_3778(u16 arg0, u16 arg1, u8 arg2)
             
             if ((pTrack1->flags & 0x1A) != 2 || pHeader != pTrack1->pHeader)
             {
-                gMusicInfo.unk_20 = tmp;
+                gMusicInfo.usingSecondMusicTrack = tmp;
                 gMusicInfo.musicTrack = arg0;
                 flag3 = TRUE;
             }
@@ -535,8 +535,8 @@ void unk_3778(u16 arg0, u16 arg1, u8 arg2)
             
             if ((pTrack1->flags & 0x1A) != 2 || pHeader != pTrack1->pHeader)
             {
-                gMusicInfo.unk_20 = 1;
-                gMusicInfo.unk_1E = arg0;
+                gMusicInfo.usingSecondMusicTrack = 1;
+                gMusicInfo.secondMusicTrack = arg0;
                 flag3 = TRUE;
             }
             else
@@ -559,10 +559,10 @@ void unk_3778(u16 arg0, u16 arg1, u8 arg2)
 }
 
 /**
- * @brief 38a8 | 124 | To document
+ * @brief 38a8 | 124 | Plays a music track on the other track group; with mode 0 (jingles) the current music is paused and restored when it ends
  * 
  */
-void unk_38a8(u16 track, u8 arg1)
+void PlayInterruptingMusic(u16 track, u8 arg1)
 {
     const u8 *pHeader;
     struct TrackData *pTrack0;
@@ -578,40 +578,40 @@ void unk_38a8(u16 track, u8 arg1)
 
     if (arg1 == 0)
     {
-        unk_3190(1);
-        unk_27a8();
+        PauseTracksAndBackupChannels(1);
+        StopAllMusicAndSoundsNotPaused();
     }
 
     if (arg1 == 2)
     {
-        if (gMusicInfo.unk_20 == 0)
+        if (gMusicInfo.usingSecondMusicTrack == 0)
         {
             pTrack1 = sMusicTrackDataRom[0].pTrack;
             pTrack0 = pTrack1;
-            gMusicInfo.unk_20 = 0;
+            gMusicInfo.usingSecondMusicTrack = 0;
             gMusicInfo.musicTrack = track;
         }
         else
         {
             pTrack1 = sMusicTrackDataRom[1].pTrack;
             pTrack0 = pTrack1;
-            gMusicInfo.unk_20 = 1;
-            gMusicInfo.unk_1E = track;
+            gMusicInfo.usingSecondMusicTrack = 1;
+            gMusicInfo.secondMusicTrack = track;
         }
 
         flag2 = FALSE;
         flag1 = TRUE;
     }
-    else if (gMusicInfo.unk_20 == 0)
+    else if (gMusicInfo.usingSecondMusicTrack == 0)
     {
         pTrack1 = sMusicTrackDataRom[1].pTrack;
         pTrack0 = sMusicTrackDataRom[0].pTrack;
 
         if ((pTrack1->flags & 0x1A) != 2 || pHeader != pTrack1->pHeader)
         {
-            gMusicInfo.unk_20 = 1;
+            gMusicInfo.usingSecondMusicTrack = 1;
             if (arg1 != 0)
-                gMusicInfo.unk_1E = track;
+                gMusicInfo.secondMusicTrack = track;
 
             flag2 = TRUE;
             flag1 = TRUE;
@@ -628,7 +628,7 @@ void unk_38a8(u16 track, u8 arg1)
 
         if ((pTrack1->flags & 0x1A) != 2 || pHeader != pTrack1->pHeader)
         {
-            gMusicInfo.unk_20 = 0;
+            gMusicInfo.usingSecondMusicTrack = 0;
             if (arg1 != 0)
                 gMusicInfo.musicTrack = track;
             
@@ -657,10 +657,10 @@ void unk_38a8(u16 track, u8 arg1)
 }
 
 /**
- * @brief 39cc | bc | To document
+ * @brief 39cc | bc | Restores the music interrupted by PlayInterruptingMusic
  * 
  */
-void unk_39cc(void)
+void RestoreInterruptedMusic(void)
 {
     struct TrackData *pTrack0;
     struct TrackData *pTrack1;
@@ -671,20 +671,20 @@ void unk_39cc(void)
         return;
 
     gMusicInfo.occupied = TRUE;
-    unk_3338(1);
+    ResumeTracksFromChannelBackup(1);
 
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
     {
         pTrack0 = sMusicTrackDataRom[1].pTrack;
         pTrack1 = sMusicTrackDataRom[0].pTrack;
-        gMusicInfo.unk_20 = 1;
-        track = gMusicInfo.unk_1E;
+        gMusicInfo.usingSecondMusicTrack = 1;
+        track = gMusicInfo.secondMusicTrack;
     }
     else
     {
         pTrack0 = sMusicTrackDataRom[0].pTrack;
         pTrack1 = sMusicTrackDataRom[1].pTrack;
-        gMusicInfo.unk_20 = 0;
+        gMusicInfo.usingSecondMusicTrack = 0;
         track = gMusicInfo.musicTrack;
     }
 
@@ -695,14 +695,14 @@ void unk_39cc(void)
     gMusicInfo.occupied = FALSE;
     InitTrack(pTrack0, pHeader);
 
-    if (gMusicInfo.unk_2 != 0)
-        SoundPlay(gMusicInfo.unk_2);
+    if (gMusicInfo.persistentSound != 0)
+        SoundPlay(gMusicInfo.persistentSound);
 
     if (gMusicInfo.volumeDownFlag & 0x80)
     {
-        unk_2d90(sMusicTrackDataRom[0].pTrack, 0xFFFF, 0x48);
-        unk_2d90(sMusicTrackDataRom[1].pTrack, 0xFFFF, 0x48);
-        unk_2d90(sMusicTrackDataRom[7].pTrack, 0xFFFF, 0x48);
+        SetTrackVolume(sMusicTrackDataRom[0].pTrack, 0xFFFF, 0x48);
+        SetTrackVolume(sMusicTrackDataRom[1].pTrack, 0xFFFF, 0x48);
+        SetTrackVolume(sMusicTrackDataRom[7].pTrack, 0xFFFF, 0x48);
     }
     
     gMusicInfo.occupied = FALSE;
@@ -717,7 +717,7 @@ void FadeMusic_2(u16 timer)
 {
     struct TrackData *pTrack;
 
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
         pTrack = sMusicTrackDataRom[0].pTrack;
     else
         pTrack = sMusicTrackDataRom[1].pTrack;
@@ -729,10 +729,10 @@ void FadeMusic_2(u16 timer)
 }
 
 /**
- * @brief 3ac4 | 58 | To document
+ * @brief 3ac4 | 58 | Restarts the current music
  * 
  */
-void unk_3ac4(void)
+void RestartMusic(void)
 {
     struct TrackData *pTrack;
     u16 track;
@@ -743,17 +743,17 @@ void unk_3ac4(void)
 
     gMusicInfo.occupied = TRUE;
     
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
     {
         pTrack = sMusicTrackDataRom[0].pTrack;
-        gMusicInfo.unk_20 = 0;
+        gMusicInfo.usingSecondMusicTrack = 0;
         track = gMusicInfo.musicTrack;
     }
     else
     {
         pTrack = sMusicTrackDataRom[1].pTrack;
-        gMusicInfo.unk_20 = 1;
-        track = gMusicInfo.unk_1E;
+        gMusicInfo.usingSecondMusicTrack = 1;
+        track = gMusicInfo.secondMusicTrack;
     }
 
     pHeader = sSoundDataEntries[track].pHeader;
@@ -764,7 +764,7 @@ void unk_3ac4(void)
 }
 
 /**
- * @brief 3b1c | 5c | To document
+ * @brief 3b1c | 5c | Plays a sound on the music track group that isn't used by the music
  * 
  * @param sound Sound ID
  */
@@ -778,7 +778,7 @@ void SoundPlay_3b1c(u16 sound)
 
     gMusicInfo.occupied = TRUE;
 
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
         pTrack = sMusicTrackDataRom[1].pTrack;
     else
         pTrack = sMusicTrackDataRom[0].pTrack;
@@ -792,11 +792,11 @@ void SoundPlay_3b1c(u16 sound)
 }
 
 /**
- * @brief 3b78 | 5c | To document
+ * @brief 3b78 | 5c | Plays a sound on the music track group that isn't used by the music, or on track group 5 if it is busy
  * 
  * @param sound Sound ID
  */
-void unk_3b78(u16 sound)
+void SoundPlayOnFreeTrack(u16 sound)
 {
     struct TrackData *pTrack;
     const u8* pHeader;
@@ -806,7 +806,7 @@ void unk_3b78(u16 sound)
 
     gMusicInfo.occupied = TRUE;
 
-    if (gMusicInfo.unk_20 == 0)
+    if (gMusicInfo.usingSecondMusicTrack == 0)
         pTrack = sMusicTrackDataRom[1].pTrack;
     else
         pTrack = sMusicTrackDataRom[0].pTrack;
@@ -822,12 +822,12 @@ void unk_3b78(u16 sound)
 }
 
 /**
- * @brief 3bd4 | 40 | To document
+ * @brief 3bd4 | 40 | Plays a music (with priority 1) or a sound (used by navigation conversations)
  * 
  * @param sound Sound ID
  * @param arg1
  */
-void unk_3bd4(u16 sound, u8 arg1)
+void PlayMusicOrSoundFromId(u16 sound, u8 arg1)
 {
     if (sound < MUSIC_COUNT)
     {
@@ -847,15 +847,15 @@ void unk_3bd4(u16 sound, u8 arg1)
 }
 
 /**
- * @brief 3c14 | 20 | To document
+ * @brief 3c14 | 20 | Stops the current music or a sound (used by navigation conversations)
  * 
  */
-void unk_3c14(u16 sound, u8 arg1)
+void StopMusicOrSoundFromId(u16 sound, u8 arg1)
 {
     if (sound < MUSIC_COUNT)
     {
         if (arg1 == 0)
-            unk_36c4();
+            StopMusic();
     }
     else
     {
@@ -869,13 +869,13 @@ void unk_3c14(u16 sound, u8 arg1)
  */
 void DecreaseMusicVolume(void)
 {
-    unk_3190(0);
+    PauseTracksAndBackupChannels(0);
     
     gMusicInfo.volumeDownFlag |= 0x81;
 
-    unk_2d90(sMusicTrackDataRom[0].pTrack, USHORT_MAX, (u16)gUnk_Audio0x50);
-    unk_2d90(sMusicTrackDataRom[1].pTrack, USHORT_MAX, (u16)gUnk_Audio0x50);
-    unk_2d90(sMusicTrackDataRom[7].pTrack, USHORT_MAX, (u16)gUnk_Audio0x50);
+    SetTrackVolume(sMusicTrackDataRom[0].pTrack, USHORT_MAX, (u16)gAudioDecreasedMusicVolume);
+    SetTrackVolume(sMusicTrackDataRom[1].pTrack, USHORT_MAX, (u16)gAudioDecreasedMusicVolume);
+    SetTrackVolume(sMusicTrackDataRom[7].pTrack, USHORT_MAX, (u16)gAudioDecreasedMusicVolume);
 }
 
 /**
@@ -884,41 +884,41 @@ void DecreaseMusicVolume(void)
  */
 void ResetMusicVolume(void)
 {
-    unk_2d90(sMusicTrackDataRom[0].pTrack, USHORT_MAX, 0x100);
-    unk_2d90(sMusicTrackDataRom[1].pTrack, USHORT_MAX, 0x100);
-    unk_2d90(sMusicTrackDataRom[7].pTrack, USHORT_MAX, 0x100);
+    SetTrackVolume(sMusicTrackDataRom[0].pTrack, USHORT_MAX, 0x100);
+    SetTrackVolume(sMusicTrackDataRom[1].pTrack, USHORT_MAX, 0x100);
+    SetTrackVolume(sMusicTrackDataRom[7].pTrack, USHORT_MAX, 0x100);
 
     gMusicInfo.volumeDownFlag = gMusicInfo.volumeDownFlag & 0x7F | 2;
-    unk_3338(0);
+    ResumeTracksFromChannelBackup(0);
 }
 
 /**
- * @brief 3cd4 | 28 | To document
+ * @brief 3cd4 | 28 | Plays a sound that is restarted after an interrupting music
  * 
  */
-void unk_3cd4(u16 sound)
+void PlayPersistentSound(u16 sound)
 {
     if (gMusicInfo.occupied)
         return;
     
     gMusicInfo.occupied = TRUE;
-    gMusicInfo.unk_2 = sound;
+    gMusicInfo.persistentSound = sound;
     SoundPlay(sound);
 
     gMusicInfo.occupied = FALSE;
 }
 
 /**
- * @brief 3cfc | 2c | To document
+ * @brief 3cfc | 2c | Fades the sound started by PlayPersistentSound
  * 
  */
-void unk_3cfc(void)
+void StopPersistentSound(void)
 {
     if (gMusicInfo.occupied)
         return;
 
     gMusicInfo.occupied = TRUE;
-    gMusicInfo.unk_2 = 0;
+    gMusicInfo.persistentSound = 0;
     ApplyMusicSoundFading(sMusicTrackDataRom[7].pTrack, CONVERT_SECONDS(.5f));
 
     gMusicInfo.occupied = FALSE;

@@ -5,9 +5,9 @@ MEMORY {
 }
 
 gNumMusicPlayers = 8;
-gUnk_Audio0x64 = 0x64;
-gUnk_Audio0x193F600 = 0x193F600;
-gUnk_Audio0x50 = 0x50;
+gAudioMaxScanlines = 0x64;
+gAudioInitSoundAction = 0x193F600;
+gAudioDecreasedMusicVolume = 0x50;
 
 SECTIONS {
     ewram (NOLOAD) : ALIGN(4) {
@@ -225,7 +225,7 @@ SECTIONS {
         . = 0x000019cc; gVCountCallback = .;
         . = 0x000019d0; gMusicInfo = .;
 
-        . = 0x0000343c; gUnk_300343c = .;
+        . = 0x0000343c; gPsgSoundsByChannel = .;
         . = 0x00003464; gPsgSounds = .;
         . = 0x00003504; gSoundChannelBackup = .;
         . = 0x00003654; gSoundCodeAPointer = .;

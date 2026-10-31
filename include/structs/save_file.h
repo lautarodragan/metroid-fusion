@@ -40,10 +40,10 @@ struct SaveCamera {
 
 struct SaveMusicInfo {
     u16 musicTrack;
-    u16 unk_1E;
-    u8 unk_20;
+    u16 secondMusicTrack;
+    u8 usingSecondMusicTrack;
     u8 priority;
-    u16 unk_2;
+    u16 persistentSound;
 };
 
 struct SaveFile {

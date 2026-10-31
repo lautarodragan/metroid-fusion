@@ -92,7 +92,7 @@ void SaXTro2CheckCollisionWalking(void)
                 if (gCurrentSprite.xPosition > BLOCK_SIZE * 16 + HALF_BLOCK_SIZE)
                 {
                     gCurrentSprite.status = 0;
-                    unk_372c(0x3C, 0x6, 0);
+                    FadeMusicThenPlay(0x3C, 0x6, 0);
                     EventCheckAdvance(EVENT_ESCAPED_TRO_2_SA_X);
                 }
 
