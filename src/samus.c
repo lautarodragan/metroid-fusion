@@ -7613,18 +7613,20 @@ void SamusDraw(void)
         case SPOSE_ROLLING:
         case SPOSE_UNMORPHING:
             if (gSamusData.slopeType != SLOPE_NONE)
-                do { yPosition += SUB_PIXEL_TO_PIXEL_(EIGHTH_BLOCK_SIZE); } while (0);
+                yPosition += SUB_PIXEL_TO_PIXEL_(EIGHTH_BLOCK_SIZE);
             break;
 
         default:
             if (gSamusData.slopeType & KEY_RIGHT)
+            {
                 xPosition += SUB_PIXEL_TO_PIXEL_(EIGHTH_BLOCK_SIZE);
+                yPosition += SUB_PIXEL_TO_PIXEL_(PIXEL_SIZE);
+            }
             else if (gSamusData.slopeType & KEY_LEFT)
+            {
                 xPosition -= SUB_PIXEL_TO_PIXEL_(EIGHTH_BLOCK_SIZE);
-            else
-                break;
-
-            yPosition += SUB_PIXEL_TO_PIXEL_(PIXEL_SIZE);
+                yPosition += SUB_PIXEL_TO_PIXEL_(PIXEL_SIZE);
+            }
             break;
     }
 
