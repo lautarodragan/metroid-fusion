@@ -16,6 +16,21 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define VARIA_ABILITY_HIT_TIMER work0 // Flashing and immune after a hit, set by the mega X and the core X shell
+#define VARIA_ABILITY_GROWN work1 // Spawning, set once fully scaled
+#define VARIA_ABILITY_GFX_PART work1 // Turning into the core X, graphics part being loaded
+#define VARIA_ABILITY_TIMER work2 // Spawning, after growing
+#define VARIA_ABILITY_X_MOVEMENT_IDX work3 // Spawning
+#define VARIA_ABILITY_Y_MOVEMENT_IDX work4 // Spawning
+#define VARIA_ABILITY_SPAWN_Y workY // Written but never read
+#define VARIA_ABILITY_SPAWN_X workX // Written but never read
+#define MEGA_X_MOSAIC_IDX workY // Turning into an X (unused), also the graphics part loaded
+
+#define MEGA_X_SHIELD_ANGLE work2
+#define MEGA_X_SHIELD_GROWING work3
+
+#define MEGA_X_TIMER work1
+
 void MegaXUpdatePalette(void)
 {
     boolu32 update;
@@ -72,9 +87,9 @@ void MegaXTurningIntoX_Unused(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (--gCurrentSprite.workY != 0)
+    if (--gCurrentSprite.MEGA_X_MOSAIC_IDX != 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.MEGA_X_MOSAIC_IDX];
     }
     else
     {
@@ -83,9 +98,9 @@ void MegaXTurningIntoX_Unused(void)
         gCurrentSprite.bgPriority = gIoRegisters.bg1Cnt & 3;
     }
 
-    if (gCurrentSprite.workY < sizeof(sMessageBannerGfx) / 512)
-        SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 6, gCurrentSprite.workY);
-    else if (gCurrentSprite.workY == sizeof(sMessageBannerGfx) / 512)
+    if (gCurrentSprite.MEGA_X_MOSAIC_IDX < sizeof(sMessageBannerGfx) / 512)
+        SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 6, gCurrentSprite.MEGA_X_MOSAIC_IDX);
+    else if (gCurrentSprite.MEGA_X_MOSAIC_IDX == sizeof(sMessageBannerGfx) / 512)
         SpriteLoadPal(PSPRITE_MESSAGE_BANNER, 6, ARRAY_SIZE(sMessageBannerPal) / 16);
 }
 
@@ -102,8 +117,8 @@ void VariaSuitAbilityInit(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
     gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(4.0f);
     gCurrentSprite.xPosition -= BLOCK_TO_SUB_PIXEL(2.0f);
-    gCurrentSprite.workY = gCurrentSprite.yPosition;
-    gCurrentSprite.workX = gCurrentSprite.xPosition;
+    gCurrentSprite.VARIA_ABILITY_SPAWN_Y = gCurrentSprite.yPosition;
+    gCurrentSprite.VARIA_ABILITY_SPAWN_X = gCurrentSprite.xPosition;
     gCurrentSprite.pose = 0x37;
     gCurrentSprite.status |= SPRITE_STATUS_NOT_DRAWN;
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
@@ -123,7 +138,7 @@ void VariaSuitAbilityInit(void)
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.rotation = 0;
     gCurrentSprite.scaling = Q_8_8(1.f / 16);
-    gCurrentSprite.work0 = 0;
+    gCurrentSprite.VARIA_ABILITY_HIT_TIMER = 0;
 
     SpriteSpawnSecondary(SSPRITE_MEGA_X, gCurrentSprite.roomSlot, gCurrentSprite.spritesetGfxSlot,
         gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition, gCurrentSprite.xPosition, 0);
@@ -141,9 +156,9 @@ void VariaSuitAbilityWaitingToSpawn(void)
 {
     if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_TO_SUB_PIXEL(4.f), BLOCK_TO_SUB_PIXEL(4.f)) != NSLR_OUT_OF_RANGE)
     {
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work3 = 0;
-        gCurrentSprite.work4 = 0;
+        gCurrentSprite.VARIA_ABILITY_GROWN = 0;
+        gCurrentSprite.VARIA_ABILITY_X_MOVEMENT_IDX = 0;
+        gCurrentSprite.VARIA_ABILITY_Y_MOVEMENT_IDX = 0;
         gCurrentSprite.pose = 0x38;
 
         PlayMusic(MUSIC_VARIA_CORE_X_BATTLE, 7);
@@ -157,35 +172,35 @@ void VariaSuitAbilitySpawning(void)
     s16 yMovement;
     s16 xMovement;
 
-    yOffset = gCurrentSprite.work4;
+    yOffset = gCurrentSprite.VARIA_ABILITY_Y_MOVEMENT_IDX;
     yMovement = sVariaSuitAbilitySpawningYMovement[yOffset];
     if (yMovement == SHORT_MAX)
     {
-        yMovement = sVariaSuitAbilitySpawningYMovement[gCurrentSprite.work4 - 1];
+        yMovement = sVariaSuitAbilitySpawningYMovement[gCurrentSprite.VARIA_ABILITY_Y_MOVEMENT_IDX - 1];
         gCurrentSprite.yPosition += yMovement;
     }
     else
     {
         yOffset++;
-        gCurrentSprite.work4 = yOffset;
+        gCurrentSprite.VARIA_ABILITY_Y_MOVEMENT_IDX = yOffset;
         gCurrentSprite.yPosition += yMovement;
     }
 
-    xOffset = gCurrentSprite.work3;
+    xOffset = gCurrentSprite.VARIA_ABILITY_X_MOVEMENT_IDX;
     xMovement = sVariaSuitAbilitySpawningXMovement[xOffset];
     if (xMovement == SHORT_MAX)
     {
-        xMovement = sVariaSuitAbilitySpawningXMovement[gCurrentSprite.work3 - 1];
+        xMovement = sVariaSuitAbilitySpawningXMovement[gCurrentSprite.VARIA_ABILITY_X_MOVEMENT_IDX - 1];
         gCurrentSprite.xPosition += xMovement;
     }
     else
     {
         xOffset++;
-        gCurrentSprite.work3 = xOffset;
+        gCurrentSprite.VARIA_ABILITY_X_MOVEMENT_IDX = xOffset;
         gCurrentSprite.xPosition += xMovement;
     }
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.VARIA_ABILITY_GROWN == 0)
     {
         if (gCurrentSprite.scaling < Q_8_8(2))
         {
@@ -193,13 +208,13 @@ void VariaSuitAbilitySpawning(void)
         }
         else
         {
-            gCurrentSprite.work1 = 1;
-            gCurrentSprite.work2 = 60;
+            gCurrentSprite.VARIA_ABILITY_GROWN = 1;
+            gCurrentSprite.VARIA_ABILITY_TIMER = 60;
         }
     }
     else
     {
-        if (--gCurrentSprite.work2 == 0)
+        if (--gCurrentSprite.VARIA_ABILITY_TIMER == 0)
         {
             gCurrentSprite.pose = 0x39;
 
@@ -226,10 +241,10 @@ void VariaSuitAbilitySpawning(void)
 void VariaSuitAbilityMovingInit(void)
 {
     gCurrentSprite.pose = 0x3a;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 }
 
 void VariaSuitAbilityMoving(void)
@@ -255,7 +270,7 @@ void VariaSuitAbilityShrinking(void)
     {
         gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
         gCurrentSprite.pose = 0x3c;
-        gCurrentSprite.work1 = 9;
+        gCurrentSprite.VARIA_ABILITY_GFX_PART = 9;
     }
 }
 
@@ -266,22 +281,22 @@ void VariaSuitAbilityShrunk(void)
 
 void VariaSuitAbilityTurningIntoCoreX(void)
 {
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.VARIA_ABILITY_GFX_PART == 0)
         gCurrentSprite.pose = 0x3f;
 
-    if (gCurrentSprite.work1 < sizeof(sMessageBannerGfx) / 512)
-        SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 6, gCurrentSprite.work1);
-    else if (gCurrentSprite.work1 == sizeof(sMessageBannerGfx) / 512)
+    if (gCurrentSprite.VARIA_ABILITY_GFX_PART < sizeof(sMessageBannerGfx) / 512)
+        SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 6, gCurrentSprite.VARIA_ABILITY_GFX_PART);
+    else if (gCurrentSprite.VARIA_ABILITY_GFX_PART == sizeof(sMessageBannerGfx) / 512)
         SpriteLoadPal(PSPRITE_MESSAGE_BANNER, 6, ARRAY_SIZE(sMessageBannerPal) / 16);
 }
 
 void VariaSuitAbilityCoreXMovingInit(void)
 {
     gCurrentSprite.pose = 0x40;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 }
 
 void VariaSuitAbilityCoreXMoving(void)
@@ -293,10 +308,10 @@ void VariaSuitAbilityCoreXMoving(void)
 void VariaSuitAbilityCoreXMovingInit_Unused(void)
 {
     gCurrentSprite.pose = 0x42;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 }
 
 void VariaSuitAbilityCoreXMoving_Unused(void)
@@ -324,8 +339,8 @@ void MegaXShieldInit(void)
     gCurrentSprite.health = GET_SSPRITE_HEALTH(gCurrentSprite.spriteId);
     gCurrentSprite.pose = 2;
     gCurrentSprite.scaling = 0x100;
-    gCurrentSprite.work3 = FALSE;
-    gCurrentSprite.work2 = gCurrentSprite.roomSlot * Q_8_8(1.f / 8);
+    gCurrentSprite.MEGA_X_SHIELD_GROWING = FALSE;
+    gCurrentSprite.MEGA_X_SHIELD_ANGLE = gCurrentSprite.roomSlot * Q_8_8(1.f / 8);
 }
 
 void MegaXShieldIdle(void)
@@ -345,26 +360,26 @@ void MegaXShieldIdle(void)
         return;
     }
 
-    gCurrentSprite.work2 += Q_8_8(3.f / 256);
+    gCurrentSprite.MEGA_X_SHIELD_ANGLE += Q_8_8(3.f / 256);
 
-    if (gCurrentSprite.work3)
+    if (gCurrentSprite.MEGA_X_SHIELD_GROWING)
     {
         if (gCurrentSprite.scaling < 0x140)
             gCurrentSprite.scaling += 2;
         else
-            gCurrentSprite.work3 = FALSE;
+            gCurrentSprite.MEGA_X_SHIELD_GROWING = FALSE;
     }
     else
     {
         if (gCurrentSprite.scaling > 0xc0)
             gCurrentSprite.scaling -= 2;
         else
-            gCurrentSprite.work3 = TRUE;
+            gCurrentSprite.MEGA_X_SHIELD_GROWING = TRUE;
     }
 
     primarySlot = gCurrentSprite.primarySpriteRamSlot;
     distance = gCurrentSprite.scaling;
-    angle = gCurrentSprite.work2;
+    angle = gCurrentSprite.MEGA_X_SHIELD_ANGLE;
 
     sin = SIN(angle);
     if (sin < 0)
@@ -465,7 +480,7 @@ void MegaX(void)
         case 0x18:
             gCurrentSprite.ignoreSamusCollisionTimer = 1;
             gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
-            if (--gCurrentSprite.work1 == 0)
+            if (--gCurrentSprite.MEGA_X_TIMER == 0)
             {
                 gSpriteData[primaryRamSlot].pose = 0x3d;
                 gCurrentSprite.status = 0;
@@ -529,7 +544,7 @@ void MegaX(void)
                 gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1.5f);
                 gCurrentSprite.status &= ~(SPRITE_STATUS_DOUBLE_SIZE | SPRITE_STATUS_ROTATION_SCALING_WHOLE);
                 gCurrentSprite.pose = 0x18;
-                gCurrentSprite.work1 = 60;
+                gCurrentSprite.MEGA_X_TIMER = 60;
                 gCurrentSprite.paletteRow = 0;
                 ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.375f), gCurrentSprite.xPosition, PE_EXPLOSION_10);
             }
@@ -559,7 +574,7 @@ void MegaX(void)
                     return;
                 }
 
-                gSpriteData[primaryRamSlot].work0 = 60;
+                gSpriteData[primaryRamSlot].VARIA_ABILITY_HIT_TIMER = 60;
 
                 if (gCurrentSprite.yPosition > gSamusData.yPosition - BLOCK_SIZE)
                     gSpriteData[primaryRamSlot].status |= SPRITE_STATUS_FACING_DOWN;
@@ -571,13 +586,13 @@ void MegaX(void)
                 else
                     gSpriteData[primaryRamSlot].status &= ~SPRITE_STATUS_FACING_RIGHT;
 
-                gSpriteData[primaryRamSlot].work2 = 0x50;
-                gSpriteData[primaryRamSlot].work3 = 0x50;
-                gSpriteData[primaryRamSlot].work1 = 0x38;
-                gSpriteData[primaryRamSlot].work4 = 0x38;
+                gSpriteData[primaryRamSlot].SPRITE_X_SPEED_DEC = 0x50;
+                gSpriteData[primaryRamSlot].SPRITE_X_SPEED_INC = 0x50;
+                gSpriteData[primaryRamSlot].SPRITE_Y_SPEED_DEC = 0x38;
+                gSpriteData[primaryRamSlot].SPRITE_Y_SPEED_INC = 0x38;
             }
 
-            tmp = gSpriteData[primaryRamSlot].work0;
+            tmp = gSpriteData[primaryRamSlot].VARIA_ABILITY_HIT_TIMER;
             if (tmp > 0)
             {
                 if (MOD_AND(tmp, 4) == 0)
@@ -588,7 +603,7 @@ void MegaX(void)
                         gCurrentSprite.paletteRow = 0;
                 }
 
-                if (--gSpriteData[primaryRamSlot].work0 == 0)
+                if (--gSpriteData[primaryRamSlot].VARIA_ABILITY_HIT_TIMER == 0)
                 {
                     gCurrentSprite.properties &= ~SP_IMMUNE_TO_PROJECTILES;
                     gCurrentSprite.paletteRow = 0;
@@ -717,7 +732,7 @@ void CoreXShellVaria(void)
                     SoundPlay(SOUND_CORE_X_HURT);
 
                     gCurrentSprite.properties |= SP_IMMUNE_TO_PROJECTILES;
-                    gSpriteData[primaryRamSlot].work0 = 180;
+                    gSpriteData[primaryRamSlot].VARIA_ABILITY_HIT_TIMER = 180;
 
                     if (gCurrentSprite.yPosition > gSamusData.yPosition - BLOCK_SIZE)
                         gSpriteData[primaryRamSlot].status |= SPRITE_STATUS_FACING_DOWN;
@@ -729,13 +744,13 @@ void CoreXShellVaria(void)
                     else
                         gSpriteData[primaryRamSlot].status &= ~SPRITE_STATUS_FACING_RIGHT;
 
-                    gSpriteData[primaryRamSlot].work2 = BLOCK_TO_SUB_PIXEL(0.15625f) * 4;
-                    gSpriteData[primaryRamSlot].work3 = BLOCK_TO_SUB_PIXEL(0.15625f) * 4;
-                    gSpriteData[primaryRamSlot].work1 = BLOCK_TO_SUB_PIXEL(0.109375f) * 4;
-                    gSpriteData[primaryRamSlot].work4 = BLOCK_TO_SUB_PIXEL(0.109375f) * 4;
+                    gSpriteData[primaryRamSlot].SPRITE_X_SPEED_DEC = BLOCK_TO_SUB_PIXEL(0.15625f) * 4;
+                    gSpriteData[primaryRamSlot].SPRITE_X_SPEED_INC = BLOCK_TO_SUB_PIXEL(0.15625f) * 4;
+                    gSpriteData[primaryRamSlot].SPRITE_Y_SPEED_DEC = BLOCK_TO_SUB_PIXEL(0.109375f) * 4;
+                    gSpriteData[primaryRamSlot].SPRITE_Y_SPEED_INC = BLOCK_TO_SUB_PIXEL(0.109375f) * 4;
                 }
 
-                tmp = gSpriteData[primaryRamSlot].work0;
+                tmp = gSpriteData[primaryRamSlot].VARIA_ABILITY_HIT_TIMER;
 
                 if (tmp != 0)
                 {
@@ -747,7 +762,7 @@ void CoreXShellVaria(void)
                             gCurrentSprite.paletteRow = 0;
                     }
 
-                    if (--gSpriteData[primaryRamSlot].work0 == 0)
+                    if (--gSpriteData[primaryRamSlot].VARIA_ABILITY_HIT_TIMER == 0)
                     {
                         gCurrentSprite.properties &= ~SP_IMMUNE_TO_PROJECTILES;
                         gCurrentSprite.paletteRow = 0;
