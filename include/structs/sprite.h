@@ -84,6 +84,8 @@ struct SpriteData {
 
 // Index in sXParasiteMosaicValues while spawning from an X (SPRITE_POSE_SPAWNING_FROM_X, see SpriteSpawningFromX)
 #define SPRITE_X_SPAWN_MOSAIC_IDX workY
+// Index in sXParasiteMosaicValues while dying (see SpriteDying)
+#define SPRITE_DYING_MOSAIC_IDX work1
 
 struct SubSpriteData {
     const struct MultiSpriteData* pMultiOam;

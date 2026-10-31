@@ -1,6 +1,7 @@
 #include "sprites_AI/core_x.h"
 #include "globals.h"
 #include "macros.h"
+#include "x_parasite_util.h"
 
 #include "data/sprite_data.h"
 #include "data/sprites/core_x.h"
@@ -48,7 +49,7 @@ void CoreXMakeXParasitesFlee(void)
             gSpriteData[i].spriteId == PSPRITE_X_PARASITE_CORE_X_OR_PARASITE &&
             gSpriteData[i].pose == X_PARASITE_POSE_FLYING)
         {
-            gSpriteData[i].workY = 0;
+            gSpriteData[i].X_PARASITE_TIMER = 0;
             gSpriteData[i].pose = X_PARASITE_POSE_FLYING_AWAY;
         }
     }
@@ -287,42 +288,42 @@ void CoreXAbilityIdle(void)
                     gCurrentSprite.xPosition - 0x14, 0);
 
                 if (ramSlot != UCHAR_MAX)
-                    gSpriteData[ramSlot].workY = 180;
+                    gSpriteData[ramSlot].X_PARASITE_TIMER = 180;
 
                 ramSlot = SpriteSpawnNewXParasite(PSPRITE_X_PARASITE_CORE_X_FORMATION, 1, 0,
                     gCurrentSprite.primarySpriteRamSlot, SSP_X_UNABSORBABLE_BY_SAMUS, gCurrentSprite.yPosition - 0xc8,
                     gCurrentSprite.xPosition + 0xa, 0);
 
                 if (ramSlot != UCHAR_MAX)
-                    gSpriteData[ramSlot].workY = 180;
+                    gSpriteData[ramSlot].X_PARASITE_TIMER = 180;
 
                 ramSlot = SpriteSpawnNewXParasite(PSPRITE_X_PARASITE_CORE_X_FORMATION, 2, 0,
                     gCurrentSprite.primarySpriteRamSlot, SSP_X_UNABSORBABLE_BY_SAMUS, gCurrentSprite.yPosition + 0x82,
                     gCurrentSprite.xPosition + 0x8c, 0);
 
                 if (ramSlot != UCHAR_MAX)
-                    gSpriteData[ramSlot].workY = 180;
+                    gSpriteData[ramSlot].X_PARASITE_TIMER = 180;
 
                 ramSlot = SpriteSpawnNewXParasite(PSPRITE_X_PARASITE_CORE_X_FORMATION, 3, 0,
                     gCurrentSprite.primarySpriteRamSlot, SSP_X_UNABSORBABLE_BY_SAMUS, gCurrentSprite.yPosition - 0x82,
                     gCurrentSprite.xPosition + 0x96, 0);
 
                 if (ramSlot != UCHAR_MAX)
-                    gSpriteData[ramSlot].workY = 180;
+                    gSpriteData[ramSlot].X_PARASITE_TIMER = 180;
 
                 ramSlot = SpriteSpawnNewXParasite(PSPRITE_X_PARASITE_CORE_X_FORMATION, 4, 0,
                     gCurrentSprite.primarySpriteRamSlot, SSP_X_UNABSORBABLE_BY_SAMUS, gCurrentSprite.yPosition + 0x8c,
                     gCurrentSprite.xPosition - 0xa0, 0);
 
                 if (ramSlot != UCHAR_MAX)
-                    gSpriteData[ramSlot].workY = 180;
+                    gSpriteData[ramSlot].X_PARASITE_TIMER = 180;
 
                 ramSlot = SpriteSpawnNewXParasite(PSPRITE_X_PARASITE_CORE_X_FORMATION, 5, 0,
                     gCurrentSprite.primarySpriteRamSlot, SSP_X_UNABSORBABLE_BY_SAMUS, gCurrentSprite.yPosition - 0x96,
                     gCurrentSprite.xPosition - 0x82, 0);
 
                 if (ramSlot != UCHAR_MAX)
-                    gSpriteData[ramSlot].workY = 180;
+                    gSpriteData[ramSlot].X_PARASITE_TIMER = 180;
 
                 gCurrentSprite.pose = CORE_X_POSE_MOVING_TO_SPAWN_POINT;
                 gCurrentSprite.CORE_X_TIMER = 80;
