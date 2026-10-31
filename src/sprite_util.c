@@ -1,4 +1,5 @@
 #include "sprite_util.h"
+#include "compiler_tricks.h"
 #include "macros.h"
 #include "gba.h"
 #include "globals.h"
@@ -4445,7 +4446,7 @@ void SpriteUtilMoveRidleyFireball(u16 dstY, u16 dstX, u8 yVelocity, u8 xVelocity
     u8 tmp;
 
     turning = FALSE;
-    tmp = xVelocity; // Needed to produce matching ASM
+    FAKE_MATCH_COPY(tmp, xVelocity);
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {

@@ -1,4 +1,5 @@
 #include "data/sprites/beam_core_x.h"
+#include "compiler_tricks.h"
 
 #include "globals.h"
 #include "macros.h"
@@ -103,8 +104,7 @@ void BeamCoreXTransformationInit(void)
             return;
     }
 
-    // Needed to produce matching ASM
-    shell++; shell--;
+    FAKE_MATCH_INC_DEC(shell);
 
     shell = SpriteSpawnSecondary(shell, 0, gCurrentSprite.spritesetGfxSlot, gCurrentSprite.primarySpriteRamSlot,
         gCurrentSprite.yPosition, gCurrentSprite.xPosition, 0);

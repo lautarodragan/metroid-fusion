@@ -1,4 +1,5 @@
 #include "haze.h"
+#include "compiler_tricks.h"
 
 #include "macros.h"
 #include "globals.h"
@@ -511,9 +512,7 @@ void Haze_Bg3(void)
     s32 position;
     u8* ptr;
 
-    do {
-    dst = gPreviousHazeValues;
-    } while (0);
+    FAKE_MATCH_BLOCK(dst = gPreviousHazeValues);
     i = 0;
     
     gHazeLoops[2].unk_3 = 0;
@@ -545,9 +544,7 @@ void Haze_Bg3(void)
     while (i < SCREEN_SIZE_Y)
     {
         ptr = &gUnk_30053f8;
-        do {
-        position = (gBackgroundPositions.bg[3].y + i + *ptr) & mask;
-        } while (0);
+        FAKE_MATCH_BLOCK(position = (gBackgroundPositions.bg[3].y + i + *ptr) & mask);
         dst[i] = src[position] + gBackgroundPositions.bg[3].x;
         i++;
     }
@@ -849,9 +846,7 @@ bools32 Haze_PowerBombExpanding(void)
     screenY = yPosition + size + 1;
     CLAMP(screenY, 0, 53 * 3);
 
-    do {
-    subSlice = 0;
-    } while(0);
+    FAKE_MATCH_BLOCK(subSlice = 0);
     i = yPosition - size;
     if (i < 0)
     {
@@ -924,9 +919,7 @@ bools32 Haze_PowerBombRetracting(void)
     screenY = yPosition + size + 1;
     CLAMP(screenY, 0, 53 * 3);
 
-    do {
-    subSlice = 0;
-    } while(0);
+    FAKE_MATCH_BLOCK(subSlice = 0);
     i = yPosition - size;
     if (i < 0)
     {

@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "compiler_tricks.h"
 #include "new_file_intro.h"
 #include "music_wrappers.h"
 
@@ -6902,7 +6903,7 @@ void NewFileIntroProcessHornoad(struct SpecialCutsceneOam *pOam)
         pOam->pOam = sIntroInSr388HornoadOam_Jumping;
 
         var0 = pOam->timer * sHornoadJumpVelocityHigh[pOam->unk_4] >> 1;
-        do { pOam->spawnY += 0; } while (0);
+        FAKE_MATCH_BLOCK(FAKE_MATCH_NOP_ADD(pOam->spawnY));
         spawnY = (u16)pOam->spawnY;
         var2 = var0;
         pOam->yPosition = var2 + spawnY;
@@ -6916,7 +6917,7 @@ void NewFileIntroProcessHornoad(struct SpecialCutsceneOam *pOam)
         }
         else
         {
-            var0 += 0;
+            FAKE_MATCH_NOP_ADD(var0);
         }
 
         if (pOam->timer == 4)

@@ -1,4 +1,5 @@
 #include "menus/navigation_conversation.h"
+#include "compiler_tricks.h"
 #include "menus/pause_screen.h"
 #include "menus/pause_screen_map.h"
 #include "menus/pause_screen_text.h"
@@ -1543,8 +1544,7 @@ void unk_7b674(void)
             break;
 
         case 3:
-            // No-op, needed to match
-            PAUSE_SCREEN_DATA.unk_250 |= 0;
+            FAKE_MATCH_NOP_OR(PAUSE_SCREEN_DATA.unk_250);
             if (MOD_AND(PAUSE_SCREEN_DATA.unk_252, 8) != 0)
             {
                 gWrittenToMosaic_L -= 0x11;

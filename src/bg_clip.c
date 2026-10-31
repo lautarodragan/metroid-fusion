@@ -1,4 +1,5 @@
 #include "bg_clip.h"
+#include "compiler_tricks.h"
 
 #include "globals.h"
 #include "macros.h"
@@ -547,9 +548,7 @@ void BgClipUpdateHatches(void)
 
     for (i = 0; i < MAX_AMOUNT_OF_HATCHES; i++)
     {
-        do {
-        exists = gHatchData[i].exists;
-        } while (0);
+        FAKE_MATCH_BLOCK(exists = gHatchData[i].exists);
         if (!exists)
             continue;
 
@@ -564,9 +563,7 @@ void BgClipUpdateHatches(void)
             else
                 SoundPlay(SOUND_FB);
 
-            do {
-            gHatchData[i].unk_1_3 = 0;
-            } while (0);
+            FAKE_MATCH_BLOCK(gHatchData[i].unk_1_3 = 0);
             gHatchData[i].currentAnimation++;
         }
         else
