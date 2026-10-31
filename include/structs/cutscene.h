@@ -6,10 +6,12 @@
 struct SpecialCutsceneOam {
     s16 spawnX;
     s16 spawnY;
-    s16 unk_4;
-    s16 scaling;
-    s16 unk_8;
-    u16 unk_A;
+    // unk_4, unk_8 and unk_A are work variables whose meaning depends on the object type: unk_A is usually
+    // a movement or animation timer, unk_8 a duration, velocity or palette frame, unk_4 a target position
+    s16 unk_4;                     // 0x4
+    s16 scaling;                   // 0x6
+    s16 unk_8;                     // 0x8
+    u16 unk_A;                     // 0xA
     s16 xPosition;                // 0xC
     s16 yPosition;                // 0xE
     u8 type;                       // 0x10

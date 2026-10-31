@@ -14,7 +14,7 @@ struct GameOverOam {
     u8 isDrawn;
     u8 currentAnimationFrame;
     u8 animationDurationCounter;
-    u8 unk_8;
+    u8 unk_8; // Cleared when an object is set up, never read in the final game
     u8 stage;
     u8 objMode;
     u8 priority;
