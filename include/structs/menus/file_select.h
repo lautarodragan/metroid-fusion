@@ -14,20 +14,19 @@ struct FileSelectOam {
     u8 isDrawn;
     u8 currentAnimationFrame;
     u8 animationDurationCounter;
-    u8 unk_8;
+    UNUSED(1);
     u8 stage;
     u8 objMode;
     u8 priority;
     u8 xFlip;
     u8 paletteRow;
     u16 tileOffset;
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    u8 unk_13;
+    UNUSED(4);
     const struct FrameData* pOam;
     FileSelectOamFunc_T pHandler;
 };
+
+ASSERT_SIZE(struct FileSelectOam, 0x1C);
 
 /**
  * @brief Summary of a save file, as shown on the file select screen
@@ -47,9 +46,9 @@ struct SaveFileInfo {
     u8 savedDuringGameplay; // Saved at least once during gameplay (not only after the intro)
     s8 completedGame;
     s8 introPlayed;
-    u8 unk_12;
-    u8 unk_13;
 };
+
+ASSERT_SIZE(struct SaveFileInfo, 0x14);
 
 struct FileSelectData {
     u16 textTile;
@@ -67,11 +66,12 @@ struct FileSelectData {
     u8 textPixelOffset;
     u8 corruptedFileStage;
     u8 corruptedFile;
-    u8 unk_16;
-    u8 unk_17;
     struct FileSelectOam oam[23];
     struct SaveFileInfo corruptedFileInfo;
 };
+
+ASSERT_OFFSET(struct FileSelectData, oam, 0x18);
+ASSERT_SIZE(struct FileSelectData, 0x2B0);
 
 extern struct SaveFileInfo gSaveFilesInfo[3];
 

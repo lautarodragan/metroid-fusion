@@ -91,7 +91,6 @@ struct PsgSoundData {
     u8 regLengthDuty;
     // NRx2 (envelope, channel 3 volume)
     u8 regEnvelope;
-    u8 undefined_13;
     // NRx3/NRx4 (frequency, 0x4000 = length enable, 0x8000 = restart)
     u16 regFrequency;
     u8 priority;
@@ -107,6 +106,10 @@ struct PsgSoundData {
     u32* pSample; // Type?
     struct TrackVariables* pVariables;
 };
+
+// 0x13 is alignment padding: PsgWriteRegisters loads it with a word load of regSweep-regEnvelope, but never uses it
+ASSERT_OFFSET(struct PsgSoundData, regFrequency, 0x14);
+ASSERT_SIZE(struct PsgSoundData, 0x28);
 
 struct TrackVariables {
     // 0x1 = exists, 0x2 = note started, 0x4 = volume changed, 0x8 = pitch changed,
@@ -148,7 +151,7 @@ struct TrackVariables {
     u8 tune;
     // Pitch set by the code (SetTrackPitch)
     u8 pitchControl;
-    u32 unk_20;
+    UNUSED(4);
     const u8* pRawData;
     const u8* patternStartPointers[3];
     u8 channel;
@@ -167,6 +170,9 @@ struct TrackVariables {
     struct SoundChannel* pChannel;
     struct PsgSoundData* pSoundPsg;
 };
+
+ASSERT_OFFSET(struct TrackVariables, pRawData, 0x24);
+ASSERT_SIZE(struct TrackVariables, 0x50);
 
 struct TrackData {
     u8 flags;
@@ -208,32 +214,10 @@ struct TrackData {
 
     u8 queueFlags;
 
-    u8 undefined_29;
-    u8 undefined_2A;
-    u8 undefined_2B;
-    u8 undefined_2C;
-    u8 undefined_2D;
-    u8 undefined_2E;
-    u8 undefined_2F;
-    u8 undefined_30;
-    u8 undefined_31;
-    u8 undefined_32;
-
-    u8 unk_33;
-    u8 unk_34;
-    u8 unk_35;
-
-    u8 undefined_36;
-    u8 undefined_37;
-    u8 undefined_38;
-    u8 undefined_39;
-    u8 undefined_3A;
-    u8 undefined_3B;
-    u8 undefined_3C;
-    u8 undefined_3D;
-    u8 undefined_3E;
-    u8 undefined_3F;
+    UNUSED(0x40 - 0x29);
 };
+
+ASSERT_SIZE(struct TrackData, 0x40);
 
 struct TrackGroupRomData {
     struct TrackData* pTrack;
@@ -249,7 +233,7 @@ struct SoundEntry {
 };
 
 struct MusicInfo {
-    u8 unk_0;
+    UNUSED(1);
     boolu8 occupied;
     // Sound played with PlayPersistentSound, restarted after an interrupting music ends
     u16 persistentSound;
@@ -259,7 +243,7 @@ struct MusicInfo {
     u8 volume;
     u8 freqIndex;
 
-    u8 unk_8;
+    UNUSED(1);
     // If not 0, the mixing stops this many scanlines after it started
     u8 maxScanlines;
     u8 currentSoundChannel;
@@ -268,7 +252,7 @@ struct MusicInfo {
     u8 blocksPerFrame; // samplesPerFrame / 16
     u8 framesPerBuffer; // unused, PCM_DMA_BUF_SIZE / samplesPerFrame
     u8 blocksPerBuffer; // 96
-    u8 unk_F;
+    UNUSED(1);
     // Block being played by the DMA (incremented by the DMA 2 interrupt)
     u8 dmaBlock;
     // Next block to mix
@@ -288,6 +272,8 @@ struct MusicInfo {
     u8 soundRawData[PCM_DMA_BUF_SIZE * 2];
     struct SoundChannel soundChannels[11];
 };
+
+ASSERT_SIZE(struct MusicInfo, 0x1A60);
 
 struct MusicTrack {
     u16 number;

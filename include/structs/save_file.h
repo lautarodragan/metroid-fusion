@@ -30,8 +30,10 @@ struct SramHeader {
     u8 unk_A; // Written from gUnk_3000010 (always 0), never checked
     u8 unk_B; // Written as 2, never checked
     u8 magic[SRAM_HEADER_MAGIC_SIZE];
-    u8 unk_20[SRAM_HEADER_SIZE - 0x20];
+    PADDING(SRAM_HEADER_SIZE - 0x20);
 };
+
+ASSERT_SIZE(struct SramHeader, SRAM_HEADER_SIZE);
 
 // gCamera is 20 bytes long, the camera struct only describes the first 16
 struct SaveCamera {
@@ -83,7 +85,6 @@ struct SaveFile {
     struct Equipment equipment;
     u16 preventMovementTimer;
     u8 disableDrawingSamusAndScrollingFlag;
-    u8 unk_D7;
     u16 atmosphericStabilizersOnline;
     u16 missileGeronsDestroyed;
     u16 superMissileGeronsDestroyed;
@@ -94,8 +95,12 @@ struct SaveFile {
     struct InGameTime inGameTimer;
     struct SaveMusicInfo musicInfo;
     u8 endMagic[SRAM_END_MAGIC_SIZE];
-    u8 unk_F8[0x1200 - 0xF8];
+    PADDING(0x1200 - 0xF8);
 };
+
+ASSERT_OFFSET(struct SaveFile, atmosphericStabilizersOnline, 0xD8);
+ASSERT_OFFSET(struct SaveFile, endMagic, 0xF0);
+ASSERT_SIZE(struct SaveFile, 0x1200);
 
 #define SRAM_EXTRA_DATA_SIZE 0x40
 #define SRAM_EXTRA_DATA_MAGIC_SIZE 16
@@ -111,8 +116,10 @@ struct SramExtraData {
     u8 magic[SRAM_EXTRA_DATA_MAGIC_SIZE];
     u8 value;
     u8 magic2[SRAM_EXTRA_DATA_MAGIC_SIZE];
-    u8 unk_27[SRAM_EXTRA_DATA_SIZE - 0x27];
+    PADDING(SRAM_EXTRA_DATA_SIZE - 0x27);
 };
+
+ASSERT_SIZE(struct SramExtraData, SRAM_EXTRA_DATA_SIZE);
 
 
 extern u8 gMostRecentSaveFile;

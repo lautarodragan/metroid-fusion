@@ -11,7 +11,7 @@ struct IntroData {
     const u16* pText;
     const u16* pText2;
     u16 stage;
-    u16 unk_A;
+    UNUSED(2);
     u16 currentColumn;          // 0xC, text cursor column (in tiles)
     u16 currentLine;            // 0xE, text cursor line (in tiles, 2 per text line)
     u16 fadeColumn;             // 0x10, first text tile still fading in
@@ -45,10 +45,13 @@ struct IntroData {
     s8 bg2XVelocity;            // 0x216, added to the BG2 X position, OAM objects scroll with it
     s8 bg2YVelocity;            // 0x217
     u8 textAdvanceState;        // 0x218, set to 1 when A is pressed on a next page arrow, then 2 (new page), 3 (end), 4 (next arrow) or 0
-    u8 unk_219[3];
     struct SpecialCutsceneOam oam[20];
     u8 hBlankCode[80];
     u8* hBlankCodePointer;
 };
+
+ASSERT_OFFSET(struct IntroData, currentColumn, 0xC);
+ASSERT_OFFSET(struct IntroData, oam, 0x21C);
+ASSERT_SIZE(struct IntroData, 0x540);
 
 #endif /* INTRO_STRUCT_H */

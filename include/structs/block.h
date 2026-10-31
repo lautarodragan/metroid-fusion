@@ -33,7 +33,7 @@ struct BombChain {
     u8 srcXPosition; 
     u8 srcYPosition;
     u8 type:3;
-    u8 padding:3;
+    UNUSED_BITS(u8, 3);
     u8 negativeActive:1;
     u8 positiveActive:1;
 };

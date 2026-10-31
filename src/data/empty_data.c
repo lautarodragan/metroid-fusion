@@ -19,7 +19,6 @@ const struct BombChain sBombChain_Empty = {
     .srcXPosition = 0,
     .srcYPosition = 0,
     .type = 0,
-    .padding = 0,
     .negativeActive = FALSE,
     .positiveActive = FALSE
 };
@@ -62,7 +61,6 @@ const struct ScreenShake sScreenShake_Empty = {
 const struct Bg0Movement sBg0Movement_Empty = {
     .type = 0,
     .counter = 0,
-    .unused = 0,
     .xOffset = 0,
     .yOffset = 0
 };
@@ -89,6 +87,5 @@ const struct WaterMovement sWaterMovement_Empty = {
     .loopTimer = 0,
     .stage = 0,
     .yOffset = 0,
-    .unk_6 = 0,
     .drainOffset = 0
 };

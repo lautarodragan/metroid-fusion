@@ -42,7 +42,6 @@ struct EndingData {
     u8 oamCount;                    // 0x9B, number of ending image text OAM, or whether the Samus OAM is drawn
     u8 samusOamObjMode;             // 0x9C, Samus transforming her suit
     u8 samusOamPriority;            // 0x9D
-    u8 padding2[2];
     u16* pSamusOamFrame;            // 0xA0
     u8 samusPosingBg0Offsets[0x80]; // 0xA4, BG0 X offsets used by the H-blank code (sine table)
     u8 letterStates[30];            // 0x124, ending image text OAM: 0 hidden, 1 waiting for its spawn delay, 2 drawn
@@ -50,10 +49,13 @@ struct EndingData {
     u8 letterTimers[0x1D];          // 0x160, fade in timer
     u16 oamXPositions[30]; // 17E
     u16 oamYPositions[30]; // 1BA
-    u8 padding4[2];
     u16* oamFramePointers[30]; // 1F8
     u8 hBlankCode[64]; // 270, FIXME find actual length
 };
+
+ASSERT_OFFSET(struct EndingData, pSamusOamFrame, 0xA0);
+ASSERT_OFFSET(struct EndingData, oamFramePointers, 0x1F8);
+ASSERT_SIZE(struct EndingData, 0x2B0);
 
 struct EndingImageTextOam {
     u8 state;

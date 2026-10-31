@@ -64,10 +64,13 @@ extern struct Bg3Movement gBg3Movement;
 struct Bg0Movement {
     u8 type;
     u8 counter;
-    u16 unused;
+    UNUSED(2);
     u16 xOffset;
     u16 yOffset;
 };
+
+ASSERT_OFFSET(struct Bg0Movement, xOffset, 0x4);
+ASSERT_SIZE(struct Bg0Movement, 0x8);
 
 extern struct Bg0Movement gBg0Movement;
 
@@ -158,10 +161,13 @@ struct WaterMovement {
     u8 loopTimer;
     u8 stage;
     s16 yOffset;
-    u16 unk_6;
+    UNUSED(2);
     // How much the water was drained (electrified water event)
     s16 drainOffset;
 };
+
+ASSERT_OFFSET(struct WaterMovement, drainOffset, 0x8);
+ASSERT_SIZE(struct WaterMovement, 0xC);
 
 extern struct WaterMovement gWaterMovement;
 
