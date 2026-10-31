@@ -2077,7 +2077,11 @@ void ProjectilePowerBombHitSprite(u8 spriteSlot)
 void ProjectileContactDamageHitSprite(u8 spriteSlot, u16 yPosition, u16 xPosition)
 {
     u8 props;
+#ifdef OPTIMIZE
+    u16 isft;
+#else
     u8 isft;
+#endif
 
     if (gSpriteData[spriteSlot].properties & SP_SOLID_FOR_PROJECTILES)
         return;
@@ -2090,6 +2094,13 @@ void ProjectileContactDamageHitSprite(u8 spriteSlot, u16 yPosition, u16 xPositio
 
     if (ProjectileGetSpriteWeakness(spriteSlot) & WEAKNESS_SPEEDBOOSTER_SCREW_ATTACK)
     {
+#ifdef OPTIMIZE
+        // The original leaves isft unset here (BUG): the compare and the store below then use
+        // what its register (r10) holds, which in the original ProjectileCheckHittingSprite is
+        // the left of the sprite's hitbox (o2Left, 16 bits; the low byte is stored). Other builds
+        // put something else in that register, so the value is set explicitly
+        isft = gSpriteData[spriteSlot].xPosition + gSpriteData[spriteSlot].hitboxLeft;
+#endif
         gSpriteData[spriteSlot].health = 0;
         gSpriteData[spriteSlot].properties |= SP_DESTROYED;
         gSpriteData[spriteSlot].freezeTimer = 0;

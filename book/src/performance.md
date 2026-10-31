@@ -292,6 +292,24 @@ station differs from the frame where the original has its extra lag frame.
 `OPTIMIZE_IWRAM` was checked on the fights in the same way. There is no
 intentional difference.
 
+### An uninitialized variable in the original
+
+`ProjectileContactDamageHitSprite` never sets `isft` when Samus's contact
+damage (Screw Attack, Speed Booster, Shinespark) destroys a sprite. The
+original then compares the sprite's stun flash timer with, and stores the low
+byte of, whatever its register (`r10`) still holds from the caller: in the
+original `ProjectileCheckHittingSprite`, the left edge of the sprite's hitbox
+(`o2Left`). The optimized caller keeps something else there, so in the first
+`OPTIMIZE=1` builds a sprite killed by the Screw Attack got another
+`invincibilityStunFlashTimer` (seen when Samus fell screw attacking onto a
+Sidehopper, Geruta or Waver: 0x07 instead of 0xe4), and every frame after
+differed. With `OPTIMIZE` defined the function now sets `isft` to that value
+explicitly (8 bytes of code). The optimized build is then identical at every
+logic-frame boundary in the 73 scenarios of the scenario library (bosses,
+weapons, abilities, environments, menus, transitions) as well as the fights;
+the cycle counts above did not change (the fix only runs when such a kill
+happens).
+
 ## Limitations
 
 - **Emulator timing.** All the cycle counts and lag frames come from mGBA
