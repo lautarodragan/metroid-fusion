@@ -33,9 +33,9 @@ struct SaXVision {
     u8 samusBelow;
     u8 samusOnRight;
     u8 inXRange;
-    u8 unk_6;
-    u8 unk_7;
 };
+
+ASSERT_SIZE(struct SaXVision, 0x8);
 
 struct SaXAnimationData {
     const u8* pGraphics;

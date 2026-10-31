@@ -13,8 +13,9 @@ struct AnimatedPaletteAndTileset {
 struct AnimatedTiming {
     u8 timer;
     u8 frame;
-    u8 unk_2;
 };
+
+ASSERT_SIZE(struct AnimatedTiming, 0x4);
 
 struct AnimatedPaletteTiming {
     u8 timer1;

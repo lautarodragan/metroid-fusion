@@ -88,8 +88,10 @@ struct SamusAnimationInfo {
     u8 currentPaletteRow;
     u8 spaceJumpSpinCounter;
     u8 shinesparkTimer;
-    u8 unk_6[7];
+    UNUSED(7);
 };
+
+ASSERT_SIZE(struct SamusAnimationInfo, 0xC);
 
 struct SamusPhysics {
     u8 slowed;
@@ -134,8 +136,10 @@ struct SamusEcho {
     u8 active;
     u8 timer;
     u8 position;
-    u8 unk_4[9];
+    UNUSED(9);
 };
+
+ASSERT_SIZE(struct SamusEcho, 0xC);
 
 struct SamusAnimData {
     const u8* pTopGfx;
