@@ -43,7 +43,7 @@ u32 InGameHandler(void)
             InitAndLoadGenerics();
 
             if (gSaXElevatorData.stage == 0)
-                gSaXElevatorData.unk_0 = 0;
+                gSaXElevatorData.active = 0;
 
             gSubGameMode1++;
             break;
@@ -113,7 +113,7 @@ u32 InGameHandler(void)
             break;
 
         case SUB_GAME_MODE_SA_X_ELEVATOR:
-            unk_d638();
+            SaXElevatorProcess();
             break;
 
         case SUB_GAME_MODE_DYING:
@@ -130,7 +130,7 @@ u32 InGameHandler(void)
             break;
     }
 
-    if (gSubGameMode1 == SUB_GAME_MODE_SA_X_ELEVATOR || gSubGameMode1 == SUB_GAME_MODE_DYING || gSaXElevatorData.unk_0 != 0)
+    if (gSubGameMode1 == SUB_GAME_MODE_SA_X_ELEVATOR || gSubGameMode1 == SUB_GAME_MODE_DYING || gSaXElevatorData.active != 0)
     {
         ResetFreeOam();
         RoomUpdate();

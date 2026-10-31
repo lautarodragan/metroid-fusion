@@ -1225,7 +1225,11 @@ void SpriteSpawningFromX(void)
     }
 }
 
-void unk_62328(void)
+/**
+ * @brief 62328 | 194 | Makes an X parasite move towards samus (slightly above her feet), unused
+ * 
+ */
+void XParasiteMoveTowardsSamus_Unused(void)
 {
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {

@@ -57,9 +57,9 @@ void ProjectileIceMissileHitSprite(u8 spriteSlot, u8 projectileSlot, u16 yPositi
 void ProjectileDiffusionMissileHitSprite(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
 void ProjectileDiffusionFlakeHitSprite(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
 void ProjectileBombHitSprite(u8 spriteSlot, u16 yPosition, u16 xPosition);
-void unk_84cac(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
-void unk_84cc8(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
-void unk_84ce4(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
+void ProjectileBeamHitSpriteTurningIntoX(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
+void ProjectileChargeBeamHitSpriteTurningIntoX(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
+void ProjectileMissileHitSpriteTurningIntoX(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition);
 void ProjectileDealDamageToZazabi(u16 damage);
 void ProjectileChargedNormalBeamInit(void);
 void ProjectileChargedNormalBeamHandler(void);

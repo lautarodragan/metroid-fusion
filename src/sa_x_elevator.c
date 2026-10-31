@@ -17,14 +17,14 @@ void SaXUpdateElevatorSprite(s32 spriteSlot)
 {
     const struct FrameData* pOam;
 
-    if (gSaXElevatorSprites[spriteSlot].unk_0 != 0 && gSaXElevatorSprites[spriteSlot].unk_2 != 0)
+    if (gSaXElevatorSprites[spriteSlot].status != 0 && gSaXElevatorSprites[spriteSlot].delayTimer != 0)
     {
-        gSaXElevatorSprites[spriteSlot].unk_2--;
-        if (gSaXElevatorSprites[spriteSlot].unk_2 == 0)
-            gSaXElevatorSprites[spriteSlot].unk_0++;
+        gSaXElevatorSprites[spriteSlot].delayTimer--;
+        if (gSaXElevatorSprites[spriteSlot].delayTimer == 0)
+            gSaXElevatorSprites[spriteSlot].status++;
     }
 
-    if (gSaXElevatorSprites[spriteSlot].unk_0 == 0 || gSaXElevatorSprites[spriteSlot].unk_0 == 1)
+    if (gSaXElevatorSprites[spriteSlot].status == 0 || gSaXElevatorSprites[spriteSlot].status == 1)
         return;
 
     switch (gSaXElevatorSprites[spriteSlot].type)
@@ -41,7 +41,7 @@ void SaXUpdateElevatorSprite(s32 spriteSlot)
             gSaXElevatorSprites[spriteSlot].currentAnimationFrame++;
 
             if (sParticleOam_Explosion7[gSaXElevatorSprites[spriteSlot].currentAnimationFrame].timer == 0)
-                gSaXElevatorSprites[spriteSlot].unk_0 = 0;
+                gSaXElevatorSprites[spriteSlot].status = 0;
             break;
 
         case 2:
@@ -55,7 +55,7 @@ void SaXUpdateElevatorSprite(s32 spriteSlot)
             gSaXElevatorSprites[spriteSlot].currentAnimationFrame++;
 
             if (sParticleOam_Explosion8[gSaXElevatorSprites[spriteSlot].currentAnimationFrame].timer == 0)
-                gSaXElevatorSprites[spriteSlot].unk_0 = 0;
+                gSaXElevatorSprites[spriteSlot].status = 0;
             break;
 
         case 3:
@@ -67,7 +67,7 @@ void SaXUpdateElevatorSprite(s32 spriteSlot)
             gSaXElevatorSprites[spriteSlot].yVelocity -= SUB_PIXEL_TO_VELOCITY(ONE_SUB_PIXEL - ONE_SUB_PIXEL / 4.f);
 
             if (gSaXElevatorSprites[spriteSlot].yPosition > BLOCK_SIZE * 7 + ONE_SUB_PIXEL)
-                gSaXElevatorSprites[spriteSlot].unk_0 = 0;
+                gSaXElevatorSprites[spriteSlot].status = 0;
 
         case 7:
         case 8:
@@ -124,7 +124,7 @@ void SaXDrawElevatorSprites(void)
 
     for (i = 0; i < MAX_AMOUNT_OF_SA_X_ELEVATOR_SPRITES; i++)
     {
-        if (gSaXElevatorSprites[i].unk_0 <= 1)
+        if (gSaXElevatorSprites[i].status <= 1)
             continue;
 
         src = gSaXElevatorSprites[i].pOamFrame;
@@ -155,20 +155,20 @@ void SaXDrawElevatorSprites(void)
 }
 
 /**
- * @brief d638 | 5c | To document
+ * @brief d638 | 5c | Subroutine for the SA-X elevator sub game mode, calls the current SA-X elevator cutscene and goes back to loading the room once it ended
  *
  */
-void unk_d638(void)
+void SaXElevatorProcess(void)
 {
-    gSaXElevatorData.unk_0 = 1;
+    gSaXElevatorData.active = 1;
     gNextOamSlot = 0;
 
-    if (sSaXElevatorFunctionPointers[gSaXElevatorData.unk_1]())
+    if (sSaXElevatorFunctionPointers[gSaXElevatorData.cutsceneId]())
     {
         gSaXElevatorData.stage = 0;
         gSaXElevatorData.unk_3 = 0;
-        gSaXElevatorData.unk_4 = 0;
-        gSaXElevatorData.unk_5 = 0;
+        gSaXElevatorData.effect = 0;
+        gSaXElevatorData.effectTimer = 0;
         gSaXElevatorData.timer = 0;
 
         gDisableDrawingSamusAndScrollingFlag = FALSE;
@@ -179,11 +179,11 @@ void unk_d638(void)
 }
 
 /**
- * @brief d694 | 15c | To document
+ * @brief d694 | 15c | Handles the SA-X elevator cutscene (stages, elevator sprites, background effects and SA-X)
  *
  * @return u8 bool, ended
  */
-u8 unk_d694(void)
+u8 SaXElevatorCutscene(void)
 {
     s32 i;
     u32 ended;
@@ -202,7 +202,7 @@ u8 unk_d694(void)
     for (i = 0; i < MAX_AMOUNT_OF_SA_X_ELEVATOR_SPRITES - 1; i++)
         SaXUpdateElevatorSprite(i);
 
-    switch (gSaXElevatorData.unk_4)
+    switch (gSaXElevatorData.effect)
     {
         case 1:
             if (gWrittenToBldy < 16)
@@ -219,23 +219,23 @@ u8 unk_d694(void)
                 WRITE_16(REG_BLDY, gWrittenToBldy);
             }
 
-            gSaXElevatorData.unk_5++;
-            if (MOD_AND(gSaXElevatorData.unk_5, 8) == 0)
+            gSaXElevatorData.effectTimer++;
+            if (MOD_AND(gSaXElevatorData.effectTimer, 8) == 0)
                 gBackgroundPositions.bg[3].x--;
             break;
 
         case 3:
-            bldalpha = gSaXElevatorData.unk_5++ / 4;
+            bldalpha = gSaXElevatorData.effectTimer++ / 4;
             tmp = 16 - bldalpha;
             WRITE_16(REG_BLDALPHA, C_16_2_8(16 - tmp, tmp));
 
-            if (MOD_AND(gSaXElevatorData.unk_5, 4) == 0)
+            if (MOD_AND(gSaXElevatorData.effectTimer, 4) == 0)
                 gBackgroundPositions.bg[3].x--;
 
             if (tmp == 0)
             {
-                gSaXElevatorData.unk_4 = 0;
-                gSaXElevatorData.unk_5 = 0;
+                gSaXElevatorData.effect = 0;
+                gSaXElevatorData.effectTimer = 0;
 
                 WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~(DCNT_BG0 | DCNT_BG3));
                 ;
@@ -243,8 +243,8 @@ u8 unk_d694(void)
             }
             else if (tmp == 1)
             {
-                gSaXElevatorSprites[4].unk_0 = 0;
-                gSaXElevatorSprites[5].unk_0 = 0;
+                gSaXElevatorSprites[4].status = 0;
+                gSaXElevatorSprites[5].status = 0;
             }
             break;
     }
@@ -358,7 +358,7 @@ u8 SaXElevatorBlowingUpWall(void)
                     BLDCNT_BG3_FIRST_TARGET_PIXEL | BLDCNT_BACKDROP_FIRST_TARGET_PIXEL |
                     BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
 
-            gSaXElevatorData.unk_4++;
+            gSaXElevatorData.effect++;
             break;
 
         case 100:
@@ -383,16 +383,16 @@ u8 SaXElevatorBlowingUpWall(void)
             gSaXElevatorSprites[4].xVelocity = -SUB_PIXEL_TO_VELOCITY(PIXEL_SIZE / 2);
             gSaXElevatorSprites[5].xVelocity = SUB_PIXEL_TO_VELOCITY(PIXEL_SIZE / 2);
 
-            gSaXElevatorData.unk_5 = 0;
-            gSaXElevatorData.unk_4++;
+            gSaXElevatorData.effectTimer = 0;
+            gSaXElevatorData.effect++;
             break;
 
         case 140:
             WRITE_16(REG_BLDCNT, 0x3F48);
             WRITE_16(REG_BLDALPHA, 16);
 
-            gSaXElevatorData.unk_5 = 0;
-            gSaXElevatorData.unk_4++;
+            gSaXElevatorData.effectTimer = 0;
+            gSaXElevatorData.effect++;
             break;
 
         case 160:

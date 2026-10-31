@@ -1666,70 +1666,70 @@ void ProjectileCheckHittingSprite(void)
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileNormalBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_CHARGE_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileChargeBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cc8(i, j, o2Y, o2X);
+                            ProjectileChargeBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_WIDE_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileWideBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_PLASMA_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectilePlasmaBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_WAVE_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileWaveBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_CHARGED_NORMAL_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileChargedNormalBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_CHARGED_CHARGE_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileChargedChargeBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cc8(i, j, o2Y, o2X);
+                            ProjectileChargeBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_CHARGED_WIDE_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileChargedWideBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_CHARGED_PLASMA_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileChargedPlasmaBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_CHARGED_WAVE_BEAM:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileChargedWaveBeamHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_FLARE:
@@ -1743,21 +1743,21 @@ void ProjectileCheckHittingSprite(void)
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileNormalMissileHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84ce4(i, j, o2Y, o2X);
+                            ProjectileMissileHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_SUPER_MISSILE:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileSuperMissileHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84ce4(i, j, o2Y, o2X);
+                            ProjectileMissileHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_ICE_MISSILE:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileIceMissileHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84ce4(i, j, o2Y, o2X);
+                            ProjectileMissileHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_DIFFUSION_MISSILE:
@@ -1765,21 +1765,21 @@ void ProjectileCheckHittingSprite(void)
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileDiffusionMissileHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84ce4(i, j, o2Y, o2X);
+                            ProjectileMissileHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_DIFFUSION_FLAKE:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileDiffusionFlakeHitSprite(i, j, o2Y, o2X);
                         else
-                            unk_84ce4(i, j, o2Y, o2X);
+                            ProjectileMissileHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
 
                     case PROJ_TYPE_BOMB:
                         if (gSpriteData[i].pose < SPRITE_POSE_TURNING_INTO_X)
                             ProjectileBombHitSprite(i, o2Y, o2X);
                         else
-                            unk_84cac(i, j, o2Y, o2X);
+                            ProjectileBeamHitSpriteTurningIntoX(i, j, o2Y, o2X);
                         break;
                 }
 
@@ -3392,40 +3392,40 @@ void ProjectileBombHitSprite(u8 spriteSlot, u16 yPosition, u16 xPosition)
 }
 
 /**
- * @brief 84cac | 1c | To document
+ * @brief 84cac | 1c | Handles a beam (or bomb) hitting a sprite that is turning into an X (only flashes)
  * 
  * @param spriteSlot Sprite slot
  * @param projectileSlot Projectile slot
  * @param yPosition Y position
  * @param xPosition X position
  */
-void unk_84cac(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition)
+void ProjectileBeamHitSpriteTurningIntoX(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition)
 {
     gSpriteData[spriteSlot].invincibilityStunFlashTimer = 0x78;
 }
 
 /**
- * @brief 84cc8 | 1c | To document
+ * @brief 84cc8 | 1c | Handles a charge beam hitting a sprite that is turning into an X (only flashes)
  * 
  * @param spriteSlot Sprite slot
  * @param projectileSlot Projectile slot
  * @param yPosition Y position
  * @param xPosition X position
  */
-void unk_84cc8(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition)
+void ProjectileChargeBeamHitSpriteTurningIntoX(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition)
 {
     gSpriteData[spriteSlot].invincibilityStunFlashTimer = 0x78;
 }
 
 /**
- * @brief 84ce4 | 1c | To document
+ * @brief 84ce4 | 1c | Handles a missile hitting a sprite that is turning into an X (only flashes)
  * 
  * @param spriteSlot Sprite slot
  * @param projectileSlot Projectile slot
  * @param yPosition Y position
  * @param xPosition X position
  */
-void unk_84ce4(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition)
+void ProjectileMissileHitSpriteTurningIntoX(u8 spriteSlot, u8 projectileSlot, u16 yPosition, u16 xPosition)
 {
     gSpriteData[spriteSlot].invincibilityStunFlashTimer = 0x78;
 }
