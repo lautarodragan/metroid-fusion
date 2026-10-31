@@ -305,22 +305,22 @@ const struct FrameData* sData_79C2CC[6] = {
     sOam_597ed0
 };
 
-static const u16* sArray_79c2e4[12] = {
-	sPal_5bf838,
-	sPal_5bf8b8,
-	sPal_5bf938,
-	sPal_5bf9b8,
-	sPal_5bfa38,
-	sPal_5bfab8,
-	sPal_5bfb38,
-	sPal_5bfbb8,
-	sPal_5bfc38,
-	sPal_5bfcb8,
-	sPal_5bfd38,
-	sPal_5bfdb8
+static const u16* sIntroNervousSystemPalPointers[12] = {
+	sIntroNervousSystemPal_0,
+	sIntroNervousSystemPal_1,
+	sIntroNervousSystemPal_2,
+	sIntroNervousSystemPal_3,
+	sIntroNervousSystemPal_4,
+	sIntroNervousSystemPal_5,
+	sIntroNervousSystemPal_6,
+	sIntroNervousSystemPal_7,
+	sIntroNervousSystemPal_8,
+	sIntroNervousSystemPal_9,
+	sIntroNervousSystemPal_10,
+	sIntroNervousSystemPal_11
 };
 
-static const u16* sPalPointers_79c314[16] = {
+static const u16* sIntroSamusCuredBgFadePalPointers[16] = {
 	sIntroSamusCuredBgFadePal_0,
 	sIntroSamusCuredBgFadePal_1,
 	sIntroSamusCuredBgFadePal_2,
@@ -339,7 +339,7 @@ static const u16* sPalPointers_79c314[16] = {
 	sIntroSamusCuredBgFadePal_15
 };
 
-static const u16* sPalPointers_79c354[16] = {
+static const u16* sIntroSamusCuredFadePalPointers[16] = {
 	sIntroSamusCuredFadePal_0,
 	sIntroSamusCuredFadePal_1,
 	sIntroSamusCuredFadePal_2,
@@ -3379,10 +3379,10 @@ boolu32 NewFileIntroHandler(void)
 }
 
  /**
- * @brief 87920 | 50 | To document
+ * @brief 87920 | 50 | Main handler for the special cutscenes game mode (plays the cutscene of gCurrentCutscene)
  * 
  */
-boolu32 unk_87920(void) 
+boolu32 SpecialCutsceneHandler(void) 
 {
     boolu32 result;
     boolu32 done;
@@ -4502,10 +4502,10 @@ void NewFileIntroProcessHorizontalParticle(struct SpecialCutsceneOam *pOam)
 }
 
  /**
- * @brief 89090 | 28 | To document
+ * @brief 89090 | 28 | Scrolls background 3 by one pixel every 25 frames
  * 
  */
-void unk_89090(struct SpecialCutsceneOam *pOam) 
+void NewFileIntroProcessBg3Scrolling(struct SpecialCutsceneOam *pOam) 
 {
     pOam->animationDurationCounter++;
     if (pOam->animationDurationCounter == 25)
@@ -4816,10 +4816,10 @@ void NewFileIntroProcessSamusDriftingIntoAsteroids(struct SpecialCutsceneOam *pO
 }
 
  /**
- * @brief 89488 | 64 | To document
+ * @brief 89488 | 64 | Spawns the parts of the sideways BSL ship
  * 
  */
-void unk_89488(struct SpecialCutsceneOam *pOam) 
+void NewFileIntroSpawnSidewaysBslShipParts(struct SpecialCutsceneOam *pOam) 
 {
     if (pOam->stage == 0)
     {
@@ -4994,7 +4994,7 @@ u8 NewFileIntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descending
     else if (type == 4)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_89090;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessBg3Scrolling;
     }
     else if (type == 10)
     {
@@ -5021,7 +5021,7 @@ u8 NewFileIntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descending
     {
         INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sOam_597f88;
-        INTRO_DATA.oam[slot].pFunction = unk_89488;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroSpawnSidewaysBslShipParts;
     }
     else if (type == 32)
     {
@@ -5068,10 +5068,10 @@ u8 NewFileIntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descending
 }
 
  /**
- * @brief 89a74 | 3c | To document
+ * @brief 89a74 | 3c | Spawns an OAM for the new file intro with an additional argument (unused)
  * 
  */
-void unk_89a74(u8 type, s16 xPos, s16 yPos, s16 arg3) 
+void NewFileIntroSetupOamWithArgument(u8 type, s16 xPos, s16 yPos, s16 arg3) 
 {
     u8 slot;
     
@@ -5414,10 +5414,10 @@ boolu32 NewFileIntroSr388Preview(void)
 }
 
  /**
- * @brief 8a0f0 | 40 | To document
+ * @brief 8a0f0 | 40 | Sets the background 3 X position in the SR388 preview cutscene
  * 
  */
-void unk_8a0f0(struct SpecialCutsceneOam* pOam)
+void NewFileIntroProcessSr388PreviewBg3(struct SpecialCutsceneOam* pOam)
 {
     pOam->animationDurationCounter++;
     if (pOam->animationDurationCounter == 36)
@@ -5433,10 +5433,10 @@ void unk_8a0f0(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 8a130 | 40 | To document
+ * @brief 8a130 | 40 | Sets the background 2 X position in the SR388 preview cutscene
  * 
  */
-void unk_8a130(struct SpecialCutsceneOam* pOam)
+void NewFileIntroProcessSr388PreviewBg2(struct SpecialCutsceneOam* pOam)
 {
     pOam->animationDurationCounter++;
     if (pOam->animationDurationCounter == 29)
@@ -5483,10 +5483,10 @@ void NewFileIntroProcessSr388PreviewAsteroid(struct SpecialCutsceneOam *pOam)
 }
 
  /**
- * @brief 8a1dc | 28 | To document
+ * @brief 8a1dc | 28 | Scrolls background 1 in the SR388 preview cutscene
  * 
  */
-void unk_8a1dc(struct SpecialCutsceneOam* pOam)
+void NewFileIntroProcessSr388PreviewBg1Scrolling(struct SpecialCutsceneOam* pOam)
 {
     pOam->animationDurationCounter++;
     if (pOam->animationDurationCounter == 3)
@@ -5498,10 +5498,10 @@ void unk_8a1dc(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 8a204 | 64 | To document
+ * @brief 8a204 | 64 | Spawns the sun reflection after a delay in the SR388 preview cutscene
  * 
  */
-void unk_8a204(struct SpecialCutsceneOam *pOam)
+void NewFileIntroProcessSr388PreviewSpawnSunReflection(struct SpecialCutsceneOam *pOam)
 {
     pOam->unk_A++;
     
@@ -5582,12 +5582,12 @@ u8 NewFileIntroSr388SetupOam(u8 type, s16 xPosition, s16 yPosition)
     if (type == 1)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_8a0f0;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewBg3;
     }
     else if (type == 2)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_8a130;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewBg2;
     }
     else if (type == 3)
     {
@@ -5616,13 +5616,13 @@ u8 NewFileIntroSr388SetupOam(u8 type, s16 xPosition, s16 yPosition)
     else if (type == 7)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_8a1dc;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewBg1Scrolling;
     }
     else if (type == 8)
     {
         INTRO_DATA.oam[slot].priority = 3;
         INTRO_DATA.oam[slot].pOam = sOam_59a100;
-        INTRO_DATA.oam[slot].pFunction = unk_8a204;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewSpawnSunReflection;
     }
     else if (type == 9)
     {
@@ -5729,12 +5729,12 @@ void NewFileIntroInSr388Init(void)
     WRITE_16(REG_BG0VOFS, 0);
 
     NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_NEXT_PAGE_ARROW, 250, 200);
-    NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_UNK_255, 0, 0);
-    NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_UNK_255, 0, 0);
+    NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_PLACEHOLDER, 0, 0);
+    NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_PLACEHOLDER, 0, 0);
     NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_SAMUS, 234, 200);
     NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_LEFT_RESEARCHER, 288, 200);
     NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_RIGHT_RESEARCHER, 312, 100);
-    NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_UNK_11, 0, 0);
+    NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_BG_SCROLLING, 0, 0);
     NewFileIntroInSr388SetupOam(INTRO_IN_SR388_OAM_TYPE_CAVE_ENTRANCE_BG, 304 - gBg2XPosition, 200);
 
     SpecialCutsceneProcessOam();
@@ -6676,7 +6676,7 @@ void NewfileIntroProcessRightBiologicalResearcher(struct SpecialCutsceneOam *pOa
  * @brief 8b660 | 174 | Processes the hornoad in the SR388 cutscene (unused?)
  * 
  */
-void unk_8b660(struct SpecialCutsceneOam* pOam)
+void NewFileIntroProcessUnusedHornoad(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
     u32 timer;
@@ -7184,10 +7184,10 @@ void NewFileIntroProcessFirstDiagonalMissile(struct SpecialCutsceneOam *pOam)
 }
 
  /**
- * @brief 8be18 | 2c | To document
+ * @brief 8be18 | 2c | Destroys an OAM of the 'hornoad encounter in SR388' cutscene once its animation ended
  * 
  */
-void unk_8be18(struct SpecialCutsceneOam* pOam)
+void NewFileIntroInSr388DestroyOamWhenAnimEnded(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
     
@@ -7200,10 +7200,10 @@ void unk_8be18(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 8be44 | d8 | To document
+ * @brief 8be44 | d8 | Scrolls backgrounds 1 and 3 along with background 2 in the 'hornoad encounter in SR388' cutscene
  * 
  */
-void unk_8be44(struct SpecialCutsceneOam *pOam)
+void NewFileIntroProcessInSr388BgScrolling(struct SpecialCutsceneOam *pOam)
 {
     if (pOam->stage == 0)
     {
@@ -7246,10 +7246,10 @@ void unk_8be44(struct SpecialCutsceneOam *pOam)
 }
 
  /**
- * @brief 8bf1c | 4c | To document
+ * @brief 8bf1c | 4c | Processes the cave entrance background OAM in the 'hornoad encounter in SR388' cutscene
  * 
  */
-void unk_8bf1c(struct SpecialCutsceneOam* pOam)
+void NewFileIntroProcessCaveEntranceBg(struct SpecialCutsceneOam* pOam)
 {
     if (gBg2YPosition > 23)
         pOam->yPosition = 216 - gBg2YPosition;
@@ -7263,10 +7263,10 @@ void unk_8bf1c(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 8bf68 | 48 | To document
+ * @brief 8bf68 | 48 | Processes the black rectangle OAM in the 'hornoad encounter in SR388' cutscene
  * 
  */
-void unk_8bf68(struct SpecialCutsceneOam* pOam)
+void NewFileIntroProcessBlackRectangle(struct SpecialCutsceneOam* pOam)
 {
     if (gBg2YPosition > 23)
         pOam->yPosition = 216 - gBg2YPosition;
@@ -7330,10 +7330,10 @@ void NewFileIntroProcessSecondDiagonalMissile(struct SpecialCutsceneOam *pOam)
 }
 
  /**
- * @brief 8c084 | 8 | To document
+ * @brief 8c084 | 8 | Destroys a placeholder OAM of the 'hornoad encounter in SR388' cutscene
  * 
  */
-void unk_8c084(struct SpecialCutsceneOam* pOam)
+void NewFileIntroInSr388DestroyOam(struct SpecialCutsceneOam* pOam)
 {
     pOam->type = 0;
 }
@@ -7387,7 +7387,7 @@ u8 NewFileIntroInSr388SetupOam(IntroInSr388OamType type, s16 xPosition, s16 yPos
     {
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sIntroInSr388HornoadOam_IdleUnused;
-        INTRO_DATA.oam[slot].pFunction = unk_8b660;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessUnusedHornoad;
     }
     else if (type == INTRO_IN_SR388_OAM_TYPE_HORNOAD_UNUSED_2)
     {
@@ -7395,7 +7395,7 @@ u8 NewFileIntroInSr388SetupOam(IntroInSr388OamType type, s16 xPosition, s16 yPos
         INTRO_DATA.oam[slot].unk_A = 2;
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sIntroInSr388HornoadOam_IdleUnused;
-        INTRO_DATA.oam[slot].pFunction = unk_8b660;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessUnusedHornoad;
     }
     else if (type == INTRO_IN_SR388_OAM_TYPE_HORIZONTAL_MISSILE)
     {
@@ -7417,7 +7417,7 @@ u8 NewFileIntroInSr388SetupOam(IntroInSr388OamType type, s16 xPosition, s16 yPos
     {
         INTRO_DATA.oam[slot].priority = 1;
         INTRO_DATA.oam[slot].pOam = sIntroInSr388MissileTrailOam;
-        INTRO_DATA.oam[slot].pFunction = unk_8be18;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroInSr388DestroyOamWhenAnimEnded;
     }
     else if (type == INTRO_IN_SR388_OAM_TYPE_HORNOAD)
     {
@@ -7430,24 +7430,24 @@ u8 NewFileIntroInSr388SetupOam(IntroInSr388OamType type, s16 xPosition, s16 yPos
     {
         INTRO_DATA.oam[slot].priority = 1;
         INTRO_DATA.oam[slot].pOam = sIntroInSr388MissileExplosionOam_Big;
-        INTRO_DATA.oam[slot].pFunction = unk_8be18;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroInSr388DestroyOamWhenAnimEnded;
     }
-    else if (type == INTRO_IN_SR388_OAM_TYPE_UNK_11)
+    else if (type == INTRO_IN_SR388_OAM_TYPE_BG_SCROLLING)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_8be44;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessInSr388BgScrolling;
     }
     else if (type == INTRO_IN_SR388_OAM_TYPE_CAVE_ENTRANCE_BG)
     {
         INTRO_DATA.oam[slot].priority = 3;
         INTRO_DATA.oam[slot].pOam = sIntroInSr388CaveEntranceBgOam;
-        INTRO_DATA.oam[slot].pFunction = unk_8bf1c;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessCaveEntranceBg;
     }
     else if (type == INTRO_IN_SR388_OAM_TYPE_BLACK_RECTANGLE)
     {
         INTRO_DATA.oam[slot].priority = 3;
         INTRO_DATA.oam[slot].pOam = sIntroInSr388BlackRectangeOam;
-        INTRO_DATA.oam[slot].pFunction = unk_8bf68;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessBlackRectangle;
     }
     else if (type == INTRO_IN_SR388_OAM_TYPE_SECOND_DIAGONAL_MISSILE)
     {
@@ -7462,20 +7462,20 @@ u8 NewFileIntroInSr388SetupOam(IntroInSr388OamType type, s16 xPosition, s16 yPos
         INTRO_DATA.oam[slot].pOam = sIntroNextPageArrowOam;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessTextCursor;
     }
-    else if (type == INTRO_IN_SR388_OAM_TYPE_UNK_255)
+    else if (type == INTRO_IN_SR388_OAM_TYPE_PLACEHOLDER)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_8c084;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroInSr388DestroyOam;
     }
 
     return slot;
 }
 
  /**
- * @brief 8c504 | 38 | To document
+ * @brief 8c504 | 38 | Spawns an OAM for the 'hornoad encounter in SR388' cutscene with an additional argument (unused)
  * 
  */
-void unk_8c504(IntroInSr388OamType type, s16 xPosition, s16 yPosition, u16 arg3)
+void NewFileIntroInSr388SetupOamWithArgument(IntroInSr388OamType type, s16 xPosition, s16 yPosition, u16 arg3)
 {
     u8 slot;
     
@@ -7772,13 +7772,13 @@ void NewFileIntroSamusGettingCuredNervousSystemInit(void)
     gWrittenToBldalpha_Evb = gWrittenToBldalpha_Eva = 0;
 
     NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_NEXT_PAGE_ARROW, 260, 0);
-    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10, 0, 0);
-    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10, 0, 0);
-    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10, 0, 0);
-    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10, 0, 0);
-    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10, 0, 0);
-    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10, 0, 0);
-    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10, 0, 0);
+    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER, 0, 0);
+    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER, 0, 0);
+    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER, 0, 0);
+    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER, 0, 0);
+    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER, 0, 0);
+    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER, 0, 0);
+    NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER, 0, 0);
     NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_CORNER_TEXT, 172, 158);
     NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_NERVE_PARTS, 120, 80);
     NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_X_PARASITE_1, 195, 97);
@@ -7921,7 +7921,7 @@ boolu32 NewFileIntroSamusGettingCuredNervousSystemProcess(void)
         case 5:
             if (INTRO_DATA.timer == DELTA_TIME)
             {
-                NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_28, 0, 0);
+                NewFileIntroSamusGettingCuredSetupOam(INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PALETTE_ANIMATION, 0, 0);
             }
             else if (INTRO_DATA.timer > CONVERT_SECONDS(7.5f))
             {
@@ -8046,10 +8046,10 @@ void NewFileIntroProcessVaccineBackgroundText(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 8d06c | 10 | To document
+ * @brief 8d06c | 10 | Destroys a placeholder OAM of the Samus getting cured cutscene
  * 
  */
-void unk_8d06c(struct SpecialCutsceneOam* pOam)
+void NewFileIntroSamusGettingCuredDestroyOam(struct SpecialCutsceneOam* pOam)
 {
     pOam->type = 0;
     pOam->exists = 0;
@@ -8441,10 +8441,10 @@ void NewFileIntroProcessXInNervousSystem_6(struct SpecialCutsceneOam *pOam)
 }
 
  /**
- * @brief 8d660 | 94 | To document
+ * @brief 8d660 | 94 | Animates the palette of the Samus nervous system cutscene (see sIntroNervousSystemPalAnimation)
  * 
  */
-void unk_8d660(struct SpecialCutsceneOam *pOam)
+void NewFileIntroProcessNervousSystemPaletteAnimation(struct SpecialCutsceneOam *pOam)
 {
     u8 value;
     
@@ -8460,14 +8460,14 @@ void unk_8d660(struct SpecialCutsceneOam *pOam)
             pOam->stage = 1;
         }
     }
-    else if (pOam->stage == 1 && LOW_BYTE(sArray_5a9620[pOam->unk_8]) == pOam->unk_A)
+    else if (pOam->stage == 1 && LOW_BYTE(sIntroNervousSystemPalAnimation[pOam->unk_8]) == pOam->unk_A)
     {
         pOam->unk_A = 0;
 
         if (pOam->unk_8 < 29)
             pOam->unk_8++;
 
-        value = HIGH_BYTE(sArray_5a9620[pOam->unk_8]);
+        value = HIGH_BYTE(sIntroNervousSystemPalAnimation[pOam->unk_8]);
         INTRO_DATA.paletteFrame1 = value;
         INTRO_DATA.paletteUpdate1 = 1;
     }
@@ -8520,10 +8520,10 @@ u8 NewFileIntroSamusGettingCuredSetupOam(IntroSamusGettingCuredOamType type, s16
         INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessVaccineBackgroundText;
     }
-    else if (type == INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_10)
+    else if (type == INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PLACEHOLDER)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_8d06c;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroSamusGettingCuredDestroyOam;
     }
     else if (type == INTRO_SAMUS_GETTING_CURED_OAM_TYPE_COUNTDOWN_FAST)
     {
@@ -8642,10 +8642,10 @@ u8 NewFileIntroSamusGettingCuredSetupOam(IntroSamusGettingCuredOamType type, s16
         INTRO_DATA.oam[slot].pOam = sIntroSamusNervousSystemXLockOnOam_6;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessXLockOn;
     }
-    else if (type == INTRO_SAMUS_GETTING_CURED_OAM_TYPE_UNK_28)
+    else if (type == INTRO_SAMUS_GETTING_CURED_OAM_TYPE_PALETTE_ANIMATION)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_8d660;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessNervousSystemPaletteAnimation;
     }
     else if (type == INTRO_SAMUS_GETTING_CURED_OAM_TYPE_NEXT_PAGE_ARROW)
     {
@@ -8657,10 +8657,10 @@ u8 NewFileIntroSamusGettingCuredSetupOam(IntroSamusGettingCuredOamType type, s16
 }
 
  /**
- * @brief 8ddc4 | 38 | Spawns an OAM for a new file intro Samus getting cured cutscene with an additional argument
+ * @brief 8ddc4 | 38 | Spawns an OAM for a new file intro Samus getting cured cutscene with an additional argument (unused)
  * 
  */
-void unk_8ddc4(IntroSamusGettingCuredOamType type, s16 xPosition, s16 yPosition, s16 arg3)
+void NewFileIntroSamusGettingCuredSetupOamWithArgument(IntroSamusGettingCuredOamType type, s16 xPosition, s16 yPosition, s16 arg3)
 {
     u8 slot;
 
@@ -8713,8 +8713,8 @@ void NewFileIntroSamusGettingCuredNervousSystemVblank(void)
     {
         INTRO_DATA.paletteUpdate1 = 0;
 
-        DMA3_COPY_32(sArray_79c2e4[INTRO_DATA.paletteFrame1], PALRAM_OBJ, 4 * PAL_ROW_SIZE / sizeof(u32));
-        DMA3_COPY_32(sArray_79c2e4[INTRO_DATA.paletteFrame1], PALRAM_BASE, 4 * PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(sIntroNervousSystemPalPointers[INTRO_DATA.paletteFrame1], PALRAM_OBJ, 4 * PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(sIntroNervousSystemPalPointers[INTRO_DATA.paletteFrame1], PALRAM_BASE, 4 * PAL_ROW_SIZE / sizeof(u32));
     }
 }
 
@@ -9556,7 +9556,7 @@ boolu32 NewFileIntroSamusCuredProcess(void)
 	        }
 	        else if (INTRO_DATA.unk_213 == 6)
 	        {
-	            DMA3_COPY_32(sPalPointers_79c354[0], PALRAM_BASE, 2 * PAL_ROW);
+	            DMA3_COPY_32(sIntroSamusCuredFadePalPointers[0], PALRAM_BASE, 2 * PAL_ROW);
 	            DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xF000, 0x800 / sizeof(u32));
 	            gWrittenToBldalpha_Eva = 0;
 	            gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
@@ -9886,13 +9886,13 @@ void NewFileIntroSamusCuredVblank(void)
     if (INTRO_DATA.paletteUpdate1 == 1)
     {
         INTRO_DATA.paletteUpdate1 = 0;
-        DMA3_COPY_32(sPalPointers_79c314[INTRO_DATA.paletteFrame1], PALRAM_BASE + 5 * PAL_ROW_SIZE, 10 * PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(sIntroSamusCuredBgFadePalPointers[INTRO_DATA.paletteFrame1], PALRAM_BASE + 5 * PAL_ROW_SIZE, 10 * PAL_ROW_SIZE / sizeof(u32));
     }
 
     if (INTRO_DATA.paletteUpdate2 == 1)
     {
         INTRO_DATA.paletteUpdate2 = 0;
-        DMA3_COPY_32(sPalPointers_79c354[INTRO_DATA.paletteFrame2], PALRAM_BASE, 4 * PAL_ROW_SIZE / sizeof(u32));
+        DMA3_COPY_32(sIntroSamusCuredFadePalPointers[INTRO_DATA.paletteFrame2], PALRAM_BASE, 4 * PAL_ROW_SIZE / sizeof(u32));
     }
 }
 
@@ -10038,7 +10038,7 @@ boolu32 NewFileIntroArrivingAtBslProcess(void)
             }
             else if (INTRO_DATA.timer == TWO_THIRD_SECOND)
             {
-                NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_UNK_255, 0, 0);
+                NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_PLACEHOLDER, 0, 0);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_ADAM_TEXT_CURSOR, 20, 192);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_ADAM_PANEL_FRAME, 128, 192);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_ADAM_PANEL_BACKGROUND, 128, 192);
@@ -10263,7 +10263,7 @@ boolu32 NewFileIntroArrivingAtBslProcess(void)
             {
                 WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) | DCNT_BG3);
                 INTRO_DATA.timer = 0;
-                NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_UNK_255, 0, 0);
+                NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_PLACEHOLDER, 0, 0);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_SHIP_THRUSTER_1, 208, 100);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_SHIP_THRUSTER_2, 208, 100);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_SHIP_THRUSTER_3, 208, 100);
@@ -10717,10 +10717,10 @@ void NewFileIntroProcessSamusShipArrivingAtBslThrusterExplosion(struct SpecialCu
 }
 
  /**
- * @brief 9043c | 8 | To document
+ * @brief 9043c | 8 | Destroys a placeholder OAM of the arriving at BSL cutscene
  * 
  */
-void unk_9043c(struct SpecialCutsceneOam* pOam)
+void NewFileIntroArrivingAtBslDestroyOam(struct SpecialCutsceneOam* pOam)
 {
     pOam->type = 0;
 }
@@ -11160,10 +11160,10 @@ u8 NewFileIntroArrivingAtBslSetupOam(IntroArrivingAtBslOamType type, s16 xPositi
         INTRO_DATA.oam[slot].pOam = sIntroArrivingAtBslMonologueCursorOam;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessMonologueCursor;
     }
-    else if (type == INTRO_ARRIVING_AT_BSL_OAM_TYPE_UNK_255)
+    else if (type == INTRO_ARRIVING_AT_BSL_OAM_TYPE_PLACEHOLDER)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_9043c;
+        INTRO_DATA.oam[slot].pFunction = NewFileIntroArrivingAtBslDestroyOam;
     }
 
     return slot;
@@ -12362,7 +12362,7 @@ u8 NewFileIntroGetPositionAndSlotOfOamByType_2(IntroLandingOnBslOamType type, s1
  * @brief 92098 | 4 | Empty function
  * 
  */
-void unk_92098(void)
+void NewFileIntroLandingOnBsl_Empty(void)
 {
     return;
 }

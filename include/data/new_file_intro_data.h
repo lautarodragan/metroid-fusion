@@ -108,7 +108,7 @@ extern const u32 sTilemap_5a9044[135];
 extern const u16 sPal_5a9260[15 * PAL_ROW];
 extern const u16 sPal_5a9440[15 * PAL_ROW];
 
-extern const u16 sArray_5a9620[30];
+extern const u16 sIntroNervousSystemPalAnimation[30];
 
 extern const u32 sIntroMetroidVaccineObjGfx[1485];
 
@@ -156,18 +156,18 @@ extern const u32 sIntroSamusNervousSystemBg3Tilemap[369];
 extern const u32 sIntroSamusNervousSystemBg2Tilemap[63];
 extern const u32 sIntroSamusNervousSystemBg1Tilemap[68];
 
-extern const u16 sPal_5bf838[4 * PAL_ROW];
-extern const u16 sPal_5bf8b8[4 * PAL_ROW];
-extern const u16 sPal_5bf938[4 * PAL_ROW];
-extern const u16 sPal_5bf9b8[4 * PAL_ROW];
-extern const u16 sPal_5bfa38[4 * PAL_ROW];
-extern const u16 sPal_5bfab8[4 * PAL_ROW];
-extern const u16 sPal_5bfb38[4 * PAL_ROW];
-extern const u16 sPal_5bfbb8[4 * PAL_ROW];
-extern const u16 sPal_5bfc38[4 * PAL_ROW];
-extern const u16 sPal_5bfcb8[4 * PAL_ROW];
-extern const u16 sPal_5bfd38[4 * PAL_ROW];
-extern const u16 sPal_5bfdb8[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_0[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_1[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_2[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_3[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_4[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_5[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_6[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_7[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_8[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_9[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_10[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_11[4 * PAL_ROW];
 
 extern const u32 sIntroVariaSuitCoveredInXParasitesGfx[4230];
 extern const u32 sIntroHazmatTeamGfx[4915];

@@ -26,7 +26,7 @@ extern const u16* sPauseScreenTextPointersSpanish[];
 
 boolu32 IntroHandler(void);
 boolu32 NewFileIntroHandler(void);
-boolu32 unk_87920(void);
+boolu32 SpecialCutsceneHandler(void);
 void NewFileIntroSamusShipFlyingInit(void);
 boolu32 NewFileIntroSamusShipFlyingProcess(void);
 boolu32 NewFileIntroSamusShipFlying(void);

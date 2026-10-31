@@ -4240,7 +4240,8 @@ const u32 sTilemap_5a9044[135] = INCBIN_U32("data/new_file_intro/5a9044.tm.lz");
 const u16 sPal_5a9260[15 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5a9260.pal");
 const u16 sPal_5a9440[15 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5a9440.pal");
 
-const u16 sArray_5a9620[30] = {
+// Palette animation of the Samus nervous system cutscene: C_16_2_8(palette frame, duration)
+const u16 sIntroNervousSystemPalAnimation[30] = {
 	C_16_2_8(0, 36),
 	C_16_2_8(1, 12),
 	C_16_2_8(2, 12),
@@ -15885,18 +15886,18 @@ const u32 sIntroSamusNervousSystemBg3Tilemap[369] = INCBIN_U32("data/new_file_in
 const u32 sIntroSamusNervousSystemBg2Tilemap[63] = INCBIN_U32("data/new_file_intro/samus_nervous_system_bg2.tm.lz");
 const u32 sIntroSamusNervousSystemBg1Tilemap[68] = INCBIN_U32("data/new_file_intro/samus_nervous_system_bg1.tm.lz");
 
-const u16 sPal_5bf838[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf838.pal");
-const u16 sPal_5bf8b8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf8b8.pal");
-const u16 sPal_5bf938[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf938.pal");
-const u16 sPal_5bf9b8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf9b8.pal");
-const u16 sPal_5bfa38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfa38.pal");
-const u16 sPal_5bfab8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfab8.pal");
-const u16 sPal_5bfb38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfb38.pal");
-const u16 sPal_5bfbb8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfbb8.pal");
-const u16 sPal_5bfc38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfc38.pal");
-const u16 sPal_5bfcb8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfcb8.pal");
-const u16 sPal_5bfd38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfd38.pal");
-const u16 sPal_5bfdb8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfdb8.pal");
+const u16 sIntroNervousSystemPal_0[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf838.pal");
+const u16 sIntroNervousSystemPal_1[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf8b8.pal");
+const u16 sIntroNervousSystemPal_2[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf938.pal");
+const u16 sIntroNervousSystemPal_3[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf9b8.pal");
+const u16 sIntroNervousSystemPal_4[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfa38.pal");
+const u16 sIntroNervousSystemPal_5[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfab8.pal");
+const u16 sIntroNervousSystemPal_6[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfb38.pal");
+const u16 sIntroNervousSystemPal_7[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfbb8.pal");
+const u16 sIntroNervousSystemPal_8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfc38.pal");
+const u16 sIntroNervousSystemPal_9[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfcb8.pal");
+const u16 sIntroNervousSystemPal_10[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfd38.pal");
+const u16 sIntroNervousSystemPal_11[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfdb8.pal");
 
 const u32 sIntroVariaSuitCoveredInXParasitesGfx[4230] = INCBIN_U32("data/new_file_intro/suit_covered_in_parasites.gfx.lz");
 const u32 sIntroHazmatTeamGfx[4915] = INCBIN_U32("data/new_file_intro/hazmat_team.gfx.lz");
@@ -15918,7 +15919,7 @@ const u16 sIntroSamusRebornBgPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro
 const u32 sIntroSamusRebornBgTopTilemap[551] = INCBIN_U32("data/new_file_intro/samus_reborn_bg_top.tm.lz");
 const u32 sIntroSamusRebornBgBottomTilemap[368] = INCBIN_U32("data/new_file_intro/samus_reborn_bg_bottom.tm.lz");
 
-// Samus cured cutscene: BG palette rows 5-14 for each step of the fade (sPalPointers_79c314)
+// Samus cured cutscene: BG palette rows 5-14 for each step of the fade (sIntroSamusCuredBgFadePalPointers)
 const u16 sIntroSamusCuredBgFadePal_0[10 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_bg_fade_0.pal");
 const u16 sIntroSamusCuredBgFadePal_1[10 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_bg_fade_1.pal");
 const u16 sIntroSamusCuredBgFadePal_3[10 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_bg_fade_3.pal");
@@ -21128,7 +21129,7 @@ const u32 sIntroArrivingAtBslSpaceMapTilemap[368] = INCBIN_U32("data/new_file_in
 const u32 sIntroSamusMonologueBgTilemap[368] = INCBIN_U32("data/new_file_intro/samus_monologue_bg.tm.lz");
 const u32 sIntroTilemap_5f65d8[238] = INCBIN_U32("data/new_file_intro/5f65d8.tm.lz");
 
-// Samus cured cutscene: BG palette rows 0-3 for each step of the fade (sPalPointers_79c354)
+// Samus cured cutscene: BG palette rows 0-3 for each step of the fade (sIntroSamusCuredFadePalPointers)
 const u16 sIntroSamusCuredFadePal_0[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_fade_0.pal");
 const u16 sIntroSamusCuredFadePal_1[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_fade_1.pal");
 const u16 sIntroSamusCuredFadePal_2[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_fade_2.pal");
