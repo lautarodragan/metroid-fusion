@@ -546,15 +546,15 @@ void PauseScreenMapCountTanks(void)
 /**
  * @brief 75e64 | 374 | Draws the in-game timer and number of collected tanks on the map screen
  * 
- * @param arg0
+ * @param toggle Toggle between the in game time and the collected tanks (SELECT), otherwise show the in game time
  */
-void PauseScreenMapDrawIgtAndTanks(boolu8 arg0)
+void PauseScreenMapDrawIgtAndTanks(boolu8 toggle)
 {
     bools32 flag;
     s32 value;
     s32 count;
 
-    if (arg0)
+    if (toggle)
     {
         if (PAUSE_SCREEN_DATA.igtAndTanksDisplay == 1)
         {

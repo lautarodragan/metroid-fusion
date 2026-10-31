@@ -13,7 +13,7 @@ void PauseScreenMapSetBordersAndView(boolu8 useMapPosition);
 void MinimapUpdateForCollectedItem(u8 xPosition, u8 yPosition);
 s32 MinimapCheckIsTileVisited(u8 xPosition, u8 yPosition);
 void PauseScreenMapCountTanks(void);
-void PauseScreenMapDrawIgtAndTanks(boolu8 arg0);
+void PauseScreenMapDrawIgtAndTanks(boolu8 toggle);
 bools32 PauseScreenMapDownload(void);
 
 #endif /* PAUSE_SCREEN_MAP_H */
