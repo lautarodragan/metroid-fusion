@@ -289,10 +289,10 @@ static void SpriteDrawSorted(u32 first, u32 last)
 #endif // OPTIMIZE_DRAW_ORDER
 
 /**
- * @brief eb04 | 9c | To document
+ * @brief eb04 | 9c | Draws the sprites with high priority (draw order 1-8), before everything else
  * 
  */
-void unk_eb04(void)
+void SpriteDrawAllHighPriority(void)
 {
     s32 i;
     s32 drawOrder;
@@ -385,10 +385,10 @@ void SpriteDrawAll(void)
 }
 
 /**
- * @brief ec38 | 90 | To document
+ * @brief ec38 | 90 | Draws the sprites with draw order 9-16, after (behind) samus
  * 
  */
-void unk_ec38(void)
+void SpriteDrawAllBehindSamus(void)
 {
     s32 i;
     s32 drawOrder;

@@ -162,7 +162,7 @@ and with `OPTIMIZE=1`:
 | &nbsp;&nbsp;`ProjectileUpdate` | 37,162 | 6,760 |
 | &nbsp;&nbsp;&nbsp;&nbsp;`ProjectileCheckHittingSprite` | 34,701 | 4,286 |
 | &nbsp;&nbsp;`RoomUpdate` (tilemap streaming 17.6k, haze 17.5k) | 39,357 | 39,351 |
-| &nbsp;&nbsp;`unk_eb04` + `SpriteDrawAll` + `unk_ec38` (sprite drawing passes) | 48,979 | 26,257 |
+| &nbsp;&nbsp;`SpriteDrawAllHighPriority` + `SpriteDrawAll` + `SpriteDrawAllBehindSamus` (sprite drawing passes) | 48,979 | 26,257 |
 | &nbsp;&nbsp;&nbsp;&nbsp;of which `SpriteDraw` | 14,206 | 14,300 |
 | &nbsp;&nbsp;`ParticleUpdate` | 9,222 | 9,265 |
 | &nbsp;&nbsp;`HudDraw` | 7,449 | 7,443 |

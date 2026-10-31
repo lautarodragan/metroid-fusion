@@ -123,7 +123,7 @@ already writes as symbols (inside data included piece by piece, like the
 voicegroups) and are left out.
 
 With the conversions above, `--likely` reports nothing. The last word it
-used to report, `0x0800eb05` at `0x608460` (the address of `unk_eb04` + 1),
+used to report, `0x0800eb05` at `0x608460` (the address of `SpriteDrawAllHighPriority` + 1),
 was inside the LZ77 stream of `sTitleScreenSpaceBackgroundGfx`, which the
 decompressor reads as compressed data: a coincidence. Without `--likely`,
 the remaining in-range words are in graphics, palettes, tilemaps, samples

@@ -152,7 +152,7 @@ u32 InGameHandler(void)
 
         PROFILE_CALL(PROF_PROJ_UPDATE, ProjectileUpdate());
         PROFILE_CALL(PROF_HUD, HudDraw());
-        PROFILE_CALL(PROF_DRAW_HIGH, unk_eb04());
+        PROFILE_CALL(PROF_DRAW_HIGH, SpriteDrawAllHighPriority());
         PROFILE_CALL(PROF_PARTICLE, ParticleUpdate());
         PROFILE_CALL(PROF_PROJ_DRAW, ProjectileDrawAll_False());
 
@@ -161,7 +161,7 @@ u32 InGameHandler(void)
         if (!gDisableDrawingSamusAndScrollingFlag)
             PROFILE_CALL(PROF_SAMUS_DRAW, SamusDraw());
 
-        PROFILE_CALL(PROF_DRAW_LOW, unk_ec38());
+        PROFILE_CALL(PROF_DRAW_LOW, SpriteDrawAllBehindSamus());
         PROFILE_CALL(PROF_PROJ_DRAW, ProjectileDrawAll_True());
         
         PROFILE_CALL(PROF_RESET_OAM, ResetFreeOam());
