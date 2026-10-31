@@ -22,13 +22,29 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define BEAM_CORE_X_SHOOTING work0 // Set by the eye while shooting, the core X stops moving
+#define BEAM_CORE_X_TIMER work1 // Waiting to flee
+#define BEAM_CORE_X_X_MOVEMENT_IDX work3 // Floating
+#define BEAM_CORE_X_Y_MOVEMENT_IDX work4 // Floating and fleeing
+#define BEAM_CORE_X_MOSAIC_IDX workY // Transformation
+#define BEAM_CORE_X_ABSORB_DELAY workY // Resting at the target, before it can be absorbed
+#define BEAM_CORE_X_GFX_PART workY // Displaying the message, graphics part being loaded
+
+#define BEAM_CORE_X_EYE_ROTATION work1
+#define BEAM_CORE_X_EYE_TIMER work2
+
+#define BEAM_CORE_X_GLOWING_TIMER work1
+
+#define CORE_X_BEAM_DIRECTION work0 // Set by the eye
+#define CORE_X_BEAM_TIMER work1 // Only incremented (wave/ice beam), never read
+
 void BeamCoreXTransformation(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (--gCurrentSprite.workY > 0)
+    if (--gCurrentSprite.BEAM_CORE_X_MOSAIC_IDX > 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.BEAM_CORE_X_MOSAIC_IDX];
     }
     else
     {
@@ -49,7 +65,7 @@ void BeamCoreXTransformationInit(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
     gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(1.4375f);
     gCurrentSprite.pose = 0x5a;
-    gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.BEAM_CORE_X_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
     gCurrentSprite.status &= ~(SPRITE_STATUS_NOT_DRAWN | SPRITE_STATUS_FACING_DOWN | SPRITE_STATUS_SAMUS_COLLIDING);
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
@@ -67,9 +83,9 @@ void BeamCoreXTransformationInit(void)
     gCurrentSprite.pOam = sBeamCoreXAbilityOam_Idle;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work3 = 0;
-    gCurrentSprite.work4 = 0;
-    gCurrentSprite.work0 = FALSE;
+    gCurrentSprite.BEAM_CORE_X_X_MOVEMENT_IDX = 0;
+    gCurrentSprite.BEAM_CORE_X_Y_MOVEMENT_IDX = 0;
+    gCurrentSprite.BEAM_CORE_X_SHOOTING = FALSE;
 
     switch (gCurrentSprite.spriteId)
     {
@@ -128,15 +144,15 @@ void BeamCoreXTransformationInit(void)
 void BeamCoreXMovingInit(void)
 {
     gCurrentSprite.pose = 0x1c;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 }
 
 void BeamCoreXMoving(void)
 {
-    if (!gCurrentSprite.work0)
+    if (!gCurrentSprite.BEAM_CORE_X_SHOOTING)
     {
         SpriteUtilMoveBeamCoreX((u16)(gSamusData.yPosition - BLOCK_TO_SUB_PIXEL(1.125f)), gSamusData.xPosition, 0xa,
             0x10, 2, 0xc0);
@@ -151,10 +167,10 @@ void BeamCoreXMovingToTargetInit(void)
     gCurrentSprite.drawOrder = 4;
     gCurrentSprite.bgPriority = gIoRegisters.bg1Cnt & 3;
     gCurrentSprite.paletteRow = 0;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
     CoreXMakeXParasitesFlee();
@@ -180,8 +196,8 @@ void BeamCoreXMovingToTarget(void)
                 gCurrentSprite.pose = 0x5e;
 
             gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
-            gCurrentSprite.work3 = 0;
-            gCurrentSprite.work4 = 0;
+            gCurrentSprite.BEAM_CORE_X_X_MOVEMENT_IDX = 0;
+            gCurrentSprite.BEAM_CORE_X_Y_MOVEMENT_IDX = 0;
         }
     }
 }
@@ -191,7 +207,7 @@ void BeamCoreXRestingAtTarget(void)
     u8 offset;
     s16 movement;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.BEAM_CORE_X_Y_MOVEMENT_IDX;
     movement = sCoreXIdleYSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -201,10 +217,10 @@ void BeamCoreXRestingAtTarget(void)
     }
 
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.BEAM_CORE_X_Y_MOVEMENT_IDX = offset;
     gCurrentSprite.yPosition += movement;
 
-    offset = gCurrentSprite.work3;
+    offset = gCurrentSprite.BEAM_CORE_X_X_MOVEMENT_IDX;
     movement = sCoreXIdleXSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -214,7 +230,7 @@ void BeamCoreXRestingAtTarget(void)
     }
 
     offset++;
-    gCurrentSprite.work3 = offset;
+    gCurrentSprite.BEAM_CORE_X_X_MOVEMENT_IDX = offset;
     gCurrentSprite.xPosition += movement;
 
     if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_COLLIDING)
@@ -223,14 +239,14 @@ void BeamCoreXRestingAtTarget(void)
         gCurrentSprite.properties |= SP_ALWAYS_ACTIVE;
         gCurrentSprite.pose = 0x5f;
         gCurrentSprite.ignoreSamusCollisionTimer = 1;
-        gCurrentSprite.work2 = 0;
-        gCurrentSprite.work3 = 1;
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
         gCurrentSprite.status |= SPRITE_STATUS_ROTATION_SCALING_SINGLE;
         gCurrentSprite.rotation = 0;
         gCurrentSprite.scaling = Q_8_8(1);
-        gCurrentSprite.workY = 20;
+        gCurrentSprite.BEAM_CORE_X_ABSORB_DELAY = 20;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
         gCurrentSprite.pOam = sBeamCoreXAbilityOam_GettingAbsorbed;
@@ -270,9 +286,9 @@ void BeamCoreXAbsorbed(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
     XParasiteStickToSamus();
 
-    if (gCurrentSprite.workY != 0)
+    if (gCurrentSprite.BEAM_CORE_X_ABSORB_DELAY != 0)
     {
-        gCurrentSprite.workY--;
+        gCurrentSprite.BEAM_CORE_X_ABSORB_DELAY--;
     }
     else if (gCurrentSprite.scaling > Q_8_8(.3125f))
     {
@@ -282,7 +298,7 @@ void BeamCoreXAbsorbed(void)
     {
         gCurrentSprite.pose = 0x60;
         gCurrentSprite.status |= SPRITE_STATUS_NOT_DRAWN;
-        gCurrentSprite.workY = 9;
+        gCurrentSprite.BEAM_CORE_X_ABSORB_DELAY = 9;
     }
 }
 
@@ -290,12 +306,12 @@ void BeamCoreXDisplayingMessage(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (gCurrentSprite.workY > 0)
+    if (gCurrentSprite.BEAM_CORE_X_GFX_PART > 0)
     {
-        gCurrentSprite.workY--;
-        if (gCurrentSprite.workY < sizeof(sMessageBannerGfx) / 512)
-            SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 0, gCurrentSprite.workY);
-        else if (gCurrentSprite.workY == sizeof(sMessageBannerGfx) / 512)
+        gCurrentSprite.BEAM_CORE_X_GFX_PART--;
+        if (gCurrentSprite.BEAM_CORE_X_GFX_PART < sizeof(sMessageBannerGfx) / 512)
+            SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 0, gCurrentSprite.BEAM_CORE_X_GFX_PART);
+        else if (gCurrentSprite.BEAM_CORE_X_GFX_PART == sizeof(sMessageBannerGfx) / 512)
             SpriteLoadPal(PSPRITE_MESSAGE_BANNER, 0, ARRAY_SIZE(sMessageBannerPal) / 16);
     }
     else
@@ -316,7 +332,7 @@ void BeamCoreXWaitToFlee(void)
     if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_SIZE * 3, BLOCK_SIZE * 3) != NSLR_OUT_OF_RANGE)
     {
         gCurrentSprite.pose = 0x38;
-        gCurrentSprite.work1 = 180;
+        gCurrentSprite.BEAM_CORE_X_TIMER = 180;
     }
 }
 
@@ -328,7 +344,7 @@ void BeamCoreXFlee(void)
     if (MOD_AND(gFrameCounter8Bit, 4) == 0)
         gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.BEAM_CORE_X_Y_MOVEMENT_IDX;
     movement = sIceBeamAbilityFloatingYMovement[offset];
 
     if (movement == SHORT_MAX)
@@ -338,12 +354,12 @@ void BeamCoreXFlee(void)
     }
 
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.BEAM_CORE_X_Y_MOVEMENT_IDX = offset;
     gCurrentSprite.yPosition += movement;
     gCurrentSprite.xPosition += 8;
     gCurrentSprite.yPosition += 1;
 
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.BEAM_CORE_X_TIMER == 0)
     {
         EventCheckAdvance(EVENT_SA_X_DEFEATED);
         gCurrentSprite.status = 0;
@@ -432,17 +448,17 @@ void BeamCoreXEyeInit(void)
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.samusCollision = SSC_NONE;
     gCurrentSprite.pose = 1;
-    gCurrentSprite.work2 = 120;
+    gCurrentSprite.BEAM_CORE_X_EYE_TIMER = 120;
 
     if (gCurrentSprite.xPosition > gSamusData.xPosition)
     {
         gCurrentSprite.rotation = Q_8_8(0.5f);
-        gCurrentSprite.work1 = Q_8_8(0.5f);
+        gCurrentSprite.BEAM_CORE_X_EYE_ROTATION = Q_8_8(0.5f);
     }
     else
     {
         gCurrentSprite.rotation = 0;
-        gCurrentSprite.work1 = 0;
+        gCurrentSprite.BEAM_CORE_X_EYE_ROTATION = 0;
     }
 
     if (gCurrentSprite.spriteId == SSPRITE_ICE_BEAM_CORE_X_EYE)
@@ -495,7 +511,7 @@ void BeamCoreXEyeHandleRotation(void)
     primary = gCurrentSprite.primarySpriteRamSlot;
     shellSlot = gCurrentSprite.roomSlot;
 
-    oamRotation = gCurrentSprite.work1;
+    oamRotation = gCurrentSprite.BEAM_CORE_X_EYE_ROTATION;
     targetY = gSamusData.yPosition - BLOCK_TO_SUB_PIXEL(1.125f);
     targetX = gSamusData.xPosition;
     spriteY = gSpriteData[primary].yPosition;
@@ -609,7 +625,7 @@ void BeamCoreXEyeHandleRotation(void)
     }
 #endif
 
-    gCurrentSprite.work1 = oamRotation;
+    gCurrentSprite.BEAM_CORE_X_EYE_ROTATION = oamRotation;
     gSpriteData[shellSlot].rotation = oamRotation;
     gCurrentSprite.rotation = oamRotation;
 
@@ -665,7 +681,7 @@ void BeamCoreXEyeClosed(void)
 {
     BeamCoreXEyeHandleRotation();
 
-    if (--gCurrentSprite.work2 == 0)
+    if (--gCurrentSprite.BEAM_CORE_X_EYE_TIMER == 0)
     {
         gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
         gCurrentSprite.pOam = sBeamCoreXEyeOam_Opening;
@@ -686,7 +702,7 @@ void BeamCoreXEyeOpening(void)
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
         gCurrentSprite.pose = 0x1a;
-        gCurrentSprite.work2 = 160;
+        gCurrentSprite.BEAM_CORE_X_EYE_TIMER = 160;
     }
 }
 
@@ -709,18 +725,18 @@ void BeamCoreXEyeOpened(void)
     if (SPRITE_GET_ISFT(gCurrentSprite) >= 5)
     {
         ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_EXPLOSION_7);
-        gCurrentSprite.work2 = 1;
+        gCurrentSprite.BEAM_CORE_X_EYE_TIMER = 1;
     }
 
     BeamCoreXEyeHandleRotation();
 
-    if (gCurrentSprite.work2 == 110)
+    if (gCurrentSprite.BEAM_CORE_X_EYE_TIMER == 110)
     {
         gCurrentSprite.pOam = sBeamCoreXEyeOam_Charging1;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
     }
-    else if (gCurrentSprite.work2 == 60)
+    else if (gCurrentSprite.BEAM_CORE_X_EYE_TIMER == 60)
     {
         gCurrentSprite.pOam = sBeamCoreXEyeOam_Charging2;
         gCurrentSprite.animationDurationCounter = 0;
@@ -728,15 +744,15 @@ void BeamCoreXEyeOpened(void)
         SpriteSpawnSecondary(SSPRITE_4D, gCurrentSprite.roomSlot, gCurrentSprite.spritesetGfxSlot,
             gSpriteData[gCurrentSprite.roomSlot].roomSlot, gCurrentSprite.yPosition, gCurrentSprite.xPosition, 0);
     }
-    else if (gCurrentSprite.work2 < 60 && MOD_AND(gCurrentSprite.work2, 4) == 0)
+    else if (gCurrentSprite.BEAM_CORE_X_EYE_TIMER < 60 && MOD_AND(gCurrentSprite.BEAM_CORE_X_EYE_TIMER, 4) == 0)
     {
-        if (gCurrentSprite.work2 & 4)
+        if (gCurrentSprite.BEAM_CORE_X_EYE_TIMER & 4)
             gSpriteData[primary].paletteRow = 2;
         else
             gSpriteData[primary].paletteRow = 0;
     }
 
-    if (--gCurrentSprite.work2 == 0)
+    if (--gCurrentSprite.BEAM_CORE_X_EYE_TIMER == 0)
     {
         gCurrentSprite.pOam = sBeamCoreXEyeOam_Opened;
         gCurrentSprite.animationDurationCounter = 0;
@@ -744,20 +760,20 @@ void BeamCoreXEyeOpened(void)
 
         if (SPRITE_GET_ISFT(gCurrentSprite) == 5)
         {
-            gCurrentSprite.work2 = 1;
+            gCurrentSprite.BEAM_CORE_X_EYE_TIMER = 1;
             gCurrentSprite.status |= SPRITE_STATUS_IGNORE_PROJECTILES;
         }
         else
         {
-            gCurrentSprite.work2 = 30;
+            gCurrentSprite.BEAM_CORE_X_EYE_TIMER = 30;
         }
 
         gCurrentSprite.pose = 0x1c;
-        gSpriteData[primary].work0++;
+        gSpriteData[primary].BEAM_CORE_X_SHOOTING++;
         gSpriteData[primary].paletteRow = 0;
         y = gCurrentSprite.yPosition;
         x = gCurrentSprite.xPosition;
-        rotation = gCurrentSprite.work1;
+        rotation = gCurrentSprite.BEAM_CORE_X_EYE_ROTATION;
 
         if (rotation < Q_8_8(1.f / 4) || rotation >= Q_8_8(3.f / 4))
             xFlip = SPRITE_STATUS_X_FLIP;
@@ -810,8 +826,8 @@ void BeamCoreXEyeOpened(void)
         firstBeam = SpriteSpawnSecondary(beamSpriteId, 0, 10, primary, y, x, xFlip);
         if (firstBeam == UCHAR_MAX)
             return;
-        gSpriteData[firstBeam].work0 = direction;
-        gSpriteData[firstBeam].work1 = 0;
+        gSpriteData[firstBeam].CORE_X_BEAM_DIRECTION = direction;
+        gSpriteData[firstBeam].CORE_X_BEAM_TIMER = 0;
 
         secondBeam = SpriteSpawnSecondary(beamSpriteId, 1, 10, firstBeam, y, x, xFlip);
         if (secondBeam == UCHAR_MAX)
@@ -819,8 +835,8 @@ void BeamCoreXEyeOpened(void)
             gSpriteData[firstBeam].status = 0;
             return;
         }
-        gSpriteData[secondBeam].work0 = direction;
-        gSpriteData[secondBeam].work1 = 0;
+        gSpriteData[secondBeam].CORE_X_BEAM_DIRECTION = direction;
+        gSpriteData[secondBeam].CORE_X_BEAM_TIMER = 0;
 
         thirdBeam = SpriteSpawnSecondary(beamSpriteId, 2, 10, firstBeam, y, x, xFlip);
         if (thirdBeam == UCHAR_MAX)
@@ -829,8 +845,8 @@ void BeamCoreXEyeOpened(void)
             gSpriteData[secondBeam].status = 0;
             return;
         }
-        gSpriteData[thirdBeam].work0 = direction;
-        gSpriteData[thirdBeam].work1 = 0;
+        gSpriteData[thirdBeam].CORE_X_BEAM_DIRECTION = direction;
+        gSpriteData[thirdBeam].CORE_X_BEAM_TIMER = 0;
     }
 }
 
@@ -839,17 +855,17 @@ void BeamCoreXEyeShooting(void)
     if (!(gCurrentSprite.status & SPRITE_STATUS_IGNORE_PROJECTILES) && SPRITE_GET_ISFT(gCurrentSprite) >= 5)
     {
         ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_EXPLOSION_7);
-        gCurrentSprite.work2 = 1;
+        gCurrentSprite.BEAM_CORE_X_EYE_TIMER = 1;
     }
 
-    if (--gCurrentSprite.work2 == 0)
+    if (--gCurrentSprite.BEAM_CORE_X_EYE_TIMER == 0)
     {
         gCurrentSprite.status |= SPRITE_STATUS_IGNORE_PROJECTILES;
         gCurrentSprite.pOam = sBeamCoreXEyeOam_Closing;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
         gCurrentSprite.pose = 0x1e;
-        gSpriteData[gCurrentSprite.primarySpriteRamSlot].work0 = FALSE;
+        gSpriteData[gCurrentSprite.primarySpriteRamSlot].BEAM_CORE_X_SHOOTING = FALSE;
     }
 }
 
@@ -860,7 +876,7 @@ void BeamCoreXEyeClosing(void)
     if (SpriteUtilHasCurrentAnimationEnded())
     {
         gCurrentSprite.pose = 2;
-        gCurrentSprite.work2 = 100;
+        gCurrentSprite.BEAM_CORE_X_EYE_TIMER = 100;
         gCurrentSprite.pOam = sBeamCoreXEyeOam_Closed;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
@@ -883,7 +899,7 @@ void BeamCoreXGlowingInit(void)
     gCurrentSprite.pOam = sBeamCoreXGlowingOam;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work1 = 60;
+    gCurrentSprite.BEAM_CORE_X_GLOWING_TIMER = 60;
     gCurrentSprite.samusCollision = SSC_NONE;
     gCurrentSprite.pose = 2;
 
@@ -906,7 +922,7 @@ void BeamCoreXGlowingIdle(void)
         gCurrentSprite.yPosition = gSpriteData[eye].yPosition;
         gCurrentSprite.xPosition = gSpriteData[eye].xPosition;
 
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.BEAM_CORE_X_GLOWING_TIMER == 0)
             gCurrentSprite.status = 0;
     }
 }
@@ -1054,7 +1070,7 @@ void CoreXChargeBeamInit(void)
 
     if (gCurrentSprite.roomSlot > 0)
     {
-        switch (gCurrentSprite.work0)
+        switch (gCurrentSprite.CORE_X_BEAM_DIRECTION)
         {
             case ACD_DIAGONAL_DOWN:
                 gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
@@ -1081,7 +1097,7 @@ void CoreXChargeBeamInit(void)
         SoundPlay(SOUND_CHARGE_BEAM_FIRE);
         gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
 
-        switch (gCurrentSprite.work0)
+        switch (gCurrentSprite.CORE_X_BEAM_DIRECTION)
         {
             case ACD_DIAGONAL_DOWN:
                 gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
@@ -1175,7 +1191,7 @@ void CoreXWideBeamInit(void)
     gCurrentSprite.hitboxRight = BLOCK_TO_SUB_PIXEL(0.25f);
     gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
 
-    switch (gCurrentSprite.work0)
+    switch (gCurrentSprite.CORE_X_BEAM_DIRECTION)
     {
         case ACD_DIAGONAL_DOWN:
             gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
@@ -1249,7 +1265,7 @@ void CoreXPlasmaBeaminit(void)
     gCurrentSprite.hitboxRight = BLOCK_TO_SUB_PIXEL(0.1875f);
     gCurrentSprite.status &= 0xfffb;
 
-    switch (gCurrentSprite.work0)
+    switch (gCurrentSprite.CORE_X_BEAM_DIRECTION)
     {
         case ACD_DIAGONAL_DOWN:
             gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
@@ -1330,7 +1346,7 @@ void CoreXWaveIceBeamInit(void)
     gCurrentSprite.hitboxRight = BLOCK_TO_SUB_PIXEL(0.25f);
     gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
 
-    switch (gCurrentSprite.work0)
+    switch (gCurrentSprite.CORE_X_BEAM_DIRECTION)
     {
         case ACD_DIAGONAL_DOWN:
             gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
@@ -1393,5 +1409,5 @@ void CoreXWaveIceBeam(void)
     }
 
     // Possibly a leftover when converting Samus's wave beam handler to core-X
-    gCurrentSprite.work1++;
+    gCurrentSprite.CORE_X_BEAM_TIMER++;
 }
