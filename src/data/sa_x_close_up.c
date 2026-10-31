@@ -370,7 +370,7 @@ const struct FrameData sFileSelectSamusHeadOam2[9] = {
     { sOamFrame_73f752, 30 },
     FRAME_DATA_TERMINATOR
 };
-const struct FrameData sFileSelectDeleteArrowIdleOam[2] = {
+const struct FrameData sFileSelectCopyArrowIdleOam[2] = {
     { sOamFrame_73f792, 4 },
     FRAME_DATA_TERMINATOR
 };

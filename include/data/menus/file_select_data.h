@@ -38,7 +38,7 @@ extern const struct FrameData sFileSelectFilePanelOam2[];
 extern const struct FrameData sFileSelectFilePanelOam3[];
 extern const struct FrameData sFileSelectSamusHeadOam1[];
 extern const struct FrameData sFileSelectSamusHeadOam2[];
-extern const struct FrameData sFileSelectDeleteArrowIdleOam[];
+extern const struct FrameData sFileSelectCopyArrowIdleOam[];
 extern const struct FrameData sFileSelectCursorOam1[];
 extern const struct FrameData sFileSelectCursorOam2[];
 extern const struct FrameData sFileSelectOam_740b98[];
@@ -50,7 +50,7 @@ extern const u16 sFileSelectBgPal[16 * PAL_ROW];
 // Defined in src/new_file_intro.c
 
 extern const struct FrameData* const sFileSelectFileOverlayOam[5];
-extern const struct FrameData* const sFileSelectDeleteArrowOam[3][3];
+extern const struct FrameData* const sFileSelectCopyArrowOam[3][3];
 extern const u16* const* const sFileSelectTextTileOffsets[LANGUAGE_COUNT];
 extern const struct FrameData* const sFileSelectAreaNameOam[][7];
 extern const u16* const* const sFileSelectTexts[LANGUAGE_COUNT];

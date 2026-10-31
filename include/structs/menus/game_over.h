@@ -15,7 +15,7 @@ struct GameOverOam {
     u8 currentAnimationFrame;
     u8 animationDurationCounter;
     u8 unk_8;
-    u8 unk_9;
+    u8 stage;
     u8 objMode;
     u8 priority;
     u8 xFlip;
