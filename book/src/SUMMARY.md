@@ -11,6 +11,7 @@
 - [Shiftability](shiftability.md)
 - [Emulator tests](emu-tests.md)
 - [Performance: lag in boss fights](performance.md)
+  - [Measuring lag on real hardware](lag-meter.md)
 
 # Research
 

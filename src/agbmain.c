@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "syscalls.h"
 #include "profile.h"
+#include "lagmeter.h"
 
 #include "constants/demo.h"
 #include "constants/sprite.h"
@@ -17,6 +18,9 @@ void AgbMain(void)
 
     while (TRUE)
     {
+#ifdef LAGMETER
+        LagMeterStartFrame();
+#endif
 #ifdef PROFILE
         gProfile.loopStart = ProfileReadTimer();
 #endif
@@ -364,6 +368,9 @@ void AgbMain(void)
 
 #ifdef PROFILE
         ProfileEndFrame();
+#endif
+#ifdef LAGMETER
+        LagMeterEndFrame();
 #endif
         gVBlankRequestFlag &= ~1;
         do {

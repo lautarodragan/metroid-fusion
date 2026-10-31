@@ -73,7 +73,11 @@ endif
 #                 them, or a list of names enables some (e.g.
 #                 OPTIMIZE="PROJ_HIT DRAW_ORDER"), each one as
 #                 -DOPTIMIZE_<name>
+#   LAGMETER=1    lag meter for real hardware: on-screen lag counter and a
+#                 per-room log in save memory (include/lagmeter.h,
+#                 tools/lagmeter_report.py), *_lagmeter.gba
 PROFILE ?= 0
+LAGMETER ?= 0
 OPTIMIZE ?= 0
 # OPTIMIZE=1: the changes worth having (IWRAM is opt-in: OPTIMIZE="PROJ_HIT DRAW_ORDER IWRAM",
 # about 1% of a frame for 3 KB of IWRAM, see book/src/performance.md)
@@ -95,6 +99,10 @@ ifneq ($(OPTIMIZE),0)
 	endif
 	VARIANT_CPPFLAGS += -DOPTIMIZE $(addprefix -DOPTIMIZE_,$(OPTIMIZE_NAMES))
 	TARGET := $(TARGET)_opt
+endif
+ifeq ($(LAGMETER),1)
+	VARIANT_CPPFLAGS += -DLAGMETER
+	TARGET := $(TARGET)_lagmeter
 endif
 CPPFLAGS += $(VARIANT_CPPFLAGS)
 # Holds the variant flags of the last build (see the rule of %.s below)
@@ -282,6 +290,7 @@ help:
 	@echo '  SHIFT=1: link a shift test ROM (*_shifted.gba) with SHIFT_AMOUNT (default 0x100) bytes of padding in the code and data'
 	@echo '  PROFILE=1|2: non-matching build with a cycle profiler, frame totals or detailed (*_profile.gba, *_profile2.gba)'
 	@echo '  OPTIMIZE=1|"NAME ...": non-matching build with performance changes (*_opt.gba)'
+	@echo '  LAGMETER=1: non-matching build with a lag counter and a per-room lag log in SRAM (*_lagmeter.gba)'
 
 $(TARGET): $(ELF)
 	$(MSG) OBJCOPY $@
@@ -322,8 +331,8 @@ ifneq ($(SETUP_PREREQS),0)
 endif
 $(CSRC:.c=.s): $(FLAGS_STAMP)
 # (there is no header dependency tracking; the variant headers are the exception)
-VARIANT_HEADERS = include/profile.h include/optimize.h
-$(patsubst %.c,%.s,$(shell grep -l -e '"profile.h"' -e '"optimize.h"' $(CSRC) 2>/dev/null)): $(wildcard $(VARIANT_HEADERS))
+VARIANT_HEADERS = include/profile.h include/optimize.h include/lagmeter.h
+$(patsubst %.c,%.s,$(shell grep -l -e '"profile.h"' -e '"optimize.h"' -e '"lagmeter.h"' $(CSRC) 2>/dev/null)): $(wildcard $(VARIANT_HEADERS))
 $(FLAGS_STAMP):
 	$Qtouch -t 197001010000 $@
 

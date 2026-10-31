@@ -1,4 +1,5 @@
 #include "softreset.h"
+#include "lagmeter.h"
 #include "globals.h"
 #include "macros.h"
 #include "gba.h"
@@ -77,4 +78,9 @@ void SoftReset(void)
     gButtonInput = KEY_NONE;
     gButtonInputCopy = KEY_NONE;
     gChangedInput = KEY_NONE;
+
+#ifdef LAGMETER
+    // IWRAM was cleared
+    LagMeterInit();
+#endif
 }
