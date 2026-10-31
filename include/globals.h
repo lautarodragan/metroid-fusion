@@ -10,6 +10,7 @@
 #include "structs/intro.h"
 #include "structs/menus/game_over.h"
 #include "structs/menus/file_select.h"
+#include "structs/cutscene_data.h"
 
 struct InGameData {
     u8 clipdataCode[640];
@@ -25,6 +26,7 @@ union NonGameplayRam {
     struct EndingData ending;
     struct GameOverData gameOver;
     struct FileSelectData fileSelect;
+    struct CutsceneMonologueData cutsceneMonologue;
     u8 size[1344];
 };
 
