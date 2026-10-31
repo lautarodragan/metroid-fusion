@@ -48,7 +48,7 @@ extern const u16 sCutsceneBslSpaceObjPal[];
 extern const u32 sCutsceneBslSpaceTilemap_681a1c[];
 extern const u32 sCutsceneBslSpaceTilemap_6820a4[];
 extern const u16 sCutsceneBslSpaceBgPal[];
-extern const u8 sCutsceneOamTileWidths[3][4];
+extern const u8 sCutsceneMonologueOamXFlipOffsets[3][4];
 extern const u32 sCutsceneBslExplodingBg2Tilemap[];
 extern const u32 sCutsceneBslExplodingBg3Tilemap[];
 extern const u16 sCutsceneRestrictedLabDetachingObjRow0CyclePal[];

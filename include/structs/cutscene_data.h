@@ -88,8 +88,8 @@ struct CutsceneMonologueData {
     u16 timer;                      // 0x10
     u16 bg2YPosition;               // 0x12
     u16 bg1YPosition;               // 0x14
-    u8 unk_16;                      // 0x16
-    u8 unk_17;                      // 0x17
+    u8 fadeTimer;                   // 0x16, delay between the screen fade steps
+    u8 textUpdateState;             // 0x17, 1: draw the next character, 100: idle
     u8 indent;                      // 0x18
     u8 unk_19[3];
     u8 tilesFadeStage[9][CUTSCENE_MONOLOGUE_LINE_LENGTH];  // 0x1C
@@ -98,11 +98,12 @@ struct CutsceneMonologueData {
 };
 
 #define CUTSCENE_DATA (*(struct CutsceneData*)&gNonGameplayRam)
-// IWRAM byte (no symbol yet), likely flags used when drawing affine cutscene OAM
-#define CUTSCENE_UNK_3001238 (*(u8*)0x03001238)
+// Next free OAM affine matrix (0-31, bits 3-4 go in the xFlip/yFlip bits of the OAM entry), reset after drawing.
+// Accessed through its literal address in CutsceneDrawAllOam (needed to match)
+#define NEXT_OAM_MATRIX_SLOT_RAW (*(u8*)0x03001238)
 
-// Same IWRAM byte as CUTSCENE_UNK_3001238, through its linker symbol
-extern u8 gUnk_3001238;
+// Same IWRAM byte as NEXT_OAM_MATRIX_SLOT_RAW, through its linker symbol
+extern u8 gNextOamMatrixSlot;
 
 #define CUTSCENE_MONOLOGUE_DATA gNonGameplayRam.cutsceneMonologue
 

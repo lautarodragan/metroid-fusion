@@ -18,7 +18,7 @@
 #include "data/sprite_data.h"
 #include "data/audio.h"
 
-void unk_99940(void); // For V-blank callback
+void SpecialCutsceneLoadingVblank(void); // For V-blank callback
 u8 SpecialCutsceneGetRandomNumber(void);
 
 void unk_93884(void);
@@ -45,7 +45,7 @@ void unk_9209c(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
@@ -254,7 +254,7 @@ void IntroShipAlertInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
@@ -410,7 +410,7 @@ void IntroSamusDriftingOutInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
@@ -505,7 +505,7 @@ boolu32 IntroSamusDriftingOutProcess(void)
                 INTRO_DATA.timer = 0;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
             {
                 xPosition = SpecialCutsceneGetRandomNumber();
                 yPosition = SpecialCutsceneGetRandomNumber();
@@ -520,7 +520,7 @@ boolu32 IntroSamusDriftingOutProcess(void)
             if (INTRO_DATA.timer == CONVERT_SECONDS(2.f + 1.f / 3))
                 PlayMusic(MUSIC_PRE_TITLE_END, 15);
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
             {
                 xPosition = SpecialCutsceneGetRandomNumber();
                 yPosition = SpecialCutsceneGetRandomNumber();
@@ -532,7 +532,7 @@ boolu32 IntroSamusDriftingOutProcess(void)
             break;
 
         case 3:
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
             {
                 xPosition = SpecialCutsceneGetRandomNumber();
                 yPosition = SpecialCutsceneGetRandomNumber();
@@ -930,7 +930,7 @@ void IntroProcessDriftingShip(struct SpecialCutsceneOam* pOam)
         if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -1052,13 +1052,13 @@ void IntroProcessDepthParticle(struct SpecialCutsceneOam* pOam)
             if ((u16)(x + 128) > 256 || (s16)y > 168 || (s16)y < -8)
             {
                 pOam->type = 0;
-                pOam->unk_18_0 = 0;
+                pOam->exists = 0;
             }
         }
         else
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 
@@ -1105,7 +1105,7 @@ void unk_93300(struct SpecialCutsceneOam* pOam)
         pOam->unk_A++;
         if (pOam->unk_A == pOam->unk_8)
         {
-            pOam->unk_18_0 = 1;
+            pOam->exists = 1;
             pOam->stage = 1;
             SoundPlay(SOUND_1F1);
         }
@@ -1128,7 +1128,7 @@ void unk_93334(struct SpecialCutsceneOam* pOam)
     if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
     {
         pOam->type = 0;
-        pOam->unk_18_0 = 0;
+        pOam->exists = 0;
     }
 }
 
@@ -1144,7 +1144,7 @@ void IntroOamProcessBigChangingNumber(struct SpecialCutsceneOam* pOam)
         pOam->unk_A++;
         if (pOam->unk_A == pOam->unk_8)
         {
-            pOam->unk_18_0 = 1;
+            pOam->exists = 1;
             pOam->stage = 1;
         }
     }
@@ -1191,11 +1191,11 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     INTRO_DATA.oam[slot].xPosition = xPosition;
     INTRO_DATA.oam[slot].yPosition = yPosition;
     INTRO_DATA.oam[slot].type = type;
-    INTRO_DATA.oam[slot].unk_18_0 = 1;
+    INTRO_DATA.oam[slot].exists = 1;
 
     if (type == 1)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pFunction = unk_92d0c;
     }
     else if (type == 10)
@@ -1209,7 +1209,7 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     }
     else if (type == 11)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSpawning;
     }
@@ -1269,37 +1269,37 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     }
     else if (type == 24)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65bf10;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 25)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c0d0;
         INTRO_DATA.oam[slot].pFunction = unk_93300;
     }
     else if (type == 26)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c128;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 27)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c180;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 28)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c1d8;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 29)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c230;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
@@ -1380,7 +1380,7 @@ void IntroSpaceViewInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DoSoundAction(0x1000000);
     StopAllMusicAndSounds();
@@ -1470,7 +1470,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 1;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 64 && INTRO_DATA.unk_215 < 14)
+            if (SpecialCutsceneGetRandomNumber() < 64 && INTRO_DATA.activeOamCount < 14)
                 IntroSpaceViewSetupOam(5, SpecialCutsceneGetRandomNumber(), SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1485,7 +1485,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 2;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 12)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 12)
                 IntroSpaceViewSetupOam(5, 0, SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1499,7 +1499,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 3;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 12)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 12)
                 IntroSpaceViewSetupOam(5, 0, SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1517,7 +1517,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 5;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 12)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 12)
                 IntroSpaceViewSetupOam(5, 0, SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1625,7 +1625,7 @@ void IntroFlyingViewInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
@@ -1711,7 +1711,7 @@ boolu32 IntroFlyingViewProcess(void)
             break;
 
         case 1:
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
                 IntroSpaceViewSetupOam(16, SpecialCutsceneGetRandomNumber(), SpecialCutsceneGetRandomNumber(), FALSE);
 
             if (INTRO_DATA.timer == CONVERT_SECONDS(5.f))
@@ -1935,7 +1935,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
     {
         pOam->currentAnimationFrame += pOam->xPosition - pOam->unk_4;
 
-        status = pOam->unk_1A_4;
+        status = pOam->paletteOffset;
         if (status == 0)
         {
             if (pOam->currentAnimationFrame >= 8)
@@ -1948,7 +1948,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
                 if (pOam->animationDurationCounter == 32)
                 {
                     pOam->animationDurationCounter = 0;
-                    pOam->unk_1A_4 = 1;
+                    pOam->paletteOffset = 1;
                 }
             }
         }
@@ -1962,7 +1962,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
                 if (pOam->animationDurationCounter == 32)
                 {
                     pOam->animationDurationCounter = 0;
-                    pOam->unk_1A_4 = 10;
+                    pOam->paletteOffset = 10;
                 }
             }
         }
@@ -2045,7 +2045,7 @@ void IntroProcessSamusSHipEntering(struct SpecialCutsceneOam* pOam)
         if (pOam->timer == 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 
@@ -2072,7 +2072,7 @@ void IntroProcessSplashText(struct SpecialCutsceneOam* pOam)
     if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
     {
         pOam->type = 0;
-        pOam->unk_18_0 = 0;
+        pOam->exists = 0;
     }
 }
 
@@ -2119,7 +2119,7 @@ void IntroProcessSpaceViewParticle(struct SpecialCutsceneOam* pOam)
     if (pOam->xPosition >= SCREEN_SIZE_X || pOam->yPosition >= SCREEN_SIZE_Y)
     {
         pOam->type = 0;
-        pOam->unk_18_0 = 0;
+        pOam->exists = 0;
     }
 }
 
@@ -2261,13 +2261,13 @@ void IntroProcessIdleDepthParticle(struct SpecialCutsceneOam* pOam)
             if ((u16)(x + 128) > 256 || (s16)y > 168 || (s16)y < -8)
             {
                 pOam->type = 0;
-                pOam->unk_18_0 = 0;
+                pOam->exists = 0;
             }
         }
         else
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 
@@ -2315,16 +2315,16 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     INTRO_DATA.oam[slot].xPosition = xPosition;
     INTRO_DATA.oam[slot].yPosition = yPosition;
     INTRO_DATA.oam[slot].type = type;
-    INTRO_DATA.oam[slot].unk_18_0 = 1;
+    INTRO_DATA.oam[slot].exists = 1;
 
     if (type == 1)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessSpaceViewScrolling;
     }
     else if (type == 2)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSideways;
     }
     else if (type == 3)
@@ -2358,7 +2358,7 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     }
     else if (type == 11)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSpawning_2;
     }

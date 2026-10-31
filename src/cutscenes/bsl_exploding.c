@@ -365,7 +365,7 @@ u8 CutsceneBslExplodingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 de
     {
         CUTSCENE_DATA.oam[slot].priority = 2;
         CUTSCENE_DATA.oam[slot].pOam = sCutsceneBslExplodingOam_680ffc;
-        CUTSCENE_DATA.oam[slot].pFunction = unk_9db70;
+        CUTSCENE_DATA.oam[slot].pFunction = CutsceneOam_Empty;
     }
     else if (type == 21)
     {

@@ -21,7 +21,7 @@ void PlayCharacterAppearingSound();
  * @brief 98158 | 134 | Fades in the monologue text tiles that are still appearing
  *
  */
-void unk_98158(void)
+void SpecialCutsceneUpdateTextTilesFade(void)
 {
     u16 col;
     u16 end;
@@ -34,22 +34,22 @@ void unk_98158(void)
     // Declared last: the pseudo register numbering affects which spill slots gcse's temporaries get
     u16 row;
 
-    col = INTRO_DATA.unk_10;
+    col = INTRO_DATA.fadeColumn;
 
-    row = INTRO_DATA.unk_12 / 2;
-    while (row <= INTRO_DATA.unk_E / 2)
+    row = INTRO_DATA.fadeLine / 2;
+    while (row <= INTRO_DATA.currentLine / 2)
     {
         if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
         {
-            if (INTRO_DATA.unk_C < MONOLOGUE_LINE_LENGTH)
-                end = INTRO_DATA.unk_C + 1;
+            if (INTRO_DATA.currentColumn < MONOLOGUE_LINE_LENGTH)
+                end = INTRO_DATA.currentColumn + 1;
             else
                 end = MONOLOGUE_LINE_LENGTH;
         }
-        else if (row == INTRO_DATA.unk_E / 2)
+        else if (row == INTRO_DATA.currentLine / 2)
         {
-            if (INTRO_DATA.unk_C < MONOLOGUE_LINE_LENGTH)
-                end = INTRO_DATA.unk_C;
+            if (INTRO_DATA.currentColumn < MONOLOGUE_LINE_LENGTH)
+                end = INTRO_DATA.currentColumn;
             else
                 end = MONOLOGUE_LINE_LENGTH;
         }
@@ -60,9 +60,9 @@ void unk_98158(void)
 
         for (; col < end; col++)
         {
-            if (INTRO_DATA_ARRAYS.unk_110[col + row * MONOLOGUE_LINE_LENGTH] == 5)
+            if (INTRO_TEXT_TILES_FADE.tilesFadeTimer[col + row * MONOLOGUE_LINE_LENGTH] == 5)
             {
-                INTRO_DATA_ARRAYS.unk_110[col + row * MONOLOGUE_LINE_LENGTH] = 0;
+                INTRO_TEXT_TILES_FADE.tilesFadeTimer[col + row * MONOLOGUE_LINE_LENGTH] = 0;
                 INTRO_TEXT_TILE_DELAY[col + row * MONOLOGUE_LINE_LENGTH]--;
 
                 if ((s8)INTRO_TEXT_TILE_DELAY[col + row * MONOLOGUE_LINE_LENGTH] > 0)
@@ -82,8 +82,8 @@ void unk_98158(void)
                 }
                 else if ((s8)INTRO_TEXT_TILE_DELAY[col + row * MONOLOGUE_LINE_LENGTH] == 0)
                 {
-                    INTRO_DATA.unk_10 = col;
-                    INTRO_DATA.unk_12 = row * 2;
+                    INTRO_DATA.fadeColumn = col;
+                    INTRO_DATA.fadeLine = row * 2;
                 }
                 else
                 {
@@ -93,7 +93,7 @@ void unk_98158(void)
             }
             else
             {
-                INTRO_DATA_ARRAYS.unk_110[col + row * MONOLOGUE_LINE_LENGTH]++;
+                INTRO_TEXT_TILES_FADE.tilesFadeTimer[col + row * MONOLOGUE_LINE_LENGTH]++;
             }
         }
 
@@ -114,100 +114,100 @@ boolu32 EndingProcessAdamText(void)
     u32* dst;
 
     finished = FALSE;
-    INTRO_DATA.unk_20C++;
+    INTRO_DATA.textTimer++;
 
     if (*INTRO_DATA.pText == CHAR_TERMINATOR)
     {
-        if (INTRO_DATA.unk_20C > 15)
+        if (INTRO_DATA.textTimer > 15)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
+            INTRO_DATA.indent = 0;
             finished = TRUE;
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEW_LINE)
     {
-        if (INTRO_DATA.unk_E < 2)
+        if (INTRO_DATA.currentLine < 2)
         {
-            if (INTRO_DATA.unk_20C > 5)
+            if (INTRO_DATA.textTimer > 5)
             {
-                INTRO_DATA.unk_20C = 0;
-                INTRO_DATA.unk_E = 2;
-                INTRO_DATA.unk_C = 0;
-                INTRO_DATA.unk_212 = 0;
+                INTRO_DATA.textTimer = 0;
+                INTRO_DATA.currentLine = 2;
+                INTRO_DATA.currentColumn = 0;
+                INTRO_DATA.indent = 0;
                 INTRO_DATA.pText++;
             }
         }
-        else if (INTRO_DATA.unk_20C > 125)
+        else if (INTRO_DATA.textTimer > 125)
         {
-            INTRO_DATA.unk_20C = 0;
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.textTimer = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
+            INTRO_DATA.indent = 0;
             INTRO_DATA.pText++;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEW_PAGE)
     {
-        if (INTRO_DATA.unk_20C > 15)
+        if (INTRO_DATA.textTimer > 15)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
             INTRO_DATA.pText++;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.indent = 0;
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
     {
-        INTRO_DATA.unk_20C = 0;
+        INTRO_DATA.textTimer = 0;
 
-        if (INTRO_DATA.unk_218 == 1)
+        if (INTRO_DATA.textAdvanceState == 1)
         {
             INTRO_DATA.pText++;
 
             if (*INTRO_DATA.pText == CHAR_NEW_PAGE)
-                INTRO_DATA.unk_218 = 2;
+                INTRO_DATA.textAdvanceState = 2;
             else if (*INTRO_DATA.pText == CHAR_TERMINATOR)
-                INTRO_DATA.unk_218 = 3;
+                INTRO_DATA.textAdvanceState = 3;
             else
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
         }
     }
     else if ((*INTRO_DATA.pText & CHAR_MASK) == CHAR_DELAY)
     {
-        if (LOW_BYTE(*INTRO_DATA.pText) <= INTRO_DATA.unk_20C)
+        if (LOW_BYTE(*INTRO_DATA.pText) <= INTRO_DATA.textTimer)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             INTRO_DATA.pText++;
         }
     }
-    else if (INTRO_DATA.unk_20C > 5)
+    else if (INTRO_DATA.textTimer > 5)
     {
-        INTRO_DATA.unk_20C = 0;
+        INTRO_DATA.textTimer = 0;
 
-        dst = VRAM_BASE + 0xD000 + (INTRO_DATA.unk_C * 32 + INTRO_DATA.unk_E * 0x400);
+        dst = VRAM_BASE + 0xD000 + (INTRO_DATA.currentColumn * 32 + INTRO_DATA.currentLine * 0x400);
         width = TextGetCharacterWidth(*INTRO_DATA.pText);
-        TextDrawCharacter(*INTRO_DATA.pText, dst, width, INTRO_DATA.unk_212, 0);
+        TextDrawCharacter(*INTRO_DATA.pText, dst, width, INTRO_DATA.indent, 0);
 
         if (*INTRO_DATA.pText != 0x40)
             PlayCharacterAppearingSound(*INTRO_DATA.pText, 1);
 
-        if (INTRO_DATA.unk_C < 32)
+        if (INTRO_DATA.currentColumn < 32)
         {
-            INTRO_DATA.unk_212 += width;
+            INTRO_DATA.indent += width;
 
-            while (INTRO_DATA.unk_212 >= 8)
+            while (INTRO_DATA.indent >= 8)
             {
-                INTRO_DATA.unk_212 -= 8;
-                INTRO_DATA.unk_C++;
+                INTRO_DATA.indent -= 8;
+                INTRO_DATA.currentColumn++;
 
-                if (INTRO_DATA.unk_C >= 32)
+                if (INTRO_DATA.currentColumn >= 32)
                     break;
             }
         }
@@ -230,112 +230,112 @@ boolu32 IntroProcessText(void)
     u32* dst;
 
     finished = FALSE;
-    INTRO_DATA.unk_20C++;
+    INTRO_DATA.textTimer++;
 
     if (*INTRO_DATA.pText == CHAR_TERMINATOR)
     {
-        if (INTRO_DATA.unk_20C > 12)
+        if (INTRO_DATA.textTimer > 12)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
+            INTRO_DATA.indent = 0;
             finished = TRUE;
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEW_LINE)
     {
-        if (INTRO_DATA.unk_E < 2)
+        if (INTRO_DATA.currentLine < 2)
         {
-            if (INTRO_DATA.unk_20C > 2)
+            if (INTRO_DATA.textTimer > 2)
             {
-                INTRO_DATA.unk_20C = 0;
-                INTRO_DATA.unk_E = 2;
-                INTRO_DATA.unk_C = 0;
-                INTRO_DATA.unk_212 = 0;
+                INTRO_DATA.textTimer = 0;
+                INTRO_DATA.currentLine = 2;
+                INTRO_DATA.currentColumn = 0;
+                INTRO_DATA.indent = 0;
                 INTRO_DATA.pText++;
             }
         }
-        else if (INTRO_DATA.unk_20C > 122)
+        else if (INTRO_DATA.textTimer > 122)
         {
-            INTRO_DATA.unk_20C = 0;
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.textTimer = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
+            INTRO_DATA.indent = 0;
             INTRO_DATA.pText++;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEW_PAGE)
     {
-        if (INTRO_DATA.unk_20C > 12)
+        if (INTRO_DATA.textTimer > 12)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
             INTRO_DATA.pText++;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.indent = 0;
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
     {
-        INTRO_DATA.unk_20C = 0;
+        INTRO_DATA.textTimer = 0;
 
-        if (INTRO_DATA.unk_218 == 1)
+        if (INTRO_DATA.textAdvanceState == 1)
         {
             INTRO_DATA.pText++;
 
             if (*INTRO_DATA.pText == CHAR_NEW_PAGE)
             {
-                INTRO_DATA.unk_218 = 2;
+                INTRO_DATA.textAdvanceState = 2;
             }
             else if (*INTRO_DATA.pText == CHAR_TERMINATOR)
             {
-                INTRO_DATA.unk_218 = 3;
+                INTRO_DATA.textAdvanceState = 3;
             }
             else if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
             {
                 INTRO_DATA.pText++;
 
                 if (*INTRO_DATA.pText == CHAR_TERMINATOR)
-                    INTRO_DATA.unk_218 = 3;
+                    INTRO_DATA.textAdvanceState = 3;
                 else
-                    INTRO_DATA.unk_218 = 4;
+                    INTRO_DATA.textAdvanceState = 4;
             }
             else
             {
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
             }
         }
     }
     else if ((*INTRO_DATA.pText & CHAR_MASK) == CHAR_DELAY)
     {
-        if (LOW_BYTE(*INTRO_DATA.pText) <= INTRO_DATA.unk_20C)
+        if (LOW_BYTE(*INTRO_DATA.pText) <= INTRO_DATA.textTimer)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             INTRO_DATA.pText++;
         }
     }
-    else if (INTRO_DATA.unk_20C > 2)
+    else if (INTRO_DATA.textTimer > 2)
     {
-        INTRO_DATA.unk_20C = 0;
+        INTRO_DATA.textTimer = 0;
 
-        dst = VRAM_BASE + 0xD000 + (INTRO_DATA.unk_C * 32 + INTRO_DATA.unk_E * 0x400);
+        dst = VRAM_BASE + 0xD000 + (INTRO_DATA.currentColumn * 32 + INTRO_DATA.currentLine * 0x400);
         width = TextGetCharacterWidth(*INTRO_DATA.pText);
-        TextDrawCharacter(*INTRO_DATA.pText, dst, width, INTRO_DATA.unk_212, 0);
+        TextDrawCharacter(*INTRO_DATA.pText, dst, width, INTRO_DATA.indent, 0);
 
-        if (INTRO_DATA.unk_C < 32)
+        if (INTRO_DATA.currentColumn < 32)
         {
-            INTRO_DATA.unk_212 += width;
+            INTRO_DATA.indent += width;
 
-            while (INTRO_DATA.unk_212 >= 8)
+            while (INTRO_DATA.indent >= 8)
             {
-                INTRO_DATA.unk_212 -= 8;
-                INTRO_DATA.unk_C++;
+                INTRO_DATA.indent -= 8;
+                INTRO_DATA.currentColumn++;
 
-                if (INTRO_DATA.unk_C >= 32)
+                if (INTRO_DATA.currentColumn >= 32)
                     break;
             }
         }
@@ -358,115 +358,115 @@ boolu32 NewFileIntroProcessAdamText(void)
     u32* dst;
 
     finished = FALSE;
-    INTRO_DATA.unk_20C++;
+    INTRO_DATA.textTimer++;
 
     if (*INTRO_DATA.pText == CHAR_TERMINATOR)
     {
-        if (INTRO_DATA.unk_20C > 12)
+        if (INTRO_DATA.textTimer > 12)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
+            INTRO_DATA.indent = 0;
             finished = TRUE;
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEW_LINE)
     {
-        if (INTRO_DATA.unk_E < 2)
+        if (INTRO_DATA.currentLine < 2)
         {
-            if (INTRO_DATA.unk_20C > 2)
+            if (INTRO_DATA.textTimer > 2)
             {
-                INTRO_DATA.unk_20C = 0;
-                INTRO_DATA.unk_E = 2;
-                INTRO_DATA.unk_C = 0;
-                INTRO_DATA.unk_212 = 0;
+                INTRO_DATA.textTimer = 0;
+                INTRO_DATA.currentLine = 2;
+                INTRO_DATA.currentColumn = 0;
+                INTRO_DATA.indent = 0;
                 INTRO_DATA.pText++;
             }
         }
-        else if (INTRO_DATA.unk_20C > 122)
+        else if (INTRO_DATA.textTimer > 122)
         {
-            INTRO_DATA.unk_20C = 0;
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.textTimer = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
+            INTRO_DATA.indent = 0;
             INTRO_DATA.pText++;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEW_PAGE)
     {
-        if (INTRO_DATA.unk_20C > 12)
+        if (INTRO_DATA.textTimer > 12)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             DMA3_FILL_32(0, VRAM_BASE + 0xD000, 0x1000);
-            INTRO_DATA.unk_E = 0;
-            INTRO_DATA.unk_C = 0;
+            INTRO_DATA.currentLine = 0;
+            INTRO_DATA.currentColumn = 0;
             INTRO_DATA.pText++;
-            INTRO_DATA.unk_212 = 0;
+            INTRO_DATA.indent = 0;
         }
     }
     else if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
     {
-        INTRO_DATA.unk_20C = 0;
+        INTRO_DATA.textTimer = 0;
 
-        if (INTRO_DATA.unk_218 == 1)
+        if (INTRO_DATA.textAdvanceState == 1)
         {
             INTRO_DATA.pText++;
 
             if (*INTRO_DATA.pText == CHAR_NEW_PAGE)
             {
-                INTRO_DATA.unk_218 = 2;
+                INTRO_DATA.textAdvanceState = 2;
             }
             else if (*INTRO_DATA.pText == CHAR_TERMINATOR)
             {
-                INTRO_DATA.unk_218 = 3;
+                INTRO_DATA.textAdvanceState = 3;
             }
             else if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
             {
                 INTRO_DATA.pText++;
 
                 if (*INTRO_DATA.pText == CHAR_TERMINATOR)
-                    INTRO_DATA.unk_218 = 3;
+                    INTRO_DATA.textAdvanceState = 3;
                 else
-                    INTRO_DATA.unk_218 = 4;
+                    INTRO_DATA.textAdvanceState = 4;
             }
             else
             {
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
             }
         }
     }
     else if ((*INTRO_DATA.pText & CHAR_MASK) == CHAR_DELAY)
     {
-        if (LOW_BYTE(*INTRO_DATA.pText) <= INTRO_DATA.unk_20C)
+        if (LOW_BYTE(*INTRO_DATA.pText) <= INTRO_DATA.textTimer)
         {
-            INTRO_DATA.unk_20C = 0;
+            INTRO_DATA.textTimer = 0;
             INTRO_DATA.pText++;
         }
     }
-    else if (INTRO_DATA.unk_20C > 2)
+    else if (INTRO_DATA.textTimer > 2)
     {
-        INTRO_DATA.unk_20C = 0;
+        INTRO_DATA.textTimer = 0;
 
-        dst = VRAM_BASE + 0xD000 + (INTRO_DATA.unk_C * 32 + INTRO_DATA.unk_E * 0x400);
+        dst = VRAM_BASE + 0xD000 + (INTRO_DATA.currentColumn * 32 + INTRO_DATA.currentLine * 0x400);
         width = TextGetCharacterWidth(*INTRO_DATA.pText);
-        TextDrawCharacter(*INTRO_DATA.pText, dst, width, INTRO_DATA.unk_212, 0);
+        TextDrawCharacter(*INTRO_DATA.pText, dst, width, INTRO_DATA.indent, 0);
 
         if (*INTRO_DATA.pText != 0x40)
             PlayCharacterAppearingSound(*INTRO_DATA.pText, 1);
 
-        if (INTRO_DATA.unk_C < 32)
+        if (INTRO_DATA.currentColumn < 32)
         {
-            INTRO_DATA.unk_212 += width;
+            INTRO_DATA.indent += width;
 
-            while (INTRO_DATA.unk_212 >= 8)
+            while (INTRO_DATA.indent >= 8)
             {
-                INTRO_DATA.unk_212 -= 8;
-                INTRO_DATA.unk_C++;
+                INTRO_DATA.indent -= 8;
+                INTRO_DATA.currentColumn++;
 
-                if (INTRO_DATA.unk_C >= 32)
+                if (INTRO_DATA.currentColumn >= 32)
                     break;
             }
         }
@@ -545,41 +545,41 @@ void Dma3Clear_Unused(u8* dst, u32 size, u16 nbrRows)
  * @brief 98a04 | 9c | Updates palette animation timers
  * 
  */
-void unk_98a04(void)
+void SpecialCutsceneUpdatePaletteAnimations_Unused(void)
 {
     u8 i;
 
     for (i = 0; i < 4; i++)
     {
-        if (INTRO_DATA_ARRAYS.unk_110[i] <= INTRO_DATA_ARRAYS.unk_12C[i])
+        if (INTRO_DATA_ARRAYS.paletteAnimDelay[i] <= INTRO_DATA_ARRAYS.paletteAnimTimer[i])
         {
-            INTRO_DATA_ARRAYS.unk_12C[i] = 0;
-            INTRO_DATA_ARRAYS.unk_164[i] = 1;
+            INTRO_DATA_ARRAYS.paletteAnimTimer[i] = 0;
+            INTRO_DATA_ARRAYS.paletteAnimUpdate[i] = 1;
 
-            if (INTRO_DATA_ARRAYS.unk_148[i] < 38)
-                INTRO_DATA_ARRAYS.unk_148[i]++;
+            if (INTRO_DATA_ARRAYS.paletteAnimFrame[i] < 38)
+                INTRO_DATA_ARRAYS.paletteAnimFrame[i]++;
             else
-                INTRO_DATA_ARRAYS.unk_148[i] = 0;
+                INTRO_DATA_ARRAYS.paletteAnimFrame[i] = 0;
         }
         else
         {
-            INTRO_DATA_ARRAYS.unk_12C[i]++;
+            INTRO_DATA_ARRAYS.paletteAnimTimer[i]++;
         }
     }
 
-    if (INTRO_DATA_ARRAYS.unk_110[10] <= INTRO_DATA_ARRAYS.unk_12C[10])
+    if (INTRO_DATA_ARRAYS.paletteAnimDelay[10] <= INTRO_DATA_ARRAYS.paletteAnimTimer[10])
     {
-        INTRO_DATA_ARRAYS.unk_12C[10] = 0;
-        INTRO_DATA_ARRAYS.unk_164[10] = 1;
+        INTRO_DATA_ARRAYS.paletteAnimTimer[10] = 0;
+        INTRO_DATA_ARRAYS.paletteAnimUpdate[10] = 1;
 
-        if (INTRO_DATA_ARRAYS.unk_148[10] < 15)
-            INTRO_DATA_ARRAYS.unk_148[10]++;
+        if (INTRO_DATA_ARRAYS.paletteAnimFrame[10] < 15)
+            INTRO_DATA_ARRAYS.paletteAnimFrame[10]++;
         else
-            INTRO_DATA_ARRAYS.unk_148[10] = 0;
+            INTRO_DATA_ARRAYS.paletteAnimFrame[10] = 0;
     }
     else
     {
-        INTRO_DATA_ARRAYS.unk_12C[10]++;
+        INTRO_DATA_ARRAYS.paletteAnimTimer[10]++;
     }
 }
 
@@ -600,13 +600,13 @@ void NewFileIntroSamusGettingCuredSetupWindow(void)
 
     DMA3_COPY_32(EWRAM_BASE + 0x1000, EWRAM_BASE + 0x2000, 0x160 / sizeof(u32));
 
-    top = INTRO_DATA.unk_1F5 - INTRO_DATA.unk_1F3;
-    bottom = INTRO_DATA.unk_1F5 + INTRO_DATA.unk_1F3;
+    top = INTRO_DATA.windowCenterY - INTRO_DATA.windowRadius;
+    bottom = INTRO_DATA.windowCenterY + INTRO_DATA.windowRadius;
 
     if (top < 0)
     {
         subSlice = -top;
-        if (subSlice > INTRO_DATA.unk_1F3 * 2)
+        if (subSlice > INTRO_DATA.windowRadius * 2)
             top = SCREEN_SIZE_Y + 1;
         else
             top = 0;
@@ -619,7 +619,7 @@ void NewFileIntroSamusGettingCuredSetupWindow(void)
     if (bottom >= SCREEN_SIZE_Y)
         bottom = SCREEN_SIZE_Y;
 
-    src = sHaze_PowerBomb_WindowValuesPointers[INTRO_DATA.unk_1F3];
+    src = sHaze_PowerBomb_WindowValuesPointers[INTRO_DATA.windowRadius];
     dst = EWRAM_BASE + 0x1000;
 
     for (i = 0; i < top; i++)
@@ -627,8 +627,8 @@ void NewFileIntroSamusGettingCuredSetupWindow(void)
 
     for (; i <= bottom; subSlice++, i++)
     {
-        left = INTRO_DATA.unk_1F4 + src[subSlice * 2 + 1];
-        right = INTRO_DATA.unk_1F4 + src[subSlice * 2 + 0];
+        left = INTRO_DATA.windowCenterX + src[subSlice * 2 + 1];
+        right = INTRO_DATA.windowCenterX + src[subSlice * 2 + 0];
 
         if (left < 0)
             left = 0;
@@ -696,7 +696,7 @@ void SpecialCutsceneClearOam(void)
     u8 i;
 
     for (i = 0; i < ARRAY_SIZE(INTRO_DATA.oam); i++)
-        INTRO_DATA.oam[i].unk_18_0 = 0;
+        INTRO_DATA.oam[i].exists = 0;
 }
 
 /**
@@ -710,7 +710,7 @@ void SpecialCutsceneEnableOam(void)
     for (i = 0; i < ARRAY_SIZE(INTRO_DATA.oam); i++)
     {
         if (INTRO_DATA.oam[i].type != 0)
-            INTRO_DATA.oam[i].unk_18_0 = 1;
+            INTRO_DATA.oam[i].exists = 1;
     }
 }
 
@@ -728,7 +728,7 @@ void SpecialCutsceneDestroyOamOfType(u8 type)
         if (INTRO_DATA.oam[i].type == type)
         {
             INTRO_DATA.oam[i].type = 0;
-            INTRO_DATA.oam[i].unk_18_0 = 0;
+            INTRO_DATA.oam[i].exists = 0;
             break;
         }
     }
@@ -742,14 +742,14 @@ void SpecialCutsceneProcessOam(void)
 {
     u8 i;
 
-    INTRO_DATA.unk_215 = 0;
+    INTRO_DATA.activeOamCount = 0;
 
     for (i = 0; i < ARRAY_SIZE(INTRO_DATA.oam); i++)
     {
         if (INTRO_DATA.oam[i].type != 0)
         {
             ((SpecialCutsceneOamFunc_T)INTRO_DATA.oam[i].pFunction)(&INTRO_DATA.oam[i]);
-            INTRO_DATA.unk_215++;
+            INTRO_DATA.activeOamCount++;
         }
     }
 }
@@ -764,13 +764,13 @@ void SpecialCutsceneDrawAllOam(void)
 
     for (i = 0; i < ARRAY_SIZE(INTRO_DATA.oam); i++)
     {
-        if (INTRO_DATA.oam[i].unk_18_0)
+        if (INTRO_DATA.oam[i].exists)
             SpecialCutsceneDrawOam(&INTRO_DATA.oam[i]);
     }
 
     ResetFreeOam();
     gNextOamSlot = 0;
-    gUnk_3001238 = 0;
+    gNextOamMatrixSlot = 0;
 }
 
 /**
@@ -856,7 +856,7 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
             gOamData[slot].split.y = yPosition;
             gOamData[slot].split.x = xPosition;
             gOamData[slot].split.priority = pOam->priority;
-            gOamData[slot].split.paletteNum += pOam->unk_1A_4;
+            gOamData[slot].split.paletteNum += pOam->paletteOffset;
             gOamData[slot].split.tileNum += pOam->tileOffset;
             gOamData[slot].split.objMode = pOam->objMode;
             gOamData[slot].split.mosaic = pOam->mosaic;
@@ -939,14 +939,14 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
                 gOamData[slot].split.x--;
             gOamData[slot].split.affineMode = 1;
 
-            if ((gUnk_3001238 + flipped) & 0x10)
+            if ((gNextOamMatrixSlot + flipped) & 0x10)
                 gOamData[slot].split.yFlip = TRUE;
-            if ((gUnk_3001238 + flipped) & 0x8)
+            if ((gNextOamMatrixSlot + flipped) & 0x8)
                 gOamData[slot].split.xFlip = TRUE;
-            gOamData[slot].split.matrixNum = (gUnk_3001238 + flipped) & 7;
+            gOamData[slot].split.matrixNum = (gNextOamMatrixSlot + flipped) & 7;
 
             gOamData[slot].split.priority = pOam->priority;
-            gOamData[slot].split.paletteNum += pOam->unk_1A_4;
+            gOamData[slot].split.paletteNum += pOam->paletteOffset;
             gOamData[slot].split.tileNum += pOam->tileOffset;
             gOamData[slot].split.objMode = pOam->objMode;
             gOamData[slot].split.mosaic = pOam->mosaic;
@@ -954,21 +954,21 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
             dst++;
         }
 
-        matrixSlot = gUnk_3001238 * 4;
+        matrixSlot = gNextOamMatrixSlot * 4;
         gOamData[matrixSlot + 0].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 1].all.affineParam = FixedMultiplication(SIN(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 2].all.affineParam = FixedMultiplication(-SIN(pOam->rotation), FixedInverse(yScaling));
         gOamData[matrixSlot + 3].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(yScaling));
-        gUnk_3001238++;
+        gNextOamMatrixSlot++;
 
         if (anyFlipped == TRUE)
         {
-            matrixSlot = gUnk_3001238 * 4;
+            matrixSlot = gNextOamMatrixSlot * 4;
             gOamData[matrixSlot + 0].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(-xScaling));
             gOamData[matrixSlot + 1].all.affineParam = FixedMultiplication(SIN(pOam->rotation), FixedInverse(-xScaling));
             gOamData[matrixSlot + 2].all.affineParam = FixedMultiplication(-SIN(pOam->rotation), FixedInverse(yScaling));
             gOamData[matrixSlot + 3].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(yScaling));
-            gUnk_3001238++;
+            gNextOamMatrixSlot++;
         }
     }
     else if (drawMode == 3)
@@ -1041,14 +1041,14 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
             gOamData[slot].split.x = MOD_AND(x + xPosition - BLOCK_SIZE, 512);
             gOamData[slot].split.affineMode = 3;
 
-            if (gUnk_3001238 & 0x10)
+            if (gNextOamMatrixSlot & 0x10)
                 gOamData[slot].split.yFlip = TRUE;
-            if (gUnk_3001238 & 0x8)
+            if (gNextOamMatrixSlot & 0x8)
                 gOamData[slot].split.xFlip = TRUE;
-            gOamData[slot].split.matrixNum = gUnk_3001238 & 7;
+            gOamData[slot].split.matrixNum = gNextOamMatrixSlot & 7;
 
             gOamData[slot].split.priority = pOam->priority;
-            gOamData[slot].split.paletteNum += pOam->unk_1A_4;
+            gOamData[slot].split.paletteNum += pOam->paletteOffset;
             gOamData[slot].split.tileNum += pOam->tileOffset;
             gOamData[slot].split.objMode = pOam->objMode;
             gOamData[slot].split.mosaic = pOam->mosaic;
@@ -1056,12 +1056,12 @@ void SpecialCutsceneDrawOam(struct SpecialCutsceneOam* pOam)
             dst++;
         }
 
-        matrixSlot = gUnk_3001238 * 4;
+        matrixSlot = gNextOamMatrixSlot * 4;
         gOamData[matrixSlot + 0].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 1].all.affineParam = FixedMultiplication(SIN(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 2].all.affineParam = FixedMultiplication(-SIN(pOam->rotation), FixedInverse(yScaling));
         gOamData[matrixSlot + 3].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(yScaling));
-        gUnk_3001238++;
+        gNextOamMatrixSlot++;
     }
 
     gNextOamSlot += partCount;

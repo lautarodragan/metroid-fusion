@@ -16,7 +16,7 @@
 #include "data/sprite_data.h"
 #include "data/audio.h"
 
-void unk_99940(void); // For V-blank callback
+void SpecialCutsceneLoadingVblank(void); // For V-blank callback
 void Sram_ProcessEndingSave(u8 stage);
 
 boolu32 EndingBslCrashing(void);
@@ -58,38 +58,38 @@ boolu32 EndingHandler(void)
         case 2:
             if (EndingInShip())
             {
-                INTRO_DATA.unk_20E = 0;
+                INTRO_DATA.handlerTimer = 0;
                 gSubGameMode1 = 3;
             }
             break;
 
         case 3:
-            INTRO_DATA.unk_20E++;
+            INTRO_DATA.handlerTimer++;
 
             if (gWrittenToBldy < BLDY_MAX_VALUE)
             {
-                if (INTRO_DATA.unk_20E == 1)
+                if (INTRO_DATA.handlerTimer == 1)
                 {
-                    INTRO_DATA.unk_20E = 0;
+                    INTRO_DATA.handlerTimer = 0;
                     gWrittenToBldy++;
                 }
             }
-            else if (INTRO_DATA.unk_20E == 1)
+            else if (INTRO_DATA.handlerTimer == 1)
             {
                 Sram_ProcessEndingSave(0);
             }
-            else if (INTRO_DATA.unk_20E == 2)
+            else if (INTRO_DATA.handlerTimer == 2)
             {
                 Sram_ProcessEndingSave(1);
             }
-            else if (INTRO_DATA.unk_20E == 3)
+            else if (INTRO_DATA.handlerTimer == 3)
             {
                 Sram_ProcessEndingSave(2);
             }
-            else if (INTRO_DATA.unk_20E == 4)
+            else if (INTRO_DATA.handlerTimer == 4)
             {
                 Sram_ProcessEndingSave(3);
-                INTRO_DATA.unk_20E = 0;
+                INTRO_DATA.handlerTimer = 0;
                 finished = TRUE;
             }
 
@@ -111,7 +111,7 @@ void EndingBslCrashingInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
@@ -180,11 +180,11 @@ void EndingShipFrontViewInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
-    DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
-    DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
+    DMA3_FILL_16(0, &INTRO_DATA.tilesFadeStage, sizeof(INTRO_DATA.tilesFadeStage));
+    DMA3_FILL_16(0, &INTRO_DATA.paletteUpdate1, sizeof(INTRO_DATA.tilesFadeStage));
 
     LZ77UncompVram(sEndingShipFrontViewBgGfx, VRAM_BASE);
     LZ77UncompVram(sEndingShipFrontViewBg2Tilemap, VRAM_BASE + 0xF000);
@@ -282,8 +282,8 @@ boolu32 EndingBslCrashingProcess(void)
             {
                 gWrittenToBldalpha_Eva = 10;
                 gWrittenToBldalpha_Evb = 10;
-                INTRO_DATA.unk_110 = 1;
-                INTRO_DATA.unk_111 = 0;
+                INTRO_DATA.paletteUpdate1 = 1;
+                INTRO_DATA.paletteFrame1 = 0;
             }
             else if (INTRO_DATA.timer == 2)
             {
@@ -298,13 +298,13 @@ boolu32 EndingBslCrashingProcess(void)
             break;
 
         case 3:
-            if (INTRO_DATA.unk_111 < 15)
+            if (INTRO_DATA.paletteFrame1 < 15)
             {
                 if (INTRO_DATA.timer == 4)
                 {
                     INTRO_DATA.timer = 0;
-                    INTRO_DATA.unk_110 = 1;
-                    INTRO_DATA.unk_111++;
+                    INTRO_DATA.paletteUpdate1 = 1;
+                    INTRO_DATA.paletteFrame1++;
                 }
             }
             else if (INTRO_DATA.timer == 20)
@@ -520,7 +520,7 @@ void EndingProcessFallingBsl(struct SpecialCutsceneOam* pOam)
         else
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
     else if (pOam->stage == 3)
@@ -529,7 +529,7 @@ void EndingProcessFallingBsl(struct SpecialCutsceneOam* pOam)
         if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -549,7 +549,7 @@ void unk_9579c(struct SpecialCutsceneOam* pOam)
         if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -574,7 +574,7 @@ void EndingProcessLeavingSmallShip(struct SpecialCutsceneOam* pOam)
         if (pOam->unk_A == CONVERT_SECONDS(2.5f))
         {
             pOam->unk_A = 0;
-            pOam->unk_18_0 = 1;
+            pOam->exists = 1;
             pOam->stage = 1;
         }
     }
@@ -586,7 +586,7 @@ void EndingProcessLeavingSmallShip(struct SpecialCutsceneOam* pOam)
         if (pOam->xPosition < 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -611,7 +611,7 @@ void EndingProcessLeavingBigShip(struct SpecialCutsceneOam* pOam)
         if (pOam->unk_A == CONVERT_SECONDS(4.f))
         {
             pOam->unk_A = 0;
-            pOam->unk_18_0 = 1;
+            pOam->exists = 1;
             pOam->stage = 1;
         }
     }
@@ -623,7 +623,7 @@ void EndingProcessLeavingBigShip(struct SpecialCutsceneOam* pOam)
         if (pOam->xPosition > 280)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -730,7 +730,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
     INTRO_DATA.oam[slot].xPosition = xPosition;
     INTRO_DATA.oam[slot].yPosition = yPosition;
     INTRO_DATA.oam[slot].type = type;
-    INTRO_DATA.oam[slot].unk_18_0 = 1;
+    INTRO_DATA.oam[slot].exists = 1;
 
     if (type == 1)
     {
@@ -757,14 +757,14 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
     }
     else if (type == 4)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sEndingLeavingSmallShipOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessLeavingSmallShip;
     }
     else if (type == 5)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sEndingLeavingBigShipOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessLeavingBigShip;
     }
@@ -783,7 +783,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
     }
     else if (type == 12)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sEndingFrontFacingShipOam;
         INTRO_DATA.oam[slot].pFunction = EndingProcessFrontFacingShip;
     }
@@ -809,10 +809,10 @@ void EndingBslCrashingVblank(void)
     WRITE_16(REG_BG3HOFS, gBg3XPosition);
     WRITE_16(REG_BG3VOFS, gBg3YPosition);
 
-    if (INTRO_DATA.unk_110 == 1)
+    if (INTRO_DATA.paletteUpdate1 == 1)
     {
-        INTRO_DATA.unk_110 = 0;
-        DMA3_COPY_32(&sBslCrashingAnimatedBgPal[INTRO_DATA.unk_111 * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        INTRO_DATA.paletteUpdate1 = 0;
+        DMA3_COPY_32(&sBslCrashingAnimatedBgPal[INTRO_DATA.paletteFrame1 * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 }
 
@@ -886,7 +886,7 @@ void EndingMonologueInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
@@ -954,11 +954,11 @@ void EndingAdamConversationInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
-    DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
-    DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
+    DMA3_FILL_16(0, &INTRO_DATA.tilesFadeStage, sizeof(INTRO_DATA.tilesFadeStage));
+    DMA3_FILL_16(0, &INTRO_DATA.paletteUpdate1, sizeof(INTRO_DATA.tilesFadeStage));
 
     LZ77UncompVram(sEndingAdamConversationBgGfx, VRAM_BASE + 0x8000);
     LZ77UncompVram(sEndingAdamConversationBgTilemap, VRAM_BASE + 0xF800);
@@ -1022,11 +1022,11 @@ void EndingAnimalsInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
-    DMA3_FILL_16(0, &INTRO_DATA.unk_14, sizeof(INTRO_DATA.unk_14));
-    DMA3_FILL_16(0, &INTRO_DATA.unk_110, sizeof(INTRO_DATA.unk_14));
+    DMA3_FILL_16(0, &INTRO_DATA.tilesFadeStage, sizeof(INTRO_DATA.tilesFadeStage));
+    DMA3_FILL_16(0, &INTRO_DATA.paletteUpdate1, sizeof(INTRO_DATA.tilesFadeStage));
 
     LZ77UncompVram(sEndingAnimalsBg3Gfx, VRAM_BASE);
     LZ77UncompVram(sEndingAnimalsBg2Gfx, VRAM_BASE + 0x8000);
@@ -1120,11 +1120,11 @@ boolu32 EndingInShipProcess(void)
             {
                 INTRO_DATA.timer = 0;
                 WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) | DCNT_BG0);
-                INTRO_DATA.unk_12 = 0;
-                INTRO_DATA.unk_10 = 0;
-                INTRO_DATA.unk_E = 0;
-                INTRO_DATA.unk_C = 0;
-                INTRO_DATA.unk_212 = 0;
+                INTRO_DATA.fadeLine = 0;
+                INTRO_DATA.fadeColumn = 0;
+                INTRO_DATA.currentLine = 0;
+                INTRO_DATA.currentColumn = 0;
+                INTRO_DATA.indent = 0;
                 INTRO_DATA.pText = sMonologueTextPointers[gLanguage][7];
                 INTRO_DATA.subStage = 2;
             }
@@ -1134,25 +1134,25 @@ boolu32 EndingInShipProcess(void)
             break;
 
         case 2:
-            if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW && gChangedInput & KEY_A && INTRO_DATA.unk_218 == 0)
-                INTRO_DATA.unk_218 = 1;
+            if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW && gChangedInput & KEY_A && INTRO_DATA.textAdvanceState == 0)
+                INTRO_DATA.textAdvanceState = 1;
 
             INTRO_DATA.timer = 0;
 
-            if (INTRO_DATA.unk_218 == 2)
+            if (INTRO_DATA.textAdvanceState == 2)
             {
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
             }
-            else if (INTRO_DATA.unk_218 == 3)
+            else if (INTRO_DATA.textAdvanceState == 3)
             {
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
                 INTRO_DATA.subStage = 3;
             }
 
             if (EndingCheckMonologueEnded())
             {
                 INTRO_DATA.subStage = 3;
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
             }
 
             if (INTRO_DATA.unk_213 == 0)
@@ -1278,18 +1278,18 @@ boolu32 EndingInShipProcess(void)
         case 10:
             INTRO_DATA.timer = 0;
 
-            if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW && gChangedInput & KEY_A && INTRO_DATA.unk_218 == 0)
-                INTRO_DATA.unk_218 = 1;
+            if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW && gChangedInput & KEY_A && INTRO_DATA.textAdvanceState == 0)
+                INTRO_DATA.textAdvanceState = 1;
 
-            if (INTRO_DATA.unk_218 == 2)
+            if (INTRO_DATA.textAdvanceState == 2)
             {
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
                 SoundPlay(SOUND_203);
             }
-            else if (INTRO_DATA.unk_218 == 3)
+            else if (INTRO_DATA.textAdvanceState == 3)
             {
                 WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~DCNT_BG0);
-                INTRO_DATA.unk_218 = 0;
+                INTRO_DATA.textAdvanceState = 0;
                 SoundPlay(SOUND_203);
                 FadeMusic(10);
                 INTRO_DATA.subStage = 11;
@@ -1433,7 +1433,7 @@ void EndingProcessMonologueCursor(struct SpecialCutsceneOam* pOam)
     if (*INTRO_DATA.pText == CHAR_NEXT_PAGE_ARROW)
     {
         pOam->xPosition = 118;
-        pOam->yPosition = INTRO_DATA.unk_E * 8 + 24;
+        pOam->yPosition = INTRO_DATA.currentLine * 8 + 24;
     }
     else
     {
@@ -1541,7 +1541,7 @@ void unk_96a70(struct SpecialCutsceneOam* pOam)
         if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -1574,16 +1574,16 @@ void EndingProcessAdamTextCursor(struct SpecialCutsceneOam* pOam)
         }
         else
         {
-            pOam->xPosition = INTRO_DATA.unk_C * 8 + INTRO_DATA.unk_212 + 14;
-            pOam->yPosition = INTRO_DATA.unk_E * 8 + 132;
+            pOam->xPosition = INTRO_DATA.currentColumn * 8 + INTRO_DATA.indent + 14;
+            pOam->yPosition = INTRO_DATA.currentLine * 8 + 132;
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
         }
     }
     else
     {
-        pOam->xPosition = INTRO_DATA.unk_C * 8 + INTRO_DATA.unk_212 + 14;
-        pOam->yPosition = INTRO_DATA.unk_E * 8 + 132;
+        pOam->xPosition = INTRO_DATA.currentColumn * 8 + INTRO_DATA.indent + 14;
+        pOam->yPosition = INTRO_DATA.currentLine * 8 + 132;
         pOam->animationDurationCounter = 0;
         pOam->currentAnimationFrame = 0;
     }

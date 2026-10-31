@@ -23930,7 +23930,7 @@ const u32 sEndingShipFrontViewBg2Tilemap[199] = INCBIN_U32("data/ending/ship_fro
 const u32 sEndingShipFrontViewBg3Tilemap[387] = INCBIN_U32("data/ending/ship_front_view_bg3.tm.lz");
 const u32 sBslCrashingBg3Tilemap[368] = INCBIN_U32("data/ending/bsl_crashing_bg3.tm.lz");
 
-// Width and height of each OAM shape and size in tiles (see sOamXFlipOffsets)
+// Width and height of each OAM shape and size in tiles (see sOamXFlipOffsets, sCutsceneMonologueOamXFlipOffsets)
 const u8 sCutsceneOamXFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_x_flip_offsets.bin");
 const u8 sCutsceneOamYFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_y_flip_offsets.bin");
 
@@ -24847,7 +24847,7 @@ const u16 sCutsceneRestrictedLabDetachingObjRow3CyclePal[16 * PAL_ROW] = INCBIN_
 const u32 sCutsceneBslSpaceTilemap_681a1c[418] = INCBIN_U32("data/cutscenes/bsl_space/681a1c.tm.lz");
 const u32 sCutsceneBslSpaceTilemap_6820a4[318] = INCBIN_U32("data/cutscenes/bsl_space/6820a4.tm.lz");
 const u16 sCutsceneBslSpaceBgPal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/bsl_space/bg.pal");
-// Width in tiles of an OAM sprite, by [shape][size]
-const u8 sCutsceneOamTileWidths[3][4] = INCBIN_U8("data/cutscenes/oam_tile_widths.bin");
+// Width in tiles of an OAM sprite, by [shape][size] (same content as sCutsceneOamXFlipOffsets)
+const u8 sCutsceneMonologueOamXFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_tile_widths.bin");
 const u32 sCutsceneBslExplodingBg2Tilemap[277] = INCBIN_U32("data/cutscenes/bsl_exploding/bg2.tm.lz");
 const u32 sCutsceneBslExplodingBg3Tilemap[236] = INCBIN_U32("data/cutscenes/bsl_exploding/bg3.tm.lz");

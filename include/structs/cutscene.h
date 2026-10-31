@@ -20,7 +20,7 @@ struct SpecialCutsceneOam {
     u8 rotation;
     u8 unk_16;
     u8 unk_17;
-    u32 unk_18_0 : 1;              // 0x18
+    u32 exists : 1;                // 0x18, drawn
     u32 affineMode : 2;
     u32 objMode : 2;
     u32 mosaic : 1;
@@ -28,7 +28,7 @@ struct SpecialCutsceneOam {
     u32 yFlip : 1;
     u32 tileOffset : 10;           // 0x19
     u32 priority : 2;              // 0x1A
-    u32 unk_1A_4 : 4;
+    u32 paletteOffset : 4;
     u8 unk_1B;
     const struct FrameData* pOam;  // 0x1C
     void* pFunction;               // 0x20

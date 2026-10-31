@@ -19,7 +19,7 @@ void NewFileIntroInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
     gWrittenToBldy = BLDY_MAX_VALUE;
@@ -81,7 +81,7 @@ void NewFileIntroVblank(void)
  * @brief 99940 | c | V-blank for the special cutscenes while they're loading
  *
  */
-void unk_99940(void)
+void SpecialCutsceneLoadingVblank(void)
 {
     UpdateAudio();
 }

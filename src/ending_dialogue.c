@@ -58,9 +58,9 @@ void EndingProcessAdamPanel(struct SpecialCutsceneOam* pOam)
             {
                 if (pOam->animationDurationCounter == 15)
                 {
-                    INTRO_DATA.unk_212 = 0;
-                    INTRO_DATA.unk_E = 0;
-                    INTRO_DATA.unk_C = 0;
+                    INTRO_DATA.indent = 0;
+                    INTRO_DATA.currentLine = 0;
+                    INTRO_DATA.currentColumn = 0;
                     INTRO_DATA.pText = sEndingDialogueTextTables[gLanguage][112];
                 }
             }
@@ -122,7 +122,7 @@ void EndingProcessAdamPanel(struct SpecialCutsceneOam* pOam)
                 INTRO_DATA.subStage = 12;
 
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -297,7 +297,7 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     INTRO_DATA.oam[slot].xPosition = xPosition;
     INTRO_DATA.oam[slot].yPosition = yPosition;
     INTRO_DATA.oam[slot].type = type;
-    INTRO_DATA.oam[slot].unk_18_0 = 1;
+    INTRO_DATA.oam[slot].exists = 1;
 
     if (type == 1)
     {
@@ -353,7 +353,7 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     }
     else if (type == 20)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pFunction = EndingProcessAnimalsScrolling;
     }
     else if (type == 30)
@@ -365,7 +365,7 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     }
     else if (type == UCHAR_MAX)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sEndingDialogueType5Oam_Opening;
         INTRO_DATA.oam[slot].pFunction = unk_96f00;
     }
@@ -390,7 +390,7 @@ void EndingMonologueVblank(void)
     WRITE_16(REG_BG3HOFS, gBg3XPosition);
     WRITE_16(REG_BG3VOFS, gBg3YPosition);
 
-    unk_98158();
+    SpecialCutsceneUpdateTextTilesFade();
 }
 
 /**

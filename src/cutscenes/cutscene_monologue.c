@@ -95,14 +95,14 @@ boolu32 CutsceneMonologueProcessSpecialTextCharacters(void)
     if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFF00)
     {
         CUTSCENE_MONOLOGUE_DATA.timer = 0;
-        CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+        CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
         ended = TRUE;
     }
     else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFC00)
     {
         if (gChangedInput & KEY_A)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 1;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 1;
             CUTSCENE_MONOLOGUE_DATA.timer = 0;
         }
         else
@@ -114,13 +114,13 @@ boolu32 CutsceneMonologueProcessSpecialTextCharacters(void)
     {
         if ((*CUTSCENE_MONOLOGUE_DATA.pText & 0xFF) <= CUTSCENE_MONOLOGUE_DATA.timer)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 1;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 1;
             CUTSCENE_MONOLOGUE_DATA.timer = 0;
         }
     }
     else if (CUTSCENE_MONOLOGUE_DATA.timer > 2)
     {
-        CUTSCENE_MONOLOGUE_DATA.unk_17 = 1;
+        CUTSCENE_MONOLOGUE_DATA.textUpdateState = 1;
         CUTSCENE_MONOLOGUE_DATA.timer = 0;
     }
 
@@ -201,7 +201,7 @@ void CutsceneMonologueProcessText(void)
  * @brief 9cc4c | 134 | Updates the fading in of the text tiles of a monologue cutscene
  *
  */
-void unk_9cc4c(void)
+void CutsceneMonologueUpdateTextTilesFade(void)
 {
     u16 line;
     u16 column;
