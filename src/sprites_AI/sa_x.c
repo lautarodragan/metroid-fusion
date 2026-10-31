@@ -26,14 +26,6 @@
 extern const u8 sSamusCollisionData[SPOSE_END][6];
 #endif // BUGFIX
 
-#define SA_X_LANDED work0 // Falling/mid-air, waits for the landing pose to end
-#define SA_X_TIMER work1
-#define SA_X_DIAG_AIM work2 // Shooting
-#define SA_X_JUMP_TYPE work2 // Set by SaXCheckFallJumpOrMorph, selects the jump Y velocity table
-#define SA_X_X_SPEED_IDX work3
-#define SA_X_Y_SPEED_IDX work4
-#define SA_X_LOST_SAMUS_TIMER workY // Increases while Samus is detected but not in Y range, she is lost at 20 seconds
-
 #define SA_X_PROJECTILE_TIMER work1 // Beam, missile and power bomb
 #define SA_X_BEAM_MOVEMENT_IDX work4
 

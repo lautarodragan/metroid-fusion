@@ -19,7 +19,7 @@
  */
 void SaXTro1CheckBlockInFront(void)
 {
-    gCurrentSprite.work2 = DIAG_AIM_NONE;
+    gCurrentSprite.SA_X_DIAG_AIM = DIAG_AIM_NONE;
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
@@ -45,7 +45,7 @@ void SaXTro1CheckBlockInFront(void)
  */
 void SaXTro1CheckBlockInFrontChase(void)
 {
-    gCurrentSprite.work2 = DIAG_AIM_NONE;
+    gCurrentSprite.SA_X_DIAG_AIM = DIAG_AIM_NONE;
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
@@ -93,7 +93,7 @@ void SaXTro1Walking(void)
         if (gSaXVision.inYRange == TRUE)
         {
             gCurrentSprite.status |= SPRITE_STATUS_SAMUS_DETECTED;
-            gCurrentSprite.workY = 0;
+            gCurrentSprite.SA_X_LOST_SAMUS_TIMER = 0;
 
             if (gSaXVision.detectedSamusOnRight == TRUE)
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_RUNNING_INIT;
@@ -106,7 +106,7 @@ void SaXTro1Walking(void)
         if (SPRITE_GET_ISFT(gCurrentSprite))
         {
             gCurrentSprite.status |= SPRITE_STATUS_SAMUS_DETECTED;
-            gCurrentSprite.workY = 0;
+            gCurrentSprite.SA_X_LOST_SAMUS_TIMER = 0;
 
             if (gSaXVision.samusOnRight == FALSE)
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_TURNING_AROUND_CHASE_INIT;
@@ -121,7 +121,7 @@ void SaXTro1Walking(void)
         if (gSaXVision.inYRange == TRUE)
         {
             gCurrentSprite.status |= SPRITE_STATUS_SAMUS_DETECTED;
-            gCurrentSprite.workY = 0;
+            gCurrentSprite.SA_X_LOST_SAMUS_TIMER = 0;
 
             if (gSaXVision.detectedSamusOnRight == FALSE)
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_RUNNING_INIT;
@@ -134,7 +134,7 @@ void SaXTro1Walking(void)
         if (SPRITE_GET_ISFT(gCurrentSprite))
         {
             gCurrentSprite.status |= SPRITE_STATUS_SAMUS_DETECTED;
-            gCurrentSprite.workY = 0;
+            gCurrentSprite.SA_X_LOST_SAMUS_TIMER = 0;
 
             if (gSaXVision.samusOnRight == TRUE)
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_TURNING_AROUND_CHASE_INIT;
@@ -150,10 +150,10 @@ void SaXTro1Walking(void)
     if (gCurrentSprite.pose != SA_X_SPRITE_POSE_WALKING)
         return;
 
-    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXWalkingSpeed[gCurrentSprite.work3 / 8]);
+    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXWalkingSpeed[gCurrentSprite.SA_X_X_SPEED_IDX / 8]);
 
-    if (gCurrentSprite.work3 < ARRAY_SIZE(sSaXWalkingSpeed) * 8 - 1)
-        gCurrentSprite.work3++;
+    if (gCurrentSprite.SA_X_X_SPEED_IDX < ARRAY_SIZE(sSaXWalkingSpeed) * 8 - 1)
+        gCurrentSprite.SA_X_X_SPEED_IDX++;
 }
 
 /**
@@ -174,7 +174,7 @@ void SaXTro1Running(void)
             if (nslr == NSLR_RIGHT)
             {
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_DELAY_BEFORE_SHOOTING_BEAM_INIT;
-                gCurrentSprite.work2 = gSaXVision.diagonalAim;
+                gCurrentSprite.SA_X_DIAG_AIM = gSaXVision.diagonalAim;
                 return;
             }
         }
@@ -183,7 +183,7 @@ void SaXTro1Running(void)
             if (nslr == NSLR_LEFT)
             {
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_DELAY_BEFORE_SHOOTING_BEAM_INIT;
-                gCurrentSprite.work2 = gSaXVision.diagonalAim;
+                gCurrentSprite.SA_X_DIAG_AIM = gSaXVision.diagonalAim;
                 return;
             }
         }
@@ -232,10 +232,10 @@ void SaXTro1Running(void)
     if (gCurrentSprite.pose != SA_X_SPRITE_POSE_RUNNING)
         return;
 
-    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.work3 / 8]);
+    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.SA_X_X_SPEED_IDX / 8]);
 
-    if (gCurrentSprite.work3 < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
-        gCurrentSprite.work3++;
+    if (gCurrentSprite.SA_X_X_SPEED_IDX < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
+        gCurrentSprite.SA_X_X_SPEED_IDX++;
 }
 
 /**
@@ -276,20 +276,20 @@ void SaXTro1(void)
     {
         if (gSaXVision.inYRange == TRUE)
         {
-            gCurrentSprite.workY = 0;
+            gCurrentSprite.SA_X_LOST_SAMUS_TIMER = 0;
         }
         else
         {
-            if (gCurrentSprite.workY >= 60 * 20)
+            if (gCurrentSprite.SA_X_LOST_SAMUS_TIMER >= 60 * 20)
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_SAMUS_DETECTED;
             }
             else
             {
                 if (gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
-                    gCurrentSprite.workY += 4;
+                    gCurrentSprite.SA_X_LOST_SAMUS_TIMER += 4;
                 else
-                    gCurrentSprite.workY += 1;
+                    gCurrentSprite.SA_X_LOST_SAMUS_TIMER += 1;
             }
         }
     }
