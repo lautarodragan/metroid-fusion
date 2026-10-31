@@ -443,7 +443,8 @@ health by RAM writes at fixed points to stay short), and the fights of this
 chapter (*The fights*, and minimal boss scenarios of the lag map that walk to
 and shoot the sprite with the most health). Lag of the original ROM in mGBA
 and in NanoBoyAdvance (see *Emulator accuracy*), load from the `PROFILE=1`
-build in mGBA, over the logic frames played; the ten heaviest, then the rest:
+build in mGBA, over the logic frames played; the ten heaviest, then the
+others that lag:
 
 | Scenario | Logic frames played | Lag, mGBA | Lag, NanoBoyAdvance | Mean | p99 | Max | > 95% | > 100% |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -465,7 +466,7 @@ build in mGBA, over the logic frames played; the ten heaviest, then the rest:
 | items/tanks (suite) | 380 | 1 |  | 47.1 | 58.3 | 103.1 | 1 | 1 |
 | system/save_load_reset (suite) | 1,612 | 1 |  | 45.3 | 53.0 | 102.9 | 2 | 1 |
 
-The other 70 scenarios (the remaining bosses, among them Arachnus, Zazabi, BOX, Yakuza, Nettori, SA-X and Omega Metroid, the SA-X chases, the environments, weapons, abilities, navigation rooms, pause maps, transitions) do not lag in mGBA; the heaviest of them reaches 84.8% at the 99th percentile.
+The other 70 scenarios (the remaining bosses, among them Arachnus, Zazabi, BOX, Yakuza, Nettori, SA-X and Omega Metroid, the SA-X chases, the environments, weapons, abilities, navigation rooms, pause maps, transitions) do not lag while playing in mGBA; the heaviest of them reaches 84.8% at the 99th percentile.
 
 - **Nightmare** is by far the worst, and it depends on how it is fought: the
   test suite's fight, which keeps Samus under the boss and shooting, lags 83
@@ -474,11 +475,14 @@ The other 70 scenarios (the remaining bosses, among them Arachnus, Zazabi, BOX, 
 - **Ridley** is the second fight that crosses the limit (2 to 3 lag frames per
   fight in mGBA; NanoBoyAdvance: 9 in the lag map's fight, 2 in the test
   suite's).
-- **The lab escape** (the sequence with the timer) peaks at 115% when it
-  starts and lags twice while playing.
-- **Single frames above 100%** in light scenarios (picking up a tank, the
-  first shot of the wave or ice beam, the first power bomb, the game over
-  screen) are one-off loads, not slowdown.
+- **The lab escape** (the sequence with the timer) peaks at 115% and lags
+  twice while playing (two consecutive logic frames); its other lag frames are
+  in transitions.
+- **Isolated frames above 100%** in light scenarios: two consecutive logic
+  frames at about 139% at one moment of the ice beam, wave beam and power bomb
+  scenarios, one frame at about 103% when a tank is picked up, in the game
+  over screen and in the save scenario. They are single events, with light
+  frames around them, not slowdown.
 - Every other boss, chase and environment stays under 90% at the 99th
   percentile and does not lag in mGBA.
 
