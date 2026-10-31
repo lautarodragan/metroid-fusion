@@ -342,7 +342,7 @@ void OmegaMetroidUpdateHealthThreshold(void)
             gCurrentSprite.pose = OMEGA_METROID_POSE_WALKING_BACKWARD_INIT;
             OMEGA_METROID_HEALTH_STAGE_DAMAGE = 0;
             EventCheckAdvance(EVENT_OMEGA_METROID_DEFEATED);
-            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x3A);
+            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_10);
         }
         else
         {
@@ -2003,49 +2003,49 @@ void OmegaMetroidDying2(void)
     switch (gCurrentSprite.OMEGA_METROID_TIMER)
     {
         case CONVERT_SECONDS(1 + 58/60.f):
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition + BLOCK_TO_SUB_PIXEL(.4375f), PE_0x25);
-            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition + BLOCK_TO_SUB_PIXEL(.8125f), PE_0x22);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition + BLOCK_TO_SUB_PIXEL(.4375f), PE_EXPLOSION_5);
+            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition + BLOCK_TO_SUB_PIXEL(.8125f), PE_EXPLOSION_2);
             SoundPlay_3b1c(SOUND_21C);
             break;
         
         case CONVERT_SECONDS(1 + 47/60.f):
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition - BLOCK_TO_SUB_PIXEL(.5625f), PE_0x21);
-            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition - BLOCK_TO_SUB_PIXEL(1.1875f), PE_0x25);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition - BLOCK_TO_SUB_PIXEL(.5625f), PE_EXPLOSION_1);
+            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition - BLOCK_TO_SUB_PIXEL(1.1875f), PE_EXPLOSION_5);
             break;
         
         case CONVERT_SECONDS(1 + 36/60.f):
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1), xPosition + BLOCK_TO_SUB_PIXEL(1.375f), PE_0x25);
-            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(.5f), xPosition + BLOCK_TO_SUB_PIXEL(.5f), PE_0x2F);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1), xPosition + BLOCK_TO_SUB_PIXEL(1.375f), PE_EXPLOSION_5);
+            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(.5f), xPosition + BLOCK_TO_SUB_PIXEL(.5f), PE_EXPLOSION_7);
             break;
         
         case CONVERT_SECONDS(1 + 20/60.f):
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1.125f), xPosition - BLOCK_TO_SUB_PIXEL(1.125f), PE_0x21);
-            ParticleSet(yPosition, xPosition + BLOCK_TO_SUB_PIXEL(15/32.f), PE_0x2F);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1.125f), xPosition - BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_1);
+            ParticleSet(yPosition, xPosition + BLOCK_TO_SUB_PIXEL(15/32.f), PE_EXPLOSION_7);
             break;
         
         case CONVERT_SECONDS(1 + 4/60.f):
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1), xPosition + BLOCK_TO_SUB_PIXEL(.25f), PE_0x2F);
-            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition - BLOCK_TO_SUB_PIXEL(.8125f), PE_0x22);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1), xPosition + BLOCK_TO_SUB_PIXEL(.25f), PE_EXPLOSION_7);
+            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition - BLOCK_TO_SUB_PIXEL(.8125f), PE_EXPLOSION_2);
             break;
         
         case CONVERT_SECONDS(48/60.f):
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition - BLOCK_TO_SUB_PIXEL(.4375f), PE_0x21);
-            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1 + 3/32.f), xPosition, PE_0x22);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition - BLOCK_TO_SUB_PIXEL(.4375f), PE_EXPLOSION_1);
+            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1 + 3/32.f), xPosition, PE_EXPLOSION_2);
             break;
         
         case CONVERT_SECONDS(32/60.f):
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition + BLOCK_TO_SUB_PIXEL(.5625f), PE_0x21);
-            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition - BLOCK_TO_SUB_PIXEL(1.375f), PE_0x2F);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition + BLOCK_TO_SUB_PIXEL(.5625f), PE_EXPLOSION_1);
+            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition - BLOCK_TO_SUB_PIXEL(1.375f), PE_EXPLOSION_7);
             break;
         
         case CONVERT_SECONDS(16/60.f):
-            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(.75f), xPosition - BLOCK_TO_SUB_PIXEL(1.1875f), PE_0x2F);
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1), xPosition, PE_0x2F);
+            ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(.75f), xPosition - BLOCK_TO_SUB_PIXEL(1.1875f), PE_EXPLOSION_7);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1), xPosition, PE_EXPLOSION_7);
             break;
 
         case 0:
-            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1.125f), xPosition - BLOCK_TO_SUB_PIXEL(21/32.f), PE_0x2F);
-            ParticleSet(yPosition, xPosition + BLOCK_TO_SUB_PIXEL(15/32.f), PE_0x21);
+            ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(1.125f), xPosition - BLOCK_TO_SUB_PIXEL(21/32.f), PE_EXPLOSION_7);
+            ParticleSet(yPosition, xPosition + BLOCK_TO_SUB_PIXEL(15/32.f), PE_EXPLOSION_1);
             break;
     }
 }

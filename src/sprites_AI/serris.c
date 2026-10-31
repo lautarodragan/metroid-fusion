@@ -667,27 +667,27 @@ void SerrisTurningIntoX(void)
     switch (gCurrentSprite.workY)
     {
         case 40:
-            ParticleSet(yPosition + QUARTER_BLOCK_SIZE - PIXEL_SIZE, xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_0x2F);
+            ParticleSet(yPosition + QUARTER_BLOCK_SIZE - PIXEL_SIZE, xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_EXPLOSION_7);
 
-            ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_0x25);
+            ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 30:
-            ParticleSet(yPosition - HALF_BLOCK_SIZE, xPosition + HALF_BLOCK_SIZE - PIXEL_SIZE, PE_0x26);
+            ParticleSet(yPosition - HALF_BLOCK_SIZE, xPosition + HALF_BLOCK_SIZE - PIXEL_SIZE, PE_EXPLOSION_6);
 
-            ParticleSet(yPosition + BLOCK_SIZE, xPosition + HALF_BLOCK_SIZE, PE_0x25);
+            ParticleSet(yPosition + BLOCK_SIZE, xPosition + HALF_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 20:
-            ParticleSet(yPosition - HALF_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_0x26);
+            ParticleSet(yPosition - HALF_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_EXPLOSION_6);
 
-            ParticleSet(yPosition + BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_0x25);
+            ParticleSet(yPosition + BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 10:
-            ParticleSet(yPosition - (QUARTER_BLOCK_SIZE - PIXEL_SIZE), xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_0x2F);
+            ParticleSet(yPosition - (QUARTER_BLOCK_SIZE - PIXEL_SIZE), xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_EXPLOSION_7);
 
-            ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition + HALF_BLOCK_SIZE, PE_0x25);
+            ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition + HALF_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 0:
@@ -1772,7 +1772,7 @@ void SerrisPartDying(void)
 
         if (gCurrentSprite.work1 == 0 && gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
         {
-            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x2F);
+            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
             SoundPlay(0x294);
         }
     }

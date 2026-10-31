@@ -175,16 +175,16 @@ void ZoroCocoon(void)
     if (gCurrentSprite.work0)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
-            unk_12008(gCurrentSprite.yPosition, gCurrentSprite.xPosition - HALF_BLOCK_SIZE);
+            SpriteUtilUpdateCocoonDeathExplosions(gCurrentSprite.yPosition, gCurrentSprite.xPosition - HALF_BLOCK_SIZE);
         else
-            unk_12008(gCurrentSprite.yPosition, gCurrentSprite.xPosition + HALF_BLOCK_SIZE);
+            SpriteUtilUpdateCocoonDeathExplosions(gCurrentSprite.yPosition, gCurrentSprite.xPosition + HALF_BLOCK_SIZE);
     }
     else
     {
         if (gCurrentSprite.status & SPRITE_STATUS_Y_FLIP)
-            unk_12008(gCurrentSprite.yPosition + HALF_BLOCK_SIZE, gCurrentSprite.xPosition);
+            SpriteUtilUpdateCocoonDeathExplosions(gCurrentSprite.yPosition + HALF_BLOCK_SIZE, gCurrentSprite.xPosition);
         else
-            unk_12008(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition);
+            SpriteUtilUpdateCocoonDeathExplosions(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition);
     }
 }
 

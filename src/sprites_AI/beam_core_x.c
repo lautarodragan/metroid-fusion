@@ -645,7 +645,7 @@ void BeamCoreXEyeHandleRotation(void)
         gCurrentSprite.status = 0;
         gSpriteData[shellSlot].status = 0;
         gSpriteData[primary].pose = 0x5c;
-        ParticleSet(gSpriteData[primary].yPosition, gSpriteData[primary].xPosition, PE_0x2F);
+        ParticleSet(gSpriteData[primary].yPosition, gSpriteData[primary].xPosition, PE_EXPLOSION_7);
 
         switch (gSpriteData[primary].spriteId)
         {
@@ -708,7 +708,7 @@ void BeamCoreXEyeOpened(void)
 
     if (SPRITE_GET_ISFT(gCurrentSprite) >= 5)
     {
-        ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_0x2F);
+        ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_EXPLOSION_7);
         gCurrentSprite.work2 = 1;
     }
 
@@ -838,7 +838,7 @@ void BeamCoreXEyeShooting(void)
 {
     if (!(gCurrentSprite.status & SPRITE_STATUS_IGNORE_PROJECTILES) && SPRITE_GET_ISFT(gCurrentSprite) >= 5)
     {
-        ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_0x2F);
+        ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_EXPLOSION_7);
         gCurrentSprite.work2 = 1;
     }
 

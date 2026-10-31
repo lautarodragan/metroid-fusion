@@ -157,7 +157,7 @@ void MimicFlyingAway(void)
             break;
     }
 
-    unk_136ac(targetY, targetX, BLOCK_TO_SUB_PIXEL(0.0625f) * 4, BLOCK_TO_SUB_PIXEL(0.09375f) * 4, LOG2(4));
+    SpriteUtilMoveTowardsTargetCountingTurns(targetY, targetX, BLOCK_TO_SUB_PIXEL(0.0625f) * 4, BLOCK_TO_SUB_PIXEL(0.09375f) * 4, LOG2(4));
 
     if (--gCurrentSprite.workY == 0)
         gCurrentSprite.pose = 0x1e;

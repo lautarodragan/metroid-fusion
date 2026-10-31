@@ -54,7 +54,7 @@ void ParticleHeavyDust2(void);
 void ParticleEnterOrExitWater(void);
 void ParticleEnterOrExitWaterBig(void);
 void ParticleSpriteEnterOrExitWater(void);
-void unk_73e90(void);
+void ParticleSmallSplash(void);
 void ParticleExplosionSmoke(void);
 void ParticleTailExplosionSmoke(void);
 void ParticleExplosion7(void);

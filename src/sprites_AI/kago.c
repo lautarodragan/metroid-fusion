@@ -583,7 +583,7 @@ void Kago(void)
     }
 
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
-        unk_120ac(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(0.46875f), gCurrentSprite.xPosition);
+        SpriteUtilUpdateHiveDeathExplosions(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(0.46875f), gCurrentSprite.xPosition);
 }
 
 void KagoInsect(void)

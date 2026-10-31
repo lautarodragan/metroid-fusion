@@ -248,7 +248,7 @@ void BoxWaitingToEmerge(void)
             break;
 
         case 4:
-            ParticleSet(y, x, PE_0x2F);
+            ParticleSet(y, x, PE_EXPLOSION_7);
             break;
 
         case 8:
@@ -256,7 +256,7 @@ void BoxWaitingToEmerge(void)
             break;
 
         case 16:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.5f), PE_0x2F);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.5f), PE_EXPLOSION_7);
             break;
 
         case 20:
@@ -264,15 +264,15 @@ void BoxWaitingToEmerge(void)
             break;
 
         case 24:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_0x2F);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_7);
             break;
 
         case 28:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.375f), x, PE_0x2F);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.375f), x, PE_EXPLOSION_7);
             break;
 
         case 32:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.40625f), x + BLOCK_TO_SUB_PIXEL(0.25f), PE_0x2F);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.40625f), x + BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_7);
             break;
 
         case 36:
@@ -284,7 +284,7 @@ void BoxWaitingToEmerge(void)
     if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_TO_SUB_PIXEL(8.0f), BLOCK_TO_SUB_PIXEL(8.0f)) == NSLR_LEFT)
     {
         gCurrentSprite.pose = BOX_POSE_FIRST_JUMP_INIT;
-        ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(2.5f), PE_0x2F);
+        ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(2.5f), PE_EXPLOSION_7);
         PlayMusic(MUSIC_BOX_BATTLE, 7);
     }
 }
@@ -312,7 +312,7 @@ void BoxFirstJump(void)
     if (movement == SHORT_MAX)
     {
         gCurrentSprite.pose = BOX_POSE_SLOW_RUN_INIT;
-        ParticleSet(gSubSpriteData1.yPosition, gSubSpriteData1.xPosition + BLOCK_TO_SUB_PIXEL(2.8125f), PE_0x35);
+        ParticleSet(gSubSpriteData1.yPosition, gSubSpriteData1.xPosition + BLOCK_TO_SUB_PIXEL(2.8125f), PE_TAIL_SMOKE_2);
         SoundPlay(SOUND_BOX_LAND);
         ScreenShakeStartVertical(60, 0x81);
     }
@@ -1118,7 +1118,7 @@ void BoxPartFrontLeftLeg(void)
     if (gSpriteData[brainRamSlot].pose == BOX_POSE_DEFEATED &&
         gCurrentSprite.pOam != sBoxPartOam_FrontLeftLegCoverSlightlyDamaged)
     {
-        ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.9375f), x, PE_0x30);
+        ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.9375f), x, PE_EXPLOSION_8);
         gCurrentSprite.pOam = sBoxPartOam_FrontLeftLegCoverSlightlyDamaged;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
@@ -1155,7 +1155,7 @@ void BoxPartFrontRightLeg(void)
     if (gSpriteData[brainRamSlot].pose == BOX_POSE_DEFEATED &&
         gCurrentSprite.pOam != sBoxPartOam_FrontRightLegCoverSlightlyDamaged)
     {
-        ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.9375f), x, PE_0x30);
+        ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.9375f), x, PE_EXPLOSION_8);
         gCurrentSprite.pOam = sBoxPartOam_FrontRightLegCoverSlightlyDamaged;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
@@ -1209,7 +1209,7 @@ void BoxPartCenter(void)
     if (gCurrentSprite.health == 0)
     {
         gSpriteData[brainRamSlot].work0 &= ~4;
-        ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x, PE_0x2F);
+        ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x, PE_EXPLOSION_7);
         gSpriteData[brainRamSlot].pose = BOX_POSE_DEFEATED_INIT;
     }
     else if (gCurrentSprite.health < maxHealth / 4)
@@ -1220,7 +1220,7 @@ void BoxPartCenter(void)
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
 
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5625f), x, PE_0x30);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5625f), x, PE_EXPLOSION_8);
         }
     }
     else if (gCurrentSprite.health < maxHealth / 2)
@@ -1231,7 +1231,7 @@ void BoxPartCenter(void)
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
 
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5625f), x, PE_0x30);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5625f), x, PE_EXPLOSION_8);
         }
     }
     else if (gCurrentSprite.health < maxHealth * 3 / 4)
@@ -1242,7 +1242,7 @@ void BoxPartCenter(void)
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
 
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5625f), x, PE_0x30);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5625f), x, PE_EXPLOSION_8);
         }
     }
 
@@ -1441,7 +1441,7 @@ void BoxMissileMoving(void)
 void BoxMissileExploding(void)
 {
     gCurrentSprite.status = 0;
-    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x25);
+    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_5);
     SoundPlay(SOUND_BOX_MISSILE_EXPLODE);
 }
 
@@ -1621,7 +1621,7 @@ void BoxBombLanded(void)
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f),
                 gCurrentSprite.xPosition, SPRITE_STATUS_FACING_RIGHT);
 
-            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x22);
+            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_2);
             gCurrentSprite.status = 0;
             SoundPlay(SOUND_BOX_BOMB_EXPLODE);
         }
@@ -1630,7 +1630,7 @@ void BoxBombLanded(void)
 
 void BoxBombExploding(void)
 {
-    ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_0x32);
+    ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f), gCurrentSprite.xPosition, PE_EXPLOSION_9);
     gCurrentSprite.status = 0;
     SoundPlay(SOUND_BOX_BOMB_DESTROYED);
 }
@@ -1949,9 +1949,9 @@ void BoxDebrisFalling(void)
         if ((work1 & 0xf) == 0)
             ParticleSet(y, x, PE_TAIL_EXPLOSION);
         else if (((work1 + 4) & 0xf) == 0)
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(2.5f), x + BLOCK_TO_SUB_PIXEL(0.625f), PE_0x33);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(2.5f), x + BLOCK_TO_SUB_PIXEL(0.625f), PE_TAIL_SMOKE_1);
         else if (((work1 + 8) & 0xf) == 0)
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(2.03125f), x - BLOCK_TO_SUB_PIXEL(0.625f), PE_0x33);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(2.03125f), x - BLOCK_TO_SUB_PIXEL(0.625f), PE_TAIL_SMOKE_1);
     }
 }
 
@@ -2140,7 +2140,7 @@ void BoxFallingDebrisFalling(void)
             else if (((work2 + 4) & 0xf) == 0)
                 ParticleSet(y - BLOCK_TO_SUB_PIXEL(2.5f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_TAIL_EXPLOSION_SMOKE);
             else if (((work2 + 8) & 0xf) == 0)
-                ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(0.5f), PE_0x33);
+                ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(0.5f), PE_TAIL_SMOKE_1);
 
             offset = gCurrentSprite.work4;
             movement = sSpritesFallingSpeedFast[offset];
@@ -2184,7 +2184,7 @@ void BoxFallingDebrisFalling(void)
             s16 movement;
 
             if (((work2 + 7) & 0x1f) == 0)
-                ParticleSet(y, x, PE_0x33);
+                ParticleSet(y, x, PE_TAIL_SMOKE_1);
 
             offset = gCurrentSprite.work4;
             movement = sSpritesFallingSpeed[offset];

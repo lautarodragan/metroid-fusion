@@ -672,7 +672,7 @@ void GadoraBeam(void)
             if (gPreviousCollisionCheck != COLLISION_AIR)
             {
                 // Destroy beam
-                ParticleSet(gCurrentSprite.yPosition + (BLOCK_SIZE - QUARTER_BLOCK_SIZE), gCurrentSprite.xPosition, PE_0x2F);
+                ParticleSet(gCurrentSprite.yPosition + (BLOCK_SIZE - QUARTER_BLOCK_SIZE), gCurrentSprite.xPosition, PE_EXPLOSION_7);
 
                 if (gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
                     SoundPlayNotAlreadyPlaying(0x1B7);

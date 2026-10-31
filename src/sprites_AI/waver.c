@@ -412,7 +412,7 @@ void WaverDebrisFalling(void)
  */
 void WaverDebrisExploding(void)
 {
-    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x25);
+    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_5);
     gCurrentSprite.status = 0;
 }
 

@@ -140,7 +140,7 @@ void LabDebrisFalling(void)
             return;
 
         LabDebrisSetCollision(CAA_REMOVE_SOLID);
-        ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(.5f), xPosition, PE_0x2F);
+        ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(.5f), xPosition, PE_EXPLOSION_7);
         SoundPlay(SOUND_23D);
 
         if (prop == (SSP_UNINFECTED_OR_BOSS | SPRITESET_IDX(2)))

@@ -416,20 +416,20 @@ void ArachnusDying(void)
         switch (gCurrentSprite.workY)
         {
             case 40:
-                ParticleSet(y - PIXEL_TO_SUB_PIXEL(4), x, PE_0x25);
-                ParticleSet(y + PIXEL_TO_SUB_PIXEL(4), x, PE_0x26);
+                ParticleSet(y - PIXEL_TO_SUB_PIXEL(4), x, PE_EXPLOSION_5);
+                ParticleSet(y + PIXEL_TO_SUB_PIXEL(4), x, PE_EXPLOSION_6);
                 return;
 
             case 30:
-                ParticleSet(y - PIXEL_TO_SUB_PIXEL(8), x + PIXEL_TO_SUB_PIXEL(7), PE_0x25);
+                ParticleSet(y - PIXEL_TO_SUB_PIXEL(8), x + PIXEL_TO_SUB_PIXEL(7), PE_EXPLOSION_5);
                 return;
 
             case 20:
-                ParticleSet(y + PIXEL_TO_SUB_PIXEL(16), x - PIXEL_TO_SUB_PIXEL(4), PE_0x26);
+                ParticleSet(y + PIXEL_TO_SUB_PIXEL(16), x - PIXEL_TO_SUB_PIXEL(4), PE_EXPLOSION_6);
                 return;
 
             case 10:
-                ParticleSet(y - PIXEL_TO_SUB_PIXEL(16), x + PIXEL_TO_SUB_PIXEL(7), PE_0x25);
+                ParticleSet(y - PIXEL_TO_SUB_PIXEL(16), x + PIXEL_TO_SUB_PIXEL(7), PE_EXPLOSION_5);
                 return;
 
             case 0:
@@ -443,23 +443,23 @@ void ArachnusDying(void)
         switch (gCurrentSprite.workY)
         {
             case 40:
-                ParticleSet(y - PIXEL_TO_SUB_PIXEL(16), x - PIXEL_TO_SUB_PIXEL(4), PE_0x26);
-                ParticleSet(y + PIXEL_TO_SUB_PIXEL(8), x - PIXEL_TO_SUB_PIXEL(4), PE_0x25);
+                ParticleSet(y - PIXEL_TO_SUB_PIXEL(16), x - PIXEL_TO_SUB_PIXEL(4), PE_EXPLOSION_6);
+                ParticleSet(y + PIXEL_TO_SUB_PIXEL(8), x - PIXEL_TO_SUB_PIXEL(4), PE_EXPLOSION_5);
                 break;
 
             case 30:
-                ParticleSet(y - PIXEL_TO_SUB_PIXEL(8), x + PIXEL_TO_SUB_PIXEL(7), PE_0x26);
-                ParticleSet(y + PIXEL_TO_SUB_PIXEL(16), x + PIXEL_TO_SUB_PIXEL(8), PE_0x25);
+                ParticleSet(y - PIXEL_TO_SUB_PIXEL(8), x + PIXEL_TO_SUB_PIXEL(7), PE_EXPLOSION_6);
+                ParticleSet(y + PIXEL_TO_SUB_PIXEL(16), x + PIXEL_TO_SUB_PIXEL(8), PE_EXPLOSION_5);
                 break;
 
             case 20:
-                ParticleSet(y - PIXEL_TO_SUB_PIXEL(8), x - PIXEL_TO_SUB_PIXEL(4), PE_0x26);
-                ParticleSet(y + PIXEL_TO_SUB_PIXEL(16), x - PIXEL_TO_SUB_PIXEL(4), PE_0x25);
+                ParticleSet(y - PIXEL_TO_SUB_PIXEL(8), x - PIXEL_TO_SUB_PIXEL(4), PE_EXPLOSION_6);
+                ParticleSet(y + PIXEL_TO_SUB_PIXEL(16), x - PIXEL_TO_SUB_PIXEL(4), PE_EXPLOSION_5);
                 break;
 
             case 10:
-                ParticleSet(y - PIXEL_TO_SUB_PIXEL(16), x + PIXEL_TO_SUB_PIXEL(7), PE_0x26);
-                ParticleSet(y + PIXEL_TO_SUB_PIXEL(8), x + PIXEL_TO_SUB_PIXEL(8), PE_0x25);
+                ParticleSet(y - PIXEL_TO_SUB_PIXEL(16), x + PIXEL_TO_SUB_PIXEL(7), PE_EXPLOSION_6);
+                ParticleSet(y + PIXEL_TO_SUB_PIXEL(8), x + PIXEL_TO_SUB_PIXEL(8), PE_EXPLOSION_5);
                 break;
 
             case 0:
@@ -1222,7 +1222,7 @@ void ArachnusFire(void)
             if (SpriteUtilHasCurrentAnimationEnded())
             {
                 gCurrentSprite.status = 0;
-                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x25);
+                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_5);
             }
             break;
 
@@ -1239,7 +1239,7 @@ void ArachnusFire(void)
 
         case SPRITE_POSE_STOPPED: {
             gCurrentSprite.status = 0;
-            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x25);
+            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_5);
             break;
         }
     }
@@ -1304,9 +1304,9 @@ void ArachnusSlash(void)
             {
                 gCurrentSprite.status = 0;
                 gSpriteData[ARACHNUS_SLASH_TRAIL_SLOT].status = 0;
-                ParticleSet(gCurrentSprite.yPosition - PIXEL_TO_SUB_PIXEL(24), gCurrentSprite.xPosition, PE_0x25);
-                ParticleSet(gCurrentSprite.yPosition - PIXEL_TO_SUB_PIXEL(8), gCurrentSprite.xPosition, PE_0x25);
-                ParticleSet(gCurrentSprite.yPosition - PIXEL_TO_SUB_PIXEL(40), gCurrentSprite.xPosition, PE_0x25);
+                ParticleSet(gCurrentSprite.yPosition - PIXEL_TO_SUB_PIXEL(24), gCurrentSprite.xPosition, PE_EXPLOSION_5);
+                ParticleSet(gCurrentSprite.yPosition - PIXEL_TO_SUB_PIXEL(8), gCurrentSprite.xPosition, PE_EXPLOSION_5);
+                ParticleSet(gCurrentSprite.yPosition - PIXEL_TO_SUB_PIXEL(40), gCurrentSprite.xPosition, PE_EXPLOSION_5);
                 SoundPlayNotAlreadyPlaying(SOUND_ARACHNUS_SLASH_HIT_WALL);
             }
             else

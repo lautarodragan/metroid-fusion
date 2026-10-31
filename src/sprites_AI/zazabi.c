@@ -1415,7 +1415,7 @@ void ZazabiDyingInit(void)
     gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
     gCurrentSprite.workX = 1;
 
-    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x2F);
+    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
     SoundPlay_3b1c(SOUND_ZAZABI_DYING);
 }
 
@@ -1439,20 +1439,20 @@ void ZazabiDying(void)
         switch (gCurrentSprite.workY)
         {
             case 40:
-                ParticleSet(spriteY - BLOCK_SIZE, spriteX, PE_0x25);
-                ParticleSet(spriteY - BLOCK_SIZE * 2, spriteX, PE_0x26);
+                ParticleSet(spriteY - BLOCK_SIZE, spriteX, PE_EXPLOSION_5);
+                ParticleSet(spriteY - BLOCK_SIZE * 2, spriteX, PE_EXPLOSION_6);
                 break;
 
             case 30:
-                ParticleSet(spriteY - BLOCK_SIZE * 3, spriteX + HALF_BLOCK_SIZE, PE_0x25);
+                ParticleSet(spriteY - BLOCK_SIZE * 3, spriteX + HALF_BLOCK_SIZE, PE_EXPLOSION_5);
                 break;
 
             case 20:
-                ParticleSet(spriteY - BLOCK_SIZE, spriteX - QUARTER_BLOCK_SIZE, PE_0x26);
+                ParticleSet(spriteY - BLOCK_SIZE, spriteX - QUARTER_BLOCK_SIZE, PE_EXPLOSION_6);
                 break;
 
             case 10:
-                ParticleSet(spriteY - BLOCK_SIZE * 4, spriteX + QUARTER_BLOCK_SIZE, PE_0x25);
+                ParticleSet(spriteY - BLOCK_SIZE * 4, spriteX + QUARTER_BLOCK_SIZE, PE_EXPLOSION_5);
                 break;
 
             case 0:
@@ -1467,23 +1467,23 @@ void ZazabiDying(void)
     switch (gCurrentSprite.workY)
     {
         case 40:
-            ParticleSet(spriteY - BLOCK_SIZE * 3, spriteX - BLOCK_SIZE, PE_0x26);
-            ParticleSet(spriteY - HALF_BLOCK_SIZE, spriteX + BLOCK_SIZE, PE_0x25);
+            ParticleSet(spriteY - BLOCK_SIZE * 3, spriteX - BLOCK_SIZE, PE_EXPLOSION_6);
+            ParticleSet(spriteY - HALF_BLOCK_SIZE, spriteX + BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 30:
-            ParticleSet(spriteY - BLOCK_SIZE * 4, spriteX + (HALF_BLOCK_SIZE - PIXEL_SIZE), PE_0x26);
-            ParticleSet(spriteY - BLOCK_SIZE, spriteX - HALF_BLOCK_SIZE, PE_0x25);
+            ParticleSet(spriteY - BLOCK_SIZE * 4, spriteX + (HALF_BLOCK_SIZE - PIXEL_SIZE), PE_EXPLOSION_6);
+            ParticleSet(spriteY - BLOCK_SIZE, spriteX - HALF_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 20:
-            ParticleSet(spriteY - HALF_BLOCK_SIZE, spriteX + BLOCK_SIZE, PE_0x26);
-            ParticleSet(spriteY - BLOCK_SIZE * 3, spriteX - BLOCK_SIZE, PE_0x25);
+            ParticleSet(spriteY - HALF_BLOCK_SIZE, spriteX + BLOCK_SIZE, PE_EXPLOSION_6);
+            ParticleSet(spriteY - BLOCK_SIZE * 3, spriteX - BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 10:
-            ParticleSet(spriteY - BLOCK_SIZE, spriteX - (HALF_BLOCK_SIZE - PIXEL_SIZE), PE_0x26);
-            ParticleSet(spriteY - HALF_BLOCK_SIZE, spriteX + HALF_BLOCK_SIZE, PE_0x25);
+            ParticleSet(spriteY - BLOCK_SIZE, spriteX - (HALF_BLOCK_SIZE - PIXEL_SIZE), PE_EXPLOSION_6);
+            ParticleSet(spriteY - HALF_BLOCK_SIZE, spriteX + HALF_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 0:
@@ -2083,7 +2083,7 @@ void ZazabiPart(void)
         case ZAZABI_PART_UPPER_SHELL:
             if (gSubSpriteData1.health == 40)
             {
-                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x2F);
+                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
                 gCurrentSprite.status = 0;
                 SoundPlay_3b1c(SOUND_ZAZABI_SEGMENT_DESTROYED);
             }
@@ -2097,7 +2097,7 @@ void ZazabiPart(void)
         case ZAZABI_PART_MIDDLE_SHELL:
             if (gSubSpriteData1.health == 60)
             {
-                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x2F);
+                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
                 gCurrentSprite.status = 0;
                 SoundPlay_3b1c(SOUND_ZAZABI_SEGMENT_DESTROYED);
             }
@@ -2111,7 +2111,7 @@ void ZazabiPart(void)
         case ZAZABI_PART_LOWER_SHELL:
             if (gSubSpriteData1.health == 80)
             {
-                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x2F);
+                ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
                 gCurrentSprite.status = 0;
                 SoundPlay_3b1c(SOUND_ZAZABI_SEGMENT_DESTROYED);
             }

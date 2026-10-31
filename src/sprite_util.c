@@ -2370,12 +2370,12 @@ void SpriteUtilUnfreezeSecondarySprites(u8 spriteId, u8 ramSlot)
 }
 
 /**
- * @brief 12008 | a4 | To document
+ * @brief 12008 | a4 | Handles the death of a zoro cocoon (flickers and spawns explosions using the ignore samus collision timer as a countdown, then kills the sprite)
  * 
  * @param yPosition Y Position
  * @param xPosition X Position
  */
-void unk_12008(u16 yPosition, u16 xPosition)
+void SpriteUtilUpdateCocoonDeathExplosions(u16 yPosition, u16 xPosition)
 {
     u8 timer;
 
@@ -2398,31 +2398,31 @@ void unk_12008(u16 yPosition, u16 xPosition)
     switch (timer)
     {
         case 38:
-            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition, PE_0x26);
+            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition, PE_EXPLOSION_6);
             SoundPlay(SOUND_SPRITE_EXPLODE_145);
             break;
 
         case 32:
-            ParticleSet(yPosition + PIXEL_SIZE * 2, xPosition - (PIXEL_SIZE * 2 + PIXEL_SIZE / 2), PE_0x26);
+            ParticleSet(yPosition + PIXEL_SIZE * 2, xPosition - (PIXEL_SIZE * 2 + PIXEL_SIZE / 2), PE_EXPLOSION_6);
             break;
 
         case 29:
-            ParticleSet(yPosition - PIXEL_SIZE * 2, xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_0x26);
+            ParticleSet(yPosition - PIXEL_SIZE * 2, xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_EXPLOSION_6);
             break;
 
         case 26:
-            ParticleSet(yPosition, xPosition, PE_0x25);
+            ParticleSet(yPosition, xPosition, PE_EXPLOSION_5);
             break;
     }
 }
 
 /**
- * @brief 120ac | a0 | To document
+ * @brief 120ac | a0 | Handles the death of a hive (kago, kihunter hive) (flickers and spawns explosions using the ignore samus collision timer as a countdown, then kills the sprite)
  * 
  * @param yPosition Y Position
  * @param xPosition X Position
  */
-void unk_120ac(u16 yPosition, u16 xPosition)
+void SpriteUtilUpdateHiveDeathExplosions(u16 yPosition, u16 xPosition)
 {
     u8 timer;
 
@@ -2445,42 +2445,42 @@ void unk_120ac(u16 yPosition, u16 xPosition)
     switch (timer)
     {
         case 38:
-            ParticleSet(yPosition - (HALF_BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2), xPosition -(HALF_BLOCK_SIZE - PIXEL_SIZE / 2), PE_0x25);
+            ParticleSet(yPosition - (HALF_BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2), xPosition -(HALF_BLOCK_SIZE - PIXEL_SIZE / 2), PE_EXPLOSION_5);
             SoundPlay(SOUND_SPRITE_EXPLODE_145);
             break;
 
         case 32:
-            ParticleSet(yPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, xPosition + (HALF_BLOCK_SIZE - PIXEL_SIZE / 2), PE_0x25);
+            ParticleSet(yPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, xPosition + (HALF_BLOCK_SIZE - PIXEL_SIZE / 2), PE_EXPLOSION_5);
             break;
 
         case 29:
-            ParticleSet(yPosition, xPosition - QUARTER_BLOCK_SIZE, PE_0x25);
+            ParticleSet(yPosition, xPosition - QUARTER_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 26:
-            ParticleSet(yPosition, xPosition, PE_0x24);
+            ParticleSet(yPosition, xPosition, PE_EXPLOSION_4);
             break;
     }
 }
 
 /**
- * @brief 1214c | 14 | To document
+ * @brief 1214c | 14 | Spawns an explosion 5 particle at the position, unused
  * 
  * @param yPosition Y Position
  * @param xPosition X Position
  */
-void unk_1214c(u16 yPosition, u16 xPosition)
+void SpriteUtilSetExplosion5_Unused(u16 yPosition, u16 xPosition)
 {
-    ParticleSet(yPosition, xPosition, PE_0x25);
+    ParticleSet(yPosition, xPosition, PE_EXPLOSION_5);
 }
 
 /**
- * @brief 12160 | 80 | To document
+ * @brief 12160 | 80 | Handles the death of a halzyn wing (flickers and spawns explosions using the ignore samus collision timer as a countdown, then kills the sprite)
  * 
  * @param yPosition Y Position
  * @param xPosition X Position
  */
-void unk_12160(u16 yPosition, u16 xPosition)
+void SpriteUtilUpdateWingDeathExplosions(u16 yPosition, u16 xPosition)
 {
     u8 timer;
 
@@ -2501,27 +2501,27 @@ void unk_12160(u16 yPosition, u16 xPosition)
     switch (timer)
     {
         case 6:
-            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition, PE_0x26);
+            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition, PE_EXPLOSION_6);
             SoundPlay(SOUND_SPRITE_EXPLODE_144);
             break;
 
         case 4:
-            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_0x26);
+            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_EXPLOSION_6);
             break;
 
         case 2:
-            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE, PE_0x25);
+            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
     }
 }
 
 /**
- * @brief 121e0 | f0 | To document
+ * @brief 121e0 | f0 | Handles the death of a secondary sprite (flickers and spawns explosions using the ignore samus collision timer as a countdown, then kills the sprite), shortened when the primary sprite has mosaic, unused
  * 
  * @param yPosition Y Position
  * @param xPosition X Position
  */
-void unk_121e0(u16 yPosition, u16 xPosition)
+void SpriteUtilUpdateSecondarySpriteDeathExplosions_Unused(u16 yPosition, u16 xPosition)
 {
     u8 timer;
 
@@ -2544,39 +2544,39 @@ void unk_121e0(u16 yPosition, u16 xPosition)
     switch (timer)
     {
         case 12:
-            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition, PE_0x26);
+            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition, PE_EXPLOSION_6);
             break;
 
         case 10:
-            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_0x26);
+            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE, PE_EXPLOSION_6);
             break;
 
         case 8:
-            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE, PE_0x25);
+            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE, PE_EXPLOSION_5);
             break;
 
         case 6:
             ParticleSet(yPosition + (QUARTER_BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2),
-                xPosition - (QUARTER_BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2), PE_0x25);
+                xPosition - (QUARTER_BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2), PE_EXPLOSION_5);
             break;
 
         case 4:
             ParticleSet(yPosition - (HALF_BLOCK_SIZE - PIXEL_SIZE),
-                xPosition - (QUARTER_BLOCK_SIZE + PIXEL_SIZE), PE_0x25);
+                xPosition - (QUARTER_BLOCK_SIZE + PIXEL_SIZE), PE_EXPLOSION_5);
             break;
 
         case 2:
-            ParticleSet(yPosition, xPosition, PE_0x23);
+            ParticleSet(yPosition, xPosition, PE_EXPLOSION_3);
             break;
     }
 }
 
 /**
- * @brief 122d0 | 34 | To document
+ * @brief 122d0 | 34 | Sets the oam pointer for the sprite whose ram slot is in work0 (does nothing if work0 is UCHAR_MAX), unused
  * 
  * @param pOam Frame data pointer
  */
-void unk_122d0(const struct FrameData* pOam)
+void SpriteUtilSetWork0SpriteOamPointer_Unused(const struct FrameData* pOam)
 {
     u8 ramSlot;
 
@@ -4063,7 +4063,7 @@ void SpriteUtilMoveTowardsTarget(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap,
 }
 
 /**
- * @brief 1343c | 270 | To document
+ * @brief 1343c | 270 | Same as SpriteUtilMoveBeamCoreX_Unused, but also cycles workX (0-3) on every horizontal turn, unused
  * 
  * @param dstY Destination Y
  * @param dstX Destination X
@@ -4072,7 +4072,7 @@ void SpriteUtilMoveTowardsTarget(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap,
  * @param speedDivisor Speed divisor
  * @param soundId Sound to play when changing direction
  */
-void unk_1343c(u16 dstY, u16 dstX, u8 yVelocity, u8 xVelocity, u8 speedDivisor, u16 soundId)
+void SpriteUtilMoveTowardsTargetCountingTurnsWithSound_Unused(u16 dstY, u16 dstX, u8 yVelocity, u8 xVelocity, u8 speedDivisor, u16 soundId)
 {
     u8 turning;
     u16 velocity;
@@ -4252,7 +4252,7 @@ void unk_1343c(u16 dstY, u16 dstX, u8 yVelocity, u8 xVelocity, u8 speedDivisor, 
 }
 
 /**
- * @brief 136ac | 264 | To document
+ * @brief 136ac | 264 | Same as SpriteUtilMoveTowardsTarget, but also cycles workX (0-3) on every horizontal turn
  * 
  * @param dstY Destination Y
  * @param dstX Destination X
@@ -4260,7 +4260,7 @@ void unk_1343c(u16 dstY, u16 dstX, u8 yVelocity, u8 xVelocity, u8 speedDivisor, 
  * @param xSpeedCap X Velocity
  * @param speedDivisor Speed divisor
  */
-void unk_136ac(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
+void SpriteUtilMoveTowardsTargetCountingTurns(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
 {
     u8 turning;
     u16 velocity;

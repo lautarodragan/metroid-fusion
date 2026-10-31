@@ -697,7 +697,7 @@ void YakuzaPhase1DyingInit(void)
     gCurrentSprite.pose = 0x20;
     gCurrentSprite.work1 = 120;
 
-    ParticleSet(gSubSpriteData1.yPosition, gSubSpriteData1.xPosition, PE_0x2F);
+    ParticleSet(gSubSpriteData1.yPosition, gSubSpriteData1.xPosition, PE_EXPLOSION_7);
     SoundPlay_3b1c(SOUND_132);
 }
 
@@ -964,36 +964,36 @@ void YakuzaPhase2Dying(void)
     switch (gCurrentSprite.work1)
     {
         case 40:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_0x2F);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_7);
             SoundPlay_3b1c(SOUND_134);
             break;
 
         case 35:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_0x25);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_5);
             break;
 
         case 30:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.4375f), PE_0x2F);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.4375f), PE_EXPLOSION_7);
             break;
 
         case 25:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.5f), PE_0x25);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.5f), PE_EXPLOSION_5);
             break;
 
         case 20:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_0x26);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_6);
             break;
 
         case 15:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_0x2F);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_7);
             break;
 
         case 10:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.4375f), PE_0x25);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.4375f), PE_EXPLOSION_5);
             break;
 
         case 5:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x, PE_0x3A);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x, PE_EXPLOSION_10);
             break;
 
         case 0:
@@ -1496,7 +1496,7 @@ void YakuzaFallingLegMoving(void)
     {
         // BUG: Lower-left leg doesn't spawn explosion
         if (--gCurrentSprite.work1 == 0)
-            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x25);
+            ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_5);
     }
     else
     {

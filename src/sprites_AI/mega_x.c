@@ -340,7 +340,7 @@ void MegaXShieldIdle(void)
 
     if (gCurrentSprite.health == 0)
     {
-        ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x22);
+        ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_2);
         gCurrentSprite.status = 0;
         return;
     }
@@ -531,7 +531,7 @@ void MegaX(void)
                 gCurrentSprite.pose = 0x18;
                 gCurrentSprite.work1 = 60;
                 gCurrentSprite.paletteRow = 0;
-                ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.375f), gCurrentSprite.xPosition, PE_0x3A);
+                ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.375f), gCurrentSprite.xPosition, PE_EXPLOSION_10);
             }
             else if (gCurrentSprite.scaling < Q_8_8(1.5f))
             {
