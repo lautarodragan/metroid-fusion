@@ -399,59 +399,59 @@ void AtmosphericStabilizerCoverExploding(void)
         switch (gCurrentSprite.work1)
         {
             case 0:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_EXPLOSION_5);
                 break;
 
             case 2:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.0625f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.0625f), PE_EXPLOSION_5);
                 break;
 
             case 4:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_5);
                 break;
 
             case 6:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 7:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 8:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_EXPLOSION_5);
                 break;
 
             case 9:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_EXPLOSION_5);
                 break;
 
             case 10:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x, PE_0x26);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x, PE_EXPLOSION_6);
                 break;
 
             case 12:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_5);
                 break;
 
             case 14:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x - BLOCK_TO_SUB_PIXEL(1.0625), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x - BLOCK_TO_SUB_PIXEL(1.0625), PE_EXPLOSION_5);
                 break;
 
             case 16:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_5);
                 break;
 
             case 17:
-                ParticleSet(y + 0x58, x + BLOCK_TO_SUB_PIXEL(0.25f), PE_0x25);
+                ParticleSet(y + 0x58, x + BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_5);
                 break;
 
             case 18:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_EXPLOSION_5);
                 break;
 
             case 19:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_5);
                 break;
 
             case 24:
@@ -466,59 +466,59 @@ void AtmosphericStabilizerCoverExploding(void)
         switch (gCurrentSprite.work1)
         {
             case 0:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_EXPLOSION_5);
                 break;
 
             case 2:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.0625f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.0625f), PE_EXPLOSION_5);
                 break;
 
             case 4:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x + BLOCK_TO_SUB_PIXEL(1.0f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x + BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_5);
                 break;
 
             case 6:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 7:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 8:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_EXPLOSION_5);
                 break;
 
             case 9:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_EXPLOSION_5);
                 break;
 
             case 10:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x, PE_0x26);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x, PE_EXPLOSION_6);
                 break;
 
             case 12:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_5);
                 break;
 
             case 14:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x + BLOCK_TO_SUB_PIXEL(1.0625f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x + BLOCK_TO_SUB_PIXEL(1.0625f), PE_EXPLOSION_5);
                 break;
 
             case 16:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_5);
                 break;
 
             case 17:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.125f), x - BLOCK_TO_SUB_PIXEL(0.125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.125f), x - BLOCK_TO_SUB_PIXEL(0.125f), PE_EXPLOSION_5);
                 break;
 
             case 18:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_EXPLOSION_5);
                 break;
 
             case 19:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_5);
                 break;
 
             case 24:
@@ -533,59 +533,59 @@ void AtmosphericStabilizerCoverExploding(void)
         switch (gCurrentSprite.work1)
         {
             case 0:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_EXPLOSION_5);
                 break;
 
             case 2:
-                ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(1.125f), PE_0x25);
+                ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_5);
                 break;
 
             case 4:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x + BLOCK_TO_SUB_PIXEL(1.0f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x + BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_5);
                 break;
 
             case 6:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 7:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 8:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_EXPLOSION_5);
                 break;
 
             case 9:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_EXPLOSION_5);
                 break;
 
             case 10:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x, PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x, PE_EXPLOSION_5);
                 break;
 
             case 12:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_5);
                 break;
 
             case 14:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x + BLOCK_TO_SUB_PIXEL(1.0625f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x + BLOCK_TO_SUB_PIXEL(1.0625f), PE_EXPLOSION_5);
                 break;
 
             case 16:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_5);
                 break;
 
             case 17:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.125f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.125f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_5);
                 break;
 
             case 18:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_EXPLOSION_5);
                 break;
 
             case 19:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_5);
                 break;
 
             case 24:
@@ -600,59 +600,59 @@ void AtmosphericStabilizerCoverExploding(void)
         switch (gCurrentSprite.work1)
         {
             case 0:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(0.0625f), PE_EXPLOSION_5);
                 break;
 
             case 2:
-                ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(1.125f), PE_0x25);
+                ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_5);
                 break;
 
             case 4:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x + BLOCK_TO_SUB_PIXEL(1.0f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.125f), x + BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_5);
                 break;
 
             case 6:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 7:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_0x26);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.59375f), x - BLOCK_TO_SUB_PIXEL(0.75f), PE_EXPLOSION_6);
                 break;
 
             case 8:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.9375f), x + BLOCK_TO_SUB_PIXEL(0.9375f), PE_EXPLOSION_5);
                 break;
 
             case 9:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.78125f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_EXPLOSION_5);
                 break;
 
             case 10:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x, PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x, PE_EXPLOSION_5);
                 break;
 
             case 12:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x, PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.25f), x, PE_EXPLOSION_5);
                 break;
 
             case 14:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x + BLOCK_TO_SUB_PIXEL(1.0625f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.25f), x + BLOCK_TO_SUB_PIXEL(1.0625f), PE_EXPLOSION_5);
                 break;
 
             case 16:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_5);
                 break;
 
             case 17:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.125f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.125f), x - BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_5);
                 break;
 
             case 18:
-                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_0x25);
+                ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(1.25f), PE_EXPLOSION_5);
                 break;
 
             case 19:
-                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_0x25);
+                ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.21875f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_5);
                 break;
 
             case 24:

@@ -1737,7 +1737,7 @@ void KihunterHive(void)
             break;
     }
 
-    unk_120ac(gCurrentSprite.yPosition, gCurrentSprite.xPosition);
+    SpriteUtilUpdateHiveDeathExplosions(gCurrentSprite.yPosition, gCurrentSprite.xPosition);
 }
 
 void KihunterBug(void)

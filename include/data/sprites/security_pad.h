@@ -19,6 +19,6 @@ extern const struct FrameData sSecurityPadOam_Idle[2];
 extern const struct FrameData sSecurityPadOam_Pressed[2];
 extern const struct FrameData sSecurityPadMonitorOam_ArmExtended[2];
 
-extern const u16 sSecurityPad_2f78cc[16 * 16];
+extern const u16 sSecurityPadLevelsPal[16 * 16];
 
 #endif /* SECURITY_PAD_DATA_H */

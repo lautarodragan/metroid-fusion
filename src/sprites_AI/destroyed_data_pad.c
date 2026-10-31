@@ -86,29 +86,29 @@ void DestroyedDataPad(void)
 
             if (gCurrentSprite.work1 == 60 * 2)
             {
-                ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition, PE_0x2F);
+                ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition, PE_EXPLOSION_7);
                 SoundPlay_3b1c(0x232);
             }
             else if (gCurrentSprite.work1 == 110)
             {
-                ParticleSet(yPosition, xPosition - (BLOCK_SIZE - PIXEL_SIZE), PE_0x2F);
+                ParticleSet(yPosition, xPosition - (BLOCK_SIZE - PIXEL_SIZE), PE_EXPLOSION_7);
             }
             else if (gCurrentSprite.work1 == 100)
             {
-                ParticleSet(yPosition - EIGHTH_BLOCK_SIZE, xPosition + BLOCK_SIZE, PE_0x2F);
+                ParticleSet(yPosition - EIGHTH_BLOCK_SIZE, xPosition + BLOCK_SIZE, PE_EXPLOSION_7);
             }
             else if (gCurrentSprite.work1 == 90)
             {
-                ParticleSet(yPosition - (BLOCK_SIZE + EIGHTH_BLOCK_SIZE), xPosition - (HALF_BLOCK_SIZE + QUARTER_BLOCK_SIZE + PIXEL_SIZE), PE_0x2F);
+                ParticleSet(yPosition - (BLOCK_SIZE + EIGHTH_BLOCK_SIZE), xPosition - (HALF_BLOCK_SIZE + QUARTER_BLOCK_SIZE + PIXEL_SIZE), PE_EXPLOSION_7);
             }
             else if (gCurrentSprite.work1 == 80)
             {
                 ParticleSet(yPosition - (BLOCK_SIZE + QUARTER_BLOCK_SIZE + EIGHTH_BLOCK_SIZE),
-                    xPosition + (BLOCK_SIZE - PIXEL_SIZE), PE_0x2F);
+                    xPosition + (BLOCK_SIZE - PIXEL_SIZE), PE_EXPLOSION_7);
             }
             else if (gCurrentSprite.work1 == 70)
             {
-                ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition - EIGHTH_BLOCK_SIZE, PE_0x2F);
+                ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition - EIGHTH_BLOCK_SIZE, PE_EXPLOSION_7);
             }
             else if (gCurrentSprite.work1 == 69)
             {
@@ -136,27 +136,27 @@ void DestroyedDataPad(void)
             }
             else if (gCurrentSprite.work1 == 60)
             {
-                ParticleSet(yPosition + QUARTER_BLOCK_SIZE + EIGHTH_BLOCK_SIZE, xPosition - BLOCK_SIZE, PE_0x30);
+                ParticleSet(yPosition + QUARTER_BLOCK_SIZE + EIGHTH_BLOCK_SIZE, xPosition - BLOCK_SIZE, PE_EXPLOSION_8);
             }
             else if (gCurrentSprite.work1 == 50)
             {
-                ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition + BLOCK_SIZE, PE_0x30);
+                ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition + BLOCK_SIZE, PE_EXPLOSION_8);
             }
             else if (gCurrentSprite.work1 == 40)
             {
-                ParticleSet(yPosition, xPosition, PE_0x30);
+                ParticleSet(yPosition, xPosition, PE_EXPLOSION_8);
             }
             else if (gCurrentSprite.work1 == 30)
             {
-                ParticleSet(yPosition - (BLOCK_SIZE + PIXEL_SIZE), xPosition + (BLOCK_SIZE - PIXEL_SIZE), PE_0x30);
+                ParticleSet(yPosition - (BLOCK_SIZE + PIXEL_SIZE), xPosition + (BLOCK_SIZE - PIXEL_SIZE), PE_EXPLOSION_8);
             }
             else if (gCurrentSprite.work1 == 20)
             {
-                ParticleSet(yPosition - BLOCK_SIZE, xPosition - (BLOCK_SIZE + EIGHTH_BLOCK_SIZE), PE_0x30);
+                ParticleSet(yPosition - BLOCK_SIZE, xPosition - (BLOCK_SIZE + EIGHTH_BLOCK_SIZE), PE_EXPLOSION_8);
             }
             else if (gCurrentSprite.work1 == 10)
             {
-                ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition - EIGHTH_BLOCK_SIZE, PE_0x30);
+                ParticleSet(yPosition + HALF_BLOCK_SIZE, xPosition - EIGHTH_BLOCK_SIZE, PE_EXPLOSION_8);
                 gCurrentSprite.pose = 0x1C;
                 gCurrentSprite.work1 = 30;
             }
@@ -166,7 +166,7 @@ void DestroyedDataPad(void)
             gCurrentSprite.work1--;
             if (gCurrentSprite.work1 == 25)
             {
-                ParticleSet(yPosition - PIXEL_SIZE, xPosition - (BLOCK_SIZE - PIXEL_SIZE), PE_0x35);
+                ParticleSet(yPosition - PIXEL_SIZE, xPosition - (BLOCK_SIZE - PIXEL_SIZE), PE_TAIL_SMOKE_2);
             }
             else if (gCurrentSprite.work1 == 20)
             {
@@ -174,7 +174,7 @@ void DestroyedDataPad(void)
             }
             else if (gCurrentSprite.work1 == 15)
             {
-                ParticleSet(yPosition, xPosition + (BLOCK_SIZE + PIXEL_SIZE + PIXEL_SIZE / 2), PE_0x35);
+                ParticleSet(yPosition, xPosition + (BLOCK_SIZE + PIXEL_SIZE + PIXEL_SIZE / 2), PE_TAIL_SMOKE_2);
             }
             else if (gCurrentSprite.work1 == 10)
             {

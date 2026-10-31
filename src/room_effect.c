@@ -1192,7 +1192,7 @@ void RoomEffectCheckStopEventBased(void)
         case EVENT_EFFECT_RECOVERING_SUIT:
             if (gCurrentPowerBomb.animationState == 0 && gCurrentPowerBomb.powerBombPlaced == 0)
             {
-                SAMUS_SET_POSE(SPOSE_F8);
+                SAMUS_SET_POSE(SPOSE_LOCKED_MID_AIR_REQUEST);
                 stop = TRUE;
             }
             break;

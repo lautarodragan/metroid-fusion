@@ -37,7 +37,7 @@ void XParasiteWaitingForEnoughXToForm(void);
 void XParasiteFormingInit(void);
 void XParasiteForming(void);
 void SpriteSpawningFromX(void);
-void unk_62328(void);
+void XParasiteMoveTowardsSamus_Unused(void);
 void XParasiteStickToSamus(void);
 
 #endif /* X_PARASITE_UTIL_H */

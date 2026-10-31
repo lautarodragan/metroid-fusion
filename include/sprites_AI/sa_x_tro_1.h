@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+
+
 void SaXTro1CheckBlockInFront(void);
 void SaXTro1CheckBlockInFrontChase(void);
 void SaXTro1Init(void);

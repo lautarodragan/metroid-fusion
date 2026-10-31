@@ -49,12 +49,12 @@ enum ProfileRegion {
     PROF_PROJ_UPDATE,           // ProjectileUpdate (with the hit checks)
     PROF_PROJ_HIT,              // ProjectileCheckHittingSprite
     PROF_HUD,                   // HudDraw
-    PROF_DRAW_HIGH,             // unk_eb04 (sprites with high priority)
+    PROF_DRAW_HIGH,             // SpriteDrawAllHighPriority (sprites with high priority)
     PROF_PARTICLE,              // ParticleUpdate
     PROF_PROJ_DRAW,             // ProjectileDrawAll_False + ProjectileDrawAll_True
     PROF_DRAW_ALL,              // SpriteDrawAll (debris, SA-X, sprites with draw order 1-8)
     PROF_SAMUS_DRAW,            // SamusDraw
-    PROF_DRAW_LOW,              // unk_ec38 (sprites with draw order 9-16)
+    PROF_DRAW_LOW,              // SpriteDrawAllBehindSamus (sprites with draw order 9-16)
     PROF_SPRITE_DRAW,           // SpriteDraw calls (sum, in the 3 above)
     PROF_RESET_OAM,             // ResetFreeOam
     PROF_ROOM_UPDATE,           // RoomUpdate (with the 2 below)

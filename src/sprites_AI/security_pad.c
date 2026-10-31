@@ -54,23 +54,23 @@ void SecurityPadUpdatePalette(void)
     {
         case 16:
         case 80:
-            pal = &sSecurityPad_2f78cc[offset + 24];
+            pal = &sSecurityPadLevelsPal[offset + 24];
             break;
 
         case 32:
         case 64:
-            pal = &sSecurityPad_2f78cc[offset + 40];
+            pal = &sSecurityPadLevelsPal[offset + 40];
             break;
 
         case 48:
-            pal = &sSecurityPad_2f78cc[offset + 56];
+            pal = &sSecurityPadLevelsPal[offset + 56];
             break;
 
         case 96:
             gCurrentSprite.work4 = 1;
 
         case 0:
-            pal = &sSecurityPad_2f78cc[offset + 8];
+            pal = &sSecurityPadLevelsPal[offset + 8];
             break;
 
         default:

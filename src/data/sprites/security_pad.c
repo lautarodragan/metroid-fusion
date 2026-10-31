@@ -406,4 +406,4 @@ const struct FrameData sSecurityPadMonitorOam_2f78bc[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const u16 sSecurityPad_2f78cc[16 * 16] = INCBIN_U16("data/sprites/security_pad_2f78cc.pal");
+const u16 sSecurityPadLevelsPal[16 * 16] = INCBIN_U16("data/sprites/security_pad_2f78cc.pal");

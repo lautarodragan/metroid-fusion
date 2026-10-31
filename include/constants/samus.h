@@ -74,8 +74,8 @@ enum SamusPose {
     SPOSE_END,
 
     // Sub frame poses
-    SPOSE_F7 = 0xF7,
-    SPOSE_F8,
+    SPOSE_STANDING_PREVENT_MOVEMENT_REQUEST = 0xF7,
+    SPOSE_LOCKED_MID_AIR_REQUEST,
     SPOSE_KNOCKBACK_REQUEST,
     SPOSE_HURT_REQUEST,
     SPOSE_FROZEN_REQUEST,
@@ -209,9 +209,9 @@ enum SamusHitboxType {
 
 enum SamusCollisionDataFields {
     SCDF_HITBOX,
-    SCDF_UNK_1,
-    SCDF_UNK_2,
-    SCDF_UNK_3,
+    SCDF_COLLISION_TYPE,
+    SCDF_ABOVE_COLLISION_TYPE,
+    SCDF_SECONDARY_COLLISION_TYPE,
     SCDF_STANDING_STATUS,
 
     SCDF_COUNT
@@ -289,6 +289,10 @@ enum SamusDestructingAction {
 #define SCD_TOP_RIGHT_MIDDLE (1 << 2)
 #define SCD_TOP_RIGHT_MOST (1 << 3)
 #define SCD_SLOPE (1 << 4)
+
+// Flags for gSamusGraphicsInfo.armCannonDrawFlags (draw order of the arm cannon relative to the body)
+#define ARM_CANNON_DRAW_BEHIND 0x1000
+#define ARM_CANNON_DRAW_IN_FRONT 0x2000
 
 // --- Collision ---
 

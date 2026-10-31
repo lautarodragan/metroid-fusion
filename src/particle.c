@@ -32,7 +32,7 @@ static Func_T sProcessParticleFunctionPointers[PE_END] = {
     [PE_ICE_MISSILE_EXPLOSION] = ParticleIceMissileExplosion,
     [PE_DIFFUSION_MISSILE_EXPLOSION] = ParticleDiffusionMissileExplosion,
     [PE_CHARGED_DIFFUSION_MISSILE_EXPLOSION] = ParticleChargedDiffusionMissileExplosion,
-    [PE_0xD] = ParticleSuperMissileExplosionNoScreenShake,
+    [PE_SUPER_MISSILE_EXPLOSION_NO_SCREEN_SHAKE] = ParticleSuperMissileExplosionNoScreenShake,
     [PE_ICE_BEAM_TRAIL] = ParticleIceBeamTrail,
     [PE_CHARGED_NORMAL_BEAM_TRAIL] = ParticleChargedNormalBeamTrail,
     [PE_CHARGED_CHARGE_BEAM_TRAIL] = ParticleChargedChargeBeamTrail,
@@ -52,12 +52,12 @@ static Func_T sProcessParticleFunctionPointers[PE_END] = {
     [PE_ABSORB_ICE_X_PRE_VARIA] = ParticleAbsorbIceXPreVaria,
     [PE_ICE_X_TRAIL] = ParticleIceXTrail,
     [PE_DIFFUSION_FLAKE_TRAIL] = ParticleDiffusionFlakeTrail,
-    [PE_0x21] = ParticleExplosion1,
-    [PE_0x22] = ParticleExplosion2,
-    [PE_0x23] = ParticleExplosion3,
-    [PE_0x24] = ParticleExplosion4,
-    [PE_0x25] = ParticleExplosion5,
-    [PE_0x26] = ParticleExplosion6,
+    [PE_EXPLOSION_1] = ParticleExplosion1,
+    [PE_EXPLOSION_2] = ParticleExplosion2,
+    [PE_EXPLOSION_3] = ParticleExplosion3,
+    [PE_EXPLOSION_4] = ParticleExplosion4,
+    [PE_EXPLOSION_5] = ParticleExplosion5,
+    [PE_EXPLOSION_6] = ParticleExplosion6,
     [PE_HEAVY_DUST_1] = ParticleHeavyDust1,
     [PE_HEAVY_DUST_2] = ParticleHeavyDust2,
     [PE_DUST_1] = ParticleDust1,
@@ -66,18 +66,18 @@ static Func_T sProcessParticleFunctionPointers[PE_END] = {
     [PE_ABSORBING_SUIT] = ParticleAbsorbingSuit,
     [PE_EXPLOSION_SMOKE] = ParticleExplosionSmoke,
     [PE_TAIL_EXPLOSION_SMOKE] = ParticleTailExplosionSmoke,
-    [PE_0x2F] = ParticleExplosion7,
-    [PE_0x30] = ParticleExplosion8,
+    [PE_EXPLOSION_7] = ParticleExplosion7,
+    [PE_EXPLOSION_8] = ParticleExplosion8,
     [PE_SMOKE] = ParticleSmoke,
-    [PE_0x32] = ParticleExplosion9,
-    [PE_0x33] = ParticleTailSmoke1,
+    [PE_EXPLOSION_9] = ParticleExplosion9,
+    [PE_TAIL_SMOKE_1] = ParticleTailSmoke1,
     [PE_TAIL_EXPLOSION] = ParticleTailExplosion,
-    [PE_0x35] = ParticleTailSmoke2,
+    [PE_TAIL_SMOKE_2] = ParticleTailSmoke2,
     [PE_ENTER_OR_EXIT_WATER] = ParticleEnterOrExitWater,
     [PE_ENTER_OR_EXIT_WATER_BIG] = ParticleEnterOrExitWaterBig,
     [PE_SPRITE_ENTER_OR_EXIT_WATER] = ParticleSpriteEnterOrExitWater,
-    [PE_0x39] = unk_73e90,
-    [PE_0x3A] = ParticleExplosion10,
+    [PE_SMALL_SPLASH] = ParticleSmallSplash,
+    [PE_EXPLOSION_10] = ParticleExplosion10,
     [PE_OUTWARD_ICE_EXPLOSION] = ParticleOutwardIceExplosion,
     [PE_OUTWARD_SMOKE] = ParticleOutwardSmoke,
     [PE_SCREW_ATTACK_KILLED] = ParticleScrewAttackKilled,
@@ -1125,7 +1125,11 @@ void ParticleSpriteEnterOrExitWater(void)
     }
 }
 
-void unk_73e90(void)
+/**
+ * @brief 73e90 | 44 | Small splash that stays on the liquid surface (used by BOX 2 missiles entering or exiting water)
+ * 
+ */
+void ParticleSmallSplash(void)
 {
     gCurrentParticle.frameCounter++;
     ParticleUpdateAnimation(sWaterDropOam_Splashing);

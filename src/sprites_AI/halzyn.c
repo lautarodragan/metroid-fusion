@@ -488,9 +488,9 @@ void HalzynWingIdle(void)
         gCurrentSprite.ignoreSamusCollisionTimer = 108;
 
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
-            ParticleSet(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition + HALF_BLOCK_SIZE, PE_0x26);
+            ParticleSet(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition + HALF_BLOCK_SIZE, PE_EXPLOSION_6);
         else
-            ParticleSet(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition - HALF_BLOCK_SIZE, PE_0x26);
+            ParticleSet(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition - HALF_BLOCK_SIZE, PE_EXPLOSION_6);
 
         return;
     }
@@ -707,8 +707,8 @@ void HalzynWing(void)
     if (gCurrentSprite.health == 0 && gCurrentSprite.status & SPRITE_STATUS_EXISTS)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
-            unk_12160(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition + HALF_BLOCK_SIZE);
+            SpriteUtilUpdateWingDeathExplosions(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition + HALF_BLOCK_SIZE);
         else
-            unk_12160(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition - HALF_BLOCK_SIZE);
+            SpriteUtilUpdateWingDeathExplosions(gCurrentSprite.yPosition - HALF_BLOCK_SIZE, gCurrentSprite.xPosition - HALF_BLOCK_SIZE);
     }
 }

@@ -92,9 +92,9 @@ void OmegaMetroidHuskWaitForOmegaMetroidToSpawn(void)
 
         ScreenShakeStartHorizontal(60, 0x81);
 
-        ParticleSet(y - BLOCK_TO_SUB_PIXEL(5.f), x + BLOCK_TO_SUB_PIXEL(1.f), PE_0x2F);
-        ParticleSet(y - BLOCK_TO_SUB_PIXEL(3.f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_0x30);
-        ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.5f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_0x30);
+        ParticleSet(y - BLOCK_TO_SUB_PIXEL(5.f), x + BLOCK_TO_SUB_PIXEL(1.f), PE_EXPLOSION_7);
+        ParticleSet(y - BLOCK_TO_SUB_PIXEL(3.f), x + BLOCK_TO_SUB_PIXEL(0.78125f), PE_EXPLOSION_8);
+        ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.5f), x + BLOCK_TO_SUB_PIXEL(1.125f), PE_EXPLOSION_8);
 
         SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_LEFT, y - BLOCK_TO_SUB_PIXEL(7.03125f),
             x + BLOCK_TO_SUB_PIXEL(1.0f));

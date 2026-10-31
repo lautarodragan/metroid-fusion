@@ -5520,7 +5520,7 @@ const struct FrameData* const sSaXElevatorSpritesOamPointers[10] = {
     sSaXElevatorOam_2e8038
 };
 
-const SaXElevatorFunc_T sSaXElevatorFunctionPointers[1] = { unk_d694 };
+const SaXElevatorFunc_T sSaXElevatorFunctionPointers[1] = { SaXElevatorCutscene };
 
 const SaXElevatorFunc_T sSaXElevatorHandlerPointers[6] = {
     SaXElevatorBeforeBlowingUpWall,
@@ -5533,9 +5533,9 @@ const SaXElevatorFunc_T sSaXElevatorHandlerPointers[6] = {
 
 const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA_X_ELEVATOR_SPRITES + 2] = {
     [0] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 0,
-        .unk_2 = 25,
+        .delayTimer = 25,
         .xPosition = PIXEL_TO_SUB_PIXEL(44.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(92.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5545,9 +5545,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [1] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 0,
-        .unk_2 = 31,
+        .delayTimer = 31,
         .xPosition = PIXEL_TO_SUB_PIXEL(35.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(99.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5557,9 +5557,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [2] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 0,
-        .unk_2 = 36,
+        .delayTimer = 36,
         .xPosition = PIXEL_TO_SUB_PIXEL(51.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(98.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5569,9 +5569,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [3] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 2,
-        .unk_2 = 45,
+        .delayTimer = 45,
         .xPosition = PIXEL_TO_SUB_PIXEL(35.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(89.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5581,9 +5581,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [4] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 4,
-        .unk_2 = 40,
+        .delayTimer = 40,
         .xPosition = PIXEL_TO_SUB_PIXEL(49.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(69.0f),
         .xVelocity = PIXEL_TO_VELOCITY(3.0f),
@@ -5593,9 +5593,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [5] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 3,
-        .unk_2 = 42,
+        .delayTimer = 42,
         .xPosition = PIXEL_TO_SUB_PIXEL(46.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(92.0f),
         .xVelocity = PIXEL_TO_VELOCITY(2.5f),
@@ -5605,9 +5605,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [6] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 5,
-        .unk_2 = 43,
+        .delayTimer = 43,
         .xPosition = PIXEL_TO_SUB_PIXEL(40.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(87.0f),
         .xVelocity = PIXEL_TO_VELOCITY(1.25f),
@@ -5617,9 +5617,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [7] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 6,
-        .unk_2 = 43,
+        .delayTimer = 43,
         .xPosition = PIXEL_TO_SUB_PIXEL(39.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(67.0f),
         .xVelocity = PIXEL_TO_VELOCITY(1.5625f),
@@ -5629,9 +5629,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [8] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 5,
-        .unk_2 = 43,
+        .delayTimer = 43,
         .xPosition = PIXEL_TO_SUB_PIXEL(48.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(86.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.9375f),
@@ -5641,9 +5641,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [9] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 6,
-        .unk_2 = 41,
+        .delayTimer = 41,
         .xPosition = PIXEL_TO_SUB_PIXEL(57.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(75.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.625f),
@@ -5653,9 +5653,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [10] = {
-        .unk_0 = 2,
+        .status = 2,
         .type = 7,
-        .unk_2 = 0,
+        .delayTimer = 0,
         .xPosition = PIXEL_TO_SUB_PIXEL(35.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(100.0f),
         .xVelocity = PIXEL_TO_VELOCITY(-0.25f),
@@ -5665,9 +5665,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [11] = {
-        .unk_0 = 2,
+        .status = 2,
         .type = 8,
-        .unk_2 = 0,
+        .delayTimer = 0,
         .xPosition = PIXEL_TO_SUB_PIXEL(242.5f),
         .yPosition = PIXEL_TO_SUB_PIXEL(100.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.25f),
@@ -5677,9 +5677,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
         .pOamFrame = NULL
     },
     [12] = {
-        .unk_0 = 2,
+        .status = 2,
         .type = 9,
-        .unk_2 = 0,
+        .delayTimer = 0,
         .xPosition = PIXEL_TO_SUB_PIXEL(0.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(0.0f),
         .xVelocity = PIXEL_TO_VELOCITY(3.75f),
@@ -5692,9 +5692,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesBlowingUpWall[MAX_AMOUNT_OF_SA
 
 const struct SaXElevatorSprite sSaXElevatorSpritesShootingDoor[7] = {
     [0] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 1,
-        .unk_2 = 1,
+        .delayTimer = 1,
         .xPosition = PIXEL_TO_SUB_PIXEL(219.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(92.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5704,9 +5704,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesShootingDoor[7] = {
         .pOamFrame = NULL
     },
     [1] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 1,
-        .unk_2 = 15,
+        .delayTimer = 15,
         .xPosition = PIXEL_TO_SUB_PIXEL(222.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(80.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5716,9 +5716,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesShootingDoor[7] = {
         .pOamFrame = NULL
     },
     [2] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 1,
-        .unk_2 = 28,
+        .delayTimer = 28,
         .xPosition = PIXEL_TO_SUB_PIXEL(226.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(98.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5728,9 +5728,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesShootingDoor[7] = {
         .pOamFrame = NULL
     },
     [3] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 2,
-        .unk_2 = 50,
+        .delayTimer = 50,
         .xPosition = PIXEL_TO_SUB_PIXEL(210.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(89.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5740,9 +5740,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesShootingDoor[7] = {
         .pOamFrame = NULL
     },
     [4] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 2,
-        .unk_2 = 61,
+        .delayTimer = 61,
         .xPosition = PIXEL_TO_SUB_PIXEL(230.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(76.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5752,9 +5752,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesShootingDoor[7] = {
         .pOamFrame = NULL
     },
     [5] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 2,
-        .unk_2 = 65,
+        .delayTimer = 65,
         .xPosition = PIXEL_TO_SUB_PIXEL(213.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(101.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),
@@ -5764,9 +5764,9 @@ const struct SaXElevatorSprite sSaXElevatorSpritesShootingDoor[7] = {
         .pOamFrame = NULL
     },
     [6] = {
-        .unk_0 = 1,
+        .status = 1,
         .type = 2,
-        .unk_2 = 73,
+        .delayTimer = 73,
         .xPosition = PIXEL_TO_SUB_PIXEL(228.0f),
         .yPosition = PIXEL_TO_SUB_PIXEL(107.0f),
         .xVelocity = PIXEL_TO_VELOCITY(0.0f),

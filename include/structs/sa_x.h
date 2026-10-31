@@ -44,9 +44,9 @@ struct SaXAnimationData {
 };
 
 struct SaXElevatorSprite {
-    u8 unk_0;
+    u8 status; // 0 = inactive, 1 = waiting for delayTimer, 2+ = active (updated and drawn)
     u8 type;
-    u8 unk_2;
+    u8 delayTimer;
     u16 xPosition;
     u16 yPosition;
     s16 xVelocity;
@@ -57,12 +57,12 @@ struct SaXElevatorSprite {
 };
 
 struct SaXElevatorData {
-    u8 unk_0;
-    u8 unk_1;
+    u8 active;
+    u8 cutsceneId; // Index in sSaXElevatorFunctionPointers
     u8 stage;
     u8 unk_3;
-    u8 unk_4;
-    u8 unk_5;
+    u8 effect; // Background/blending effect (1 = fade to white, 2 = fade back and scroll, 3 = fade out bg0/bg3 and scroll)
+    u8 effectTimer;
     u16 timer;
 };
 

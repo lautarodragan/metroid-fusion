@@ -112,12 +112,12 @@ void MissileHatchExploding(void)
     switch (gCurrentSprite.work1++)
     {
         case 0:
-            ParticleSet(yPosition, xPosition, PE_0x25);
+            ParticleSet(yPosition, xPosition, PE_EXPLOSION_5);
             SoundPlay(0x106);
             break;
 
         case 2:
-            ParticleSet(yPosition - HALF_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE, PE_0x26);
+            ParticleSet(yPosition - HALF_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE, PE_EXPLOSION_6);
             
             SpriteSpawnSecondary(SSPRITE_41, 0, gCurrentSprite.spritesetGfxSlot,
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition + BLOCK_SIZE,
@@ -125,7 +125,7 @@ void MissileHatchExploding(void)
             break;
 
         case 4:
-            ParticleSet(yPosition + (HALF_BLOCK_SIZE - PIXEL_SIZE / 2), xPosition - QUARTER_BLOCK_SIZE, PE_0x26);
+            ParticleSet(yPosition + (HALF_BLOCK_SIZE - PIXEL_SIZE / 2), xPosition - QUARTER_BLOCK_SIZE, PE_EXPLOSION_6);
             
             SpriteSpawnSecondary(SSPRITE_41, 0, gCurrentSprite.spritesetGfxSlot,
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition + QUARTER_BLOCK_SIZE,
@@ -133,11 +133,11 @@ void MissileHatchExploding(void)
             break;
 
         case 6:
-            ParticleSet(yPosition + (BLOCK_SIZE - EIGHTH_BLOCK_SIZE), xPosition + (QUARTER_BLOCK_SIZE - PIXEL_SIZE), PE_0x25);
+            ParticleSet(yPosition + (BLOCK_SIZE - EIGHTH_BLOCK_SIZE), xPosition + (QUARTER_BLOCK_SIZE - PIXEL_SIZE), PE_EXPLOSION_5);
             break;
 
         case 8:
-            ParticleSet(yPosition - (BLOCK_SIZE - PIXEL_SIZE), xPosition - (QUARTER_BLOCK_SIZE - PIXEL_SIZE), PE_0x25);
+            ParticleSet(yPosition - (BLOCK_SIZE - PIXEL_SIZE), xPosition - (QUARTER_BLOCK_SIZE - PIXEL_SIZE), PE_EXPLOSION_5);
 
             SpriteSpawnSecondary(SSPRITE_41, 2, gCurrentSprite.spritesetGfxSlot,
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition + HALF_BLOCK_SIZE,
@@ -153,7 +153,7 @@ void MissileHatchExploding(void)
             break;
 
         case 12:
-            ParticleSet(yPosition, xPosition, PE_0x24);
+            ParticleSet(yPosition, xPosition, PE_EXPLOSION_4);
 
             SpriteSpawnSecondary(SSPRITE_41, 3, gCurrentSprite.spritesetGfxSlot,
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition + BLOCK_SIZE + HALF_BLOCK_SIZE,
@@ -163,11 +163,11 @@ void MissileHatchExploding(void)
             break;
 
         case 14:
-            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition - (EIGHTH_BLOCK_SIZE + PIXEL_SIZE / 2), PE_0x25);
+            ParticleSet(yPosition + QUARTER_BLOCK_SIZE, xPosition - (EIGHTH_BLOCK_SIZE + PIXEL_SIZE / 2), PE_EXPLOSION_5);
             break;
 
         case 16:
-            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_0x25);
+            ParticleSet(yPosition - QUARTER_BLOCK_SIZE, xPosition + QUARTER_BLOCK_SIZE + PIXEL_SIZE, PE_EXPLOSION_5);
 
             SpriteSpawnSecondary(SSPRITE_41, 1, gCurrentSprite.spritesetGfxSlot,
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition - HALF_BLOCK_SIZE,
@@ -175,19 +175,19 @@ void MissileHatchExploding(void)
             break;
 
         case 18:
-            ParticleSet(yPosition + (BLOCK_SIZE - QUARTER_BLOCK_SIZE), xPosition - PIXEL_SIZE, PE_0x25);
+            ParticleSet(yPosition + (BLOCK_SIZE - QUARTER_BLOCK_SIZE), xPosition - PIXEL_SIZE, PE_EXPLOSION_5);
             break;
 
         case 20:
-            ParticleSet(yPosition - (BLOCK_SIZE - QUARTER_BLOCK_SIZE), xPosition + PIXEL_SIZE, PE_0x25);
+            ParticleSet(yPosition - (BLOCK_SIZE - QUARTER_BLOCK_SIZE), xPosition + PIXEL_SIZE, PE_EXPLOSION_5);
             break;
 
         case 22:
-            ParticleSet(yPosition + BLOCK_SIZE, xPosition + PIXEL_SIZE, PE_0x25);
+            ParticleSet(yPosition + BLOCK_SIZE, xPosition + PIXEL_SIZE, PE_EXPLOSION_5);
             break;
 
         case 24:
-            ParticleSet(yPosition, xPosition, PE_0x25);
+            ParticleSet(yPosition, xPosition, PE_EXPLOSION_5);
             gCurrentSprite.status = 0;
     }
 }
@@ -271,7 +271,7 @@ void MissileHatchDebrisFalling(void)
         gCurrentSprite.yPosition = blockTop;
         gCurrentSprite.status = 0;
 
-        ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x25);
+        ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_5);
 
         if (gCurrentSprite.roomSlot != 0)
             SoundPlay(0x107);

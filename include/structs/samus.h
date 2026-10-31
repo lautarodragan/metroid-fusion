@@ -5,7 +5,7 @@
 #include "oam.h"
 
 struct SamusData {
-    u8 unk_0;
+    u8 unk_0; // Only copied to gPreviousSamusField0
     u8 pose;
     u8 turning;
     u8 forcedMovement;
@@ -16,7 +16,7 @@ struct SamusData {
     u8 weaponHighlighted;
     u8 newProjectile;
     u8 cooldownTimer;
-    u8 unk_B;
+    u8 unk_B; // Timer decremented every frame, ends the (never spawned) absorbing suit particle when 0, never set
     u8 chargeBeamCounter;
     u8 diagonalAim;
     u8 armRunningFlag;
@@ -71,7 +71,7 @@ struct SamusGraphicsInfo {
 
     u16 armCannonXOffset;
     u16 armCannonYOffset;
-    u16 unk_26;
+    u16 armCannonDrawFlags; // ARM_CANNON_DRAW_*, same format as the first halfword of an OAM frame
 
     const u16* pArmCannonOamFrame;
 
@@ -109,7 +109,7 @@ struct SamusEnvironmentalEffect {
     u8 externalTimer;
     u8 timer1;
     u8 timer2;
-    u8 unk_6;
+    u8 effectStarted; // Incremented when a new effect starts this frame
     u16 xPosition;
     u16 yPosition;
     const u16* pOamFrame;
@@ -118,16 +118,16 @@ struct SamusEnvironmentalEffect {
 struct SamusCollisionData {
     u16 horizontalMovingDirection;
     u16 verticalMovingDirection;
-    u8 unk_4;
-    u8 unk_5;
-    s16 unk_6;
+    u8 forwardSide; // SAMUS_HITBOX_LEFT/RIGHT, side Samus is moving/facing towards
+    u8 backwardSide; // SAMUS_HITBOX_LEFT/RIGHT, opposite of forwardSide
+    s16 forwardWallAlignOffset; // Offset added to a block position to align Samus against a wall on the forward side
     u8 standingStatus;
     u8 collisionType;
-    u8 unk_A;
-    u8 unk_B;
+    u8 aboveCollisionType; // Index in sSamusCollisionOffsetsAbove
+    u8 secondaryCollisionType; // Always the same as collisionType
     u8 touchingSideBlock;
     u8 touchingTopBlock;
-    u8 unk_E;
+    u8 unk_E; // Only cleared
 };
 
 struct SamusEcho {
@@ -172,9 +172,9 @@ extern u8 gDisableDrawingSamusAndScrollingFlag;
 extern s16 gPreviousPositionCounter;
 
 extern u8 gSamusUseYVelocityForX;
-extern s8 gUnk_3004d8c;
-extern s8 gUnk_300144e;
-extern u8 gUnk_300144f;
+extern s8 gSamusSkipCollisionAbove; // Skips the collision check above Samus when jumping, never set
+extern s8 gPrevious64PositionsFilled; // Set once gPrevious64Positions has been filled, allows drawing the echoes from older positions
+extern u8 gSamusDoorExitVelocityLock; // Set when exiting a door: timer (low bits) and 0x80/0x40 (prevent moving left/right, back into the door)
 
 extern u16 gPrevious64Positions[2][64];
 

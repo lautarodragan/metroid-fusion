@@ -765,7 +765,7 @@ void NettoriPartFalling(void)
         gCurrentSprite.pose = 0x3A;
         gCurrentSprite.work1 = 30;
 
-        ParticleSet(yPosition, xPosition, PE_0x32);
+        ParticleSet(yPosition, xPosition, PE_EXPLOSION_9);
         SoundPlay(0x298);
     }
     else
@@ -881,7 +881,7 @@ void NettoriPlasmaBeamMoving(void)
 
     if (gPreviousCollisionCheck != COLLISION_AIR)
     {
-        ParticleSet(gCurrentSprite.yPosition + HALF_BLOCK_SIZE, gCurrentSprite.xPosition, PE_0x2F);
+        ParticleSet(gCurrentSprite.yPosition + HALF_BLOCK_SIZE, gCurrentSprite.xPosition, PE_EXPLOSION_7);
         gCurrentSprite.status = 0;
         SoundPlay(0x29E);
     }

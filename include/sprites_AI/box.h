@@ -52,7 +52,7 @@ void BoxFinalJumpInit(void);
 void BoxFinalJump(void);
 void BoxCrawlingInit(void);
 void BoxCrawling(void);
-void BoxPartSetBoxWorkVar2(u8 ramSlot, u8 value);
+void BoxPartSetBoxJumpCounter(u8 ramSlot, u8 value);
 void BoxPartCenterSetImmunity(u8 ramSlot);
 void BoxPartRemoveIgnoreProjectiles(void);
 void BoxPartInit(void);

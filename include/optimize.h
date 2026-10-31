@@ -17,7 +17,7 @@
  *   each of the 16 draw orders, and checks only the projectiles that can hit
  *   (rebuilt after every hit, since a hit can spawn or remove projectiles).
  * - OPTIMIZE_DRAW_ORDER: the same for the 3 sprite drawing passes
- *   (unk_eb04, SpriteDrawAll, unk_ec38).
+ *   (SpriteDrawAllHighPriority, SpriteDrawAll, SpriteDrawAllBehindSamus).
  * - OPTIMIZE_IWRAM: functions marked IWRAM_CODE run from IWRAM (one cycle per
  *   16-bit fetch, no cartridge wait states) instead of ROM; the code is the
  *   same. They are linked in the .iwram_code section (linker.ld, after the

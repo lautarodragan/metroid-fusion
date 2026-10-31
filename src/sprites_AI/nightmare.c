@@ -1559,7 +1559,7 @@ void NightmarePartEye(void)
                 gSubSpriteData1.health = maxHealth;
 
                 ParticleSet(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(2.0f),
-                    gCurrentSprite.xPosition - BLOCK_TO_SUB_PIXEL(1.25f), PE_0x3A);
+                    gCurrentSprite.xPosition - BLOCK_TO_SUB_PIXEL(1.25f), PE_EXPLOSION_10);
                 SoundPlay_3b1c(SOUND_NIGHTMARE_MASK_DESTROYED);
             }
             break;
@@ -2043,13 +2043,13 @@ void NightmarePartGenerator(void)
                     gCurrentSprite.status |= SPRITE_STATUS_HIDDEN;
                     gCurrentSprite.pose = 0x22;
                     ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(1.0f),
-                        gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(1.25f), PE_0x30);
+                        gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(1.25f), PE_EXPLOSION_8);
                 }
             }
             else if (gCurrentSprite.work0 == 30)
             {
                 ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(1.0f),
-                    gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(1.0f), PE_0x3A);
+                    gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_10);
                 gCurrentSprite.paletteRow = 0;
                 SoundPlay_3b1c(SOUND_NIGHTMARE_GENERATOR_DESTROYED);
             }
@@ -2204,9 +2204,9 @@ void NightmareFallingArmMoving(void)
         if (--gCurrentSprite.work1 == 0)
         {
             if (gCurrentSprite.roomSlot == 0 || gCurrentSprite.roomSlot == 5)
-                ParticleSet(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(1.25f), gCurrentSprite.xPosition, PE_0x3A);
+                ParticleSet(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(1.25f), gCurrentSprite.xPosition, PE_EXPLOSION_10);
             else
-                ParticleSet(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(1.25f), gCurrentSprite.xPosition, PE_0x22);
+                ParticleSet(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(1.25f), gCurrentSprite.xPosition, PE_EXPLOSION_2);
         }
     }
     else

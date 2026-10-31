@@ -43,7 +43,7 @@ u32 InGameHandler(void)
             InitAndLoadGenerics();
 
             if (gSaXElevatorData.stage == 0)
-                gSaXElevatorData.unk_0 = 0;
+                gSaXElevatorData.active = 0;
 
             gSubGameMode1++;
             break;
@@ -113,7 +113,7 @@ u32 InGameHandler(void)
             break;
 
         case SUB_GAME_MODE_SA_X_ELEVATOR:
-            unk_d638();
+            SaXElevatorProcess();
             break;
 
         case SUB_GAME_MODE_DYING:
@@ -130,7 +130,7 @@ u32 InGameHandler(void)
             break;
     }
 
-    if (gSubGameMode1 == SUB_GAME_MODE_SA_X_ELEVATOR || gSubGameMode1 == SUB_GAME_MODE_DYING || gSaXElevatorData.unk_0 != 0)
+    if (gSubGameMode1 == SUB_GAME_MODE_SA_X_ELEVATOR || gSubGameMode1 == SUB_GAME_MODE_DYING || gSaXElevatorData.active != 0)
     {
         ResetFreeOam();
         RoomUpdate();
@@ -152,7 +152,7 @@ u32 InGameHandler(void)
 
         PROFILE_CALL(PROF_PROJ_UPDATE, ProjectileUpdate());
         PROFILE_CALL(PROF_HUD, HudDraw());
-        PROFILE_CALL(PROF_DRAW_HIGH, unk_eb04());
+        PROFILE_CALL(PROF_DRAW_HIGH, SpriteDrawAllHighPriority());
         PROFILE_CALL(PROF_PARTICLE, ParticleUpdate());
         PROFILE_CALL(PROF_PROJ_DRAW, ProjectileDrawAll_False());
 
@@ -161,7 +161,7 @@ u32 InGameHandler(void)
         if (!gDisableDrawingSamusAndScrollingFlag)
             PROFILE_CALL(PROF_SAMUS_DRAW, SamusDraw());
 
-        PROFILE_CALL(PROF_DRAW_LOW, unk_ec38());
+        PROFILE_CALL(PROF_DRAW_LOW, SpriteDrawAllBehindSamus());
         PROFILE_CALL(PROF_PROJ_DRAW, ProjectileDrawAll_True());
         
         PROFILE_CALL(PROF_RESET_OAM, ResetFreeOam());

@@ -799,54 +799,54 @@ void RidleyScreaming(void)
     switch (gCurrentSprite.rotation)
     {
         case 144:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_0x2F);
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.40625f), PE_0x25);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_7);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.40625f), PE_EXPLOSION_5);
             break;
 
         case 128:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.4375f), PE_0x25);
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x22);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.4375f), PE_EXPLOSION_5);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_2);
             break;
 
         case 112:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.5625f), PE_0x21);
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(1.1875f), PE_0x25);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.5625f), PE_EXPLOSION_1);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(1.1875f), PE_EXPLOSION_5);
             break;
 
         case 96:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(1.375f), PE_0x25);
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.5f), PE_0x2F);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(1.375f), PE_EXPLOSION_5);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.5f), PE_EXPLOSION_7);
             break;
 
         case 80:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(0.65625f), PE_0x2F);
-            ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(0.46875f), PE_0x21);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x + BLOCK_TO_SUB_PIXEL(0.65625f), PE_EXPLOSION_7);
+            ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(0.46875f), PE_EXPLOSION_1);
             break;
 
         case 64:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.25f), PE_0x2F);
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_0x22);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x + BLOCK_TO_SUB_PIXEL(0.25f), PE_EXPLOSION_7);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(0.8125f), PE_EXPLOSION_2);
             break;
 
         case 48:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.4375f), PE_0x21);
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.09375f), x, PE_0x22);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x - BLOCK_TO_SUB_PIXEL(0.4375f), PE_EXPLOSION_1);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.09375f), x, PE_EXPLOSION_2);
             break;
 
         case 32:
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.5625f), PE_0x21);
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(1.375f), PE_0x2F);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(0.5f), x + BLOCK_TO_SUB_PIXEL(0.5625f), PE_EXPLOSION_1);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(1.0f), x - BLOCK_TO_SUB_PIXEL(1.375f), PE_EXPLOSION_7);
             break;
 
         case 16:
-            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(1.1875f), PE_0x2F);
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x, PE_0x2F);
+            ParticleSet(y + BLOCK_TO_SUB_PIXEL(0.75f), x + BLOCK_TO_SUB_PIXEL(1.1875f), PE_EXPLOSION_7);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.0f), x, PE_EXPLOSION_7);
             break;
 
         case 0:
             // BUG: Unused, because this function returns earlier when this value is 0
-            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x - BLOCK_TO_SUB_PIXEL(0.65625f), PE_0x2F);
-            ParticleSet(y, x + BLOCK_TO_SUB_PIXEL(0.46875f), PE_0x21);
+            ParticleSet(y - BLOCK_TO_SUB_PIXEL(1.125f), x - BLOCK_TO_SUB_PIXEL(0.65625f), PE_EXPLOSION_7);
+            ParticleSet(y, x + BLOCK_TO_SUB_PIXEL(0.46875f), PE_EXPLOSION_1);
             break;
     }
 }
@@ -1752,7 +1752,7 @@ void RidleyFireMovingTowardsSamus(void)
 void RidleyFireExploding(void)
 {
     gCurrentSprite.status = 0;
-    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_0x25);
+    ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_5);
     SoundPlay(SOUND_1E4);
 }
 
