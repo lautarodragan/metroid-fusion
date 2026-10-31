@@ -421,7 +421,7 @@ boolu32 CreditsProcess(void)
             {
                 ENDING_DATA.scrollAccumulator = MOD_AND(ENDING_DATA.scrollAccumulator, 128);
                 
-                if (ENDING_DATA.unk_2 == ENDING_DATA.lineRow)
+                if (ENDING_DATA.ENDING_CREDITS_ROWS_SCROLLED == ENDING_DATA.lineRow)
                 {
                     lineHeight = CreditsDisplayLine(ENDING_DATA.currentCreditLine);
                     
@@ -450,7 +450,7 @@ boolu32 CreditsProcess(void)
                     }
                 }
                 
-                ENDING_DATA.unk_2++;
+                ENDING_DATA.ENDING_CREDITS_ROWS_SCROLLED++;
             }
             
             ENDING_DATA.scrollAccumulator += 9;
@@ -509,7 +509,7 @@ boolu32 CreditsProcess(void)
 
             gWrittenToBldy = 0;
             ENDING_DATA.timer = 0;
-            ENDING_DATA.unk_97 = 0;
+            ENDING_DATA.ENDING_FADE_TIMER = 0;
             ENDING_DATA.subStage = 0;
             ENDING_DATA.stage++;
             break;
@@ -731,7 +731,7 @@ boolu32 EndingSamusPosingInit(void)
 
     DMA3_COPY_16(sEndingSamusPosingSineTable, ENDING_DATA.samusPosingBg0Offsets, 64);
 
-    ENDING_DATA.unk_2 = 0;
+    ENDING_DATA.ENDING_BLEND_FADING = 0;
     ENDING_DATA.lineRow = 0;
     ENDING_DATA.currentCreditLine = 0;
     ENDING_DATA.subStage++;
@@ -754,16 +754,16 @@ boolu32 EndingFadeIn(void)
 {
     if (gWrittenToBldy)
     {
-        if (ENDING_DATA.unk_97 & 1)
+        if (ENDING_DATA.ENDING_FADE_TIMER & 1)
             gWrittenToBldy--;
         
-        ENDING_DATA.unk_97++;
+        ENDING_DATA.ENDING_FADE_TIMER++;
     }
     else
     {
         WRITE_16(REG_BLDCNT, 0);
         ENDING_DATA.subStage++;
-        ENDING_DATA.unk_97 = 0;
+        ENDING_DATA.ENDING_FADE_TIMER = 0;
     }
     
     return FALSE;
@@ -833,7 +833,7 @@ boolu32 EndingSamusPosing(void)
                     BLDCNT_BG1_SECOND_TARGET_PIXEL | BLDCNT_BG2_SECOND_TARGET_PIXEL);
             
             WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_OBJ);
-            ENDING_DATA.unk_2 = 1;
+            ENDING_DATA.ENDING_BLEND_FADING = 1;
             break;
         
         case CONVERT_SECONDS(1 + 2.f / 3):
@@ -852,16 +852,16 @@ boolu32 EndingSamusPosing(void)
                 WRITE_16(REG_BG1CNT, CREATE_BGCNT(2, 30, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
             }
         
-            ENDING_DATA.unk_2 = 0;
+            ENDING_DATA.ENDING_BLEND_FADING = 0;
             ENDING_DATA.timer = 0;
-            ENDING_DATA.unk_97 = 0;
+            ENDING_DATA.ENDING_FADE_TIMER = 0;
             ENDING_DATA.subStage++;
             break;
     }
     
-    if (ENDING_DATA.unk_2 == 1 && ENDING_DATA.unk_97++ > 1) 
+    if (ENDING_DATA.ENDING_BLEND_FADING == 1 && ENDING_DATA.ENDING_FADE_TIMER++ > 1) 
     {
-        ENDING_DATA.unk_97 = 0;
+        ENDING_DATA.ENDING_FADE_TIMER = 0;
             
         if (gWrittenToBldalpha_Eva)
             gWrittenToBldalpha_Eva--;
@@ -909,14 +909,14 @@ boolu32 EndingSamusPosingTransforming(void)
             ENDING_DATA.oamCount = 1;
             ENDING_DATA.samusOamPriority = 1;
             ENDING_DATA.pSamusOamFrame = (u16*)&sOamFrame_749c80;
-            ENDING_DATA.unk_2 = 1;
+            ENDING_DATA.ENDING_BLEND_FADING = 1;
             break;
 
         case CONVERT_SECONDS(1 + 2.f / 3):
             WRITE_16(REG_DISPCNT, DCNT_BG2 | DCNT_OBJ);
             WRITE_16(REG_BLDCNT, 0);
             ENDING_DATA.samusOamPriority = 0;
-            ENDING_DATA.unk_2 = 0;
+            ENDING_DATA.ENDING_BLEND_FADING = 0;
             break;
 
         case CONVERT_SECONDS(1 + 41.f / 60):
@@ -935,7 +935,7 @@ boolu32 EndingSamusPosingTransforming(void)
                 WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) | DSTAT_IF_HBLANK);
                 WRITE_16(REG_IE, READ_16(REG_IE) | IF_HBLANK);
                 WRITE_16(REG_IME, 1);
-                ENDING_DATA.unk_96 = 1;
+                ENDING_DATA.bg0WaveActive = 1;
             }
             break;
 
@@ -1021,8 +1021,8 @@ boolu32 EndingSamusPosingTransforming(void)
                 WRITE_16(REG_BLDCNT, BLDCNT_BG0_FIRST_TARGET_PIXEL | BLDCNT_OBJ_FIRST_TARGET_PIXEL | 
                     BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BG1_SECOND_TARGET_PIXEL | BLDCNT_BG2_SECOND_TARGET_PIXEL);
                 WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_OBJ | DCNT_WIN0 | DCNT_WINOBJ);
-                ENDING_DATA.unk_2 = 1;
-                ENDING_DATA.unk_97 = 0;
+                ENDING_DATA.ENDING_BLEND_FADING = 1;
+                ENDING_DATA.ENDING_FADE_TIMER = 0;
             }
             break;
         
@@ -1032,8 +1032,8 @@ boolu32 EndingSamusPosingTransforming(void)
                 WRITE_16(REG_DISPCNT, DCNT_BG1 | DCNT_BG2);
                 WRITE_16(REG_BLDCNT, 0);
                 ENDING_DATA.oamCount = 0;
-                ENDING_DATA.unk_2 = 0;
-                ENDING_DATA.unk_96 = 0;
+                ENDING_DATA.ENDING_BLEND_FADING = 0;
+                ENDING_DATA.bg0WaveActive = 0;
             }
             break;
 
@@ -1042,9 +1042,9 @@ boolu32 EndingSamusPosingTransforming(void)
             break;
     }
 
-    if (ENDING_DATA.unk_2 == 1 && ENDING_DATA.unk_97++ > 1) 
+    if (ENDING_DATA.ENDING_BLEND_FADING == 1 && ENDING_DATA.ENDING_FADE_TIMER++ > 1) 
     {
-        ENDING_DATA.unk_97 = 0;
+        ENDING_DATA.ENDING_FADE_TIMER = 0;
             
         if (gWrittenToBldalpha_Eva)
             gWrittenToBldalpha_Eva--;
@@ -1055,7 +1055,7 @@ boolu32 EndingSamusPosingTransforming(void)
         WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
     }
     
-    if (ENDING_DATA.unk_96)
+    if (ENDING_DATA.bg0WaveActive)
         ENDING_DATA.currentCreditLine++;
 
     dst = (u16*)&gOamData;
@@ -1226,7 +1226,7 @@ boolu32 EndingImageInit(void)
     WRITE_16(REG_BG3VOFS, 0);
 
     ENDING_DATA.scrollAccumulator = 128;
-    ENDING_DATA.unk_2 = 0;
+    ENDING_DATA.ENDING_IMAGE_SCROLLING = 0;
     ENDING_DATA.lineRow = 0;
     ENDING_DATA.currentCreditLine = 0;
     ENDING_DATA.subStage++;
@@ -1282,12 +1282,12 @@ boolu32 EndingImage(void)
     {
         case 0:
             EndingDrawIgtAndCompletionPercentage();
-            ENDING_DATA.unk_2 = 1;
+            ENDING_DATA.ENDING_IMAGE_SCROLLING = 1;
             break;
         
         case CONVERT_SECONDS(1.f / 2):
             EndingImageLoadTextOam(0);
-            ENDING_DATA.unk_97 = 1;
+            ENDING_DATA.ENDING_IMAGE_LETTERS_SPAWNING = 1;
             break;
         
         //case CONVERT_SECONDS(1 + 5.f / 6): // No match
@@ -1325,7 +1325,7 @@ boolu32 EndingImage(void)
             break;
     }
     
-    if (ENDING_DATA.unk_2 == 1) 
+    if (ENDING_DATA.ENDING_IMAGE_SCROLLING == 1) 
     {
         if (ENDING_DATA.scrollAccumulator > 127) 
         {
@@ -1343,11 +1343,11 @@ boolu32 EndingImage(void)
         if (!gBg0YPosition || (gBg0YPosition & 0x8000))
         {
             gBg0YPosition = 0;
-            ENDING_DATA.unk_2 = 0;
+            ENDING_DATA.ENDING_IMAGE_SCROLLING = 0;
         }
     }
     
-    if (ENDING_DATA.unk_97 == 1) 
+    if (ENDING_DATA.ENDING_IMAGE_LETTERS_SPAWNING == 1) 
     {
         for (currSlot = 6; currSlot < ENDING_DATA.oamCount; currSlot++)
             EndingImageUpdateLettersSpawnDelay(currSlot);
