@@ -3,6 +3,7 @@
 
 // Include this here to make sure it's basically included everywhere
 #include "config.h"
+#include "struct_layout.h"
 
 #define TRUE 1
 #define FALSE 0
