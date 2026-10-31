@@ -11,7 +11,7 @@ struct ColorFading {
     ColorFadingEffect type;
     u8 stage;
     u8 fadeTimer;
-    u8 unk_3;
+    u8 timer;
     ColorFadingStatus status;
     u8 usePalette3:4;
     u8 unk_5_4:4;

@@ -74,21 +74,21 @@ const struct Bg3Movement sBg3Movement_Empty = {
     .xOffset = 0
 };
 
-const struct Unk_3004e30 sUnk_3c88dc = {
-    .unk_0 = 0,
-    .unk_1 = 0,
-    .unk_2 = 0,
-    .unk_3 = 0,
-    .unk_4 = 0,
-    .unk_5 = 0,
-    .unk_6 = 0
+const struct Bg0ObjectMovement sBg0ObjectMovement_Empty = {
+    .stage = 0,
+    .previousPass = 0,
+    .keepPassing = 0,
+    .passCount = 0,
+    .positionIndex = 0,
+    .yVelocityOffset = 0,
+    .timer = 0
 };
 
 const struct WaterMovement sWaterMovement_Empty = {
     .moving = 0,
-    .unk_1 = 0,
+    .loopTimer = 0,
     .stage = 0,
     .yOffset = 0,
     .unk_6 = 0,
-    .unk_8 = 0
+    .drainOffset = 0
 };

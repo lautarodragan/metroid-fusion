@@ -389,7 +389,7 @@ void Sram_QuickSave(u8 stage)
     {
         case 0:
             gDisableSoftReset = TRUE;
-            gUnk_3000b90 = TRUE;
+            gHasSaved = TRUE;
             WriteMostRecentFileBackupToSram();
             return;
 
@@ -436,7 +436,7 @@ void SramWrite_ToEwram(void)
     pFile->notChecksum = UINT_MAX;
 
     pFile->gameCompletion = gGameCompletion;
-    pFile->unk_1C = gUnk_3000b90;
+    pFile->hasSaved = gHasSaved;
 
     pFile->currentArea = gCurrentArea;
     pFile->currentRoom = gCurrentRoom;
@@ -449,7 +449,7 @@ void SramWrite_ToEwram(void)
     pFile->minimapY = gMinimapY;
     pFile->soundEventCounter = gSoundEventCounter;
     pFile->previousSoundEvent = gPreviousSoundEvent;
-    pFile->unk_2A = gFlashingSectorNumber;
+    pFile->flashingSectorNumber = gFlashingSectorNumber;
     pFile->securityHatchLevelBackup = gSecurityHatchLevelBackup;
 
     pFile->camera = *(struct SaveCamera*)&gCamera;
@@ -523,7 +523,7 @@ void SramRead_FromEwram(void)
     pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
 
     gGameCompletion = pFile->gameCompletion;
-    gUnk_3000b90 = pFile->unk_1C;
+    gHasSaved = pFile->hasSaved;
 
     gCurrentArea = pFile->currentArea;
     gCurrentRoom = pFile->currentRoom;
@@ -536,7 +536,7 @@ void SramRead_FromEwram(void)
     gMinimapY = pFile->minimapY;
     gSoundEventCounter = pFile->soundEventCounter;
     gPreviousSoundEvent = pFile->previousSoundEvent;
-    gFlashingSectorNumber = pFile->unk_2A;
+    gFlashingSectorNumber = pFile->flashingSectorNumber;
     gSecurityHatchLevelBackup = pFile->securityHatchLevelBackup;
 
     *(struct SaveCamera*)&gCamera = pFile->camera;
@@ -1268,7 +1268,7 @@ void Sram_ResetForDemo(void)
     gNavigationTargetLocation = 0;
     gFlashingSectorNumber = 0;
     gIsLoadingFile = FALSE;
-    gUnk_3000be3 = FALSE;
+    gGameplayInitialized = FALSE;
     gMonochromeFading = 0;
     gDisableSoftReset = FALSE;
     gMaxInGameTimeFlag = TRUE;
@@ -1303,7 +1303,7 @@ void Sram_CheckLoadSaveFile(void)
         SramLoad_CurrentSave();
     }
 
-    gUnk_3000be3 = FALSE;
+    gGameplayInitialized = FALSE;
     gMonochromeFading = 0;
     gDisableSoftReset = FALSE;
     gMaxInGameTimeFlag = FALSE;
@@ -1417,7 +1417,7 @@ void Sram_WriteFileInfo(void)
             gSaveFilesInfo[i].weaponsStatus = pFile->equipment.weaponsStatus;
             gSaveFilesInfo[i].igtHours = pFile->inGameTimer.hours;
             gSaveFilesInfo[i].igtMinutes = pFile->inGameTimer.minutes;
-            gSaveFilesInfo[i].unk_F = pFile->unk_1C;
+            gSaveFilesInfo[i].unk_F = pFile->hasSaved;
             gSaveFilesInfo[i].unk_10 = pFile->gameCompletion.completedGame;
             gSaveFilesInfo[i].unk_11 = pFile->gameCompletion.introPlayed;
         }

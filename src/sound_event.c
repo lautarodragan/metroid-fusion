@@ -1883,7 +1883,7 @@ void CheckUpdateMusicDuringRoomLoad(void)
     {
         SoundPlay(MUSIC_NONE);
     }
-    else if (!gUnk_3000be3)
+    else if (!gGameplayInitialized)
     {
         if (gDemoState)
             return;

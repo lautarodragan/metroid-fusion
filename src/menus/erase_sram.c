@@ -349,7 +349,7 @@ void EraseSramMenuInit(void)
     gWrittenToBldalpha_Evb = 0;
     WRITE_16(REG_BLDALPHA, 0);
 
-    gUnk_3000be3 = FALSE;
+    gGameplayInitialized = FALSE;
     gBg1XPosition = 0;
     gBg1YPosition = 0;
     gBg3XPosition = 0;

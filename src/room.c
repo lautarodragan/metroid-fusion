@@ -109,7 +109,7 @@ void RoomLoad(void)
     RoomEffectCheckSetCurrentEventBased();
 
     // Adjust spawn position if using an elevator
-    if (!gIsLoadingFile && gUnk_3000be3 != 0 && gPauseScreenFlag == PAUSE_SCREEN_NONE &&
+    if (!gIsLoadingFile && gGameplayInitialized != 0 && gPauseScreenFlag == PAUSE_SCREEN_NONE &&
         gSamusData.pose == SPOSE_USING_ELEVATOR)
     {
         if (gSamusData.elevatorOrClimbingDirection == KEY_UP)
@@ -159,7 +159,7 @@ void RoomLoadTileset(void)
 
     gTilesetTransparentColor.transparentColor = tileset.pPalette[0];
     WRITE_16(PALRAM_BASE, 0);
-    gTilesetTransparentColor.unk_2 = 0;
+    gTilesetTransparentColor.gradientBaseColor = 0;
 
     bgGfxSize = C_16_2_8(((u8*)tileset.pBackgroundGraphics)[2],
         ((u8*)tileset.pBackgroundGraphics)[1]);
@@ -327,7 +327,7 @@ void RoomRemoveNeverReformBlocksAndCollectedTanks(void)
  */
 static inline void RoomResetColorFading(void)
 {
-    gColorFading.unk_3 = 0;
+    gColorFading.timer = 0;
     gColorFading.fadeTimer = 0;
     gColorFading.usePalette3 = 0;
     gColorFading.status = 0;
@@ -365,7 +365,7 @@ void RoomReset(void)
     gWrittenToBldcnt = 0;
     gScrollCounter = 0;
 
-    if (gUnk_3000be3 == 0)
+    if (gGameplayInitialized == 0)
     {
         gColorFading.type = COLOR_FADING_BLACK;
         
@@ -415,7 +415,7 @@ void RoomReset(void)
 
     gDisableScrolling = FALSE;
     gCollectingTank = FALSE;
-    gUnk_3000050 = 0;
+    gScreenShakeExemptBgs = 0;
     gDisablePauseFlag = FALSE;
     gBackdropColor = 0;
     
@@ -425,7 +425,7 @@ void RoomReset(void)
     gEffectYPosition = 0;
     gLockedHatches = 0;
     gDoorUnlockTimer = 0;
-    gUnk_3000047 = 0;
+    gTimedHatchLockState = 0;
     
     pDoor = sAreaDoorPointers[gCurrentArea];
     pDoor += gLastDoorUsed;
@@ -437,7 +437,7 @@ void RoomReset(void)
     
     gSaXSpawnPosition = sRawCoordsX_Empty;
     gWaterMovement = sWaterMovement_Empty;
-    gUnk_3004e30 = sUnk_3c88dc;
+    gBg0ObjectMovement = sBg0ObjectMovement_Empty;
 
     EventCheckRoomHasEventTrigger(gCurrentRoom + 1);
 
@@ -871,7 +871,7 @@ void RoomLoadDoors(void)
             break;
     }
 
-    if (currHatch != UCHAR_MAX && gUnk_3000be3 != 0)
+    if (currHatch != UCHAR_MAX && gGameplayInitialized != 0)
     {
         if (gHatchData[currHatch].exists && gHatchData[currHatch].lockType <= 4)
         {
@@ -1150,28 +1150,28 @@ u32 RoomRleDecompress(u8 type, const u8* src, u8* dst)
 }
 
 /**
- * @brief 659a0 | 40 | ?
+ * @brief 659a0 | 40 | Updates the monochrome fading, the minimap, the transparency pulse and the elevator ride end
  *
  */
-void unk_659a0(void)
+void RoomUpdateMiscEffects(void)
 {
     if (gMonochromeFading != 0)
         ColorFadingApplyMonochrome();
     
     MinimapUpdate();
     
-    if (gUnk_3004e44.unk_0_L)
-        unk_65a1c();
+    if (gTransparencyPulse.enabled)
+        RoomUpdateTransparencyPulse();
 
     if (gElevatorDirection != 0)
         RoomCheckElevatorRideEnded();
 }
 
 /**
- * @brief 659e0 | 4 | Empty function
+ * @brief 659e0 | 4 | Empty function (unused)
  *
  */
-void unk_659e0(void)
+void Room_Empty(void)
 {
     // Empty
 }
@@ -1194,10 +1194,11 @@ void RoomCheckElevatorRideEnded(void)
 }
 
 /**
- * @brief 65a1c | F0 | ?
+ * @brief 65a1c | F0 | Slowly oscillates the blending coefficients around their default values
+ * (paused while something else writes BLDALPHA, reset by a power bomb)
  *
  */
-void unk_65a1c(void)
+void RoomUpdateTransparencyPulse(void)
 {
     s32 animState;
     s32 coef;
@@ -1211,22 +1212,22 @@ void unk_65a1c(void)
     switch (animState)
     {
         case 1:
-            gUnk_3004e44.unk_1 = gWrittenToBldalpha;
-            gUnk_3004e44.unk_0_H = 2;
+            gTransparencyPulse.timer = gWrittenToBldalpha;
+            gTransparencyPulse.phase = 2;
             coef = gIoRegisters.bldalpha_evb + 2;
             gWrittenToBldalpha = C_16_2_8(coef, 16 - coef);
             break;
 
         case 0:
-            gUnk_3004e44.unk_1++;
+            gTransparencyPulse.timer++;
 
-            if (gUnk_3004e44.unk_1 > 19)
+            if (gTransparencyPulse.timer > 19)
             {
-                gUnk_3004e44.unk_1 = animState;
-                gUnk_3004e44.unk_0_H++;
-                gUnk_3004e44.unk_0_H &= 7;
+                gTransparencyPulse.timer = animState;
+                gTransparencyPulse.phase++;
+                gTransparencyPulse.phase &= 7;
                 
-                coef = gUnk_3004e44.unk_0_H & 3;
+                coef = gTransparencyPulse.phase & 3;
                 if (coef != 0)
                 {
                     if (coef & 1)
@@ -1235,7 +1236,7 @@ void unk_65a1c(void)
                         coef = 2;
                 }
 
-                if (gUnk_3004e44.unk_0_H & 4)
+                if (gTransparencyPulse.phase & 4)
                     coef = -coef;
 
                 eva = gIoRegisters.bldalpha_eva;
@@ -1439,7 +1440,7 @@ void RoomUpdateBackgroundPositions(void)
     yPosition = (gBg2YPosition / 4) & 0x1FF;
     gBackgroundPositions.bg[2].y = yPosition + yOffset;
 
-    if (gUnk_3000050 & 0x100)
+    if (gScreenShakeExemptBgs & DCNT_BG0)
     {
         gBackgroundPositions.bg[0].x = ((gBg0XPosition / 4) + gBg0Movement.xOffset) & 0x1FF;
         gBackgroundPositions.bg[0].y = ((gBg0YPosition / 4) + gBg0Movement.yOffset) & 0x1FF;
@@ -1453,7 +1454,7 @@ void RoomUpdateBackgroundPositions(void)
     bg3X = ((gBg3XPosition / 4) + gBg3Movement.xOffset) & 0x1FF;
     bg3Y = (gBg3YPosition / 4) & 0x1FF;
 
-    if (gUnk_3000050 & 0x800)
+    if (gScreenShakeExemptBgs & DCNT_BG3)
     {
         gBackgroundPositions.bg[3].x = bg3X;
         gBackgroundPositions.bg[3].y = bg3Y;
@@ -1470,18 +1471,18 @@ void RoomUpdateBackgroundPositions(void)
     if (block & 0x8000) \
     { \
         block = (block & 0x7FFF) * 4; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block]; \
     } \
     else \
     { \
         block *= 4; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block]; \
     } \
     blockIdx++; \
     if (srcTile >= tileCount) \
@@ -1587,10 +1588,10 @@ void RoomUpdateVerticalTilemap(s32 offset)
     tileOffset = (blockX & 0xF) * 2; \
     if (blockX & 0x10) \
         tileOffset += 0x400; \
-    dst[tileOffset] = pTilemap->unk_6[srcTile++]; \
-    dst[tileOffset + 1] = pTilemap->unk_6[srcTile++]; \
-    dst[tileOffset + 32] = pTilemap->unk_6[srcTile++]; \
-    dst[tileOffset + 33] = pTilemap->unk_6[srcTile++]; \
+    dst[tileOffset] = pTilemap->tiles[srcTile++]; \
+    dst[tileOffset + 1] = pTilemap->tiles[srcTile++]; \
+    dst[tileOffset + 32] = pTilemap->tiles[srcTile++]; \
+    dst[tileOffset + 33] = pTilemap->tiles[srcTile++]; \
     blockX++; \
     if (srcTile >= tileCount) \
         break;
@@ -1654,18 +1655,18 @@ void RoomCopyVerticalTilemap(void)
     if (block & 0x8000) \
     { \
         block = (block & 0x7FFF) * 4; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = sCommonTilemap[block]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = sCommonTilemap[block]; \
     } \
     else \
     { \
         block *= 4; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
-        pTilemap->unk_6[srcTile++] = gTilemapAndClipPointers.pTilemap[block]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block++]; \
+        pTilemap->tiles[srcTile++] = gTilemapAndClipPointers.pTilemap[block]; \
     } \
     blockIdx += gBackgroundsData.backgrounds[bg].width; \
     if (srcTile >= tileCount) \
@@ -1764,10 +1765,10 @@ void RoomUpdateHorizontalTilemap(s32 offset)
 
 #define COPY_TILES_HORI \
     tileOffset = (blockY & 0xF) * 0x40; \
-    dst[tileOffset] = pTilemap->unk_6[srcTile++]; \
-    dst[tileOffset + 1] = pTilemap->unk_6[srcTile++]; \
-    dst[tileOffset + 32] = pTilemap->unk_6[srcTile++]; \
-    dst[tileOffset + 33] = pTilemap->unk_6[srcTile++]; \
+    dst[tileOffset] = pTilemap->tiles[srcTile++]; \
+    dst[tileOffset + 1] = pTilemap->tiles[srcTile++]; \
+    dst[tileOffset + 32] = pTilemap->tiles[srcTile++]; \
+    dst[tileOffset + 33] = pTilemap->tiles[srcTile++]; \
     blockY++; \
     if (srcTile >= tileCount) \
         break;

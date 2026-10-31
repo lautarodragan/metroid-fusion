@@ -7,7 +7,7 @@ u32 InGameHandler(void);
 void InGameSetVblank(void);
 void TransferSamusGraphics(s32 updatePalette);
 void VBlankCodeInGameLoad(void);
-void unk_e26c(void);
+void InGameTransferGraphicsAndBgPositions(void);
 void VBlankCodeInGame(void);
 void VBlankInGame_Empty(void);
 void InitAndLoadGenerics(void);

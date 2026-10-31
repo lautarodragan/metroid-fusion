@@ -2,7 +2,8 @@
 
 #include "constants/event.h"
 
-const u8 sHaze_3c94cc[4] = {
+// Only read to delay between the two DMA writes that stop the haze transfer
+const u8 sHaze_DummyRead[4] = {
     30, 31, 30, 31
 };
 
@@ -294,12 +295,12 @@ const s8 sHaze_Bg3Y[65][32] = {
     }
 };
 
-const s8 sHaze_3c9da0[32] = {
+const s8 sHaze_BothAxes_Y[32] = {
     0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0,
     0, 0, -1, -1, -1, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, 0
 };
 
-const s8 sHaze_3c9dc0[16] = {
+const s8 sHaze_BothAxes_X[16] = {
     0, 0, 1, 1, 1, 1, 1, 0, 0, 0, -1, -1, -1, -1, -1, 0
 };
 
@@ -4255,7 +4256,7 @@ const s16* const sHaze_PowerBomb_WindowValuesPointers[161] = {
     sHaze_PowerBomb_Values160,
 };
 
-const s8 sHaze_3e3518[15][16] = {
+const s8 sHaze_Bg0[15][16] = {
     { 0, 1, 1, 2, 2, 2, 1, 1, 0, -1, -1, -2, -2, -2, -1, -1 },
     { 0, 1, 2, 3, 3, 3, 2, 1, 0, -1, -2, -3, -3, -3, -2, -1 },
     { 0, 2, 3, 4, 4, 4, 3, 2, 0, -2, -3, -4, -4, -4, -3, -2 },
@@ -4321,7 +4322,7 @@ const s8 sHaze_Bg_WeakOutside[32] = {
     0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0
 };
 
-const u8 sHaze_3e3758[2][2] = {
+const u8 sHaze_AtmosphericStabilizerValues[2][2] = {
     { EVENT_NONE, 4 },
     { UCHAR_MAX, 4 }
 };
@@ -4329,5 +4330,5 @@ const u8 sHaze_3e3758[2][2] = {
 const struct HazeLoop sHazeLoop_Empty = {
     .timer = 0,
     .unk_2 = 0,
-    .unk_3 = 0
+    .value = 0
 };

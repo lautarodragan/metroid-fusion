@@ -7521,7 +7521,7 @@ void SamusInit(void)
         gSamusPhysics = *(struct SamusPhysics *)sSamusGenericData_Empty;
     }
 
-    if (gUnk_3000be3 || gIsLoadingFile)
+    if (gGameplayInitialized || gIsLoadingFile)
         return;
 
     gEquipment = sEquipment_Empty;

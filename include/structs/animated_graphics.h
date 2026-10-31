@@ -60,6 +60,7 @@ extern struct AnimatedPaletteAndTileset gAnimatedPaletteAndTileset;
 extern u8 gDisableAnimatedGraphicsTimer;
 extern u16 gAnimatedGraphicsToUpdate;
 
-extern s8 gUnk_3004e3a;
+// When set, the animated palette is disabled once it completes its current cycle
+extern s8 gStopAnimatedPaletteAfterCycle;
 
 #endif /* ANIMATED_GRAPHICS_STRUCT_H */

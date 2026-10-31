@@ -7,6 +7,6 @@ u32 ConnectionCheckEnterDoor(u16 yPosition, u16 xPosition);
 u32 ConnectionCheckAreaConnection(u16 yPosition, u16 xPosition);
 void ConnectionProcessDoorType(u8 type);
 u32 ConnectionFindEventBasedDoor(u8 srcDoor);
-void unk_6956c(u16 value);
+void ConnectionSetMakeSolidBlocksClipdata(u16 value);
 
 #endif /* CONNECTION_H */

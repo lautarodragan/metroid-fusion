@@ -267,11 +267,11 @@ u32 ConnectionFindEventBasedDoor(u8 srcDoor)
 }
 
 /**
- * @brief 6956c | 48 | Unused function (related to make solid blocks)
+ * @brief 6956c | 48 | Sets the clipdata of every make solid block (unused)
  * 
  * @param value Clipdata value
  */
-void unk_6956c(u16 value)
+void ConnectionSetMakeSolidBlocksClipdata(u16 value)
 {
     u16* pMSB;
     s32 i;
