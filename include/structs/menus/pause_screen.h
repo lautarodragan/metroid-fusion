@@ -172,7 +172,7 @@ struct PauseScreenData {
     u8 unk_281;
     u8 unk_282;
     u8 unk_283;
-    u8 unk_284;
+    u8 debugIgtMinutes; // Minutes of the in game time last drawn by the pause debug menu
 };
 
 struct MaintainedInput {

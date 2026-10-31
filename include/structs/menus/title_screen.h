@@ -11,11 +11,11 @@ struct TitleScreenObject {
     u16 xPosition;
     u16 yPosition;
     u8 section;
-    u8 unk_5;
+    u8 paletteRow; // Palette cycling index
     u8 isDrawn;
     u8 currentAnimationFrame;
     u8 animationDurationCounter;
-    u8 unk_9;
+    u8 timer;
     u8 action;
     u8 objMode;
     u8 unk_C;
@@ -24,10 +24,10 @@ struct TitleScreenObject {
 };
 
 struct TitleScreenData {
-    u16 unk_0;
-    u16 unk_2;
-    u8 unk_4;
-    u8 unk_5;
+    u16 timer;
+    u16 idleTimer; // Frames without input, starts the demo at 1200
+    u8 startDemo;
+    u8 stage;
     u8 padding_6[6];
     struct TitleScreenObject objects[4];
 };

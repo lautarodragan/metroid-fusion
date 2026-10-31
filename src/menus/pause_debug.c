@@ -40,11 +40,11 @@ void PauseDebugHandler(void)
     if (gChangedInput != 0)
         PauseDebugModifyValues();
 
-    if (PAUSE_SCREEN_DATA.unk_284 != gInGameTimer.minutes)
+    if (PAUSE_SCREEN_DATA.debugIgtMinutes != gInGameTimer.minutes)
         PauseDebugDrawIgt();
 
     if (gInGameTimer.frames == 0)
-        unk_7e224();
+        PauseDebugBlinkIgtColon();
 }
 
 // BUG: return type should be void
@@ -950,14 +950,14 @@ void PauseDebugDrawIgt(void)
         dst[position] = 0x3080 + gInGameTimer.minutes / power % 10;
     }
 
-    PAUSE_SCREEN_DATA.unk_284 = gInGameTimer.minutes;
+    PAUSE_SCREEN_DATA.debugIgtMinutes = gInGameTimer.minutes;
 }
 
 /**
- * @brief 7e224 | 54 | To document
+ * @brief 7e224 | 54 | Blinks the colon of the in game time of the pause debug menu (drawn on odd seconds)
  * 
  */
-void unk_7e224(void)
+void PauseDebugBlinkIgtColon(void)
 {
     u16* dst;
     u32 position;

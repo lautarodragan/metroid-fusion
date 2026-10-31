@@ -12,11 +12,11 @@
 #include "constants/menus/title_screen.h"
 
 /**
- * @brief 86854 | b8 | To document
+ * @brief 86854 | b8 | Title screen handler without the spawning in sequence (unused, game mode 2 is never set)
  * 
- * @return s32 To document
+ * @return s32 1 = start, 100 (0x64) = start the demo, 0 if still running
  */
-s32 unk_86854(void)
+s32 TitleScreenHandler_Unused(void)
 {
     s32 ended;
 
@@ -25,7 +25,7 @@ s32 unk_86854(void)
     switch (gSubGameMode1)
     {
         case 0:
-            unk_8690c();
+            TitleScreenInit_Unused();
             gSubGameMode1++;
             break;
 
@@ -34,11 +34,11 @@ s32 unk_86854(void)
             {
                 if (gWrittenToBldy < 9)
                 {
-                    TITLE_SCREEN_DATA.unk_0++;
+                    TITLE_SCREEN_DATA.timer++;
 
-                    if (TITLE_SCREEN_DATA.unk_0 == 2)
+                    if (TITLE_SCREEN_DATA.timer == 2)
                     {
-                        TITLE_SCREEN_DATA.unk_0 = 0;
+                        TITLE_SCREEN_DATA.timer = 0;
                         gWrittenToBldy--;
                     }
                 }
@@ -49,13 +49,13 @@ s32 unk_86854(void)
             }
             else
             {
-                TITLE_SCREEN_DATA.unk_0 = 1995;
+                TITLE_SCREEN_DATA.timer = 1995;
                 gSubGameMode1++;
             }
             break;
 
         case 2:
-            if (unk_86b58())
+            if (TitleScreenProcessInput_Unused())
                 gSubGameMode1++;
             break;
 
@@ -69,7 +69,7 @@ s32 unk_86854(void)
             }
             else
             {
-                if (TITLE_SCREEN_DATA.unk_4 == 0x1)
+                if (TITLE_SCREEN_DATA.startDemo == 0x1)
                     ended = 0x64;
                 else
                     ended = TRUE;
@@ -83,10 +83,10 @@ s32 unk_86854(void)
 }
 
 /**
- * @brief 8690c | 1f4 | To document
+ * @brief 8690c | 1f4 | Initializes the title screen directly in its final state, with the debug text (unused)
  * 
  */
-void unk_8690c(void)
+void TitleScreenInit_Unused(void)
 {
     u32 zero;
 
@@ -183,11 +183,11 @@ void TitleScreenVblank_Empty(void)
 }
 
 /**
- * @brief 86b58 | 94 | To document
+ * @brief 86b58 | 94 | Waits for A/START or the demo timeout (unused, same as the end of TitleScreenSpawningIn)
  * 
  * @return s32 bool, ended
  */
-s32 unk_86b58(void)
+s32 TitleScreenProcessInput_Unused(void)
 {
     s32 ended;
 
@@ -196,39 +196,39 @@ s32 unk_86b58(void)
     TitleScreenCallObjectsHandler();
     TitleScreenDrawAllObjects();
 
-    switch (TITLE_SCREEN_DATA.unk_5)
+    switch (TITLE_SCREEN_DATA.stage)
     {
         case 0:
-            TITLE_SCREEN_DATA.unk_0++;
-            TITLE_SCREEN_DATA.unk_2++;
-            if (TITLE_SCREEN_DATA.unk_0 == 2000)
+            TITLE_SCREEN_DATA.timer++;
+            TITLE_SCREEN_DATA.idleTimer++;
+            if (TITLE_SCREEN_DATA.timer == 2000)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
             }
 
             if (gChangedInput & (KEY_A | KEY_START))
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_2 = 0;
-                TITLE_SCREEN_DATA.unk_5 = 1;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.idleTimer = 0;
+                TITLE_SCREEN_DATA.stage = 1;
 
                 SoundPlay(SOUND_1FF);
             }
-            else if (TITLE_SCREEN_DATA.unk_2 == 1200)
+            else if (TITLE_SCREEN_DATA.idleTimer == 1200)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_2 = 0;
-                TITLE_SCREEN_DATA.unk_4 = 1;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.idleTimer = 0;
+                TITLE_SCREEN_DATA.startDemo = 1;
                 WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
                 ended = TRUE;
             }
             break;
 
         case 1:
-            TITLE_SCREEN_DATA.unk_0++;
-            if (TITLE_SCREEN_DATA.unk_0 > 34)
+            TITLE_SCREEN_DATA.timer++;
+            if (TITLE_SCREEN_DATA.timer > 34)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
                 WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
                 ended = TRUE;
             }
@@ -289,28 +289,28 @@ u8 TitleScreenSetupObject(u8 section, u16 xPosition, u16 yPosition)
     else if (section == TITLE_SCREEN_SECTION_4)
     {
         TITLE_SCREEN_DATA.objects[i].pOam = sTitleScreenOam_597418;
-        TITLE_SCREEN_DATA.objects[i].pHandler = unk_86e94;
+        TITLE_SCREEN_DATA.objects[i].pHandler = TitleScreenProcessSection4;
     }
 
     return i;
 }
 
 /**
- * @brief 86cf0 | e8 | To document
+ * @brief 86cf0 | e8 | Processes an object that cycles through two palettes and changes animation on A/START (not referenced)
  * 
  * @param pObject Title screen object pointer
  */
-void unk_86cf0(struct TitleScreenObject* pObject)
+void TitleScreenProcessCyclingObject_Unused(struct TitleScreenObject* pObject)
 {
     u32 row;
 
     if (pObject->action == 0)
     {
-        if (pObject->unk_9 == 34)
+        if (pObject->timer == 34)
         {
             pObject->currentAnimationFrame = 0;
             pObject->animationDurationCounter = 0;
-            pObject->unk_9 = 0;
+            pObject->timer = 0;
             pObject->action = 1;
         }
 
@@ -318,58 +318,58 @@ void unk_86cf0(struct TitleScreenObject* pObject)
         {
             pObject->currentAnimationFrame = 0;
             pObject->animationDurationCounter = 0;
-            pObject->unk_9 = 4;
+            pObject->timer = 4;
             pObject->action = 2;
         }
     }
     else if (pObject->action == 1)
     {
-        if (pObject->unk_9 == 2)
+        if (pObject->timer == 2)
         {
-            pObject->unk_5++;
+            pObject->paletteRow++;
 
-            if (pObject->unk_5 == PALETTE_NBR_ROWS(sTitleScreen_592d74) + PALETTE_NBR_ROWS(sTitleScreen_592f74))
-                pObject->unk_5 = 0;
+            if (pObject->paletteRow == PALETTE_NBR_ROWS(sTitleScreen_592d74) + PALETTE_NBR_ROWS(sTitleScreen_592f74))
+                pObject->paletteRow = 0;
 
-            row = pObject->unk_5;
-            if (pObject->unk_5 < PALETTE_NBR_ROWS(sTitleScreen_592d74))
+            row = pObject->paletteRow;
+            if (pObject->paletteRow < PALETTE_NBR_ROWS(sTitleScreen_592d74))
             {
                 DMA3_COPY_32(&sTitleScreen_592d74[row * 16], PALRAM_OBJ, 16 * sizeof(u16) / sizeof(s32));
             }
-            else if (pObject->unk_5 < PALETTE_NBR_ROWS(sTitleScreen_592d74) + PALETTE_NBR_ROWS(sTitleScreen_592f74))
+            else if (pObject->paletteRow < PALETTE_NBR_ROWS(sTitleScreen_592d74) + PALETTE_NBR_ROWS(sTitleScreen_592f74))
             {
                 DMA3_COPY_32(&sTitleScreen_592f74[(row - PALETTE_NBR_ROWS(sTitleScreen_592d74)) * 16], PALRAM_OBJ, 16 * sizeof(u16) / sizeof(s32));
             }
 
-            pObject->unk_9 = 0;
+            pObject->timer = 0;
         }
 
         if (gChangedInput & (KEY_A | KEY_START))
         {
             pObject->currentAnimationFrame = 0;
             pObject->animationDurationCounter = 0;
-            pObject->unk_9 = 4;
+            pObject->timer = 4;
             pObject->action = 2;
         }
     }
     
     if (pObject->action == 2)
     {
-        if (pObject->unk_9 == 4)
+        if (pObject->timer == 4)
         {
             pObject->currentAnimationFrame = 0;
             pObject->animationDurationCounter = 0;
-            pObject->unk_9 = 0;
+            pObject->timer = 0;
             pObject->action = 3;
             pObject->pOam = sTitleScreenOam_5973f0;
         }
     }
     else if (pObject->action == 3)
     {
-        pObject->unk_9 = 0;
+        pObject->timer = 0;
     }
 
-    pObject->unk_9++;
+    pObject->timer++;
 }
 
 /**
@@ -382,17 +382,17 @@ void TitleScreenProcessPressStart(struct TitleScreenObject* pObject)
     if (pObject->action != 0)
         return;
 
-    pObject->unk_9++;
+    pObject->timer++;
 
-    if (pObject->unk_9 == 12)
+    if (pObject->timer == 12)
     {
-        pObject->unk_9 = 0;
-        pObject->unk_5++;
+        pObject->timer = 0;
+        pObject->paletteRow++;
 
-        if (pObject->unk_5 == PALETTE_NBR_ROWS(sTitleScreenPressStartPal))
-            pObject->unk_5 = 0;
+        if (pObject->paletteRow == PALETTE_NBR_ROWS(sTitleScreenPressStartPal))
+            pObject->paletteRow = 0;
 
-        DMA3_COPY_32(&sTitleScreenPressStartPal[pObject->unk_5 * 16], PALRAM_OBJ, 16 * sizeof(u16) / sizeof(s32));
+        DMA3_COPY_32(&sTitleScreenPressStartPal[pObject->paletteRow * 16], PALRAM_OBJ, 16 * sizeof(u16) / sizeof(s32));
     }
 
     if (gChangedInput & (KEY_A | KEY_START))
@@ -424,25 +424,25 @@ void TitleScreenProcessLanguage(struct TitleScreenObject* pObject)
         pObject->isDrawn = FALSE;
     }
 
-    if (pObject->unk_9 < 14)
+    if (pObject->timer < 14)
     {
-        pObject->unk_9++;
+        pObject->timer++;
         return;
     }
 
-    if (pObject->unk_9 == 14)
+    if (pObject->timer == 14)
     {
         TitleScreenSetupObject(TITLE_SCREEN_SECTION_4, SUB_PIXEL_TO_PIXEL(BLOCK_SIZE * 7), SUB_PIXEL_TO_PIXEL(BLOCK_SIZE * 5));
-        pObject->unk_9++;
+        pObject->timer++;
     }
 }
 
 /**
- * @brief 86e94 | 24 | To document
+ * @brief 86e94 | 24 | Processes a section 4 object (spawned by the language object): plays its animation once, then is removed
  * 
  * @param pObject Title screen object pointer
  */
-void unk_86e94(struct TitleScreenObject* pObject)
+void TitleScreenProcessSection4(struct TitleScreenObject* pObject)
 {
     const struct FrameData* pOam;
 
@@ -647,15 +647,15 @@ s32 TitleScreenSpawningIn(void)
 
     ended = FALSE;
 
-    switch (TITLE_SCREEN_DATA.unk_5)
+    switch (TITLE_SCREEN_DATA.stage)
     {
         case 0:
             if (gWrittenToBldy != 0)
             {
-                TITLE_SCREEN_DATA.unk_0++;
-                if (TITLE_SCREEN_DATA.unk_0 == 6)
+                TITLE_SCREEN_DATA.timer++;
+                if (TITLE_SCREEN_DATA.timer == 6)
                 {
-                    TITLE_SCREEN_DATA.unk_0 = 0;
+                    TITLE_SCREEN_DATA.timer = 0;
                     gWrittenToBldy--;
                 }
             }
@@ -663,26 +663,26 @@ s32 TitleScreenSpawningIn(void)
             {
                 WRITE_16(REG_BLDCNT, BLDCNT_BG1_FIRST_TARGET_PIXEL | BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BG3_SECOND_TARGET_PIXEL | BLDCNT_BACKDROP_SECOND_TARGET_PIXEL);
                 WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) | DCNT_BG1);
-                TITLE_SCREEN_DATA.unk_0 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
                 PlayMusic(MUSIC_TITLE, 16);
-                TITLE_SCREEN_DATA.unk_5 = 1;
+                TITLE_SCREEN_DATA.stage = 1;
             }
             break;
 
         case 1:
-            TITLE_SCREEN_DATA.unk_0++;
-            if (TITLE_SCREEN_DATA.unk_0 == 30)
+            TITLE_SCREEN_DATA.timer++;
+            if (TITLE_SCREEN_DATA.timer == 30)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_5 = 2;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.stage = 2;
             }
             break;
 
         case 2:
-            TITLE_SCREEN_DATA.unk_0++;
-            if (TITLE_SCREEN_DATA.unk_0 == 5)
+            TITLE_SCREEN_DATA.timer++;
+            if (TITLE_SCREEN_DATA.timer == 5)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
 
                 gWrittenToBldalpha_Eva++;
                 gWrittenToBldalpha_Evb--;
@@ -690,20 +690,20 @@ s32 TitleScreenSpawningIn(void)
                 if (gWrittenToBldalpha_Eva == BLDALPHA_MAX_VALUE)
                 {
                     gWrittenToBldy = 0;
-                    TITLE_SCREEN_DATA.unk_5 = 3;
+                    TITLE_SCREEN_DATA.stage = 3;
                 }
             }
             break;
 
         case 3:
-            TITLE_SCREEN_DATA.unk_0++;
-            if (TITLE_SCREEN_DATA.unk_0 == 1)
+            TITLE_SCREEN_DATA.timer++;
+            if (TITLE_SCREEN_DATA.timer == 1)
             {
                 WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
                 gWrittenToBldalpha_Eva = 0;
                 gWrittenToBldalpha_Evb = BLDALPHA_MAX_VALUE;
             }
-            else if (TITLE_SCREEN_DATA.unk_0 == 30)
+            else if (TITLE_SCREEN_DATA.timer == 30)
             {
                 WRITE_16(REG_BLDCNT, BLDCNT_OBJ_FIRST_TARGET_PIXEL | BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BG0_SECOND_TARGET_PIXEL |
                     BLDCNT_BG1_SECOND_TARGET_PIXEL | BLDCNT_BG2_SECOND_TARGET_PIXEL | BLDCNT_BG3_SECOND_TARGET_PIXEL | BLDCNT_BACKDROP_SECOND_TARGET_PIXEL);
@@ -716,18 +716,18 @@ s32 TitleScreenSpawningIn(void)
                 objSlot = TitleScreenSetupObject(TITLE_SCREEN_SECTION_PRESS_START, SUB_PIXEL_TO_PIXEL(BLOCK_SIZE * 7 + HALF_BLOCK_SIZE), SUB_PIXEL_TO_PIXEL(BLOCK_SIZE * 8 + HALF_BLOCK_SIZE));
                 TITLE_SCREEN_DATA.objects[objSlot].objMode = OAM_OBJ_MODE_SEMI_TRANSPARENT;
                 
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_5 = 4;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.stage = 4;
             }
 
             TitleScreenDrawAllObjects();
             break;
 
         case 4:
-            TITLE_SCREEN_DATA.unk_0++;
-            if (TITLE_SCREEN_DATA.unk_0 == 2)
+            TITLE_SCREEN_DATA.timer++;
+            if (TITLE_SCREEN_DATA.timer == 2)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
 
                 gWrittenToBldalpha_Eva++;
                 gWrittenToBldalpha_Evb--;
@@ -735,7 +735,7 @@ s32 TitleScreenSpawningIn(void)
                 if (gWrittenToBldalpha_Eva == BLDALPHA_MAX_VALUE)
                 {
                     gWrittenToBldy = 0;
-                    TITLE_SCREEN_DATA.unk_5 = 5;
+                    TITLE_SCREEN_DATA.stage = 5;
                 }
             }
 
@@ -746,27 +746,27 @@ s32 TitleScreenSpawningIn(void)
             TitleScreenCallObjectsHandler();
             TitleScreenDrawAllObjects();
 
-            TITLE_SCREEN_DATA.unk_0++;
-            TITLE_SCREEN_DATA.unk_2++;
+            TITLE_SCREEN_DATA.timer++;
+            TITLE_SCREEN_DATA.idleTimer++;
 
-            if (TITLE_SCREEN_DATA.unk_0 == 2000)
+            if (TITLE_SCREEN_DATA.timer == 2000)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
             }
 
             if (gChangedInput & (KEY_A | KEY_START))
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_2 = 0;
-                TITLE_SCREEN_DATA.unk_5 = 6;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.idleTimer = 0;
+                TITLE_SCREEN_DATA.stage = 6;
 
                 SoundPlay(SOUND_1FF);
             }
-            else if (TITLE_SCREEN_DATA.unk_2 == 1200)
+            else if (TITLE_SCREEN_DATA.idleTimer == 1200)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_2 = 0;
-                TITLE_SCREEN_DATA.unk_4 = 1;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.idleTimer = 0;
+                TITLE_SCREEN_DATA.startDemo = 1;
 
                 WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
                 ended = TRUE;
@@ -777,18 +777,18 @@ s32 TitleScreenSpawningIn(void)
             TitleScreenCallObjectsHandler();
             TitleScreenDrawAllObjects();
 
-            TITLE_SCREEN_DATA.unk_0++;
+            TITLE_SCREEN_DATA.timer++;
 
-            if (TITLE_SCREEN_DATA.unk_0 > 34)
+            if (TITLE_SCREEN_DATA.timer > 34)
             {
-                TITLE_SCREEN_DATA.unk_0 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
                 WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
                 ended = TRUE;
             }
             break;
     }
 
-    switch (TITLE_SCREEN_DATA.unk_5)
+    switch (TITLE_SCREEN_DATA.stage)
     {
         case 0:
         case 1:
@@ -808,13 +808,13 @@ s32 TitleScreenSpawningIn(void)
                 objSlot = TitleScreenSetupObject(TITLE_SCREEN_SECTION_PRESS_START, SUB_PIXEL_TO_PIXEL(BLOCK_SIZE * 7 + HALF_BLOCK_SIZE), SUB_PIXEL_TO_PIXEL(BLOCK_SIZE * 8 + HALF_BLOCK_SIZE));
                 TITLE_SCREEN_DATA.objects[objSlot].objMode = OAM_OBJ_MODE_SEMI_TRANSPARENT;
 
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_2 = 0;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.idleTimer = 0;
 
-                if (TITLE_SCREEN_DATA.unk_5 == 0)
+                if (TITLE_SCREEN_DATA.stage == 0)
                     PlayMusic(MUSIC_TITLE, 16);
 
-                TITLE_SCREEN_DATA.unk_5 = 5;
+                TITLE_SCREEN_DATA.stage = 5;
             }
             break;
 
@@ -827,9 +827,9 @@ s32 TitleScreenSpawningIn(void)
                 WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
                 WRITE_16(REG_DISPCNT, DCNT_BG1 | DCNT_BG3 | DCNT_OBJ);
 
-                TITLE_SCREEN_DATA.unk_0 = 0;
-                TITLE_SCREEN_DATA.unk_2 = 0;
-                TITLE_SCREEN_DATA.unk_5 = 5;
+                TITLE_SCREEN_DATA.timer = 0;
+                TITLE_SCREEN_DATA.idleTimer = 0;
+                TITLE_SCREEN_DATA.stage = 5;
             }
     }
 
@@ -872,7 +872,7 @@ s32 TitleScreenHandler(void)
             }
             else
             {
-                if (TITLE_SCREEN_DATA.unk_4 == 0x1)
+                if (TITLE_SCREEN_DATA.startDemo == 0x1)
                     ended = 0x64;
                 else
                     ended = TRUE;
