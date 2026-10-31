@@ -4,7 +4,7 @@
 /*
  * Helpers to describe the bytes of a struct that no code ever accesses, and to
  * pin the layout of a struct with compile-time checks.
- * See the "Struct layout" section of the "Matching tricks" page of the book.
+ * See the "Struct layout" page of the book (book/src/struct-layout.md).
  *
  * - Bytes that the compiler inserts by itself (before an aligned member, or at
  *   the end of the struct, up to its alignment: agbcc aligns every struct and
