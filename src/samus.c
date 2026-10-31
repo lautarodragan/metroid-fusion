@@ -5858,19 +5858,17 @@ void SamusCheckCollisions(void)
 }
 
 /**
- * @brief a4e0 | 190 | To document
+ * @brief a4e0 | 190 | Checks the collision at a position for Samus, handles slopes
  * 
  * @param xPosition X position
  * @param yPosition Y position
  * @param pNextX Pointer to next X position
  * @param pNextY Pointer to next Y position
- * @param param_4 To document
+ * @param pBlockType Block type result (CLIPDATA_TYPE_SOLID, CLIPDATA_TYPE_AIR or COLLISION_PASS_THROUGH_BOTTOM)
  * @return u32 Collision result
  */
-u32 SamusCheckCollisionAtPosition(u16 xPosition, u16 yPosition, u16* pNextX, u16* pNextY, u16* param_4)
+u32 SamusCheckCollisionAtPosition(u16 xPosition, u16 yPosition, u16* pNextX, u16* pNextY, u16* pBlockType)
 {
-    // TODO: param_4 should be set to the same enum
-    
     u32 clipType;
     u16 yPos;
     u16 xPos;
@@ -5879,9 +5877,9 @@ u32 SamusCheckCollisionAtPosition(u16 xPosition, u16 yPosition, u16* pNextX, u16
     clipType = ClipdataProcessForSamus(yPosition, xPosition);
 
     if (clipType & CLIPDATA_TYPE_SOLID_FLAG)
-        *param_4 = CLIPDATA_TYPE_SOLID;
+        *pBlockType = CLIPDATA_TYPE_SOLID;
     else
-        *param_4 = CLIPDATA_TYPE_AIR;
+        *pBlockType = CLIPDATA_TYPE_AIR;
 
     switch (LOW_BYTE(clipType))
     {
@@ -5922,7 +5920,7 @@ u32 SamusCheckCollisionAtPosition(u16 xPosition, u16 yPosition, u16* pNextX, u16
             break;
 
         case CLIPDATA_TYPE_PASS_THROUGH_BOTTOM:
-            *param_4 = COLLISION_PASS_THROUGH_BOTTOM;
+            *pBlockType = COLLISION_PASS_THROUGH_BOTTOM;
 
         default:
             yPos = (yPosition & BLOCK_POSITION_FLAG);
@@ -6034,10 +6032,10 @@ u32 SamusCheckCollisionOnForwardSide(u8 collisionType, u16* pNextX, s16 hitbox)
  * 
  * @param collisionType Collision type
  * @param hitbox Y hitbox
- * @param param_3 To document
+ * @param skipPreviousPositionCheck Skips checking the corners at the previous Y position
  * @return u32 Collision flags
  */
-u32 SamusCheckCollisionAbove(u8 collisionType, u16 yHitbox, u8 param_3)
+u32 SamusCheckCollisionAbove(u8 collisionType, u16 yHitbox, u8 skipPreviousPositionCheck)
 {
     u32 previous;
     u32 result;
@@ -6045,7 +6043,7 @@ u32 SamusCheckCollisionAbove(u8 collisionType, u16 yHitbox, u8 param_3)
     u16 xPosition;
 
     previous = SCD_NONE;
-    if (!param_3)
+    if (!skipPreviousPositionCheck)
     {
         yPosition = gPreviousYPosition + yHitbox;
 
@@ -6158,7 +6156,7 @@ u8 SamusCheckWalkingSidesCollision(void)
     u16 nextY;
     u8 collisionType_;
     u8 collisionType;
-    u16 var_0;
+    u16 blockType;
     u32 forwardSide;
     u32 backwardSide;
     u32 result;
@@ -6199,9 +6197,9 @@ u8 SamusCheckWalkingSidesCollision(void)
 
         xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
         yPosition = gSamusData.yPosition;
-        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-        if (result != SLOPE_NONE && var_0 != 0)
+        if (result != SLOPE_NONE && blockType != 0)
         {
             gSamusData.slopeType = result;
             gSamusData.yPosition = nextY;
@@ -6211,12 +6209,12 @@ u8 SamusCheckWalkingSidesCollision(void)
 
         xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][forwardSide];
         yPosition += ONE_SUB_PIXEL;
-        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-        if (var_0 == 0)
+        if (blockType == 0)
         {
             xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
             if (result != SLOPE_NONE)
             {
@@ -6227,34 +6225,34 @@ u8 SamusCheckWalkingSidesCollision(void)
             }
 
             xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][backwardSide];
-            SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-            if (var_0 == 0)
+            if (blockType == 0)
             {
                 if (gSamusData.standingStatus == STANDING_ENEMY)
                     return SPOSE_NONE;
 
-                SamusCheckCollisionAtPosition(gSamusData.xPosition, yPosition, &nextX, &nextY, &var_0);
+                SamusCheckCollisionAtPosition(gSamusData.xPosition, yPosition, &nextX, &nextY, &blockType);
 
-                if (var_0 == 0)
+                if (blockType == 0)
                     return SPOSE_MID_AIR_REQUEST;
             }
         }
         else
         {
-            if (var_0 & 0x10)
+            if (blockType & COLLISION_PASS_THROUGH_BOTTOM)
             {
                 if (gSamusData.standingStatus == STANDING_ENEMY)
                     return SPOSE_NONE;
 
-                SamusCheckCollisionAtPosition(xPosition, gSamusData.yPosition - ONE_SUB_PIXEL, &nextX, &nextY, &var_0);
+                SamusCheckCollisionAtPosition(xPosition, gSamusData.yPosition - ONE_SUB_PIXEL, &nextX, &nextY, &blockType);
 
-                if (var_0 & 0x10)
+                if (blockType & COLLISION_PASS_THROUGH_BOTTOM)
                 {
                     xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][backwardSide];
-                    SamusCheckCollisionAtPosition(xPosition, gSamusData.yPosition - ONE_SUB_PIXEL, &nextX, &nextY, &var_0);
+                    SamusCheckCollisionAtPosition(xPosition, gSamusData.yPosition - ONE_SUB_PIXEL, &nextX, &nextY, &blockType);
 
-                    if (var_0 == 0 || var_0 & 0x10)
+                    if (blockType == 0 || blockType & COLLISION_PASS_THROUGH_BOTTOM)
                         return SPOSE_MID_AIR_REQUEST;
                 }
             }
@@ -6277,16 +6275,16 @@ u8 SamusCheckWalkingSidesCollision(void)
 
         xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
         yPosition = gSamusData.yPosition;
-        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
         gSamusData.slopeType = result;
 
         if (result == SLOPE_NONE)
         {
-            if (var_0 == 0)
+            if (blockType == 0)
                 return SPOSE_NONE;
 
             yPosition -= BLOCK_SIZE;
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
             gSamusData.slopeType = result;
 
             if (result != SLOPE_NONE)
@@ -6311,7 +6309,7 @@ u8 SamusCheckWalkingSidesCollision(void)
 
     xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
     yPosition = gSamusData.yPosition;
-    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
     if (result != SLOPE_NONE)
     {
@@ -6319,11 +6317,11 @@ u8 SamusCheckWalkingSidesCollision(void)
         return SPOSE_NONE;
     }
 
-    if (var_0 != 0)
+    if (blockType != 0)
         return SPOSE_NONE;
 
     yPosition += BLOCK_SIZE;
-    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
     gSamusData.slopeType = result;
 
     if (result != SLOPE_NONE)
@@ -6332,7 +6330,7 @@ u8 SamusCheckWalkingSidesCollision(void)
         return SPOSE_NONE;
     }
     
-    if (var_0 != 0)
+    if (blockType != 0)
     {
         if (gSamusData.direction & KEY_RIGHT)
             gSamusData.xPosition = nextX - sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_LEFT];
@@ -6359,7 +6357,7 @@ u8 SamusCheckStandingOnGroundCollision(void)
     u16 yPosition;
     u16 nextX;
     u16 nextY;
-    u16 var_0;
+    u16 blockType;
     u16 oldY;
 
     collisionType = gSamusCollisionData.collisionType;
@@ -6381,19 +6379,19 @@ u8 SamusCheckStandingOnGroundCollision(void)
     xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_LEFT];
     yPosition = gSamusData.yPosition + ONE_SUB_PIXEL;
 
-    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-    if (var_0 != 0)
+    if (blockType != 0)
     {
         if (result != SLOPE_NONE)
         {
             gSamusData.slopeType = result;
             gSamusData.yPosition = nextY;
         }
-        else if (var_0 != 0x10)
+        else if (blockType != COLLISION_PASS_THROUGH_BOTTOM)
         {
             oldY = nextY;
-            result = SamusCheckCollisionAtPosition(xPosition + ONE_SUB_PIXEL, yPosition + ONE_SUB_PIXEL, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition + ONE_SUB_PIXEL, yPosition + ONE_SUB_PIXEL, &nextX, &nextY, &blockType);
             gSamusData.slopeType = result;
 
             if (result != SLOPE_NONE)
@@ -6406,19 +6404,19 @@ u8 SamusCheckStandingOnGroundCollision(void)
     }
 
     xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_RIGHT];
-    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-    if (var_0 != 0)
+    if (blockType != 0)
     {
         if (result != SLOPE_NONE)
         {
             gSamusData.slopeType = result;
             gSamusData.yPosition = nextY;
         }
-        else if (var_0 != 0x10)
+        else if (blockType != COLLISION_PASS_THROUGH_BOTTOM)
         {
             oldY = nextY;
-            result = SamusCheckCollisionAtPosition(xPosition - ONE_SUB_PIXEL, yPosition + ONE_SUB_PIXEL, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition - ONE_SUB_PIXEL, yPosition + ONE_SUB_PIXEL, &nextX, &nextY, &blockType);
             gSamusData.slopeType = result;
 
             if (result != SLOPE_NONE)
@@ -6433,12 +6431,12 @@ u8 SamusCheckStandingOnGroundCollision(void)
     if (sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_RIGHT] >= HALF_BLOCK_SIZE)
     {
         xPosition = gSamusData.xPosition;
-        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-        if (var_0 != 0)
+        if (blockType != 0)
         {
             gSamusData.slopeType = result;
-            if (var_0 != 0x10)
+            if (blockType != COLLISION_PASS_THROUGH_BOTTOM)
                 gSamusData.yPosition = nextY - ONE_SUB_PIXEL;
 
             return SPOSE_NONE;
@@ -6467,7 +6465,7 @@ u8 SamusCheckLandingCollision(void)
     u16 yPosition;
     u16 nextX;
     u16 nextY;
-    u16 var_0;
+    u16 blockType;
 
     collisionType = gSamusCollisionData.collisionType;
     forwardSide = gSamusCollisionData.forwardSide;
@@ -6492,9 +6490,9 @@ u8 SamusCheckLandingCollision(void)
     xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
     yPosition = gSamusData.yPosition;
 
-    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-    if (var_0 != 0)
+    if (blockType != 0)
     {
         if (result != SLOPE_NONE)
         {
@@ -6504,9 +6502,9 @@ u8 SamusCheckLandingCollision(void)
             xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
             yPosition = gSamusData.yPosition;
 
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-            if (var_0 != 0 && result == SLOPE_NONE)
+            if (blockType != 0 && result == SLOPE_NONE)
             {
                 gSamusData.slopeType = result;
                 gSamusData.yPosition = nextY - ONE_SUB_PIXEL;
@@ -6518,7 +6516,7 @@ u8 SamusCheckLandingCollision(void)
         if (gPreviousYPosition < nextY)
         {
             yPosition = gPreviousYPosition;
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
             gSamusData.slopeType = result;
 
             if (result != SLOPE_NONE)
@@ -6529,12 +6527,12 @@ u8 SamusCheckLandingCollision(void)
             return SPOSE_LANDING_REQUEST;
         }
         
-        if (var_0 != 0x10)
+        if (blockType != COLLISION_PASS_THROUGH_BOTTOM)
         {
             gSamusData.xPosition = forwardWallAlignOffset + (nextX - sSamusCollisionOffsets[collisionType][forwardSide]);
 
             xPosition = gSamusData.xPosition;
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
             gSamusData.slopeType = result;
 
             if (result != SLOPE_NONE)
@@ -6543,7 +6541,7 @@ u8 SamusCheckLandingCollision(void)
                 return SPOSE_LANDING_REQUEST;
             }
 
-            if (var_0 != 0)
+            if (blockType != 0)
             {
                 gSamusData.yPosition = nextY - ONE_SUB_PIXEL;
                 return SPOSE_LANDING_REQUEST;
@@ -6556,9 +6554,9 @@ u8 SamusCheckLandingCollision(void)
 
     xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
     yPosition = gSamusData.yPosition;
-    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+    result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-    if (var_0 != 0)
+    if (blockType != 0)
     {
         if (result != SLOPE_NONE)
         {
@@ -6570,7 +6568,7 @@ u8 SamusCheckLandingCollision(void)
         if (gPreviousYPosition < nextY)
         {
             yPosition = gPreviousYPosition;
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
             gSamusData.slopeType = result;
 
             if (result != SLOPE_NONE)
@@ -6586,9 +6584,9 @@ u8 SamusCheckLandingCollision(void)
         if (sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_RIGHT] >= HALF_BLOCK_SIZE)
         {
             xPosition = gSamusData.xPosition;
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-            if (var_0 != 0 && gPreviousYPosition < nextY)
+            if (blockType != 0 && gPreviousYPosition < nextY)
             {
                 gSamusData.slopeType = result;
                 gSamusData.yPosition = nextY - ONE_SUB_PIXEL;
@@ -6616,7 +6614,7 @@ u8 SamusCheckJumpingCollision(void)
     u16 yPosition;
     u16 nextX;
     u16 nextY;
-    u16 var_0;
+    u16 blockType;
     u16 otherX;
 
     collisionType = gSamusCollisionData.collisionType;
@@ -6653,9 +6651,9 @@ u8 SamusCheckJumpingCollision(void)
     {
         xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
         yPosition = gSamusData.yPosition;
-        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+        result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
 
-        if (var_0 != 0)
+        if (blockType != 0)
         {
             if (result != SLOPE_NONE)
             {
@@ -6666,7 +6664,7 @@ u8 SamusCheckJumpingCollision(void)
 
             otherX = (nextX - sSamusCollisionOffsets[collisionType][forwardSide]) + gSamusCollisionData.forwardWallAlignOffset;
             xPosition = gSamusData.xPosition;
-            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
+            result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &blockType);
             if (result != SLOPE_NONE)
             {
                 gSamusData.slopeType = result;
@@ -6704,7 +6702,7 @@ u8 SamusCheckWalkingOffLedge(void)
     u16 yPosition;
     u16 nextX;
     u16 nextY;
-    u16 var_0;
+    u16 blockType;
 
     if ((gSamusData.xPosition & BLOCK_POSITION_FLAG) != (gPreviousXPosition & BLOCK_POSITION_FLAG))
         return SPOSE_NONE;
@@ -6718,9 +6716,9 @@ u8 SamusCheckWalkingOffLedge(void)
     xPosition = gSamusData.xPosition;
     previousX = gSamusData.yPosition + ONE_SUB_PIXEL;
 
-    result = SamusCheckCollisionAtPosition(xPosition, previousX, &nextX, &nextY, &var_0);
+    result = SamusCheckCollisionAtPosition(xPosition, previousX, &nextX, &nextY, &blockType);
 
-    if (result == SLOPE_NONE && var_0 == 0)
+    if (result == SLOPE_NONE && blockType == 0)
     {
         xPosition = gSamusData.xPosition & SUB_PIXEL_POSITION_FLAG;
         previousX = gPreviousXPosition & SUB_PIXEL_POSITION_FLAG;
