@@ -23,6 +23,7 @@ ASSERT_SIZE(struct MenuOam, 0xC);
 
 struct PauseScreenState {
     u8 current; // PauseScreenStateId
+    // unk_1 to unk_3 are only written (0) by the copy of sPauseScreenDefaultState, never read in the final game
     u8 unk_1;
     u8 unk_2;
     u8 unk_3;
