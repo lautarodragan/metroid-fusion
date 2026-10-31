@@ -774,7 +774,7 @@ void CutsceneFederationMonologueInit(u8 unused)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9a99c);
+    CallbackSetVBlank(CutsceneFederationMonologueLoadingVblank);
 
     WRITE_16(REG_DISPCNT, 0);
 

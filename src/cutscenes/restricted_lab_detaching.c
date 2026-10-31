@@ -73,7 +73,7 @@ void CutsceneRestrictedLabDetachingInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9c1bc);
+    CallbackSetVBlank(CutsceneRestrictedLabDetachingLoadingVblank);
     unk_36c4();
 
     WRITE_16(REG_DISPCNT, 0);
@@ -101,9 +101,9 @@ void CutsceneRestrictedLabDetachingInit(void)
     CutsceneProcessOam();
     CutsceneDrawAllOam();
 
-    CUTSCENE_DATA.unk_A = 0;
-    CUTSCENE_DATA.unk_C = 0;
-    DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.unk_C * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    CUTSCENE_DATA.paletteUpdate = 0;
+    CUTSCENE_DATA.paletteFrame = 0;
+    DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.paletteFrame * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
     CallbackSetVBlank(CutsceneRestrictedLabDetachingVblank);
 }
@@ -137,20 +137,20 @@ boolu32 CutsceneRestrictedLabDetachingProcess(void)
             if (CUTSCENE_DATA.timer == 1)
             {
                 CutsceneRestrictedLabDetachingGetPositionOfOamByType(2, &xPosition, &yPosition);
-                unk_9c0b4(17, xPosition - 20, yPosition - 20, -2, 6);
-                unk_9c0b4(17, xPosition - 70, yPosition - 26, -1, 4);
+                CutsceneRestrictedLabDetachingSetupOamWithVelocity(17, xPosition - 20, yPosition - 20, -2, 6);
+                CutsceneRestrictedLabDetachingSetupOamWithVelocity(17, xPosition - 70, yPosition - 26, -1, 4);
             }
             else if (CUTSCENE_DATA.timer == 16)
             {
                 CutsceneRestrictedLabDetachingGetPositionOfOamByType(2, &xPosition, &yPosition);
-                unk_9c0b4(17, xPosition - 30, yPosition - 30, -2, 8);
-                unk_9c0b4(17, xPosition - 50, yPosition - 8, -1, 8);
+                CutsceneRestrictedLabDetachingSetupOamWithVelocity(17, xPosition - 30, yPosition - 30, -2, 8);
+                CutsceneRestrictedLabDetachingSetupOamWithVelocity(17, xPosition - 50, yPosition - 8, -1, 8);
             }
             else if (CUTSCENE_DATA.timer == 20)
             {
                 CutsceneRestrictedLabDetachingGetPositionOfOamByType(2, &xPosition, &yPosition);
-                unk_9c0b4(17, xPosition - 80, yPosition - 14, -3, 6);
-                unk_9c0b4(17, xPosition - 10, yPosition - 18, -2, 2);
+                CutsceneRestrictedLabDetachingSetupOamWithVelocity(17, xPosition - 80, yPosition - 14, -3, 6);
+                CutsceneRestrictedLabDetachingSetupOamWithVelocity(17, xPosition - 10, yPosition - 18, -2, 2);
             }
             else if (CUTSCENE_DATA.timer == 170)
             {
@@ -228,7 +228,7 @@ boolu32 CutsceneRestrictedLabDetachingProcess(void)
 
                 CutsceneRestrictedLabDetachingGetPositionOfOamByType(12, &xPosition, &yPosition);
                 CutsceneDestroyOamOfType(12);
-                unk_9c0b4(16, xPosition, yPosition, 0, 0);
+                CutsceneRestrictedLabDetachingSetupOamWithVelocity(16, xPosition, yPosition, 0, 0);
 
                 CUTSCENE_DATA.timer = 0;
                 CUTSCENE_DATA.subStage = 9;
@@ -237,13 +237,13 @@ boolu32 CutsceneRestrictedLabDetachingProcess(void)
 
         case 9:
             CUTSCENE_DATA.timer++;
-            if (CUTSCENE_DATA.unk_C < 15)
+            if (CUTSCENE_DATA.paletteFrame < 15)
             {
                 if (CUTSCENE_DATA.timer == 4)
                 {
                     CUTSCENE_DATA.timer = 0;
-                    CUTSCENE_DATA.unk_A = 1;
-                    CUTSCENE_DATA.unk_C++;
+                    CUTSCENE_DATA.paletteUpdate = 1;
+                    CUTSCENE_DATA.paletteFrame++;
                 }
             }
             else if (CUTSCENE_DATA.timer == 15)
@@ -395,25 +395,25 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
     else if (type == 5)
     {
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680e2c;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9ba50;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveOam;
     }
     else if (type == 6)
     {
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680e3c;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9ba50;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveOam;
     }
     else if (type == 7)
     {
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680da4;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bac0;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveOam_2;
     }
     else if (type == 8)
     {
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680d94;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bb30;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveAndShrinkWithPal1;
     }
     else if (type == 9)
     {
@@ -421,17 +421,17 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].drawMode = 1;
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680d84;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bc04;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveAndShrinkWithPal0;
     }
     else if (type == 10)
     {
         CUTSCENE_DATA.oam[i].exists = FALSE;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bcdc;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingScrollBg2WithVelocity;
     }
     else if (type == 11)
     {
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680dcc;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bac0;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveOam_2;
     }
     else if (type == 12)
     {
@@ -439,7 +439,7 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].drawMode = 1;
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680fec;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bd24;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveAndShrinkWithPal3;
     }
     else if (type == 13)
     {
@@ -447,34 +447,34 @@ u8 CutsceneRestrictedLabDetachingSetupOam(u8 type, s16 xPosition, s16 yPosition)
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].drawMode = 1;
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680fc4;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bdf8;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveAndShrink;
     }
     else if (type == 14)
     {
         CUTSCENE_DATA.oam[i].exists = FALSE;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9be8c;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingFadeBg;
     }
     else if (type == 15)
     {
         CUTSCENE_DATA.oam[i].exists = FALSE;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bf54;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingShakeBg1;
     }
     else if (type == 16)
     {
         CUTSCENE_DATA.oam[i].objMode = 1;
         CUTSCENE_DATA.oam[i].priority = 1;
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680f9c;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bfb8;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveOamUntilAnimEnded;
     }
     else if (type == 17)
     {
         CUTSCENE_DATA.oam[i].pOam = sCutsceneRestrictedLabDetachingOam_680f74;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9bfb8;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingMoveOamUntilAnimEnded;
     }
     else if (type == 18)
     {
         CUTSCENE_DATA.oam[i].exists = FALSE;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9c04c;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneRestrictedLabDetachingScrollBg2;
     }
     else if (type == 30)
     {
@@ -621,7 +621,7 @@ void CutsceneRestrictedLabDetachingProcessScrolling(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9ba50(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingMoveOam(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -648,7 +648,7 @@ void unk_9ba50(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bac0(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingMoveOam_2(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -671,11 +671,11 @@ void unk_9bac0(struct CutsceneOam* pOam)
 }
 
 /**
- * @brief 9bb30 | d4 | To document
+ * @brief 9bb30 | d4 | Moves a cutscene OAM object down left while shrinking it, and cycles OBJ palette row 1
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bb30(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingMoveAndShrinkWithPal1(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -718,11 +718,11 @@ void unk_9bb30(struct CutsceneOam* pOam)
 }
 
 /**
- * @brief 9bc04 | d8 | To document
+ * @brief 9bc04 | d8 | Moves a cutscene OAM object up right while shrinking it, and cycles OBJ palette row 0
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bc04(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingMoveAndShrinkWithPal0(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -769,7 +769,7 @@ void unk_9bc04(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bcdc(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingScrollBg2WithVelocity(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -786,11 +786,11 @@ void unk_9bcdc(struct CutsceneOam* pOam)
 }
 
 /**
- * @brief 9bd24 | d4 | To document
+ * @brief 9bd24 | d4 | Moves a cutscene OAM object down left while shrinking it, and cycles OBJ palette row 3
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bd24(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingMoveAndShrinkWithPal3(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -833,11 +833,11 @@ void unk_9bd24(struct CutsceneOam* pOam)
 }
 
 /**
- * @brief 9bdf8 | 94 | To document
+ * @brief 9bdf8 | 94 | Moves a cutscene OAM object using its velocity while shrinking it
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bdf8(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingMoveAndShrink(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -873,7 +873,7 @@ void unk_9bdf8(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9be8c(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingFadeBg(struct CutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -917,15 +917,15 @@ void unk_9be8c(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bf54(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingShakeBg1(struct CutsceneOam* pOam)
 {
     pOam->unk_13++;
     if (pOam->unk_13 == 1)
     {
         pOam->unk_13 = 0;
-        CUTSCENE_DATA.unk_A += 2;
-        if (CUTSCENE_DATA.unk_A > 160)
-            CUTSCENE_DATA.unk_A = 160;
+        CUTSCENE_DATA.paletteUpdate += 2;
+        if (CUTSCENE_DATA.paletteUpdate > 160)
+            CUTSCENE_DATA.paletteUpdate = 160;
     }
 
     pOam->animationDurationCounter++;
@@ -941,7 +941,7 @@ void unk_9bf54(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9bfb8(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingMoveOamUntilAnimEnded(struct CutsceneOam* pOam)
 {
     const struct FrameData* pFrame;
 
@@ -977,7 +977,7 @@ void unk_9bfb8(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9c04c(struct CutsceneOam* pOam)
+void CutsceneRestrictedLabDetachingScrollBg2(struct CutsceneOam* pOam)
 {
     pOam->unk_13++;
     if (pOam->unk_13 == 40)
@@ -999,7 +999,7 @@ void unk_9c04c(struct CutsceneOam* pOam)
  * @param xVelocity X velocity
  * @return u8 Slot
  */
-u8 unk_9c080(u8 type, s16 xPosition, s16 yPosition, s16 xVelocity)
+u8 CutsceneRestrictedLabDetachingSetupOamWithXVelocity(u8 type, s16 xPosition, s16 yPosition, s16 xVelocity)
 {
     u8 slot;
 
@@ -1019,7 +1019,7 @@ u8 unk_9c080(u8 type, s16 xPosition, s16 yPosition, s16 xVelocity)
  * @param yVelocity Y velocity
  * @return u8 Slot
  */
-u8 unk_9c0b4(u8 type, s16 xPosition, s16 yPosition, s16 xVelocity, s16 yVelocity)
+u8 CutsceneRestrictedLabDetachingSetupOamWithVelocity(u8 type, s16 xPosition, s16 yPosition, s16 xVelocity, s16 yVelocity)
 {
     u8 slot;
 
@@ -1067,10 +1067,10 @@ void CutsceneRestrictedLabDetachingVblank(void)
     WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
     WRITE_16(REG_BLDY, gWrittenToBldy);
 
-    if (CUTSCENE_DATA.unk_A == 1)
+    if (CUTSCENE_DATA.paletteUpdate == 1)
     {
-        CUTSCENE_DATA.unk_A = 0;
-        DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.unk_C * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        CUTSCENE_DATA.paletteUpdate = 0;
+        DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.paletteFrame * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 }
 
@@ -1078,7 +1078,7 @@ void CutsceneRestrictedLabDetachingVblank(void)
  * @brief 9c1bc | c | Loading V-blank code for the restricted lab detaching cutscene
  *
  */
-void unk_9c1bc(void)
+void CutsceneRestrictedLabDetachingLoadingVblank(void)
 {
     UpdateAudio();
 }

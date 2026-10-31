@@ -221,7 +221,8 @@ void CutsceneMonologueOam_Empty(void)
 }
 
 /**
- * @brief 9d0a0 | 124 | Computes the window values of a circle (into the EWRAM buffer)
+ * @brief 9d0a0 | 124 | Computes the window values of a circle (into the EWRAM buffer), unused
+ * Uses paletteUpdate as the radius and paletteFrame/unk_E as the position of the circle
  *
  */
 void CutsceneComputeCircleWindow(void)
@@ -237,13 +238,13 @@ void CutsceneComputeCircleWindow(void)
 
     DMA3_COPY_32(EWRAM_BASE + 0x1000, EWRAM_BASE + 0x2000, 0x150 / sizeof(u32));
 
-    top = CUTSCENE_DATA.unk_E - CUTSCENE_DATA.unk_A;
-    bottom = CUTSCENE_DATA.unk_E + CUTSCENE_DATA.unk_A;
+    top = CUTSCENE_DATA.unk_E - CUTSCENE_DATA.paletteUpdate;
+    bottom = CUTSCENE_DATA.unk_E + CUTSCENE_DATA.paletteUpdate;
 
     if (top < 0)
     {
         subSlice = -top;
-        if (subSlice > CUTSCENE_DATA.unk_A * 2)
+        if (subSlice > CUTSCENE_DATA.paletteUpdate * 2)
             top = SCREEN_SIZE_Y + 1;
         else
             top = 0;
@@ -256,7 +257,7 @@ void CutsceneComputeCircleWindow(void)
     if (bottom > SCREEN_SIZE_Y - 1)
         bottom = SCREEN_SIZE_Y;
 
-    src = sHaze_PowerBomb_WindowValuesPointers[CUTSCENE_DATA.unk_A];
+    src = sHaze_PowerBomb_WindowValuesPointers[CUTSCENE_DATA.paletteUpdate];
     dst = EWRAM_BASE + 0x1000;
 
     for (i = 0; i < top; i++)
@@ -264,8 +265,8 @@ void CutsceneComputeCircleWindow(void)
 
     for (; i <= bottom; subSlice++, i++)
     {
-        left = CUTSCENE_DATA.unk_C + src[subSlice * 2 + 1];
-        right = CUTSCENE_DATA.unk_C + src[subSlice * 2 + 0];
+        left = CUTSCENE_DATA.paletteFrame + src[subSlice * 2 + 1];
+        right = CUTSCENE_DATA.paletteFrame + src[subSlice * 2 + 0];
 
         if (left < 0)
             left = 0;

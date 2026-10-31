@@ -43,11 +43,12 @@ struct CutsceneData {
     u16 stage;                      // 0x0
     u8 unk_2[6];
     u16 timer;                      // 0x8
-    s16 unk_A;                      // 0xA
-    s16 unk_C;                      // 0xC
+    s16 paletteUpdate;              // 0xA, the V-blank copies frame paletteFrame of the BG fade palette when set to 1
+    s16 paletteFrame;               // 0xC
     s16 unk_E;                      // 0xE
+    // CutsceneComputeCircleWindow (unused) uses 0xA as the radius, 0xC and 0xE as the X and Y position of the circle
     u8 subStage;                    // 0x10
-    u8 unk_11;                      // 0x11
+    u8 animatedPaletteTimer;        // 0x11
     u8 activeOamCount;              // 0x12
     u8 unk_13[5];
     struct CutsceneOam oam[16];     // 0x18

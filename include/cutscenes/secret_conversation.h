@@ -8,7 +8,7 @@
 boolu32 CutsceneFederationMonologueProcess(void);
 u8 CutsceneFederationMonologueSetupOam(u8 type, u16 xPosition, u16 yPosition);
 void CutsceneFederationMonologueVblank(void);
-void unk_9a99c(void);
+void CutsceneFederationMonologueLoadingVblank(void);
 
 boolu32 CutsceneSecretConversation(void);
 void CutsceneSecretConversationInit(void);
@@ -17,6 +17,6 @@ u8 CutsceneSecretConversationSetupOam(u8 type, u16 xPosition, u16 yPosition);
 void CutsceneSecretConversationProcessNavigationPanel(struct CutsceneOam* pOam);
 void CutsceneSecretConversationProcessIncomingDispatch(struct CutsceneOam* pOam);
 void CutsceneSecretConversationVblank(void);
-void unk_9ae0c(void);
+void CutsceneSecretConversationLoadingVblank(void);
 
 #endif /* SECRET_CONVERSATION_H */
