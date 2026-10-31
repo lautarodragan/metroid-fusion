@@ -377,10 +377,10 @@ bools32 PauseScreenHandler(void)
                 gUnk_3000b85++;
             }
 
-            if (PAUSE_SCREEN_DATA.unk_264 == 0)
+            if (PAUSE_SCREEN_DATA.specialImageActive == 0)
             {
-                unk_7c440();
-                unk_7cfb0();
+                NavigationConversationUpdatePaletteAnimations();
+                NavigationConversationUpdateBslDiagram();
             }
             break;
 
@@ -695,7 +695,7 @@ bools32 PauseScreenInit(void)
     NavigationConversationLoadPopUpGraphics();
     NavigationConversationLoadSpecialGraphics();
     PauseScreenUpdateObjectiveTextBox(UCHAR_MAX);
-    unk_7ce6c();
+    NavigationConversationInitBslDiagram();
 
     WRITE_16(REG_BG0HOFS, gBackgroundPositions.bg[0].x);
     WRITE_16(REG_BG0VOFS, gBackgroundPositions.bg[0].y);
@@ -839,9 +839,9 @@ bools32 PauseScreenCallCurrentHandler(void)
             break;
         
         case PAUSE_SCREEN_STATE_NAV_CONVERSATION:
-            if (PAUSE_SCREEN_DATA.unk_264 != 0)
+            if (PAUSE_SCREEN_DATA.specialImageActive != 0)
             {
-                unk_7c630();
+                NavigationConversationProcessSpecialImage();
             }
             else
             {

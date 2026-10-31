@@ -71,27 +71,27 @@ struct PauseScreenData {
     u8 navTargetTextDirection;
     const u32* pNavConvPopUpGraphicsPointer;
     u8 currentPopUp;
-    u8 unk_219;
-    u8 unk_21A;
-    u8 unk_21B;
-    u8 unk_21C;
-    u8 unk_21D;
+    u8 popUpIndex; // Index of the pop up in the conversation (0-2)
+    u8 popUpId; // Index in sNavConversationPopUps
+    u8 popUpAnimationTimer;
+    u8 popUpAnimationFrame;
+    u8 popUpPaletteFadeTimer;
     u8 unk_21E;
     u8 unk_21F;
     u8 conversationNumber;
     u8 conversationOnRepeat;
     u8 unk_222;
     u8 unk_223;
-    u8 unk_224;
-    u8 unk_225;
+    u8 flashingColorIndex;
+    u8 flashingColorTimer;
     u8 unk_226;
     u8 unk_227;
-    u8 unk_228;
-    u8 unk_229;
+    u8 popUpCyclePaletteIndex;
+    u8 popUpCyclePaletteTimer;
     u8 unk_22A;
     u8 unk_22B;
-    u8 unk_22C;
-    u8 unk_22D;
+    u8 bgAnimatedPalFrame;
+    u8 bgAnimatedPalTimer;
     u8 unk_22E;
     u8 unk_22F;
     u8 downloadMapTimer;
@@ -110,17 +110,17 @@ struct PauseScreenData {
     u8 topTextBoxTimer;
     u8 unk_23E;
     u8 unk_23F;
-    u8 unk_240;
-    u8 unk_241;
-    u8 unk_242;
+    u8 bslDiagramStage;
+    u8 bslDiagramRotating; // Prevents ending the conversation while rotating
+    u8 bslDiagramTimer;
     u8 unk_243;
-    u8 unk_244;
-    u8 unk_245;
-    u8 unk_246;
-    u8 unk_247;
-    u8 unk_248;
-    u8 unk_249;
-    u8 unk_24A;
+    u8 bslDiagramRotation; // Rotation step (0-35)
+    u8 bslDiagramTargetRotation;
+    u8 bslDiagramRotationDirection; // 1 or -1
+    u8 bslDiagramPalFrame;
+    u8 bslDiagramPalTimer;
+    u8 bslDiagramFlashingLocation; // Palette color of the current location
+    u8 bslDiagramTargetState; // 1 = hidden, 2 = placing, 3 = following the diagram
     u8 unk_24B;
     u8 unk_24C;
     u8 unk_24D;
@@ -146,9 +146,9 @@ struct PauseScreenData {
     u8 canScrollDown;
     u8 unk_262;
     u8 unk_263;
-    u8 unk_264;
-    u8 unk_265;
-    u8 unk_266;
+    u8 specialImageActive; // Operations room image or SA-X close up
+    u8 specialImageStage;
+    u8 specialImageTimer;
     u8 unk_267;
     u16 dispcnt;
     u16 dispcntBackup;

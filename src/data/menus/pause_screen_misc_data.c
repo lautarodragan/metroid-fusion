@@ -279,9 +279,9 @@ const u8 sNavConversationPortraitOamIds[6][3] = {
     }
 };
 
-// Mosaic value (BG mosaic of size 14 horizontally and vertically) at which the pop-up
-// mosaic effect stops (unk_7b674 adds 0x11 per step); followed by 1 byte of padding
-const u8 sUnk_576802[1] = { 0xEE };
+// Mosaic value (BG mosaic of size 14 horizontally and vertically) at which the area transition
+// mosaic effect stops (NavigationConversationProcessAreaTransition adds 0x11 per step); followed by 1 byte of padding
+const u8 sNavConversationAreaTransitionMaxMosaic[1] = { 0xEE };
 // Palettes, LZ77 graphics and animations of the navigation conversation pop-ups
 const u16 sNavConversationPopUpPal_576804[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576804.pal");
 const u16 sNavConversationPopUpCyclePal_576824[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576824.pal");
