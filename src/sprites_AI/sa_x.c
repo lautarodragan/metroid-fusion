@@ -2420,7 +2420,7 @@ void LabExplosionExploding(void)
                 if (MOD_AND(gCurrentSprite.currentAnimationFrame, 2) != 0)
                 {
                     ParticleSet(yPosition, xPosition, PE_EXPLOSION_7);
-                    SoundPlay_3b1c(0x23F);
+                    SoundPlayOnUnusedMusicTrack(0x23F);
                 }
             }
             else
@@ -2428,7 +2428,7 @@ void LabExplosionExploding(void)
                 if (MOD_AND(gCurrentSprite.currentAnimationFrame, 2) == 0)
                 {
                     ParticleSet(yPosition, xPosition, PE_EXPLOSION_7);
-                    SoundPlay_3b1c(0x23F);
+                    SoundPlayOnUnusedMusicTrack(0x23F);
                 }
             }
 

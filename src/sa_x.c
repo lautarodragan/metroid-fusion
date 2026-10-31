@@ -388,7 +388,7 @@ void SaXSetPose(u8 pose)
             break;
 
         case SA_X_POSE_TRANSFORMING_INTO_MONSTER:
-            SoundPlay_3b1c(0x9E);
+            SoundPlayOnUnusedMusicTrack(0x9E);
             gSaXData.diagonalAim = DIAG_AIM_NONE;
             break;
 

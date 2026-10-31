@@ -157,7 +157,7 @@ void MessageBannerPopUp(void)
             else if (!(roomSlot == 5 || roomSlot == 6 || roomSlot == 7 || roomSlot == 8
                 || roomSlot == 9 || roomSlot == 10 || roomSlot == 11 || roomSlot == 12))
             {
-                SoundPlay_3b1c(MUSIC_MESSAGE_POPUP);
+                SoundPlayOnUnusedMusicTrack(MUSIC_MESSAGE_POPUP);
             }
         }
 

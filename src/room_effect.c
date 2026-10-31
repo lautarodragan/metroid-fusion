@@ -1169,7 +1169,7 @@ void RoomEffectCheckStopEventBased(void)
         case EVENT_EFFECT_SA_X_ELEVATOR_POWER:
             if (gSamusData.pose != SPOSE_USING_ELEVATOR)
             {
-                SoundPlay_3b1c(MUSIC_OPERATIONS_DECK_ELEVATOR_OFFLINE_SOUND);
+                SoundPlayOnUnusedMusicTrack(MUSIC_OPERATIONS_DECK_ELEVATOR_OFFLINE_SOUND);
                 stop = TRUE;
             }
             break;
@@ -1771,7 +1771,7 @@ bools32 RoomEffectRecoveringSuitCutscene(void)
             ParticleSet(gSamusData.yPosition + (gSamusData.drawDistanceTop / 2), gSamusData.xPosition,
                 PE_GETTING_SUIT_BEAMS);
             ParticleSet(gSamusData.yPosition + (gSamusData.drawDistanceTop / 2), gSamusData.xPosition, PE_GETTING_SUIT);
-            SoundPlay_3b1c(MUSIC_4D);
+            SoundPlayOnUnusedMusicTrack(MUSIC_4D);
             nextStage = TRUE;
             break;
 

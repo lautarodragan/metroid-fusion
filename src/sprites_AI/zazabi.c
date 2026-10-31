@@ -1416,7 +1416,7 @@ void ZazabiDyingInit(void)
     gCurrentSprite.workX = 1;
 
     ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
-    SoundPlay_3b1c(SOUND_ZAZABI_DYING);
+    SoundPlayOnUnusedMusicTrack(SOUND_ZAZABI_DYING);
 }
 
 /**
@@ -2085,7 +2085,7 @@ void ZazabiPart(void)
             {
                 ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
                 gCurrentSprite.status = 0;
-                SoundPlay_3b1c(SOUND_ZAZABI_SEGMENT_DESTROYED);
+                SoundPlayOnUnusedMusicTrack(SOUND_ZAZABI_SEGMENT_DESTROYED);
             }
             else
             {
@@ -2099,7 +2099,7 @@ void ZazabiPart(void)
             {
                 ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
                 gCurrentSprite.status = 0;
-                SoundPlay_3b1c(SOUND_ZAZABI_SEGMENT_DESTROYED);
+                SoundPlayOnUnusedMusicTrack(SOUND_ZAZABI_SEGMENT_DESTROYED);
             }
             else
             {
@@ -2113,7 +2113,7 @@ void ZazabiPart(void)
             {
                 ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
                 gCurrentSprite.status = 0;
-                SoundPlay_3b1c(SOUND_ZAZABI_SEGMENT_DESTROYED);
+                SoundPlayOnUnusedMusicTrack(SOUND_ZAZABI_SEGMENT_DESTROYED);
             }
             else
             {

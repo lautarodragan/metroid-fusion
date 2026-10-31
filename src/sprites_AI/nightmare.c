@@ -341,7 +341,7 @@ void NightmareWaitingToAppear(void)
 
         gCurrentSprite.work1 = 60;
 
-        SoundPlay_3b1c(SOUND_NIGHTMARE_APPEARING);
+        SoundPlayOnUnusedMusicTrack(SOUND_NIGHTMARE_APPEARING);
     }
 }
 
@@ -356,7 +356,7 @@ void NightmareAppearing(void)
 
         gCurrentSprite.work1 = 60;
 
-        SoundPlay_3b1c(SOUND_NIGHTMARE_APPEARING);
+        SoundPlayOnUnusedMusicTrack(SOUND_NIGHTMARE_APPEARING);
     }
 
     if (gSubSpriteData1.yPosition > BLOCK_TO_SUB_PIXEL(16.f))
@@ -651,7 +651,7 @@ void NightmareMovingToDeathPosition(void)
         {
             gCurrentSprite.pose = 0x22;
             gCurrentSprite.work1 = 60;
-            SoundPlay_3b1c(SOUND_NIGHTMARE_DYING);
+            SoundPlayOnUnusedMusicTrack(SOUND_NIGHTMARE_DYING);
         }
     }
 }
@@ -1560,7 +1560,7 @@ void NightmarePartEye(void)
 
                 ParticleSet(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(2.0f),
                     gCurrentSprite.xPosition - BLOCK_TO_SUB_PIXEL(1.25f), PE_EXPLOSION_10);
-                SoundPlay_3b1c(SOUND_NIGHTMARE_MASK_DESTROYED);
+                SoundPlayOnUnusedMusicTrack(SOUND_NIGHTMARE_MASK_DESTROYED);
             }
             break;
 
@@ -2051,7 +2051,7 @@ void NightmarePartGenerator(void)
                 ParticleSet(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(1.0f),
                     gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(1.0f), PE_EXPLOSION_10);
                 gCurrentSprite.paletteRow = 0;
-                SoundPlay_3b1c(SOUND_NIGHTMARE_GENERATOR_DESTROYED);
+                SoundPlayOnUnusedMusicTrack(SOUND_NIGHTMARE_GENERATOR_DESTROYED);
             }
             else
             {

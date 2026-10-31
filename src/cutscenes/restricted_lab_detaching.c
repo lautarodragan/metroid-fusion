@@ -36,7 +36,7 @@ boolu32 CutsceneRestrictedLabDetaching(void)
 
         case 1:
             if (gWrittenToBldy == BLDY_MAX_VALUE)
-                SoundPlay_3b1c(0x248);
+                SoundPlayOnUnusedMusicTrack(0x248);
 
             CutsceneFadeIn();
 

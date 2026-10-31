@@ -332,7 +332,7 @@ void SaXMonsterInit(void)
     SpriteSpawnSecondary(SSPRITE_SA_X_MONSTER_PART, SA_X_MONSTER_PART_BACK_ARM, gCurrentSprite.spritesetGfxSlot,
         gCurrentSprite.primarySpriteRamSlot, gSubSpriteData1.yPosition, gSubSpriteData1.xPosition, 0);
 
-    SoundPlay_3b1c(SOUND_9F);
+    SoundPlayOnUnusedMusicTrack(SOUND_9F);
 }
 
 /**
@@ -517,7 +517,7 @@ void SaXMonsterLandingInit(void)
     gCurrentSprite.pose = SA_X_MONSTER_POSE_LANDING;
     gCurrentSprite.frozenPaletteRowOffset = 0;
     
-    SoundPlay_3b1c(SOUND_A1);
+    SoundPlayOnUnusedMusicTrack(SOUND_A1);
 }
 
 /**
@@ -707,7 +707,7 @@ void SaXMonsterPanting(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
     if (gCurrentSprite.currentAnimationFrame == 0 && gCurrentSprite.animationDurationCounter == 2)
-        SoundPlay_3b1c(SOUND_A8);
+        SoundPlayOnUnusedMusicTrack(SOUND_A8);
 
     screenX = SUB_PIXEL_TO_PIXEL(gCurrentSprite.xPosition) - SUB_PIXEL_TO_PIXEL(gBg1XPosition);
     if (screenX >= 25 && screenX <= SCREEN_SIZE_X - 25 && SpriteUtilHasCurrentAnimationEnded())
@@ -722,7 +722,7 @@ void SaXMonsterPanting(void)
         gCurrentSprite.pose = SA_X_MONSTER_POSE_DYING;
         gCurrentSprite.SA_X_MONSTER_DYING_TIMER = 0xA0;
 
-        SoundPlay_3b1c(SOUND_A7);
+        SoundPlayOnUnusedMusicTrack(SOUND_A7);
     }
 }
 

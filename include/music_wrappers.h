@@ -19,7 +19,7 @@ void PlayInterruptingMusic(u16 track, u8 arg1);
 void RestoreInterruptedMusic(void);
 void FadeMusic_2(u16 timer);
 void RestartMusic(void);
-void SoundPlay_3b1c(u16 sound);
+void SoundPlayOnUnusedMusicTrack(u16 sound);
 void SoundPlayOnFreeTrack(u16 sound);
 void PlayMusicOrSoundFromId(u16 sound, u8 arg1);
 void StopMusicOrSoundFromId(u16 sound, u8 arg1);

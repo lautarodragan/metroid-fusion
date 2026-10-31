@@ -764,11 +764,11 @@ void RestartMusic(void)
 }
 
 /**
- * @brief 3b1c | 5c | Plays a sound on the music track group that isn't used by the music
+ * @brief 3b1c | 5c | Plays a sound on the music track group that isn't used by the music, marking it so it is kept by music changes
  * 
  * @param sound Sound ID
  */
-void SoundPlay_3b1c(u16 sound)
+void SoundPlayOnUnusedMusicTrack(u16 sound)
 {
     struct TrackData *pTrack;
     const u8* pHeader;
@@ -839,7 +839,7 @@ void PlayMusicOrSoundFromId(u16 sound, u8 arg1)
         if (arg1 == 0)
         {
             if (sound >= SOUND_AA && sound <= SOUND_B3)
-                SoundPlay_3b1c(sound);
+                SoundPlayOnUnusedMusicTrack(sound);
             else
                 SoundPlay(sound);
         }

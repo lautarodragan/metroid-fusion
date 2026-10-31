@@ -920,7 +920,7 @@ void IntroProcessDriftingShip(struct SpecialCutsceneOam* pOam)
         pOam->affineMode = OAM_AFFINE_MODE_NORMAL;
         pOam->pOam = sIntroDriftingShipOam_End;
         pOam->stage = 6;
-        SoundPlay_3b1c(SOUND_1F3);
+        SoundPlayOnUnusedMusicTrack(SOUND_1F3);
         INTRO_DATA.timer = 0;
         INTRO_DATA.subStage = 3;
     }

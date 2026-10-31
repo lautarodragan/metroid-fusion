@@ -2005,7 +2005,7 @@ void OmegaMetroidDying2(void)
         case CONVERT_SECONDS(1 + 58/60.f):
             ParticleSet(yPosition - BLOCK_TO_SUB_PIXEL(.5f), xPosition + BLOCK_TO_SUB_PIXEL(.4375f), PE_EXPLOSION_5);
             ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1), xPosition + BLOCK_TO_SUB_PIXEL(.8125f), PE_EXPLOSION_2);
-            SoundPlay_3b1c(SOUND_21C);
+            SoundPlayOnUnusedMusicTrack(SOUND_21C);
             break;
         
         case CONVERT_SECONDS(1 + 47/60.f):

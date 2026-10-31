@@ -547,7 +547,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_SA_X_ELEVATOR_CUTSCENE_RUMBLE_1:
-            SoundPlay_3b1c(SOUND_229);
+            SoundPlayOnUnusedMusicTrack(SOUND_229);
             updateSoundEvent = TRUE;
             break;
 

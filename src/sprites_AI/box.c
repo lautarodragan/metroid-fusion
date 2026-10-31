@@ -236,7 +236,7 @@ void BoxWaitingToEmergeInit(void)
     gCurrentSprite.pose = BOX_POSE_WAITING_TO_EMERGE;
     gCurrentSprite.BOX_TIMER = 0;
 
-    SoundPlay_3b1c(SOUND_BOX_WAITING_TO_EMERGE);
+    SoundPlayOnUnusedMusicTrack(SOUND_BOX_WAITING_TO_EMERGE);
 
     ScreenShakeStartHorizontal(40, 0x81);
 
@@ -250,7 +250,7 @@ void BoxWaitingToEmerge(void)
 
     if (++gCurrentSprite.BOX_Y_SPEED_IDX > 60)
     {
-        SoundPlay_3b1c(SOUND_BOX_WAITING_TO_EMERGE);
+        SoundPlayOnUnusedMusicTrack(SOUND_BOX_WAITING_TO_EMERGE);
         ScreenShakeStartHorizontal(40, 0x81);
         gCurrentSprite.BOX_Y_SPEED_IDX = 0;
     }
@@ -1915,7 +1915,7 @@ void BoxDebrisWaitToFall(void)
         ScreenShakeStartVertical(40, 0x81);
 
         BoxSpawnFallingDebris();
-        SoundPlay_3b1c(SOUND_BOX_DEBRIS_FALLING);
+        SoundPlayOnUnusedMusicTrack(SOUND_BOX_DEBRIS_FALLING);
     }
 }
 

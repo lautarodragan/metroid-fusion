@@ -194,7 +194,7 @@ struct TrackData {
     // A sound only replaces the current one if its priority is at least as high
     u8 usePriority;
     // 0x1 = paused by PauseTracksAndBackupChannels (can't be started, stopped or updated),
-    // 0x2 = resumed by ResumeTracksFromChannelBackup or played by SoundPlay_3b1c
+    // 0x2 = resumed by ResumeTracksFromChannelBackup or played by SoundPlayOnUnusedMusicTrack
     u8 pauseFlags;
     u8 priority;
     u16 musicTrack;
