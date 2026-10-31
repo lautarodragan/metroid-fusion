@@ -6921,7 +6921,7 @@ void SamusUpdateGraphics(u8 direction)
     gSamusGraphicsInfo.pLegsTopHalfGfx = pGraphics;
     gSamusGraphicsInfo.pLegsBottomHalfGfx = &pGraphics[gSamusGraphicsInfo.legsTopHalfGfxLength];
     
-    gSamusGraphicsInfo.unk_26 = 0;
+    gSamusGraphicsInfo.armCannonDrawFlags = 0;
     gSamusGraphicsInfo.armCannonTopHalfGfxLength = 0;
     gSamusGraphicsInfo.armCannonBottomHalfGfxLength = 0;
     
@@ -6930,7 +6930,7 @@ void SamusUpdateGraphics(u8 direction)
         case SPOSE_USING_ELEVATOR:
             pFrameData = &sArmCannonOam_UsingElevator[gSamusAnimationInfo.currentPaletteRow];
             gSamusGraphicsInfo.pArmCannonOamFrame = pFrameData->pFrame;
-            gSamusGraphicsInfo.unk_26 = 0x2000;
+            gSamusGraphicsInfo.armCannonDrawFlags = ARM_CANNON_DRAW_IN_FRONT;
             gSamusGraphicsInfo.pArmCannonTopHalfGfx = sArmCannonGfx_Elevator_Top;
             gSamusGraphicsInfo.pArmCannonBottomHalfGfx = sArmCannonGfx_Elevator_Bottom;
             gSamusGraphicsInfo.armCannonTopHalfGfxLength = 0xC0;
@@ -6940,7 +6940,7 @@ void SamusUpdateGraphics(u8 direction)
         case SPOSE_SCREW_ATTACKING:
             pFrameData = &sArmCannonOamPointers_ScrewAttacking[direction][gSamusAnimationInfo.currentPaletteRow];
             gSamusGraphicsInfo.pArmCannonOamFrame = pFrameData->pFrame;
-            gSamusGraphicsInfo.unk_26 = 0x1000;
+            gSamusGraphicsInfo.armCannonDrawFlags = ARM_CANNON_DRAW_BEHIND;
             gSamusGraphicsInfo.pArmCannonTopHalfGfx = sArmCannonGfxPointers_ScrewAttacking_Top[gSamusAnimationInfo.currentPaletteRow];
             gSamusGraphicsInfo.pArmCannonBottomHalfGfx = sArmCannonGfxPointers_ScrewAttacking_Bottom[gSamusAnimationInfo.currentPaletteRow];
             gSamusGraphicsInfo.armCannonTopHalfGfxLength = 0x100;
@@ -6950,7 +6950,7 @@ void SamusUpdateGraphics(u8 direction)
         case SPOSE_UNLOCKING_SECURITY:
             pFrameData = &sArmCannonOamPointers_UnlockingSecurity[direction][gSamusAnimationInfo.currentPaletteRow];
             gSamusGraphicsInfo.pArmCannonOamFrame = pFrameData->pFrame;
-            gSamusGraphicsInfo.unk_26 = 0x2000;
+            gSamusGraphicsInfo.armCannonDrawFlags = ARM_CANNON_DRAW_IN_FRONT;
             gSamusGraphicsInfo.pArmCannonTopHalfGfx = sArmCannonGfx_UnlockingSecurity_Top;
             gSamusGraphicsInfo.pArmCannonBottomHalfGfx = sArmCannonGfx_UnlockingSecurity_Bottom;
             gSamusGraphicsInfo.armCannonTopHalfGfxLength = 0x200;
@@ -6962,7 +6962,7 @@ void SamusUpdateGraphics(u8 direction)
             {
                 pFrameData = &sArmCannonOam_LoadingSave[gSamusAnimationInfo.currentPaletteRow];
                 gSamusGraphicsInfo.pArmCannonOamFrame = pFrameData->pFrame;
-                gSamusGraphicsInfo.unk_26 = 0x1000;
+                gSamusGraphicsInfo.armCannonDrawFlags = ARM_CANNON_DRAW_BEHIND;
                 gSamusGraphicsInfo.pArmCannonTopHalfGfx = sArmCannonGfxPointers_LoadingSave_Top[gSamusAnimationInfo.currentPaletteRow];
                 gSamusGraphicsInfo.pArmCannonBottomHalfGfx = sArmCannonGfxPointers_LoadingSave_Bottom[gSamusAnimationInfo.currentPaletteRow];
                 gSamusGraphicsInfo.armCannonTopHalfGfxLength = 0x180;
@@ -6980,7 +6980,7 @@ void SamusUpdateGraphics(u8 direction)
             {
                 pFrameData = &sArmCannonOamPointers_Dying[direction][gSamusAnimationInfo.currentPaletteRow];
                 gSamusGraphicsInfo.pArmCannonOamFrame = pFrameData->pFrame;
-                gSamusGraphicsInfo.unk_26 = 0x2000;
+                gSamusGraphicsInfo.armCannonDrawFlags = ARM_CANNON_DRAW_IN_FRONT;
                 gSamusGraphicsInfo.pArmCannonTopHalfGfx = sArmCannonGfxPointers_Dying_Top[gSamusAnimationInfo.currentPaletteRow];
                 gSamusGraphicsInfo.pArmCannonBottomHalfGfx = sArmCannonGfxPointers_Dying_Bottom[gSamusAnimationInfo.currentPaletteRow];
                 gSamusGraphicsInfo.armCannonTopHalfGfxLength = 0x100;
@@ -6988,7 +6988,7 @@ void SamusUpdateGraphics(u8 direction)
             }
             else if (gSamusAnimationInfo.loadingSave == 3)
             {
-                gSamusGraphicsInfo.unk_26 = 0x2000;
+                gSamusGraphicsInfo.armCannonDrawFlags = ARM_CANNON_DRAW_IN_FRONT;
             }
             break;
         
@@ -6997,7 +6997,7 @@ void SamusUpdateGraphics(u8 direction)
             pArmCannonAnim = &pArmCannonAnim[gSamusData.currentAnimationFrame];
             pOam = pArmCannonAnim->pOam;
             gSamusGraphicsInfo.pArmCannonOamFrame = pOam;
-            gSamusGraphicsInfo.unk_26 = pOam[0];
+            gSamusGraphicsInfo.armCannonDrawFlags = pOam[0];
 
             if (gSamusData.weaponHighlighted & 1)
             {
@@ -7033,7 +7033,7 @@ void SamusUpdateGraphics(u8 direction)
             pArmCannonAnim = &pArmCannonAnim[gSamusData.currentAnimationFrame];
             pOam = pArmCannonAnim->pOam;
             gSamusGraphicsInfo.pArmCannonOamFrame = pOam;
-            gSamusGraphicsInfo.unk_26 = pOam[0];
+            gSamusGraphicsInfo.armCannonDrawFlags = pOam[0];
 
             if (gSamusData.weaponHighlighted & 1)
             {
@@ -7069,7 +7069,7 @@ void SamusUpdateGraphics(u8 direction)
             pArmCannonAnim = &pArmCannonAnim[gSamusData.currentAnimationFrame];
             pOam = pArmCannonAnim->pOam;
             gSamusGraphicsInfo.pArmCannonOamFrame = pOam;
-            gSamusGraphicsInfo.unk_26 = pOam[0];
+            gSamusGraphicsInfo.armCannonDrawFlags = pOam[0];
             
             if (gSamusData.weaponHighlighted & 1)
             {
@@ -7631,7 +7631,7 @@ void SamusDraw(void)
             break;
     }
 
-    if (gSamusGraphicsInfo.unk_26 & 0x2000)
+    if (gSamusGraphicsInfo.armCannonDrawFlags & ARM_CANNON_DRAW_IN_FRONT)
     {
         src = gSamusGraphicsInfo.pArmCannonOamFrame;
         part = *src++;
@@ -7679,7 +7679,7 @@ void SamusDraw(void)
         dst++;
     }
 
-    if (gSamusGraphicsInfo.unk_26 & 0x1000)
+    if (gSamusGraphicsInfo.armCannonDrawFlags & ARM_CANNON_DRAW_BEHIND)
     {
         src = gSamusGraphicsInfo.pArmCannonOamFrame;
         part = *src++;
@@ -7711,7 +7711,7 @@ void SamusDraw(void)
 
         if (gPrevious64PositionsFilled != 0 || ppc >= 0)
         {
-            FAKE_MATCH_SELF_ASSIGN(gSamusGraphicsInfo.unk_26);
+            FAKE_MATCH_SELF_ASSIGN(gSamusGraphicsInfo.armCannonDrawFlags);
 
             src = gSamusGraphicsInfo.pSamusOamFrame;
             nextSlot += *src++;

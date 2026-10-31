@@ -1989,11 +1989,11 @@ void SerrisBlockFalling(void)
  */
 void SerrisCheckInWater(void)
 {
-    // gUnk_30007c0[0] has the previous Y position of serris
+    // gSpriteScratch[0] has the previous Y position of serris
 
-    if (gUnk_30007c0[0] > gCurrentSprite.yPosition)
+    if (gSpriteScratch[0] > gCurrentSprite.yPosition)
     {
-        if (gUnk_30007c0[0] > SERRIS_ROOM_WATER_Y && gCurrentSprite.yPosition <= SERRIS_ROOM_WATER_Y)
+        if (gSpriteScratch[0] > SERRIS_ROOM_WATER_Y && gCurrentSprite.yPosition <= SERRIS_ROOM_WATER_Y)
         {
             if (!(gCurrentSprite.status & SPRITE_STATUS_NOT_DRAWN))
             {
@@ -2008,9 +2008,9 @@ void SerrisCheckInWater(void)
             gCurrentSprite.status &= ~SPRITE_STATUS_SAMUS_COLLIDING;
         }
     }
-    else if (gUnk_30007c0[0] < gCurrentSprite.yPosition)
+    else if (gSpriteScratch[0] < gCurrentSprite.yPosition)
     {
-        if (gUnk_30007c0[0] < SERRIS_ROOM_WATER_Y && gCurrentSprite.yPosition >= SERRIS_ROOM_WATER_Y)
+        if (gSpriteScratch[0] < SERRIS_ROOM_WATER_Y && gCurrentSprite.yPosition >= SERRIS_ROOM_WATER_Y)
         {
             if (!(gCurrentSprite.status & SPRITE_STATUS_NOT_DRAWN))
             {
@@ -2118,7 +2118,7 @@ void Serris(void)
     }
 
     // Save previous Y position
-    gUnk_30007c0[0] = gCurrentSprite.yPosition;
+    gSpriteScratch[0] = gCurrentSprite.yPosition;
 
     switch (gCurrentSprite.pose)
     {
@@ -2211,7 +2211,7 @@ void Serris(void)
     // If speedboosting, call the movement functions again to make serris go faster
     if (gBossWork5 != 0)
     {
-        gUnk_30007c0[0] = gCurrentSprite.yPosition;
+        gSpriteScratch[0] = gCurrentSprite.yPosition;
 
         switch (gCurrentSprite.pose)
         {

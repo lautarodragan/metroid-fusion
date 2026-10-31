@@ -71,7 +71,7 @@ struct SamusGraphicsInfo {
 
     u16 armCannonXOffset;
     u16 armCannonYOffset;
-    u16 unk_26;
+    u16 armCannonDrawFlags; // ARM_CANNON_DRAW_*, same format as the first halfword of an OAM frame
 
     const u16* pArmCannonOamFrame;
 

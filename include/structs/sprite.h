@@ -112,7 +112,7 @@ extern u8 gIgnoreSamusAndSpriteCollision;
 extern u8 gPreviousCollisionCheck;
 extern u8 gPreviousVerticalCollisionCheck;
 
-extern u16 gUnk_30007c0[24];
+extern u16 gSpriteScratch[24]; // Scratch values per sprite slot (X parasite distances to the sprites, Serris previous Y position in [0])
 
 extern u8 gSpriteRandomNumber;
 

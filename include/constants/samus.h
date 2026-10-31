@@ -290,6 +290,10 @@ enum SamusDestructingAction {
 #define SCD_TOP_RIGHT_MOST (1 << 3)
 #define SCD_SLOPE (1 << 4)
 
+// Flags for gSamusGraphicsInfo.armCannonDrawFlags (draw order of the arm cannon relative to the body)
+#define ARM_CANNON_DRAW_BEHIND 0x1000
+#define ARM_CANNON_DRAW_IN_FRONT 0x2000
+
 // --- Collision ---
 
 // How far horizontally the range for a ledge grab is

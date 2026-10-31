@@ -351,7 +351,7 @@ void ProjectileUpdate(void)
             break;
 
         case PROJECTILE_CATEGORY_POWER_BOMB:
-            if (ProjectileCount(PROJ_TYPE_POWER_BOMB, POWER_BOMB_LIMIT) && gCurrentPowerBomb.animationState == 0)
+            if (ProjectileCount(PROJ_TYPE_POWER_BOMB, POWER_BOMB_LIMIT) && gCurrentPowerBomb.animationState == PB_STATE_NONE)
             {
                 ProjectileInit(PROJ_TYPE_POWER_BOMB, gSamusData.yPosition, gSamusData.xPosition, 0);
                 gSamusData.cooldownTimer = 5;
@@ -1472,7 +1472,7 @@ void ProjectileCheckHittingSprite(void)
     u16 o2Left;
     u16 o2Right;
 
-    if (gCurrentPowerBomb.animationState != 0 && gEquipment.weaponsStatus & MBF_POWER_BOMBS)
+    if (gCurrentPowerBomb.animationState != PB_STATE_NONE && gEquipment.weaponsStatus & MBF_POWER_BOMBS)
     {
         o1Y = gCurrentPowerBomb.yPosition;
         o1X = gCurrentPowerBomb.xPosition;
@@ -1965,7 +1965,7 @@ void ProjectileBringSpriteToPowerBombCenter(u8 spriteSlot)
     u16 ySpeed;
     u16 xSpeed;
 
-    if (gCurrentPowerBomb.animationState != 4)
+    if (gCurrentPowerBomb.animationState != PB_STATE_IMPLODING)
         return;
 
     if (gSpriteData[spriteSlot].ignoreSamusCollisionTimer != 0)

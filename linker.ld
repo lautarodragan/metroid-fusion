@@ -123,7 +123,7 @@ SECTIONS {
         . = 0x000007a6; gIgnoreSamusAndSpriteCollision = .;
         . = 0x000007a7; gSpriteDrawOrder = .;
         . = 0x000007a7; gSaXVision = .;
-        . = 0x000007c0; gUnk_30007c0 = .;
+        . = 0x000007c0; gSpriteScratch = .;
         . = 0x000007f0; gSpriteRandomNumber = .;
         . = 0x000007f1; gBossWork0 = .;
         . = 0x000007f2; gBossWork1 = .;

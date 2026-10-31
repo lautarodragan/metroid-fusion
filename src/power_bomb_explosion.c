@@ -17,15 +17,15 @@
  */
 void PowerBombExplosionProcess(void)
 {
-    if (gCurrentPowerBomb.animationState == 0 || gCurrentPowerBomb.animationState == 1)
+    if (gCurrentPowerBomb.animationState == PB_STATE_NONE || gCurrentPowerBomb.animationState == PB_STATE_UNK_1)
         return;
 
     PowerBombExplosionSet0x12To0();
     if (!gCurrentPowerBomb.unk_12) // Most likely a cancelled feature
     {
-        if (gCurrentPowerBomb.animationState == 2)
+        if (gCurrentPowerBomb.animationState == PB_STATE_STARTING)
             PowerBombExplosionBegin();
-        else if (gCurrentPowerBomb.animationState == 5)
+        else if (gCurrentPowerBomb.animationState == PB_STATE_ENDING)
             PowerBombExplosionEnd();
         else
             PowerBombExplosion();
@@ -78,7 +78,7 @@ void PowerBombExplosion(void)
     gCurrentPowerBomb.hitboxTop = hitboxTop;
     gCurrentPowerBomb.hitboxBottom = hitboxBottom;
 
-    if (gCurrentPowerBomb.animationState >= 4)
+    if (gCurrentPowerBomb.animationState >= PB_STATE_IMPLODING)
         return;
 
     hitboxLeft = DIV_SHIFT(hitboxLeft + gCurrentPowerBomb.xPosition, BLOCK_SIZE);
@@ -186,14 +186,14 @@ void PowerBombExplosionStart(u16 xPosition, u16 yPosition, u8 owner)
     PowerBombExplosionSet0x12To0();
 
     // Check if there isn't already an explosion
-    if (gCurrentPowerBomb.animationState == 0)
+    if (gCurrentPowerBomb.animationState == PB_STATE_NONE)
     {
         gCurrentPowerBomb.xPosition = xPosition;
         gCurrentPowerBomb.yPosition = yPosition;
         gCurrentPowerBomb.ownedBySaX = owner;
 
         if (gCurrentPowerBomb.unk_12)
-            gCurrentPowerBomb.animationState = 2;
+            gCurrentPowerBomb.animationState = PB_STATE_STARTING;
         else
             PowerBombExplosionBegin();
     }
@@ -214,7 +214,7 @@ void PowerBombExplosionSet0x12To0(void)
  */
 void PowerBombExplosionBegin(void)
 {
-    gCurrentPowerBomb.animationState = 3;
+    gCurrentPowerBomb.animationState = PB_STATE_EXPLODING;
     gCurrentPowerBomb.powerBombPlaced = FALSE;
 
     DMA3_COPY_16(PALRAM_BASE, EWRAM_BASE + 0x35400, COLORS_IN_PAL);
@@ -311,7 +311,7 @@ void PowerBombExplosionEnd(void)
     }
     else if (gCurrentPowerBomb.stage == 2)
     {
-        gCurrentPowerBomb.animationState = 0;
+        gCurrentPowerBomb.animationState = PB_STATE_NONE;
         gCurrentPowerBomb.ownedBySaX = FALSE;
         gCurrentPowerBomb.stage = 0;
     }
