@@ -898,11 +898,11 @@ void EndingMonologueInit(void)
 
     DMA3_COPY_32(sEndingInShipBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
 
-    LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
+    LZ77UncompWram(sMonologueTextTilemap, EWRAM_BASE);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0x4800, 0x800 / sizeof(u32));
     DMA3_FILL_32(0, VRAM_BASE, 0x4800);
 
-    DMA3_COPY_32(sIntroPal_663820, PALRAM_BASE + 12 * PAL_ROW_SIZE, 4 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sMonologueTextPal, PALRAM_BASE + 12 * PAL_ROW_SIZE, 4 * PAL_ROW_SIZE / sizeof(u32));
 
     gBg1XPosition = 0;
     gBg1YPosition = 0;

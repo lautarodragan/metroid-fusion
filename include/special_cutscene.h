@@ -3,14 +3,10 @@
 
 #include "types.h"
 
+#include "constants/text.h"
+
 #include "structs/cutscene.h"
 #include "structs/intro.h"
-
-/**
- * @brief Text parameter to wait the amount of frames in the low byte before showing the next character
- * 
- */
-#define CHAR_DELAY C_16_2_8(0xE1, 0)
 
 /**
  * @brief Length (in tiles) of a monologue text line

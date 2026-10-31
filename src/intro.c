@@ -415,13 +415,13 @@ void IntroSamusDriftingOutInit(void)
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
     LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
-    DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sTitleScreenSpaceBackgroundGfx, VRAM_BASE);
     LZ77UncompVram(sTitleScreenSpaceBackgroundTilemap, VRAM_BASE + 0xF800);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sPal_609020, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 
     WRITE_16(REG_BG0HOFS, 0);
@@ -1388,7 +1388,7 @@ void IntroSpaceViewInit(void)
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
     LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
-    DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sIntroBslSpaceBgGfx, VRAM_BASE);
 
@@ -1630,14 +1630,14 @@ void IntroFlyingViewInit(void)
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
     LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
-    DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sTitleScreenSpaceBackgroundGfx, VRAM_BASE);
     LZ77UncompVram(sTitleScreenSpaceBackgroundTilemap, VRAM_BASE + 0xF800);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sPal_609020, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
-    DMA3_COPY_32(sPal_598a8c, PALRAM_BASE + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSubtitlePal, PALRAM_BASE + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 
     WRITE_16(REG_BG0HOFS, 0);

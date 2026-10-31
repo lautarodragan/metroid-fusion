@@ -32,7 +32,7 @@ extern const u16 sIntroSamusHelmetCloseupPal[4 * PAL_ROW];
 
 extern const u32 sIntroSamusShipFlyingTextTilemap[125];
 
-extern const u16 sPal_598a8c[1 * PAL_ROW];
+extern const u16 sIntroSubtitlePal[1 * PAL_ROW];
 extern const u16 sIntroSamusCloseupGrayscalePal[4 * PAL_ROW];
 
 extern const u16 sSr388SpaceAndSurfacePal[16 * PAL_ROW];
@@ -334,7 +334,7 @@ extern const u32 sIntroSamusSittingTilemap[417];
 
 extern const u32 sTitleScreenSpaceBackgroundGfx[3270];
 
-extern const u16 sPal_609020[8 * PAL_ROW];
+extern const u16 sIntroSpaceBgPal[8 * PAL_ROW];
 extern const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW];
 
 extern const u32 sTitleScreenSpaceBackgroundTilemap[418];
@@ -346,7 +346,7 @@ extern const u32 sIntroBslSpaceBgGfx[4421];
 extern const u32 sIntroSpaceObjGfx[2852];
 extern const u16 sIntroBslSpaceBgPal[8 * PAL_ROW];
 
-extern const u16 sPal_612f48[16 * PAL_ROW];
+extern const u16 sIntroSpaceObjPal[16 * PAL_ROW];
 
 extern const u32 sNextPageArrowGfx[8];
 
@@ -419,9 +419,9 @@ extern const u32 sIntroSamusHelmetCloseupBgGfx3[812];
 extern const u32 sIntroSamusHelmetCloseupBgGfx4[844];
 extern const u32 sIntroSamusHelmetCloseupBgGfx5[403];
 
-extern const u32 sIntroTilemap_662804[318];
+extern const u32 sMonologueTextTilemap[318];
 
-extern const u16 sIntroPal_663820[4 * PAL_ROW];
+extern const u16 sMonologueTextPal[4 * PAL_ROW];
 
 extern const u16 sIntroSamusCuredBgFadePal_0[10 * PAL_ROW];
 extern const u16 sIntroSamusCuredBgFadePal_1[10 * PAL_ROW];

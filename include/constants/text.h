@@ -22,6 +22,12 @@
 #define CHAR_INDENT_MASK    C_16_2_8(0x83, 0)
 
 /**
+ * @brief Text parameter to wait the amount of frames in the low byte before showing the next character (cutscene monologues)
+ * 
+ */
+#define CHAR_DELAY          C_16_2_8(0xE1, 0)
+
+/**
  * @brief Indicates that the next page arrow should be displayed
  * 
  */

@@ -793,7 +793,7 @@ const u16 sIntroSamusHelmetCloseupPal[4 * PAL_ROW] = INCBIN_U16("data/new_file_i
 
 const u32 sIntroSamusShipFlyingTextTilemap[125] = INCBIN_U32("data/new_file_intro/samus_ship_flying_text.tm.lz");
 
-const u16 sPal_598a8c[1 * PAL_ROW] = INCBIN_U16("data/new_file_intro/598a8c.pal");
+const u16 sIntroSubtitlePal[1 * PAL_ROW] = INCBIN_U16("data/new_file_intro/598a8c.pal");
 const u16 sIntroSamusCloseupGrayscalePal[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_helmet_closeup_grayscale.pal");
 
 const u16 sSr388SpaceAndSurfacePal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/sr388_space_and_surface.pal");
@@ -22624,7 +22624,8 @@ const u32 sIntroSamusSittingTilemap[417] = INCBIN_U32("data/new_file_intro/samus
 
 const u32 sTitleScreenSpaceBackgroundGfx[3270] = INCBIN_U32("data/menus/title_screen/space_background.gfx.lz");
 
-const u16 sPal_609020[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/609020.pal");
+// Only 8 rows, but loaded as 16 rows (the next 8 rows come from the following data)
+const u16 sIntroSpaceBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/609020.pal");
 const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW] = INCBIN_U16("data/menus/title_screen/space_background.pal");
 
 const u32 sTitleScreenSpaceBackgroundTilemap[418] = INCBIN_U32("data/menus/title_screen/space_background.tm.lz");
@@ -22935,7 +22936,7 @@ const u32 sIntroBslSpaceBgGfx[4421] = INCBIN_U32("data/new_file_intro/bsl_space_
 const u32 sIntroSpaceObjGfx[2852] = INCBIN_U32("data/new_file_intro/space_obj.gfx.lz");
 
 const u16 sIntroBslSpaceBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/bsl_space_bg.pal");
-const u16 sPal_612f48[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/612f48.pal");
+const u16 sIntroSpaceObjPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/612f48.pal");
 
 const u32 sNextPageArrowGfx[8] = INCBIN_U32("data/new_file_intro/next_page_arrow.gfx");
 
@@ -24452,14 +24453,14 @@ const u8 sElevatorMonologueBgGfx_65c468[] = INCBIN_U8("data/cutscenes/elevator_m
 const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/cutscenes/monologue/cursor.gfx.lz");
 const u8 sElevatorMonologueObjGfx_65fc24[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_65fc24.gfx.lz");
 
-const u32 sIntroTilemap_662804[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
+const u32 sMonologueTextTilemap[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
 
 const u8 sElevatorMonologueBgTilemap_662cfc[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_662cfc.tm.lz");
 const u32 sCutsceneElevatorMonologueBg1Tilemap[66] = INCBIN_U32("data/cutscenes/elevator_monologue/bg1.tm.lz");
-// The monologue inits copy 16 rows from here, the last 4 rows come from sIntroPal_663820
+// The monologue inits copy 16 rows from here, the last 4 rows come from sMonologueTextPal
 const u16 sCutsceneMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/bg.pal");
 
-const u16 sIntroPal_663820[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820.pal");
+const u16 sMonologueTextPal[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820.pal");
 
 const u16 sCutsceneMonologueCursorPal[1 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/cursor.pal");
 // Elevator monologue palettes, then the OAM frames of the FrameData arrays below
