@@ -5565,7 +5565,7 @@ const u32 sSector2Minimap[133] = INCBIN_U32("data/menus/pause_screen/sector_2_mi
 const u32 sSector5Minimap[126] = INCBIN_U32("data/menus/pause_screen/sector_5_minimap.tm.lz");
 const u32 sMainDeckNoLabMinimap[148] = INCBIN_U32("data/menus/pause_screen/main_deck_no_lab_minimap.tm.lz");
 
-const u32 sUnk_573da4[63] = INCBIN_U32("data/menus/pause_screen/573da4.tm.lz");
+const u32 sNavConversationOutlineTilemap[63] = INCBIN_U32("data/menus/pause_screen/573da4.tm.lz");
 const u32 sPauseDebugTilemap[151] = INCBIN_U32("data/menus/pause_screen/pause_debug.tm.lz");
 const u32 sMapScreenOutlineTilemap[123] = INCBIN_U32("data/menus/pause_screen/map_screen_outline.tm.lz");
 const u32 sNavConversationTextBoxesTilemap[176] = INCBIN_U32("data/menus/pause_screen/nav_conversation_text_boxes.tm.lz");

@@ -846,7 +846,7 @@ u32 NavigationConversationHandler(void)
             if (PAUSE_SCREEN_DATA.unk_250 & 4)
             {
                 PAUSE_SCREEN_DATA.currentArea = gCurrentArea;
-                unk_75988(TRUE);
+                PauseScreenMapSetBordersAndView(TRUE);
                 PAUSE_SCREEN_DATA.timer = 0;
                 PAUSE_SCREEN_DATA.subMenuStage = 13;
             }
@@ -1063,7 +1063,7 @@ void NavigationConversationSetupOam(void)
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_FED_PORTRAIT_FLICKERING].xPosition = 0xD4;
     PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_FED_PORTRAIT_FLICKERING].yPosition = 0x44;
 
-    if (PAUSE_SCREEN_DATA.unk_0)
+    if (PAUSE_SCREEN_DATA.screenType)
     {
         PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_ADAM_TEXT_BOX_BACKGROUND].priority = 1;
         PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_TOP_TEXT_BOX_BACKGROUND].priority = 1;
@@ -1297,7 +1297,7 @@ void NavigationConversionScrollToTarget(void)
             MinimapGetData(PAUSE_SCREEN_DATA.currentArea, gMinimapData_Visited);
             MinimapSetVisitedTilesAndCollectedItems(PAUSE_SCREEN_DATA.currentArea);
             DMA3_COPY_16(gMinimapData_Visited, VRAM_BASE + 0xE000, MINIMAP_SIZE);
-            unk_75988(TRUE);
+            PauseScreenMapSetBordersAndView(TRUE);
             NavigationConversationUpdateTarget(FALSE);
             PAUSE_SCREEN_DATA.unk_8 = 0;
             PAUSE_SCREEN_DATA.unk_9++;

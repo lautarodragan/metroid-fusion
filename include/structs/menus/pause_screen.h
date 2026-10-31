@@ -22,16 +22,16 @@ struct MenuOam {
     u8 exists:2;
 };
 
-struct PSD_28 {
-    u8 unk_0;
+struct PauseScreenState {
+    u8 current; // PauseScreenStateId
     u8 unk_1;
     u8 unk_2;
     u8 unk_3;
 };
 
 struct PauseScreenData {
-    u8 unk_0;
-    u8 unk_1;
+    u8 screenType; // PauseScreenType
+    u8 objectiveTextBoxState;
     u8 enableDebug;
     u16 typeFlags;
     u8 timer;
@@ -59,7 +59,7 @@ struct PauseScreenData {
     u8 unk_25;
     u8 unk_26;
     u8 unk_27;
-    struct PSD_28 unk_28;
+    struct PauseScreenState state;
     struct MenuOam oam[PAUSE_OAM_IDX_COUNT];
     u8 navTargetX;
     u8 navTargetY;
@@ -96,9 +96,9 @@ struct PauseScreenData {
     u8 unk_22F;
     u8 downloadMapTimer;
     u8 downloadMapStage;
-    u8 unk_232;
+    u8 downloadMapLinesDrawn;
     u8 downloadMapCurrentLine;
-    u8 unk_234;
+    u8 downloadMapTrailingLineIndex; // Index in sPauseScreenDownloadScanLineTrailingOamIndices
     u8 unk_235;
     u8 unk_236;
     u8 unk_237;
@@ -136,10 +136,10 @@ struct PauseScreenData {
     s8 mapBottomBorder;
     s8 mapViewX;
     s8 mapViewY;
-    s8 unk_25A; // mapRightEdge?
-    s8 unk_25B; // mapLeftEdge?
-    s8 unk_25C; // mapTopEdge?
-    s8 unk_25D; // mapBottomEdge
+    s8 mapRightEdge; // Bounds of the visited map, the borders are these shrunk by up to 3 tiles
+    s8 mapLeftEdge;
+    s8 mapTopEdge;
+    s8 mapBottomEdge;
     u8 canScrollRight;
     u8 canScrollLeft;
     u8 canScrollUp;
@@ -156,7 +156,7 @@ struct PauseScreenData {
     u16 bg2CntBackup;
     u16 bldcntBackup;
     u16 bldalphaBackup;
-    u8 unk_274;
+    u8 igtAndTanksDisplay; // 0 = hidden, 1 = in game time, 2 = collected tanks (toggled with SELECT)
     u8 maxEnergyTanks;
     u8 currentEnergyTanks;
     u8 maxMissileTanks;

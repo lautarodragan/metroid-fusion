@@ -354,10 +354,10 @@ void unk_7c440(void)
         dst[0x23] = sNavConversationFlashingColors2[PAUSE_SCREEN_DATA.unk_224];
     }
 
-    if (PAUSE_SCREEN_DATA.unk_0 == 0)
+    if (PAUSE_SCREEN_DATA.screenType == PAUSE_SCREEN_TYPE_MAP_SCREEN)
         return;
 
-    if (PAUSE_SCREEN_DATA.unk_0 == 1)
+    if (PAUSE_SCREEN_DATA.screenType == PAUSE_SCREEN_TYPE_NAVIGATION_ROOM)
     {
         PAUSE_SCREEN_DATA.unk_22D++;
         if (PAUSE_SCREEN_DATA.unk_22D >= sNavConversationRoomBgAnimatedPalDurations[PAUSE_SCREEN_DATA.unk_22C])
@@ -373,7 +373,7 @@ void unk_7c440(void)
                 *dst = sNavConversationRoomBgAnimatedPal[j];
         }
     }
-    else if (PAUSE_SCREEN_DATA.unk_0 == 2)
+    else if (PAUSE_SCREEN_DATA.screenType == PAUSE_SCREEN_TYPE_SHIP)
     {
         PAUSE_SCREEN_DATA.unk_22D++;
         if (PAUSE_SCREEN_DATA.unk_22D >= sNavConversationShipBgAnimatedPalDurations[PAUSE_SCREEN_DATA.unk_22C])
@@ -698,7 +698,7 @@ void unk_7ce6c(void)
     *(struct BslDiagramInfo*)(pData + OFFSET_OF(struct PauseScreenData, unk_240)) =
         *(const struct BslDiagramInfo*)sBslDiagramInfoInit;
 
-    if (PAUSE_SCREEN_DATA.unk_0 == 0)
+    if (PAUSE_SCREEN_DATA.screenType == PAUSE_SCREEN_TYPE_MAP_SCREEN)
         return;
 
     if (gPauseScreenFlag == 4)
@@ -739,7 +739,7 @@ void unk_7cfb0(void)
     u16* dst;
     s32 location;
 
-    if (PAUSE_SCREEN_DATA.unk_0 == 0)
+    if (PAUSE_SCREEN_DATA.screenType == PAUSE_SCREEN_TYPE_MAP_SCREEN)
         return;
 
     if (gPauseScreenFlag == 4)

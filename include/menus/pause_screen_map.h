@@ -9,7 +9,7 @@ void MinimapSetVisitedTilesAndCollectedItems(u8 area);
 void MinimapSetVisitedTiles(u8 area);
 void MinimapSetCollectedItems(u8 area);
 void MinimapCheckUpdateVisitedTile(void);
-void unk_75988(boolu8 arg0);
+void PauseScreenMapSetBordersAndView(boolu8 useMapPosition);
 void MinimapUpdateForCollectedItem(u8 xPosition, u8 yPosition);
 s32 MinimapCheckIsTileVisited(u8 xPosition, u8 yPosition);
 void PauseScreenMapCountTanks(void);

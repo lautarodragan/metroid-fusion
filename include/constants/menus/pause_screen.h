@@ -200,4 +200,28 @@ enum PauseOamId {
     PAUSE_OAM_ID_COUNT
 };
 
+// What the pause screen is used for (PauseScreenData.screenType)
+enum PauseScreenType {
+    PAUSE_SCREEN_TYPE_MAP_SCREEN, // Map, status and pause debug screens
+    PAUSE_SCREEN_TYPE_NAVIGATION_ROOM, // Navigation room conversation
+    PAUSE_SCREEN_TYPE_SHIP // Conversation on the ship
+};
+
+// Current state of the pause screen (PauseScreenData.state.current)
+enum PauseScreenStateId {
+    PAUSE_SCREEN_STATE_MAP,
+    PAUSE_SCREEN_STATE_STATUS, // Status screen or pause debug
+    PAUSE_SCREEN_STATE_CLOSING,
+    PAUSE_SCREEN_STATE_NAV_CONVERSATION,
+    PAUSE_SCREEN_STATE_DOWNLOADING_MAP,
+    PAUSE_SCREEN_STATE_EASY_SLEEP,
+    PAUSE_SCREEN_STATE_STATUS_APPEARING,
+    PAUSE_SCREEN_STATE_STATUS_DISAPPEARING,
+    PAUSE_SCREEN_STATE_MAP_DOWNLOADED,
+    PAUSE_SCREEN_STATE_NAV_CONVERSATION_ENDED,
+    PAUSE_SCREEN_STATE_STARTING_NAV_CONVERSATION,
+    PAUSE_SCREEN_STATE_EASY_SLEEP_OPENING,
+    PAUSE_SCREEN_STATE_EASY_SLEEP_CLOSING
+};
+
 #endif /* PAUSE_SCREEN_CONSTANTS_H */
