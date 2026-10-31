@@ -523,9 +523,11 @@ bools32 RoomEffectCheckRoomIsDark(void)
 }
 
 /**
- * @brief 62df0 | 218 | To document
+ * @brief 62df0 | 218 | Steps a fade of the blending coefficients (does nothing while BLDALPHA is written by
+ * something else or during a power bomb)
  *
- * @return s32 bool
+ * @param arg0 Fade type (5 and 6 go back to the default transparency, 7 is used by Nightmare's gravity effect)
+ * @return s32 bool, fade ended
  */
 bools32 RoomEffectFade(u8 arg0)
 {
@@ -697,10 +699,10 @@ bools32 RoomEffectFade(u8 arg0)
 }
 
 /**
- * @brief 63008 | 68 | To document
+ * @brief 63008 | 68 | Draws the last frame of a hatch animation, then sets the state of the hatch
  *
  * @param hatch Hatch to lock
- * @param arg1 To document
+ * @param arg1 2 = draw the opening animation, otherwise the closing one
  * @param newState New state for the hatch
  */
 void RoomEffectStartHatchLockAnimation(u8 hatch, u8 arg1, u8 newState)
@@ -1092,7 +1094,7 @@ void RoomEffectSetupCurrentEventBased(void)
 }
 
 /**
- * @brief 6368c | 28 | To document
+ * @brief 6368c | 28 | Starts the event based effect if it is the current one
  *
  * @param effect Event based effect
  */
@@ -1591,7 +1593,7 @@ bools32 RoomEffectCheckHatchLockEvents(void)
 }
 
 /**
- * @brief 63de8 | 18 | To document
+ * @brief 63de8 | 18 | Locks every hatch with a timer (requested by a gold X spawner door lock)
  *
  */
 void RoomEffectCheckLockHatchesWithTimer(void)
@@ -2019,7 +2021,7 @@ bools32 RoomEffectRecoveringSuitCutscene(void)
 }
 
 /**
- * @brief 64470 | 50 | To document
+ * @brief 64470 | 50 | Calculates the two distances of the suit flash effect between two positions
  *
  * @return u16 Distance 1 in high byte, distance 2 in low byte
  */
