@@ -1,4 +1,5 @@
 #include "projectile.h"
+#include "compiler_tricks.h"
 #include "profile.h"
 #include "optimize.h"
 #include "gba.h"
@@ -1986,10 +1987,8 @@ void ProjectileBringSpriteToPowerBombCenter(u8 spriteSlot)
     }
     else if (spriteY < powerBombY)
     {
-        // Needed to produce matching ASM
-        // FIXME: Cleaner solution
         u32 tmp = QUARTER_BLOCK_SIZE + PIXEL_SIZE + 0x10000;
-        tmp++, tmp--;
+        FAKE_MATCH_INC_DEC(tmp);
         spriteY += tmp;
     }
 

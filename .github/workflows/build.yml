@@ -14,6 +14,9 @@ jobs:
         continue-on-error: true
         run: python3 tools/progress.py | sed 's/^/- /' | tee -a "$GITHUB_STEP_SUMMARY"
 
+      - name: Check matching tricks use the FAKE_MATCH_* macros
+        run: python3 tools/check_tricks.py
+
       - name: Install dependencies
         run: |
           sudo apt-get update

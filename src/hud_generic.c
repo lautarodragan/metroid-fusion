@@ -1,4 +1,5 @@
 #include "gba.h"
+#include "compiler_tricks.h"
 #include "globals.h"
 #include "macros.h"
 
@@ -63,8 +64,7 @@ void HudGenericResetHudData(void)
         for (i = 0; i < MAX_AMOUNT_OF_PARTICLES; i++)
             gParticleEffects[i].status = 0;
 
-        // Needed to produce matching ASM
-        tmp = &gPowerBombHighlightStatus;
+        FAKE_MATCH_DEAD_STORE(tmp, &gPowerBombHighlightStatus);
 
         CREATE_ENERGY_DIGITS(gEnergyDigits, 9999);
         CREATE_ENERGY_DIGITS(gMaxEnergyDigits, 9999);

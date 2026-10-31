@@ -1,4 +1,5 @@
 #include "samus.h"
+#include "compiler_tricks.h"
 #include "clipdata.h"
 #include "gba.h"
 #include "globals.h"
@@ -7710,8 +7711,7 @@ void SamusDraw(void)
 
         if (gUnk_300144e != 0 || ppc >= 0)
         {
-            // Written this way to produce matching ASM
-            gSamusGraphicsInfo.unk_26 = gSamusGraphicsInfo.unk_26;
+            FAKE_MATCH_SELF_ASSIGN(gSamusGraphicsInfo.unk_26);
 
             src = gSamusGraphicsInfo.pSamusOamFrame;
             nextSlot += *src++;
