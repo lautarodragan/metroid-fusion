@@ -25,6 +25,15 @@
 #define CORE_X_POSE_WAITING_AT_TARGET 0x5e
 #define CORE_X_POSE_GETTING_ABSORBED 0x5f
 
+#define CORE_X_HIT_TIMER work0 // Flashing and immune after a hit, set by the shell
+#define CORE_X_TIMER work1 // Also the mosaic index and the graphics part loaded while spawning the boss
+#define CORE_X_X_MOVEMENT_IDX work3 // Floating
+#define CORE_X_Y_MOVEMENT_IDX work4 // Floating
+#define CORE_X_SPAWN_Y workY
+#define CORE_X_SPAWN_X workX
+#define CORE_X_ABSORB_DELAY workY // Waiting at the target, before it can be absorbed
+#define CORE_X_MOSAIC_IDX workY // Transforming into the ability, also the graphics part loaded
+
 /**
  * @brief Makes the X parasites around a core-X flee
  *
@@ -53,9 +62,9 @@ void CoreXAbilityTransfromation(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (--gCurrentSprite.workY != 0)
+    if (--gCurrentSprite.CORE_X_MOSAIC_IDX != 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.CORE_X_MOSAIC_IDX];
     }
     else
     {
@@ -64,9 +73,9 @@ void CoreXAbilityTransfromation(void)
         gCurrentSprite.bgPriority = gIoRegisters.bg1Cnt & 3;
     }
 
-    if (gCurrentSprite.workY < sizeof(sMessageBannerGfx) / 512)
-        SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 6, gCurrentSprite.workY);
-    else if (gCurrentSprite.workY == sizeof(sMessageBannerGfx) / 512)
+    if (gCurrentSprite.CORE_X_MOSAIC_IDX < sizeof(sMessageBannerGfx) / 512)
+        SpriteLoadGfx(PSPRITE_MESSAGE_BANNER, 6, gCurrentSprite.CORE_X_MOSAIC_IDX);
+    else if (gCurrentSprite.CORE_X_MOSAIC_IDX == sizeof(sMessageBannerGfx) / 512)
         SpriteLoadPal(PSPRITE_MESSAGE_BANNER, 6, ARRAY_SIZE(sMessageBannerPal) / 16);
 }
 
@@ -152,8 +161,8 @@ void CoreXAbilityInit(void)
 
         gBossFormationSpriteId = bossSpriteId;
         gCoreXFormationSpriteId = gCurrentSprite.spriteId;
-        gCurrentSprite.workY = gCurrentSprite.yPosition;
-        gCurrentSprite.workX = gCurrentSprite.xPosition;
+        gCurrentSprite.CORE_X_SPAWN_Y = gCurrentSprite.yPosition;
+        gCurrentSprite.CORE_X_SPAWN_X = gCurrentSprite.xPosition;
         gCurrentSprite.yPosition -= BLOCK_SIZE * 6;
         gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
     }
@@ -172,8 +181,8 @@ void CoreXAbilityInit(void)
     gCurrentSprite.pOam = sCoreXAbilityOam_Idle;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work3 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.CORE_X_X_MOVEMENT_IDX = 0;
+    gCurrentSprite.CORE_X_Y_MOVEMENT_IDX = 0;
 
     tmp = SpriteSpawnSecondary(secondarySpriteId, gCurrentSprite.roomSlot, gCurrentSprite.spritesetGfxSlot,
         gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition, gCurrentSprite.xPosition, 0);
@@ -239,7 +248,7 @@ void CoreXAbilityIdle(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
     gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.CORE_X_Y_MOVEMENT_IDX;
     movement = sCoreXIdleYSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -249,10 +258,10 @@ void CoreXAbilityIdle(void)
     }
 
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.CORE_X_Y_MOVEMENT_IDX = offset;
     gCurrentSprite.yPosition += movement;
 
-    offset = gCurrentSprite.work3;
+    offset = gCurrentSprite.CORE_X_X_MOVEMENT_IDX;
     movement = sCoreXIdleXSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -262,7 +271,7 @@ void CoreXAbilityIdle(void)
     }
 
     offset++;
-    gCurrentSprite.work3 = offset;
+    gCurrentSprite.CORE_X_X_MOVEMENT_IDX = offset;
     gCurrentSprite.xPosition += movement;
 
     xPosOnScreen = SUB_PIXEL_TO_PIXEL_(gCurrentSprite.xPosition) - SUB_PIXEL_TO_PIXEL_(gBg1XPosition);
@@ -316,7 +325,7 @@ void CoreXAbilityIdle(void)
                     gSpriteData[ramSlot].workY = 180;
 
                 gCurrentSprite.pose = CORE_X_POSE_MOVING_TO_SPAWN_POINT;
-                gCurrentSprite.work1 = 80;
+                gCurrentSprite.CORE_X_TIMER = 80;
                 gCurrentSprite.rotation = 190;
             }
         }
@@ -335,7 +344,7 @@ void CoreXAbilityMovingToSpawnPoint(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
     gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.CORE_X_Y_MOVEMENT_IDX;
     movement = sCoreXIdleYSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -345,10 +354,10 @@ void CoreXAbilityMovingToSpawnPoint(void)
     }
 
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.CORE_X_Y_MOVEMENT_IDX = offset;
     gCurrentSprite.yPosition += movement;
 
-    offset = gCurrentSprite.work3;
+    offset = gCurrentSprite.CORE_X_X_MOVEMENT_IDX;
     movement = sCoreXIdleXSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -358,21 +367,21 @@ void CoreXAbilityMovingToSpawnPoint(void)
     }
 
     offset++;
-    gCurrentSprite.work3 = offset;
+    gCurrentSprite.CORE_X_X_MOVEMENT_IDX = offset;
     gCurrentSprite.xPosition += movement;
 
     if (gBossFormationSpriteId == PSPRITE_ZAZABI)
     {
-        if (gCurrentSprite.yPosition >= gCurrentSprite.workY - PIXEL_TO_SUB_PIXEL(0x50))
+        if (gCurrentSprite.yPosition >= gCurrentSprite.CORE_X_SPAWN_Y - PIXEL_TO_SUB_PIXEL(0x50))
         {
-            gCurrentSprite.yPosition = gCurrentSprite.workY - PIXEL_TO_SUB_PIXEL(0x50);
+            gCurrentSprite.yPosition = gCurrentSprite.CORE_X_SPAWN_Y - PIXEL_TO_SUB_PIXEL(0x50);
 
             if (gCurrentSprite.rotation == 0)
             {
                 gCurrentSprite.pose = CORE_X_POSE_SPAWINING_BOSS;
                 gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
-                gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
-                gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+                gCurrentSprite.CORE_X_TIMER = X_PARASITE_MOSAIC_MAX_INDEX;
+                gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.CORE_X_TIMER];
                 PlayMusic(MUSIC_ZAZABI_BATTLE, 7);
             }
         }
@@ -383,16 +392,16 @@ void CoreXAbilityMovingToSpawnPoint(void)
     }
     else
     {
-        if (gCurrentSprite.yPosition >= gCurrentSprite.workY - PIXEL_TO_SUB_PIXEL(0x19))
+        if (gCurrentSprite.yPosition >= gCurrentSprite.CORE_X_SPAWN_Y - PIXEL_TO_SUB_PIXEL(0x19))
         {
-            gCurrentSprite.yPosition = gCurrentSprite.workY - PIXEL_TO_SUB_PIXEL(0x19);
+            gCurrentSprite.yPosition = gCurrentSprite.CORE_X_SPAWN_Y - PIXEL_TO_SUB_PIXEL(0x19);
 
             if (gCurrentSprite.rotation == 0)
             {
                 gCurrentSprite.pose = CORE_X_POSE_SPAWINING_BOSS;
                 gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
-                gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
-                gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+                gCurrentSprite.CORE_X_TIMER = X_PARASITE_MOSAIC_MAX_INDEX;
+                gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.CORE_X_TIMER];
 
                 if (gDemoState == 0)
                     PlayMusic(MUSIC_ARACHNUS_BATTLE, 7);
@@ -407,11 +416,11 @@ void CoreXAbilityMovingToSpawnPoint(void)
     if (gCurrentSprite.rotation != 0)
         gCurrentSprite.rotation--;
 
-    if (gCurrentSprite.work1 == 80)
+    if (gCurrentSprite.CORE_X_TIMER == 80)
         SoundPlay(SOUND_CORE_X_MOVING_TO_SPAWN_POINT);
 
-    if (--gCurrentSprite.work1 == 0)
-        gCurrentSprite.work1 = 80;
+    if (--gCurrentSprite.CORE_X_TIMER == 0)
+        gCurrentSprite.CORE_X_TIMER = 80;
 }
 
 /**
@@ -423,9 +432,9 @@ void CoreXAbilitySpawningBoss(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
     gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    if (--gCurrentSprite.work1 != 0)
+    if (--gCurrentSprite.CORE_X_TIMER != 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.CORE_X_TIMER];
     }
     else
     {
@@ -434,9 +443,9 @@ void CoreXAbilitySpawningBoss(void)
         gCurrentSprite.spriteId = gBossFormationSpriteId;
     }
 
-    if (gCurrentSprite.work1 < 8 * 4)
-        SpriteLoadGfx(gBossFormationSpriteId, 0, gCurrentSprite.work1); // Loads 8 graphics rows
-    else if (gCurrentSprite.work1 == 8 * 4)
+    if (gCurrentSprite.CORE_X_TIMER < 8 * 4)
+        SpriteLoadGfx(gBossFormationSpriteId, 0, gCurrentSprite.CORE_X_TIMER); // Loads 8 graphics rows
+    else if (gCurrentSprite.CORE_X_TIMER == 8 * 4)
         SpriteLoadPal(gBossFormationSpriteId, 0, 4); // Only loads the first 4 palette rows
 }
 
@@ -460,11 +469,11 @@ void CoreXAbilityMovingInit(void)
         SSP_X_ABSORBABLE_BY_SAMUS, gCurrentSprite.yPosition - 0x22, gCurrentSprite.xPosition - 0x64, 0);
 
     gCurrentSprite.pose = CORE_X_POSE_MOVING;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
-    gCurrentSprite.work0 = 0;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
+    gCurrentSprite.CORE_X_HIT_TIMER = 0;
 }
 
 /**
@@ -486,10 +495,10 @@ void CoreXAbilityMovingToTargetInit(void)
     gCurrentSprite.pose = 0x5d;
     gCurrentSprite.samusCollision = SSC_CORE_X_ABILITY;
     gCurrentSprite.health = 0;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
     PlayMusic(MUSIC_BOSS_TENSION, 6);
@@ -519,8 +528,8 @@ void CoreXAbilityMovingToTarget(void)
         {
             gCurrentSprite.pose = 0x5e;
             gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
-            gCurrentSprite.work3 = 0;
-            gCurrentSprite.work4 = 0;
+            gCurrentSprite.CORE_X_X_MOVEMENT_IDX = 0;
+            gCurrentSprite.CORE_X_Y_MOVEMENT_IDX = 0;
         }
     }
 }
@@ -534,7 +543,7 @@ void CoreXAbilityWaitingAtTarget(void)
     u8 offset;
     s16 movement;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.CORE_X_Y_MOVEMENT_IDX;
     movement = sCoreXIdleYSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -544,10 +553,10 @@ void CoreXAbilityWaitingAtTarget(void)
     }
 
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.CORE_X_Y_MOVEMENT_IDX = offset;
     gCurrentSprite.yPosition += movement;
 
-    offset = gCurrentSprite.work3;
+    offset = gCurrentSprite.CORE_X_X_MOVEMENT_IDX;
     movement = sCoreXIdleXSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -557,7 +566,7 @@ void CoreXAbilityWaitingAtTarget(void)
     }
 
     offset++;
-    gCurrentSprite.work3 = offset;
+    gCurrentSprite.CORE_X_X_MOVEMENT_IDX = offset;
     gCurrentSprite.xPosition += movement;
 
     if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_COLLIDING)
@@ -567,14 +576,14 @@ void CoreXAbilityWaitingAtTarget(void)
         gCurrentSprite.properties |= SP_ALWAYS_ACTIVE;
         gCurrentSprite.pose = 0x5f;
         gCurrentSprite.ignoreSamusCollisionTimer = 1;
-        gCurrentSprite.work2 = 0;
-        gCurrentSprite.work3 = 1;
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
         gCurrentSprite.status |= SPRITE_STATUS_ROTATION_SCALING_SINGLE;
         gCurrentSprite.rotation = 0;
         gCurrentSprite.scaling = Q_8_8(1);
-        gCurrentSprite.workY = 20;
+        gCurrentSprite.CORE_X_ABSORB_DELAY = 20;
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
         gCurrentSprite.pOam = sCoreXAbilityOam_GettingAbsorbed;
@@ -631,9 +640,9 @@ void CoreXAbilityGettingAbsorbed(void)
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
     XParasiteStickToSamus();
 
-    if (gCurrentSprite.workY != 0)
+    if (gCurrentSprite.CORE_X_ABSORB_DELAY != 0)
     {
-        gCurrentSprite.workY--;
+        gCurrentSprite.CORE_X_ABSORB_DELAY--;
     }
     else if (gCurrentSprite.scaling > Q_8_8(0.3125f))
     {
@@ -766,7 +775,7 @@ void CoreXShell(void)
     switch (gSpriteData[primaryRamSlot].pose)
     {
         case CORE_X_POSE_SPAWINING_BOSS:
-            if (gSpriteData[primaryRamSlot].work1 <= 8 * 4)
+            if (gSpriteData[primaryRamSlot].CORE_X_TIMER <= 8 * 4)
                 gCurrentSprite.status = 0;
 
         case SPRITE_POSE_IDLE_INIT:
@@ -817,7 +826,7 @@ void CoreXShell(void)
                 {
                     SoundPlay(SOUND_CORE_X_HURT);
                     gCurrentSprite.properties |= SP_IMMUNE_TO_PROJECTILES;
-                    gSpriteData[primaryRamSlot].work0 = 180;
+                    gSpriteData[primaryRamSlot].CORE_X_HIT_TIMER = 180;
 
                     if (gCurrentSprite.yPosition > gSamusData.yPosition - BLOCK_SIZE)
                     {
@@ -837,13 +846,13 @@ void CoreXShell(void)
                         gSpriteData[primaryRamSlot].status &= ~SPRITE_STATUS_FACING_RIGHT;
                     }
 
-                    gSpriteData[primaryRamSlot].work2 = PIXEL_TO_SUB_PIXEL(2.5f) * 4;
-                    gSpriteData[primaryRamSlot].work3 = PIXEL_TO_SUB_PIXEL(2.5f) * 4;
-                    gSpriteData[primaryRamSlot].work1 = PIXEL_TO_SUB_PIXEL(1.75f) * 4;
-                    gSpriteData[primaryRamSlot].work4 = PIXEL_TO_SUB_PIXEL(1.75f) * 4;
+                    gSpriteData[primaryRamSlot].SPRITE_X_SPEED_DEC = PIXEL_TO_SUB_PIXEL(2.5f) * 4;
+                    gSpriteData[primaryRamSlot].SPRITE_X_SPEED_INC = PIXEL_TO_SUB_PIXEL(2.5f) * 4;
+                    gSpriteData[primaryRamSlot].CORE_X_TIMER = PIXEL_TO_SUB_PIXEL(1.75f) * 4;
+                    gSpriteData[primaryRamSlot].SPRITE_Y_SPEED_INC = PIXEL_TO_SUB_PIXEL(1.75f) * 4;
                 }
 
-                tmp = gSpriteData[primaryRamSlot].work0;
+                tmp = gSpriteData[primaryRamSlot].CORE_X_HIT_TIMER;
                 if (tmp != 0)
                 {
                     if (MOD_AND(tmp, 4) == 0)
@@ -854,7 +863,7 @@ void CoreXShell(void)
                             gCurrentSprite.paletteRow = 0;
                     }
 
-                    if (--gSpriteData[primaryRamSlot].work0 == 0)
+                    if (--gSpriteData[primaryRamSlot].CORE_X_HIT_TIMER == 0)
                     {
                         gCurrentSprite.properties &= ~SP_IMMUNE_TO_PROJECTILES;
                         gCurrentSprite.paletteRow = 0;
@@ -924,7 +933,7 @@ void AbilityAura(void)
             break;
 
         case CORE_X_POSE_SPAWINING_BOSS:
-            if (gSpriteData[primaryRamSlot].work1 <= 8 * 4)
+            if (gSpriteData[primaryRamSlot].CORE_X_TIMER <= 8 * 4)
                 gCurrentSprite.status = 0;
 
         case SPRITE_POSE_IDLE_INIT:
