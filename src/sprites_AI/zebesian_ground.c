@@ -15,6 +15,15 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define ZEBESIAN_GROUND_MOSAIC_IDX work1 // Spawning from X
+#define ZEBESIAN_GROUND_TIMER work1 // Delay after shooting before checking for Samus again
+#define ZEBESIAN_GROUND_LOW_JUMP work2 // Jumping and landing
+#define ZEBESIAN_GROUND_TURN_AROUND_SHOT work2 // Turning around, shoots afterwards
+#define ZEBESIAN_GROUND_LOOPS_LEFT work2 // Standing, animation loops left
+#define ZEBESIAN_GROUND_CROUCHING_SHOT work2 // Shooting, Samus is crouching or morphed
+#define ZEBESIAN_GROUND_Y_SPEED_IDX work4
+#define ZEBESIAN_GROUND_IDLE_X workX // X position when it started walking, stops after 4 blocks
+
 enum ZebesianGroundPose {
     ZEBESIAN_GROUND_POSE_WALKING_INIT = 1,
     ZEBESIAN_GROUND_POSE_WALKING = 2,
@@ -55,15 +64,15 @@ u8 ZebesianGroundCheckInRange(void)
         if (nsfb == NSFB_IN_FRONT)
         {
             gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_JUMP_WARNING_INIT;
-            gCurrentSprite.work2 = FALSE; // High jump
-            gCurrentSprite.work1 = 0;
+            gCurrentSprite.ZEBESIAN_GROUND_LOW_JUMP = FALSE; // High jump
+            gCurrentSprite.ZEBESIAN_GROUND_TIMER = 0;
             return NSFB_IN_FRONT;
         }
         else
         {
-            if (gCurrentSprite.work1 > 0)
+            if (gCurrentSprite.ZEBESIAN_GROUND_TIMER > 0)
             {
-                if (--gCurrentSprite.work1 > 0)
+                if (--gCurrentSprite.ZEBESIAN_GROUND_TIMER > 0)
                     return NSFB_OUT_OF_RANGE;
             }
 
@@ -76,7 +85,7 @@ u8 ZebesianGroundCheckInRange(void)
             else if (nsfb == NSFB_BEHIND)
             {
                 gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_TURNING_AROUND_INIT;
-                gCurrentSprite.work2 = TRUE; // Turn around shot
+                gCurrentSprite.ZEBESIAN_GROUND_TURN_AROUND_SHOT = TRUE;
             }
 
             return nsfb;
@@ -121,7 +130,7 @@ void ZebesianGroundSetIdleHitbox(void)
 
 void ZebesianGroundSetShootingHitbox(void)
 {
-    if (gCurrentSprite.work2)
+    if (gCurrentSprite.ZEBESIAN_GROUND_CROUCHING_SHOT)
     {
         // Crouching
         gCurrentSprite.hitboxTop = -BLOCK_TO_SUB_PIXEL(2.0f);
@@ -151,7 +160,7 @@ void ZebesianGroundInit(void)
     if (gCurrentSprite.pose == SPRITE_POSE_SPAWNING_FROM_X_INIT)
     {
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.ZEBESIAN_GROUND_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     }
     else
     {
@@ -182,7 +191,7 @@ void ZebesianGroundInit(void)
 
         SpriteUtilChooseRandomXFlip();
         gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_WALKING;
-        gCurrentSprite.work1 = 30;
+        gCurrentSprite.ZEBESIAN_GROUND_TIMER = 30;
     }
 
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS;
@@ -193,7 +202,7 @@ void ZebesianGroundInit(void)
     gCurrentSprite.pOam = sZebesianGroundOam_Walking;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work2 = FALSE;
+    gCurrentSprite.ZEBESIAN_GROUND_TURN_AROUND_SHOT = FALSE;
 
     ZebesianGroundSetIdleHitbox();
 }
@@ -202,9 +211,9 @@ void ZebesianGroundSpawningFromX(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (--gCurrentSprite.work1 > 0)
+    if (--gCurrentSprite.ZEBESIAN_GROUND_MOSAIC_IDX > 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.ZEBESIAN_GROUND_MOSAIC_IDX];
     }
     else if (gCurrentSprite.spriteId == PSPRITE_ZEBESIAN_PRE_AQUA)
     {
@@ -295,7 +304,7 @@ void ZebesianGroundTurningIntoX(void)
 void ZebesianGroundFallingInit(void)
 {
     gCurrentSprite.pose = SPRITE_POSE_FALLING;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX = 0;
     gCurrentSprite.pOam = sZebesianGroundOam_Falling;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
@@ -312,7 +321,7 @@ void ZebesianGroundIdleInit(void)
 
     ZebesianGroundSetIdleHitbox();
 
-    gCurrentSprite.workX = gCurrentSprite.xPosition;
+    gCurrentSprite.ZEBESIAN_GROUND_IDLE_X = gCurrentSprite.xPosition;
 }
 
 void ZebesianGroundIdle(void)
@@ -455,18 +464,18 @@ void ZebesianGroundIdle(void)
         else if (action == 2)
         {
             gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_JUMP_WARNING_INIT;
-            gCurrentSprite.work2 = TRUE; // Low jump or turn around shot
+            gCurrentSprite.ZEBESIAN_GROUND_LOW_JUMP = TRUE;
         }
-        else if (gCurrentSprite.work1 == 0)
+        else if (gCurrentSprite.ZEBESIAN_GROUND_TIMER == 0)
         {
             if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             {
-                if (gCurrentSprite.workX + BLOCK_TO_SUB_PIXEL(4.0f) < gCurrentSprite.xPosition)
+                if (gCurrentSprite.ZEBESIAN_GROUND_IDLE_X + BLOCK_TO_SUB_PIXEL(4.0f) < gCurrentSprite.xPosition)
                     gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_STANDING_INIT;
             }
             else
             {
-                if (gCurrentSprite.workX - BLOCK_TO_SUB_PIXEL(4.0f) > gCurrentSprite.xPosition)
+                if (gCurrentSprite.ZEBESIAN_GROUND_IDLE_X - BLOCK_TO_SUB_PIXEL(4.0f) > gCurrentSprite.xPosition)
                     gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_STANDING_INIT;
             }
         }
@@ -497,9 +506,9 @@ void ZebesianGroundTurningAroundSecondPart(void)
 {
     if (SpriteUtilHasCurrentAnimationNearlyEnded())
     {
-        if (gCurrentSprite.work2)
+        if (gCurrentSprite.ZEBESIAN_GROUND_TURN_AROUND_SHOT)
         {
-            gCurrentSprite.work2 = FALSE;
+            gCurrentSprite.ZEBESIAN_GROUND_TURN_AROUND_SHOT = FALSE;
             gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_SHOOTING_INIT;
         }
         else
@@ -525,7 +534,7 @@ void ZebesianGroundJumpWarning(void)
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
         gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_JUMPING;
-        gCurrentSprite.work4 = 0;
+        gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX = 0;
         gCurrentSprite.hitboxTop = -BLOCK_TO_SUB_PIXEL(2.5f);
 
         if (gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
@@ -580,19 +589,19 @@ void ZebesianGroundJumping(void)
         }
     }
 
-    if (gCurrentSprite.work2)
+    if (gCurrentSprite.ZEBESIAN_GROUND_LOW_JUMP)
     {
-        movement = sZebesianGroundJumpingSpeedLow[gCurrentSprite.work4 / 2];
+        movement = sZebesianGroundJumpingSpeedLow[gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX / 2];
         gCurrentSprite.yPosition += movement;
-        if (gCurrentSprite.work4 < ARRAY_SIZE(sZebesianGroundJumpingSpeedLow) * 2 - 1)
-            gCurrentSprite.work4++;
+        if (gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX < ARRAY_SIZE(sZebesianGroundJumpingSpeedLow) * 2 - 1)
+            gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX++;
     }
     else
     {
-        movement = sZebesianGroundJumpingSpeedHigh[gCurrentSprite.work4 / 4];
+        movement = sZebesianGroundJumpingSpeedHigh[gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX / 4];
         gCurrentSprite.yPosition += movement;
-        if (gCurrentSprite.work4 < ARRAY_SIZE(sZebesianGroundJumpingSpeedHigh) * 4 - 1)
-            gCurrentSprite.work4++;
+        if (gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX < ARRAY_SIZE(sZebesianGroundJumpingSpeedHigh) * 4 - 1)
+            gCurrentSprite.ZEBESIAN_GROUND_Y_SPEED_IDX++;
     }
 
     if (movement > 0)
@@ -675,7 +684,7 @@ void ZebesianGroundLanding(void)
     if (!SpriteUtilHasCurrentAnimationNearlyEnded())
         return;
 
-    if (gCurrentSprite.work2)
+    if (gCurrentSprite.ZEBESIAN_GROUND_LOW_JUMP)
     {
         // After a low jump over a 1 block gap
         gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_WALKING_INIT;
@@ -747,7 +756,7 @@ void ZebesianGroundStandingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_STANDING;
-    gCurrentSprite.work2 = gSpriteRandomNumber / 4 + 2; // Number of times to loop animation
+    gCurrentSprite.ZEBESIAN_GROUND_LOOPS_LEFT = gSpriteRandomNumber / 4 + 2; // Number of times to loop animation
 }
 
 void ZebesianGroundStanding(void)
@@ -758,7 +767,7 @@ void ZebesianGroundStanding(void)
     if (!SpriteUtilHasCurrentAnimationNearlyEnded())
         return;
 
-    if (--gCurrentSprite.work2 == 0)
+    if (--gCurrentSprite.ZEBESIAN_GROUND_LOOPS_LEFT == 0)
         gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_TURNING_AROUND_INIT;
 }
 
@@ -767,16 +776,16 @@ void ZebesianGroundShootingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_SHOOTING;
-    gCurrentSprite.work1 = CONVERT_SECONDS(1 + 1.f / 6); // Amount of time to wait after shooting
+    gCurrentSprite.ZEBESIAN_GROUND_TIMER = CONVERT_SECONDS(1 + 1.f / 6); // Amount of time to wait after shooting
 
     if (SpriteUtilCheckSamusCrouchingOrMorphed())
     {
-        gCurrentSprite.work2 = TRUE;
+        gCurrentSprite.ZEBESIAN_GROUND_CROUCHING_SHOT = TRUE;
         gCurrentSprite.pOam = sZebesianGroundOam_ShootingWhileCrouching;
     }
     else
     {
-        gCurrentSprite.work2 = FALSE;
+        gCurrentSprite.ZEBESIAN_GROUND_CROUCHING_SHOT = FALSE;
         gCurrentSprite.pOam = sZebesianGroundOam_ShootingWhileStanding;
     }
 
@@ -785,7 +794,7 @@ void ZebesianGroundShootingInit(void)
 
 void ZebesianGroundShooting(void)
 {
-    if (gCurrentSprite.work2)
+    if (gCurrentSprite.ZEBESIAN_GROUND_CROUCHING_SHOT)
     {
         // Crouching
         if (gCurrentSprite.currentAnimationFrame == 6 && gCurrentSprite.animationDurationCounter == 1)
@@ -867,27 +876,27 @@ void ZebesianGroundShootingEnd(void)
         if (nsfb == NSFB_IN_FRONT)
         {
             gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_JUMP_WARNING_INIT;
-            gCurrentSprite.work2 = FALSE; // High jump
-            gCurrentSprite.work1 = 0;
+            gCurrentSprite.ZEBESIAN_GROUND_LOW_JUMP = FALSE; // High jump
+            gCurrentSprite.ZEBESIAN_GROUND_TIMER = 0;
         }
         else
         {
-            if (gCurrentSprite.work1 > 0)
-                gCurrentSprite.work1--;
+            if (gCurrentSprite.ZEBESIAN_GROUND_TIMER > 0)
+                gCurrentSprite.ZEBESIAN_GROUND_TIMER--;
 
             nsfb = SpriteUtilCheckSamusNearSpriteFrontBehind(BLOCK_TO_SUB_PIXEL(6.0f), BLOCK_TO_SUB_PIXEL(13.0f),
                 BLOCK_TO_SUB_PIXEL(13.0f));
             if (nsfb == NSFB_IN_FRONT)
             {
-                if (gCurrentSprite.work1 == 0)
+                if (gCurrentSprite.ZEBESIAN_GROUND_TIMER == 0)
                     gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_SHOOTING_INIT;
             }
             else if (nsfb == NSFB_BEHIND)
             {
-                if (gCurrentSprite.work1 == 0)
+                if (gCurrentSprite.ZEBESIAN_GROUND_TIMER == 0)
                 {
                     gCurrentSprite.pose = ZEBESIAN_GROUND_POSE_TURNING_AROUND_INIT;
-                    gCurrentSprite.work2 = TRUE; // Turn around shot
+                    gCurrentSprite.ZEBESIAN_GROUND_TURN_AROUND_SHOT = TRUE;
                 }
             }
             else

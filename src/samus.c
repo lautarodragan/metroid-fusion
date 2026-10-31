@@ -1626,8 +1626,8 @@ u32 SamusUpdate(void)
     if (gSamusData.cooldownTimer != 0)
         APPLY_DELTA_TIME_DEC(gSamusData.cooldownTimer);
 
-    if (gSamusData.unk_B != 0)
-        APPLY_DELTA_TIME_DEC(gSamusData.unk_B);
+    if (gSamusData.absorbingSuitTimer != 0)
+        APPLY_DELTA_TIME_DEC(gSamusData.absorbingSuitTimer);
 
     if (gSamusAnimationInfo.shinesparkTimer != 0)
     {

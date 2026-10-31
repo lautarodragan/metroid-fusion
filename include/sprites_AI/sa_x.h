@@ -6,6 +6,15 @@
 #define SA_X_MISSILE_SPEED (HALF_BLOCK_SIZE - PIXEL_SIZE)
 #define SA_X_MISSILE_DIAGONAL_SPEED ((u16)(SA_X_MISSILE_SPEED * .75f))
 
+// Work variables shared by the SA-X AIs
+#define SA_X_LANDED work0 // Falling/mid-air, waits for the landing pose to end
+#define SA_X_TIMER work1
+#define SA_X_DIAG_AIM work2 // Shooting
+#define SA_X_JUMP_TYPE work2 // Set when checking the collision in front, selects the jump Y velocity table
+#define SA_X_X_SPEED_IDX work3
+#define SA_X_Y_SPEED_IDX work4
+#define SA_X_LOST_SAMUS_TIMER workY // Increases while Samus is detected but not in Y range, she is lost at 20 seconds
+
 // Sprite poses shared by the SA-X AIs (some variants reuse some of these values for their own poses)
 #define SA_X_SPRITE_POSE_WALKING_INIT 0x1
 #define SA_X_SPRITE_POSE_WALKING 0x2

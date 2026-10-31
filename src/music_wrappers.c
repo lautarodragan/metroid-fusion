@@ -104,10 +104,10 @@ void PauseTracksAndBackupChannels(u8 isInterrupting)
 
             pTrack->occupied = TRUE;
 
-            if (!(pTrack->unk_1E & 1) && (pTrack->flags & 2) &&
-               (track != 0 || (pTrack->unk_1E & 2)))
+            if (!(pTrack->pauseFlags & 1) && (pTrack->flags & 2) &&
+               (track != 0 || (pTrack->pauseFlags & 2)))
             {
-                pTrack->unk_1E = 1;
+                pTrack->pauseFlags = 1;
 
                 for (j = 0, pVariables = pTrack->pVariables; j < pTrack->amountOfTracks; j++, pVariables++)
                 {
@@ -186,10 +186,10 @@ void ResumeTracksFromChannelBackup(u8 arg0)
 
             pTrack->occupied = TRUE;
 
-            if (pTrack->unk_1E & 1)
+            if (pTrack->pauseFlags & 1)
             {
-                pTrack->unk_1E &= ~1;
-                pTrack->unk_1E |= 2;
+                pTrack->pauseFlags &= ~1;
+                pTrack->pauseFlags |= 2;
 
                 for (j = 0, pVariables = pTrack->pVariables; j < pTrack->amountOfTracks; j++, pVariables++)
                 {
@@ -303,7 +303,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
             if (musicTrack == gMusicInfo.musicTrack && (sMusicTrackDataRom[0].pTrack->flags & 2))
                 goto exit;
 
-            if (sMusicTrackDataRom[1].pTrack->unk_1E & 2)
+            if (sMusicTrackDataRom[1].pTrack->pauseFlags & 2)
                 flag1 = FALSE;
             else
                 flag1 = TRUE;
@@ -313,7 +313,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
             if (musicTrack == gMusicInfo.secondMusicTrack && (sMusicTrackDataRom[1].pTrack->flags & 2))
                 goto exit;
 
-            if (sMusicTrackDataRom[0].pTrack->unk_1E & 2)
+            if (sMusicTrackDataRom[0].pTrack->pauseFlags & 2)
                 flag1 = TRUE;
             else
                 flag1 = FALSE;
@@ -329,7 +329,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
                 gMusicInfo.usingSecondMusicTrack = 0;
                 gMusicInfo.musicTrack = musicTrack;
                 
-                if (pTrack0->flags > 1 && !(pTrack0->unk_1E & 2))
+                if (pTrack0->flags > 1 && !(pTrack0->pauseFlags & 2))
                     StopMusicOrSound(pTrack0);
                 
                 goto block_32;
@@ -345,7 +345,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
                 gMusicInfo.usingSecondMusicTrack = 1;
                 gMusicInfo.secondMusicTrack = musicTrack;
 
-                if (pTrack0->flags > 1 && !(pTrack0->unk_1E & 2))
+                if (pTrack0->flags > 1 && !(pTrack0->pauseFlags & 2))
                     StopMusicOrSound(pTrack0);
                 
                 goto block_32;
@@ -356,7 +356,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
     {
         if (musicTrack == gMusicInfo.musicTrack)
         {
-            if (sMusicTrackDataRom[0].pTrack->unk_1E & 2)
+            if (sMusicTrackDataRom[0].pTrack->pauseFlags & 2)
                 StopMusicOrSound(sMusicTrackDataRom[0].pTrack);
             else if (sMusicTrackDataRom[0].pTrack->flags & 2)
                 goto exit;
@@ -367,7 +367,7 @@ void PlayMusic(u16 musicTrack, u8 priority)
 
         if ((pTrack1->flags & 0x1A) != 2 || pHeader != pTrack1->pHeader)
         {
-            if (pTrack0->flags > 1 && !(pTrack0->unk_1E & 2))
+            if (pTrack0->flags > 1 && !(pTrack0->pauseFlags & 2))
                 StopMusicOrSound(pTrack0);
             
             pHeader = sSoundDataEntries[musicTrack].pHeader;
@@ -474,7 +474,7 @@ void PlayMusicWithFadeIn(u16 arg0, u16 arg1, u8 arg2)
         {
             if (arg0 != gMusicInfo.musicTrack || !(sMusicTrackDataRom[0].pTrack->flags & 2))
             {
-                if (sMusicTrackDataRom[1].pTrack->unk_1E & 2)
+                if (sMusicTrackDataRom[1].pTrack->pauseFlags & 2)
                     flag1 = FALSE;
                 else
                     flag1 = TRUE;
@@ -488,7 +488,7 @@ void PlayMusicWithFadeIn(u16 arg0, u16 arg1, u8 arg2)
         }
         else if (arg0 != gMusicInfo.secondMusicTrack || !(sMusicTrackDataRom[1].pTrack->flags & 2))
         {
-            if (sMusicTrackDataRom[0].pTrack->unk_1E & 2)
+            if (sMusicTrackDataRom[0].pTrack->pauseFlags & 2)
                 flag1 = TRUE;
             else
                 flag1 = FALSE;
@@ -547,7 +547,7 @@ void PlayMusicWithFadeIn(u16 arg0, u16 arg1, u8 arg2)
 
         if (flag3)
         {
-            if (pTrack0->flags > 1 && !(pTrack0->unk_1E & 2))
+            if (pTrack0->flags > 1 && !(pTrack0->pauseFlags & 2))
                 StopMusicOrSound(pTrack0);
             
             gMusicInfo.occupied = FALSE;
@@ -764,11 +764,11 @@ void RestartMusic(void)
 }
 
 /**
- * @brief 3b1c | 5c | Plays a sound on the music track group that isn't used by the music
+ * @brief 3b1c | 5c | Plays a sound on the music track group that isn't used by the music, marking it so it is kept by music changes
  * 
  * @param sound Sound ID
  */
-void SoundPlay_3b1c(u16 sound)
+void SoundPlayOnUnusedMusicTrack(u16 sound)
 {
     struct TrackData *pTrack;
     const u8* pHeader;
@@ -786,7 +786,7 @@ void SoundPlay_3b1c(u16 sound)
     pHeader = sSoundDataEntries[sound].pHeader;
     gMusicInfo.occupied = FALSE;
     InitTrack(pTrack, pHeader);
-    pTrack->unk_1E |= 2;
+    pTrack->pauseFlags |= 2;
     
     gMusicInfo.occupied = FALSE;
 }
@@ -839,7 +839,7 @@ void PlayMusicOrSoundFromId(u16 sound, u8 arg1)
         if (arg1 == 0)
         {
             if (sound >= SOUND_AA && sound <= SOUND_B3)
-                SoundPlay_3b1c(sound);
+                SoundPlayOnUnusedMusicTrack(sound);
             else
                 SoundPlay(sound);
         }

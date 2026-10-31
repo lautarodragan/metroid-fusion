@@ -48,7 +48,7 @@ const struct PowerBomb sPowerBomb_Empty = {
     .hitboxBottom = 0,
     .powerBombPlaced = 0,
     .ownedBySaX = FALSE,
-    .unk_12 = 0
+    .delayExplosion = 0
 };
 
 const struct ScreenShake sScreenShake_Empty = {

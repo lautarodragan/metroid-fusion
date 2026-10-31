@@ -343,7 +343,7 @@ u8 SaXElevatorBlowingUpWall(void)
 
         case 25:
             ScreenShakeStartHorizontal(60, 0x1);
-            SoundPlay_3b1c(0x226);
+            SoundPlayOnUnusedMusicTrack(0x226);
             break;
 
         case 40:
@@ -540,7 +540,7 @@ u8 SaXElevatorWalkingOut(void)
     {
         case 5:
             ScreenShakeStartHorizontal(60, 1);
-            SoundPlay_3b1c(0x227);
+            SoundPlayOnUnusedMusicTrack(0x227);
             break;
 
         case 35:

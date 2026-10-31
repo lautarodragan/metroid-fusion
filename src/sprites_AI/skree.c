@@ -26,6 +26,12 @@
 #define SKREE_GOING_UP_INIT 0x2F
 #define SKREE_GOING_UP 0x30
 
+#define SKREE_TIMER work1 // Also the frames since crashing while going down
+#define SKREE_WARNING_STAGE work2
+#define SKREE_Y_SPEED_IDX work4
+#define SKREE_CRASH_X workX
+#define SKREE_SPAWN_Y workY
+
 /**
  * @brief 21980 | a8 | Initializes a skree
  * 
@@ -61,11 +67,11 @@ void SkreeInit(void)
         gCurrentSprite.currentAnimationFrame = 0;
 
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     }
     else
     {
-        gCurrentSprite.workY = gCurrentSprite.yPosition;
+        gCurrentSprite.SKREE_SPAWN_Y = gCurrentSprite.yPosition;
     }
 }
 
@@ -130,8 +136,8 @@ void SkreeGoingDownInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.SKREE_TIMER = 0;
+    gCurrentSprite.SKREE_Y_SPEED_IDX = 0;
 
     gCurrentSprite.pose = SKREE_GOING_DOWN;
 
@@ -150,7 +156,7 @@ void SkreeGoingDown(void)
     u8 offset;
     s16 movement;
 
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.SKREE_TIMER != 0)
     {
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE + PIXEL_SIZE), gCurrentSprite.xPosition);
 
@@ -165,28 +171,28 @@ void SkreeGoingDown(void)
         yPosition = gCurrentSprite.yPosition;
         xPosition = gCurrentSprite.xPosition;
 
-        if (gCurrentSprite.work1 == 1)
+        if (gCurrentSprite.SKREE_TIMER == 1)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_LEFT | DEBRIS_TYPE_FALLING, yPosition - (EIGHTH_BLOCK_SIZE + PIXEL_SIZE / 2), xPosition);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_RIGHT | DEBRIS_TYPE_FALLING, yPosition - QUARTER_BLOCK_SIZE, xPosition + (QUARTER_BLOCK_SIZE - PIXEL_SIZE));
         }
-        else if (gCurrentSprite.work1 == 2)
+        else if (gCurrentSprite.SKREE_TIMER == 2)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_RIGHT | DEBRIS_TYPE_FALLING, yPosition - (HALF_BLOCK_SIZE + EIGHTH_BLOCK_SIZE), xPosition - QUARTER_BLOCK_SIZE);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_LEFT, yPosition - (HALF_BLOCK_SIZE - PIXEL_SIZE / 2), xPosition);
         }
-        else if (gCurrentSprite.work1 == 4)
+        else if (gCurrentSprite.SKREE_TIMER == 4)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_LEFT | DEBRIS_TYPE_FALLING, yPosition - (BLOCK_SIZE - PIXEL_SIZE), xPosition - (QUARTER_BLOCK_SIZE + PIXEL_SIZE));
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_RIGHT | DEBRIS_TYPE_FALLING, yPosition - (BLOCK_SIZE + PIXEL_SIZE + PIXEL_SIZE / 2), xPosition + (HALF_BLOCK_SIZE - PIXEL_SIZE / 2));
         }
-        else if (gCurrentSprite.work1 == 6)
+        else if (gCurrentSprite.SKREE_TIMER == 6)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_RIGHT | DEBRIS_TYPE_FALLING, yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE - PIXEL_SIZE), xPosition + (QUARTER_BLOCK_SIZE + PIXEL_SIZE));
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_LEFT, yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE + PIXEL_SIZE), xPosition - (HALF_BLOCK_SIZE - PIXEL_SIZE / 2));
         }
 
-        gCurrentSprite.work1++;
+        gCurrentSprite.SKREE_TIMER++;
     }
     else
     {
@@ -195,14 +201,14 @@ void SkreeGoingDown(void)
         if (gPreviousVerticalCollisionCheck != COLLISION_AIR)
         {
             gCurrentSprite.yPosition = blockTop;
-            gCurrentSprite.work1 = 1;
-            gCurrentSprite.workX = gCurrentSprite.xPosition;
+            gCurrentSprite.SKREE_TIMER = 1;
+            gCurrentSprite.SKREE_CRASH_X = gCurrentSprite.xPosition;
 
             SoundPlay(0x1DB);
             return;
         }
 
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.SKREE_Y_SPEED_IDX;
         movement = sSkreeGoingDownYVelocity[offset];
 
         if (movement == SHORT_MAX)
@@ -212,7 +218,7 @@ void SkreeGoingDown(void)
         }
         else
         {
-            gCurrentSprite.work4++;
+            gCurrentSprite.SKREE_Y_SPEED_IDX++;
             gCurrentSprite.yPosition += movement;
         }
     }
@@ -228,7 +234,7 @@ void SkreeCrashingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work1 = 60;
+    gCurrentSprite.SKREE_TIMER = 60;
     gCurrentSprite.pose = SKREE_CRASHING;
 }
 
@@ -238,14 +244,14 @@ void SkreeCrashingInit(void)
  */
 void SkreeCrashing(void)
 {
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.SKREE_TIMER != 0)
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.SKREE_TIMER--;
         return;
     }
 
-    if (gCurrentSprite.workX - 0xC0 < gSamusData.xPosition &&
-        gSamusData.xPosition < gCurrentSprite.workX + 0xC0)
+    if (gCurrentSprite.SKREE_CRASH_X - 0xC0 < gSamusData.xPosition &&
+        gSamusData.xPosition < gCurrentSprite.SKREE_CRASH_X + 0xC0)
     {
         gCurrentSprite.xPosition = gSamusData.xPosition;
         gCurrentSprite.pose = SKREE_GOING_UP_WARNING_INIT;
@@ -262,8 +268,8 @@ void SkreeGoingUpWarningInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work1 = 31;
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.SKREE_TIMER = 31;
+    gCurrentSprite.SKREE_WARNING_STAGE = 0;
 
     gCurrentSprite.pose = SKREE_GOING_UP_WARNING;
 }
@@ -277,7 +283,7 @@ void SkreeGoingUpWarning(void)
     u16 yPosition;
     u16 xPosition;
 
-    if (gCurrentSprite.work2 == 0)
+    if (gCurrentSprite.SKREE_WARNING_STAGE == 0)
     {
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - (BLOCK_SIZE * 2 - QUARTER_BLOCK_SIZE), gCurrentSprite.xPosition);
 
@@ -287,32 +293,32 @@ void SkreeGoingUpWarning(void)
             return;
         }
 
-        gCurrentSprite.work2++;
+        gCurrentSprite.SKREE_WARNING_STAGE++;
         SoundPlay(0x1DB);
     }
 
     yPosition = gCurrentSprite.yPosition - HALF_BLOCK_SIZE;
     xPosition = gCurrentSprite.xPosition;
 
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.SKREE_TIMER != 0)
     {
-        gCurrentSprite.work1--;
-        if (gCurrentSprite.work1 == 30)
+        gCurrentSprite.SKREE_TIMER--;
+        if (gCurrentSprite.SKREE_TIMER == 30)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_LEFT | DEBRIS_TYPE_FALLING, yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE), xPosition);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_RIGHT | DEBRIS_TYPE_FALLING, yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE), xPosition + QUARTER_BLOCK_SIZE);
         }
-        else if (gCurrentSprite.work1 == 20)
+        else if (gCurrentSprite.SKREE_TIMER == 20)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_RIGHT | DEBRIS_TYPE_FALLING, yPosition - BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_LEFT, yPosition - BLOCK_SIZE, xPosition);
         }
-        else if (gCurrentSprite.work1 == 14)
+        else if (gCurrentSprite.SKREE_TIMER == 14)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_LEFT | DEBRIS_TYPE_FALLING, yPosition - HALF_BLOCK_SIZE, xPosition + EIGHTH_BLOCK_SIZE);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_RIGHT | DEBRIS_TYPE_FALLING, yPosition - HALF_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE);
         }
-        else if (gCurrentSprite.work1 == 6)
+        else if (gCurrentSprite.SKREE_TIMER == 6)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_RIGHT | DEBRIS_TYPE_FALLING, yPosition, xPosition - EIGHTH_BLOCK_SIZE);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_LEFT, yPosition, xPosition + QUARTER_BLOCK_SIZE);
@@ -321,32 +327,32 @@ void SkreeGoingUpWarning(void)
     else
     {
         gCurrentSprite.yPosition -= ONE_SUB_PIXEL;
-        if (gCurrentSprite.work2 == 1)
+        if (gCurrentSprite.SKREE_WARNING_STAGE == 1)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_LEFT | DEBRIS_TYPE_FALLING, yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE), xPosition);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_RIGHT | DEBRIS_TYPE_FALLING, yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE), xPosition + QUARTER_BLOCK_SIZE);
         }
-        else if (gCurrentSprite.work2 == 8)
+        else if (gCurrentSprite.SKREE_WARNING_STAGE == 8)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_RIGHT | DEBRIS_TYPE_FALLING, yPosition - BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_LEFT, yPosition - BLOCK_SIZE, xPosition);
         }
-        else if (gCurrentSprite.work2 == 16)
+        else if (gCurrentSprite.SKREE_WARNING_STAGE == 16)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_LEFT | DEBRIS_TYPE_FALLING, yPosition - HALF_BLOCK_SIZE, xPosition + EIGHTH_BLOCK_SIZE);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_SLOW_RIGHT | DEBRIS_TYPE_FALLING, yPosition - HALF_BLOCK_SIZE, xPosition - QUARTER_BLOCK_SIZE);
         }
-        else if (gCurrentSprite.work2 == 24)
+        else if (gCurrentSprite.SKREE_WARNING_STAGE == 24)
         {
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_RIGHT | DEBRIS_TYPE_FALLING, yPosition, xPosition - EIGHTH_BLOCK_SIZE);
             SpriteDebrisInit(0, DEBRIS_TYPE_HOPPING_FAST_LEFT, yPosition, xPosition + QUARTER_BLOCK_SIZE);
         }
-        else if (gCurrentSprite.work2 > 30)
+        else if (gCurrentSprite.SKREE_WARNING_STAGE > 30)
         {
             gCurrentSprite.yPosition -= ONE_SUB_PIXEL;
         }
 
-        gCurrentSprite.work2++;
+        gCurrentSprite.SKREE_WARNING_STAGE++;
 
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition, gCurrentSprite.xPosition);
         
@@ -373,13 +379,13 @@ void SkreeGoingUp(void)
 {
     SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - BLOCK_SIZE * 2, gCurrentSprite.xPosition);
 
-    if (gPreviousCollisionCheck == COLLISION_AIR && gCurrentSprite.workY < gCurrentSprite.yPosition)
+    if (gPreviousCollisionCheck == COLLISION_AIR && gCurrentSprite.SKREE_SPAWN_Y < gCurrentSprite.yPosition)
     {
         gCurrentSprite.yPosition -= QUARTER_BLOCK_SIZE;
     }
     else
     {
-        gCurrentSprite.yPosition = gCurrentSprite.workY;
+        gCurrentSprite.yPosition = gCurrentSprite.SKREE_SPAWN_Y;
         gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
     }
 }

@@ -17,6 +17,13 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define YARD_ON_WALL work0 // Crawling on a wall (vertically)
+#define YARD_TIMER work1 // Shooting cooldown
+#define YARD_ROLLING_SPEED work1 // Rolling, in 1/32 of a pixel per frame
+#define YARD_TURN_COOLDOWN work2 // Delay before it can turn around again when touching another yard
+#define YARD_STARTLED_TIMER work3 // Set when startled by a power bomb, never read
+#define YARD_Y_SPEED_IDX work4
+
 enum YardProjectileDirection {
     YARD_PROJECTILE_DIRECTION_UP_LEFT,
     YARD_PROJECTILE_DIRECTION_DOWN_LEFT,
@@ -30,14 +37,14 @@ boolu8 YardCheckShouldStartle(void)
     {
         gCurrentSprite.pose = 0x18;
 
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
             gCurrentSprite.pOam = sYardOam_StartledVertical;
         else
             gCurrentSprite.pOam = sYardOam_StartledHorizontal;
 
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
-        gCurrentSprite.work3 = 180;
+        gCurrentSprite.YARD_STARTLED_TIMER = 180;
 
         return TRUE;
     }
@@ -51,7 +58,7 @@ boolu8 YardCheckCollidingWithAir(void)
 
     midair = FALSE;
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -113,7 +120,7 @@ void YardUpdateHitbox(void)
 {
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
         {
             if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             {
@@ -150,7 +157,7 @@ void YardUpdateHitbox(void)
     }
     else
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
         {
             if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             {
@@ -191,14 +198,14 @@ void YardSetCrawlingOam(void)
 {
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
             gCurrentSprite.pOam = sYardOam_UninfectedVertical;
         else
             gCurrentSprite.pOam = sYardOam_UninfectedHorizontal;
     }
     else
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
             gCurrentSprite.pOam = sYardOam_CrawlingVertical;
         else
             gCurrentSprite.pOam = sYardOam_CrawlingHorizontal;
@@ -210,7 +217,7 @@ void YardSetCrawlingOam(void)
 
 void YardSetTurningAroundOam(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
         gCurrentSprite.pOam = sYardOam_TurningAroundVertical1;
     else
         gCurrentSprite.pOam = sYardOam_TurningAroundHorizontal1;
@@ -221,7 +228,7 @@ void YardSetTurningAroundOam(void)
 
 void YardSetTurningAroundSecondPartOam(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
         gCurrentSprite.pOam = sYardOam_TurningAroundVertical2;
     else
         gCurrentSprite.pOam = sYardOam_TurningAroundHorizontal2;
@@ -232,7 +239,7 @@ void YardSetTurningAroundSecondPartOam(void)
 
 void YardSetChargingOam(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
         gCurrentSprite.pOam = sYardOam_ChargingVertical;
     else
         gCurrentSprite.pOam = sYardOam_ChargingHorizontal;
@@ -243,7 +250,7 @@ void YardSetChargingOam(void)
 
 void YardSetShootingOam(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
         gCurrentSprite.pOam = sYardOam_ShootingVertical;
     else
         gCurrentSprite.pOam = sYardOam_ShootingHorizontal;
@@ -254,7 +261,7 @@ void YardSetShootingOam(void)
 
 void YardSetRecoilOam(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
         gCurrentSprite.pOam = sYardOam_RecoilVertical;
     else
         gCurrentSprite.pOam = sYardOam_RecoilHorizontal;
@@ -267,13 +274,13 @@ void YardCheckShoot(void)
 {
     u32 nsfb;
 
-    if (gCurrentSprite.work1 > 0)
+    if (gCurrentSprite.YARD_TIMER > 0)
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.YARD_TIMER--;
         return;
     }
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
         nsfb = SpriteUtilCheckSamusNearSpriteFrontBehindY(BLOCK_TO_SUB_PIXEL(10.0f), BLOCK_TO_SUB_PIXEL(10.0f),
             BLOCK_TO_SUB_PIXEL(10.0f));
     else
@@ -298,7 +305,7 @@ void YardCharging(void)
 {
     if (SpriteUtilHasCurrentAnimationEnded())
     {
-        gCurrentSprite.work1 = 30;
+        gCurrentSprite.YARD_TIMER = 30;
         gCurrentSprite.pose = 0x2c;
         YardSetShootingOam();
     }
@@ -313,16 +320,16 @@ void YardShooting(void)
     if (startled)
         return;
 
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.YARD_TIMER == 0)
     {
         gCurrentSprite.pose = 0x2e;
         YardSetRecoilOam();
         return;
     }
 
-    if (gCurrentSprite.work1 == 15)
+    if (gCurrentSprite.YARD_TIMER == 15)
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
         {
             if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             {
@@ -391,13 +398,13 @@ void YardRecoil(void)
     if (SpriteUtilHasCurrentAnimationNearlyEnded())
     {
         gCurrentSprite.pose = 3;
-        gCurrentSprite.work1 = 120;
+        gCurrentSprite.YARD_TIMER = 120;
     }
 }
 
 void YardTurningIntoX(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             gCurrentSprite.xPosition -= BLOCK_TO_SUB_PIXEL(0.5f);
@@ -420,8 +427,8 @@ void YardInit(void)
     {
         gCurrentSprite.status &= ~SPRITE_STATUS_ROTATION_SCALING_SINGLE;
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
-        if (!gCurrentSprite.work0 && !(gCurrentSprite.status & SPRITE_STATUS_Y_FLIP))
+        gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
+        if (!gCurrentSprite.YARD_ON_WALL && !(gCurrentSprite.status & SPRITE_STATUS_Y_FLIP))
         {
             if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
                 gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
@@ -437,7 +444,7 @@ void YardInit(void)
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition, gCurrentSprite.xPosition);
         if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
         {
-            gCurrentSprite.work0 = FALSE;
+            gCurrentSprite.YARD_ON_WALL = FALSE;
 
             if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
                 gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
@@ -448,7 +455,7 @@ void YardInit(void)
                 gCurrentSprite.xPosition);
             if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
             {
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.YARD_ON_WALL = FALSE;
                 gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
                 gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(1.0f);
 
@@ -461,7 +468,7 @@ void YardInit(void)
                     gCurrentSprite.xPosition - BLOCK_TO_SUB_PIXEL(0.5625f));
                 if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                 {
-                    gCurrentSprite.work0 = TRUE;
+                    gCurrentSprite.YARD_ON_WALL = TRUE;
                     gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(0.5f);
                     gCurrentSprite.xPosition -= BLOCK_TO_SUB_PIXEL(0.5f);
 
@@ -474,7 +481,7 @@ void YardInit(void)
                         gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(0.5f));
                     if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                     {
-                        gCurrentSprite.work0 = TRUE;
+                        gCurrentSprite.YARD_ON_WALL = TRUE;
                         gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
                         gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(0.5f);
                         gCurrentSprite.xPosition += BLOCK_TO_SUB_PIXEL(0.5f);
@@ -508,8 +515,8 @@ void YardInit(void)
 
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.YARD_TIMER = 0;
+    gCurrentSprite.YARD_TURN_COOLDOWN = 0;
     gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(2);
     gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(2);
     gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(2);
@@ -519,7 +526,7 @@ void YardCheckRoll(void)
 {
     if (SPRITE_GET_ISFT(gCurrentSprite) == 1 && gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
     {
-        if (gCurrentSprite.work0 || gCurrentSprite.status & SPRITE_STATUS_Y_FLIP)
+        if (gCurrentSprite.YARD_ON_WALL || gCurrentSprite.status & SPRITE_STATUS_Y_FLIP)
         {
             // On wall or ceiling, make it fall
             gCurrentSprite.pose = SPRITE_POSE_FALLING_INIT;
@@ -529,7 +536,7 @@ void YardCheckRoll(void)
             SpriteUtilMakeSpriteFaceAwayFromSamusDirection();
             gCurrentSprite.pose = 0x38;
             // NOTE: Speed is capped to half a pixel per frame when rolling down a slope
-            gCurrentSprite.work1 = PIXEL_TO_VELOCITY(1.875);
+            gCurrentSprite.YARD_ROLLING_SPEED = PIXEL_TO_VELOCITY(1.875);
 
             if (!(gCurrentSprite.status & SPRITE_STATUS_ROTATION_SCALING_SINGLE))
             {
@@ -655,7 +662,7 @@ void YardRolling(void)
             if (!(gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT))
             {
                 // Rolling up a slope
-                if (gCurrentSprite.work1 == PIXEL_TO_VELOCITY(1. / 32))
+                if (gCurrentSprite.YARD_ROLLING_SPEED == PIXEL_TO_VELOCITY(1. / 32))
                 {
                     // Start to roll down a slope, don't decelerate
                     gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
@@ -675,7 +682,7 @@ void YardRolling(void)
             if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
             {
                 // Rolling up a slope
-                if (gCurrentSprite.work1 == PIXEL_TO_VELOCITY(1. / 32))
+                if (gCurrentSprite.YARD_ROLLING_SPEED == PIXEL_TO_VELOCITY(1. / 32))
                 {
                     // Start to roll down a slope, don't decelerate
                     gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
@@ -694,7 +701,7 @@ void YardRolling(void)
     if (!notSlowingDown)
     {
         // Slow down by 1/32 of a pixel per frame
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.YARD_ROLLING_SPEED == 0)
         {
             gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
             return;
@@ -703,11 +710,11 @@ void YardRolling(void)
     else
     {
         // Cap speed at 1/2 of a pixel per frame when rolling down a slope
-        if (gCurrentSprite.work1 < PIXEL_TO_VELOCITY(0.5))
-            gCurrentSprite.work1 = PIXEL_TO_VELOCITY(0.5);
+        if (gCurrentSprite.YARD_ROLLING_SPEED < PIXEL_TO_VELOCITY(0.5))
+            gCurrentSprite.YARD_ROLLING_SPEED = PIXEL_TO_VELOCITY(0.5);
     }
 
-    rotationDelta = VELOCITY_TO_SUB_PIXEL(gCurrentSprite.work1);
+    rotationDelta = VELOCITY_TO_SUB_PIXEL(gCurrentSprite.YARD_ROLLING_SPEED);
     SpriteUtilMoveXPosForwardOnSlopeDirection(rotationDelta);
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
@@ -728,7 +735,7 @@ void YardStartled(void)
     else if (SpriteUtilHasCurrentAnimationNearlyEnded())
     {
         gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
-        gCurrentSprite.work1 = 120;
+        gCurrentSprite.YARD_TIMER = 120;
     }
 }
 
@@ -765,7 +772,7 @@ void YardIdle(void)
         return;
 
     // Turn around if touching another yard
-    if (gCurrentSprite.work2 == 0)
+    if (gCurrentSprite.YARD_TURN_COOLDOWN == 0)
     {
         y = gCurrentSprite.yPosition;
         x = gCurrentSprite.xPosition;
@@ -796,7 +803,7 @@ void YardIdle(void)
 
             if (SpriteUtilCheckObjectsTouching(top, bottom, left, right, otherTop, otherBottom, otherLeft, otherRight))
             {
-                gCurrentSprite.work2 = 120;
+                gCurrentSprite.YARD_TURN_COOLDOWN = 120;
                 gCurrentSprite.pose = 3;
                 return;
             }
@@ -804,10 +811,10 @@ void YardIdle(void)
     }
     else
     {
-        gCurrentSprite.work2--;
+        gCurrentSprite.YARD_TURN_COOLDOWN--;
     }
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -1001,7 +1008,7 @@ void YardTurningAround(void)
 
         YardSetTurningAroundSecondPartOam();
 
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
             gCurrentSprite.status ^= SPRITE_STATUS_Y_FLIP;
         else
             gCurrentSprite.status ^= SPRITE_STATUS_X_FLIP;
@@ -1019,7 +1026,7 @@ void YardTurningAroundSecondPart(void)
 void YardFallingInit(void)
 {
     gCurrentSprite.pose = SPRITE_POSE_FALLING;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.YARD_Y_SPEED_IDX = 0;
     YardSetCrawlingOam();
 }
 
@@ -1036,7 +1043,7 @@ void YardFalling(void)
     yCollisionPoint = gCurrentSprite.yPosition;
     xCollisionPoint = gCurrentSprite.xPosition;
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.YARD_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             xCollisionPoint -= BLOCK_TO_SUB_PIXEL(0.0625f);
@@ -1053,11 +1060,11 @@ void YardFalling(void)
     {
         gCurrentSprite.yPosition = blockTop;
 
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.YARD_ON_WALL)
             onWall++;
 
         gCurrentSprite.status &= ~SPRITE_STATUS_Y_FLIP;
-        gCurrentSprite.work0 = FALSE;
+        gCurrentSprite.YARD_ON_WALL = FALSE;
         gCurrentSprite.pose = SPRITE_POSE_IDLE;
 
         YardUpdateHitbox();
@@ -1076,7 +1083,7 @@ void YardFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.YARD_Y_SPEED_IDX;
         movement = sSpritesFallingSpeedSlow[offset];
         if (movement == SHORT_MAX)
         {
@@ -1086,7 +1093,7 @@ void YardFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.YARD_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
     }

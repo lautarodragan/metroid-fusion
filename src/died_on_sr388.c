@@ -106,7 +106,7 @@ void DiedOnSr388CollisionInit(void)
     gWrittenToBldalpha_Eva = 8;
     gWrittenToBldalpha_Evb = 14;
 
-    SoundPlay_3b1c(SOUND_24D);
+    SoundPlayOnUnusedMusicTrack(SOUND_24D);
 
     DiedOnSr388CollisionSetupOam(2, 164, 40, TRUE);
     DiedOnSr388CollisionSetupOam(1, 164, 40, TRUE);

@@ -1043,7 +1043,7 @@ void Box2BrainRising(void)
                 gCurrentSprite.primarySpriteRamSlot, yPosition, xPosition, 0);
             gSpriteData[slot].primarySpriteRamSlot = slot;
             ParticleSet(yPosition + BLOCK_TO_SUB_PIXEL(1.125f), xPosition, PE_EXPLOSION_8);
-            SoundPlay_3b1c(SOUND_26E);
+            SoundPlayOnUnusedMusicTrack(SOUND_26E);
             break;
 
         case CONVERT_SECONDS(1/60.f):

@@ -19,21 +19,21 @@ boolu32 SaXCloseUpHandler(void)
     gNextOamSlot = 0;
     ended = FALSE;
 
-    switch (gUnk_3000b85)
+    switch (gPauseScreenStage)
     {
         case 0:
             SaXCloseUpInit();
-            gUnk_3000b85++;
+            gPauseScreenStage++;
             break;
 
         case 1:
             gWrittenToBldy = 0;
-            gUnk_3000b85++;
+            gPauseScreenStage++;
             break;
 
         case 2:
             if (SaXCloseUp())
-                gUnk_3000b85++;
+                gPauseScreenStage++;
             break;
 
         case 3:
@@ -44,7 +44,7 @@ boolu32 SaXCloseUpHandler(void)
             else
             {
                 ended = TRUE;
-                gUnk_3000b85 = 0;
+                gPauseScreenStage = 0;
             }
             break;
     }
@@ -132,7 +132,7 @@ boolu32 SaXCloseUp(void)
     ended = FALSE;
 
     SA_X_CLOSE_UP_DATA.timer++;
-    if (SA_X_CLOSE_UP_DATA.unk_0 == 0 && SaXCloseUpProcess())
+    if (SA_X_CLOSE_UP_DATA.skipProcess == 0 && SaXCloseUpProcess())
         ended = TRUE;
 
     return ended;

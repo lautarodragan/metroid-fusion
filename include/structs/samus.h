@@ -16,7 +16,7 @@ struct SamusData {
     u8 weaponHighlighted;
     u8 newProjectile;
     u8 cooldownTimer;
-    u8 unk_B; // Timer decremented every frame, ends the (never spawned) absorbing suit particle when 0, never set
+    u8 absorbingSuitTimer; // Timer decremented every frame, ends the (never spawned) absorbing suit particle when 0, never set
     u8 chargeBeamCounter;
     u8 diagonalAim;
     u8 armRunningFlag;

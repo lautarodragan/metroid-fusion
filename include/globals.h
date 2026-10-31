@@ -97,6 +97,7 @@ extern s8 gIsLoadingFile;
 // Cleared when gameplay (re)starts (new game, file loaded, demo, continue), set after the first room is loaded;
 // while clear, loading a room also resets Samus, the sprites and the HUD
 extern bools8 gGameplayInitialized;
+// Cleared on soft reset, never read in the final game
 extern u8 gUnk_3000b8f;
 // Debug: during no-clip (SUB_GAME_MODE_NO_CLIP), START toggles a free camera
 extern u8 gNoClipCameraUnlocked;
@@ -120,8 +121,9 @@ extern u16 gBg2YPosition;
 extern u16 gBg3XPosition;
 extern u16 gBg3YPosition;
 
-extern u16 gUnk_3001234;
-extern u16 gUnk_3001236;
+// Follow the BG positions, only written (560, -40) by the in-SR388 intro setup, never read in the final game
+extern u16 gUnusedBgXPosition;
+extern u16 gUnusedBgYPosition;
 
 extern u8 gSpritesetNumber;
 
@@ -145,7 +147,7 @@ extern s8 gLanguage;
 struct GameCompletion {
     s8 completedGame;
     s8 introPlayed;
-    u8 unk_2;
+    u8 unk_2; // Cleared on a new file, never read in the final game
 };
 
 extern struct GameCompletion gGameCompletion;
@@ -218,7 +220,7 @@ struct IoRegisters {
 extern struct IoRegisters gIoRegisters;
 
 struct DefaultTransparency {
-    u8 unk_0;
+    u8 customEva; // Set when the room effect uses its own EVA (with EVB at 16), written but never read in the final game
     u8 evbCoef;
     u8 evaCoef;
     u16 bldcnt;

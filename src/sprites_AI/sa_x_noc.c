@@ -20,7 +20,7 @@
  */
 void SaXNocCheckCollisionWalking(void)
 {
-    gCurrentSprite.work2 = DIAG_AIM_NONE;
+    gCurrentSprite.SA_X_DIAG_AIM = DIAG_AIM_NONE;
 
     SpriteUtilAlignYPositionOnSlopeAtOrigin();
 
@@ -69,7 +69,7 @@ void SaXNocCheckCollisionWalking(void)
 
         if (gPreviousCollisionCheck == COLLISION_AIR)
         {
-            gCurrentSprite.work2 = 0x1;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x1;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
             return;
         }
@@ -93,7 +93,7 @@ void SaXNocCheckCollisionWalking(void)
                     return;
                 }
     
-                gCurrentSprite.work2 = 0x2;
+                gCurrentSprite.SA_X_JUMP_TYPE = 0x2;
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
                 return;
             }
@@ -102,7 +102,7 @@ void SaXNocCheckCollisionWalking(void)
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - QUARTER_BLOCK_SIZE, gCurrentSprite.xPosition + (BLOCK_SIZE - PIXEL_SIZE));
         if (gPreviousCollisionCheck == COLLISION_SOLID)
         {
-            gCurrentSprite.work2 = 0x1;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x1;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
         }
     }
@@ -125,7 +125,7 @@ void SaXNocCheckCollisionWalking(void)
  */
 void SaXNocCheckCollisionRunning(void)
 {
-    gCurrentSprite.work2 = DIAG_AIM_NONE;
+    gCurrentSprite.SA_X_DIAG_AIM = DIAG_AIM_NONE;
 
     SpriteUtilAlignYPositionOnSlopeAtOrigin();
 
@@ -174,7 +174,7 @@ void SaXNocCheckCollisionRunning(void)
 
         if (gPreviousCollisionCheck == COLLISION_AIR)
         {
-            gCurrentSprite.work2 = 0x1;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x1;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
             return;
         }
@@ -198,7 +198,7 @@ void SaXNocCheckCollisionRunning(void)
                     return;
                 }
     
-                gCurrentSprite.work2 = 0x2;
+                gCurrentSprite.SA_X_JUMP_TYPE = 0x2;
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
                 return;
             }
@@ -219,7 +219,7 @@ void SaXNocCheckCollisionRunning(void)
                 return;
             }
         
-            gCurrentSprite.work2 = 0x2;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x2;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
             return;
         }
@@ -227,7 +227,7 @@ void SaXNocCheckCollisionRunning(void)
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - QUARTER_BLOCK_SIZE, gCurrentSprite.xPosition + (BLOCK_SIZE - PIXEL_SIZE));
         if (gPreviousCollisionCheck == COLLISION_SOLID)
         {
-            gCurrentSprite.work2 = 0x1;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x1;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
         }
     }
@@ -240,7 +240,7 @@ void SaXNocCheckCollisionRunning(void)
 
         if (gPreviousCollisionCheck == COLLISION_AIR)
         {
-            gCurrentSprite.work2 = 0x1;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x1;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
             return;
         }
@@ -264,7 +264,7 @@ void SaXNocCheckCollisionRunning(void)
                     return;
                 }
     
-                gCurrentSprite.work2 = 0x2;
+                gCurrentSprite.SA_X_JUMP_TYPE = 0x2;
                 gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
                 return;
             }
@@ -286,7 +286,7 @@ void SaXNocCheckCollisionRunning(void)
                 return;
             }
         
-            gCurrentSprite.work2 = 0x2;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x2;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
             return;
         }
@@ -294,7 +294,7 @@ void SaXNocCheckCollisionRunning(void)
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - QUARTER_BLOCK_SIZE, gCurrentSprite.xPosition - (BLOCK_SIZE - PIXEL_SIZE));
         if (gPreviousCollisionCheck == COLLISION_SOLID)
         {
-            gCurrentSprite.work2 = 0x1;
+            gCurrentSprite.SA_X_JUMP_TYPE = 0x1;
             gCurrentSprite.pose = SA_X_SPRITE_POSE_MID_AIR_INIT;
         }
     }
@@ -352,7 +352,7 @@ void SaXNocInit(void)
     {
         gCurrentSprite.status |= SPRITE_STATUS_HIDDEN;
         gCurrentSprite.pose = SA_X_NOC_POSE_WAITING_IN_DOOR_DURING_CHASE;
-        gCurrentSprite.work1 = 60;
+        gCurrentSprite.SA_X_TIMER = 60;
         SaXSetPose(SA_X_POSE_RUNNING);
     }
     else
@@ -367,12 +367,12 @@ void SaXNocInit(void)
  */
 void SaXNocWaitingInDoorDuringChase(void)
 {
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 != 0)
+    gCurrentSprite.SA_X_TIMER--;
+    if (gCurrentSprite.SA_X_TIMER != 0)
         return;
 
     gCurrentSprite.pose = SA_X_NOC_POSE_OPENING_DOOR_DURING_CHASE;
-    gCurrentSprite.work1 = 30;
+    gCurrentSprite.SA_X_TIMER = 30;
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
@@ -392,8 +392,8 @@ void SaXNocWaitingInDoorDuringChase(void)
  */
 void SaXNocOpeningDoorDuringChase(void)
 {
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 != 0)
+    gCurrentSprite.SA_X_TIMER--;
+    if (gCurrentSprite.SA_X_TIMER != 0)
         return;
 
     SaXRunningInit();
@@ -429,7 +429,7 @@ void SaXNocWaitingInDoorToLayPowerBomb(void)
             gCurrentSprite.yPosition - (BLOCK_SIZE + QUARTER_BLOCK_SIZE), gCurrentSprite.xPosition, 0);
     }
 
-    gCurrentSprite.work1 = 30;
+    gCurrentSprite.SA_X_TIMER = 30;
 }
 
 /**
@@ -438,10 +438,10 @@ void SaXNocWaitingInDoorToLayPowerBomb(void)
  */
 void SaXNocWalkingToLayPowerBomb(void)
 {
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.SA_X_TIMER != 0)
     {
-        gCurrentSprite.work1--;
-        if (gCurrentSprite.work1 == 0)
+        gCurrentSprite.SA_X_TIMER--;
+        if (gCurrentSprite.SA_X_TIMER == 0)
             SoundEventUpdateForSaXEncounter();
 
         return;
@@ -453,10 +453,10 @@ void SaXNocWalkingToLayPowerBomb(void)
     SaXNocCheckCollisionWalkingToLayPowerBomb();
     if (gCurrentSprite.pose == SA_X_NOC_POSE_WALKING_TO_LAY_POWER_BOMB)
     {
-        SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXWalkingSpeed[gCurrentSprite.work3 / 8]);
+        SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXWalkingSpeed[gCurrentSprite.SA_X_X_SPEED_IDX / 8]);
 
-        if (gCurrentSprite.work3 < ARRAY_SIZE(sSaXWalkingSpeed) * 8 - 1)
-            gCurrentSprite.work3++;
+        if (gCurrentSprite.SA_X_X_SPEED_IDX < ARRAY_SIZE(sSaXWalkingSpeed) * 8 - 1)
+            gCurrentSprite.SA_X_X_SPEED_IDX++;
     }
 }
 
@@ -468,7 +468,7 @@ void SaXNocIdleBeforeLayingPowerBombInit(void)
 {
     gCurrentSprite.pose = SA_X_NOC_POSE_IDLE_BEFORE_LAYING_POWER_BOMB;
 
-    gCurrentSprite.work1 = 24;
+    gCurrentSprite.SA_X_TIMER = 24;
     gCurrentSprite.hitboxTop = -(BLOCK_SIZE * 2 - PIXEL_SIZE * 2);
 
     SaXSetPose(SA_X_POSE_STANDING);
@@ -480,8 +480,8 @@ void SaXNocIdleBeforeLayingPowerBombInit(void)
  */
 void SaXNocIdleBeforeLayingPowerBomb(void)
 {
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 == 0)
+    gCurrentSprite.SA_X_TIMER--;
+    if (gCurrentSprite.SA_X_TIMER == 0)
         gCurrentSprite.pose = SA_X_NOC_POSE_MORPHING_TO_LAY_POWER_BOMB_INIT;
 }
 
@@ -516,7 +516,7 @@ void SaXNocLayingPowerBombInit(void)
 {
     gCurrentSprite.pose = SA_X_NOC_POSE_LAYING_POWER_BOMB;
     gCurrentSprite.hitboxTop = -(HALF_BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2);
-    gCurrentSprite.work1 = 60 * 4;
+    gCurrentSprite.SA_X_TIMER = 60 * 4;
 }
 
 /**
@@ -525,14 +525,14 @@ void SaXNocLayingPowerBombInit(void)
  */
 void SaXNocLayingPowerBomb(void)
 {
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 == 0)
+    gCurrentSprite.SA_X_TIMER--;
+    if (gCurrentSprite.SA_X_TIMER == 0)
     {
         gCurrentSprite.pose = SA_X_SPRITE_POSE_UNMORPHING_INIT;
         return;
     }
 
-    if (gCurrentSprite.work1 == 60 * 3 + 60 / 6)
+    if (gCurrentSprite.SA_X_TIMER == 60 * 3 + 60 / 6)
     {
         SpriteSpawnSecondary(SSPRITE_SA_X_POWER_BOMB, 0, 0, gCurrentSprite.primarySpriteRamSlot,
             gCurrentSprite.yPosition, gCurrentSprite.xPosition, 0);
@@ -553,10 +553,10 @@ void SaXNocWalking(void)
     if (gCurrentSprite.pose != SA_X_SPRITE_POSE_WALKING)
         return;
 
-    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXWalkingSpeed[gCurrentSprite.work3 / 8]);
+    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXWalkingSpeed[gCurrentSprite.SA_X_X_SPEED_IDX / 8]);
 
-    if (gCurrentSprite.work3 < ARRAY_SIZE(sSaXWalkingSpeed) * 8 - 1)
-        gCurrentSprite.work3++;
+    if (gCurrentSprite.SA_X_X_SPEED_IDX < ARRAY_SIZE(sSaXWalkingSpeed) * 8 - 1)
+        gCurrentSprite.SA_X_X_SPEED_IDX++;
 }
 
 /**
@@ -573,10 +573,10 @@ void SaXNocRunning(void)
     if (gCurrentSprite.pose != SA_X_SPRITE_POSE_RUNNING)
         return;
 
-    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.work3 / 8]);
+    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.SA_X_X_SPEED_IDX / 8]);
 
-    if (gCurrentSprite.work3 < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
-        gCurrentSprite.work3++;
+    if (gCurrentSprite.SA_X_X_SPEED_IDX < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
+        gCurrentSprite.SA_X_X_SPEED_IDX++;
 }
 
 void SaXNocTurningAroundChase(void)

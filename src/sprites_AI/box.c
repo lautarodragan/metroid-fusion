@@ -80,6 +80,24 @@ enum BoxPose {
 
 #define BOX_FINAL_JUMP_TARGET_X workX
 
+#define BOX_SHARED_ISFT work0 // gSubSpriteData1, stun flash timer shared by the parts
+
+#define BOX_MISSILE_Y_SPEED work1 // While launching
+#define BOX_MISSILE_DURATION workY
+
+#define BOX_BOMB_MOVEMENT_STAGE work2 // BoxBombMovementStage
+#define BOX_BOMB_X_SPEED work3
+#define BOX_BOMB_Y_SPEED_IDX work4
+#define BOX_BOMB_TIMER work1 // Landed, delay before exploding
+
+#define BOX_FIRE_TIMER work1
+
+#define BOX_DEBRIS_TIMER work1 // Falling, frames since it started falling
+#define BOX_DEBRIS_Y_SPEED_IDX work4
+#define BOX_FALLING_DEBRIS_DELAY work1 // Delay before falling
+#define BOX_FALLING_DEBRIS_PARTICLE_TIMER work2
+#define BOX_FALLING_DEBRIS_FALL_TIMER work3 // Frames falling, collision is only checked after 50
+
 void SpriteUtilUpdateSubSpriteData1Animation(void)
 {
     gSubSpriteData1.animationDurationCounter++;
@@ -195,7 +213,7 @@ void BoxInit(void)
         gSubSpriteData1.pMultiOam = sBoxMultiSpriteData_Idle;
         gSubSpriteData1.animationDurationCounter = 0;
         gSubSpriteData1.currentAnimationFrame = 0;
-        gSubSpriteData1.work0 = 0;
+        gSubSpriteData1.BOX_SHARED_ISFT = 0;
 
         gCurrentSprite.BOX_JUMP_COUNTER = 0;
         gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
@@ -236,7 +254,7 @@ void BoxWaitingToEmergeInit(void)
     gCurrentSprite.pose = BOX_POSE_WAITING_TO_EMERGE;
     gCurrentSprite.BOX_TIMER = 0;
 
-    SoundPlay_3b1c(SOUND_BOX_WAITING_TO_EMERGE);
+    SoundPlayOnUnusedMusicTrack(SOUND_BOX_WAITING_TO_EMERGE);
 
     ScreenShakeStartHorizontal(40, 0x81);
 
@@ -250,7 +268,7 @@ void BoxWaitingToEmerge(void)
 
     if (++gCurrentSprite.BOX_Y_SPEED_IDX > 60)
     {
-        SoundPlay_3b1c(SOUND_BOX_WAITING_TO_EMERGE);
+        SoundPlayOnUnusedMusicTrack(SOUND_BOX_WAITING_TO_EMERGE);
         ScreenShakeStartHorizontal(40, 0x81);
         gCurrentSprite.BOX_Y_SPEED_IDX = 0;
     }
@@ -1387,8 +1405,8 @@ void BoxMissileInit(void)
     gCurrentSprite.health = GET_SSPRITE_HEALTH(gCurrentSprite.spriteId);
     gCurrentSprite.rotation = Q_8_8(0.75f);
     gCurrentSprite.scaling = Q_8_8(1);
-    gCurrentSprite.work1 = 0x24;
-    gCurrentSprite.workY = 5 * 60;
+    gCurrentSprite.BOX_MISSILE_Y_SPEED = 0x24;
+    gCurrentSprite.BOX_MISSILE_DURATION = 5 * 60;
     gCurrentSprite.pose = 2;
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS_DIES_WHEN_HIT;
 
@@ -1402,7 +1420,7 @@ void BoxMissileSpawning(void)
     if (gCurrentSprite.health == 0)
         gCurrentSprite.pose = 0x37;
 
-    movement = gCurrentSprite.work1 / 2;
+    movement = gCurrentSprite.BOX_MISSILE_Y_SPEED / 2;
     gCurrentSprite.yPosition -= movement;
     if (movement < 3)
     {
@@ -1411,14 +1429,14 @@ void BoxMissileSpawning(void)
             gCurrentSprite.xPosition);
     }
 
-    gCurrentSprite.work1 -= 2;
-    if (gCurrentSprite.work1 < 2)
+    gCurrentSprite.BOX_MISSILE_Y_SPEED -= 2;
+    if (gCurrentSprite.BOX_MISSILE_Y_SPEED < 2)
     {
         gCurrentSprite.pose = 0x18;
-        gCurrentSprite.work2 = 0;
-        gCurrentSprite.work3 = 1;
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
     }
 }
 
@@ -1426,7 +1444,7 @@ void BoxMissileMoving(void)
 {
     u16 targetYOffset;
 
-    if (--gCurrentSprite.workY != 0 && gCurrentSprite.health != 0)
+    if (--gCurrentSprite.BOX_MISSILE_DURATION != 0 && gCurrentSprite.health != 0)
     {
         if (gCurrentSprite.roomSlot == 3)
             targetYOffset = BLOCK_TO_SUB_PIXEL(0.125f);
@@ -1489,9 +1507,9 @@ void BoxBombInit(void)
     gCurrentSprite.health = GET_SSPRITE_HEALTH(gCurrentSprite.spriteId);
     gCurrentSprite.rotation = 0;
     gCurrentSprite.scaling = Q_8_8(1);
-    gCurrentSprite.work2 = BOX_BOMB_MOVEMENT_STAGE_LAUNCHING; // Movement stage
-    gCurrentSprite.work3 = PIXEL_TO_SUB_PIXEL(1.75f);         // X speed
-    gCurrentSprite.work4 = 0;                                 // Y speed table index
+    gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE = BOX_BOMB_MOVEMENT_STAGE_LAUNCHING;
+    gCurrentSprite.BOX_BOMB_X_SPEED = PIXEL_TO_SUB_PIXEL(1.75f);
+    gCurrentSprite.BOX_BOMB_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 2;
     gCurrentSprite.properties |= SP_IMMUNE_TO_PROJECTILES;
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS;
@@ -1511,77 +1529,77 @@ void BoxBombMoving(void)
         return;
     }
 
-    if (gCurrentSprite.work2 == BOX_BOMB_MOVEMENT_STAGE_LAUNCHING)
+    if (gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE == BOX_BOMB_MOVEMENT_STAGE_LAUNCHING)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.BOX_BOMB_Y_SPEED_IDX;
         movement = sBoxBombLaunchingSpeed[offset];
         if (movement == SHORT_MAX)
         {
             movement = 0;
-            gCurrentSprite.work2 += 1;
-            gCurrentSprite.work4 = 0;
+            gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE += 1;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX = 0;
         }
         else
         {
-            gCurrentSprite.work4 += 1;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX += 1;
         }
 
-        if (gCurrentSprite.work4 == 3)
-            gCurrentSprite.work3 = 7;
+        if (gCurrentSprite.BOX_BOMB_Y_SPEED_IDX == 3)
+            gCurrentSprite.BOX_BOMB_X_SPEED = 7;
 
         gCurrentSprite.yPosition += movement;
     }
-    else if (gCurrentSprite.work2 == BOX_BOMB_MOVEMENT_STAGE_FIRST_BOUNCE)
+    else if (gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE == BOX_BOMB_MOVEMENT_STAGE_FIRST_BOUNCE)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.BOX_BOMB_Y_SPEED_IDX;
         movement = sBoxBombFirstBounceSpeed[offset];
         if (movement == SHORT_MAX)
         {
             movement = 0;
-            gCurrentSprite.work2 += 1;
-            gCurrentSprite.work4 = 0;
+            gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE += 1;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX = 0;
         }
         else
         {
-            gCurrentSprite.work4 += 1;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX += 1;
         }
 
         gCurrentSprite.yPosition += movement;
     }
-    else if (gCurrentSprite.work2 == BOX_BOMB_MOVEMENT_STAGE_SECOND_BOUNCE)
+    else if (gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE == BOX_BOMB_MOVEMENT_STAGE_SECOND_BOUNCE)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.BOX_BOMB_Y_SPEED_IDX;
         movement = sBoxBombSecondBounceSpeed[offset];
         if (movement == SHORT_MAX)
         {
             movement = 0;
-            gCurrentSprite.work2 += 1;
-            gCurrentSprite.work4 = 0;
+            gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE += 1;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX = 0;
         }
         else
         {
-            gCurrentSprite.work4 += 1;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX += 1;
         }
 
         gCurrentSprite.yPosition += movement;
     }
-    else if (gCurrentSprite.work2 == BOX_BOMB_MOVEMENT_STAGE_LANDED)
+    else if (gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE == BOX_BOMB_MOVEMENT_STAGE_LANDED)
     {
         gCurrentSprite.pose = 0x18;
-        gCurrentSprite.work1 = 60;
+        gCurrentSprite.BOX_BOMB_TIMER = 60;
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.BOX_BOMB_Y_SPEED_IDX;
         movement = sBoxBombFallingSpeed[offset];
         if (movement == SHORT_MAX)
         {
-            movement = sBoxBombFallingSpeed[gCurrentSprite.work4 - 1];
+            movement = sBoxBombFallingSpeed[gCurrentSprite.BOX_BOMB_Y_SPEED_IDX - 1];
         }
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX = offset;
         }
 
         blockTop = SpriteUtilCheckVerticalCollisionAtPositionSlopes(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f),
@@ -1590,12 +1608,12 @@ void BoxBombMoving(void)
         {
             gCurrentSprite.yPosition = blockTop - BLOCK_TO_SUB_PIXEL(0.5f);
 
-            if (gCurrentSprite.work2 == 1)
+            if (gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE == 1)
                 SoundPlay(SOUND_BOX_BOMB_BOUNCE);
 
-            gCurrentSprite.work2 += 1;
-            gCurrentSprite.work4 = 0;
-            gCurrentSprite.work3 -= PIXEL_SIZE / 2;
+            gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE += 1;
+            gCurrentSprite.BOX_BOMB_Y_SPEED_IDX = 0;
+            gCurrentSprite.BOX_BOMB_X_SPEED -= PIXEL_SIZE / 2;
         }
         else
         {
@@ -1605,19 +1623,19 @@ void BoxBombMoving(void)
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
-        gCurrentSprite.rotation += (BOX_BOMB_MOVEMENT_STAGE_LANDED - gCurrentSprite.work2) * Q_8_8(1. / 32);
+        gCurrentSprite.rotation += (BOX_BOMB_MOVEMENT_STAGE_LANDED - gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE) * Q_8_8(1. / 32);
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition,
             gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(0.5f));
         if (gPreviousCollisionCheck == 0)
-            gCurrentSprite.xPosition += gCurrentSprite.work3;
+            gCurrentSprite.xPosition += gCurrentSprite.BOX_BOMB_X_SPEED;
     }
     else
     {
-        gCurrentSprite.rotation += (BOX_BOMB_MOVEMENT_STAGE_LANDED - gCurrentSprite.work2) * -Q_8_8(1. / 32);
+        gCurrentSprite.rotation += (BOX_BOMB_MOVEMENT_STAGE_LANDED - gCurrentSprite.BOX_BOMB_MOVEMENT_STAGE) * -Q_8_8(1. / 32);
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition,
             gCurrentSprite.xPosition - BLOCK_TO_SUB_PIXEL(0.5f));
         if (gPreviousCollisionCheck == 0)
-            gCurrentSprite.xPosition -= gCurrentSprite.work3;
+            gCurrentSprite.xPosition -= gCurrentSprite.BOX_BOMB_X_SPEED;
     }
 }
 
@@ -1629,7 +1647,7 @@ void BoxBombLanded(void)
     }
     else
     {
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.BOX_BOMB_TIMER == 0)
         {
             SpriteSpawnSecondary(SSPRITE_BOX_FIRE, 0, gCurrentSprite.spritesetGfxSlot,
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(0.5f),
@@ -1745,7 +1763,7 @@ void BoxFireMovingHigh(void)
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
         gCurrentSprite.pose = 0x18;
-        gCurrentSprite.work1 = 60;
+        gCurrentSprite.BOX_FIRE_TIMER = 60;
         gCurrentSprite.hitboxTop = -BLOCK_TO_SUB_PIXEL(0.75f);
     }
 
@@ -1771,7 +1789,7 @@ void BoxFireMovingHigh(void)
 
 void BoxFireMovingLow(void)
 {
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.BOX_FIRE_TIMER == 0)
     {
         gCurrentSprite.pOam = sBoxFireOam_MovingHigh;
         gCurrentSprite.animationDurationCounter = 0;
@@ -1907,15 +1925,15 @@ void BoxDebrisWaitToFall(void)
     xPosOnScreen = SUB_PIXEL_TO_PIXEL_(gCurrentSprite.xPosition) - SUB_PIXEL_TO_PIXEL_(gBg1XPosition);
     if (xPosOnScreen > 0x20 && xPosOnScreen < SCREEN_SIZE_X - 0x20)
     {
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 0;
+        gCurrentSprite.BOX_DEBRIS_TIMER = 0;
+        gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX = 0;
         gCurrentSprite.pose = 0x1c;
 
         ScreenShakeStartHorizontal(40, 0x81);
         ScreenShakeStartVertical(40, 0x81);
 
         BoxSpawnFallingDebris();
-        SoundPlay_3b1c(SOUND_BOX_DEBRIS_FALLING);
+        SoundPlayOnUnusedMusicTrack(SOUND_BOX_DEBRIS_FALLING);
     }
 }
 
@@ -1929,8 +1947,8 @@ void BoxDebrisFalling(void)
     u32 work1;
 
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
-    gCurrentSprite.work1++;
-    work1 = gCurrentSprite.work1;
+    gCurrentSprite.BOX_DEBRIS_TIMER++;
+    work1 = gCurrentSprite.BOX_DEBRIS_TIMER;
     y = gCurrentSprite.yPosition;
     x = gCurrentSprite.xPosition;
 
@@ -1950,7 +1968,7 @@ void BoxDebrisFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX;
         movement = sSpritesFallingSpeedFast[offset];
         if (movement == SHORT_MAX)
         {
@@ -1960,7 +1978,7 @@ void BoxDebrisFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
         if ((work1 & 0xf) == 0)
@@ -1980,9 +1998,9 @@ void BoxFallingDebrisInit(void)
     gCurrentSprite.hitboxLeft = -BLOCK_TO_SUB_PIXEL(0.0625f);
     gCurrentSprite.hitboxRight = BLOCK_TO_SUB_PIXEL(0.0625f);
     gCurrentSprite.samusCollision = SSC_NONE;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.BOX_FALLING_DEBRIS_PARTICLE_TIMER = 0;
+    gCurrentSprite.BOX_FALLING_DEBRIS_FALL_TIMER = 0;
+    gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX = 0;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
@@ -2001,7 +2019,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.samusCollision = SSC_SOLID;
             gCurrentSprite.health = 1;
             gCurrentSprite.properties |= SP_SOLID_FOR_PROJECTILES;
-            gCurrentSprite.work1 = 30;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 30;
             break;
 
         case 1:
@@ -2010,7 +2028,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(.5f);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1.5f);
-            gCurrentSprite.work1 = 60;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 60;
             if (!EventCheckAfter_BoxDefeated())
                 gCurrentSprite.yPosition += BLOCK_TO_SUB_PIXEL(3.0f);
             break;
@@ -2021,7 +2039,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1);
-            gCurrentSprite.work1 = 40;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 40;
             break;
 
         case 3:
@@ -2030,7 +2048,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1);
-            gCurrentSprite.work1 = 80;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 80;
             break;
 
         case 4:
@@ -2039,7 +2057,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(.5f);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(.5f);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(.5f);
-            gCurrentSprite.work1 = 100;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 100;
             break;
 
         case 5:
@@ -2048,7 +2066,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(.5f);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(.5f);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(.5f);
-            gCurrentSprite.work1 = 120;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 120;
             if (!EventCheckAfter_BoxDefeated())
                 gCurrentSprite.yPosition += BLOCK_TO_SUB_PIXEL(3.0f);
             break;
@@ -2059,7 +2077,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1.5f);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1);
-            gCurrentSprite.work1 = 10;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 10;
             break;
 
         case 7:
@@ -2067,7 +2085,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(1);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1);
-            gCurrentSprite.work1 = 20;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 20;
             break;
 
         case 8:
@@ -2076,7 +2094,7 @@ void BoxFallingDebrisInit(void)
             gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(.5f);
             gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(.5f);
             gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(.5f);
-            gCurrentSprite.work1 = 60;
+            gCurrentSprite.BOX_FALLING_DEBRIS_DELAY = 60;
             if (!EventCheckAfter_BoxDefeated())
                 gCurrentSprite.yPosition += BLOCK_TO_SUB_PIXEL(3.0f);
             break;
@@ -2096,9 +2114,9 @@ void BoxFallingDebrisFalling(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (gCurrentSprite.work1 > 0)
+    if (gCurrentSprite.BOX_FALLING_DEBRIS_DELAY > 0)
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.BOX_FALLING_DEBRIS_DELAY--;
     }
     else
     {
@@ -2107,16 +2125,16 @@ void BoxFallingDebrisFalling(void)
         u8 work2;
         u8 roomSlot;
 
-        gCurrentSprite.work2++;
-        work2 = gCurrentSprite.work2;
+        gCurrentSprite.BOX_FALLING_DEBRIS_PARTICLE_TIMER++;
+        work2 = gCurrentSprite.BOX_FALLING_DEBRIS_PARTICLE_TIMER;
         y = gCurrentSprite.yPosition;
         x = gCurrentSprite.xPosition;
         roomSlot = gCurrentSprite.roomSlot;
 
-        if (gCurrentSprite.work3 < UCHAR_MAX)
-            gCurrentSprite.work3++;
+        if (gCurrentSprite.BOX_FALLING_DEBRIS_FALL_TIMER < UCHAR_MAX)
+            gCurrentSprite.BOX_FALLING_DEBRIS_FALL_TIMER++;
 
-        if (gCurrentSprite.work3 > 50)
+        if (gCurrentSprite.BOX_FALLING_DEBRIS_FALL_TIMER > 50)
         {
             u32 blockTop = SpriteUtilCheckVerticalCollisionAtPositionSlopes(y, x);
             if (gPreviousVerticalCollisionCheck != 0)
@@ -2159,7 +2177,7 @@ void BoxFallingDebrisFalling(void)
             else if (((work2 + 8) & 0xf) == 0)
                 ParticleSet(y, x - BLOCK_TO_SUB_PIXEL(0.5f), PE_TAIL_SMOKE_1);
 
-            offset = gCurrentSprite.work4;
+            offset = gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX;
             movement = sSpritesFallingSpeedFast[offset];
             if (movement == SHORT_MAX)
             {
@@ -2169,7 +2187,7 @@ void BoxFallingDebrisFalling(void)
             else
             {
                 offset++;
-                gCurrentSprite.work4 = offset;
+                gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX = offset;
                 gCurrentSprite.yPosition += movement;
             }
         }
@@ -2181,7 +2199,7 @@ void BoxFallingDebrisFalling(void)
             if ((work2 & 0x1f) == 0)
                 ParticleSet(y, x, PE_HEAVY_DUST_1);
 
-            offset = gCurrentSprite.work4;
+            offset = gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX;
             movement = sSpritesFallingSpeedQuickAcceleration[offset];
             if (movement == SHORT_MAX)
             {
@@ -2191,7 +2209,7 @@ void BoxFallingDebrisFalling(void)
             else
             {
                 offset++;
-                gCurrentSprite.work4 = offset;
+                gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX = offset;
                 gCurrentSprite.yPosition += movement;
             }
         }
@@ -2203,7 +2221,7 @@ void BoxFallingDebrisFalling(void)
             if (((work2 + 7) & 0x1f) == 0)
                 ParticleSet(y, x, PE_TAIL_SMOKE_1);
 
-            offset = gCurrentSprite.work4;
+            offset = gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX;
             movement = sSpritesFallingSpeed[offset];
             if (movement == SHORT_MAX)
             {
@@ -2213,7 +2231,7 @@ void BoxFallingDebrisFalling(void)
             else
             {
                 offset++;
-                gCurrentSprite.work4 = offset;
+                gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX = offset;
                 gCurrentSprite.yPosition += movement;
             }
         }
@@ -2222,7 +2240,7 @@ void BoxFallingDebrisFalling(void)
             u8 offset;
             s16 movement;
 
-            offset = gCurrentSprite.work4;
+            offset = gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX;
             movement = sSpritesFallingSpeedSlow[offset];
 
             if (movement == SHORT_MAX)
@@ -2233,7 +2251,7 @@ void BoxFallingDebrisFalling(void)
             else
             {
                 offset++;
-                gCurrentSprite.work4 = offset;
+                gCurrentSprite.BOX_DEBRIS_Y_SPEED_IDX = offset;
                 gCurrentSprite.yPosition += movement;
             }
         }
@@ -2396,38 +2414,38 @@ void BoxPart(void)
     switch (gCurrentSprite.roomSlot)
     {
         case BOX_PART_FRONT_LEFT_LEG_COVER:
-            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.work0 & 0x7f))
-                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.work0;
+            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.BOX_SHARED_ISFT & 0x7f))
+                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.BOX_SHARED_ISFT;
 
             BoxPartFrontLeftLeg();
             SpriteUtilSyncCurrentSpritePositionWithSubSprite1Position();
             break;
 
         case BOX_PART_FRONT_RIGHT_LEG_COVER:
-            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.work0 & 0x7f))
-                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.work0;
+            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.BOX_SHARED_ISFT & 0x7f))
+                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.BOX_SHARED_ISFT;
 
             BoxPartFrontRightLeg();
             SpriteUtilSyncCurrentSpritePositionWithSubSprite1Position();
             break;
 
         case BOX_PART_CENTER:
-            gSubSpriteData1.work0 = gCurrentSprite.invincibilityStunFlashTimer;
+            gSubSpriteData1.BOX_SHARED_ISFT = gCurrentSprite.invincibilityStunFlashTimer;
             BoxPartCenter();
             SpriteUtilSyncCurrentSpritePositionWithSubSprite1Position();
             break;
 
         case BOX_PART_CENTER_BOTTOM:
-            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.work0 & 0x7f))
-                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.work0;
+            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.BOX_SHARED_ISFT & 0x7f))
+                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.BOX_SHARED_ISFT;
 
             BoxPartCenterBottom();
             SpriteUtilSyncCurrentSpritePositionWithSubSprite1Position();
             break;
 
         default:
-            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.work0 & 0x7f))
-                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.work0;
+            if (SPRITE_GET_ISFT(gCurrentSprite) < (gSubSpriteData1.BOX_SHARED_ISFT & 0x7f))
+                gCurrentSprite.invincibilityStunFlashTimer = gSubSpriteData1.BOX_SHARED_ISFT;
 
             BoxPartDefault();
             BoxSyncSubSprites();

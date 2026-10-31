@@ -16,13 +16,21 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define SCISER_ON_WALL work0 // Crawling on a wall (vertically)
+#define SCISER_TIMER work1 // Shooting cooldown
+#define SCISER_TURN_COOLDOWN work2 // Delay before it can turn around again when touching another sciser
+#define SCISER_X_MOVEMENT_IDX work3 // Index in the dancing sideways movement tables
+#define SCISER_Y_SPEED_IDX work4
+
+#define SCISER_PROJECTILE_Y_SPEED_IDX work4
+
 u8 SciserCheckCollisions(void)
 {
     u8 midair;
 
     midair = FALSE;
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.SCISER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -80,7 +88,7 @@ u8 SciserCheckCollisions(void)
 
 void SciserUpdateHitbox(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.SCISER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -124,14 +132,14 @@ void SciserSetCrawlingGraphics(void)
 {
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
             gCurrentSprite.pOam = sSciserOam_DancingInBackgroundVertical;
         else
             gCurrentSprite.pOam = sSciserOam_DancingInBackgroundHorizontal;
     }
     else
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
             gCurrentSprite.pOam = sSciserOam_CrawlingVertical;
         else
             gCurrentSprite.pOam = sSciserOam_CrawlingHorizontal;
@@ -145,14 +153,14 @@ void SciserSetIdleGraphics(void)
 {
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
             gCurrentSprite.pOam = sSciserOam_DancingInBackgroundVertical;
         else
             gCurrentSprite.pOam = sSciserOam_DancingInBackgroundHorizontal;
     }
     else
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
             gCurrentSprite.pOam = sSciserOam_IdleVertical;
         else
             gCurrentSprite.pOam = sSciserOam_IdleHorizontal;
@@ -167,9 +175,9 @@ void SciserCheckSamusInRange(void)
     if (!(gCurrentSprite.status & SPRITE_STATUS_ONSCREEN))
         return;
 
-    if (gCurrentSprite.work1 > 0)
+    if (gCurrentSprite.SCISER_TIMER > 0)
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.SCISER_TIMER--;
         return;
     }
 
@@ -177,30 +185,30 @@ void SciserCheckSamusInRange(void)
     {
         gCurrentSprite.pose = 0x2a;
 
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
             gCurrentSprite.pOam = sSciserOam_PreparingToShootVertical;
         else
             gCurrentSprite.pOam = sSciserOam_PreparingToShootHorizontal;
 
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
-        gCurrentSprite.work1 = 30;
+        gCurrentSprite.SCISER_TIMER = 30;
         SoundPlayNotAlreadyPlaying(SOUND_SCISER_PREPARING_TO_SHOOT);
     }
 }
 
 void SciserShooting(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.SCISER_ON_WALL)
     {
         if (gCurrentSprite.pOam == sSciserOam_PreparingToShootVertical)
         {
-            if (--gCurrentSprite.work1 == 0)
+            if (--gCurrentSprite.SCISER_TIMER == 0)
             {
                 gCurrentSprite.pOam = sSciserOam_ShootingVertical;
                 gCurrentSprite.animationDurationCounter = 0;
                 gCurrentSprite.currentAnimationFrame = 0;
-                gCurrentSprite.work1 = 60;
+                gCurrentSprite.SCISER_TIMER = 60;
                 SoundPlayNotAlreadyPlaying(SOUND_SCISER_SHOOTING);
             }
 
@@ -211,21 +219,21 @@ void SciserShooting(void)
     {
         if (gCurrentSprite.pOam == sSciserOam_PreparingToShootHorizontal)
         {
-            if (--gCurrentSprite.work1 == 0)
+            if (--gCurrentSprite.SCISER_TIMER == 0)
             {
                 gCurrentSprite.pOam = sSciserOam_ShootingHorizontal;
                 gCurrentSprite.animationDurationCounter = 0;
                 gCurrentSprite.currentAnimationFrame = 0;
-                gCurrentSprite.work1 = 60;
+                gCurrentSprite.SCISER_TIMER = 60;
                 SoundPlayNotAlreadyPlaying(SOUND_SCISER_SHOOTING);
             }
 
             return;
         }
     }
-    if (gCurrentSprite.work1 == 50)
+    if (gCurrentSprite.SCISER_TIMER == 50)
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
         {
             if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             {
@@ -269,16 +277,16 @@ void SciserShooting(void)
         }
     }
 
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.SCISER_TIMER == 0)
     {
         gCurrentSprite.pose = 7;
-        gCurrentSprite.work1 = 120;
+        gCurrentSprite.SCISER_TIMER = 120;
     }
 }
 
 void SciserTurningIntoX(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.SCISER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             gCurrentSprite.xPosition -= BLOCK_TO_SUB_PIXEL(.625f);
@@ -301,7 +309,7 @@ void SciserInit(void)
     if (gCurrentSprite.pose == SPRITE_POSE_SPAWNING_FROM_X_INIT)
     {
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     }
     else
     {
@@ -311,7 +319,7 @@ void SciserInit(void)
 
         if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
         {
-            gCurrentSprite.work0 = FALSE;
+            gCurrentSprite.SCISER_ON_WALL = FALSE;
         }
         else
         {
@@ -319,7 +327,7 @@ void SciserInit(void)
                 gCurrentSprite.xPosition);
             if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
             {
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.SCISER_ON_WALL = FALSE;
                 gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
                 gCurrentSprite.yPosition -= BLOCK_SIZE;
             }
@@ -329,7 +337,7 @@ void SciserInit(void)
                     gCurrentSprite.xPosition - BLOCK_TO_SUB_PIXEL(.5625f));
                 if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                 {
-                    gCurrentSprite.work0 = TRUE;
+                    gCurrentSprite.SCISER_ON_WALL = TRUE;
                     gCurrentSprite.yPosition -= HALF_BLOCK_SIZE;
                     gCurrentSprite.xPosition -= HALF_BLOCK_SIZE;
                 }
@@ -339,7 +347,7 @@ void SciserInit(void)
                         gCurrentSprite.xPosition + HALF_BLOCK_SIZE);
                     if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                     {
-                        gCurrentSprite.work0 = TRUE;
+                        gCurrentSprite.SCISER_ON_WALL = TRUE;
                         gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
                         gCurrentSprite.yPosition -= HALF_BLOCK_SIZE;
                         gCurrentSprite.xPosition += HALF_BLOCK_SIZE;
@@ -373,9 +381,9 @@ void SciserInit(void)
     SciserSetCrawlingGraphics();
     SciserUpdateHitbox();
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 0;
+    gCurrentSprite.SCISER_TIMER = 0;
+    gCurrentSprite.SCISER_TURN_COOLDOWN = 0;
+    gCurrentSprite.SCISER_X_MOVEMENT_IDX = 0;
     gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1.5f);
     gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(1.5f);
     gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1.5f);
@@ -409,19 +417,19 @@ void SciserCrawling(void)
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
-            movement = sSciserDancingSidewaysMovementRight[DIV_SHIFT(gCurrentSprite.work3, 8)];
+            movement = sSciserDancingSidewaysMovementRight[DIV_SHIFT(gCurrentSprite.SCISER_X_MOVEMENT_IDX, 8)];
         else
-            movement = sSciserDancingSidewaysMovementLeft[DIV_SHIFT(gCurrentSprite.work3, 8)];
+            movement = sSciserDancingSidewaysMovementLeft[DIV_SHIFT(gCurrentSprite.SCISER_X_MOVEMENT_IDX, 8)];
 
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
             gCurrentSprite.yPosition += movement;
         else
             gCurrentSprite.xPosition += movement;
 
-        if (gCurrentSprite.work3 < ARRAY_SIZE(sSciserDancingSidewaysMovementRight) * 8 - 1)
-            gCurrentSprite.work3 += 1;
+        if (gCurrentSprite.SCISER_X_MOVEMENT_IDX < ARRAY_SIZE(sSciserDancingSidewaysMovementRight) * 8 - 1)
+            gCurrentSprite.SCISER_X_MOVEMENT_IDX += 1;
         else
-            gCurrentSprite.work3 = 0;
+            gCurrentSprite.SCISER_X_MOVEMENT_IDX = 0;
 
         return;
     }
@@ -436,7 +444,7 @@ void SciserCrawling(void)
     }
 
     // If touching another sciser, both turn around
-    if (gCurrentSprite.work2 == 0)
+    if (gCurrentSprite.SCISER_TURN_COOLDOWN == 0)
     {
         y = gCurrentSprite.yPosition;
         x = gCurrentSprite.xPosition;
@@ -469,19 +477,19 @@ void SciserCrawling(void)
             if (SpriteUtilCheckObjectsTouching(top, bottom, left, right, otherTop, otherBottom, otherLeft, otherRight))
             {
                 gSpriteData[i].status ^= SPRITE_STATUS_FACING_RIGHT;
-                gSpriteData[i].work2 = 120;
+                gSpriteData[i].SCISER_TURN_COOLDOWN = 120;
                 gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work2 = 120;
+                gCurrentSprite.SCISER_TURN_COOLDOWN = 120;
                 break;
             }
         }
     }
     else
     {
-        gCurrentSprite.work2--;
+        gCurrentSprite.SCISER_TURN_COOLDOWN--;
     }
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.SCISER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -674,7 +682,7 @@ void SciserIdle(void)
 void SciserFallingInit(void)
 {
     gCurrentSprite.pose = SPRITE_POSE_FALLING;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.SCISER_Y_SPEED_IDX = 0;
     SciserSetIdleGraphics();
 }
 
@@ -691,7 +699,7 @@ void SciserFalling(void)
     yCollisionPoint = gCurrentSprite.yPosition;
     xCollisionPoint = gCurrentSprite.xPosition;
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.SCISER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             xCollisionPoint -= PIXEL_SIZE;
@@ -708,11 +716,11 @@ void SciserFalling(void)
     {
         gCurrentSprite.yPosition = blockTop;
 
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.SCISER_ON_WALL)
             onWall++;
 
         gCurrentSprite.status &= ~SPRITE_STATUS_Y_FLIP;
-        gCurrentSprite.work0 = FALSE;
+        gCurrentSprite.SCISER_ON_WALL = FALSE;
         SciserUpdateHitbox();
 
         if (onWall)
@@ -736,7 +744,7 @@ void SciserFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.SCISER_Y_SPEED_IDX;
         movement = sSpritesFallingSpeed[offset];
 
         if (movement == SHORT_MAX)
@@ -747,7 +755,7 @@ void SciserFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.SCISER_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
     }
@@ -767,7 +775,7 @@ void SciserProjectileInit(void)
     gCurrentSprite.pOam = sSciserProjectileOam_Moving;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.SCISER_PROJECTILE_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 2;
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS_DIES_WHEN_HIT;
     gCurrentSprite.drawOrder = 3;
@@ -790,7 +798,7 @@ void SciserProjectileFalling(void)
 
     if (gCurrentSprite.roomSlot)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.SCISER_PROJECTILE_Y_SPEED_IDX;
         yMovement = sSciserProjectileThrownUpVelocity[offset];
 
         if (yMovement == SHORT_MAX)
@@ -801,7 +809,7 @@ void SciserProjectileFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.SCISER_PROJECTILE_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += yMovement;
         }
 
@@ -809,7 +817,7 @@ void SciserProjectileFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.SCISER_PROJECTILE_Y_SPEED_IDX;
         yMovement = sSciserProjectileThrownDownVelocity[offset];
 
         if (yMovement == SHORT_MAX)
@@ -820,7 +828,7 @@ void SciserProjectileFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.SCISER_PROJECTILE_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += yMovement;
         }
 

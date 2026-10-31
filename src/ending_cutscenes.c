@@ -255,7 +255,7 @@ boolu32 EndingBslCrashingProcess(void)
             if (gWrittenToBldy != 0)
             {
                 if (gWrittenToBldy == BLDY_MAX_VALUE)
-                    SoundPlay_3b1c(SOUND_24B);
+                    SoundPlayOnUnusedMusicTrack(SOUND_24B);
 
                 gWrittenToBldy--;
             }

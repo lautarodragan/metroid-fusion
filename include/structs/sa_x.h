@@ -60,7 +60,7 @@ struct SaXElevatorData {
     u8 active;
     u8 cutsceneId; // Index in sSaXElevatorFunctionPointers
     u8 stage;
-    u8 unk_3;
+    u8 unk_3; // Cleared when the cutscene ends, never otherwise used
     u8 effect; // Background/blending effect (1 = fade to white, 2 = fade back and scroll, 3 = fade out bg0/bg3 and scroll)
     u8 effectTimer;
     u16 timer;

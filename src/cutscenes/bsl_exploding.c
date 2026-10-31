@@ -35,7 +35,7 @@ boolu32 CutsceneBslExploding(void)
 
         case 1:
             if (gWrittenToBldy == BLDY_MAX_VALUE)
-                SoundPlay_3b1c(0x247);
+                SoundPlayOnUnusedMusicTrack(0x247);
 
             CutsceneFadeIn();
 

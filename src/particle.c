@@ -592,7 +592,7 @@ void ParticleChargedDiffusionMissileExplosion(void)
     {
         gCurrentParticle.stage++;
         SoundStop(SOUND_CHARGED_DIFFUSION_MISSILE_THRUST);
-        SoundPlay_3b1c(SOUND_CHARGED_DIFFUSION_MISSILE_EXPLODE);
+        SoundPlayOnUnusedMusicTrack(SOUND_CHARGED_DIFFUSION_MISSILE_EXPLODE);
         ScreenShakeStartHorizontal(40, 0x81);
         ScreenShakeStartVertical(40, 0x81);
     }
@@ -1520,7 +1520,7 @@ void ParticleAbsorbingSuit(void)
     gCurrentParticle.xPosition = gArmCannonX;
     ParticleUpdateAnimation(sParticleOam_AbsorbingSuit);
 
-    if (gSamusData.unk_B == 0)
+    if (gSamusData.absorbingSuitTimer == 0)
         gCurrentParticle.status = 0;
 
     if (gCurrentParticle.stage == 0)

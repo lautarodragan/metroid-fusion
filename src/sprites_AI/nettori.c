@@ -19,6 +19,19 @@
 #define NETTORI_PLASMA_BEAM_SPEED (QUARTER_BLOCK_SIZE + PIXEL_SIZE)
 #define NETTORI_GLOWING_PALETTE_DELAY 16
 
+#define NETTORI_SHOOTING_POSITION work0 // Set by the plasma shooter part while shooting
+#define NETTORI_CORE_X_MOSAIC_IDX workY // Transforming into the core X, also the graphics part loaded
+
+#define NETTORI_PART_TIMER work1
+#define NETTORI_PART_Y_SPEED_IDX work4 // Falling
+
+#define NETTORI_PLASMA_BEAM_TIMER work1
+
+#define SAMUS_EATER_TIMER work1
+#define SAMUS_EATER_SPORE_TURNED_AROUND work2 // Set after bouncing off a wall, falls faster
+#define SAMUS_EATER_SPORE_X_MOVEMENT_IDX work3
+#define SAMUS_EATER_SPORE_Y_MOVEMENT_IDX work4
+
 enum NettoriShootingPosition {
     NETTORI_SHOOTING_POSITION_NONE,
     NETTORI_SHOOTING_POSITION_HIGH,
@@ -256,7 +269,7 @@ void NettoriInit(void)
     gCurrentSprite.hitboxRight = QUARTER_BLOCK_SIZE;
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
-    gCurrentSprite.work0 = NETTORI_SHOOTING_POSITION_NONE;
+    gCurrentSprite.NETTORI_SHOOTING_POSITION = NETTORI_SHOOTING_POSITION_NONE;
 
     gCurrentSprite.pOam = sNettoriOam_Idle;
     gCurrentSprite.animationDurationCounter = 0;
@@ -293,7 +306,7 @@ void NettoriIdle(void)
     u8 i;
 
     // Set correct oam, either charging or idle
-    if (gCurrentSprite.work0 != NETTORI_SHOOTING_POSITION_NONE)
+    if (gCurrentSprite.NETTORI_SHOOTING_POSITION != NETTORI_SHOOTING_POSITION_NONE)
     {
         if (gCurrentSprite.pOam == sNettoriOam_Idle)
         {
@@ -347,7 +360,7 @@ void NettoriDyingInit(void)
 
     gCurrentSprite.status |= SPRITE_STATUS_MOSAIC | SPRITE_STATUS_IGNORE_PROJECTILES;
     gCurrentSprite.samusCollision = SSC_NONE;
-    gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.NETTORI_CORE_X_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
 
     NettoriRemoveCollision();
     PlayMusic(MUSIC_CHOZO_STATUE_CORE_X_BATTLE, 7);
@@ -359,14 +372,14 @@ void NettoriDyingInit(void)
  */
 void NettoriTransformingIntoCoreX(void)
 {
-    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
-    gCurrentSprite.workY--;
+    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.NETTORI_CORE_X_MOSAIC_IDX];
+    gCurrentSprite.NETTORI_CORE_X_MOSAIC_IDX--;
 
-    if (gCurrentSprite.workY < 20)
+    if (gCurrentSprite.NETTORI_CORE_X_MOSAIC_IDX < 20)
     {
-        SpriteLoadGfx(PSPRITE_PLASMA_BEAM_CORE_X, 0, gCurrentSprite.workY);
+        SpriteLoadGfx(PSPRITE_PLASMA_BEAM_CORE_X, 0, gCurrentSprite.NETTORI_CORE_X_MOSAIC_IDX);
 
-        if (gCurrentSprite.workY == 0)
+        if (gCurrentSprite.NETTORI_CORE_X_MOSAIC_IDX == 0)
         {
             gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X_INIT;
             gCurrentSprite.spriteId = PSPRITE_PLASMA_BEAM_CORE_X;
@@ -377,7 +390,7 @@ void NettoriTransformingIntoCoreX(void)
             gCurrentSprite.status |= SPRITE_STATUS_NOT_DRAWN;
         }
     }
-    else if (gCurrentSprite.workY == 20)
+    else if (gCurrentSprite.NETTORI_CORE_X_MOSAIC_IDX == 20)
     {
         SpriteLoadPal(PSPRITE_PLASMA_BEAM_CORE_X, 0, 5);
     }
@@ -467,7 +480,7 @@ void NettoriPartInit(void)
 
             gCurrentSprite.frozenPaletteRowOffset = 3,
             gCurrentSprite.status |= SPRITE_STATUS_NOT_DRAWN;
-            gCurrentSprite.work1 = 0;
+            gCurrentSprite.NETTORI_PART_TIMER = 0;
             break;
 
         default:
@@ -540,13 +553,13 @@ void NettoriPartIdle(void)
             if (health == 0)
             {
                 gCurrentSprite.pose = NETTORI_PART_POSE_EXPLODING;
-                gCurrentSprite.work1 = 30;
+                gCurrentSprite.NETTORI_PART_TIMER = 30;
                 gCurrentSprite.paletteRow = 0;
                 break;
             }
 
             // Set correct oam, either shooting or idle
-            if (gSpriteData[ramSlot].work0 == NETTORI_SHOOTING_POSITION_HIGH)
+            if (gSpriteData[ramSlot].NETTORI_SHOOTING_POSITION == NETTORI_SHOOTING_POSITION_HIGH)
             {
                 if (gCurrentSprite.pOam == sNettoriPartOam_HeadVinesIdle)
                 {
@@ -555,7 +568,7 @@ void NettoriPartIdle(void)
                     gCurrentSprite.currentAnimationFrame = 0;
                 }
             }
-            else if (gSpriteData[ramSlot].work0 == NETTORI_SHOOTING_POSITION_NONE)
+            else if (gSpriteData[ramSlot].NETTORI_SHOOTING_POSITION == NETTORI_SHOOTING_POSITION_NONE)
             {
                 if (gCurrentSprite.pOam == sNettoriPartOam_HeadVinesShooting)
                 {
@@ -572,13 +585,13 @@ void NettoriPartIdle(void)
             if (health == 0)
             {
                 gCurrentSprite.pose = NETTORI_PART_POSE_EXPLODING;
-                gCurrentSprite.work1 = 30;
+                gCurrentSprite.NETTORI_PART_TIMER = 30;
                 gCurrentSprite.paletteRow = 0;
                 break;
             }
 
             // Set correct oam, either shooting or idle
-            if (gSpriteData[ramSlot].work0 == NETTORI_SHOOTING_POSITION_LOW)
+            if (gSpriteData[ramSlot].NETTORI_SHOOTING_POSITION == NETTORI_SHOOTING_POSITION_LOW)
             {
                 if (gCurrentSprite.pOam == sNettoriPartOam_BodyVinesIdle)
                 {
@@ -587,7 +600,7 @@ void NettoriPartIdle(void)
                     gCurrentSprite.currentAnimationFrame = 0;
                 }
             }
-            else if (gSpriteData[ramSlot].work0 == NETTORI_SHOOTING_POSITION_NONE)
+            else if (gSpriteData[ramSlot].NETTORI_SHOOTING_POSITION == NETTORI_SHOOTING_POSITION_NONE)
             {
                 if (gCurrentSprite.pOam == sNettoriPartOam_BodyVinesShooting)
                 {
@@ -607,7 +620,7 @@ void NettoriPartIdle(void)
 
             if (health < maxHealth / 2)
             {
-                if (gCurrentSprite.work1 == 20)
+                if (gCurrentSprite.NETTORI_PART_TIMER == 20)
                 {
                     gCurrentSprite.animationDurationCounter = 0;
                     gCurrentSprite.currentAnimationFrame = 0;
@@ -615,9 +628,9 @@ void NettoriPartIdle(void)
 
                     // Set shooting position
                     if (gCurrentSprite.pOam == sNettoriPartOam_PlasmaShootingHigh)
-                        gSpriteData[ramSlot].work0 = NETTORI_SHOOTING_POSITION_HIGH;
+                        gSpriteData[ramSlot].NETTORI_SHOOTING_POSITION = NETTORI_SHOOTING_POSITION_HIGH;
                     else
-                        gSpriteData[ramSlot].work0 = NETTORI_SHOOTING_POSITION_LOW;
+                        gSpriteData[ramSlot].NETTORI_SHOOTING_POSITION = NETTORI_SHOOTING_POSITION_LOW;
 
                     // Shoot plasma beam
                     if (gCurrentSprite.pOam == sNettoriPartOam_PlasmaShootingHigh)
@@ -652,11 +665,11 @@ void NettoriPartIdle(void)
                 {
                     gCurrentSprite.paletteRow = 0;
 
-                    if (gCurrentSprite.work1 == 90)
+                    if (gCurrentSprite.NETTORI_PART_TIMER == 90)
                     {
                         gCurrentSprite.status |= SPRITE_STATUS_NOT_DRAWN;
-                        gSpriteData[ramSlot].work0 = NETTORI_SHOOTING_POSITION_NONE;
-                        gCurrentSprite.work1 = 0;
+                        gSpriteData[ramSlot].NETTORI_SHOOTING_POSITION = NETTORI_SHOOTING_POSITION_NONE;
+                        gCurrentSprite.NETTORI_PART_TIMER = 0;
 
                         // Choose shooting position, always low if crouched/morphed, otherwise leave to rng
                         // Rng has 2/3 of being low, and 1/3 of being high
@@ -669,7 +682,7 @@ void NettoriPartIdle(void)
                     }
                 }
 
-                gCurrentSprite.work1++;
+                gCurrentSprite.NETTORI_PART_TIMER++;
             }
             else
             {
@@ -692,7 +705,7 @@ void NettoriPartIdle(void)
     if (shouldFall)
     {
         // Set falling
-        gCurrentSprite.work4 = 0;
+        gCurrentSprite.NETTORI_PART_Y_SPEED_IDX = 0;
         gCurrentSprite.pose = NETTORI_PART_POSE_FALLING;
     }
 }
@@ -754,7 +767,7 @@ void NettoriPartFalling(void)
             // /!\ UB, particleY and particleX aren't set in this case of the switch, but they are used right after
     }
 
-    if (MOD_AND(gCurrentSprite.work4, 4) == 0)
+    if (MOD_AND(gCurrentSprite.NETTORI_PART_Y_SPEED_IDX, 4) == 0)
         ParticleSet(particleY, particleX, PE_HEAVY_DUST_1);
 
     SpriteUtilCheckVerticalCollisionAtPositionSlopes(yPosition, xPosition);
@@ -763,14 +776,14 @@ void NettoriPartFalling(void)
     {
         gCurrentSprite.paletteRow = 0;
         gCurrentSprite.pose = 0x3A;
-        gCurrentSprite.work1 = 30;
+        gCurrentSprite.NETTORI_PART_TIMER = 30;
 
         ParticleSet(yPosition, xPosition, PE_EXPLOSION_9);
         SoundPlay(0x298);
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.NETTORI_PART_Y_SPEED_IDX;
         movement = sSpritesFallingSpeedSlow[offset];
 
         if (movement == SHORT_MAX)
@@ -780,7 +793,7 @@ void NettoriPartFalling(void)
         }
         else
         {
-            gCurrentSprite.work4++;            
+            gCurrentSprite.NETTORI_PART_Y_SPEED_IDX++;            
             gCurrentSprite.yPosition += movement;
         }
     }
@@ -792,11 +805,11 @@ void NettoriPartFalling(void)
  */
 void NettoriPartExploding(void)
 {
-    if (MOD_AND(gCurrentSprite.work1, 2) == 0)
+    if (MOD_AND(gCurrentSprite.NETTORI_PART_TIMER, 2) == 0)
         gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 == 0)
+    gCurrentSprite.NETTORI_PART_TIMER--;
+    if (gCurrentSprite.NETTORI_PART_TIMER == 0)
         gCurrentSprite.status = 0;
 }
 
@@ -844,7 +857,7 @@ void NettoriPlasmaBeamEmerging(void)
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
 
-        gCurrentSprite.work1 = 2;
+        gCurrentSprite.NETTORI_PLASMA_BEAM_TIMER = 2;
         gCurrentSprite.pose = NETTORI_PLASMA_BEAM_POSE_MOVING_INIT;
         gCurrentSprite.samusCollision = SSC_HURTS_SAMUS;
         
@@ -858,9 +871,9 @@ void NettoriPlasmaBeamEmerging(void)
  */
 void NettoriPlasmaBeamMovingInit(void)
 {
-    gCurrentSprite.work1--;
+    gCurrentSprite.NETTORI_PLASMA_BEAM_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.NETTORI_PLASMA_BEAM_TIMER == 0)
     {
         gCurrentSprite.pOam = sNettoriPlasmaBeamOam_Moving;
         // Doesn't reset ADC and CAF?
@@ -922,7 +935,7 @@ void SamusEaterInit(void)
 
     SpriteUtilChooseRandomXFlip();
 
-    gCurrentSprite.work1 = 90 + gSpriteRandomNumber * 4;
+    gCurrentSprite.SAMUS_EATER_TIMER = 90 + gSpriteRandomNumber * 4;
 }
 
 /**
@@ -958,11 +971,11 @@ void SamusEaterIdle(void)
     if (SamusEaterCheckNettoriHealthThreshold())
     {
         // Nettori is shooting plasma beams, make samus eaters fire spores
-        gCurrentSprite.work1--;
+        gCurrentSprite.SAMUS_EATER_TIMER--;
 
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SAMUS_EATER_TIMER == 0)
         {
-            gCurrentSprite.work1 = 90 + gSpriteRandomNumber * 4;
+            gCurrentSprite.SAMUS_EATER_TIMER = 90 + gSpriteRandomNumber * 4;
 
             SpriteSpawnSecondary(SSPRITE_SAMUS_EATER_SPORE, SAMUS_EATER_SPORE_PART_MOVING, gCurrentSprite.spritesetGfxSlot,
                 gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition - (BLOCK_SIZE + HALF_BLOCK_SIZE), gCurrentSprite.xPosition, SPRITE_STATUS_X_FLIP);
@@ -1010,7 +1023,7 @@ void SamusEaterDyingInit(void)
 {
     gCurrentSprite.pose = SAMUS_EATER_POSE_DYING;
     gCurrentSprite.samusCollision = SSC_NONE;
-    gCurrentSprite.work1 = 16;
+    gCurrentSprite.SAMUS_EATER_TIMER = 16;
     gCurrentSprite.status |= SPRITE_STATUS_IGNORE_PROJECTILES;
 }
 
@@ -1022,12 +1035,12 @@ void SamusEaterDying(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (MOD_AND(gCurrentSprite.work1, 2) == 0)
+    if (MOD_AND(gCurrentSprite.SAMUS_EATER_TIMER, 2) == 0)
         gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    gCurrentSprite.work1--;
+    gCurrentSprite.SAMUS_EATER_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.SAMUS_EATER_TIMER == 0)
     {
         gCurrentSprite.status = 0;
 
@@ -1225,7 +1238,7 @@ void SamusEaterBudDyingInit(void)
 {
     gCurrentSprite.pose = 0x46;
     gCurrentSprite.samusCollision = SSC_NONE;
-    gCurrentSprite.work1 = 8;
+    gCurrentSprite.SAMUS_EATER_TIMER = 8;
     gCurrentSprite.status |= SPRITE_STATUS_IGNORE_PROJECTILES;
 }
 
@@ -1237,12 +1250,12 @@ void SamusEaterBudDying(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (MOD_AND(gCurrentSprite.work1, 2) == 0)
+    if (MOD_AND(gCurrentSprite.SAMUS_EATER_TIMER, 2) == 0)
         gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    gCurrentSprite.work1--;
+    gCurrentSprite.SAMUS_EATER_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.SAMUS_EATER_TIMER == 0)
     {
         gCurrentSprite.status = 0;
 
@@ -1275,14 +1288,14 @@ void SamusEaterSporeInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work4 = 0;
-    gCurrentSprite.work3 = 0;
+    gCurrentSprite.SAMUS_EATER_SPORE_Y_MOVEMENT_IDX = 0;
+    gCurrentSprite.SAMUS_EATER_SPORE_X_MOVEMENT_IDX = 0;
 
     gCurrentSprite.drawOrder = 3;
     gCurrentSprite.bgPriority = gIoRegisters.bg1Cnt & 3;
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS_DIES_WHEN_HIT;
 
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.SAMUS_EATER_SPORE_TURNED_AROUND = 0;
 
     if (gCurrentSprite.roomSlot != SAMUS_EATER_SPORE_PART_FLOATING)
         gCurrentSprite.pose = SAMUS_EATER_SPORE_POSE_MOVING;
@@ -1300,7 +1313,7 @@ void SamusEaterSporeFloating(void)
     s16 yMovement;
     s16 xMovement;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.SAMUS_EATER_SPORE_Y_MOVEMENT_IDX;
     yMovement = sNettoriEaterSporeFloatingYVelocity[offset];
 
     if (yMovement == SHORT_MAX)
@@ -1309,17 +1322,17 @@ void SamusEaterSporeFloating(void)
         offset = 0;
     }
 
-    gCurrentSprite.work4 = offset + 1;
+    gCurrentSprite.SAMUS_EATER_SPORE_Y_MOVEMENT_IDX = offset + 1;
     gCurrentSprite.yPosition += yMovement;
 
-    if (gCurrentSprite.work2)
+    if (gCurrentSprite.SAMUS_EATER_SPORE_TURNED_AROUND)
         gCurrentSprite.yPosition += ONE_SUB_PIXEL * 2;
     else
         gCurrentSprite.yPosition += ONE_SUB_PIXEL * 1;
 
     if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
     {
-        offset = gCurrentSprite.work3;
+        offset = gCurrentSprite.SAMUS_EATER_SPORE_X_MOVEMENT_IDX;
         xMovement = sNettoriEaterSporeFloatingSmallXVelocity[offset];
 
         if (xMovement == SHORT_MAX)
@@ -1328,7 +1341,7 @@ void SamusEaterSporeFloating(void)
             offset = 0;
         }
 
-        gCurrentSprite.work3 = offset + 1;
+        gCurrentSprite.SAMUS_EATER_SPORE_X_MOVEMENT_IDX = offset + 1;
         gCurrentSprite.xPosition += xMovement;
         gCurrentSprite.xPosition += (PIXEL_SIZE - ONE_SUB_PIXEL);
 
@@ -1337,13 +1350,13 @@ void SamusEaterSporeFloating(void)
         if (gPreviousCollisionCheck != COLLISION_AIR)
         {
             gCurrentSprite.status ^= SPRITE_STATUS_X_FLIP;
-            gCurrentSprite.work3 = 0;
-            gCurrentSprite.work2 = TRUE;
+            gCurrentSprite.SAMUS_EATER_SPORE_X_MOVEMENT_IDX = 0;
+            gCurrentSprite.SAMUS_EATER_SPORE_TURNED_AROUND = TRUE;
         }
     }
     else
     {
-        offset = gCurrentSprite.work3;
+        offset = gCurrentSprite.SAMUS_EATER_SPORE_X_MOVEMENT_IDX;
         xMovement = sNettoriEaterSporeFloatingLargeXVelocity[offset];
 
         if (xMovement == SHORT_MAX)
@@ -1352,7 +1365,7 @@ void SamusEaterSporeFloating(void)
             offset = 0;
         }
 
-        gCurrentSprite.work3 = offset + 1;
+        gCurrentSprite.SAMUS_EATER_SPORE_X_MOVEMENT_IDX = offset + 1;
         gCurrentSprite.xPosition += xMovement;
         gCurrentSprite.xPosition -= (PIXEL_SIZE - ONE_SUB_PIXEL);
 
@@ -1361,8 +1374,8 @@ void SamusEaterSporeFloating(void)
         if (gPreviousCollisionCheck != COLLISION_AIR)
         {
             gCurrentSprite.status ^= SPRITE_STATUS_X_FLIP;
-            gCurrentSprite.work3 = 0;
-            gCurrentSprite.work2 = TRUE;
+            gCurrentSprite.SAMUS_EATER_SPORE_X_MOVEMENT_IDX = 0;
+            gCurrentSprite.SAMUS_EATER_SPORE_TURNED_AROUND = TRUE;
         }
     }
 
@@ -1381,7 +1394,7 @@ void SamusEaterSporeMoving(void)
     u8 offset;
     s16 movement;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.SAMUS_EATER_SPORE_Y_MOVEMENT_IDX;
     movement = sNettoriEaterSporeMovingYVelocity[offset];
 
     if (movement == SHORT_MAX)
@@ -1391,7 +1404,7 @@ void SamusEaterSporeMoving(void)
     }
     else
     {
-        gCurrentSprite.work4++;
+        gCurrentSprite.SAMUS_EATER_SPORE_Y_MOVEMENT_IDX++;
         gCurrentSprite.yPosition += movement;
     }
 

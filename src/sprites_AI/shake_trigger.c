@@ -153,7 +153,7 @@ void ShakeTrigger(void)
                 {
                     gCurrentSprite.pose = 0x18;
                     gCurrentSprite.work1 = 20;
-                    SoundPlay_3b1c(SOUND_22C);
+                    SoundPlayOnUnusedMusicTrack(SOUND_22C);
                     gCurrentSprite.pOam = sShakeTriggerOam_TriggeredNotRestrictedLab;
                     gCurrentSprite.animationDurationCounter = 0;
                     gCurrentSprite.currentAnimationFrame = 0;
@@ -216,9 +216,9 @@ void ShakeTrigger(void)
                 if (type == SHAKE_TRIGGER_SUPER_MISSILE_DOWNLOADED)
                     SoundPlay(SOUND_22D);
                 else if (type == SHAKE_TRIGGER_SA_X_QUAKE)
-                    SoundPlay_3b1c(SOUND_22B);
+                    SoundPlayOnUnusedMusicTrack(SOUND_22B);
                 else if (type == SHAKE_TRIGGER_BOX_2_RUMBLE)
-                    SoundPlay_3b1c(SOUND_237);
+                    SoundPlayOnUnusedMusicTrack(SOUND_237);
             }
             break;
 
@@ -330,7 +330,7 @@ void PreBoxCeilingDebris(void)
             if (MOD_AND(gCurrentSprite.work1, 32) == 0)
             {
                 ScreenShakeStartVertical(40, 0x81);
-                SoundPlay_3b1c(SOUND_22E);
+                SoundPlayOnUnusedMusicTrack(SOUND_22E);
 
                 if (gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
                 {

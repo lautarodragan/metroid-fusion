@@ -22,6 +22,13 @@
 #define BLUE_X_POSE_HIDING 0x1C
 #define BLUE_X_POSE_FLEEING 0x1E
 
+#define BLUE_X_TIMER work1 // Stunned and getting absorbed
+#define BLUE_X_X_MOVEMENT_IDX work3 // Idle
+#define BLUE_X_Y_MOVEMENT_IDX work4 // Idle
+#define BLUE_X_X_SPEED work3 // Fleeing
+#define BLUE_X_Y_SPEED work4 // Fleeing
+#define BLUE_X_CHASE_TIMER workY // After reaching the top of the room, flees at 0
+
 /**
  * @brief 40f54 | 28 | Sets the trail of a blue X
  * 
@@ -47,7 +54,7 @@ u8 BlueXCheckStun(void)
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
     
-        gCurrentSprite.work1 = 240;
+        gCurrentSprite.BLUE_X_TIMER = 240;
     
         return TRUE;
     }
@@ -92,10 +99,10 @@ void BlueXAbsorbedInit(void)
     gCurrentSprite.pose = BLUE_X_POSE_ABSORBED;
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
     gCurrentSprite.status |= SPRITE_STATUS_ROTATION_SCALING_SINGLE;
 
@@ -181,8 +188,8 @@ void BlueXIdleInit(void)
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
 
     rng = gSpriteRandomNumber * 4;
-    gCurrentSprite.work3 = rng;
-    gCurrentSprite.work4 = rng;
+    gCurrentSprite.BLUE_X_X_MOVEMENT_IDX = rng;
+    gCurrentSprite.BLUE_X_Y_MOVEMENT_IDX = rng;
 }
 
 /**
@@ -199,7 +206,7 @@ void BlueXIdle(void)
 
     BlueXSetTrail();
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.BLUE_X_Y_MOVEMENT_IDX;
     speed = sBlueXIdleYMovement[offset];
 
     if (speed == SHORT_MAX)
@@ -208,10 +215,10 @@ void BlueXIdle(void)
         offset = 0;
     }
 
-    gCurrentSprite.work4 = offset + 1;
+    gCurrentSprite.BLUE_X_Y_MOVEMENT_IDX = offset + 1;
     gCurrentSprite.yPosition += speed;
 
-    offset = gCurrentSprite.work3;
+    offset = gCurrentSprite.BLUE_X_X_MOVEMENT_IDX;
     speed = sBlueXIdleXMovement[offset];
 
     if (speed == SHORT_MAX)
@@ -220,7 +227,7 @@ void BlueXIdle(void)
         offset = 0;
     }
 
-    gCurrentSprite.work3 = offset + 1;
+    gCurrentSprite.BLUE_X_X_MOVEMENT_IDX = offset + 1;
     gCurrentSprite.xPosition += speed;
 
     if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_SIZE * 5, BLOCK_SIZE * 5))
@@ -233,10 +240,10 @@ void BlueXIdle(void)
  */
 void BlueXMovingInit(void)
 {
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
     gCurrentSprite.pose = BLUE_X_POSE_MOVING;
 
@@ -244,7 +251,7 @@ void BlueXMovingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.workY = 0x96;
+    gCurrentSprite.BLUE_X_CHASE_TIMER = 0x96;
 
     SpriteUtilMakeSpriteFaceSamusDirection();
 
@@ -278,13 +285,13 @@ void BlueXMoving(void)
 
     if (EventCheckAfter_ReachedTopOfRoomAfterVaria())
     {
-        if (gCurrentSprite.workY == 0)
+        if (gCurrentSprite.BLUE_X_CHASE_TIMER == 0)
         {
             gCurrentSprite.pose = BLUE_X_POSE_FLEEING;
             return;
         }
 
-        gCurrentSprite.workY--;
+        gCurrentSprite.BLUE_X_CHASE_TIMER--;
 
         targetY = gXParasiteTargetYPosition;
         targetX = gXParasiteTargetXPosition;
@@ -300,48 +307,48 @@ void BlueXMoving(void)
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > targetX - PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work3 < speedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
-                gCurrentSprite.xPosition += gCurrentSprite.work3 / 4;
+                gCurrentSprite.xPosition += gCurrentSprite.SPRITE_X_SPEED_INC / 4;
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
-                gCurrentSprite.xPosition += gCurrentSprite.work2 >> 2;
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
+                gCurrentSprite.xPosition += gCurrentSprite.SPRITE_X_SPEED_DEC >> 2;
             else
                 flip = TRUE;
         }
     }
     else
     {
-       if (gCurrentSprite.work2 == 0)
+       if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < targetX + PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work3 < speedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
-                gCurrentSprite.xPosition -= gCurrentSprite.work3 / 4;
+                gCurrentSprite.xPosition -= gCurrentSprite.SPRITE_X_SPEED_INC / 4;
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
-                gCurrentSprite.xPosition -= gCurrentSprite.work2 >> 2;
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
+                gCurrentSprite.xPosition -= gCurrentSprite.SPRITE_X_SPEED_DEC >> 2;
             else
                 flip = TRUE;
         }
@@ -350,7 +357,7 @@ void BlueXMoving(void)
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
-        gCurrentSprite.work3 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
 
         if (gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
         {
@@ -362,48 +369,48 @@ void BlueXMoving(void)
 
     if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_DETECTED)
     {
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > targetY - PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work4 < speedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
-                gCurrentSprite.yPosition += gCurrentSprite.work4 / 4;
+                gCurrentSprite.yPosition += gCurrentSprite.SPRITE_Y_SPEED_INC / 4;
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
-                gCurrentSprite.yPosition += gCurrentSprite.work1 >> 2;
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
+                gCurrentSprite.yPosition += gCurrentSprite.SPRITE_Y_SPEED_DEC >> 2;
             else
                 flip = TRUE;
         }
     }
     else
     {
-       if (gCurrentSprite.work1 == 0)
+       if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < targetY + PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work4 < speedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
-                gCurrentSprite.yPosition -= gCurrentSprite.work4 / 4;
+                gCurrentSprite.yPosition -= gCurrentSprite.SPRITE_Y_SPEED_INC / 4;
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
-                gCurrentSprite.yPosition -= gCurrentSprite.work1 >> 2;
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
+                gCurrentSprite.yPosition -= gCurrentSprite.SPRITE_Y_SPEED_DEC >> 2;
             else
                 flip = TRUE;
         }
@@ -412,7 +419,7 @@ void BlueXMoving(void)
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_SAMUS_DETECTED;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
         if (gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
         {
@@ -475,9 +482,9 @@ void BlueXStunned(void)
         return;
     }
 
-    gCurrentSprite.work1--;
+    gCurrentSprite.BLUE_X_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.BLUE_X_TIMER == 0)
         gCurrentSprite.pose = BLUE_X_POSE_MOVING_INIT;
 }
 
@@ -500,20 +507,20 @@ void BlueXFleeing(void)
 
     BlueXSetTrail();
 
-    if (gCurrentSprite.work3 < 200)
-        gCurrentSprite.work3++;
+    if (gCurrentSprite.BLUE_X_X_SPEED < 200)
+        gCurrentSprite.BLUE_X_X_SPEED++;
 
-    speed = gCurrentSprite.work3 / 8;
+    speed = gCurrentSprite.BLUE_X_X_SPEED / 8;
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
         gCurrentSprite.xPosition += speed;
     else
         gCurrentSprite.xPosition -= speed;
 
-    if (gCurrentSprite.work4 < 200)
-        gCurrentSprite.work4++;
+    if (gCurrentSprite.BLUE_X_Y_SPEED < 200)
+        gCurrentSprite.BLUE_X_Y_SPEED++;
 
-    speed = gCurrentSprite.work4 / 8;
+    speed = gCurrentSprite.BLUE_X_Y_SPEED / 8;
 
     if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_DETECTED)
         gCurrentSprite.yPosition += speed;
@@ -551,7 +558,7 @@ void BlueXAbsorbtionInit(void)
 
     gCurrentSprite.pOam = sBlueXAbsorbtionOam_Absorbing;
 
-    gCurrentSprite.work1 = 28;
+    gCurrentSprite.BLUE_X_TIMER = 28;
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
 }
 
@@ -561,9 +568,9 @@ void BlueXAbsorbtionInit(void)
  */
 void BlueXAbsorbtionAbsorbing(void)
 {
-    gCurrentSprite.work1--;
+    gCurrentSprite.BLUE_X_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.BLUE_X_TIMER == 0)
     {
         gCurrentSprite.pOam = sBlueXAbsorbtionOam_FadingAway;
         gCurrentSprite.animationDurationCounter = 0;

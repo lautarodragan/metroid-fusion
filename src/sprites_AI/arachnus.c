@@ -575,7 +575,7 @@ void ArachnusInit(void)
         gCurrentSprite.status &=
             ~(SPRITE_STATUS_ARACHNUS_HIT_BY_NORMAL_BEAM | SPRITE_STATUS_ARACHNUS_HIT_BY_NORMAL_BEAM_ATTACK_TYPE);
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     }
     else
     {

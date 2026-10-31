@@ -16,6 +16,11 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define OWTCH_ON_WALL work0 // Crawling on a wall (vertically)
+#define OWTCH_UNUSED work1 // Cleared on init, never read
+#define OWTCH_TURN_TYPE work2 // Selects the turning around animation and the new orientation
+#define OWTCH_Y_SPEED_IDX work4
+
 enum OwtchPose {
     OWTCH_POSE_TURNING_AROUND_INIT = 3,
     OWTCH_POSE_TURNING_AROUND = 4,
@@ -29,7 +34,7 @@ boolu8 OwtchCheckCollidingWithAir(void)
 
     colliding = FALSE;
 
-    if (gCurrentSprite.work0 != 0)
+    if (gCurrentSprite.OWTCH_ON_WALL != 0)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -89,7 +94,7 @@ boolu8 OwtchCheckCollidingWithAir(void)
 
 void OwtchUpdateHitbox(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.OWTCH_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -129,7 +134,7 @@ void OwtchUpdateHitbox(void)
 
 void OwtchSetCrawlingOam(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.OWTCH_ON_WALL)
         gCurrentSprite.pOam = sOwtchOam_379154;
     else
         gCurrentSprite.pOam = sOwtchOam_3790d4;
@@ -140,7 +145,7 @@ void OwtchSetCrawlingOam(void)
 
 void OwtchSetFallingOam(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.OWTCH_ON_WALL)
         gCurrentSprite.pOam = sOwtchOam_379154;
     else
         gCurrentSprite.pOam = sOwtchOam_3790d4;
@@ -151,7 +156,7 @@ void OwtchSetFallingOam(void)
 
 void OwtchTurningIntoX(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.OWTCH_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             gCurrentSprite.xPosition -= BLOCK_TO_SUB_PIXEL(0.625f);
@@ -179,7 +184,7 @@ void OwtchInit(void)
         if (gCurrentSprite.pose == SPRITE_POSE_SPAWNING_FROM_X_INIT)
         {
             gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-            gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+            gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
         }
         else
         {
@@ -189,7 +194,7 @@ void OwtchInit(void)
             SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition, gCurrentSprite.xPosition);
             if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
             {
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.OWTCH_ON_WALL = FALSE;
             }
             else
             {
@@ -197,7 +202,7 @@ void OwtchInit(void)
                     gCurrentSprite.xPosition);
                 if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                 {
-                    gCurrentSprite.work0 = FALSE;
+                    gCurrentSprite.OWTCH_ON_WALL = FALSE;
                     gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
                     gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(1.0f);
                 }
@@ -207,7 +212,7 @@ void OwtchInit(void)
                         gCurrentSprite.xPosition - BLOCK_TO_SUB_PIXEL(0.5625f));
                     if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                     {
-                        gCurrentSprite.work0 = TRUE;
+                        gCurrentSprite.OWTCH_ON_WALL = TRUE;
                         gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(0.5f);
                         gCurrentSprite.xPosition -= BLOCK_TO_SUB_PIXEL(0.5f);
                     }
@@ -217,7 +222,7 @@ void OwtchInit(void)
                             gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(0.5f));
                         if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                         {
-                            gCurrentSprite.work0 = TRUE;
+                            gCurrentSprite.OWTCH_ON_WALL = TRUE;
                             gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
                             gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(0.5f);
                             gCurrentSprite.xPosition += BLOCK_TO_SUB_PIXEL(0.5f);
@@ -238,7 +243,7 @@ void OwtchInit(void)
         OwtchUpdateHitbox();
 
         gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
-        gCurrentSprite.work1 = 0;
+        gCurrentSprite.OWTCH_UNUSED = 0;
         gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1);
         gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(1);
         gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1);
@@ -263,7 +268,7 @@ void OwtchIdle(void)
     }
     else if (!(gCurrentSprite.properties & SP_CAN_ABSORB_X))
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.OWTCH_ON_WALL)
         {
             if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             {
@@ -274,7 +279,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 7;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 7;
                     }
                     else
                     {
@@ -284,7 +289,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 5;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 5;
                         }
                         else
                         {
@@ -300,7 +305,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 5;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 5;
                     }
                     else
                     {
@@ -310,7 +315,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 7;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 7;
                         }
                         else
                         {
@@ -329,7 +334,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 6;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 6;
                     }
                     else
                     {
@@ -339,7 +344,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 4;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 4;
                         }
                         else
                         {
@@ -355,7 +360,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 4;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 4;
                     }
                     else
                     {
@@ -365,7 +370,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 6;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 6;
                         }
                         else
                         {
@@ -387,7 +392,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 2;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 2;
                     }
                     else
                     {
@@ -397,7 +402,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 3;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 3;
                         }
                         else
                         {
@@ -413,7 +418,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 3;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 3;
                     }
                     else
                     {
@@ -423,7 +428,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 2;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 2;
                         }
                         else
                         {
@@ -441,7 +446,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 0;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 0;
                     }
                     else
                     {
@@ -451,7 +456,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 1;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 1;
                         }
                         else
                         {
@@ -467,7 +472,7 @@ void OwtchIdle(void)
                     {
                         gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
                         turnAround = TRUE;
-                        gCurrentSprite.work2 = 1;
+                        gCurrentSprite.OWTCH_TURN_TYPE = 1;
                     }
                     else
                     {
@@ -477,7 +482,7 @@ void OwtchIdle(void)
                         {
                             gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
                             turnAround = TRUE;
-                            gCurrentSprite.work2 = 0;
+                            gCurrentSprite.OWTCH_TURN_TYPE = 0;
                         }
                         else
                         {
@@ -499,7 +504,7 @@ void OwtchTurningAroundInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    switch (gCurrentSprite.work2)
+    switch (gCurrentSprite.OWTCH_TURN_TYPE)
     {
         case 0:
             if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
@@ -593,7 +598,7 @@ void OwtchTurningAround(void)
     {
         gCurrentSprite.pose = SPRITE_POSE_IDLE;
 
-        switch (gCurrentSprite.work2)
+        switch (gCurrentSprite.OWTCH_TURN_TYPE)
         {
             case 0:
                 if (!(gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT))
@@ -603,7 +608,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status &= ~SPRITE_STATUS_X_FLIP;
-                gCurrentSprite.work0 = TRUE;
+                gCurrentSprite.OWTCH_ON_WALL = TRUE;
                 break;
 
             case 1:
@@ -614,7 +619,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
-                gCurrentSprite.work0 = TRUE;
+                gCurrentSprite.OWTCH_ON_WALL = TRUE;
                 break;
 
             case 2:
@@ -625,7 +630,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status &= ~SPRITE_STATUS_X_FLIP;
-                gCurrentSprite.work0 = TRUE;
+                gCurrentSprite.OWTCH_ON_WALL = TRUE;
                 break;
 
             case 3:
@@ -636,7 +641,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
-                gCurrentSprite.work0 = TRUE;
+                gCurrentSprite.OWTCH_ON_WALL = TRUE;
                 break;
 
             case 4:
@@ -647,7 +652,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status &= ~SPRITE_STATUS_Y_FLIP;
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.OWTCH_ON_WALL = FALSE;
                 break;
 
             case 5:
@@ -658,7 +663,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status &= ~SPRITE_STATUS_Y_FLIP;
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.OWTCH_ON_WALL = FALSE;
                 break;
 
             case 6:
@@ -669,7 +674,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.OWTCH_ON_WALL = FALSE;
                 break;
 
             case 7:
@@ -680,7 +685,7 @@ void OwtchTurningAround(void)
                 }
 
                 gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.OWTCH_ON_WALL = FALSE;
                 break;
 
             default:
@@ -710,8 +715,8 @@ void OwtchLanding(void)
 void OwtchFallingInit(void)
 {
     gCurrentSprite.pose = SPRITE_POSE_FALLING;
-    gCurrentSprite.work4 = 0;
-    gCurrentSprite.work0 = 0;
+    gCurrentSprite.OWTCH_Y_SPEED_IDX = 0;
+    gCurrentSprite.OWTCH_ON_WALL = 0;
     gCurrentSprite.status &= ~SPRITE_STATUS_Y_FLIP;
 
     OwtchUpdateHitbox();
@@ -731,7 +736,7 @@ void OwtchFalling(void)
     yCollisionPoint = gCurrentSprite.yPosition;
     xCollisionPoint = gCurrentSprite.xPosition;
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.OWTCH_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             xCollisionPoint -= 4;
@@ -749,11 +754,11 @@ void OwtchFalling(void)
     if (gPreviousVerticalCollisionCheck != COLLISION_AIR)
     {
         gCurrentSprite.yPosition = blockTop;
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.OWTCH_ON_WALL)
             onWall++;
 
         gCurrentSprite.status &= ~SPRITE_STATUS_Y_FLIP;
-        gCurrentSprite.work0 = 0;
+        gCurrentSprite.OWTCH_ON_WALL = 0;
         OwtchUpdateHitbox();
 
         if (onWall)
@@ -777,7 +782,7 @@ void OwtchFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.OWTCH_Y_SPEED_IDX;
         movement = sSpritesFallingSpeed[offset];
 
         if (movement == SHORT_MAX)
@@ -788,7 +793,7 @@ void OwtchFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.OWTCH_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
     }

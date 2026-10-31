@@ -86,7 +86,7 @@ void XParasiteBossFormationGrowing(void)
     if (gCurrentSprite.scaling > Q_8_8(.98f))
     {
         gCurrentSprite.pose = 0x5E;
-        gCurrentSprite.workX = 0;
+        gCurrentSprite.X_PARASITE_MOVEMENT_STAGE = 0;
     }
 }
 
@@ -101,8 +101,8 @@ void XParasiteBossFormationFloating(void)
     XParasiteMoveWithSound(gXParasiteTargetYPosition, gXParasiteTargetXPosition, HALF_BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2,
         BLOCK_SIZE - PIXEL_SIZE, 0, SOUND_X_PARASITE_MOVING);
 
-    gCurrentSprite.workY--;
-    if (gCurrentSprite.workY == 0)
+    gCurrentSprite.X_PARASITE_TIMER--;
+    if (gCurrentSprite.X_PARASITE_TIMER == 0)
     {
         gCurrentSprite.pose = 0x5F;
     }
@@ -171,118 +171,118 @@ void XParasiteBossFormationTransforming(void)
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > targetX - PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work3 < 10)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < 10)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
-                gCurrentSprite.xPosition += gCurrentSprite.work3;
+                gCurrentSprite.xPosition += gCurrentSprite.SPRITE_X_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.work2, 2);
+                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
             }
         }
     }
     else
     {
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < targetX + PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work3 < 10)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < 10)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
-                gCurrentSprite.xPosition -= gCurrentSprite.work3;
+                gCurrentSprite.xPosition -= gCurrentSprite.SPRITE_X_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.work2, 2);
+                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
             }
         }
     }
 
     if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_DETECTED)
     {
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > targetY - PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work4 < 10)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < 10)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
-                gCurrentSprite.yPosition += gCurrentSprite.work4;
+                gCurrentSprite.yPosition += gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.work1, 2);
+                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_SAMUS_DETECTED;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
     else
     {
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < targetY + PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work4 < 10)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < 10)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
-                gCurrentSprite.yPosition -= gCurrentSprite.work4;
+                gCurrentSprite.yPosition -= gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.work1, 2);
+                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_SAMUS_DETECTED;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
@@ -295,17 +295,17 @@ void XParasiteBossFormationTransforming(void)
 void XParasiteCoreXOrStabilizerForming(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
-    gCurrentSprite.workY--;
+    gCurrentSprite.X_PARASITE_MOSAIC_IDX--;
 
-    if (gCurrentSprite.workY != 0)
+    if (gCurrentSprite.X_PARASITE_MOSAIC_IDX != 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.X_PARASITE_MOSAIC_IDX];
     }
     else
     {
         gCurrentSprite.status &= ~SPRITE_STATUS_MOSAIC;
         gCurrentSprite.pose = X_PARASITE_POSE_FLYING;
-        gCurrentSprite.workY = 300;
+        gCurrentSprite.X_PARASITE_TIMER = 300;
     }
 
     XParasiteFlyingMovement();
@@ -325,7 +325,7 @@ void XParasiteAquaZebesianMoveToTarget(void)
 
     if (gCurrentSprite.pose == X_PARASITE_POSE_FLYING)
     {
-        switch (gCurrentSprite.workX)
+        switch (gCurrentSprite.X_PARASITE_MOVEMENT_STAGE)
         {
             case 1:
                 targetY -= BLOCK_SIZE;
@@ -361,7 +361,7 @@ void XParasiteAquaZebesianWaitingToMove(void)
 
     if (!(gCurrentSprite.invincibilityStunFlashTimer & SPRITE_ISFT_POWER_BOMB_STUNNED))
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.X_PARASITE_Y_MOVEMENT_IDX;
         movement = sXParasiteIdleFloatingYMovement[offset];
 
         if (movement == SHORT_MAX)
@@ -370,10 +370,10 @@ void XParasiteAquaZebesianWaitingToMove(void)
             offset = 0;
         }
 
-        gCurrentSprite.work4 = offset + 1;
+        gCurrentSprite.X_PARASITE_Y_MOVEMENT_IDX = offset + 1;
         gCurrentSprite.yPosition += movement;
 
-        offset = gCurrentSprite.work3;
+        offset = gCurrentSprite.X_PARASITE_X_MOVEMENT_IDX;
         movement = sXParasiteIdleFloatingXMovement[offset];
 
         if (movement == SHORT_MAX)
@@ -382,17 +382,17 @@ void XParasiteAquaZebesianWaitingToMove(void)
             offset = 0;
         }
 
-        gCurrentSprite.work3 = offset + 1;
+        gCurrentSprite.X_PARASITE_X_MOVEMENT_IDX = offset + 1;
         gCurrentSprite.xPosition += movement;
     }
 
     if (gCurrentSprite.status & SPRITE_STATUS_MOSAIC)
     {
-        if (--gCurrentSprite.workY != 0)
+        if (--gCurrentSprite.X_PARASITE_MOSAIC_IDX != 0)
         {
-            gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+            gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.X_PARASITE_MOSAIC_IDX];
 
-            if (gCurrentSprite.workY > X_PARASITE_MOSAIC_MAX_INDEX / 2)
+            if (gCurrentSprite.X_PARASITE_MOSAIC_IDX > X_PARASITE_MOSAIC_MAX_INDEX / 2)
             {
                 gCurrentSprite.ignoreSamusCollisionTimer = 1;
             }
@@ -405,23 +405,23 @@ void XParasiteAquaZebesianWaitingToMove(void)
         else
         {
             gCurrentSprite.status &= ~SPRITE_STATUS_MOSAIC;
-            gCurrentSprite.workY = 60;
+            gCurrentSprite.X_PARASITE_TIMER = 60;
         }
     }
     else
     {
-        gCurrentSprite.workY--;
+        gCurrentSprite.X_PARASITE_TIMER--;
 
-        if (gCurrentSprite.workY == 0)
+        if (gCurrentSprite.X_PARASITE_TIMER == 0)
         {
             gCurrentSprite.pose = X_PARASITE_POSE_FLYING;
-            gCurrentSprite.workY = 300;
-            gCurrentSprite.workX = 0;
+            gCurrentSprite.X_PARASITE_TIMER = 300;
+            gCurrentSprite.X_PARASITE_MOVEMENT_STAGE = 0;
             
-            gCurrentSprite.work2 = 0;
-            gCurrentSprite.work3 = 1;
-            gCurrentSprite.work1 = 0;
-            gCurrentSprite.work4 = 1;
+            gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+            gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+            gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+            gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
         }
 
         if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_COLLIDING)
@@ -449,13 +449,13 @@ void XParasiteAquaZebesianFloating(void)
         return;
     }
 
-    if (gCurrentSprite.workY == 0)
+    if (gCurrentSprite.X_PARASITE_TIMER == 0)
     {
         gCurrentSprite.pose = X_PARASITE_POSE_FLYING_AWAY;
     }
     else
     {
-        gCurrentSprite.workY--;
+        gCurrentSprite.X_PARASITE_TIMER--;
         XParasiteAquaZebesianMoveToTarget();
     }
 }

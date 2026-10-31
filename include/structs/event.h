@@ -45,7 +45,8 @@ struct EventLocationAndNavigationInfo {
 extern u8 gAbilityCount;
 extern u8 gSecurityHatchLevel;
 extern u8 gSecurityHatchLevelBackup;
-extern u8 gUnk_3000b85;
+// Stage of the pause screen handler, also used by the SA-X close-up handler
+extern u8 gPauseScreenStage;
 extern u8 gEventCounter;
 extern u8 gPreviousNavigationConversation;
 extern u8 gPreviousCutscene;

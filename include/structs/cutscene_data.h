@@ -12,6 +12,9 @@ struct CutsceneOam {
     s16 xPosition;                  // 0x0
     s16 yPosition;                  // 0x2
     s16 scaling;                    // 0x4
+    // 0x6 to 0xC and 0x13 are work variables whose meaning depends on the object (restricted lab detaching):
+    // unk_6/unk_8 usually hold the X/Y position a movement started from, unk_A/unk_C either a palette
+    // cycle timer/frame or the Y/X velocity of a movement, and unk_13 a secondary animation timer
     s16 unk_6;                      // 0x6
     s16 unk_8;                      // 0x8
     s16 unk_A;                      // 0xA
@@ -20,7 +23,7 @@ struct CutsceneOam {
     u8 type;                        // 0x10
     u8 currentAnimationFrame;       // 0x11
     u8 animationDurationCounter;    // 0x12
-    u8 unk_13;                      // 0x13
+    u8 unk_13;                      // 0x13, work variable, see above
     u8 stage;                       // 0x14
     u8 rotation;                    // 0x15
     u8 exists:1;                    // 0x16

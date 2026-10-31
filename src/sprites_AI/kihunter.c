@@ -15,6 +15,23 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define KIHUNTER_GROUND_IDLE_COUNTER work2 // Jump warnings done since the last turn around
+#define KIHUNTER_GROUND_HIGH_JUMP work3
+#define KIHUNTER_GROUND_SPIT_COUNT work3
+#define KIHUNTER_Y_SPEED_IDX work4 // Also the index in the flying Y movement tables
+
+#define KIHUNTER_FLYING_IDLE_LOOPS work1 // Idle Y movement loops done
+#define KIHUNTER_FLYING_TIMER work1 // Swooping
+#define KIHUNTER_FLYING_SLOWING_DOWN work1 // After swooping, set once back near the home Y position
+#define KIHUNTER_FLYING_HOME_Y workX // Y position the kihunter returns to after swooping
+
+#define KIHUNTER_WINGS_TIMER work1
+#define KIHUNTER_HIVE_SPAWN_COOLDOWN workY
+
+#define KIHUNTER_BUG_Y_MOVEMENT_IDX work4
+#define KIHUNTER_BUG_X_MOVEMENT_IDX work3
+#define KIHUNTER_BUG_CHASE_STAGE workX // Selects the offset of the target position, 0 to 3
+
 enum KihunterGroundRange {
     KIHUNTER_GROUND_OUT_OF_RANGE,
     KIHUNTER_GROUND_SAMUS_IN_FRONT,
@@ -143,7 +160,7 @@ void KihunterGroundInit(void)
         return;
     }
 
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.KIHUNTER_GROUND_IDLE_COUNTER = 0;
     gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(2);
     gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(.5f);
     gCurrentSprite.drawDistanceHorizontal = BLOCK_TO_PIXEL(1.5f);
@@ -164,7 +181,7 @@ void KihunterGroundInit(void)
     if (gCurrentSprite.pose == SPRITE_POSE_SPAWNING_FROM_X_INIT)
     {
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     }
     else
     {
@@ -177,16 +194,16 @@ void KihunterGroundJumpWarningInit(void)
     gCurrentSprite.pose = 2;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work2++;
+    gCurrentSprite.KIHUNTER_GROUND_IDLE_COUNTER++;
 
     if (gSpriteRandomNumber & 1)
     {
-        gCurrentSprite.work3 = FALSE;
+        gCurrentSprite.KIHUNTER_GROUND_HIGH_JUMP = FALSE;
         gCurrentSprite.pOam = sKihunterGroundOam_StartLowJump;
     }
     else
     {
-        gCurrentSprite.work3 = TRUE;
+        gCurrentSprite.KIHUNTER_GROUND_HIGH_JUMP = TRUE;
         gCurrentSprite.pOam = sKihunterGroundOam_StartHighJump;
     }
 }
@@ -196,9 +213,9 @@ void KihunterGroundJumpInit(void)
     gCurrentSprite.pose = 0x18;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
 
-    if (gCurrentSprite.work3)
+    if (gCurrentSprite.KIHUNTER_GROUND_HIGH_JUMP)
     {
         gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(0.75f);
         gCurrentSprite.pOam = sKihunterGroundOam_JumpingHighOrFalling;
@@ -231,7 +248,7 @@ void KihunterIdleInit(void)
 void KihunterFallingInit(void)
 {
     gCurrentSprite.pose = 0x16;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.pOam = sKihunterGroundOam_JumpingHighOrFalling;
@@ -242,7 +259,7 @@ void KihunterGroundTurningAroundInit(void)
     gCurrentSprite.pose = 4;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.KIHUNTER_GROUND_IDLE_COUNTER = 0;
     gCurrentSprite.pOam = sKihunterFlyingOam_TurningAround1;
 }
 
@@ -254,9 +271,9 @@ void KihunterGroundSpittingInit(void)
     gCurrentSprite.currentAnimationFrame = 0;
 
     if (gSpriteRandomNumber & 1)
-        gCurrentSprite.work3 = 1;
+        gCurrentSprite.KIHUNTER_GROUND_SPIT_COUNT = 1;
     else
-        gCurrentSprite.work3 = 2;
+        gCurrentSprite.KIHUNTER_GROUND_SPIT_COUNT = 2;
 }
 
 void KihunterGroundJumpWarning(void)
@@ -285,10 +302,10 @@ void KihunterGroundJumping(void)
 
     colliding = FALSE;
 
-    if (!gCurrentSprite.work3)
-        movement = sKihunterGroundLowJumpSpeed[gCurrentSprite.work4 / 4];
+    if (!gCurrentSprite.KIHUNTER_GROUND_HIGH_JUMP)
+        movement = sKihunterGroundLowJumpSpeed[gCurrentSprite.KIHUNTER_Y_SPEED_IDX / 4];
     else
-        movement = sKihunterGroundHighJumpSpeed[gCurrentSprite.work4 / 4];
+        movement = sKihunterGroundHighJumpSpeed[gCurrentSprite.KIHUNTER_Y_SPEED_IDX / 4];
 
     if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
     {
@@ -322,8 +339,8 @@ void KihunterGroundJumping(void)
     }
 
     gCurrentSprite.yPosition += movement;
-    if (gCurrentSprite.work4 < ARRAY_SIZE(sKihunterGroundLowJumpSpeed) * 4 - 1)
-        gCurrentSprite.work4++;
+    if (gCurrentSprite.KIHUNTER_Y_SPEED_IDX < ARRAY_SIZE(sKihunterGroundLowJumpSpeed) * 4 - 1)
+        gCurrentSprite.KIHUNTER_Y_SPEED_IDX++;
 
     if (movement > 0)
     {
@@ -413,7 +430,7 @@ void KihunterGroundLanding(void)
             }
             else
             {
-                if (gCurrentSprite.work2 >= 3)
+                if (gCurrentSprite.KIHUNTER_GROUND_IDLE_COUNTER >= 3)
                     KihunterIdleInit();
                 else
                     KihunterGroundJumpWarningInit();
@@ -460,7 +477,7 @@ void KihunterGroundFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.KIHUNTER_Y_SPEED_IDX;
         movement = sSpritesFallingSpeed[offset];
         if (movement == SHORT_MAX)
         {
@@ -470,7 +487,7 @@ void KihunterGroundFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.KIHUNTER_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
     }
@@ -505,7 +522,7 @@ void KihunterGroundIdle(void)
         }
         else
         {
-            if (gCurrentSprite.work2 >= 3)
+            if (gCurrentSprite.KIHUNTER_GROUND_IDLE_COUNTER >= 3)
                 KihunterGroundTurningAroundInit();
             else
                 KihunterGroundJumpWarningInit();
@@ -570,7 +587,7 @@ void KihunterGroundSpitting(void)
 
     if (SpriteUtilHasCurrentAnimationEnded())
     {
-        if (--gCurrentSprite.work3 == 0)
+        if (--gCurrentSprite.KIHUNTER_GROUND_SPIT_COUNT == 0)
             KihunterGroundJumpWarningInit();
     }
 }
@@ -618,8 +635,8 @@ void KihunterFlyingInit(void)
     gCurrentSprite.pOam = sKihunterFlyingOam_Idle;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_FLYING_IDLE_LOOPS = 0;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS;
     SpriteUtilMakeSpriteFaceSamusXFlip();
@@ -627,7 +644,7 @@ void KihunterFlyingInit(void)
     if (gCurrentSprite.pose == SPRITE_POSE_SPAWNING_FROM_X_INIT)
     {
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
         gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
     }
     else
@@ -635,7 +652,7 @@ void KihunterFlyingInit(void)
         gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
     }
 
-    gCurrentSprite.workX = gCurrentSprite.yPosition;
+    gCurrentSprite.KIHUNTER_FLYING_HOME_Y = gCurrentSprite.yPosition;
 
     ramSlot = SpriteSpawnSecondary(SSPRITE_KIHUNTER_WINGS, gCurrentSprite.roomSlot, gCurrentSprite.spritesetGfxSlot,
         gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition, gCurrentSprite.xPosition,
@@ -650,8 +667,8 @@ void KihunterFlyingIdleInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.pOam = sKihunterFlyingOam_Idle;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_FLYING_IDLE_LOOPS = 0;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
 }
 
 void KihunterFlyingTurningAroundInit(void)
@@ -670,7 +687,7 @@ void KihunterFlyingIdle(void)
     u8 offset;
     s16 movement;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.KIHUNTER_Y_SPEED_IDX;
     movement = sKihunterFlyingIdleYMovement[offset];
     if (movement == SHORT_MAX)
     {
@@ -678,7 +695,7 @@ void KihunterFlyingIdle(void)
         offset = 0;
     }
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = offset;
 
     if (movement > 0)
         SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition, gCurrentSprite.xPosition);
@@ -695,9 +712,9 @@ void KihunterFlyingIdle(void)
         return;
     }
 
-    if (gCurrentSprite.work4 == ARRAY_SIZE(sKihunterFlyingIdleYMovement) - 2)
+    if (gCurrentSprite.KIHUNTER_Y_SPEED_IDX == ARRAY_SIZE(sKihunterFlyingIdleYMovement) - 2)
     {
-        gCurrentSprite.work1++;
+        gCurrentSprite.KIHUNTER_FLYING_IDLE_LOOPS++;
         targetY = gSamusData.yPosition;
         spriteY = gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(1.5f);
         nslr = SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_TO_SUB_PIXEL(10.0f), BLOCK_TO_SUB_PIXEL(15.0f));
@@ -710,7 +727,7 @@ void KihunterFlyingIdle(void)
             {
                 if (gCurrentSprite.xPosition > gSamusData.xPosition)
                 {
-                    if (gCurrentSprite.work1 >= 2)
+                    if (gCurrentSprite.KIHUNTER_FLYING_IDLE_LOOPS >= 2)
                         gCurrentSprite.pose = 3;
                 }
                 else
@@ -722,7 +739,7 @@ void KihunterFlyingIdle(void)
             {
                 if (gCurrentSprite.xPosition < gSamusData.xPosition)
                 {
-                    if (gCurrentSprite.work1 >= 2)
+                    if (gCurrentSprite.KIHUNTER_FLYING_IDLE_LOOPS >= 2)
                         gCurrentSprite.pose = 3;
                 }
                 else
@@ -792,8 +809,8 @@ void KihunterFlyingSwoopingDownInit(void)
 {
     u16 targetY;
 
-    gCurrentSprite.work1 = 16;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_FLYING_TIMER = 16;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 0x2a;
     targetY = gSamusData.yPosition + gSamusData.drawDistanceTop / 2;
 
@@ -824,20 +841,20 @@ void KihunterFlyingSwoopingDown(void)
     {
         if (KihunterFlyingXMovement(PIXEL_TO_SUB_PIXEL(1.5f)))
             gCurrentSprite.pose = 0x2d;
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.KIHUNTER_FLYING_TIMER == 0)
             gCurrentSprite.pose = 0x2d;
         return;
     }
 
     if (gCurrentSprite.samusCollision == SSC_HURTS_SAMUS_DOUBLE_DAMAGE)
     {
-        xMovement = gCurrentSprite.work4 / 4;
+        xMovement = gCurrentSprite.KIHUNTER_Y_SPEED_IDX / 4;
         if (xMovement > 4)
             xMovement = 8;
     }
     else
     {
-        xMovement = gCurrentSprite.work4 / 2;
+        xMovement = gCurrentSprite.KIHUNTER_Y_SPEED_IDX / 2;
         if (xMovement > 8)
             xMovement = 8;
     }
@@ -851,7 +868,7 @@ void KihunterFlyingSwoopingDown(void)
         return;
     }
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.KIHUNTER_Y_SPEED_IDX;
     yMovement = sKihunterFlyingSwoopingDownYSpeed[offset];
     if (yMovement == SHORT_MAX)
     {
@@ -861,15 +878,15 @@ void KihunterFlyingSwoopingDown(void)
     else
     {
         offset++;
-        gCurrentSprite.work4 = offset;
+        gCurrentSprite.KIHUNTER_Y_SPEED_IDX = offset;
         gCurrentSprite.yPosition += yMovement;
     }
 }
 
 void KihunterFlyingSwoopingAcrossInit(void)
 {
-    gCurrentSprite.work1 = 20;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_FLYING_TIMER = 20;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 0x2c;
 }
 
@@ -888,7 +905,7 @@ void KihunterFlyingSwoopingAcross(void)
     {
         if (hitWall)
             gCurrentSprite.pose = 0x2d;
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.KIHUNTER_FLYING_TIMER == 0)
             gCurrentSprite.pose = 0x2d;
         return;
     }
@@ -896,7 +913,7 @@ void KihunterFlyingSwoopingAcross(void)
     SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(2.0f), gCurrentSprite.xPosition);
     if (gPreviousCollisionCheck == COLLISION_SOLID)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.KIHUNTER_Y_SPEED_IDX;
         yMovement = sKihunterFlyingSwoopingAcrossYSpeed[offset];
         if (yMovement == SHORT_MAX)
         {
@@ -906,22 +923,22 @@ void KihunterFlyingSwoopingAcross(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.KIHUNTER_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += yMovement;
         }
     }
     else
     {
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 0;
+        gCurrentSprite.KIHUNTER_FLYING_TIMER = 0;
+        gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
         gCurrentSprite.pose = 0x2a;
     }
 }
 
 void KihunterFlyingAfterSwoopingInit(void)
 {
-    gCurrentSprite.work1 = FALSE;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_FLYING_SLOWING_DOWN = FALSE;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 0x2e;
 
     if (gCurrentSprite.samusCollision == SSC_HURTS_SAMUS_DOUBLE_DAMAGE)
@@ -951,11 +968,11 @@ void KihunterFlyingAfterSwooping(void)
     SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - BLOCK_TO_SUB_PIXEL(2.0f), gCurrentSprite.xPosition);
     if (gPreviousCollisionCheck != COLLISION_SOLID)
     {
-        if (!gCurrentSprite.work1)
+        if (!gCurrentSprite.KIHUNTER_FLYING_SLOWING_DOWN)
         {
-            if (gCurrentSprite.workX + BLOCK_TO_SUB_PIXEL(1.0f) < gCurrentSprite.yPosition)
+            if (gCurrentSprite.KIHUNTER_FLYING_HOME_Y + BLOCK_TO_SUB_PIXEL(1.0f) < gCurrentSprite.yPosition)
             {
-                u8 offset = gCurrentSprite.work4;
+                u8 offset = gCurrentSprite.KIHUNTER_Y_SPEED_IDX;
                 s16 yMovement = sKihunterFlyingAfterSwoopingAcceleratingYSpeed[offset];
 
                 if (yMovement == SHORT_MAX)
@@ -966,21 +983,21 @@ void KihunterFlyingAfterSwooping(void)
                 else
                 {
                     offset++;
-                    gCurrentSprite.work4 = offset;
+                    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = offset;
                     gCurrentSprite.yPosition += yMovement;
                 }
             }
             else
             {
-                gCurrentSprite.work1 = TRUE;
-                gCurrentSprite.work4 = 0;
+                gCurrentSprite.KIHUNTER_FLYING_SLOWING_DOWN = TRUE;
+                gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
             }
         }
         else
         {
-            if (gCurrentSprite.workX < gCurrentSprite.yPosition)
+            if (gCurrentSprite.KIHUNTER_FLYING_HOME_Y < gCurrentSprite.yPosition)
             {
-                u8 offset = gCurrentSprite.work4;
+                u8 offset = gCurrentSprite.KIHUNTER_Y_SPEED_IDX;
                 s16 yMovement = sKihunterFlyingAfterSwoopingDeceleratingYSpeed[offset];
 
                 if (yMovement == SHORT_MAX)
@@ -991,7 +1008,7 @@ void KihunterFlyingAfterSwooping(void)
                 else
                 {
                     offset++;
-                    gCurrentSprite.work4 = offset;
+                    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = offset;
                     gCurrentSprite.yPosition += yMovement;
                 }
             }
@@ -1099,7 +1116,7 @@ void KihunterWingsFalling(void)
     {
         gCurrentSprite.yPosition = blockTop;
         gCurrentSprite.pose = 0x3a;
-        gCurrentSprite.work1 = 40;
+        gCurrentSprite.KIHUNTER_WINGS_TIMER = 40;
     }
     else
     {
@@ -1111,7 +1128,7 @@ void KihunterWingsDisappearing(void)
 {
     if (MOD_AND(gFrameCounter8Bit, 4) == 0)
         gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.KIHUNTER_WINGS_TIMER == 0)
         gCurrentSprite.status = 0;
 }
 
@@ -1129,7 +1146,7 @@ void KihunterSpitInit(void)
     gCurrentSprite.pOam = sKihunterSpitOam_Moving;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KIHUNTER_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = 2;
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS_DIES_WHEN_HIT;
 }
@@ -1148,7 +1165,7 @@ void KihunterSpitMoving(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.KIHUNTER_Y_SPEED_IDX;
         yMovement = sKihunterSpitFallingSpeed[offset];
         if (yMovement == SHORT_MAX)
         {
@@ -1158,7 +1175,7 @@ void KihunterSpitMoving(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.KIHUNTER_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += yMovement;
         }
 
@@ -1229,7 +1246,7 @@ void KihunterHiveSpawnKihunter(void)
     gCurrentSprite.spritesetSlotAndProperties = SSP_UNINFECTED_OR_BOSS;
     gCurrentSprite.status &= ~(SPRITE_STATUS_MOSAIC | SPRITE_STATUS_IGNORE_PROJECTILES);
     gCurrentSprite.pose = 0x5a;
-    gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.KIHUNTER_HIVE_SPAWN_COOLDOWN = X_PARASITE_MOSAIC_MAX_INDEX;
 
     if (gCurrentSprite.xPosition > gSamusData.xPosition)
         flip = 0;
@@ -1252,7 +1269,7 @@ void KihunterHiveSpawnKihunter(void)
 
 void KihunterHiveSpawnCooldown(void)
 {
-    if (--gCurrentSprite.workY == 0)
+    if (--gCurrentSprite.KIHUNTER_HIVE_SPAWN_COOLDOWN == 0)
     {
         gCurrentSprite.pose = SPRITE_POSE_IDLE;
         gCurrentSprite.properties |= SP_CAN_ABSORB_X;
@@ -1273,17 +1290,17 @@ void KihunterBugInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 #ifndef BUGFIX
-    gCurrentSprite.work4 = 0; // Unnecessary assignment
+    gCurrentSprite.KIHUNTER_BUG_Y_MOVEMENT_IDX = 0; // Unnecessary assignment
 #endif // !BUGFIX
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
     gCurrentSprite.samusCollision = SSC_NONE;
     gCurrentSprite.drawOrder = 12;
-    gCurrentSprite.work4 = gSpriteRandomNumber * 4;
+    gCurrentSprite.KIHUNTER_BUG_Y_MOVEMENT_IDX = gSpriteRandomNumber * 4;
 
     if (gSpriteRandomNumber & 1)
-        gCurrentSprite.work3 = 20;
+        gCurrentSprite.KIHUNTER_BUG_X_MOVEMENT_IDX = 20;
     else
-        gCurrentSprite.work3 = 60;
+        gCurrentSprite.KIHUNTER_BUG_X_MOVEMENT_IDX = 60;
 }
 
 void KihunterBugIdle(void)
@@ -1291,7 +1308,7 @@ void KihunterBugIdle(void)
     u8 offset;
     s16 movement;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.KIHUNTER_BUG_Y_MOVEMENT_IDX;
     movement = sKihunterBugIdleYMovement[offset];
 
     if (movement == SHORT_MAX)
@@ -1300,18 +1317,18 @@ void KihunterBugIdle(void)
         offset = 0;
     }
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.KIHUNTER_BUG_Y_MOVEMENT_IDX = offset;
     gCurrentSprite.yPosition += movement;
 
-    offset = gCurrentSprite.work3;
-    movement = sKihunterBugIdleXMovement[gCurrentSprite.work3];
+    offset = gCurrentSprite.KIHUNTER_BUG_X_MOVEMENT_IDX;
+    movement = sKihunterBugIdleXMovement[gCurrentSprite.KIHUNTER_BUG_X_MOVEMENT_IDX];
     if (movement == SHORT_MAX)
     {
         movement = sKihunterBugIdleXMovement[0];
         offset = 0;
     }
     offset++;
-    gCurrentSprite.work3 = offset;
+    gCurrentSprite.KIHUNTER_BUG_X_MOVEMENT_IDX = offset;
     gCurrentSprite.xPosition += movement;
 
     if (gSpriteData[gCurrentSprite.primarySpriteRamSlot].health == 0)
@@ -1324,11 +1341,11 @@ void KihunterBugIdle(void)
 
 void KihunterBugChasingSamusInit(void)
 {
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
-    gCurrentSprite.workX = 0;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
+    gCurrentSprite.KIHUNTER_BUG_CHASE_STAGE = 0;
     gCurrentSprite.pose = 0x18;
 
     SpriteUtilMakeSpriteFaceSamusDirection();
@@ -1350,7 +1367,7 @@ void KihunterBugChasingSamus(void)
     ySpeedCap = 30;
     xSpeedCap = 40;
 
-    switch (gCurrentSprite.workX)
+    switch (gCurrentSprite.KIHUNTER_BUG_CHASE_STAGE)
     {
         case 1:
             targetY -= BLOCK_TO_SUB_PIXEL(0.5f);
@@ -1372,68 +1389,68 @@ void KihunterBugChasingSamus(void)
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
         // Move right
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > targetX - PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < xSpeedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition += (gCurrentSprite.work3 >> 2);
+                gCurrentSprite.xPosition += (gCurrentSprite.SPRITE_X_SPEED_INC >> 2);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition += (gCurrentSprite.work2 >> 2);
+                gCurrentSprite.xPosition += (gCurrentSprite.SPRITE_X_SPEED_DEC >> 2);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
-                if (++gCurrentSprite.workX > 3)
-                    gCurrentSprite.workX = 0;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+                if (++gCurrentSprite.KIHUNTER_BUG_CHASE_STAGE > 3)
+                    gCurrentSprite.KIHUNTER_BUG_CHASE_STAGE = 0;
             }
         }
     }
     else
     {
         // Move left
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < targetX + PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < xSpeedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition -= (gCurrentSprite.work3 >> 2);
+                gCurrentSprite.xPosition -= (gCurrentSprite.SPRITE_X_SPEED_INC >> 2);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition -= (gCurrentSprite.work2 >> 2);
+                gCurrentSprite.xPosition -= (gCurrentSprite.SPRITE_X_SPEED_DEC >> 2);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
-                if (++gCurrentSprite.workX > 3)
-                    gCurrentSprite.workX = 0;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+                if (++gCurrentSprite.KIHUNTER_BUG_CHASE_STAGE > 3)
+                    gCurrentSprite.KIHUNTER_BUG_CHASE_STAGE = 0;
             }
         }
     }
@@ -1441,64 +1458,64 @@ void KihunterBugChasingSamus(void)
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_DOWN)
     {
         // Move down
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > targetY - PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < ySpeedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition += (gCurrentSprite.work4 >> 2);
+                gCurrentSprite.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_INC >> 2);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition += (gCurrentSprite.work1 >> 2);
+                gCurrentSprite.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_DEC >> 2);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_DOWN;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
     else
     {
         // Move up
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < targetY + PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < ySpeedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition -= (gCurrentSprite.work4 >> 2);
+                gCurrentSprite.yPosition -= (gCurrentSprite.SPRITE_Y_SPEED_INC >> 2);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition -= (gCurrentSprite.work1 >> 2);
+                gCurrentSprite.yPosition -= (gCurrentSprite.SPRITE_Y_SPEED_DEC >> 2);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_DOWN;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }

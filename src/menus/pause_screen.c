@@ -286,10 +286,10 @@ bools32 PauseScreenHandler(void)
     gNextOamSlot = 0;
     leaving = FALSE;
 
-    switch (gUnk_3000b85)
+    switch (gPauseScreenStage)
     {
         case 0:
-            gUnk_3000b85 = PauseScreenInit();
+            gPauseScreenStage = PauseScreenInit();
             break;
 
         case 1:
@@ -312,7 +312,7 @@ bools32 PauseScreenHandler(void)
                     }
                     else
                     {
-                        gUnk_3000b85++;
+                        gPauseScreenStage++;
                         WRITE_16(REG_BLDCNT, BLDCNT_BG2_FIRST_TARGET_PIXEL |
                             BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_SCREEN_SECOND_TARGET);
                     }
@@ -333,7 +333,7 @@ bools32 PauseScreenHandler(void)
                     }
                     else
                     {
-                        gUnk_3000b85++;
+                        gPauseScreenStage++;
                         WRITE_16(REG_BLDCNT, BLDCNT_BG2_FIRST_TARGET_PIXEL |
                             BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_SCREEN_SECOND_TARGET);
                     }
@@ -350,7 +350,7 @@ bools32 PauseScreenHandler(void)
             }
             else
             {
-                gUnk_3000b85++;
+                gPauseScreenStage++;
                 WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_SECOND_TARGET);
                 WRITE_16(REG_BLDALPHA, C_16_2_8(4, 12));
             }
@@ -374,7 +374,7 @@ bools32 PauseScreenHandler(void)
                         BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
                 }
 
-                gUnk_3000b85++;
+                gPauseScreenStage++;
             }
 
             if (PAUSE_SCREEN_DATA.specialImageActive == 0)
@@ -404,7 +404,7 @@ bools32 PauseScreenHandler(void)
                 }
                 else
                 {
-                    gUnk_3000b85++;
+                    gPauseScreenStage++;
                 }
 
                 WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
@@ -417,7 +417,7 @@ bools32 PauseScreenHandler(void)
             }
             else
             {
-                gUnk_3000b85++;
+                gPauseScreenStage++;
             }
             break;
 
@@ -431,7 +431,7 @@ bools32 PauseScreenHandler(void)
             }
 
             leaving = TRUE;
-            gUnk_3000b85 = 0;
+            gPauseScreenStage = 0;
             break;
     }
 

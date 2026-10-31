@@ -151,7 +151,7 @@ SECTIONS {
         . = 0x00000b80; gArmCannonY = .;
         . = 0x00000b82; gArmCannonX = .;
         . = 0x00000b84; gPauseScreenFlag = .;
-        . = 0x00000b85; gUnk_3000b85 = .;
+        . = 0x00000b85; gPauseScreenStage = .;
         . = 0x00000b86; gPreviousArea = .;
         . = 0x00000b87; gEventCounter = .;
         . = 0x00000b88; gPreviousNavigationConversation = .;
@@ -192,8 +192,8 @@ SECTIONS {
         . = 0x0000122E; gBg2YPosition = .;
         . = 0x00001230; gBg3XPosition = .;
         . = 0x00001232; gBg3YPosition = .;
-        . = 0x00001234; gUnk_3001234 = .;
-        . = 0x00001236; gUnk_3001236 = .;
+        . = 0x00001234; gUnusedBgXPosition = .;
+        . = 0x00001236; gUnusedBgYPosition = .;
         . = 0x00001238; gNextOamMatrixSlot = .;
         . = 0x00001242; gDemoState = .;
         . = 0x00001243; gPoseLock = .;

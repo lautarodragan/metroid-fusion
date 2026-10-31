@@ -18,6 +18,9 @@
 #include "structs/samus.h"
 #include "structs/sa_x.h"
 
+#define SA_X_OMEGA_MOSAIC_IDX work1 // Forming from and reverting to the X
+#define SA_X_OMEGA_RUN_TIMER work4 // After shooting the omega
+
 /**
  * @brief 1b518 | 4c | Initializes the SA-X (omega) sprite
  * 
@@ -30,10 +33,10 @@ void SaXOmegaInit(void)
 
     gCurrentSprite.health = 0;
     gCurrentSprite.samusCollision = SSC_NONE;
-    gCurrentSprite.work0 = 0;
+    gCurrentSprite.SA_X_LANDED = 0;
 
     gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-    gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     gCurrentSprite.yPosition += (BLOCK_SIZE + QUARTER_BLOCK_SIZE / 2);
 
     SaXSetPose(SA_X_POSE_FALLING);
@@ -46,16 +49,16 @@ void SaXOmegaInit(void)
  */
 void SaXOmegaForming(void)
 {
-    gCurrentSprite.work1--;
+    gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX--;
 
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX != 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX];
         return;
     }
 
     gCurrentSprite.pose = SPRITE_POSE_FALLING;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.SA_X_Y_SPEED_IDX = 0;
     gSaXData.mosaic = FALSE;
 }
 
@@ -69,7 +72,7 @@ void SaXOmegaFalling(void)
     u8 offset;
     s16 movement;
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.SA_X_LANDED)
     {
         if (gSaXData.pose == SA_X_POSE_STANDING)
             gCurrentSprite.pose = SA_X_OMEGA_POSE_STANDING_INIT;
@@ -82,12 +85,12 @@ void SaXOmegaFalling(void)
     if (gPreviousVerticalCollisionCheck != COLLISION_AIR)
     {
         gCurrentSprite.yPosition = blockTop;
-        gCurrentSprite.work0 = TRUE;
+        gCurrentSprite.SA_X_LANDED = TRUE;
         SaXSetPose(SA_X_POSE_LANDING);
         return;
     }
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.SA_X_Y_SPEED_IDX;
     movement = sSpritesFallingSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -97,7 +100,7 @@ void SaXOmegaFalling(void)
     }
     else
     {
-        gCurrentSprite.work4++;
+        gCurrentSprite.SA_X_Y_SPEED_IDX++;
         gCurrentSprite.yPosition += movement;
     }
 }
@@ -109,7 +112,7 @@ void SaXOmegaFalling(void)
 void SaXOmegaStandingInit(void)
 {
     gCurrentSprite.pose = SA_X_OMEGA_POSE_STANDING;
-    gCurrentSprite.work1 = 24;
+    gCurrentSprite.SA_X_TIMER = 24;
 }
 
 /**
@@ -118,8 +121,8 @@ void SaXOmegaStandingInit(void)
  */
 void SaXOmegaStanding(void)
 {
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 == 0)
+    gCurrentSprite.SA_X_TIMER--;
+    if (gCurrentSprite.SA_X_TIMER == 0)
         gCurrentSprite.pose = SA_X_OMEGA_POSE_RUNNING_INIT;
 }
 
@@ -130,11 +133,11 @@ void SaXOmegaStanding(void)
 void SaXOmegaRunningInit(void)
 {
     gCurrentSprite.pose = SA_X_OMEGA_POSE_RUNNING;
-    gCurrentSprite.work3 = 0;
+    gCurrentSprite.SA_X_X_SPEED_IDX = 0;
 
     SaXSetPose(SA_X_POSE_RUNNING);
 
-    gCurrentSprite.work1 = 30;
+    gCurrentSprite.SA_X_TIMER = 30;
 }
 
 /**
@@ -143,13 +146,13 @@ void SaXOmegaRunningInit(void)
  */
 void SaXOmegaRunning(void)
 {
-    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.work3 / 8]);
+    SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.SA_X_X_SPEED_IDX / 8]);
 
-    if (gCurrentSprite.work3 < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
-        gCurrentSprite.work3++;
+    if (gCurrentSprite.SA_X_X_SPEED_IDX < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
+        gCurrentSprite.SA_X_X_SPEED_IDX++;
 
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 == 0)
+    gCurrentSprite.SA_X_TIMER--;
+    if (gCurrentSprite.SA_X_TIMER == 0)
         gCurrentSprite.pose = SA_X_OMEGA_POSE_DELAY_BEFORE_SHOOTING_OMEGA_INIT;
 }
 
@@ -160,7 +163,7 @@ void SaXOmegaRunning(void)
 void SaXOmegaDelayBeforeShootingOmegaInit(void)
 {
     gCurrentSprite.pose = SA_X_OMEGA_POSE_DELAY_BEFORE_SHOOTING_OMEGA;
-    gCurrentSprite.work1 = 16;
+    gCurrentSprite.SA_X_TIMER = 16;
     gSaXData.diagonalAim = DIAG_AIM_UP;
 
     SaXSetPose(SA_X_POSE_STANDING);
@@ -172,8 +175,8 @@ void SaXOmegaDelayBeforeShootingOmegaInit(void)
  */
 void SaXOmegaDelayBeforeShootingOmega(void)
 {
-    gCurrentSprite.work1--;
-    if (gCurrentSprite.work1 == 0)
+    gCurrentSprite.SA_X_TIMER--;
+    if (gCurrentSprite.SA_X_TIMER == 0)
         gCurrentSprite.pose = SA_X_OMEGA_POSE_SHOOTING_OMEGA_INIT;
 }
 
@@ -209,8 +212,8 @@ void SaXOmegaShootingOmega(void)
 void SaXOmegaAfterShootingOmegaInit(void)
 {
     gCurrentSprite.pose = SA_X_OMEGA_POSE_AFTER_SHOOTING_OMEGA;
-    gCurrentSprite.work1 = 50;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.SA_X_TIMER = 50;
+    gCurrentSprite.SA_X_OMEGA_RUN_TIMER = 0;
 
     gCurrentSprite.hitboxTop = -(BLOCK_SIZE * 2 - QUARTER_BLOCK_SIZE / 2);
 
@@ -223,38 +226,38 @@ void SaXOmegaAfterShootingOmegaInit(void)
  */
 void SaXOmegaAfterShootingOmega(void)
 {
-    switch (gCurrentSprite.work4)
+    switch (gCurrentSprite.SA_X_OMEGA_RUN_TIMER)
     {
         case 26:
             if (gSaXData.pose == SA_X_POSE_STANDING)
             {
                 gSaXData.diagonalAim = SSC_NONE;
                 SaXSetPose(SA_X_POSE_RUNNING);
-                gCurrentSprite.work3 = 0;
-                gCurrentSprite.work4--;
+                gCurrentSprite.SA_X_X_SPEED_IDX = 0;
+                gCurrentSprite.SA_X_OMEGA_RUN_TIMER--;
             }
             break;
 
         default:
-            SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.work3 / 8]);
+            SpriteUtilMoveXPosForwardOnSlopeDirection(sSaXRunningSpeed[gCurrentSprite.SA_X_X_SPEED_IDX / 8]);
 
-            if (gCurrentSprite.work3 < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
-                gCurrentSprite.work3++;
+            if (gCurrentSprite.SA_X_X_SPEED_IDX < ARRAY_SIZE(sSaXRunningSpeed) * 8 - 1)
+                gCurrentSprite.SA_X_X_SPEED_IDX++;
 
-            gCurrentSprite.work4--;
-            if (gCurrentSprite.work4 == 0)
+            gCurrentSprite.SA_X_OMEGA_RUN_TIMER--;
+            if (gCurrentSprite.SA_X_OMEGA_RUN_TIMER == 0)
             {
-                gCurrentSprite.work1 = 0x7;
+                gCurrentSprite.SA_X_TIMER = 0x7;
                 gSaXData.diagonalAim = DIAG_AIM_UP;
                 SaXSetPose(SA_X_POSE_STANDING);
             }
             break;
 
         case 0: 
-            gCurrentSprite.work1--;
-            if (gCurrentSprite.work1 == 0)
+            gCurrentSprite.SA_X_TIMER--;
+            if (gCurrentSprite.SA_X_TIMER == 0)
             {
-                gCurrentSprite.work1 = 40;
+                gCurrentSprite.SA_X_TIMER = 40;
 
                 SpriteSpawnSecondary(SSPRITE_SA_X_ICE_BEAM, DIAG_AIM_UP, gCurrentSprite.spritesetGfxSlot, gCurrentSprite.primarySpriteRamSlot,
                     gCurrentSprite.yPosition - (BLOCK_SIZE * 2 + QUARTER_BLOCK_SIZE / 2), gCurrentSprite.xPosition + (BLOCK_SIZE + PIXEL_SIZE), SPRITE_STATUS_X_FLIP);
@@ -273,8 +276,8 @@ void SaXOmegaAfterShootingOmega(void)
 void SaXOmegaHitByOmegaInit(void)
 {
     gCurrentSprite.pose = SA_X_OMEGA_POSE_HIT_BY_OMEGA;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.SA_X_TIMER = 0;
+    gCurrentSprite.SA_X_Y_SPEED_IDX = 0;
 
     SaXSetPose(SA_X_POSE_GETTING_HURT);
 }
@@ -288,7 +291,7 @@ void SaXOmegaHitByOmega(void)
     u8 offset;
     s16 movement;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.SA_X_Y_SPEED_IDX;
     movement = sSaXBossKnockbackYMovement[offset];
 
     if (movement == SHORT_MAX)
@@ -297,7 +300,7 @@ void SaXOmegaHitByOmega(void)
     }
     else
     {
-        gCurrentSprite.work4++;
+        gCurrentSprite.SA_X_Y_SPEED_IDX++;
         gCurrentSprite.yPosition += movement;
     }
 
@@ -311,7 +314,7 @@ void SaXOmegaHitByOmega(void)
 void SaXOmegaRevertingToXInit(void)
 {
     gCurrentSprite.pose = SA_X_OMEGA_POSE_REVERTING_TO_X;
-    gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     gSaXData.mosaic = TRUE;
 
     EventCheckAdvance(EVENT_SA_X_KILLED_BY_OMEGA_METROID);
@@ -323,10 +326,10 @@ void SaXOmegaRevertingToXInit(void)
  */
 void SaXOmegaRevertingToX(void)
 {
-    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
-    gCurrentSprite.work1--;
+    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX];
+    gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.SA_X_OMEGA_MOSAIC_IDX == 0)
     {
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X_INIT;
         gCurrentSprite.spriteId = PSPRITE_ICE_BEAM_ABILITY;

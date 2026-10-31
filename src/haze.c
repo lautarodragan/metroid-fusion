@@ -831,7 +831,7 @@ bools32 Haze_PowerBombExpanding(void)
     s16 left;
     s16 right;
 
-    if (gCurrentPowerBomb.unk_12 != 0)
+    if (gCurrentPowerBomb.delayExplosion != 0)
         return FALSE;
 
     src = sHaze_PowerBomb_WindowValuesPointers[gCurrentPowerBomb.semiMinorAxis];
@@ -904,7 +904,7 @@ bools32 Haze_PowerBombRetracting(void)
     s16 left;
     s16 right;
 
-    if (gCurrentPowerBomb.unk_12 != 0)
+    if (gCurrentPowerBomb.delayExplosion != 0)
         return FALSE;
 
     src = sHaze_PowerBomb_WindowValuesPointers[gCurrentPowerBomb.semiMinorAxis];
@@ -975,7 +975,7 @@ void HazeCalculateTransparentColorGradient(void)
     s32 fadeGreen;
     s32 fadeBlue;
 
-    gTilesetTransparentColor.unk_4 = gTilesetTransparentColor.transparentColor;
+    gTilesetTransparentColor.previousTransparentColor = gTilesetTransparentColor.transparentColor;
 
     if (gTilesetTransparentColor.transparentColor == gTilesetTransparentColor.gradientBaseColor)
         return;

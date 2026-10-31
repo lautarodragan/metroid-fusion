@@ -619,7 +619,7 @@ void DachoraWaitingToRunAway(void)
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
 
-        SoundPlay_3b1c(SOUND_124);
+        SoundPlayOnUnusedMusicTrack(SOUND_124);
     }
 }
 

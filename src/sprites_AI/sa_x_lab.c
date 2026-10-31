@@ -36,7 +36,7 @@ void SaXLabInit(void)
 void SaXLabShootingLabInit(void)
 {
     gCurrentSprite.pose = SA_X_LAB_POSE_SHOOTING_LAB;
-    gCurrentSprite.work1 = 100;
+    gCurrentSprite.SA_X_TIMER = 100;
 
     SaXSetPose(SA_X_POSE_SHOOTING_RESTRICTED_LABORATORY);
 }
@@ -57,13 +57,13 @@ void SaXLabSetTarget(void)
  */
 void SaXLabGettingCoveredByMetroids(void)
 {
-    gCurrentSprite.work1--;
+    gCurrentSprite.SA_X_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.SA_X_TIMER == 0)
     {
         gCurrentSprite.pose = SA_X_LAB_POSE_COVERED_BY_METROIDS;
         SaXSetPose(SA_X_POSE_COVERED_BY_METROIDS);
-        gCurrentSprite.work1 = 100;
+        gCurrentSprite.SA_X_TIMER = 100;
     }
 }
 
@@ -73,22 +73,22 @@ void SaXLabGettingCoveredByMetroids(void)
  */
 void SaXLabCoveredByMetroids(void)
 {
-    gCurrentSprite.work1--;
+    gCurrentSprite.SA_X_TIMER--;
 
-    if (gCurrentSprite.work1 == 70)
+    if (gCurrentSprite.SA_X_TIMER == 70)
     {
         gPreventMovementTimer = SAMUS_ITEM_PMT;
         EventCheckAdvance(EVENT_60_SECONDS_TO_DETACHMENT);
         TrySpawnMessageBanner(0xA);
     }
-    else if (gCurrentSprite.work1 == 60)
+    else if (gCurrentSprite.SA_X_TIMER == 60)
     {
         SoundPlay(0x23C);
     }
-    else if (gCurrentSprite.work1 == 0)
+    else if (gCurrentSprite.SA_X_TIMER == 0)
     {
         gCurrentSprite.pose = SA_X_LAB_POSE_COVERED_BY_METROIDS_AFTER_DETACHMENT;
-        gCurrentSprite.work1 = 60;
+        gCurrentSprite.SA_X_TIMER = 60;
     }
 }
 
@@ -98,11 +98,11 @@ void SaXLabCoveredByMetroids(void)
  */
 void SaXLabCoveredByMetroidsAfterDetachment(void)
 {
-    gCurrentSprite.work1--;
+    gCurrentSprite.SA_X_TIMER--;
 
-    if (gCurrentSprite.work1 == 0)
+    if (gCurrentSprite.SA_X_TIMER == 0)
     {
-        gCurrentSprite.work1 = 60;
+        gCurrentSprite.SA_X_TIMER = 60;
 
         if (gCurrentSprite.status & SPRITE_STATUS_ONSCREEN)
             SoundPlay(0x23C);

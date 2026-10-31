@@ -5722,8 +5722,8 @@ void NewFileIntroInSr388Init(void)
     gBg1XPosition = gBg3XPosition + 392;
     gBg1YPosition = gBg2YPosition - 96;
 
-    gUnk_3001234 = 560;
-    gUnk_3001236 = -40;
+    gUnusedBgXPosition = 560;
+    gUnusedBgYPosition = -40;
 
     WRITE_16(REG_BG0HOFS, -8);
     WRITE_16(REG_BG0VOFS, 0);
@@ -10271,7 +10271,7 @@ boolu32 NewFileIntroArrivingAtBslProcess(void)
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_BSL, 6, 78);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_BG3_SCROLLER, 0, 0);
                 NewFileIntroArrivingAtBslSetupOam(INTRO_ARRIVING_AT_BSL_OAM_TYPE_BG2_SCROLLER, 0, 0);
-                SoundPlay_3b1c(SOUND_245);
+                SoundPlayOnUnusedMusicTrack(SOUND_245);
                 INTRO_DATA.subStage = 12;
             }
             
@@ -11487,7 +11487,7 @@ void NewFileIntroProcessBslDoor(struct SpecialCutsceneOam* pOam)
         pOam->animationDurationCounter = 0;
         pOam->currentAnimationFrame = 0;
         pOam->pOam = sIntroBslHangarDoorOam_Opening;
-        SoundPlay_3b1c(SOUND_246);
+        SoundPlayOnUnusedMusicTrack(SOUND_246);
         pOam->stage = 1;
     }
     else if (pOam->stage == 1)

@@ -72,26 +72,26 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
         // Move right
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > dstX - PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < xSpeedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition += (gCurrentSprite.work3 >> speedDivisor);
+                gCurrentSprite.xPosition += (gCurrentSprite.SPRITE_X_SPEED_INC >> speedDivisor);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
-                gCurrentSprite.xPosition += (gCurrentSprite.work2 >> speedDivisor);
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
+                gCurrentSprite.xPosition += (gCurrentSprite.SPRITE_X_SPEED_DEC >> speedDivisor);
             else
                 flip = TRUE;
         }
@@ -99,24 +99,24 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
     else
     {
         // Move left
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < dstX + PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < xSpeedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                velocity = gCurrentSprite.work3 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_X_SPEED_INC >> speedDivisor;
                 if ((gCurrentSprite.xPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work2 = 0;
+                    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -126,13 +126,13 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                velocity = gCurrentSprite.work2 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_X_SPEED_DEC >> speedDivisor;
                 if ((gCurrentSprite.xPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work2 = 0;
+                    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -149,10 +149,10 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
-        gCurrentSprite.work3 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
 
-        if (++gCurrentSprite.workX >= 4)
-            gCurrentSprite.workX = 0;
+        if (++gCurrentSprite.X_PARASITE_MOVEMENT_STAGE >= 4)
+            gCurrentSprite.X_PARASITE_MOVEMENT_STAGE = 0;
 
         SoundPlayNotAlreadyPlaying(SOUND_X_PARASITE_MOVING);
 
@@ -167,26 +167,26 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_DOWN)
     {
         // Move down
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > dstY - PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < ySpeedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition += (gCurrentSprite.work4 >> speedDivisor);
+                gCurrentSprite.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_INC >> speedDivisor);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
-                gCurrentSprite.yPosition += (gCurrentSprite.work1 >> speedDivisor);
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
+                gCurrentSprite.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_DEC >> speedDivisor);
             else
                 flip = TRUE;
         }
@@ -194,24 +194,24 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
     else
     {
         // Move up
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < dstY + PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < ySpeedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                velocity = gCurrentSprite.work4 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_Y_SPEED_INC >> speedDivisor;
                 if ((gCurrentSprite.yPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work1 = 0;
+                    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -221,13 +221,13 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                velocity = gCurrentSprite.work1 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_Y_SPEED_DEC >> speedDivisor;
                 if ((gCurrentSprite.yPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work1 = 0;
+                    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -244,7 +244,7 @@ void XParasiteMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivis
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_DOWN;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
         SoundPlayNotAlreadyPlaying(SOUND_X_PARASITE_MOVING);
     }
@@ -260,26 +260,26 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
         // Move right
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > dstX - PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < xSpeedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition += (gCurrentSprite.work3 >> speedDivisor);
+                gCurrentSprite.xPosition += (gCurrentSprite.SPRITE_X_SPEED_INC >> speedDivisor);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
-                gCurrentSprite.xPosition += (gCurrentSprite.work2 >> speedDivisor);
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
+                gCurrentSprite.xPosition += (gCurrentSprite.SPRITE_X_SPEED_DEC >> speedDivisor);
             else
                 flip = TRUE;
         }
@@ -287,24 +287,24 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
     else
     {
         // Move left
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < dstX + PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < xSpeedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                velocity = gCurrentSprite.work3 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_X_SPEED_INC >> speedDivisor;
                 if ((gCurrentSprite.xPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work2 = 0;
+                    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -314,13 +314,13 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                velocity = gCurrentSprite.work2 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_X_SPEED_DEC >> speedDivisor;
                 if ((gCurrentSprite.xPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work2 = 0;
+                    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -337,7 +337,7 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
-        gCurrentSprite.work3 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
 
         SoundPlayNotAlreadyPlaying(sound);
     }
@@ -347,26 +347,26 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_DOWN)
     {
         // Move down
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > dstY - PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < ySpeedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition += (gCurrentSprite.work4 >> speedDivisor);
+                gCurrentSprite.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_INC >> speedDivisor);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
-                gCurrentSprite.yPosition += (gCurrentSprite.work1 >> speedDivisor);
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
+                gCurrentSprite.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_DEC >> speedDivisor);
             else
                 flip = TRUE;
         }
@@ -374,24 +374,24 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
     else
     {
         // Move up
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < dstY + PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < ySpeedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                velocity = gCurrentSprite.work4 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_Y_SPEED_INC >> speedDivisor;
                 if ((gCurrentSprite.yPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work1 = 0;
+                    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -401,13 +401,13 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                velocity = gCurrentSprite.work1 >> speedDivisor;
+                velocity = gCurrentSprite.SPRITE_Y_SPEED_DEC >> speedDivisor;
                 if ((gCurrentSprite.yPosition - velocity) & 0x8000)
                 {
                     flip = TRUE;
-                    gCurrentSprite.work1 = 0;
+                    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
                 }
                 else
                 {
@@ -424,7 +424,7 @@ void XParasiteMoveWithSound(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 s
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_DOWN;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
         SoundPlayNotAlreadyPlaying(sound);
     }
@@ -484,15 +484,15 @@ void XParasiteGettingAbsorbedInit(void)
     gCurrentSprite.pose = X_PARASITE_POSE_GETTING_ABSORBED;
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
     gCurrentSprite.status |= SPRITE_STATUS_ROTATION_SCALING_SINGLE;
     gCurrentSprite.rotation = 0;
     gCurrentSprite.scaling = Q_8_8(1);
-    gCurrentSprite.workY = 20;
+    gCurrentSprite.X_PARASITE_TIMER = 20;
 
     SamusAbsorbX();
 }
@@ -501,7 +501,7 @@ void SpriteDyingInit(void)
 {
     gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
     gCurrentSprite.pose = SPRITE_POSE_DYING;
-    gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.SPRITE_DYING_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
 
     SoundPlayNotAlreadyPlaying(SOUND_SPRITE_TRANSFORMING_INTO_X);
 }
@@ -513,10 +513,10 @@ void SpriteDying(void)
     if (gCurrentSprite.paletteRow != 0)
         gCurrentSprite.paletteRow = 0;
 
-    if ((gCurrentSprite.work1 & 1) == 0)
+    if ((gCurrentSprite.SPRITE_DYING_MOSAIC_IDX & 1) == 0)
         gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.SPRITE_DYING_MOSAIC_IDX == 0)
     {
         if (gCurrentSprite.properties & SP_SECONDARY_SPRITE)
         {
@@ -530,7 +530,7 @@ void SpriteDying(void)
         }
     }
 
-    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.SPRITE_DYING_MOSAIC_IDX];
 }
 
 void XParasiteSpawningInit(void)
@@ -538,15 +538,15 @@ void XParasiteSpawningInit(void)
     u8 offset;
 
     gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
-    gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX / 2;
-    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+    gCurrentSprite.X_PARASITE_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX / 2;
+    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.X_PARASITE_MOSAIC_IDX];
 
     gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
     gCurrentSprite.pose = X_PARASITE_POSE_IDLE;
 
     offset = gSpriteRandomNumber * 4;
-    gCurrentSprite.work3 = offset;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.X_PARASITE_X_MOVEMENT_IDX = offset;
+    gCurrentSprite.X_PARASITE_Y_MOVEMENT_IDX = offset;
 }
 
 void XParasiteDetermineColor(u8 type, u8 spriteId)
@@ -683,8 +683,8 @@ void XParasiteInit(void)
     {
         case PSPRITE_X_PARASITE_CORE_X_FORMATION:
             gCurrentSprite.pose = X_PARASITE_POSE_IDLE;
-            gCurrentSprite.work3 = 1;
-            gCurrentSprite.work4 = 1;
+            gCurrentSprite.X_PARASITE_X_MOVEMENT_IDX = 1;
+            gCurrentSprite.X_PARASITE_Y_MOVEMENT_IDX = 1;
 
             XParasiteDetermineColor(X_PARASITE_TYPE_IN_ROOM, 0);
 
@@ -698,8 +698,8 @@ void XParasiteInit(void)
         case PSPRITE_X_PARASITE_IN_ROOM_PROXIMITY:
             gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
             gCurrentSprite.pose = X_PARASITE_POSE_IDLE;
-            gCurrentSprite.work3 = 1;
-            gCurrentSprite.work4 = 1;
+            gCurrentSprite.X_PARASITE_X_MOVEMENT_IDX = 1;
+            gCurrentSprite.X_PARASITE_Y_MOVEMENT_IDX = 1;
 
             XParasiteDetermineColor(X_PARASITE_TYPE_IN_ROOM, 0);
             break;
@@ -707,15 +707,15 @@ void XParasiteInit(void)
         case PSPRITE_X_PARASITE_CORE_X_OR_PARASITE:
             gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
             gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
-            gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
-            gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+            gCurrentSprite.X_PARASITE_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
+            gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.X_PARASITE_MOSAIC_IDX];
 
             gCurrentSprite.pose = X_PARASITE_POSE_IDLE;
-            gCurrentSprite.workX = 0;
-            gCurrentSprite.work2 = 0;
-            gCurrentSprite.work3 = 1;
-            gCurrentSprite.work1 = 0;
-            gCurrentSprite.work4 = 1;
+            gCurrentSprite.X_PARASITE_MOVEMENT_STAGE = 0;
+            gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+            gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+            gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+            gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
             XParasiteDetermineColor(X_PARASITE_TYPE_FROM_CORE_X, 0);
 
@@ -759,8 +759,8 @@ void XParasiteInit(void)
     gCurrentSprite.status |= SPRITE_STATUS_IGNORE_PROJECTILES;
     gCurrentSprite.bgPriority = gIoRegisters.bg1Cnt & 3;
     gCurrentSprite.frozenPaletteRowOffset = 0;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
 
     if (gCurrentSprite.yPosition > gSamusData.yPosition + gSamusData.drawDistanceTop)
         gCurrentSprite.status &= ~SPRITE_STATUS_FACING_DOWN;
@@ -773,12 +773,12 @@ void XParasiteInit(void)
 void XParasiteFlyingInit(void)
 {
     gCurrentSprite.pose = 0x5d;
-    gCurrentSprite.workY = 5 * 60;
-    gCurrentSprite.workX = 0;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.X_PARASITE_TIMER = 5 * 60;
+    gCurrentSprite.X_PARASITE_MOVEMENT_STAGE = 0;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
     if (gCurrentSprite.spriteId != PSPRITE_X_PARASITE)
         gCurrentSprite.spriteId = PSPRITE_X_PARASITE;
@@ -791,7 +791,7 @@ void XParasiteIdleFloating(void)
 
     if ((gCurrentSprite.invincibilityStunFlashTimer & 0x80) == 0)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.X_PARASITE_Y_MOVEMENT_IDX;
         movement = sXParasiteIdleFloatingYMovement[offset];
 
         if (movement == SHORT_MAX)
@@ -801,10 +801,10 @@ void XParasiteIdleFloating(void)
         }
 
         offset++;
-        gCurrentSprite.work4 = offset;
+        gCurrentSprite.X_PARASITE_Y_MOVEMENT_IDX = offset;
         gCurrentSprite.yPosition += movement;
 
-        offset = gCurrentSprite.work3;
+        offset = gCurrentSprite.X_PARASITE_X_MOVEMENT_IDX;
         movement = sXParasiteIdleFloatingXMovement[offset];
 
         if (movement == SHORT_MAX)
@@ -814,18 +814,18 @@ void XParasiteIdleFloating(void)
         }
 
         offset++;
-        gCurrentSprite.work3 = offset;
+        gCurrentSprite.X_PARASITE_X_MOVEMENT_IDX = offset;
         gCurrentSprite.xPosition += movement;
     }
 
     if (gCurrentSprite.status & SPRITE_STATUS_MOSAIC)
     {
-        if (--gCurrentSprite.workY > 0)
+        if (--gCurrentSprite.X_PARASITE_MOSAIC_IDX > 0)
         {
-            gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+            gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.X_PARASITE_MOSAIC_IDX];
 
             if ((gCurrentSprite.spritesetSlotAndProperties & SSP_PROPERTY_MASK) == SSP_X_UNABSORBABLE_BY_SAMUS ||
-                gCurrentSprite.workY > X_PARASITE_MOSAIC_MAX_INDEX / 2)
+                gCurrentSprite.X_PARASITE_MOSAIC_IDX > X_PARASITE_MOSAIC_MAX_INDEX / 2)
             {
                 gCurrentSprite.ignoreSamusCollisionTimer = 1;
             }
@@ -847,13 +847,13 @@ void XParasiteIdleFloating(void)
             }
             else
             {
-                gCurrentSprite.workY = 60;
+                gCurrentSprite.X_PARASITE_TIMER = 60;
             }
         }
     }
     else
     {
-        if (--gCurrentSprite.workY == 0)
+        if (--gCurrentSprite.X_PARASITE_TIMER == 0)
             XParasiteFlyingInit();
 
         if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_COLLIDING)
@@ -884,14 +884,14 @@ void XParasiteFlying(void)
             }
         }
 
-        if (gCurrentSprite.workY == 0)
+        if (gCurrentSprite.X_PARASITE_TIMER == 0)
         {
             gCurrentSprite.paletteRow = 0;
             gCurrentSprite.pose = X_PARASITE_POSE_FLYING_AWAY;
         }
         else
         {
-            gCurrentSprite.workY--;
+            gCurrentSprite.X_PARASITE_TIMER--;
             if (XParasiteFlyingMovement() == X_PARASITE_FLYING_STAGE_FREE_FLOATING)
             {
                 gCurrentSprite.spritesetSlotAndProperties = SSP_X_ABSORBABLE_BY_SAMUS;
@@ -910,13 +910,13 @@ void XParasiteFlying(void)
             if (gCurrentPowerBomb.animationState == PB_STATE_NONE)
                 gCurrentSprite.invincibilityStunFlashTimer &= 0x7f;
         }
-        else if (gCurrentSprite.workY == 0)
+        else if (gCurrentSprite.X_PARASITE_TIMER == 0)
         {
             gCurrentSprite.pose = X_PARASITE_POSE_FLYING_AWAY;
         }
         else
         {
-            gCurrentSprite.workY--;
+            gCurrentSprite.X_PARASITE_TIMER--;
             XParasiteFlyingMovement();
         }
     }
@@ -968,7 +968,7 @@ u8 XParasiteFlyingMovement(void)
 
             stage = X_PARASITE_FLYING_STAGE_FLYING_TO_SPRITE;
             if (gCurrentSprite.pose == X_PARASITE_POSE_FLYING)
-                gCurrentSprite.workY = 300;
+                gCurrentSprite.X_PARASITE_TIMER = 300;
 
             if (y + EIGHTH_BLOCK_SIZE > targetY + gSpriteData[i].hitboxTop &&
                 y - EIGHTH_BLOCK_SIZE < targetY + gSpriteData[i].hitboxBottom &&
@@ -995,9 +995,9 @@ u8 XParasiteFlyingMovement(void)
                 {
                     // Not enough X
                     gCurrentSprite.pose = X_PARASITE_POSE_WAITING_FOR_ENOUGH_X_TO_FORM_INIT;
-                    gCurrentSprite.work2 = i;
-                    gCurrentSprite.workY = gSpriteData[i].yPosition;
-                    gCurrentSprite.workX = gSpriteData[i].xPosition;
+                    gCurrentSprite.X_PARASITE_TARGET_SLOT = i;
+                    gCurrentSprite.X_PARASITE_TARGET_Y = gSpriteData[i].yPosition;
+                    gCurrentSprite.X_PARASITE_TARGET_X = gSpriteData[i].xPosition;
                 }
 
                 stage = X_PARASITE_FLYING_STAGE_TOUCHED_SPRITE;
@@ -1024,7 +1024,7 @@ u8 XParasiteFlyingMovement(void)
         if (gCurrentSprite.pose == X_PARASITE_POSE_FLYING)
         {
             // workX is incremented mod 4 when changing X direction in XParasiteMove
-            switch (gCurrentSprite.workX)
+            switch (gCurrentSprite.X_PARASITE_MOVEMENT_STAGE)
             {
                 case 1:
                     targetY -= BLOCK_SIZE;
@@ -1087,20 +1087,20 @@ void XParasiteFlyingAway(void)
     }
     else
     {
-        if (gCurrentSprite.work3 < PIXEL_TO_SUB_PIXEL(6.25f) * 8)
-            gCurrentSprite.work3 += 1;
+        if (gCurrentSprite.X_PARASITE_X_SPEED < PIXEL_TO_SUB_PIXEL(6.25f) * 8)
+            gCurrentSprite.X_PARASITE_X_SPEED += 1;
 
-        movement = DIV_SHIFT(gCurrentSprite.work3, 8);
+        movement = DIV_SHIFT(gCurrentSprite.X_PARASITE_X_SPEED, 8);
 
         if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
             gCurrentSprite.xPosition += movement;
         else
             gCurrentSprite.xPosition -= movement;
 
-        if (gCurrentSprite.work4 < PIXEL_TO_SUB_PIXEL(6.25f) * 8)
-            gCurrentSprite.work4 += 1;
+        if (gCurrentSprite.X_PARASITE_Y_SPEED < PIXEL_TO_SUB_PIXEL(6.25f) * 8)
+            gCurrentSprite.X_PARASITE_Y_SPEED += 1;
 
-        movement = DIV_SHIFT(gCurrentSprite.work4, 8);
+        movement = DIV_SHIFT(gCurrentSprite.X_PARASITE_Y_SPEED, 8);
 
         if (gCurrentSprite.status & SPRITE_STATUS_FACING_DOWN)
             gCurrentSprite.yPosition += movement;
@@ -1118,7 +1118,7 @@ void XParasiteWaitingForEnoughXToFormInit(void)
     gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
     gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
     gCurrentSprite.pose = X_PARASITE_POSE_WAITING_FOR_ENOUGH_X_TO_FORM;
-    gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.X_PARASITE_WAITING_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     gCurrentSprite.scaling = 300;
 
     SoundPlayNotAlreadyPlaying(SOUND_X_PARASITE_FORMING);
@@ -1131,7 +1131,7 @@ void XParasiteWaitingForEnoughXToForm(void)
 
     gCurrentSprite.scaling--;
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
-    targetRamSlot = gCurrentSprite.work2;
+    targetRamSlot = gCurrentSprite.X_PARASITE_TARGET_SLOT;
 
     if (gSpriteData[targetRamSlot].numberOfXToForm == 0)
     {
@@ -1149,39 +1149,39 @@ void XParasiteWaitingForEnoughXToForm(void)
     else
     {
         // Make it flicker
-        if ((gCurrentSprite.work1 & 1) == 0)
+        if ((gCurrentSprite.X_PARASITE_WAITING_MOSAIC_IDX & 1) == 0)
             gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-        if (--gCurrentSprite.work1 == 0)
-            gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+        if (--gCurrentSprite.X_PARASITE_WAITING_MOSAIC_IDX == 0)
+            gCurrentSprite.X_PARASITE_WAITING_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
 
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.X_PARASITE_WAITING_MOSAIC_IDX];
 
         // Stick to the sprite it's trying to form
-        if (gSpriteData[targetRamSlot].yPosition > gCurrentSprite.workY)
+        if (gSpriteData[targetRamSlot].yPosition > gCurrentSprite.X_PARASITE_TARGET_Y)
         {
-            tmp = gSpriteData[targetRamSlot].yPosition - gCurrentSprite.workY;
+            tmp = gSpriteData[targetRamSlot].yPosition - gCurrentSprite.X_PARASITE_TARGET_Y;
             gCurrentSprite.yPosition += tmp;
         }
         else
         {
-            tmp = gCurrentSprite.workY - gSpriteData[targetRamSlot].yPosition;
+            tmp = gCurrentSprite.X_PARASITE_TARGET_Y - gSpriteData[targetRamSlot].yPosition;
             gCurrentSprite.yPosition -= tmp;
         }
 
-        if (gSpriteData[targetRamSlot].xPosition > gCurrentSprite.workX)
+        if (gSpriteData[targetRamSlot].xPosition > gCurrentSprite.X_PARASITE_TARGET_X)
         {
-            tmp = gSpriteData[targetRamSlot].xPosition - gCurrentSprite.workX;
+            tmp = gSpriteData[targetRamSlot].xPosition - gCurrentSprite.X_PARASITE_TARGET_X;
             gCurrentSprite.xPosition += tmp;
         }
         else
         {
-            tmp = gCurrentSprite.workX - gSpriteData[targetRamSlot].xPosition;
+            tmp = gCurrentSprite.X_PARASITE_TARGET_X - gSpriteData[targetRamSlot].xPosition;
             gCurrentSprite.xPosition -= tmp;
         }
 
-        gCurrentSprite.workY = gSpriteData[targetRamSlot].yPosition;
-        gCurrentSprite.workX = gSpriteData[targetRamSlot].xPosition;
+        gCurrentSprite.X_PARASITE_TARGET_Y = gSpriteData[targetRamSlot].yPosition;
+        gCurrentSprite.X_PARASITE_TARGET_X = gSpriteData[targetRamSlot].xPosition;
     }
 }
 
@@ -1191,7 +1191,7 @@ void XParasiteFormingInit(void)
     gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
     gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
     gCurrentSprite.pose = 0x64;
-    gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.X_PARASITE_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
 
     SoundPlayNotAlreadyPlaying(SOUND_X_PARASITE_FORMING);
 }
@@ -1200,22 +1200,22 @@ void XParasiteForming(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if ((gCurrentSprite.workY & 1) == 0)
+    if ((gCurrentSprite.X_PARASITE_MOSAIC_IDX & 1) == 0)
         gCurrentSprite.status ^= SPRITE_STATUS_NOT_DRAWN;
 
-    if (--gCurrentSprite.workY == 0)
+    if (--gCurrentSprite.X_PARASITE_MOSAIC_IDX == 0)
         gCurrentSprite.status = 0;
 
-    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.X_PARASITE_MOSAIC_IDX];
 }
 
 void SpriteSpawningFromX(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (--gCurrentSprite.workY > 0)
+    if (--gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX > 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX];
     }
     else
     {
@@ -1234,64 +1234,64 @@ void XParasiteMoveTowardsSamus_Unused(void)
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
         // Move right
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > gSamusData.xPosition - PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < PIXEL_TO_SUB_PIXEL(2.5f))
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < PIXEL_TO_SUB_PIXEL(2.5f))
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition += gCurrentSprite.work3;
+                gCurrentSprite.xPosition += gCurrentSprite.SPRITE_X_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.work2, 2);
+                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
             }
         }
     }
     else
     {
         // Move left
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < gSamusData.xPosition + PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < PIXEL_TO_SUB_PIXEL(2.5f))
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < PIXEL_TO_SUB_PIXEL(2.5f))
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition -= gCurrentSprite.work3;
+                gCurrentSprite.xPosition -= gCurrentSprite.SPRITE_X_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.work2, 2);
+                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
             }
         }
     }
@@ -1299,64 +1299,64 @@ void XParasiteMoveTowardsSamus_Unused(void)
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_DOWN)
     {
         // Move down
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > gSamusData.yPosition - (BLOCK_SIZE + PIXEL_SIZE * 3))
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < PIXEL_TO_SUB_PIXEL(2.5f))
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < PIXEL_TO_SUB_PIXEL(2.5f))
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition += gCurrentSprite.work4;
+                gCurrentSprite.yPosition += gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.work1, 2);
+                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_DOWN;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
     else
     {
         // Move up
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < gSamusData.yPosition - (BLOCK_SIZE + PIXEL_SIZE))
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < PIXEL_TO_SUB_PIXEL(2.5f))
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < PIXEL_TO_SUB_PIXEL(2.5f))
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition -= gCurrentSprite.work4;
+                gCurrentSprite.yPosition -= gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.work1, 2);
+                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 2);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_DOWN;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }

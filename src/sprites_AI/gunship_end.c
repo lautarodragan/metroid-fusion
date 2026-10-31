@@ -122,7 +122,7 @@ void GunshipEndMovingUp(void)
     if (gCurrentSprite.work1 != 0)
     {
         if (--gCurrentSprite.work1 == 0)
-            SoundPlay_3b1c(0x249);
+            SoundPlayOnUnusedMusicTrack(0x249);
     }
 
     inPosition = 0;
@@ -353,7 +353,7 @@ void GunshipEndStartingEngine1(void)
 
     pal = &sGunshipFlashingPal[11];
     DMA3_COPY_16(pal, PALRAM_OBJ + 0x136, 5);
-    SoundPlay_3b1c(0x24A);
+    SoundPlayOnUnusedMusicTrack(0x24A);
 }
 
 /**

@@ -12,7 +12,7 @@ struct TilesetTransparentColor {
     u16 transparentColor;
     // Color the gradient of HazeCalculateTransparentColorGradient was computed for
     u16 gradientBaseColor;
-    u16 unk_4; // Written, never read
+    u16 previousTransparentColor; // Copy of transparentColor made by HazeCalculateTransparentColorGradient, written but never read in the final game
 };
 
 extern struct TilesetTransparentColor gTilesetTransparentColor;
