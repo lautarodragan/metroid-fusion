@@ -22,6 +22,17 @@
 #define KAGO_INSECT_POSE_JUMP_WARNING 2
 #define KAGO_INSECT_POSE_JUMPING 0x18
 
+#define KAGO_SOUND_STAGE work1 // Selects the idle sound and the idle duration (4 to 0), only ever set to 4
+#define KAGO_IDLE_TIMER work2
+#define KAGO_SOLID work3 // Frozen while tall, the collision is solid
+#define KAGO_FAST_IDLE_TIMER work4 // Plays the fast idle animation after being hit
+#define KAGO_SPAWN_MOSAIC_IDX workY // Spawning from X
+
+#define KAGO_INSECT_RANDOM_FLAG work2 // Set randomly, never read
+#define KAGO_INSECT_X_SPEED work3
+#define KAGO_INSECT_Y_SPEED_IDX work4
+#define KAGO_INSECT_IMMUNITY_TIMER workY // Ignores projectiles after spawning
+
 void KagoSetCollision(u8 caa)
 {
     u16 y;
@@ -49,32 +60,32 @@ void KagoPlaySound(void)
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
         SoundPlayNotAlreadyPlaying(SOUND_KAGO_IDLE_SHORT);
-        gCurrentSprite.work2 = 40;
+        gCurrentSprite.KAGO_IDLE_TIMER = 40;
     }
-    else if (gCurrentSprite.work1 == 4)
+    else if (gCurrentSprite.KAGO_SOUND_STAGE == 4)
     {
         SoundPlayNotAlreadyPlaying(SOUND_KAGO_IDLE_TALL_4);
-        gCurrentSprite.work2 = 72;
+        gCurrentSprite.KAGO_IDLE_TIMER = 72;
     }
-    else if (gCurrentSprite.work1 == 3)
+    else if (gCurrentSprite.KAGO_SOUND_STAGE == 3)
     {
         SoundPlayNotAlreadyPlaying(SOUND_KAGO_IDLE_TALL_3);
-        gCurrentSprite.work2 = 56;
+        gCurrentSprite.KAGO_IDLE_TIMER = 56;
     }
-    else if (gCurrentSprite.work1 == 2)
+    else if (gCurrentSprite.KAGO_SOUND_STAGE == 2)
     {
         SoundPlayNotAlreadyPlaying(SOUND_KAGO_IDLE_TALL_2);
-        gCurrentSprite.work2 = 30;
+        gCurrentSprite.KAGO_IDLE_TIMER = 30;
     }
-    else if (gCurrentSprite.work1 == 1)
+    else if (gCurrentSprite.KAGO_SOUND_STAGE == 1)
     {
         SoundPlayNotAlreadyPlaying(SOUND_KAGO_IDLE_TALL_1);
-        gCurrentSprite.work2 = 18;
+        gCurrentSprite.KAGO_IDLE_TIMER = 18;
     }
     else
     {
         SoundPlayNotAlreadyPlaying(SOUND_KAGO_IDLE_TALL_0);
-        gCurrentSprite.work2 = 12;
+        gCurrentSprite.KAGO_IDLE_TIMER = 12;
     }
 }
 
@@ -109,10 +120,10 @@ void KagoInit(void)
     }
 
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
-    gCurrentSprite.work1 = 4;
+    gCurrentSprite.KAGO_SOUND_STAGE = 4;
     // BUG: work2 is uninitialized
-    gCurrentSprite.work3 = FALSE;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KAGO_SOLID = FALSE;
+    gCurrentSprite.KAGO_FAST_IDLE_TIMER = 0;
 
     KagoPlaySound();
 
@@ -149,10 +160,10 @@ void KagoInit(void)
 void KagoSpawningFromX(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
-    if (--gCurrentSprite.workY > 0)
+    if (--gCurrentSprite.KAGO_SPAWN_MOSAIC_IDX > 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
-        if (gCurrentSprite.workY < 24)
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.KAGO_SPAWN_MOSAIC_IDX];
+        if (gCurrentSprite.KAGO_SPAWN_MOSAIC_IDX < 24)
             gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(0.125f);
     }
     else
@@ -165,24 +176,24 @@ void KagoSpawningFromX(void)
 
 void KagoIdleShort(void)
 {
-    if (--gCurrentSprite.work2 == 0)
+    if (--gCurrentSprite.KAGO_IDLE_TIMER == 0)
         KagoPlaySound();
 }
 
 void KagoIdleTall(void)
 {
-    if (--gCurrentSprite.work2 == 0)
+    if (--gCurrentSprite.KAGO_IDLE_TIMER == 0)
         KagoPlaySound();
 }
 
 void KagoDyingInit(void)
 {
-    if (gCurrentSprite.work3)
+    if (gCurrentSprite.KAGO_SOLID)
         KagoSetCollision(CAA_REMOVE_SOLID);
 
     gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
     gCurrentSprite.pose = SPRITE_POSE_DYING;
-    gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.SPRITE_DYING_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
 
     SoundPlayNotAlreadyPlaying(SOUND_SPRITE_TRANSFORMING_INTO_X);
     SpriteDying();
@@ -222,17 +233,17 @@ void KagoInsectInit(void)
     gCurrentSprite.hitboxLeft = -BLOCK_TO_SUB_PIXEL(0.3125f);
     gCurrentSprite.hitboxRight = BLOCK_TO_SUB_PIXEL(0.3125f);
     gCurrentSprite.pose = 0x18;
-    gCurrentSprite.work3 = DIV_SHIFT(gSpriteRandomNumber, 4) + 5;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KAGO_INSECT_X_SPEED = DIV_SHIFT(gSpriteRandomNumber, 4) + 5;
+    gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX = 0;
 
     if (gSpriteRandomNumber >= 8)
-        gCurrentSprite.work2 = TRUE;
+        gCurrentSprite.KAGO_INSECT_RANDOM_FLAG = TRUE;
     else
-        gCurrentSprite.work2 = FALSE;
+        gCurrentSprite.KAGO_INSECT_RANDOM_FLAG = FALSE;
 
     SpriteUtilChooseRandomXFlip();
     gCurrentSprite.status |= SPRITE_STATUS_IGNORE_PROJECTILES;
-    gCurrentSprite.workY = 20;
+    gCurrentSprite.KAGO_INSECT_IMMUNITY_TIMER = 20;
 }
 
 void KagoInsectJumpWarningInit(void)
@@ -249,23 +260,23 @@ void KagoInsectJumpingInit(void)
     gCurrentSprite.pOam = sKagoInsectOam_Midair;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work3 = 5;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KAGO_INSECT_X_SPEED = 5;
+    gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX = 0;
 
     if (MOD_AND(gSpriteRandomNumber, 2))
-        gCurrentSprite.work2 = TRUE;
+        gCurrentSprite.KAGO_INSECT_RANDOM_FLAG = TRUE;
     else
-        gCurrentSprite.work2 = FALSE;
+        gCurrentSprite.KAGO_INSECT_RANDOM_FLAG = FALSE;
 
     if (gCurrentSprite.xPosition > gSamusData.xPosition)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
-            gCurrentSprite.work3 = 0;
+            gCurrentSprite.KAGO_INSECT_X_SPEED = 0;
     }
     else
     {
         if (!(gCurrentSprite.status & SPRITE_STATUS_X_FLIP))
-            gCurrentSprite.work3 = 0;
+            gCurrentSprite.KAGO_INSECT_X_SPEED = 0;
     }
 
     SoundPlayNotAlreadyPlaying(SOUND_KAGO_INSECT_JUMPING);
@@ -277,7 +288,7 @@ void KagoInsectFallingInit(void)
     gCurrentSprite.pOam = sKagoInsectOam_Midair;
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX = 0;
 }
 
 void KagoInsectJumpWarning(void)
@@ -318,28 +329,28 @@ void KagoInsectJumping(void)
     }
 
     collision = FALSE;
-    xMovement = gCurrentSprite.work3;
+    xMovement = gCurrentSprite.KAGO_INSECT_X_SPEED;
 
     if (xMovement == 0)
     {
-        if (gCurrentSprite.work4 == 16)
+        if (gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX == 16)
         {
             gCurrentSprite.status ^= SPRITE_STATUS_X_FLIP;
             gCurrentSprite.pOam = sKagoInsectOam_TurningAround;
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
         }
-        else if (gCurrentSprite.work4 == 22)
+        else if (gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX == 22)
         {
             gCurrentSprite.pOam = sKagoInsectOam_Midair;
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
         }
-        yMovement = sKagoInsectLowJumpVelocity[gCurrentSprite.work4 / 4];
+        yMovement = sKagoInsectLowJumpVelocity[gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX / 4];
     }
     else
     {
-        yMovement = sKagoInsectMediumJumpVelocity[gCurrentSprite.work4 / 4];
+        yMovement = sKagoInsectMediumJumpVelocity[gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX / 4];
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
             SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition - QUARTER_BLOCK_SIZE,
@@ -383,8 +394,8 @@ void KagoInsectJumping(void)
     }
 
     gCurrentSprite.yPosition += yMovement;
-    if (gCurrentSprite.work4 < ARRAY_SIZE(sKagoInsectLowJumpVelocity) * 4 - 1)
-        gCurrentSprite.work4++;
+    if (gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX < ARRAY_SIZE(sKagoInsectLowJumpVelocity) * 4 - 1)
+        gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX++;
 
     if (yMovement > 0)
     {
@@ -489,7 +500,7 @@ void KagoInsectFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX;
         movement = sSpritesFallingSpeedQuickAcceleration[offset];
         if (movement == SHORT_MAX)
         {
@@ -499,7 +510,7 @@ void KagoInsectFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.KAGO_INSECT_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
     }
@@ -516,31 +527,31 @@ void Kago(void)
     else
     {
         gCurrentSprite.hitboxTop = -BLOCK_TO_SUB_PIXEL(2.125f);
-        if (gCurrentSprite.work4 > 0)
+        if (gCurrentSprite.KAGO_FAST_IDLE_TIMER > 0)
         {
-            if (--gCurrentSprite.work4 == 0)
+            if (--gCurrentSprite.KAGO_FAST_IDLE_TIMER == 0)
                 gCurrentSprite.pOam = sKagoOam_IdleTallVerySlow;
         }
         else if (SPRITE_GET_ISFT(gCurrentSprite) == 1 && gCurrentSprite.pOam == sKagoOam_IdleTallVerySlow)
         {
             gCurrentSprite.pOam = sKagoOam_IdleTallFast;
-            gCurrentSprite.work4 = 60;
+            gCurrentSprite.KAGO_FAST_IDLE_TIMER = 60;
         }
     }
 
     if (gCurrentSprite.freezeTimer > 0)
     {
         gCurrentSprite.hitboxTop = -BLOCK_TO_SUB_PIXEL(1.875f);
-        if (!gCurrentSprite.work3 && gCurrentSprite.pose == KAGO_POSE_IDLE_TALL)
+        if (!gCurrentSprite.KAGO_SOLID && gCurrentSprite.pose == KAGO_POSE_IDLE_TALL)
         {
-            gCurrentSprite.work3 = TRUE;
+            gCurrentSprite.KAGO_SOLID = TRUE;
             KagoSetCollision(CAA_MAKE_SOLID);
         }
 
         SpriteUtilUpdateFreezeTimer();
-        if (gCurrentSprite.freezeTimer == 0 && gCurrentSprite.work3 && gCurrentSprite.pose == KAGO_POSE_IDLE_TALL)
+        if (gCurrentSprite.freezeTimer == 0 && gCurrentSprite.KAGO_SOLID && gCurrentSprite.pose == KAGO_POSE_IDLE_TALL)
         {
-            gCurrentSprite.work3 = FALSE;
+            gCurrentSprite.KAGO_SOLID = FALSE;
             KagoSetCollision(CAA_REMOVE_SOLID);
         }
 
@@ -614,9 +625,9 @@ void KagoInsect(void)
             break;
     }
 
-    if (gCurrentSprite.status & SPRITE_STATUS_IGNORE_PROJECTILES && gCurrentSprite.workY > 0)
+    if (gCurrentSprite.status & SPRITE_STATUS_IGNORE_PROJECTILES && gCurrentSprite.KAGO_INSECT_IMMUNITY_TIMER > 0)
     {
-        if (--gCurrentSprite.workY == 0)
+        if (--gCurrentSprite.KAGO_INSECT_IMMUNITY_TIMER == 0)
             gCurrentSprite.status &= ~SPRITE_STATUS_IGNORE_PROJECTILES;
     }
 }
