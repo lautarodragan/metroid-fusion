@@ -65,7 +65,7 @@ struct CutsceneMonologueOam {
     u8 exists;                      // 0x5
     u8 currentAnimationFrame;       // 0x6
     u8 animationDurationCounter;    // 0x7
-    u8 unk_8;                       // 0x8
+    u8 timer;                       // 0x8
     u8 stage;                       // 0x9
     u8 objMode;                     // 0xA
     u8 priority;                    // 0xB

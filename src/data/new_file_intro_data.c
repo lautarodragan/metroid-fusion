@@ -536,7 +536,7 @@ static const u16 sOamFrame_597eac[OAM_DATA_SIZE(3)] = {
     OAM_ENTRY(-32, -32, OAM_DIMS_64x64, OAM_NO_FLIP, 16, 1, 0),
 };
 
-const struct FrameData sOam_597ec0[2] = {
+const struct FrameData sIntroParticleOam_0[2] = {
     [0] = {
         .pFrame = sOamFrame_597708,
         .timer = 4
@@ -544,7 +544,7 @@ const struct FrameData sOam_597ec0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597ed0[2] = {
+const struct FrameData sIntroParticleOam_1[2] = {
     [0] = {
         .pFrame = sOamFrame_597710,
         .timer = 4
@@ -552,7 +552,7 @@ const struct FrameData sOam_597ed0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597ee0[2] = {
+const struct FrameData sIntroParticleOam_2[2] = {
     [0] = {
         .pFrame = sOamFrame_597718,
         .timer = 4
@@ -560,7 +560,7 @@ const struct FrameData sOam_597ee0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597ef0[2] = {
+const struct FrameData sIntroParticleOam_3[2] = {
     [0] = {
         .pFrame = sOamFrame_597720,
         .timer = 4
@@ -608,7 +608,7 @@ const struct FrameData sOam_597f40[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597f50[7] = {
+const struct FrameData sIntroSamusShipFlyingOam[7] = {
     [0] = {
             .pFrame = sOamFrame_597e5a,
             .timer = 1
@@ -656,7 +656,7 @@ const struct FrameData sOam_597f88[5] = {
     [4] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fb0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_3[2] = {
     [0] = {
             .pFrame = sOamFrame_5977a4,
             .timer = 4
@@ -664,7 +664,7 @@ const struct FrameData sOam_597fb0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fc0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_2[2] = {
     [0] = {
             .pFrame = sOamFrame_5977b2,
             .timer = 4
@@ -672,7 +672,7 @@ const struct FrameData sOam_597fc0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fd0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_1[2] = {
     [0] = {
             .pFrame = sOamFrame_5977d8,
             .timer = 4
@@ -680,7 +680,7 @@ const struct FrameData sOam_597fd0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fe0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_0[2] = {
     [0] = {
             .pFrame = sOamFrame_5977f2,
             .timer = 4
@@ -1032,7 +1032,7 @@ static const u16 sOamFrame_59a096[OAM_DATA_SIZE(1)] = {
     OAM_ENTRY(0, -8, OAM_DIMS_8x8, OAM_NO_FLIP, 798, 6, 0),
 };
 
-const struct FrameData sOam_59a0a0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_0[2] = {
     [0] = {
             .pFrame = sOamFrame_599d08,
             .timer = 4
@@ -1040,7 +1040,7 @@ const struct FrameData sOam_59a0a0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0b0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_1[2] = {
     [0] = {
             .pFrame = sOamFrame_599d10,
             .timer = 4
@@ -1048,7 +1048,7 @@ const struct FrameData sOam_59a0b0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0c0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_2[2] = {
     [0] = {
             .pFrame = sOamFrame_599d18,
             .timer = 4
@@ -1056,7 +1056,7 @@ const struct FrameData sOam_59a0c0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0d0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_3[2] = {
     [0] = {
             .pFrame = sOamFrame_599d20,
             .timer = 4
@@ -1064,7 +1064,7 @@ const struct FrameData sOam_59a0d0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0e0[2] = {
+const struct FrameData sIntroSr388PreviewSunReflectionOam[2] = {
     [0] = {
             .pFrame = sOamFrame_599d28,
             .timer = 4
@@ -1132,7 +1132,7 @@ const struct FrameData sOam_59a100[13] = {
     [12] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a168[2] = {
+const struct FrameData sIntroSr388PreviewRocksOam[2] = {
     [0] = {
             .pFrame = sOamFrame_599eca,
             .timer = 4

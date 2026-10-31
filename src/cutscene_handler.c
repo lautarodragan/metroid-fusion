@@ -417,16 +417,16 @@ void CutsceneProcessElevatorScrolling(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 10)
         {
             pOam->stage = 2;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva++;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition -= 3) & 0xFFFF);
@@ -436,16 +436,16 @@ void CutsceneProcessElevatorScrolling(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 4)
         {
             pOam->stage = 1;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva--;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition -= 3) & 0xFFFF);
@@ -487,16 +487,16 @@ void CutsceneProcessElevatorScrollingReversed(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 10)
         {
             pOam->stage = 2;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva++;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition += 3) & 0xFFFF);
@@ -506,16 +506,16 @@ void CutsceneProcessElevatorScrollingReversed(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 4)
         {
             pOam->stage = 1;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva--;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition += 3) & 0xFFFF);

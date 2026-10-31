@@ -3,21 +3,21 @@
 
 #include "types.h"
 
-extern const struct FrameData sOam_597ec0[2];
-extern const struct FrameData sOam_597ed0[2];
-extern const struct FrameData sOam_597ee0[2];
-extern const struct FrameData sOam_597ef0[2];
+extern const struct FrameData sIntroParticleOam_0[2];
+extern const struct FrameData sIntroParticleOam_1[2];
+extern const struct FrameData sIntroParticleOam_2[2];
+extern const struct FrameData sIntroParticleOam_3[2];
 extern const struct FrameData sOam_597f00[2];
 extern const struct FrameData sOam_597f10[2];
 extern const struct FrameData sOam_597f20[2];
 extern const struct FrameData sOam_597f30[2];
 extern const struct FrameData sOam_597f40[2];
-extern const struct FrameData sOam_597f50[7];
+extern const struct FrameData sIntroSamusShipFlyingOam[7];
 extern const struct FrameData sOam_597f88[5];
-extern const struct FrameData sOam_597fb0[2];
-extern const struct FrameData sOam_597fc0[2];
-extern const struct FrameData sOam_597fd0[2];
-extern const struct FrameData sOam_597fe0[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_3[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_2[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_1[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_0[2];
 extern const struct FrameData sOam_597ff0[2];
 extern const struct FrameData sOam_598000[12];
 extern const struct FrameData sOam_598060[5];
@@ -41,14 +41,14 @@ extern const u32 sIntroSr388SurfaceTilemap[551];
 extern const u32 sIntroSr388SpaceBgTilemap[265];
 extern const u32 sIntroSr388PlanetTilemap[199];
 
-extern const struct FrameData sOam_59a0a0[2];
-extern const struct FrameData sOam_59a0b0[2];
-extern const struct FrameData sOam_59a0c0[2];
-extern const struct FrameData sOam_59a0d0[2];
-extern const struct FrameData sOam_59a0e0[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_0[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_1[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_2[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_3[2];
+extern const struct FrameData sIntroSr388PreviewSunReflectionOam[2];
 extern const struct FrameData sOam_59a0f0[2];
 extern const struct FrameData sOam_59a100[13];
-extern const struct FrameData sOam_59a168[2];
+extern const struct FrameData sIntroSr388PreviewRocksOam[2];
 extern const struct FrameData sOam_59a178[8];
 
 extern const u32 sIntroSr388SpaceAndSurfaceObjGfx[3538];

@@ -296,13 +296,13 @@ const u8* sTitleScreenDebugTextPointer = {
     sTitleScreenDebugText,
 };
 
-const struct FrameData* sData_79C2CC[6] = {
-    sOam_597ec0,
-    sOam_597ed0,
-    sOam_597ee0,
-    sOam_597ef0,
-    sOam_597ee0,
-    sOam_597ed0
+const struct FrameData* sIntroHorizontalParticleOamPointers[6] = {
+    sIntroParticleOam_0,
+    sIntroParticleOam_1,
+    sIntroParticleOam_2,
+    sIntroParticleOam_3,
+    sIntroParticleOam_2,
+    sIntroParticleOam_1
 };
 
 static const u16* sIntroNervousSystemPalPointers[12] = {
@@ -4469,7 +4469,7 @@ void NewFileIntroProcessHorizontalParticle(struct SpecialCutsceneOam *pOam)
         pOam->unk_8 = rng + 1;
         rng = SpecialCutsceneGetRandomNumber() & 3;
         pOam->unk_4 = rng;
-        pOam->pOam = sData_79C2CC[pOam->unk_4];
+        pOam->pOam = sIntroHorizontalParticleOamPointers[pOam->unk_4];
         pOam->spawnX = pOam->xPosition;
         pOam->stage = 1;
     }
@@ -4488,7 +4488,7 @@ void NewFileIntroProcessHorizontalParticle(struct SpecialCutsceneOam *pOam)
             else
                 pOam->unk_4 = 0;
             
-            pOam->pOam = sData_79C2CC[pOam->unk_4];
+            pOam->pOam = sIntroHorizontalParticleOamPointers[pOam->unk_4];
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
         }
@@ -4908,11 +4908,11 @@ void NewFileIntroProcessDepthParticle(struct SpecialCutsceneOam* pOam)
         if ((s16)pOam->unk_A < 100)
         {
             if ((s16)pOam->unk_A == 25)
-                pOam->pOam = sOam_597ed0;
+                pOam->pOam = sIntroParticleOam_1;
             else if ((s16)pOam->unk_A == 50)
-                pOam->pOam = sOam_597ee0;
+                pOam->pOam = sIntroParticleOam_2;
             else if ((s16)pOam->unk_A == 70)
-                pOam->pOam = sOam_597ef0;
+                pOam->pOam = sIntroParticleOam_3;
 
             divisor = -pOam->unk_4 + 100;
             x = pOam->spawnX / divisor;
@@ -4982,13 +4982,13 @@ u8 NewFileIntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descending
     else if (type == 2)
     {
         INTRO_DATA.oam[slot].scaling = Q_8_8(1);
-        INTRO_DATA.oam[slot].pOam = sOam_597f50;
+        INTRO_DATA.oam[slot].pOam = sIntroSamusShipFlyingOam;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessFlyingSamusShip;
     }
     else if (type == 3)
     {
         INTRO_DATA.oam[slot].priority = 3;
-        INTRO_DATA.oam[slot].pOam = sOam_597ec0;
+        INTRO_DATA.oam[slot].pOam = sIntroParticleOam_0;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessHorizontalParticle;
     }
     else if (type == 4)
@@ -5005,7 +5005,7 @@ u8 NewFileIntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descending
     {
         INTRO_DATA.oam[slot].scaling = Q_8_8(1);
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_DOUBLE_SIZED;
-        INTRO_DATA.oam[slot].pOam = sOam_597f50;
+        INTRO_DATA.oam[slot].pOam = sIntroSamusShipFlyingOam;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSamusDrifting;
     }
     else if (type == 30)
@@ -5026,31 +5026,31 @@ u8 NewFileIntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descending
     else if (type == 32)
     {
         INTRO_DATA.oam[slot].unk_4 = -40;
-        INTRO_DATA.oam[slot].pOam = sOam_597fe0;
+        INTRO_DATA.oam[slot].pOam = sIntroSidewaysBslShipOam_0;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSidewaysBslShip;
     }
     else if (type == 33)
     {
         INTRO_DATA.oam[slot].unk_4 = -30;
-        INTRO_DATA.oam[slot].pOam = sOam_597fd0;
+        INTRO_DATA.oam[slot].pOam = sIntroSidewaysBslShipOam_1;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSidewaysBslShip;
     }
     else if (type == 34)
     {
         INTRO_DATA.oam[slot].unk_4 = -20;
-        INTRO_DATA.oam[slot].pOam = sOam_597fc0;
+        INTRO_DATA.oam[slot].pOam = sIntroSidewaysBslShipOam_2;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSidewaysBslShip;
     }
     else if (type == 35)
     {
         INTRO_DATA.oam[slot].unk_4 = -10;
-        INTRO_DATA.oam[slot].pOam = sOam_597fb0;
+        INTRO_DATA.oam[slot].pOam = sIntroSidewaysBslShipOam_3;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSidewaysBslShip;
     }
     else if (type == 36)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sOam_597ec0;
+        INTRO_DATA.oam[slot].pOam = sIntroParticleOam_0;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessDepthParticle;
     }
     else if (type == 200)
@@ -5592,25 +5592,25 @@ u8 NewFileIntroSr388SetupOam(u8 type, s16 xPosition, s16 yPosition)
     else if (type == 3)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sOam_59a0a0;
+        INTRO_DATA.oam[slot].pOam = sIntroSr388PreviewAsteroidOam_0;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewAsteroid;
     }
     else if (type == 4)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sOam_59a0b0;
+        INTRO_DATA.oam[slot].pOam = sIntroSr388PreviewAsteroidOam_1;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewAsteroid;
     }
     else if (type == 5)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sOam_59a0c0;
+        INTRO_DATA.oam[slot].pOam = sIntroSr388PreviewAsteroidOam_2;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewAsteroid;
     }
     else if (type == 6)
     {
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sOam_59a0d0;
+        INTRO_DATA.oam[slot].pOam = sIntroSr388PreviewAsteroidOam_3;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388PreviewAsteroid;
     }
     else if (type == 7)
@@ -5628,13 +5628,13 @@ u8 NewFileIntroSr388SetupOam(u8 type, s16 xPosition, s16 yPosition)
     {
         INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 2;
-        INTRO_DATA.oam[slot].pOam = sOam_59a0e0;
+        INTRO_DATA.oam[slot].pOam = sIntroSr388PreviewSunReflectionOam;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSunReflection;
     }
     else if (type == 10)
     {
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sOam_59a168;
+        INTRO_DATA.oam[slot].pOam = sIntroSr388PreviewRocksOam;
         INTRO_DATA.oam[slot].pFunction = NewFileIntroProcessSr388Rocks;
     }
     else if (type == 50)
