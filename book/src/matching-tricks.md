@@ -50,7 +50,7 @@ code looked like.
 | `BgClipUpdateHatches` | `src/bg_clip.c` | `FAKE_MATCH_BLOCK` (2) |
 | `NewFileIntroProcessHornoad` | `src/new_file_intro.c` | `FAKE_MATCH_BLOCK` + `FAKE_MATCH_NOP_ADD`, `FAKE_MATCH_NOP_ADD` |
 | `SamusDraw` | `src/samus.c` | `FAKE_MATCH_SELF_ASSIGN` |
-| `unk_7b674` | `src/menus/navigation_conversation.c` | `FAKE_MATCH_NOP_OR` |
+| `NavigationConversationProcessAreaTransition` | `src/menus/navigation_conversation.c` | `FAKE_MATCH_NOP_OR` |
 | `BeamCoreXTransformationInit` | `src/sprites_AI/beam_core_x.c` | `FAKE_MATCH_INC_DEC` |
 | `ProjectileBringSpriteToPowerBombCenter` | `src/projectile.c` | `FAKE_MATCH_INC_DEC` |
 | `HudGenericResetHudData` | `src/hud_generic.c` | `FAKE_MATCH_DEAD_STORE` |

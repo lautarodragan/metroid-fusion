@@ -57,7 +57,7 @@ void AgbMain(void)
                 }
                 else if (gSubGameMode2 == 2)
                 {
-                    gPauseScreenFlag = unk_86854();
+                    gPauseScreenFlag = TitleScreenHandler_Unused();
 
                     if (gPauseScreenFlag == 1)
                     {

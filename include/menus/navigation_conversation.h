@@ -13,7 +13,7 @@ extern const u8 sNavTargetOamIds[4];
 extern const struct NavConversationTarget sNavConversationTargets[33];
 extern const u8 sNavTargetMainDeckElevatorPositions[][2];
 extern const u8 sNavTargetAreaElevatorPositions[][2];
-extern const u8 sUnk_576802[];
+extern const u8 sNavConversationAreaTransitionMaxMosaic[];
 extern const struct NavConversationPopUp sNavConversationPopUps[5];
 extern const struct NavConversationPopUpsPerConversation sNavConversationPopUpsPerConversation[3];
 extern const Func_T sNavConversationPopUpFunctions[3];
@@ -44,7 +44,7 @@ extern u8 sBslDiagramOamIds[];
 extern u8 sBslDiagramTargetOffsets[];
 extern u8 sBslDiagramFixedTargetOffsets[];
 
-u32 unk_7a0fc(u8 messageId);
+u32 NavigationConversationProcessMessageText(u8 messageId);
 void NavigationConversationGetCurrentConversation(void);
 u32 NavigationConversationHandler(void);
 void NavigationConversationSetupOam(void);
@@ -52,21 +52,21 @@ void NavigationConversationUpdateTarget(u8 updateOam);
 u32 NavigationConverstionFindTarget(void);
 void NavigationConversionScrollToTarget(void);
 u32 NavigationConversationScrollMapToDestination(u8 x, u8 y);
-void unk_7b56c(void);
-void unk_7b674(void);
+void NavigationConversationProcessPopUpWindow(void);
+void NavigationConversationProcessAreaTransition(void);
 
 void NavigationConversationLoadPopUpGraphics(void);
 void NavigationConversationUpdatePopUp(void);
-void unk_7bde0(void);
+void NavigationConversationInitPopUp(void);
 void NavigationConversationFadeInPopUpPalette(void);
 void NavigationConversationUpdateXParasitePopUp(void);
 void NavigationConversationClearPopUpGraphics(void);
-void unk_7c3b4(void);
-void unk_7c440(void);
+void NavigationConversationUpdatePopUpPaletteCycle(void);
+void NavigationConversationUpdatePaletteAnimations(void);
 void NavigationConversationLoadSpecialGraphics(void);
-void unk_7c630(void);
-void unk_7ce6c(void);
-void unk_7cfb0(void);
-void unk_7d27c(void);
+void NavigationConversationProcessSpecialImage(void);
+void NavigationConversationInitBslDiagram(void);
+void NavigationConversationUpdateBslDiagram(void);
+void NavigationConversationSetBslDiagramRotation(void);
 
 #endif /* NAVIGATION_CONVERSATION_H */

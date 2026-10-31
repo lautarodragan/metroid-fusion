@@ -23,7 +23,7 @@ void StatusScreenHandler(void)
 {
     if ((gChangedInput & (KEY_B | KEY_L | KEY_R)) && !gNonGameplayRam.pauseScreen.subMenuStage) 
     {
-        gNonGameplayRam.pauseScreen.unk_28.unk_0 = 7;
+        gNonGameplayRam.pauseScreen.state.current = PAUSE_SCREEN_STATE_STATUS_DISAPPEARING;
         gNonGameplayRam.pauseScreen.timer = 0;
         gNonGameplayRam.pauseScreen.subMenuStage = 0;
     }

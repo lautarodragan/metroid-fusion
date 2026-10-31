@@ -67,8 +67,8 @@ const u32 sFileSelectEnergyTankOneFullOneEmptyGfx[TILE_SIZE / 4] = INCBIN_U32("d
 const u32 sFileSelectEnergyTanksFullGfx[TILE_SIZE / 4] = INCBIN_U32("data/menus/file_select/energy_tanks_full.gfx");
 const u16 sFileSelectBgPal_73db84[1 * PAL_ROW] = INCBIN_U16("data/menus/file_select/bg_73db84.pal");
 const u8 sFileSelectOamXFlipOffsets[3][4] = INCBIN_U8("data/menus/file_select/oam_x_flip_offsets.bin"); // OAM width in tiles per shape and size, as sOamXFlipOffsets
-const u8 sFileSelectChoiceCursorXPositions_73dbb0[LANGUAGE_COUNT][2] = INCBIN_U8("data/menus/file_select/choice_cursor_x_positions_73dbb0.bin"); // X position of the cursor on each of the 2 choices, per language
-const u8 sFileSelectChoiceCursorXPositions_73dbbe[LANGUAGE_COUNT][2] = INCBIN_U8("data/menus/file_select/choice_cursor_x_positions_73dbbe.bin"); // X position of the cursor on each of the 2 choices, per language
+const u8 sFileSelectCopyConfirmCursorXPositions[LANGUAGE_COUNT][2] = INCBIN_U8("data/menus/file_select/choice_cursor_x_positions_73dbb0.bin"); // X position of the cursor on each of the 2 choices, per language
+const u8 sFileSelectEraseConfirmCursorXPositions[LANGUAGE_COUNT][2] = INCBIN_U8("data/menus/file_select/choice_cursor_x_positions_73dbbe.bin"); // X position of the cursor on each of the 2 choices, per language
 const u16 sFileSelectTextTileOffsets_73dbcc[] = INCBIN_U16("data/menus/file_select/text_tile_offsets_73dbcc.bin");
 const u16 sFileSelectTextTileOffsets_73dbd8[] = INCBIN_U16("data/menus/file_select/text_tile_offsets_73dbd8.bin");
 const u16 sFileSelectTextTileOffsets_73dbde[] = INCBIN_U16("data/menus/file_select/text_tile_offsets_73dbde.bin");
@@ -251,7 +251,7 @@ const struct FrameData sFileSelectAudioLogosOam4_740840[8] = {
     { sOamFrame_73f488, 4 },
     FRAME_DATA_TERMINATOR
 };
-const struct FrameData sFileSelectOam_740880[8] = {
+const struct FrameData sFileSelectCorruptionObjectOam[8] = {
     { sOamFrame_73f49c, 8 },
     { sOamFrame_73f4a4, 8 },
     { sOamFrame_73f4ac, 8 },
@@ -266,11 +266,11 @@ const struct FrameData sFileSelectOam_7408c0[2] = {
     { sOamFrame_73f4c4, 16 },
     FRAME_DATA_TERMINATOR
 };
-const struct FrameData sFileSelectOam_7408d0[2] = {
+const struct FrameData sFileSelectFileHighlightSelectedOam[2] = {
     { sOamFrame_73f562, 4 },
     FRAME_DATA_TERMINATOR
 };
-const struct FrameData sFileSelectOam_7408e0[2] = {
+const struct FrameData sFileSelectFileHighlightOam[2] = {
     { sOamFrame_73f58e, 4 },
     FRAME_DATA_TERMINATOR
 };
@@ -370,7 +370,7 @@ const struct FrameData sFileSelectSamusHeadOam2[9] = {
     { sOamFrame_73f752, 30 },
     FRAME_DATA_TERMINATOR
 };
-const struct FrameData sFileSelectDeleteArrowIdleOam[2] = {
+const struct FrameData sFileSelectCopyArrowIdleOam[2] = {
     { sOamFrame_73f792, 4 },
     FRAME_DATA_TERMINATOR
 };
@@ -419,7 +419,7 @@ const struct FrameData sFileSelectCursorOam2[5] = {
     { sOamFrame_73f9d8, 20 },
     FRAME_DATA_TERMINATOR
 };
-const struct FrameData sFileSelectOam_740b98[2] = {
+const struct FrameData sFileSelectCompletedGameIconOam[2] = {
     { sOamFrame_740568, 4 },
     FRAME_DATA_TERMINATOR
 };

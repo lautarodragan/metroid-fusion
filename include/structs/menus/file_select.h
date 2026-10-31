@@ -15,7 +15,7 @@ struct FileSelectOam {
     u8 currentAnimationFrame;
     u8 animationDurationCounter;
     u8 unk_8;
-    u8 unk_9;
+    u8 stage;
     u8 objMode;
     u8 priority;
     u8 xFlip;
@@ -44,9 +44,9 @@ struct SaveFileInfo {
     u8 weaponsStatus;
     u8 igtHours;
     u8 igtMinutes;
-    u8 unk_F;
-    s8 unk_10; // Completed game
-    s8 unk_11; // Intro played
+    u8 savedDuringGameplay; // Saved at least once during gameplay (not only after the intro)
+    s8 completedGame;
+    s8 introPlayed;
     u8 unk_12;
     u8 unk_13;
 };
@@ -55,13 +55,13 @@ struct FileSelectData {
     u16 textTile;
     u16 textLine;
     const u16* pText;
-    u16 unk_8;
+    u16 textId; // Index in sFileSelectTexts of the text being drawn
     s16 subroutine;
     u8 timer;
     u8 selectedFile;
-    u8 unk_E;
-    u8 unk_F;
-    u8 unk_10;
+    u8 fileActionCursor; // 0 = start, 1 = copy, 2 = erase
+    u8 copyDestinationFile;
+    u8 choiceCursor; // 0 = yes/continue, 1 = no/start over
     u8 dispcntAction;
     s8 result;
     u8 textPixelOffset;

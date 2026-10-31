@@ -32,9 +32,9 @@ struct NavConversationPopUp {
     u8 animationLength;
     const u16* pPalette;
     const u16* pCyclePalette;
-    u32 unk_10:8;
+    u32 cyclePaletteDelay:8; // Frames between colors of pCyclePalette, 0 = no cycle
     struct NavConversationPopUpTiles tiles;
-    u8 unk_12_0:4;
+    u8 frameWidth:4; // Width of an animation frame in tiles (8 or 4)
     u8 unk_12_4:4;
     u32 unk_13:8;
     const u32* pGraphics;

@@ -22,113 +22,113 @@ struct MenuOam {
     u8 exists:2;
 };
 
-struct PSD_28 {
-    u8 unk_0;
+struct PauseScreenState {
+    u8 current; // PauseScreenStateId
     u8 unk_1;
     u8 unk_2;
     u8 unk_3;
 };
 
 struct PauseScreenData {
-    u8 unk_0;
-    u8 unk_1;
+    u8 screenType; // PauseScreenType
+    u8 objectiveTextBoxState;
     u8 enableDebug;
     u16 typeFlags;
     u8 timer;
     u8 subMenuStage;
-    u8 unk_8;
-    u8 unk_9;
-    u8 unk_A;
-    u8 unk_B;
-    u16 unk_C;
-    u16 unk_E[4];
+    u8 navScrollTimer;
+    u8 navScrollStage;
+    u8 popUpWindowTimer;
+    u8 popUpWindowStage;
+    u16 navTextIndex;
+    u16 navTextTimersAndPositions[4]; // [0..1] text timer per text box, [2..3] text pixel position per text box (NAV_TEXT_TIMER, NAV_TEXT_POS)
     u8 navConvCharacterWidth;
-    u8 unk_17;
-    u8 unk_18;
-    u8 unk_19;
-    u8 unk_1A;
-    u8 unk_1B;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 unk_1F;
-    u8 unk_20;
-    u8 unk_21;
+    u8 navSpeaker; // 0 = Adam, 1 = Samus, 2 = Federation
+    u8 navTextBox; // 0 = bottom (Adam), 1 = top (Samus/Federation)
+    u8 navTextCursorOamIdx; // PAUSE_OAM_IDX_CURSOR or PAUSE_OAM_IDX_TOP_TEXT_BOX_CURSOR
+    u8 navWaitForInputRelease; // Skipping text is disabled until A/B/DOWN are released
+    u8 navTalkingCharacter; // Character currently speaking (portrait animation), 0 = none, 1 = Adam, 2 = Samus, 3 = Federation
+    u8 navConversationStatus; // 0 = processing text, 1 = ended, 2 = asking to proceed, 3/5 = message drawn, 4 = repeated conversation, 6 = end
+    u8 navTextSpeed; // Frames per character
+    u8 navTextColor;
+    u8 navTextDelay;
+    u8 navMessageCharacterTimer;
+    u8 navMessageTextIndex; // Index in the message text
     u16 navConvTextIndent;
-    u8 unk_24;
-    u8 unk_25;
+    u8 navMessageStage; // 0 = waiting for input, 1 = drawing, 2 = drawn
+    u8 navYesSelected; // Yes/No choice of the message
     u8 unk_26;
     u8 unk_27;
-    struct PSD_28 unk_28;
+    struct PauseScreenState state;
     struct MenuOam oam[PAUSE_OAM_IDX_COUNT];
     u8 navTargetX;
     u8 navTargetY;
     u8 navTargetArea;
-    u8 unk_20F;
+    u8 navTargetType; // 0 = none, 1 = in the current area, 2 = elevator to/from main deck, 3 = elevator to another sector
     u8 mapX;
     u8 mapY;
     u8 currentArea;
     u8 navTargetTextDirection;
     const u32* pNavConvPopUpGraphicsPointer;
     u8 currentPopUp;
-    u8 unk_219;
-    u8 unk_21A;
-    u8 unk_21B;
-    u8 unk_21C;
-    u8 unk_21D;
+    u8 popUpIndex; // Index of the pop up in the conversation (0-2)
+    u8 popUpId; // Index in sNavConversationPopUps
+    u8 popUpAnimationTimer;
+    u8 popUpAnimationFrame;
+    u8 popUpPaletteFadeTimer;
     u8 unk_21E;
     u8 unk_21F;
     u8 conversationNumber;
     u8 conversationOnRepeat;
     u8 unk_222;
     u8 unk_223;
-    u8 unk_224;
-    u8 unk_225;
+    u8 flashingColorIndex;
+    u8 flashingColorTimer;
     u8 unk_226;
     u8 unk_227;
-    u8 unk_228;
-    u8 unk_229;
+    u8 popUpCyclePaletteIndex;
+    u8 popUpCyclePaletteTimer;
     u8 unk_22A;
     u8 unk_22B;
-    u8 unk_22C;
-    u8 unk_22D;
+    u8 bgAnimatedPalFrame;
+    u8 bgAnimatedPalTimer;
     u8 unk_22E;
     u8 unk_22F;
     u8 downloadMapTimer;
     u8 downloadMapStage;
-    u8 unk_232;
+    u8 downloadMapLinesDrawn;
     u8 downloadMapCurrentLine;
-    u8 unk_234;
+    u8 downloadMapTrailingLineIndex; // Index in sPauseScreenDownloadScanLineTrailingOamIndices
     u8 unk_235;
     u8 unk_236;
     u8 unk_237;
-    u8 unk_238;
-    u8 unk_239;
+    u8 bottomTextBoxStage;
+    u8 bottomTextBoxTimer;
     u8 unk_23A;
     u8 unk_23B;
-    u8 unk_23C;
-    u8 unk_23D;
+    u8 topTextBoxStage;
+    u8 topTextBoxTimer;
     u8 unk_23E;
     u8 unk_23F;
-    u8 unk_240;
-    u8 unk_241;
-    u8 unk_242;
+    u8 bslDiagramStage;
+    u8 bslDiagramRotating; // Prevents ending the conversation while rotating
+    u8 bslDiagramTimer;
     u8 unk_243;
-    u8 unk_244;
-    u8 unk_245;
-    u8 unk_246;
-    u8 unk_247;
-    u8 unk_248;
-    u8 unk_249;
-    u8 unk_24A;
+    u8 bslDiagramRotation; // Rotation step (0-35)
+    u8 bslDiagramTargetRotation;
+    u8 bslDiagramRotationDirection; // 1 or -1
+    u8 bslDiagramPalFrame;
+    u8 bslDiagramPalTimer;
+    u8 bslDiagramFlashingLocation; // Palette color of the current location
+    u8 bslDiagramTargetState; // 1 = hidden, 2 = placing, 3 = following the diagram
     u8 unk_24B;
     u8 unk_24C;
     u8 unk_24D;
     u8 unk_24E;
     u8 unk_24F;
-    u8 unk_250;
-    u8 unk_251;
-    u8 unk_252;
+    u8 areaTransitionFlags; // 1 = mosaic, 2 = window, 4 = screen covered (set by the transition), 8 = uncover (set by the caller)
+    u8 areaTransitionStage;
+    u8 areaTransitionTimer;
     u8 window1Size;
     s8 mapRightBorder;
     s8 mapLeftBorder;
@@ -136,19 +136,19 @@ struct PauseScreenData {
     s8 mapBottomBorder;
     s8 mapViewX;
     s8 mapViewY;
-    s8 unk_25A; // mapRightEdge?
-    s8 unk_25B; // mapLeftEdge?
-    s8 unk_25C; // mapTopEdge?
-    s8 unk_25D; // mapBottomEdge
+    s8 mapRightEdge; // Bounds of the visited map, the borders are these shrunk by up to 3 tiles
+    s8 mapLeftEdge;
+    s8 mapTopEdge;
+    s8 mapBottomEdge;
     u8 canScrollRight;
     u8 canScrollLeft;
     u8 canScrollUp;
     u8 canScrollDown;
     u8 unk_262;
     u8 unk_263;
-    u8 unk_264;
-    u8 unk_265;
-    u8 unk_266;
+    u8 specialImageActive; // Operations room image or SA-X close up
+    u8 specialImageStage;
+    u8 specialImageTimer;
     u8 unk_267;
     u16 dispcnt;
     u16 dispcntBackup;
@@ -156,7 +156,7 @@ struct PauseScreenData {
     u16 bg2CntBackup;
     u16 bldcntBackup;
     u16 bldalphaBackup;
-    u8 unk_274;
+    u8 igtAndTanksDisplay; // 0 = hidden, 1 = in game time, 2 = collected tanks (toggled with SELECT)
     u8 maxEnergyTanks;
     u8 currentEnergyTanks;
     u8 maxMissileTanks;
@@ -172,7 +172,7 @@ struct PauseScreenData {
     u8 unk_281;
     u8 unk_282;
     u8 unk_283;
-    u8 unk_284;
+    u8 debugIgtMinutes; // Minutes of the in game time last drawn by the pause debug menu
 };
 
 struct MaintainedInput {

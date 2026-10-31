@@ -131,7 +131,7 @@ void FileSelectInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9eaa4);
+    CallbackSetVBlank(FileSelectVblank_Empty);
 
     WRITE_16(REG_DISPCNT, 0);
 
@@ -179,15 +179,15 @@ void FileSelectInit(void)
     LZ77UncompVram(sFileSelectObjGfx, VRAM_OBJ);
     DMA3_COPY_32(sFileSelectObjPal, PALRAM_OBJ, PAL_SIZE / sizeof(u32));
 
-    FILE_SELECT_DATA.unk_8 = 0;
+    FILE_SELECT_DATA.textId = 0;
     FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][0];
 
     Sram_WriteFileInfo();
     FILE_SELECT_DATA.selectedFile = gMostRecentSaveFile;
 
-    FileSelectSetupOam(9, 0x66, 0x74, 1);
-    FileSelectSetupOam(6, 0x8E, 0x74, 1);
-    FileSelectSetupOam(7, 0x84, 0x30, 1);
+    FileSelectSetupOam(FILE_SELECT_OAM_TYPE_AUDIO_SELECT, 0x66, 0x74, 1);
+    FileSelectSetupOam(FILE_SELECT_OAM_TYPE_AUDIO_LOGOS, 0x8E, 0x74, 1);
+    FileSelectSetupOam(FILE_SELECT_OAM_TYPE_FILE_OVERLAY, 0x84, 0x30, 1);
     FileSelectDrawAllOam();
 
     WRITE_16(REG_BG3CNT, 0x1F03);
@@ -247,7 +247,7 @@ void FileSelectVblank(void)
  * @brief 9eaa4 | c | Empty v-blank code for the file select screen
  *
  */
-void unk_9eaa4(void)
+void FileSelectVblank_Empty(void)
 {
     UpdateAudio();
 }
@@ -288,15 +288,15 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FILE_SELECT_DATA.unk_8 = 1;
+                FILE_SELECT_DATA.textId = 1;
                 FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][1];
                 FileSelectDrawText(2);
-                FileSelectSetupOam(11, 0x52, 0x76, 1);
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_FILE_ACTION_PANEL, 0x52, 0x76, 1);
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
-                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE ||
-                    gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_11 == TRUE ||
+                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].completedGame == TRUE ||
+                    gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].introPlayed == TRUE ||
                     gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists == TRUE)
                 {
                     DMA3_COPY_32(EWRAM_BASE + 0x340, VRAM_BASE + 0xEB40, 0x100 / sizeof(u32));
@@ -309,8 +309,8 @@ u32 FileSelectInput(void)
                 }
 
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_E = 0;
-                FileSelectSetupOam(2, 0x16, 0x67, 1);
+                FILE_SELECT_DATA.fileActionCursor = 0;
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_CURSOR, 0x16, 0x67, 1);
                 FILE_SELECT_DATA.dispcntAction = 3;
             }
             break;
@@ -322,7 +322,7 @@ u32 FileSelectInput(void)
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
-                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].completedGame == TRUE)
                     FILE_SELECT_DATA.subroutine = 9;
                 else
                     FILE_SELECT_DATA.subroutine = 5;
@@ -333,7 +333,7 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectDestroyOamOfType(2);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 4;
             }
             else if (FILE_SELECT_DATA.timer == 12)
@@ -350,29 +350,29 @@ u32 FileSelectInput(void)
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
-                if (FILE_SELECT_DATA.unk_E == 0)
+                if (FILE_SELECT_DATA.fileActionCursor == 0)
                 {
                     if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists == FALSE)
                     {
-                        if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                        if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].completedGame == TRUE)
                             FILE_SELECT_DATA.subroutine = 9;
-                        else if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_11 == TRUE)
+                        else if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].introPlayed == TRUE)
                             FILE_SELECT_DATA.subroutine = 5;
                     }
                     else if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists == TRUE)
                     {
-                        if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                        if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].completedGame == TRUE)
                             FILE_SELECT_DATA.subroutine = 9;
                         else
                             FILE_SELECT_DATA.subroutine = 7;
                     }
                 }
-                else if (FILE_SELECT_DATA.unk_E == 1)
+                else if (FILE_SELECT_DATA.fileActionCursor == 1)
                 {
                     FILE_SELECT_DATA.subroutine = 16;
                     FILE_SELECT_DATA.timer = 0;
                 }
-                else if (FILE_SELECT_DATA.unk_E == 2)
+                else if (FILE_SELECT_DATA.fileActionCursor == 2)
                 {
                     FILE_SELECT_DATA.subroutine = 27;
                 }
@@ -401,7 +401,7 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectSetupOam(23, 0x9C, 0x78, 1);
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_CONTINUE_START_OVER_PANEL, 0x9C, 0x78, 1);
                 FILE_SELECT_DATA.dispcntAction = 2;
             }
             else if (FILE_SELECT_DATA.timer == 2)
@@ -410,7 +410,7 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 3)
             {
-                FILE_SELECT_DATA.unk_8 = 24;
+                FILE_SELECT_DATA.textId = 24;
                 FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][24];
                 FileSelectDrawText(3);
             }
@@ -418,7 +418,7 @@ u32 FileSelectInput(void)
             {
                 FILE_SELECT_DATA.timer = 0;
                 FILE_SELECT_DATA.subroutine = 10;
-                FileSelectSetupOam(24, 0x66, 0x69, 1);
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_CONTINUE_START_OVER_CURSOR, 0x66, 0x69, 1);
                 FILE_SELECT_DATA.dispcntAction = 1;
             }
             break;
@@ -430,7 +430,7 @@ u32 FileSelectInput(void)
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
-                if (FILE_SELECT_DATA.unk_10 == 0)
+                if (FILE_SELECT_DATA.choiceCursor == 0)
                     FILE_SELECT_DATA.subroutine = 12;
                 else
                     FILE_SELECT_DATA.subroutine = 13;
@@ -441,13 +441,13 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectDestroyOamOfType(24);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_CONTINUE_START_OVER_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 2;
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
                 FILE_SELECT_DATA.subroutine = 3;
             }
             break;
@@ -469,7 +469,7 @@ u32 FileSelectInput(void)
             if (FILE_SELECT_DATA.timer == 1)
             {
                 gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].exists = FALSE;
-                gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_11 = FALSE;
+                gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].introPlayed = FALSE;
             }
             else if (FILE_SELECT_DATA.timer == 42)
             {
@@ -497,7 +497,7 @@ u32 FileSelectInput(void)
             if (FILE_SELECT_DATA.timer == 1)
             {
                 FILE_SELECT_DATA.dispcntAction = 2;
-                FileSelectSetupOam(12, 0x9C, 0x78, 1);
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_COPY_FILE_PANEL, 0x9C, 0x78, 1);
             }
             else if (FILE_SELECT_DATA.timer == 2)
             {
@@ -505,7 +505,7 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 3)
             {
-                FILE_SELECT_DATA.unk_8 = 2;
+                FILE_SELECT_DATA.textId = 2;
                 FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][2];
                 FileSelectDrawText(3);
             }
@@ -513,15 +513,15 @@ u32 FileSelectInput(void)
             {
                 FILE_SELECT_DATA.subroutine = 17;
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_F = 0;
+                FILE_SELECT_DATA.copyDestinationFile = 0;
                 if (FILE_SELECT_DATA.selectedFile == 0)
                 {
-                    FILE_SELECT_DATA.unk_F = 1;
-                    FileSelectSetupOam(3, 0x84, 0x30, 1);
+                    FILE_SELECT_DATA.copyDestinationFile = 1;
+                    FileSelectSetupOam(FILE_SELECT_OAM_TYPE_COPY_ARROW, 0x84, 0x30, 1);
                 }
                 else
                 {
-                    FileSelectSetupOam(3, 0x84, 0x30, 1);
+                    FileSelectSetupOam(FILE_SELECT_OAM_TYPE_COPY_ARROW, 0x84, 0x30, 1);
                 }
                 FILE_SELECT_DATA.dispcntAction = 1;
             }
@@ -534,9 +534,9 @@ u32 FileSelectInput(void)
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
-                if (gSaveFilesInfo[FILE_SELECT_DATA.unk_F].unk_10 == TRUE ||
-                    gSaveFilesInfo[FILE_SELECT_DATA.unk_F].unk_11 == TRUE ||
-                    gSaveFilesInfo[FILE_SELECT_DATA.unk_F].exists == TRUE)
+                if (gSaveFilesInfo[FILE_SELECT_DATA.copyDestinationFile].completedGame == TRUE ||
+                    gSaveFilesInfo[FILE_SELECT_DATA.copyDestinationFile].introPlayed == TRUE ||
+                    gSaveFilesInfo[FILE_SELECT_DATA.copyDestinationFile].exists == TRUE)
                     FILE_SELECT_DATA.subroutine = 19;
                 else
                     FILE_SELECT_DATA.subroutine = 20;
@@ -547,7 +547,7 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectDestroyOamOfType(3);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_COPY_ARROW);
                 FILE_SELECT_DATA.dispcntAction = 2;
             }
             else if (FILE_SELECT_DATA.timer == 12)
@@ -566,7 +566,7 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 2)
             {
-                FILE_SELECT_DATA.unk_8 = 3;
+                FILE_SELECT_DATA.textId = 3;
                 FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][3];
                 FileSelectDrawText(3);
             }
@@ -575,8 +575,8 @@ u32 FileSelectInput(void)
                 FILE_SELECT_DATA.dispcntAction = 1;
                 FILE_SELECT_DATA.timer = 0;
                 FILE_SELECT_DATA.subroutine = 22;
-                FILE_SELECT_DATA.unk_10 = 1;
-                FileSelectSetupOam(4, sFileSelectChoiceCursorXPositions_73dbb0[gLanguage][1], 0x91, 1);
+                FILE_SELECT_DATA.choiceCursor = 1;
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_COPY_CONFIRM_CURSOR, sFileSelectCopyConfirmCursorXPositions[gLanguage][1], 0x91, 1);
             }
             break;
 
@@ -585,23 +585,23 @@ u32 FileSelectInput(void)
             if (FILE_SELECT_DATA.timer == 1)
             {
                 gMostRecentSaveFile = FILE_SELECT_DATA.selectedFile;
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 0);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 0);
             }
             else if (FILE_SELECT_DATA.timer == 2)
             {
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 1);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 1);
             }
             else if (FILE_SELECT_DATA.timer == 3)
             {
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 2);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 2);
             }
             else if (FILE_SELECT_DATA.timer == 4)
             {
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 3);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 3);
             }
             else if (FILE_SELECT_DATA.timer == 6)
             {
-                FileSelectDrawFileInfo(FILE_SELECT_DATA.unk_F);
+                FileSelectDrawFileInfo(FILE_SELECT_DATA.copyDestinationFile);
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
@@ -615,8 +615,8 @@ u32 FileSelectInput(void)
             if (FILE_SELECT_DATA.timer == 1)
             {
                 FILE_SELECT_DATA.dispcntAction = 5;
-                FileSelectDestroyOamOfType(2);
-                FileSelectDestroyOamOfType(3);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_CURSOR);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_COPY_ARROW);
             }
             else if (FILE_SELECT_DATA.timer == 4)
             {
@@ -624,8 +624,8 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
-                FILE_SELECT_DATA.unk_F = 0;
-                FILE_SELECT_DATA.unk_E = 0;
+                FILE_SELECT_DATA.copyDestinationFile = 0;
+                FILE_SELECT_DATA.fileActionCursor = 0;
                 FILE_SELECT_DATA.timer = 0;
                 FILE_SELECT_DATA.subroutine = 0;
             }
@@ -638,7 +638,7 @@ u32 FileSelectInput(void)
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
-                if (FILE_SELECT_DATA.unk_10 == 0)
+                if (FILE_SELECT_DATA.choiceCursor == 0)
                     FILE_SELECT_DATA.subroutine = 25;
                 else
                     FILE_SELECT_DATA.subroutine = 24;
@@ -649,7 +649,7 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectDestroyOamOfType(4);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_COPY_CONFIRM_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 2;
             }
             else if (FILE_SELECT_DATA.timer == 2)
@@ -658,7 +658,7 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 3)
             {
-                FILE_SELECT_DATA.unk_8 = 2;
+                FILE_SELECT_DATA.textId = 2;
                 FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][2];
                 FileSelectDrawText(3);
             }
@@ -667,7 +667,7 @@ u32 FileSelectInput(void)
                 FILE_SELECT_DATA.dispcntAction = 1;
                 FILE_SELECT_DATA.subroutine = 17;
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
             }
             break;
 
@@ -675,7 +675,7 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 9)
             {
-                FileSelectDestroyOamOfType(4);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_COPY_CONFIRM_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 2;
             }
             else if (FILE_SELECT_DATA.timer == 10)
@@ -684,7 +684,7 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 11)
             {
-                FILE_SELECT_DATA.unk_8 = 2;
+                FILE_SELECT_DATA.textId = 2;
                 FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][2];
                 FileSelectDrawText(3);
             }
@@ -693,7 +693,7 @@ u32 FileSelectInput(void)
                 FILE_SELECT_DATA.dispcntAction = 1;
                 FILE_SELECT_DATA.subroutine = 17;
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
             }
             break;
 
@@ -702,23 +702,23 @@ u32 FileSelectInput(void)
             if (FILE_SELECT_DATA.timer == 1)
             {
                 gMostRecentSaveFile = FILE_SELECT_DATA.selectedFile;
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 0);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 0);
             }
             else if (FILE_SELECT_DATA.timer == 2)
             {
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 1);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 1);
             }
             else if (FILE_SELECT_DATA.timer == 3)
             {
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 2);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 2);
             }
             else if (FILE_SELECT_DATA.timer == 4)
             {
-                Sram_CopyFile(FILE_SELECT_DATA.unk_F, 3);
+                Sram_CopyFile(FILE_SELECT_DATA.copyDestinationFile, 3);
             }
             else if (FILE_SELECT_DATA.timer == 11)
             {
-                FileSelectDrawFileInfo(FILE_SELECT_DATA.unk_F);
+                FileSelectDrawFileInfo(FILE_SELECT_DATA.copyDestinationFile);
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
@@ -731,9 +731,9 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectDestroyOamOfType(2);
-                FileSelectDestroyOamOfType(3);
-                FileSelectDestroyOamOfType(4);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_CURSOR);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_COPY_ARROW);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_COPY_CONFIRM_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 5;
             }
             else if (FILE_SELECT_DATA.timer == 2)
@@ -742,9 +742,9 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
-                FILE_SELECT_DATA.unk_10 = 0;
-                FILE_SELECT_DATA.unk_F = 0;
-                FILE_SELECT_DATA.unk_E = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
+                FILE_SELECT_DATA.copyDestinationFile = 0;
+                FILE_SELECT_DATA.fileActionCursor = 0;
                 FILE_SELECT_DATA.timer = 0;
                 FILE_SELECT_DATA.subroutine = 0;
             }
@@ -754,7 +754,7 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectSetupOam(13, 0x9C, 0x78, 1);
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_ERASE_FILE_PANEL, 0x9C, 0x78, 1);
             }
             else if (FILE_SELECT_DATA.timer == 2)
             {
@@ -762,14 +762,14 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 3)
             {
-                FILE_SELECT_DATA.unk_8 = 4;
+                FILE_SELECT_DATA.textId = 4;
                 FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][4];
                 FileSelectDrawText(3);
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
-                FILE_SELECT_DATA.unk_10 = 1;
-                FileSelectSetupOam(5, sFileSelectChoiceCursorXPositions_73dbbe[gLanguage][1], 0x91, 1);
+                FILE_SELECT_DATA.choiceCursor = 1;
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_ERASE_CONFIRM_CURSOR, sFileSelectEraseConfirmCursorXPositions[gLanguage][1], 0x91, 1);
                 FILE_SELECT_DATA.dispcntAction = 1;
                 FILE_SELECT_DATA.timer = 0;
                 FILE_SELECT_DATA.subroutine = 28;
@@ -783,7 +783,7 @@ u32 FileSelectInput(void)
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
-                if (FILE_SELECT_DATA.unk_10 == 0)
+                if (FILE_SELECT_DATA.choiceCursor == 0)
                     FILE_SELECT_DATA.subroutine = 32;
                 else
                     FILE_SELECT_DATA.subroutine = 30;
@@ -794,7 +794,7 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectDestroyOamOfType(5);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_ERASE_CONFIRM_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 2;
             }
             else if (FILE_SELECT_DATA.timer == 2)
@@ -804,7 +804,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 12)
             {
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
                 FILE_SELECT_DATA.subroutine = 3;
             }
             break;
@@ -813,10 +813,10 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 8)
             {
-                FileSelectDestroyOamOfType(5);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_ERASE_CONFIRM_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 2;
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
                 FILE_SELECT_DATA.subroutine = 31;
             }
             break;
@@ -834,7 +834,7 @@ u32 FileSelectInput(void)
             else if (FILE_SELECT_DATA.timer == 12)
             {
                 FILE_SELECT_DATA.timer = 0;
-                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
                 FILE_SELECT_DATA.subroutine = 3;
             }
             break;
@@ -873,8 +873,8 @@ u32 FileSelectInput(void)
             FILE_SELECT_DATA.timer++;
             if (FILE_SELECT_DATA.timer == 1)
             {
-                FileSelectDestroyOamOfType(2);
-                FileSelectDestroyOamOfType(5);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_CURSOR);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_ERASE_CONFIRM_CURSOR);
                 FILE_SELECT_DATA.dispcntAction = 5;
             }
             else if (FILE_SELECT_DATA.timer == 2)
@@ -883,9 +883,9 @@ u32 FileSelectInput(void)
             }
             else if (FILE_SELECT_DATA.timer == 12)
             {
-                FILE_SELECT_DATA.unk_10 = 0;
-                FILE_SELECT_DATA.unk_F = 0;
-                FILE_SELECT_DATA.unk_E = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
+                FILE_SELECT_DATA.copyDestinationFile = 0;
+                FILE_SELECT_DATA.fileActionCursor = 0;
                 FILE_SELECT_DATA.timer = 0;
                 FILE_SELECT_DATA.subroutine = 0;
             }
@@ -942,124 +942,124 @@ u8 FileSelectSetupOam(u8 type, s16 xPosition, s16 yPosition, u8 unk)
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectCursorOam1;
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessCursor;
     }
-    else if (type == FILE_SELECT_OAM_TYPE_DELETE_ARROW)
+    else if (type == FILE_SELECT_OAM_TYPE_COPY_ARROW)
     {
         FILE_SELECT_DATA.oam[i].priority = 1;
         FILE_SELECT_DATA.oam[i].isDrawn = FALSE;
-        FILE_SELECT_DATA.oam[i].pOam = sFileSelectDeleteArrowIdleOam;
-        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessDeleteArrow;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectCopyArrowIdleOam;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessCopyArrow;
     }
-    else if (type == 4)
+    else if (type == FILE_SELECT_OAM_TYPE_COPY_CONFIRM_CURSOR)
     {
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectCursorOam1;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_9fddc;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessCopyConfirmCursor;
     }
-    else if (type == 5)
+    else if (type == FILE_SELECT_OAM_TYPE_ERASE_CONFIRM_CURSOR)
     {
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectCursorOam1;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_9ff00;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessEraseConfirmCursor;
     }
-    else if (type == 6)
+    else if (type == FILE_SELECT_OAM_TYPE_AUDIO_LOGOS)
     {
         FILE_SELECT_DATA.oam[i].priority = 3;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectAudioLogosOam3;
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessAudioLogos;
     }
-    else if (type == 7)
+    else if (type == FILE_SELECT_OAM_TYPE_FILE_OVERLAY)
     {
         FILE_SELECT_DATA.oam[i].priority = 2;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectFileOverlayOam[gMostRecentSaveFile];
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessFileOverlay;
     }
-    else if (type == 8)
+    else if (type == FILE_SELECT_OAM_TYPE_FILE_HIGHLIGHT)
     {
         FILE_SELECT_DATA.oam[i].priority = 2;
-        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_7408e0;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a016c;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectFileHighlightOam;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessFileHighlight;
     }
-    else if (type == 9)
+    else if (type == FILE_SELECT_OAM_TYPE_AUDIO_SELECT)
     {
         FILE_SELECT_DATA.oam[i].isDrawn = FALSE;
         FILE_SELECT_DATA.oam[i].priority = 3;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectAudioSelectOam;
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessAudioSelect;
     }
-    else if (type == 10)
+    else if (type == FILE_SELECT_OAM_TYPE_CORRUPTION_OBJECT)
     {
-        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740880;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a01cc;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectCorruptionObjectOam;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessCorruptionObject_Empty;
     }
-    else if (type == 11)
+    else if (type == FILE_SELECT_OAM_TYPE_FILE_ACTION_PANEL)
     {
         SoundPlay(SOUND_1FC);
         FILE_SELECT_DATA.oam[i].priority = 2;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectFileActionPanelOam1;
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessFileActionPanel;
     }
-    else if (type == 12)
+    else if (type == FILE_SELECT_OAM_TYPE_COPY_FILE_PANEL)
     {
         SoundPlay(SOUND_1FC);
         FILE_SELECT_DATA.oam[i].priority = 1;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectFilePanelOam1;
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessCopyFilePanel;
     }
-    else if (type == 13)
+    else if (type == FILE_SELECT_OAM_TYPE_ERASE_FILE_PANEL)
     {
         SoundPlay(SOUND_1FC);
         FILE_SELECT_DATA.oam[i].priority = 1;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectFilePanelOam1;
         FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessEraseFilePanel;
     }
-    else if (type == 14)
+    else if (type == FILE_SELECT_OAM_TYPE_AREA_NAME_FILE_A)
     {
         FILE_SELECT_DATA.oam[i].priority = 3;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessOam_Empty;
     }
-    else if (type == 15)
+    else if (type == FILE_SELECT_OAM_TYPE_AREA_NAME_FILE_B)
     {
         FILE_SELECT_DATA.oam[i].priority = 3;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessOam_Empty;
     }
-    else if (type == 16)
+    else if (type == FILE_SELECT_OAM_TYPE_AREA_NAME_FILE_C)
     {
         FILE_SELECT_DATA.oam[i].priority = 3;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessOam_Empty;
     }
-    else if (type == 17)
+    else if (type == FILE_SELECT_OAM_TYPE_CORRUPTION_PANEL)
     {
         FILE_SELECT_DATA.oam[i].priority = 2;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectFilePanelOam2;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessOam_Empty;
     }
-    else if (type == 20)
+    else if (type == FILE_SELECT_OAM_TYPE_COMPLETED_GAME_ICON_FILE_A)
     {
         FILE_SELECT_DATA.oam[i].priority = 3;
-        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740b98;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectCompletedGameIconOam;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessOam_Empty;
     }
-    else if (type == 21)
+    else if (type == FILE_SELECT_OAM_TYPE_COMPLETED_GAME_ICON_FILE_B)
     {
         FILE_SELECT_DATA.oam[i].priority = 3;
-        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740b98;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectCompletedGameIconOam;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessOam_Empty;
     }
-    else if (type == 22)
+    else if (type == FILE_SELECT_OAM_TYPE_COMPLETED_GAME_ICON_FILE_C)
     {
         FILE_SELECT_DATA.oam[i].priority = 3;
-        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740b98;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectCompletedGameIconOam;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessOam_Empty;
     }
-    else if (type == 23)
+    else if (type == FILE_SELECT_OAM_TYPE_CONTINUE_START_OVER_PANEL)
     {
         SoundPlay(SOUND_1FC);
         FILE_SELECT_DATA.oam[i].priority = 1;
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectFilePanelOam1;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a039c;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessContinueStartOverPanel;
     }
-    else if (type == 24)
+    else if (type == FILE_SELECT_OAM_TYPE_CONTINUE_START_OVER_CURSOR)
     {
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectCursorOam1;
-        FILE_SELECT_DATA.oam[i].pHandler = unk_a0424;
+        FILE_SELECT_DATA.oam[i].pHandler = FileSelectProcessContinueStartOverCursor;
     }
 
     return i;
@@ -1074,7 +1074,7 @@ void FileSelectProcessSamusHead(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
         if (gChangedInput & KEY_UP)
         {
@@ -1135,23 +1135,23 @@ void FileSelectProcessSamusHead(struct FileSelectOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
             SoundPlay(SOUND_1FB);
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
         {
             pOam->animationDurationCounter = 0;
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
 
         if (FILE_SELECT_DATA.timer == 11)
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
     }
-    else if (pOam->unk_9 == 100)
+    else if (pOam->stage == 100)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter)
@@ -1162,7 +1162,7 @@ void FileSelectProcessSamusHead(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectSamusHeadOam1;
-            pOam->unk_9 = 0;
+            pOam->stage = 0;
         }
         else if (FILE_SELECT_DATA.subroutine == 5 || FILE_SELECT_DATA.subroutine == 7 ||
             FILE_SELECT_DATA.subroutine == 12 || FILE_SELECT_DATA.subroutine == 13)
@@ -1170,7 +1170,7 @@ void FileSelectProcessSamusHead(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectSamusHeadOam2;
-            pOam->unk_9 = 200;
+            pOam->stage = 200;
         }
     }
     else
@@ -1190,44 +1190,44 @@ void FileSelectProcessCursor(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
         if (FILE_SELECT_DATA.subroutine == 2)
         {
             if (gChangedInput & KEY_B)
             {
-                pOam->unk_9 = 100;
+                pOam->stage = 100;
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
-                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].completedGame == TRUE)
                     SoundPlay(SOUND_1FB);
                 else
                     SoundPlay(SOUND_1FE);
 
-                FILE_SELECT_DATA.unk_E = 0;
+                FILE_SELECT_DATA.fileActionCursor = 0;
                 pOam->animationDurationCounter = 0;
                 pOam->currentAnimationFrame = 0;
                 pOam->pOam = sFileSelectCursorOam2;
-                pOam->unk_9 = 100;
+                pOam->stage = 100;
             }
         }
         else if (FILE_SELECT_DATA.subroutine == 3)
         {
             if (gChangedInput & KEY_UP)
             {
-                if (FILE_SELECT_DATA.unk_E != 0)
+                if (FILE_SELECT_DATA.fileActionCursor != 0)
                 {
-                    FILE_SELECT_DATA.unk_E--;
+                    FILE_SELECT_DATA.fileActionCursor--;
                     pOam->yPosition -= 16;
                     SoundPlay(SOUND_1F9);
                 }
             }
             else if (gChangedInput & KEY_DOWN)
             {
-                if (FILE_SELECT_DATA.unk_E < 2)
+                if (FILE_SELECT_DATA.fileActionCursor < 2)
                 {
-                    FILE_SELECT_DATA.unk_E++;
+                    FILE_SELECT_DATA.fileActionCursor++;
                     pOam->yPosition += 16;
                     SoundPlay(SOUND_1F9);
                 }
@@ -1235,7 +1235,7 @@ void FileSelectProcessCursor(struct FileSelectOam* pOam)
 
             if (gChangedInput & KEY_B)
             {
-                pOam->unk_9 = 100;
+                pOam->stage = 100;
             }
             else if (gChangedInput & (KEY_A | KEY_START))
             {
@@ -1243,10 +1243,10 @@ void FileSelectProcessCursor(struct FileSelectOam* pOam)
                 pOam->currentAnimationFrame = 0;
                 pOam->pOam = sFileSelectCursorOam2;
 
-                if (FILE_SELECT_DATA.unk_E == 0)
+                if (FILE_SELECT_DATA.fileActionCursor == 0)
                 {
-                    pOam->unk_9 = 100;
-                    if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].unk_10 == TRUE)
+                    pOam->stage = 100;
+                    if (gSaveFilesInfo[FILE_SELECT_DATA.selectedFile].completedGame == TRUE)
                         SoundPlay(SOUND_1FB);
                     else
                         SoundPlay(SOUND_1FE);
@@ -1254,22 +1254,22 @@ void FileSelectProcessCursor(struct FileSelectOam* pOam)
                 else
                 {
                     SoundPlay(SOUND_1FB);
-                    pOam->unk_9 = 1;
+                    pOam->stage = 1;
                 }
             }
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
         {
             pOam->animationDurationCounter = 0;
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
 
         if (FILE_SELECT_DATA.timer == 11)
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
     }
     else
     {
@@ -1282,17 +1282,17 @@ void FileSelectProcessCursor(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectCursorOam1;
-            pOam->unk_9 = 0;
+            pOam->stage = 0;
         }
     }
 }
 
 /**
- * @brief 9fc90 | 14c | Processes the delete arrow oam
+ * @brief 9fc90 | 14c | Processes the copy destination arrow oam (picks the file to copy to)
  *
  * @param pOam File select oam pointer
  */
-void FileSelectProcessDeleteArrow(struct FileSelectOam* pOam)
+void FileSelectProcessCopyArrow(struct FileSelectOam* pOam)
 {
     u8 moved;
     u8 sound;
@@ -1300,84 +1300,84 @@ void FileSelectProcessDeleteArrow(struct FileSelectOam* pOam)
     sound = 0;
     moved = FALSE;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
         pOam->isDrawn = TRUE;
 
         if (gChangedInput & KEY_UP)
         {
-            if (FILE_SELECT_DATA.unk_F != 0)
+            if (FILE_SELECT_DATA.copyDestinationFile != 0)
             {
-                FILE_SELECT_DATA.unk_F--;
+                FILE_SELECT_DATA.copyDestinationFile--;
                 moved = TRUE;
             }
 
-            if (FILE_SELECT_DATA.selectedFile == FILE_SELECT_DATA.unk_F)
+            if (FILE_SELECT_DATA.selectedFile == FILE_SELECT_DATA.copyDestinationFile)
             {
                 if (FILE_SELECT_DATA.selectedFile == 0)
                 {
-                    FILE_SELECT_DATA.unk_F++;
+                    FILE_SELECT_DATA.copyDestinationFile++;
                     moved = FALSE;
                 }
                 else
                 {
-                    FILE_SELECT_DATA.unk_F--;
+                    FILE_SELECT_DATA.copyDestinationFile--;
                     moved = TRUE;
                 }
             }
         }
         else if (gChangedInput & KEY_DOWN)
         {
-            if (FILE_SELECT_DATA.unk_F < 2)
+            if (FILE_SELECT_DATA.copyDestinationFile < 2)
             {
-                FILE_SELECT_DATA.unk_F++;
+                FILE_SELECT_DATA.copyDestinationFile++;
                 moved = TRUE;
             }
 
-            if (FILE_SELECT_DATA.selectedFile == FILE_SELECT_DATA.unk_F)
+            if (FILE_SELECT_DATA.selectedFile == FILE_SELECT_DATA.copyDestinationFile)
             {
                 if (FILE_SELECT_DATA.selectedFile == 2)
                 {
-                    FILE_SELECT_DATA.unk_F--;
+                    FILE_SELECT_DATA.copyDestinationFile--;
                     moved = FALSE;
                 }
                 else
                 {
-                    FILE_SELECT_DATA.unk_F++;
+                    FILE_SELECT_DATA.copyDestinationFile++;
                     moved = TRUE;
                 }
             }
         }
 
-        pOam->pOam = sFileSelectDeleteArrowOam[FILE_SELECT_DATA.selectedFile][FILE_SELECT_DATA.unk_F];
+        pOam->pOam = sFileSelectCopyArrowOam[FILE_SELECT_DATA.selectedFile][FILE_SELECT_DATA.copyDestinationFile];
 
         if (gChangedInput & KEY_B)
         {
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
         else if (gChangedInput & (KEY_A | KEY_START))
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->unk_9 = 1;
+            pOam->stage = 1;
 
-            if (gSaveFilesInfo[FILE_SELECT_DATA.unk_F].unk_10 == TRUE || gSaveFilesInfo[FILE_SELECT_DATA.unk_F].unk_11 == TRUE ||
-                gSaveFilesInfo[FILE_SELECT_DATA.unk_F].exists == TRUE)
+            if (gSaveFilesInfo[FILE_SELECT_DATA.copyDestinationFile].completedGame == TRUE || gSaveFilesInfo[FILE_SELECT_DATA.copyDestinationFile].introPlayed == TRUE ||
+                gSaveFilesInfo[FILE_SELECT_DATA.copyDestinationFile].exists == TRUE)
                 sound = 1;
             else
                 sound = 2;
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         if (FILE_SELECT_DATA.timer == 11)
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
     }
     else if (FILE_SELECT_DATA.subroutine == 17)
     {
         pOam->animationDurationCounter = 0;
         pOam->currentAnimationFrame = 0;
-        pOam->unk_9 = 0;
+        pOam->stage = 0;
     }
 
     if (moved)
@@ -1390,59 +1390,59 @@ void FileSelectProcessDeleteArrow(struct FileSelectOam* pOam)
 }
 
 /**
- * @brief 9fddc | 124 | To document
+ * @brief 9fddc | 124 | Processes the Yes/No cursor of the "existing file will be erased" copy confirmation
  *
  * @param pOam File select oam pointer
  */
-void unk_9fddc(struct FileSelectOam* pOam)
+void FileSelectProcessCopyConfirmCursor(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
-        if (FILE_SELECT_DATA.unk_10 == 0)
+        if (FILE_SELECT_DATA.choiceCursor == 0)
         {
             if (gChangedInput & KEY_RIGHT)
             {
-                FILE_SELECT_DATA.unk_10 = 1;
-                pOam->xPosition = sFileSelectChoiceCursorXPositions_73dbb0[gLanguage][1];
+                FILE_SELECT_DATA.choiceCursor = 1;
+                pOam->xPosition = sFileSelectCopyConfirmCursorXPositions[gLanguage][1];
                 SoundPlay(SOUND_1FA);
             }
         }
-        else if (FILE_SELECT_DATA.unk_10 == 1)
+        else if (FILE_SELECT_DATA.choiceCursor == 1)
         {
             if (gChangedInput & KEY_LEFT)
             {
-                FILE_SELECT_DATA.unk_10 = 0;
-                pOam->xPosition = sFileSelectChoiceCursorXPositions_73dbb0[gLanguage][0];
+                FILE_SELECT_DATA.choiceCursor = 0;
+                pOam->xPosition = sFileSelectCopyConfirmCursorXPositions[gLanguage][0];
                 SoundPlay(SOUND_1FA);
             }
         }
 
         if (gChangedInput & KEY_B)
         {
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
         else if (gChangedInput & (KEY_A | KEY_START))
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
 
-            if (FILE_SELECT_DATA.unk_10 == 0)
+            if (FILE_SELECT_DATA.choiceCursor == 0)
             {
                 SoundPlay(SOUND_207);
                 pOam->pOam = sFileSelectCursorOam2;
-                pOam->unk_9 = 1;
+                pOam->stage = 1;
             }
             else
             {
                 SoundPlay(SOUND_1FB);
                 pOam->pOam = sFileSelectCursorOam2;
-                pOam->unk_9 = 1;
+                pOam->stage = 1;
             }
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1452,7 +1452,7 @@ void unk_9fddc(struct FileSelectOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
     }
     else
@@ -1464,59 +1464,59 @@ void unk_9fddc(struct FileSelectOam* pOam)
 }
 
 /**
- * @brief 9ff00 | 124 | To document
+ * @brief 9ff00 | 124 | Processes the Yes/No cursor of the erase confirmation
  *
  * @param pOam File select oam pointer
  */
-void unk_9ff00(struct FileSelectOam* pOam)
+void FileSelectProcessEraseConfirmCursor(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
-        if (FILE_SELECT_DATA.unk_10 == 0)
+        if (FILE_SELECT_DATA.choiceCursor == 0)
         {
             if (gChangedInput & KEY_RIGHT)
             {
-                FILE_SELECT_DATA.unk_10 = 1;
-                pOam->xPosition = sFileSelectChoiceCursorXPositions_73dbbe[gLanguage][1];
+                FILE_SELECT_DATA.choiceCursor = 1;
+                pOam->xPosition = sFileSelectEraseConfirmCursorXPositions[gLanguage][1];
                 SoundPlay(SOUND_1FA);
             }
         }
-        else if (FILE_SELECT_DATA.unk_10 == 1)
+        else if (FILE_SELECT_DATA.choiceCursor == 1)
         {
             if (gChangedInput & KEY_LEFT)
             {
-                FILE_SELECT_DATA.unk_10 = 0;
-                pOam->xPosition = sFileSelectChoiceCursorXPositions_73dbbe[gLanguage][0];
+                FILE_SELECT_DATA.choiceCursor = 0;
+                pOam->xPosition = sFileSelectEraseConfirmCursorXPositions[gLanguage][0];
                 SoundPlay(SOUND_1FA);
             }
         }
 
         if (gChangedInput & KEY_B)
         {
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
         else if (gChangedInput & (KEY_A | KEY_START))
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
 
-            if (FILE_SELECT_DATA.unk_10 == 0)
+            if (FILE_SELECT_DATA.choiceCursor == 0)
             {
                 SoundPlay(SOUND_208);
                 pOam->pOam = sFileSelectCursorOam2;
-                pOam->unk_9 = 1;
+                pOam->stage = 1;
             }
             else
             {
                 SoundPlay(SOUND_1FB);
                 pOam->pOam = sFileSelectCursorOam2;
-                pOam->unk_9 = 1;
+                pOam->stage = 1;
             }
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1526,7 +1526,7 @@ void unk_9ff00(struct FileSelectOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
     }
     else
@@ -1546,12 +1546,12 @@ void FileSelectProcessAudioLogos(struct FileSelectOam* pOam)
 {
     if (FILE_SELECT_DATA.selectedFile == 3)
     {
-        if (pOam->unk_9 == 0)
+        if (pOam->stage == 0)
         {
             pOam->pOam = sFileSelectAudioLogosOam1;
             if (gChangedInput & KEY_RIGHT)
             {
-                pOam->unk_9 = 1;
+                pOam->stage = 1;
                 pOam->pOam = sFileSelectAudioLogosOam2;
                 pOam->animationDurationCounter = 0;
                 pOam->currentAnimationFrame = 0;
@@ -1559,12 +1559,12 @@ void FileSelectProcessAudioLogos(struct FileSelectOam* pOam)
                 SoundPlay(SOUND_206);
             }
         }
-        else if (pOam->unk_9 == 1)
+        else if (pOam->stage == 1)
         {
             pOam->pOam = sFileSelectAudioLogosOam2;
             if (gChangedInput & KEY_LEFT)
             {
-                pOam->unk_9 = 0;
+                pOam->stage = 0;
                 pOam->pOam = sFileSelectAudioLogosOam1;
                 pOam->animationDurationCounter = 0;
                 pOam->currentAnimationFrame = 0;
@@ -1575,13 +1575,13 @@ void FileSelectProcessAudioLogos(struct FileSelectOam* pOam)
     }
     else
     {
-        if (pOam->unk_9 == 0)
+        if (pOam->stage == 0)
         {
             pOam->pOam = sFileSelectAudioLogosOam3;
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
         }
-        else if (pOam->unk_9 == 1)
+        else if (pOam->stage == 1)
         {
             pOam->pOam = sFileSelectAudioLogosOam4;
             pOam->animationDurationCounter = 0;
@@ -1601,19 +1601,19 @@ void FileSelectProcessAudioSelect(struct FileSelectOam* pOam)
     {
         pOam->isDrawn = TRUE;
 
-        if (pOam->unk_9 == 0)
+        if (pOam->stage == 0)
         {
             if (gChangedInput & KEY_RIGHT)
             {
-                pOam->unk_9 = 1;
+                pOam->stage = 1;
                 pOam->xPosition = 170;
             }
         }
-        else if (pOam->unk_9 == 1)
+        else if (pOam->stage == 1)
         {
             if (gChangedInput & KEY_LEFT)
             {
-                pOam->unk_9 = 0;
+                pOam->stage = 0;
                 pOam->xPosition = 102;
             }
         }
@@ -1638,16 +1638,16 @@ void FileSelectProcessFileOverlay(struct FileSelectOam* pOam)
 }
 
 /**
- * @brief a016c | 60 | To document
+ * @brief a016c | 60 | Processes the selected file highlight oam (FILE_SELECT_OAM_TYPE_FILE_HIGHLIGHT, never set up)
  *
  * @param pOam File select oam pointer
  */
-void unk_a016c(struct FileSelectOam* pOam)
+void FileSelectProcessFileHighlight(struct FileSelectOam* pOam)
 {
     if (FILE_SELECT_DATA.subroutine != 0)
         return;
 
-    pOam->pOam = sFileSelectOam_7408e0;
+    pOam->pOam = sFileSelectFileHighlightOam;
 
     if (FILE_SELECT_DATA.selectedFile <= 2)
     {
@@ -1661,7 +1661,7 @@ void unk_a016c(struct FileSelectOam* pOam)
             pOam->yPosition = 0x51;
 
         if (gChangedInput & (KEY_A | KEY_START))
-            pOam->pOam = sFileSelectOam_7408d0;
+            pOam->pOam = sFileSelectFileHighlightSelectedOam;
     }
     else
     {
@@ -1670,11 +1670,11 @@ void unk_a016c(struct FileSelectOam* pOam)
 }
 
 /**
- * @brief a01cc | 4 | Empty
+ * @brief a01cc | 4 | Empty handler of the object shown with the corruption notice
  *
  * @param pOam File select oam pointer
  */
-void unk_a01cc(struct FileSelectOam* pOam)
+void FileSelectProcessCorruptionObject_Empty(struct FileSelectOam* pOam)
 {
     return;
 }
@@ -1688,7 +1688,7 @@ void FileSelectProcessFileActionPanel(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1696,10 +1696,10 @@ void FileSelectProcessFileActionPanel(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectFileActionPanelOam2;
-            pOam->unk_9 = 1;
+            pOam->stage = 1;
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         switch (FILE_SELECT_DATA.subroutine)
         {
@@ -1711,11 +1711,11 @@ void FileSelectProcessFileActionPanel(struct FileSelectOam* pOam)
                 pOam->animationDurationCounter = 0;
                 pOam->currentAnimationFrame = 0;
                 pOam->pOam = sFileSelectFileActionPanelOam3;
-                pOam->unk_9 = 2;
+                pOam->stage = 2;
                 break;
         }
     }
-    else if (pOam->unk_9 == 2)
+    else if (pOam->stage == 2)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1735,7 +1735,7 @@ void FileSelectProcessCopyFilePanel(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1743,10 +1743,10 @@ void FileSelectProcessCopyFilePanel(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectFilePanelOam2;
-            pOam->unk_9 = 1;
+            pOam->stage = 1;
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         switch (FILE_SELECT_DATA.subroutine)
         {
@@ -1757,11 +1757,11 @@ void FileSelectProcessCopyFilePanel(struct FileSelectOam* pOam)
                 pOam->animationDurationCounter = 0;
                 pOam->currentAnimationFrame = 0;
                 pOam->pOam = sFileSelectFilePanelOam3;
-                pOam->unk_9 = 2;
+                pOam->stage = 2;
                 break;
         }
     }
-    else if (pOam->unk_9 == 2)
+    else if (pOam->stage == 2)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1781,7 +1781,7 @@ void FileSelectProcessEraseFilePanel(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1789,10 +1789,10 @@ void FileSelectProcessEraseFilePanel(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectFilePanelOam2;
-            pOam->unk_9 = 1;
+            pOam->stage = 1;
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         switch (FILE_SELECT_DATA.subroutine)
         {
@@ -1803,11 +1803,11 @@ void FileSelectProcessEraseFilePanel(struct FileSelectOam* pOam)
                 pOam->animationDurationCounter = 0;
                 pOam->currentAnimationFrame = 0;
                 pOam->pOam = sFileSelectFilePanelOam3;
-                pOam->unk_9 = 2;
+                pOam->stage = 2;
                 break;
         }
     }
-    else if (pOam->unk_9 == 2)
+    else if (pOam->stage == 2)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1819,15 +1819,15 @@ void FileSelectProcessEraseFilePanel(struct FileSelectOam* pOam)
 }
 
 /**
- * @brief a039c | 88 | To document
+ * @brief a039c | 88 | Processes the Continue/Start Over panel oam (completed game files)
  *
  * @param pOam File select oam pointer
  */
-void unk_a039c(struct FileSelectOam* pOam)
+void FileSelectProcessContinueStartOverPanel(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1835,10 +1835,10 @@ void unk_a039c(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectFilePanelOam2;
-            pOam->unk_9 = 1;
+            pOam->stage = 1;
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         if (FILE_SELECT_DATA.subroutine == 11)
         {
@@ -1846,10 +1846,10 @@ void unk_a039c(struct FileSelectOam* pOam)
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
             pOam->pOam = sFileSelectFilePanelOam3;
-            pOam->unk_9 = 2;
+            pOam->stage = 2;
         }
     }
-    else if (pOam->unk_9 == 2)
+    else if (pOam->stage == 2)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1861,30 +1861,30 @@ void unk_a039c(struct FileSelectOam* pOam)
 }
 
 /**
- * @brief a0424 | f4 | To document
+ * @brief a0424 | f4 | Processes the Continue/Start Over cursor oam (completed game files)
  *
  * @param pOam File select oam pointer
  */
-void unk_a0424(struct FileSelectOam* pOam)
+void FileSelectProcessContinueStartOverCursor(struct FileSelectOam* pOam)
 {
     const struct FrameData* pFrame;
 
-    if (pOam->unk_9 == 0)
+    if (pOam->stage == 0)
     {
-        if (FILE_SELECT_DATA.unk_10 == 0)
+        if (FILE_SELECT_DATA.choiceCursor == 0)
         {
             if (gChangedInput & KEY_DOWN)
             {
-                FILE_SELECT_DATA.unk_10 = 1;
+                FILE_SELECT_DATA.choiceCursor = 1;
                 pOam->yPosition = 0x79;
                 SoundPlay(SOUND_1FA);
             }
         }
-        else if (FILE_SELECT_DATA.unk_10 == 1)
+        else if (FILE_SELECT_DATA.choiceCursor == 1)
         {
             if (gChangedInput & KEY_UP)
             {
-                FILE_SELECT_DATA.unk_10 = 0;
+                FILE_SELECT_DATA.choiceCursor = 0;
                 pOam->yPosition = 0x69;
                 SoundPlay(SOUND_1FA);
             }
@@ -1892,7 +1892,7 @@ void unk_a0424(struct FileSelectOam* pOam)
 
         if (gChangedInput & KEY_B)
         {
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
         else if (gChangedInput & (KEY_A | KEY_START))
         {
@@ -1900,19 +1900,19 @@ void unk_a0424(struct FileSelectOam* pOam)
             pOam->currentAnimationFrame = 0;
             SoundPlay(SOUND_1FE);
 
-            if (FILE_SELECT_DATA.unk_10 == 0)
+            if (FILE_SELECT_DATA.choiceCursor == 0)
             {
                 pOam->pOam = sFileSelectCursorOam2;
-                pOam->unk_9 = 100;
+                pOam->stage = 100;
             }
             else
             {
                 pOam->pOam = sFileSelectCursorOam2;
-                pOam->unk_9 = 100;
+                pOam->stage = 100;
             }
         }
     }
-    else if (pOam->unk_9 == 1)
+    else if (pOam->stage == 1)
     {
         pFrame = &pOam->pOam[pOam->currentAnimationFrame];
         if (pFrame->timer == pOam->animationDurationCounter && pFrame[1].timer == 0)
@@ -1922,7 +1922,7 @@ void unk_a0424(struct FileSelectOam* pOam)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
-            pOam->unk_9 = 100;
+            pOam->stage = 100;
         }
     }
     else
@@ -1934,11 +1934,11 @@ void unk_a0424(struct FileSelectOam* pOam)
 }
 
 /**
- * @brief a0518 | 4 | Empty
+ * @brief a0518 | 4 | Empty handler of the static oams (area names, completed game icons, panel)
  *
  * @param pOam File select oam pointer
  */
-void unk_a0518(struct FileSelectOam* pOam)
+void FileSelectProcessOam_Empty(struct FileSelectOam* pOam)
 {
     return;
 }
@@ -1984,15 +1984,15 @@ void FileSelectDrawFileInfo(u8 file)
 
     if (pInfo->exists == FALSE)
     {
-        if (gSaveFilesInfo[file].unk_10 == TRUE || gSaveFilesInfo[file].unk_11 == TRUE)
+        if (gSaveFilesInfo[file].completedGame == TRUE || gSaveFilesInfo[file].introPlayed == TRUE)
         {
             FILE_SELECT_DATA.corruptedFileInfo.currentEnergy = 99;
             pInfo = &FILE_SELECT_DATA.corruptedFileInfo;
         }
         else
         {
-            FileSelectDestroyOamOfType(file + 14);
-            FileSelectDestroyOamOfType(file + 20);
+            FileSelectDestroyOamOfType(file + FILE_SELECT_OAM_TYPE_AREA_NAME_FILE_A);
+            FileSelectDestroyOamOfType(file + FILE_SELECT_OAM_TYPE_COMPLETED_GAME_ICON_FILE_A);
 
             DMA3_FILL_32(0, dst, 0x300);
             DMA3_FILL_32(0, (u8*)dst + 0x400, 0x300);
@@ -2141,12 +2141,12 @@ void FileSelectDrawFileInfo(u8 file)
         }
     }
 
-    FileSelectDestroyOamOfType(file + 14);
-    FileSelectSetUpAreaNameOam(file + 14, 0x9D, file * 16 + 0x20, pInfo->currentArea);
-    FileSelectDestroyOamOfType(file + 20);
+    FileSelectDestroyOamOfType(file + FILE_SELECT_OAM_TYPE_AREA_NAME_FILE_A);
+    FileSelectSetUpAreaNameOam(file + FILE_SELECT_OAM_TYPE_AREA_NAME_FILE_A, 0x9D, file * 16 + 0x20, pInfo->currentArea);
+    FileSelectDestroyOamOfType(file + FILE_SELECT_OAM_TYPE_COMPLETED_GAME_ICON_FILE_A);
 
-    if (gSaveFilesInfo[file].unk_10 == TRUE)
-        FileSelectSetupOam(file + 20, 0xDC, file * 16 + 0x28, 1);
+    if (gSaveFilesInfo[file].completedGame == TRUE)
+        FileSelectSetupOam(file + FILE_SELECT_OAM_TYPE_COMPLETED_GAME_ICON_FILE_A, 0xDC, file * 16 + 0x28, 1);
 }
 
 /**
@@ -2166,10 +2166,10 @@ void FileSelectDrawText(u8 text)
     FILE_SELECT_DATA.textTile = 0;
     FILE_SELECT_DATA.textPixelOffset = 0;
 
-    if (FILE_SELECT_DATA.unk_8 == 24)
+    if (FILE_SELECT_DATA.textId == 24)
         pOffsets = sFileSelectTextTileOffsets[gLanguage][5];
     else
-        pOffsets = sFileSelectTextTileOffsets[gLanguage][FILE_SELECT_DATA.unk_8];
+        pOffsets = sFileSelectTextTileOffsets[gLanguage][FILE_SELECT_DATA.textId];
 
     if (text == 1)
     {
@@ -2287,19 +2287,19 @@ u32 FileSelectProcessCorruptedFile(void)
             {
                 FILE_SELECT_DATA.corruptedFileStage = 4;
                 FILE_SELECT_DATA.timer = 0;
-                FileSelectSetupOam(17, 0x7A, 0x44, 0);
+                FileSelectSetupOam(FILE_SELECT_OAM_TYPE_CORRUPTION_PANEL, 0x7A, 0x44, 0);
             }
             break;
 
         case 4:
             if (gSaveFilesInfo[FILE_SELECT_DATA.corruptedFile].corruptionFlag == 1)
-                FILE_SELECT_DATA.unk_8 = FILE_SELECT_DATA.corruptedFile + 5;
+                FILE_SELECT_DATA.textId = FILE_SELECT_DATA.corruptedFile + 5;
             else
-                FILE_SELECT_DATA.unk_8 = FILE_SELECT_DATA.corruptedFile + 8;
+                FILE_SELECT_DATA.textId = FILE_SELECT_DATA.corruptedFile + 8;
 
-            FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][FILE_SELECT_DATA.unk_8];
+            FILE_SELECT_DATA.pText = sFileSelectTexts[gLanguage][FILE_SELECT_DATA.textId];
             FileSelectDrawCorruptionText(2);
-            FileSelectSetupOam(10, 0x78, 0x64, 0);
+            FileSelectSetupOam(FILE_SELECT_OAM_TYPE_CORRUPTION_OBJECT, 0x78, 0x64, 0);
             FILE_SELECT_DATA.dispcntAction = 3;
             FILE_SELECT_DATA.corruptedFileStage = 5;
             break;
@@ -2307,8 +2307,8 @@ u32 FileSelectProcessCorruptedFile(void)
         case 5:
             if (gChangedInput & (KEY_A | KEY_B))
             {
-                FileSelectDestroyOamOfType(10);
-                FileSelectDestroyOamOfType(17);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_CORRUPTION_OBJECT);
+                FileSelectDestroyOamOfType(FILE_SELECT_OAM_TYPE_CORRUPTION_PANEL);
                 SoundPlay(SOUND_1FB);
                 FILE_SELECT_DATA.dispcntAction = 4;
                 Sram_SetCurrentFile(FILE_SELECT_DATA.corruptedFile);
@@ -2634,10 +2634,10 @@ u32 SetLanguage(u8 unk)
 }
 
 /**
- * @brief a13e0 | 98 | To document
+ * @brief a13e0 | 98 | Leftover init of a removed language select: resets the display and sets an empty v-blank (unused)
  *
  */
-void unk_a13e0(void)
+void LanguageSelectInit_Unused(void)
 {
     WRITE_16(REG_IME, FALSE);
     WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) & ~DSTAT_IF_HBLANK);
@@ -2666,24 +2666,24 @@ void unk_a13e0(void)
 
     WRITE_16(REG_DISPCNT, 0);
 
-    CallbackSetVBlank(unk_a1478);
+    CallbackSetVBlank(LanguageSelectVblank_Empty);
 }
 
 /**
- * @brief a1478 | 4 | Empty v-blank
+ * @brief a1478 | 4 | Empty v-blank of the removed language select
  *
  */
-void unk_a1478(void)
+void LanguageSelectVblank_Empty(void)
 {
     return;
 }
 
 /**
- * @brief a147c | 4 | To document
+ * @brief a147c | 4 | Leftover handler of a removed language select, does nothing (unused)
  *
  * @return u32 TRUE
  */
-u32 unk_a147c(void)
+u32 LanguageSelectHandler_Unused(void)
 {
     return TRUE;
 }

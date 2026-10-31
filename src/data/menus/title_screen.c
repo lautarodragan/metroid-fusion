@@ -443,7 +443,7 @@ const struct FrameData sTitleScreenOam_PressStart[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sTitleScreenOam_597470[3] = {
+const struct FrameData sTitleScreenOam_PressStartSelected[3] = {
     [0] = {
         .pFrame = sTitleScreenOam_596ffa,
         .timer = 3

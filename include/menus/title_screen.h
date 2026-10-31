@@ -4,16 +4,16 @@
 #include "types.h"
 #include "structs/menus/title_screen.h"
 
-s32 unk_86854(void);
-void unk_8690c(void);
+s32 TitleScreenHandler_Unused(void);
+void TitleScreenInit_Unused(void);
 void TitleScreenVblank(void);
 void TitleScreenVblank_Empty(void);
-s32 unk_86b58(void);
+s32 TitleScreenProcessInput_Unused(void);
 u8 TitleScreenSetupObject(u8 section, u16 xPosition, u16 yPosition);
-void unk_86cf0(struct TitleScreenObject* pObject);
+void TitleScreenProcessCyclingObject_Unused(struct TitleScreenObject* pObject);
 void TitleScreenProcessPressStart(struct TitleScreenObject* pObject);
 void TitleScreenProcessLanguage(struct TitleScreenObject* pObject);
-void unk_86e94(struct TitleScreenObject* pObject);
+void TitleScreenProcessSection4(struct TitleScreenObject* pObject);
 void TitleScreenDrawAllObjects(void);
 void TitleScreenDrawObject(struct TitleScreenObject* pObject);
 void TitleScreenCallObjectsHandler(void);

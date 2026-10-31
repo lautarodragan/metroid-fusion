@@ -223,14 +223,14 @@ u32 Sram_VerifyHeader(u8 header)
  */
 void Sram_ProcessIntroSave(u8 stage)
 {
-    if (gSaveFilesInfo[gMostRecentSaveFile].unk_F)
+    if (gSaveFilesInfo[gMostRecentSaveFile].savedDuringGameplay)
     {
         switch (stage)
         {
             case 0:
                 gDisableSoftReset = TRUE;
                 gGameCompletion.introPlayed = TRUE;
-                gSaveFilesInfo[gMostRecentSaveFile].unk_11 = TRUE;
+                gSaveFilesInfo[gMostRecentSaveFile].introPlayed = TRUE;
                 return;
 
             case 1:
@@ -251,8 +251,8 @@ void Sram_ProcessIntroSave(u8 stage)
             case 0:
                 gDisableSoftReset = TRUE;
                 gGameCompletion.introPlayed = TRUE;
-                gSaveFilesInfo[gMostRecentSaveFile].unk_11 = TRUE;
-                gGameCompletion.completedGame = gSaveFilesInfo[gMostRecentSaveFile].unk_10;
+                gSaveFilesInfo[gMostRecentSaveFile].introPlayed = TRUE;
+                gGameCompletion.completedGame = gSaveFilesInfo[gMostRecentSaveFile].completedGame;
                 BitFill(3, 0, (void*)sSaveDataEwramPointers[gMostRecentSaveFile], 0x300, 16);
                 return;
 
@@ -333,7 +333,7 @@ void Sram_ProcessEndingSave(u8 stage)
 
         case 2:
             WriteMostRecentFileToSram();
-            gSaveFilesInfo[gMostRecentSaveFile].unk_10 = gGameCompletion.completedGame;
+            gSaveFilesInfo[gMostRecentSaveFile].completedGame = gGameCompletion.completedGame;
             break;
 
         case 3:
@@ -1294,8 +1294,8 @@ void Sram_CheckLoadSaveFile(void)
     if (gIsLoadingFile == FALSE)
     {
         Sram_InitSaveFile();
-        gGameCompletion.completedGame = gSaveFilesInfo[gMostRecentSaveFile].unk_10;
-        gGameCompletion.introPlayed = gSaveFilesInfo[gMostRecentSaveFile].unk_11;
+        gGameCompletion.completedGame = gSaveFilesInfo[gMostRecentSaveFile].completedGame;
+        gGameCompletion.introPlayed = gSaveFilesInfo[gMostRecentSaveFile].introPlayed;
         gGameCompletion.unk_2 = FALSE;
     }
     else
@@ -1417,12 +1417,12 @@ void Sram_WriteFileInfo(void)
             gSaveFilesInfo[i].weaponsStatus = pFile->equipment.weaponsStatus;
             gSaveFilesInfo[i].igtHours = pFile->inGameTimer.hours;
             gSaveFilesInfo[i].igtMinutes = pFile->inGameTimer.minutes;
-            gSaveFilesInfo[i].unk_F = pFile->hasSaved;
-            gSaveFilesInfo[i].unk_10 = pFile->gameCompletion.completedGame;
-            gSaveFilesInfo[i].unk_11 = pFile->gameCompletion.introPlayed;
+            gSaveFilesInfo[i].savedDuringGameplay = pFile->hasSaved;
+            gSaveFilesInfo[i].completedGame = pFile->gameCompletion.completedGame;
+            gSaveFilesInfo[i].introPlayed = pFile->gameCompletion.introPlayed;
         }
 
-        if (!gSaveFilesInfo[i].exists || !gSaveFilesInfo[i].unk_F)
+        if (!gSaveFilesInfo[i].exists || !gSaveFilesInfo[i].savedDuringGameplay)
         {
             gSaveFilesInfo[i].exists = FALSE;
             gSaveFilesInfo[i].currentArea = 0;

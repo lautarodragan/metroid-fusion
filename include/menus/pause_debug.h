@@ -12,7 +12,7 @@ u32 PauseDebugModifiyAbilityCount(u8 cursorX);
 void PauseDebugDrawAbilityCount(void);
 void PauseDebugDrawMenuAndDoor(void);
 void PauseDebugDrawIgt(void);
-void unk_7e224(void);
+void PauseDebugBlinkIgtColon(void);
 u32 PauseDebugModifyHealthAndAmmo(u8 cursorX, u8 section);
 void PauseDebugDrawHealthAmmoAndEvent(u8 section);
 void PauseDebugDrawNumber(u16 value, u8 section);

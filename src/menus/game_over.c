@@ -89,7 +89,7 @@ void GameOverInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9e58c);
+    CallbackSetVBlank(GameOverVblank_Empty);
 
     WRITE_16(REG_DISPCNT, 0);
 
@@ -203,11 +203,11 @@ u8 GameOverSetupOam(u8 type, u16 xPosition, u16 yPosition)
         GAME_OVER_DATA.oam[i].pOam = sGameOverCursorOam[0];
         GAME_OVER_DATA.oam[i].pHandler = GameOverProcessCursor;
     }
-    else if (type == GAME_OVER_OAM_TYPE_2)
+    else if (type == GAME_OVER_OAM_TYPE_CURSOR_OVERLAY)
     {
         GAME_OVER_DATA.oam[i].priority = 3;
         GAME_OVER_DATA.oam[i].pOam = sGameOverCursorOverlayOam;
-        GAME_OVER_DATA.oam[i].pHandler = unk_9e2cc;
+        GAME_OVER_DATA.oam[i].pHandler = GameOverProcessCursorOverlay;
     }
 
     return i;
@@ -220,7 +220,7 @@ u8 GameOverSetupOam(u8 type, u16 xPosition, u16 yPosition)
  */
 void GameOverProcessCursor(struct GameOverOam* pOam)
 {
-    if (pOam->unk_9 != 0)
+    if (pOam->stage != 0)
         return;
 
     if (gChangedInput & KEY_UP)
@@ -260,16 +260,16 @@ void GameOverProcessCursor(struct GameOverOam* pOam)
         GAME_OVER_DATA.optionSelected = TRUE;
         pOam->currentAnimationFrame = 0;
         pOam->animationDurationCounter = 0;
-        pOam->unk_9 = 1;
+        pOam->stage = 1;
     }
 }
 
 /**
- * @brief 9e2cc | 28 | To document
+ * @brief 9e2cc | 28 | Processes the cursor overlay oam, keeps it on the cursor
  *
  * @param pOam Game over oam pointer
  */
-void unk_9e2cc(struct GameOverOam* pOam)
+void GameOverProcessCursorOverlay(struct GameOverOam* pOam)
 {
     u16 xPosition;
     u16 yPosition;
@@ -289,7 +289,7 @@ void GameOverResetOam(u8 slot)
     GAME_OVER_DATA.oam[slot].currentAnimationFrame = 0;
     GAME_OVER_DATA.oam[slot].animationDurationCounter = 0;
     GAME_OVER_DATA.oam[slot].unk_8 = 0;
-    GAME_OVER_DATA.oam[slot].unk_9 = 0;
+    GAME_OVER_DATA.oam[slot].stage = 0;
     GAME_OVER_DATA.oam[slot].objMode = 0;
     GAME_OVER_DATA.oam[slot].priority = 0;
     GAME_OVER_DATA.oam[slot].xFlip = 0;
@@ -446,7 +446,7 @@ void GameOverVblank(void)
  * @brief 9e58c | c | Empty v-blank code for the game over screen
  *
  */
-void unk_9e58c(void)
+void GameOverVblank_Empty(void)
 {
     UpdateAudio();
 }

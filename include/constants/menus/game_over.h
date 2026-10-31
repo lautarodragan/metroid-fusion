@@ -4,7 +4,7 @@
 enum GameOverOamType {
     GAME_OVER_OAM_TYPE_NONE,
     GAME_OVER_OAM_TYPE_CURSOR,
-    GAME_OVER_OAM_TYPE_2
+    GAME_OVER_OAM_TYPE_CURSOR_OVERLAY
 };
 
 enum GameOverChoice {

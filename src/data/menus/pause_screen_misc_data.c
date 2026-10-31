@@ -279,9 +279,9 @@ const u8 sNavConversationPortraitOamIds[6][3] = {
     }
 };
 
-// Mosaic value (BG mosaic of size 14 horizontally and vertically) at which the pop-up
-// mosaic effect stops (unk_7b674 adds 0x11 per step); followed by 1 byte of padding
-const u8 sUnk_576802[1] = { 0xEE };
+// Mosaic value (BG mosaic of size 14 horizontally and vertically) at which the area transition
+// mosaic effect stops (NavigationConversationProcessAreaTransition adds 0x11 per step); followed by 1 byte of padding
+const u8 sNavConversationAreaTransitionMaxMosaic[1] = { 0xEE };
 // Palettes, LZ77 graphics and animations of the navigation conversation pop-ups
 const u16 sNavConversationPopUpPal_576804[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576804.pal");
 const u16 sNavConversationPopUpCyclePal_576824[] = INCBIN_U16("data/menus/pause_screen/nav_conversation_pop_up_576824.pal");
@@ -303,9 +303,9 @@ const struct NavConversationPopUp sNavConversationPopUps[5] = {
         .animationLength = 6,
         .pPalette = sNavConversationPopUpPal_576804,
         .pCyclePalette = sNavConversationPopUpCyclePal_576824,
-        .unk_10 = 0,
+        .cyclePaletteDelay = 0,
         .tiles = { .count = 6, .slot = 0 },
-        .unk_12_0 = 8,
+        .frameWidth = 8,
         .unk_12_4 = 0,
         .unk_13 = 0,
         .pGraphics = sNavConversationPopUpGfx_576904
@@ -315,9 +315,9 @@ const struct NavConversationPopUp sNavConversationPopUps[5] = {
         .animationLength = 6,
         .pPalette = sNavConversationPopUpPal_576804,
         .pCyclePalette = sNavConversationPopUpCyclePal_576824,
-        .unk_10 = 0,
+        .cyclePaletteDelay = 0,
         .tiles = { .count = 6, .slot = 0 },
-        .unk_12_0 = 8,
+        .frameWidth = 8,
         .unk_12_4 = 0,
         .unk_13 = 0,
         .pGraphics = sNavConversationPopUpGfx_576904
@@ -327,9 +327,9 @@ const struct NavConversationPopUp sNavConversationPopUps[5] = {
         .animationLength = 16,
         .pPalette = sNavConversationPopUpPal_576844,
         .pCyclePalette = sNavConversationPopUpCyclePal_576864,
-        .unk_10 = 0,
+        .cyclePaletteDelay = 0,
         .tiles = { .count = 4, .slot = 1 },
-        .unk_12_0 = 4,
+        .frameWidth = 4,
         .unk_12_4 = 2,
         .unk_13 = 0,
         .pGraphics = sNavConversationPopUpGfx_577024
@@ -339,9 +339,9 @@ const struct NavConversationPopUp sNavConversationPopUps[5] = {
         .animationLength = 48,
         .pPalette = sNavConversationPopUpPal_576884,
         .pCyclePalette = sNavConversationPopUpCyclePal_5768a4,
-        .unk_10 = 0,
+        .cyclePaletteDelay = 0,
         .tiles = { .count = 6, .slot = 0 },
-        .unk_12_0 = 8,
+        .frameWidth = 8,
         .unk_12_4 = 0,
         .unk_13 = 0,
         .pGraphics = sNavConversationPopUpGfx_578750
@@ -351,9 +351,9 @@ const struct NavConversationPopUp sNavConversationPopUps[5] = {
         .animationLength = 16,
         .pPalette = sNavConversationPopUpPal_5768c4,
         .pCyclePalette = sNavConversationPopUpCyclePal_5768e4,
-        .unk_10 = 0,
+        .cyclePaletteDelay = 0,
         .tiles = { .count = 4, .slot = 1 },
-        .unk_12_0 = 4,
+        .frameWidth = 4,
         .unk_12_4 = 2,
         .unk_13 = 0,
         .pGraphics = sNavConversationPopUpGfx_577024

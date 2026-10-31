@@ -18,7 +18,7 @@ bools32 PauseDebugScreenAppearing(void);
 bools32 PauseDebugScreenDisappearing(void);
 bools32 PauseScreenEasySleepMenuInit(void);
 bools32 PauseScreenEasySleepMenuQuit(void);
-void PauseScreenUpdateObjectiveTextBox(u8 arg0);
+void PauseScreenUpdateObjectiveTextBox(u8 action);
 void PauseScreenMapUpdateArrowsAndBlinkingSquare(void);
 void PauseScreenMapDrawSpecialOam(u8 action);
 void PauseScreenSetupOam(void);

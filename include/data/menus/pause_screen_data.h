@@ -151,7 +151,7 @@ extern const u32 sSector2Minimap[133];
 extern const u32 sSector5Minimap[126];
 extern const u32 sMainDeckNoLabMinimap[148];
 
-extern const u32 sUnk_573da4[63];
+extern const u32 sNavConversationOutlineTilemap[63];
 extern const u32 sPauseDebugTilemap[151];
 extern const u32 sMapScreenOutlineTilemap[123];
 extern const u32 sNavConversationTextBoxesTilemap[176];

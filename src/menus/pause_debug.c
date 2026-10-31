@@ -30,7 +30,7 @@ void PauseDebugHandler(void)
 {
     if (gChangedInput & (KEY_B | KEY_L | KEY_R) && !PAUSE_SCREEN_DATA.DEBUG_EDITING_VALUE)
     {
-        PAUSE_SCREEN_DATA.unk_28.unk_0 = 0x7;
+        PAUSE_SCREEN_DATA.state.current = PAUSE_SCREEN_STATE_STATUS_DISAPPEARING;
         PAUSE_SCREEN_DATA.timer = 0;
         PAUSE_SCREEN_DATA.DEBUG_EDITING_VALUE = FALSE;
         PAUSE_SCREEN_DATA.oam[PAUSE_OAM_IDX_PAUSE_DEBUG_CURSOR].oamId = PAUSE_OAM_ID_NONE;
@@ -40,11 +40,11 @@ void PauseDebugHandler(void)
     if (gChangedInput != 0)
         PauseDebugModifyValues();
 
-    if (PAUSE_SCREEN_DATA.unk_284 != gInGameTimer.minutes)
+    if (PAUSE_SCREEN_DATA.debugIgtMinutes != gInGameTimer.minutes)
         PauseDebugDrawIgt();
 
     if (gInGameTimer.frames == 0)
-        unk_7e224();
+        PauseDebugBlinkIgtColon();
 }
 
 // BUG: return type should be void
@@ -950,14 +950,14 @@ void PauseDebugDrawIgt(void)
         dst[position] = 0x3080 + gInGameTimer.minutes / power % 10;
     }
 
-    PAUSE_SCREEN_DATA.unk_284 = gInGameTimer.minutes;
+    PAUSE_SCREEN_DATA.debugIgtMinutes = gInGameTimer.minutes;
 }
 
 /**
- * @brief 7e224 | 54 | To document
+ * @brief 7e224 | 54 | Blinks the colon of the in game time of the pause debug menu (drawn on odd seconds)
  * 
  */
-void unk_7e224(void)
+void PauseDebugBlinkIgtColon(void)
 {
     u16* dst;
     u32 position;

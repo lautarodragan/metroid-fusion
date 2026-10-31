@@ -75,7 +75,7 @@ extern const struct FrameData sElevatorMonologueOam_6719f4[];
 extern const struct FrameData sFileSelectAudioLogosOam4_740800[];
 extern const struct FrameData sFileSelectAudioLogosOam4_740820[];
 extern const struct FrameData sFileSelectAudioLogosOam4_740840[];
-extern const struct FrameData sFileSelectDeleteArrowIdleOam[];
+extern const struct FrameData sFileSelectCopyArrowIdleOam[];
 extern const struct FrameData sFileSelectDeleteArrowIdleOam_740ac8[];
 extern const struct FrameData sFileSelectDeleteArrowIdleOam_740ad8[];
 extern const struct FrameData sFileSelectDeleteArrowIdleOam_740ae8[];
@@ -2872,13 +2872,13 @@ const u8* sGameOverTextGfxPointers[LANGUAGE_COUNT] = {
     sGameOverTextGfxSpanish
 };
 const struct FrameData* sFileSelectFileOverlayOam[5] = {
-    sFileSelectDeleteArrowIdleOam,
+    sFileSelectCopyArrowIdleOam,
     sFileSelectDeleteArrowIdleOam_740ac8,
     sFileSelectDeleteArrowIdleOam_740ad8,
     sFileSelectOam_7408c0,
     sFileSelectOam_7408c0
 };
-const struct FrameData* sFileSelectDeleteArrowOam[3][3] = {
+const struct FrameData* sFileSelectCopyArrowOam[3][3] = {
     {
         sFileSelectAudioLogosOam4_740800,
         sFileSelectAudioLogosOam4_740800,
