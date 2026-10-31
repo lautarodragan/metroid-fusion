@@ -562,8 +562,9 @@ public sources):
   what the BIOS changes (the interrupt entry and the BIOS calls are BIOS
   code).
 - **mGBA git master** (October 2026), built as a libretro core.
-- **NanoBoyAdvance** (git, June 2026), the most accurate emulator available
-  as source. It has no libretro core or headless mode, so a small libretro
+- **NanoBoyAdvance** (the last commit of its GitHub repository, June 2026;
+  development goes on at Codeberg), the most accurate emulator available as
+  source. It has no libretro core or headless mode, so a small libretro
   wrapper around its core library (about 200 lines: memory map, input, save
   states, and `retro_run` stopping at the start of V-blank like mGBA's core,
   so that `LogicStepper` works the same way) runs it under
@@ -577,8 +578,9 @@ states do not restore every timing detail: a fight started from a saved state
 lagged like mGBA (2 lag frames in Nightmare), the same fight emulated in one go
 from power-on lagged 11 times, so every NanoBoyAdvance number here comes from
 a run in one go (power-on, the boot script, the scenario). The game logic is
-the same as in mGBA: the sprites, Samus and the equipment are identical at
-every one of the 3,596 logic frames of the Nightmare fight.
+the same as in mGBA: in the run in one go, with its 11 lag frames, the
+sprites, Samus and the equipment are identical to mGBA's at every one of the
+3,596 logic frames of the Nightmare fight.
 
 Lag frames, original ROM:
 
@@ -591,7 +593,7 @@ Lag frames, original ROM:
 | BOX, full fight | 2,075 | 0 | 0 | 0 | 0 |
 | BOX 2, full fight | 3,228 | 0 | 0 | 0 | 0 |
 | BOX 2, beam nonstop | 4,000 | 0 | 0 | 0 | 0 |
-| Ridley | 3,000 | 3 | – | – | 9 |
+| Ridley (lag map) | 3,000 | 3 | – | – | 9 |
 | Nettori | 3,000 | 0 | – | – | 0 |
 | Serris | 3,000 | 0 | – | – | 0 |
 | Yakuza | 3,000 | 0 | – | – | 0 |
