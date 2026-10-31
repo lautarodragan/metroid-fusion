@@ -5,7 +5,7 @@
 #include "oam.h"
 
 struct SamusData {
-    u8 unk_0;
+    u8 unk_0; // Only copied to gPreviousSamusField0
     u8 pose;
     u8 turning;
     u8 forcedMovement;
@@ -16,7 +16,7 @@ struct SamusData {
     u8 weaponHighlighted;
     u8 newProjectile;
     u8 cooldownTimer;
-    u8 unk_B;
+    u8 unk_B; // Timer decremented every frame, ends the (never spawned) absorbing suit particle when 0, never set
     u8 chargeBeamCounter;
     u8 diagonalAim;
     u8 armRunningFlag;
@@ -127,7 +127,7 @@ struct SamusCollisionData {
     u8 secondaryCollisionType; // Always the same as collisionType
     u8 touchingSideBlock;
     u8 touchingTopBlock;
-    u8 unk_E;
+    u8 unk_E; // Only cleared
 };
 
 struct SamusEcho {

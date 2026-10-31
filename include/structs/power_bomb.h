@@ -26,7 +26,7 @@ struct PowerBomb {
     s16 hitboxBottom;
     u8 powerBombPlaced;
     boolu8 ownedBySaX;
-    u8 unk_12;
+    u8 unk_12; // Delays the start of the explosion by a frame when set (PB_STATE_STARTING), always cleared before being checked
 };
 
 extern struct PowerBomb gCurrentPowerBomb;
