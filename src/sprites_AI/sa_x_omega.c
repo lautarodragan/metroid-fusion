@@ -54,7 +54,7 @@ void SaXOmegaForming(void)
         return;
     }
 
-    gCurrentSprite.pose = 0x16;
+    gCurrentSprite.pose = SPRITE_POSE_FALLING;
     gCurrentSprite.work4 = 0;
     gSaXData.mosaic = FALSE;
 }
@@ -72,7 +72,7 @@ void SaXOmegaFalling(void)
     if (gCurrentSprite.work0)
     {
         if (gSaXData.pose == SA_X_POSE_STANDING)
-            gCurrentSprite.pose = 0x7;
+            gCurrentSprite.pose = SA_X_OMEGA_POSE_STANDING_INIT;
 
         return;
     }
@@ -108,7 +108,7 @@ void SaXOmegaFalling(void)
  */
 void SaXOmegaStandingInit(void)
 {
-    gCurrentSprite.pose = 0x8;
+    gCurrentSprite.pose = SA_X_OMEGA_POSE_STANDING;
     gCurrentSprite.work1 = 24;
 }
 
@@ -120,7 +120,7 @@ void SaXOmegaStanding(void)
 {
     gCurrentSprite.work1--;
     if (gCurrentSprite.work1 == 0)
-        gCurrentSprite.pose = 0x3F;
+        gCurrentSprite.pose = SA_X_OMEGA_POSE_RUNNING_INIT;
 }
 
 /**
@@ -129,7 +129,7 @@ void SaXOmegaStanding(void)
  */
 void SaXOmegaRunningInit(void)
 {
-    gCurrentSprite.pose = 0x40;
+    gCurrentSprite.pose = SA_X_OMEGA_POSE_RUNNING;
     gCurrentSprite.work3 = 0;
 
     SaXSetPose(SA_X_POSE_RUNNING);
@@ -150,7 +150,7 @@ void SaXOmegaRunning(void)
 
     gCurrentSprite.work1--;
     if (gCurrentSprite.work1 == 0)
-        gCurrentSprite.pose = 0x41;
+        gCurrentSprite.pose = SA_X_OMEGA_POSE_DELAY_BEFORE_SHOOTING_OMEGA_INIT;
 }
 
 /**
@@ -159,7 +159,7 @@ void SaXOmegaRunning(void)
  */
 void SaXOmegaDelayBeforeShootingOmegaInit(void)
 {
-    gCurrentSprite.pose = 0x42;
+    gCurrentSprite.pose = SA_X_OMEGA_POSE_DELAY_BEFORE_SHOOTING_OMEGA;
     gCurrentSprite.work1 = 16;
     gSaXData.diagonalAim = DIAG_AIM_UP;
 
@@ -174,7 +174,7 @@ void SaXOmegaDelayBeforeShootingOmega(void)
 {
     gCurrentSprite.work1--;
     if (gCurrentSprite.work1 == 0)
-        gCurrentSprite.pose = 0x43;
+        gCurrentSprite.pose = SA_X_OMEGA_POSE_SHOOTING_OMEGA_INIT;
 }
 
 /**
@@ -183,7 +183,7 @@ void SaXOmegaDelayBeforeShootingOmega(void)
  */
 void SaXOmegaShootingOmegaInit(void)
 {
-    gCurrentSprite.pose = 0x44;
+    gCurrentSprite.pose = SA_X_OMEGA_POSE_SHOOTING_OMEGA;
 
     SpriteSpawnSecondary(SSPRITE_SA_X_ICE_BEAM, DIAG_AIM_UP, gCurrentSprite.spritesetGfxSlot, gCurrentSprite.primarySpriteRamSlot,
         gCurrentSprite.yPosition - (BLOCK_SIZE * 2 + QUARTER_BLOCK_SIZE / 2), gCurrentSprite.xPosition + (BLOCK_SIZE + PIXEL_SIZE), SPRITE_STATUS_X_FLIP);
@@ -199,7 +199,7 @@ void SaXOmegaShootingOmegaInit(void)
 void SaXOmegaShootingOmega(void)
 {
     if (gSaXData.pose == SA_X_POSE_STANDING)
-        gCurrentSprite.pose = 0x45;
+        gCurrentSprite.pose = SA_X_OMEGA_POSE_AFTER_SHOOTING_OMEGA_INIT;
 }
 
 /**
@@ -208,7 +208,7 @@ void SaXOmegaShootingOmega(void)
  */
 void SaXOmegaAfterShootingOmegaInit(void)
 {
-    gCurrentSprite.pose = 0x46;
+    gCurrentSprite.pose = SA_X_OMEGA_POSE_AFTER_SHOOTING_OMEGA;
     gCurrentSprite.work1 = 50;
     gCurrentSprite.work4 = 0;
 
@@ -272,7 +272,7 @@ void SaXOmegaAfterShootingOmega(void)
  */
 void SaXOmegaHitByOmegaInit(void)
 {
-    gCurrentSprite.pose = 0x48;
+    gCurrentSprite.pose = SA_X_OMEGA_POSE_HIT_BY_OMEGA;
     gCurrentSprite.work1 = 0;
     gCurrentSprite.work4 = 0;
 
@@ -293,7 +293,7 @@ void SaXOmegaHitByOmega(void)
 
     if (movement == SHORT_MAX)
     {
-        gCurrentSprite.pose = 0x49;
+        gCurrentSprite.pose = SA_X_OMEGA_POSE_REVERTING_TO_X_INIT;
     }
     else
     {
@@ -310,7 +310,7 @@ void SaXOmegaHitByOmega(void)
  */
 void SaXOmegaRevertingToXInit(void)
 {
-    gCurrentSprite.pose = 0x4A;
+    gCurrentSprite.pose = SA_X_OMEGA_POSE_REVERTING_TO_X;
     gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
     gSaXData.mosaic = TRUE;
 
@@ -358,52 +358,52 @@ void SaXOmega(void)
             SaXOmegaFalling();
             break;
 
-        case 0x7:
+        case SA_X_OMEGA_POSE_STANDING_INIT:
             SaXOmegaStandingInit();
 
-        case 0x8:
+        case SA_X_OMEGA_POSE_STANDING:
             SaXOmegaStanding();
             break;
 
-        case 0x3F:
+        case SA_X_OMEGA_POSE_RUNNING_INIT:
             SaXOmegaRunningInit();
 
-        case 0x40:
+        case SA_X_OMEGA_POSE_RUNNING:
             SaXOmegaRunning();
             break;
 
-        case 0x41:
+        case SA_X_OMEGA_POSE_DELAY_BEFORE_SHOOTING_OMEGA_INIT:
             SaXOmegaDelayBeforeShootingOmegaInit();
 
-        case 0x42:
+        case SA_X_OMEGA_POSE_DELAY_BEFORE_SHOOTING_OMEGA:
             SaXOmegaDelayBeforeShootingOmega();
             break;
 
-        case 0x43:
+        case SA_X_OMEGA_POSE_SHOOTING_OMEGA_INIT:
             SaXOmegaShootingOmegaInit();
 
-        case 0x44:
+        case SA_X_OMEGA_POSE_SHOOTING_OMEGA:
             SaXOmegaShootingOmega();
             break;
 
-        case 0x45:
+        case SA_X_OMEGA_POSE_AFTER_SHOOTING_OMEGA_INIT:
             SaXOmegaAfterShootingOmegaInit();
 
-        case 0x46:
+        case SA_X_OMEGA_POSE_AFTER_SHOOTING_OMEGA:
             SaXOmegaAfterShootingOmega();
             break;
 
-        case 0x47:
+        case SA_X_OMEGA_POSE_HIT_BY_OMEGA_INIT:
             SaXOmegaHitByOmegaInit();
 
-        case 0x48:
+        case SA_X_OMEGA_POSE_HIT_BY_OMEGA:
             SaXOmegaHitByOmega();
             break;
 
-        case 0x49:
+        case SA_X_OMEGA_POSE_REVERTING_TO_X_INIT:
             SaXOmegaRevertingToXInit();
 
-        case 0x4A:
+        case SA_X_OMEGA_POSE_REVERTING_TO_X:
             SaXOmegaRevertingToX();
     }
 

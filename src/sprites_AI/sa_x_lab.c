@@ -1,4 +1,5 @@
 #include "sprites_AI/sa_x_arc.h"
+#include "sprites_AI/sa_x_lab.h"
 #include "sprites_AI/sa_x.h"
 #include "macros.h"
 #include "globals.h"
@@ -34,7 +35,7 @@ void SaXLabInit(void)
  */
 void SaXLabShootingLabInit(void)
 {
-    gCurrentSprite.pose = 0x2;
+    gCurrentSprite.pose = SA_X_LAB_POSE_SHOOTING_LAB;
     gCurrentSprite.work1 = 100;
 
     SaXSetPose(SA_X_POSE_SHOOTING_RESTRICTED_LABORATORY);
@@ -60,7 +61,7 @@ void SaXLabGettingCoveredByMetroids(void)
 
     if (gCurrentSprite.work1 == 0)
     {
-        gCurrentSprite.pose = 0x1A;
+        gCurrentSprite.pose = SA_X_LAB_POSE_COVERED_BY_METROIDS;
         SaXSetPose(SA_X_POSE_COVERED_BY_METROIDS);
         gCurrentSprite.work1 = 100;
     }
@@ -86,7 +87,7 @@ void SaXLabCoveredByMetroids(void)
     }
     else if (gCurrentSprite.work1 == 0)
     {
-        gCurrentSprite.pose = 0x1C;
+        gCurrentSprite.pose = SA_X_LAB_POSE_COVERED_BY_METROIDS_AFTER_DETACHMENT;
         gCurrentSprite.work1 = 60;
     }
 }
@@ -119,23 +120,23 @@ void SaXLab(void)
         case SPRITE_POSE_UNINITIALIZED:
             SaXLabInit();
 
-        case 0x1:
+        case SA_X_LAB_POSE_SHOOTING_LAB_INIT:
             SaXLabShootingLabInit();
             break;
 
-        case 0x2:
+        case SA_X_LAB_POSE_SHOOTING_LAB:
             SaXLabSetTarget();
             break;
 
-        case 0x18:
+        case SA_X_LAB_POSE_GETTING_COVERED_BY_METROIDS:
             SaXLabGettingCoveredByMetroids();
             break;
 
-        case 0x1A:
+        case SA_X_LAB_POSE_COVERED_BY_METROIDS:
             SaXLabCoveredByMetroids();
             break;
 
-        case 0x1C:
+        case SA_X_LAB_POSE_COVERED_BY_METROIDS_AFTER_DETACHMENT:
             SaXLabCoveredByMetroidsAfterDetachment();
             break;
     }
