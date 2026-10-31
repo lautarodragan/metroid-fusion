@@ -19,6 +19,16 @@
 #include "structs/projectile.h"
 #include "structs/samus.h"
 
+#define RIDLEY_FORMING_MOSAIC_IDX work1 // Forming from the X
+#define RIDLEY_Y_SPEED_IDX work4 // Rising after spawning
+#define RIDLEY_CORE_X_MOSAIC_IDX workY // Turning into the core X, also the graphics part loaded
+
+#define RIDLEY_TAIL_PREVIOUS_Y workY
+#define RIDLEY_TAIL_STRIKES_LEFT work1
+
+#define RIDLEY_FIRE_TIMER work1
+#define RIDLEY_FIRE_X_SPEED work3
+
 enum RidleyPose {
     RIDLEY_POSE_TURNING_AROUND_INIT = 3,
     RIDLEY_POSE_TURNING_AROUND_1 = 4,
@@ -113,26 +123,26 @@ void RidleyMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
         if (!hittingSolidX)
         {
             // Move right
-            if (gCurrentSprite.work2 == 0)
+            if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
             {
                 if (gSubSpriteData1.xPosition > dstX + BLOCK_TO_SUB_PIXEL(4.f))
                 {
-                    gCurrentSprite.work2 = gCurrentSprite.work3;
+                    gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
                 }
                 else
                 {
                     // Increase speed if below cap
-                    if (gCurrentSprite.work3 < xSpeedCap)
-                        gCurrentSprite.work3++;
+                    if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                        gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                     // Apply speed
-                    gSubSpriteData1.xPosition += (gCurrentSprite.work3 >> speedDivisor);
+                    gSubSpriteData1.xPosition += (gCurrentSprite.SPRITE_X_SPEED_INC >> speedDivisor);
                 }
             }
             else
             {
-                if (--gCurrentSprite.work2 != 0)
-                    gSubSpriteData1.xPosition += (gCurrentSprite.work2 >> speedDivisor);
+                if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
+                    gSubSpriteData1.xPosition += (gCurrentSprite.SPRITE_X_SPEED_DEC >> speedDivisor);
                 else
                     flip = TRUE;
             }
@@ -147,26 +157,26 @@ void RidleyMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
         if (!hittingSolidX)
         {
             // Move left
-            if (gCurrentSprite.work2 == 0)
+            if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
             {
                 if (gSubSpriteData1.xPosition < dstX - BLOCK_TO_SUB_PIXEL(4.f))
                 {
-                    gCurrentSprite.work2 = gCurrentSprite.work3;
+                    gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
                 }
                 else
                 {
                     // Increase speed if below cap
-                    if (gCurrentSprite.work3 < xSpeedCap)
-                        gCurrentSprite.work3++;
+                    if (gCurrentSprite.SPRITE_X_SPEED_INC < xSpeedCap)
+                        gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                     // Apply speed
-                    gSubSpriteData1.xPosition -= gCurrentSprite.work3 >> speedDivisor;
+                    gSubSpriteData1.xPosition -= gCurrentSprite.SPRITE_X_SPEED_INC >> speedDivisor;
                 }
             }
             else
             {
-                if (--gCurrentSprite.work2 != 0)
-                    gSubSpriteData1.xPosition -= gCurrentSprite.work2 >> speedDivisor;
+                if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
+                    gSubSpriteData1.xPosition -= gCurrentSprite.SPRITE_X_SPEED_DEC >> speedDivisor;
                 else
                     flip = TRUE;
             }
@@ -180,7 +190,7 @@ void RidleyMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
-        gCurrentSprite.work3 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
         if (gCurrentSprite.samusCollision != SSC_RIDLEY_CLAW_GRABBED)
             gCurrentSprite.pose = RIDLEY_POSE_TURNING_AROUND_INIT;
     }
@@ -191,26 +201,26 @@ void RidleyMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
         if (!hittingSolidY)
         {
             // Move down
-            if (gCurrentSprite.work1 == 0)
+            if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
             {
                 if (gSubSpriteData1.yPosition > dstY - BLOCK_TO_SUB_PIXEL(1.f/16))
                 {
-                    gCurrentSprite.work1 = gCurrentSprite.work4;
+                    gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
                 }
                 else
                 {
                     // Increase speed if below cap
-                    if (gCurrentSprite.work4 < ySpeedCap)
-                        gCurrentSprite.work4++;
+                    if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                        gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                     // Apply speed
-                    gSubSpriteData1.yPosition += (gCurrentSprite.work4 >> speedDivisor);
+                    gSubSpriteData1.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_INC >> speedDivisor);
                 }
             }
             else
             {
-                if (--gCurrentSprite.work1 != 0)
-                    gSubSpriteData1.yPosition += (gCurrentSprite.work1 >> speedDivisor);
+                if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
+                    gSubSpriteData1.yPosition += (gCurrentSprite.SPRITE_Y_SPEED_DEC >> speedDivisor);
                 else
                     flip = TRUE;
             }
@@ -225,26 +235,26 @@ void RidleyMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
         if (!hittingSolidY)
         {
             // Move up
-            if (gCurrentSprite.work1 == 0)
+            if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
             {
                 if (gSubSpriteData1.yPosition < dstY + BLOCK_TO_SUB_PIXEL(1.f/16))
                 {
-                    gCurrentSprite.work1 = gCurrentSprite.work4;
+                    gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
                 }
                 else
                 {
                     // Increase speed if below cap
-                    if (gCurrentSprite.work4 < ySpeedCap)
-                        gCurrentSprite.work4++;
+                    if (gCurrentSprite.SPRITE_Y_SPEED_INC < ySpeedCap)
+                        gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                     // Apply speed
-                    gSubSpriteData1.yPosition -= gCurrentSprite.work4 >> speedDivisor;
+                    gSubSpriteData1.yPosition -= gCurrentSprite.SPRITE_Y_SPEED_INC >> speedDivisor;
                 }
             }
             else
             {
-                if (--gCurrentSprite.work1 != 0)
-                    gSubSpriteData1.yPosition -= gCurrentSprite.work1 >> speedDivisor;
+                if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
+                    gSubSpriteData1.yPosition -= gCurrentSprite.SPRITE_Y_SPEED_DEC >> speedDivisor;
                 else
                     flip = TRUE;
             }
@@ -258,7 +268,7 @@ void RidleyMove(u16 dstY, u16 dstX, u8 ySpeedCap, u8 xSpeedCap, u8 speedDivisor)
     if (flip)
     {
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_DOWN;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
     }
 }
 
@@ -426,7 +436,7 @@ void RidleyUpdateClawOam(void)
 
 void RidleyTailStrikingCheckPlayEffects(void)
 {
-    if (gCurrentSprite.workY + RIDLEY_TAIL_STRIKE_Y_OFFSET <= RIDLEY_TAIL_STRIKE_GROUND_Y_POS &&
+    if (gCurrentSprite.RIDLEY_TAIL_PREVIOUS_Y + RIDLEY_TAIL_STRIKE_Y_OFFSET <= RIDLEY_TAIL_STRIKE_GROUND_Y_POS &&
         gCurrentSprite.yPosition + RIDLEY_TAIL_STRIKE_Y_OFFSET > RIDLEY_TAIL_STRIKE_GROUND_Y_POS)
     {
         ScreenShakeStartVertical(40, 0x81);
@@ -434,7 +444,7 @@ void RidleyTailStrikingCheckPlayEffects(void)
     }
 
     // Update previous Y position
-    gCurrentSprite.workY = gCurrentSprite.yPosition;
+    gCurrentSprite.RIDLEY_TAIL_PREVIOUS_Y = gCurrentSprite.yPosition;
 }
 
 void RidleyTailStrikeYMovement(u16 movement)
@@ -778,7 +788,7 @@ void RidleyScreaming(void)
             gCurrentSprite.status |= SPRITE_STATUS_MOSAIC;
             gCurrentSprite.invincibilityStunFlashTimer = 0;
             gCurrentSprite.paletteRow = 0;
-            gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+            gCurrentSprite.RIDLEY_CORE_X_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
             gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
         }
 
@@ -853,17 +863,17 @@ void RidleyScreaming(void)
 
 void RidleyTurningIntoCoreX(void)
 {
-    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.RIDLEY_CORE_X_MOSAIC_IDX];
 
-    if (--gCurrentSprite.workY == 0)
+    if (--gCurrentSprite.RIDLEY_CORE_X_MOSAIC_IDX == 0)
     {
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X_INIT;
         gCurrentSprite.spriteId = PSPRITE_SCREW_ATTACK_ABILITY;
     }
 
-    if (gCurrentSprite.workY < sizeof(sScrewAttackCoreXGfx) / 512)
-        SpriteLoadGfx(PSPRITE_SCREW_ATTACK_ABILITY, 0, gCurrentSprite.workY);
-    else if (gCurrentSprite.workY == sizeof(sScrewAttackCoreXGfx) / 512)
+    if (gCurrentSprite.RIDLEY_CORE_X_MOSAIC_IDX < sizeof(sScrewAttackCoreXGfx) / 512)
+        SpriteLoadGfx(PSPRITE_SCREW_ATTACK_ABILITY, 0, gCurrentSprite.RIDLEY_CORE_X_MOSAIC_IDX);
+    else if (gCurrentSprite.RIDLEY_CORE_X_MOSAIC_IDX == sizeof(sScrewAttackCoreXGfx) / 512)
         SpriteLoadPal(PSPRITE_SCREW_ATTACK_ABILITY, 0, ARRAY_SIZE(sScrewAttackCoreXPal) / 16);
 }
 
@@ -873,9 +883,9 @@ void RidleyForming(void)
 
     gSubSpriteData1.animationDurationCounter--; // Freeze animation
 
-    if (--gCurrentSprite.work1 > 0)
+    if (--gCurrentSprite.RIDLEY_FORMING_MOSAIC_IDX > 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.work1];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.RIDLEY_FORMING_MOSAIC_IDX];
     }
     else
     {
@@ -898,7 +908,7 @@ void RidleyScreamingAfterSpawn(void)
         gSubSpriteData1.animationDurationCounter = 0;
         gSubSpriteData1.currentAnimationFrame = 0;
         gCurrentSprite.pose = RIDLEY_POSE_RISING_AFTER_SPAWN;
-        gCurrentSprite.work4 = 0;
+        gCurrentSprite.RIDLEY_Y_SPEED_IDX = 0;
         gSubSpriteData1.yPosition -= BLOCK_TO_SUB_PIXEL(3.5f);
         gCurrentSprite.yPosition -= BLOCK_TO_SUB_PIXEL(3.5f);
         gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(3.5f);
@@ -915,7 +925,7 @@ void RidleyRisingAfterSpawn(void)
 
     if (gSubSpriteData1.yPosition >= BLOCK_TO_SUB_PIXEL(10.f))
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.RIDLEY_Y_SPEED_IDX;
         movement = sRidleyRisingAfterSpawnSpeed[offset];
         if (movement == SHORT_MAX)
         {
@@ -925,7 +935,7 @@ void RidleyRisingAfterSpawn(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.RIDLEY_Y_SPEED_IDX = offset;
             gSubSpriteData1.yPosition += movement;
         }
     }
@@ -934,10 +944,10 @@ void RidleyRisingAfterSpawn(void)
         RidleyUpdateClawOam();
 
         gCurrentSprite.pose = SPRITE_POSE_IDLE;
-        gCurrentSprite.work2 = 0;
-        gCurrentSprite.work3 = 1;
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
         gCurrentSprite.rotation = (gSpriteRandomNumber + 1) * 16 - 1;
     }
 }
@@ -964,7 +974,7 @@ void RidleyInit(void)
     gBossWork5 = 0;
 
     gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-    gCurrentSprite.work1 = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.RIDLEY_FORMING_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
 
     gSubSpriteData1.yPosition = gCurrentSprite.yPosition;
@@ -1004,10 +1014,10 @@ void RidleyIdleInit(void)
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
     gCurrentSprite.rotation = (gSpriteRandomNumber + 1) * 16 - 1;
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
     if (gCurrentSprite.samusCollision != SSC_RIDLEY_CLAW_GRABBED)
         gCurrentSprite.samusCollision = SSC_RIDLEY_CLAW_CAN_GRAB;
@@ -1330,7 +1340,7 @@ void RidleyTailPartInit(void)
         gCurrentSprite.status |= SPRITE_STATUS_ROTATION_SCALING_WHOLE;
         gCurrentSprite.scaling = Q_8_8(1);
         gCurrentSprite.rotation = 0;
-        gCurrentSprite.workY = 0;
+        gCurrentSprite.RIDLEY_TAIL_PREVIOUS_Y = 0;
         gCurrentSprite.hitboxTop = -BLOCK_TO_SUB_PIXEL(0.4375f);
         gCurrentSprite.hitboxBottom = BLOCK_TO_SUB_PIXEL(0.4375f);
         gCurrentSprite.hitboxLeft = -BLOCK_TO_SUB_PIXEL(0.4375f);
@@ -1411,7 +1421,7 @@ void RidleyTailPartWindingUp1(void)
         gSubSpriteData2.animationDurationCounter = 0;
         gSubSpriteData2.currentAnimationFrame = 0;
         gCurrentSprite.pose = RIDLEY_TAIL_POSE_WINDING_UP_2;
-        gCurrentSprite.work1 = (gSpriteRandomNumber / 2) + 2;
+        gCurrentSprite.RIDLEY_TAIL_STRIKES_LEFT = (gSpriteRandomNumber / 2) + 2;
     }
 
     if (gSubSpriteData1.yPosition >= BLOCK_TO_SUB_PIXEL(10.f))
@@ -1521,9 +1531,9 @@ void RidleyTailPartStrikingDown2(void)
     {
         if (gSamusData.yPosition < gSubSpriteData1.yPosition ||
             gSpriteData[primaryRamSlot].samusCollision == SSC_RIDLEY_CLAW_GRABBED)
-            gCurrentSprite.work1 = 1;
+            gCurrentSprite.RIDLEY_TAIL_STRIKES_LEFT = 1;
 
-        if (--gCurrentSprite.work1 > 0)
+        if (--gCurrentSprite.RIDLEY_TAIL_STRIKES_LEFT > 0)
         {
             if (gSpriteData[primaryRamSlot].status & SPRITE_STATUS_FACING_RIGHT)
             {
@@ -1567,7 +1577,7 @@ void RidleyTailPartStrikingDown3(void)
 
     if (SpriteUtilHasSubSprite2AnimationEnded())
     {
-        if (gCurrentSprite.work1 > 0)
+        if (gCurrentSprite.RIDLEY_TAIL_STRIKES_LEFT > 0)
         {
             gSubSpriteData2.pMultiOam = sRidleyTailMultiSpriteData_WindingUp2;
             gSubSpriteData2.animationDurationCounter = 0;
@@ -1607,9 +1617,9 @@ void RidleyTailPartStrikingForward(void)
     {
         if (gSamusData.yPosition < gSubSpriteData1.yPosition ||
             gSpriteData[primaryRamSlot].samusCollision == SSC_RIDLEY_CLAW_GRABBED)
-            gCurrentSprite.work1 = 1;
+            gCurrentSprite.RIDLEY_TAIL_STRIKES_LEFT = 1;
 
-        if (--gCurrentSprite.work1 == 0)
+        if (--gCurrentSprite.RIDLEY_TAIL_STRIKES_LEFT == 0)
         {
             gSubSpriteData2.pMultiOam = sRidleyTailMultiSpriteData_DoneStriking;
             gSubSpriteData2.animationDurationCounter = 0;
@@ -1653,10 +1663,10 @@ void RidleyTailPartDoneStriking(void)
         gSubSpriteData2.currentAnimationFrame = 0;
         gCurrentSprite.pose = SPRITE_POSE_IDLE;
         gSpriteData[primaryRamSlot].pose = SPRITE_POSE_IDLE;
-        gSpriteData[primaryRamSlot].work2 = 0;
-        gSpriteData[primaryRamSlot].work3 = 1;
-        gSpriteData[primaryRamSlot].work1 = 0;
-        gSpriteData[primaryRamSlot].work4 = 1;
+        gSpriteData[primaryRamSlot].SPRITE_X_SPEED_DEC = 0;
+        gSpriteData[primaryRamSlot].SPRITE_X_SPEED_INC = 1;
+        gSpriteData[primaryRamSlot].SPRITE_Y_SPEED_DEC = 0;
+        gSpriteData[primaryRamSlot].SPRITE_Y_SPEED_INC = 1;
         gSpriteData[primaryRamSlot].rotation = (gSpriteRandomNumber + 1) * 16 - 1;
 
         if (gSpriteData[primaryRamSlot].status & SPRITE_STATUS_X_FLIP)
@@ -1684,8 +1694,8 @@ void RidleyFireInit(void)
     gCurrentSprite.currentAnimationFrame = 0;
     gCurrentSprite.rotation = 0;
     gCurrentSprite.scaling = Q_8_8(1);
-    gCurrentSprite.work1 = 16;
-    gCurrentSprite.work3 = 0;
+    gCurrentSprite.RIDLEY_FIRE_TIMER = 16;
+    gCurrentSprite.RIDLEY_FIRE_X_SPEED = 0;
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS_DIES_WHEN_HIT;
 
@@ -1697,7 +1707,7 @@ void RidleyFireMoving(void)
 {
     u16 movement;
 
-    movement = gCurrentSprite.work3++;
+    movement = gCurrentSprite.RIDLEY_FIRE_X_SPEED++;
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
         gCurrentSprite.xPosition += movement;
@@ -1711,13 +1721,13 @@ void RidleyFireMoving(void)
     else
         gCurrentSprite.rotation += Q_8_8(1.f / 8);
 
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.RIDLEY_FIRE_TIMER == 0)
     {
         gCurrentSprite.pose = RIDLEY_FIRE_POSE_MOVING_TOWARDS_SAMUS;
-        gCurrentSprite.work2 = 0;
-        gCurrentSprite.work3 = 0x10;
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 0x10;
+        gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 0x10;
+        gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 0x10;
     }
 }
 
