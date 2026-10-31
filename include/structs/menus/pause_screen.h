@@ -36,27 +36,27 @@ struct PauseScreenData {
     u16 typeFlags;
     u8 timer;
     u8 subMenuStage;
-    u8 unk_8;
-    u8 unk_9;
-    u8 unk_A;
-    u8 unk_B;
-    u16 unk_C;
-    u16 unk_E[4];
+    u8 navScrollTimer;
+    u8 navScrollStage;
+    u8 popUpWindowTimer;
+    u8 popUpWindowStage;
+    u16 navTextIndex;
+    u16 navTextTimersAndPositions[4]; // [0..1] text timer per text box, [2..3] text pixel position per text box (NAV_TEXT_TIMER, NAV_TEXT_POS)
     u8 navConvCharacterWidth;
-    u8 unk_17;
-    u8 unk_18;
-    u8 unk_19;
-    u8 unk_1A;
-    u8 unk_1B;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 unk_1F;
-    u8 unk_20;
-    u8 unk_21;
+    u8 navSpeaker; // 0 = Adam, 1 = Samus, 2 = Federation
+    u8 navTextBox; // 0 = bottom (Adam), 1 = top (Samus/Federation)
+    u8 navTextCursorOamIdx; // PAUSE_OAM_IDX_CURSOR or PAUSE_OAM_IDX_TOP_TEXT_BOX_CURSOR
+    u8 navWaitForInputRelease; // Skipping text is disabled until A/B/DOWN are released
+    u8 navTalkingCharacter; // Character currently speaking (portrait animation), 0 = none, 1 = Adam, 2 = Samus, 3 = Federation
+    u8 navConversationStatus; // 0 = processing text, 1 = ended, 2 = asking to proceed, 3/5 = message drawn, 4 = repeated conversation, 6 = end
+    u8 navTextSpeed; // Frames per character
+    u8 navTextColor;
+    u8 navTextDelay;
+    u8 navMessageCharacterTimer;
+    u8 navMessageTextIndex; // Index in the message text
     u16 navConvTextIndent;
-    u8 unk_24;
-    u8 unk_25;
+    u8 navMessageStage; // 0 = waiting for input, 1 = drawing, 2 = drawn
+    u8 navYesSelected; // Yes/No choice of the message
     u8 unk_26;
     u8 unk_27;
     struct PauseScreenState state;
@@ -64,7 +64,7 @@ struct PauseScreenData {
     u8 navTargetX;
     u8 navTargetY;
     u8 navTargetArea;
-    u8 unk_20F;
+    u8 navTargetType; // 0 = none, 1 = in the current area, 2 = elevator to/from main deck, 3 = elevator to another sector
     u8 mapX;
     u8 mapY;
     u8 currentArea;
@@ -102,12 +102,12 @@ struct PauseScreenData {
     u8 unk_235;
     u8 unk_236;
     u8 unk_237;
-    u8 unk_238;
-    u8 unk_239;
+    u8 bottomTextBoxStage;
+    u8 bottomTextBoxTimer;
     u8 unk_23A;
     u8 unk_23B;
-    u8 unk_23C;
-    u8 unk_23D;
+    u8 topTextBoxStage;
+    u8 topTextBoxTimer;
     u8 unk_23E;
     u8 unk_23F;
     u8 unk_240;
@@ -126,9 +126,9 @@ struct PauseScreenData {
     u8 unk_24D;
     u8 unk_24E;
     u8 unk_24F;
-    u8 unk_250;
-    u8 unk_251;
-    u8 unk_252;
+    u8 areaTransitionFlags; // 1 = mosaic, 2 = window, 4 = screen covered (set by the transition), 8 = uncover (set by the caller)
+    u8 areaTransitionStage;
+    u8 areaTransitionTimer;
     u8 window1Size;
     s8 mapRightBorder;
     s8 mapLeftBorder;

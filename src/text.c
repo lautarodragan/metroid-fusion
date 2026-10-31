@@ -574,14 +574,14 @@ void TextClearGraphics(u8 action)
 {
     if (action == 1)
     {
-        if (PAUSE_SCREEN_DATA.unk_18)
+        if (PAUSE_SCREEN_DATA.navTextBox)
             action = 5;
         else 
             action = 3;
     }
     else if (action == 2)
     {
-        if (PAUSE_SCREEN_DATA.unk_18)
+        if (PAUSE_SCREEN_DATA.navTextBox)
             action = 6;
         else 
             action = 4;
