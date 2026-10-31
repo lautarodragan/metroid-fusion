@@ -18,8 +18,7 @@ struct SpecialCutsceneOam {
     u8 timer;                      // 0x13
     u8 stage;                      // 0x14
     u8 rotation;
-    u8 unk_16;
-    u8 unk_17;
+    UNUSED(2);
     u32 exists : 1;                // 0x18, drawn
     u32 affineMode : 2;
     u32 objMode : 2;
@@ -29,9 +28,11 @@ struct SpecialCutsceneOam {
     u32 tileOffset : 10;           // 0x19
     u32 priority : 2;              // 0x1A
     u32 paletteOffset : 4;
-    u8 unk_1B;
     const struct FrameData* pOam;  // 0x1C
     void* pFunction;               // 0x20
 };
+
+ASSERT_OFFSET(struct SpecialCutsceneOam, pOam, 0x1C);
+ASSERT_SIZE(struct SpecialCutsceneOam, 0x24);
 
 #endif /* CUTSCENE_STRUCT_H */
