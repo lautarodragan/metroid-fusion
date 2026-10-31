@@ -12,6 +12,15 @@
 
 #include "structs/sprite.h"
 
+#define HORNOAD_LOOP_COUNTER work1 // Animation loops while waiting for an X
+#define HORNOAD_IDLE_COUNTER work2 // Idle animations done since the last turn around
+#define HORNOAD_LOW_JUMP work3
+#define HORNOAD_SPIT_COUNT work3
+#define HORNOAD_Y_SPEED_IDX work4
+
+#define HORNOAD_SPAWNER_TIMER work1
+#define HORNOAD_SPAWNER_FACING_RIGHT work2 // Toggled after each spawn
+
 enum HornoadRangeAction {
     HRANGE_NONE,
     HRANGE_JUMP,
@@ -173,7 +182,7 @@ void HornoadInit(void)
     SpriteUtilTrySetAbsorbXFlag();
 
     gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.HORNOAD_IDLE_COUNTER = 0;
 
     gCurrentSprite.drawDistanceTop = BLOCK_TO_PIXEL(1.5f);
     gCurrentSprite.drawDistanceBottom = BLOCK_TO_PIXEL(1);
@@ -198,7 +207,7 @@ void HornoadInit(void)
         {
             // Spawned by hornoad spawner
             gCurrentSprite.pOam = sHornoadOam_JumpingHidden;
-            gCurrentSprite.work4 = 0;
+            gCurrentSprite.HORNOAD_Y_SPEED_IDX = 0;
             gCurrentSprite.pose = 0x18;
         }
         else
@@ -224,7 +233,7 @@ void HornoadInit(void)
         if (gCurrentSprite.pose == SPRITE_POSE_SPAWNING_FROM_X_INIT)
         {
             gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-            gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+            gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
         }
         else
         {
@@ -246,7 +255,7 @@ void HornoadIdleInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work2++;
+    gCurrentSprite.HORNOAD_IDLE_COUNTER++;
 
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
         gCurrentSprite.pOam = sHornoadOam_IdleHidden;
@@ -265,7 +274,7 @@ void HornoadJumpingInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.HORNOAD_Y_SPEED_IDX = 0;
 
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
@@ -279,9 +288,9 @@ void HornoadJumpingInit(void)
 
     // Set random jump height
     if (MOD_AND(gSpriteRandomNumber, 2))
-        gCurrentSprite.work3 = TRUE;
+        gCurrentSprite.HORNOAD_LOW_JUMP = TRUE;
     else
-        gCurrentSprite.work3 = FALSE;
+        gCurrentSprite.HORNOAD_LOW_JUMP = FALSE;
 }
 
 /**
@@ -343,7 +352,7 @@ void HornoadFallingInit(void)
 {
     gCurrentSprite.pose = SPRITE_POSE_FALLING;
 
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.HORNOAD_Y_SPEED_IDX = 0;
 
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
         gCurrentSprite.pOam = sHornoadOam_FallingHidden;
@@ -360,7 +369,7 @@ void HornoadFallingInit(void)
  */
 void HornoadTouchedSamusInit(void)
 {
-    gCurrentSprite.work2 = 8;
+    gCurrentSprite.HORNOAD_IDLE_COUNTER = 8;
 
     SpriteUtilCheckVerticalCollisionAtPositionSlopes(gCurrentSprite.yPosition, gCurrentSprite.xPosition + gCurrentSprite.hitboxRight);
 
@@ -397,7 +406,7 @@ void HornoadTurningAroundInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work2 = 0;
+    gCurrentSprite.HORNOAD_IDLE_COUNTER = 0;
 
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
         gCurrentSprite.pOam = sHornoadOam_TurningAroundHidden;
@@ -418,9 +427,9 @@ void HornoadSpittingInit(void)
     gCurrentSprite.currentAnimationFrame = 0;
 
     if (MOD_AND(gSpriteRandomNumber, 2))
-        gCurrentSprite.work3 = 1;
+        gCurrentSprite.HORNOAD_SPIT_COUNT = 1;
     else
-        gCurrentSprite.work3 = 2;
+        gCurrentSprite.HORNOAD_SPIT_COUNT = 2;
 }
 
 /**
@@ -459,11 +468,11 @@ void HornoadJumping(void)
     var_0 = FALSE;
 
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
-        movement = sHornoadJumpVelocityLow[gCurrentSprite.work4 / 4];
-    else if (gCurrentSprite.work3)
-        movement = sHornoadJumpVelocityLow[gCurrentSprite.work4 / 4];
+        movement = sHornoadJumpVelocityLow[gCurrentSprite.HORNOAD_Y_SPEED_IDX / 4];
+    else if (gCurrentSprite.HORNOAD_LOW_JUMP)
+        movement = sHornoadJumpVelocityLow[gCurrentSprite.HORNOAD_Y_SPEED_IDX / 4];
     else
-        movement = sHornoadJumpVelocityHigh[gCurrentSprite.work4 / 4];
+        movement = sHornoadJumpVelocityHigh[gCurrentSprite.HORNOAD_Y_SPEED_IDX / 4];
 
     if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
     {
@@ -522,8 +531,8 @@ void HornoadJumping(void)
 
     gCurrentSprite.yPosition += movement;
 
-    if (gCurrentSprite.work4 < ARRAY_SIZE(sHornoadJumpVelocityHigh) * 4 - 1)
-        gCurrentSprite.work4++;
+    if (gCurrentSprite.HORNOAD_Y_SPEED_IDX < ARRAY_SIZE(sHornoadJumpVelocityHigh) * 4 - 1)
+        gCurrentSprite.HORNOAD_Y_SPEED_IDX++;
 
     if (movement > 0)
     {
@@ -613,7 +622,7 @@ void HornoadLanding(void)
     if (gCurrentSprite.properties & SP_CAN_ABSORB_X)
     {
         rng = MOD_AND(gSpriteRandomNumber, 2);
-        if (gCurrentSprite.work2 > rng)
+        if (gCurrentSprite.HORNOAD_IDLE_COUNTER > rng)
         {
             gCurrentSprite.pose = 0x1C;
 
@@ -621,7 +630,7 @@ void HornoadLanding(void)
             gCurrentSprite.animationDurationCounter = 0;
             gCurrentSprite.currentAnimationFrame = 0;
 
-            gCurrentSprite.work1 = 0;
+            gCurrentSprite.HORNOAD_LOOP_COUNTER = 0;
         }
         else
         {
@@ -651,7 +660,7 @@ void HornoadLanding(void)
         return;
     }
 
-    if (gCurrentSprite.work2 > 2)
+    if (gCurrentSprite.HORNOAD_IDLE_COUNTER > 2)
         HornoadIdleAnimationInit();
     else
         HornoadIdleInit();
@@ -702,7 +711,7 @@ void HornoadFalling(void)
         return;
     }
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.HORNOAD_Y_SPEED_IDX;
     movement = sSpritesFallingSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -712,7 +721,7 @@ void HornoadFalling(void)
     }
     else
     {
-        gCurrentSprite.work4++;
+        gCurrentSprite.HORNOAD_Y_SPEED_IDX++;
         gCurrentSprite.yPosition += movement;
     }
 }
@@ -754,7 +763,7 @@ void HornoadIdleAnimation(void)
             return;
         }
 
-        if (gCurrentSprite.work2 > 2)
+        if (gCurrentSprite.HORNOAD_IDLE_COUNTER > 2)
             HornoadTurningAroundInit();
         else
             HornoadIdleInit();
@@ -782,9 +791,9 @@ void HornoadWaitingForX(void)
 
     if (SpriteUtilHasCurrentAnimationEnded())
     {
-        gCurrentSprite.work1++;
+        gCurrentSprite.HORNOAD_LOOP_COUNTER++;
 
-        if (MOD_AND(gSpriteRandomNumber, 2) && gCurrentSprite.work1 > 3)
+        if (MOD_AND(gSpriteRandomNumber, 2) && gCurrentSprite.HORNOAD_LOOP_COUNTER > 3)
             HornoadIdleAnimationInit();
     }
 }
@@ -872,9 +881,9 @@ void HornoadSpitting(void)
 
     if (SpriteUtilHasCurrentAnimationEnded())
     {
-        gCurrentSprite.work3--;
+        gCurrentSprite.HORNOAD_SPIT_COUNT--;
 
-        if (gCurrentSprite.work3 == 0)
+        if (gCurrentSprite.HORNOAD_SPIT_COUNT == 0)
             HornoadIdleInit();
     }
 }
@@ -901,7 +910,7 @@ void HornoadSpitInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.HORNOAD_Y_SPEED_IDX = 0;
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
     gCurrentSprite.samusCollision = SSC_HURTS_SAMUS_DIES_WHEN_HIT;
 }
@@ -925,7 +934,7 @@ void HornoadSpitMoving(void)
         return;
     }
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.HORNOAD_Y_SPEED_IDX;
     movement = sHornoadSpitYMovement[offset];
 
     if (movement == SHORT_MAX)
@@ -935,7 +944,7 @@ void HornoadSpitMoving(void)
     }
     else
     {
-        gCurrentSprite.work4++;
+        gCurrentSprite.HORNOAD_Y_SPEED_IDX++;
         gCurrentSprite.yPosition += movement;
     }
 
@@ -993,9 +1002,9 @@ void HornoadSpwanerInit(void)
     gCurrentSprite.bgPriority = 3;
 
     if (MOD_AND(gSpriteRandomNumber, 2))
-        gCurrentSprite.work2 = TRUE;
+        gCurrentSprite.HORNOAD_SPAWNER_FACING_RIGHT = TRUE;
     else
-        gCurrentSprite.work2 = FALSE;
+        gCurrentSprite.HORNOAD_SPAWNER_FACING_RIGHT = FALSE;
 }
 
 /**
@@ -1010,7 +1019,7 @@ void HornoadSpwanerIdleInit(void)
     gCurrentSprite.animationDurationCounter = 0;
     gCurrentSprite.currentAnimationFrame = 0;
 
-    gCurrentSprite.work1 = 80 + gSpriteRandomNumber * 4;
+    gCurrentSprite.HORNOAD_SPAWNER_TIMER = 80 + gSpriteRandomNumber * 4;
 }
 
 /**
@@ -1022,9 +1031,9 @@ void HornoadSpwanerIdle(void)
     u8 i;
     u8 count;
 
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.HORNOAD_SPAWNER_TIMER != 0)
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.HORNOAD_SPAWNER_TIMER--;
         return;
     }
 
@@ -1046,11 +1055,11 @@ void HornoadSpwanerIdle(void)
         gCurrentSprite.animationDurationCounter = 0;
         gCurrentSprite.currentAnimationFrame = 0;
 
-        gCurrentSprite.work1 = 48;
+        gCurrentSprite.HORNOAD_SPAWNER_TIMER = 48;
     }
     else
     {
-        gCurrentSprite.work1 = 20 + gSpriteRandomNumber * 4;
+        gCurrentSprite.HORNOAD_SPAWNER_TIMER = 20 + gSpriteRandomNumber * 4;
     }
 }
 
@@ -1063,9 +1072,9 @@ void HornoadSpwanerDelayBeforeSpawning(void)
     u8 i;
     u8 count;
 
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.HORNOAD_SPAWNER_TIMER != 0)
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.HORNOAD_SPAWNER_TIMER--;
         return;
     }
 
@@ -1078,12 +1087,12 @@ void HornoadSpwanerDelayBeforeSpawning(void)
 
     if (count != 0)
     {
-        if (gCurrentSprite.work2)
+        if (gCurrentSprite.HORNOAD_SPAWNER_FACING_RIGHT)
             gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
         else
             gCurrentSprite.status &= ~SPRITE_STATUS_X_FLIP;
 
-        gCurrentSprite.work2 ^= TRUE;
+        gCurrentSprite.HORNOAD_SPAWNER_FACING_RIGHT ^= TRUE;
         gCurrentSprite.pose = 0x2C;
 
         gCurrentSprite.pOam = sHornoadSpawnerOam_Spawning;
