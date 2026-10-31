@@ -206,7 +206,7 @@ void NavigationConversationUpdateXParasitePopUp(void)
     const u8* pAnim;
     s32 count;
     s32 slot;
-    struct NavConversationPopUpTiles tiles;
+    s32 nbrTiles;
 
     unk_7c3b4();
 
@@ -228,16 +228,13 @@ void NavigationConversationUpdateXParasitePopUp(void)
         else
             PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
-        tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
-        // FIXME: Fake match. This dead read of the count makes CSE compute the left shift of the
-        // bitfield extraction here (right after the load), the read in the loop below reuses it
-        count = tiles.count;
-        slot = tiles.slot;
+        nbrTiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles.count;
+        slot = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles.slot;
         count = (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] & 3) * 0x100;
         count += (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] >> 2) * 0x1800;
         PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = (const u32*)((u32)PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer + count);
 
-        for (count = tiles.count; count > 0;)
+        for (count = nbrTiles; count > 0;)
         {
             count--;
             DMA3_COPY_16(&PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer[count * 0x100],
@@ -262,14 +259,13 @@ void NavigationConversationUpdateXParasitePopUp(void)
         else
             PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
-        tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles;
-        count = tiles.count; // FIXME: Fake match, dead store (see above)
-        slot = tiles.slot;
+        nbrTiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles.count;
+        slot = sNavConversationPopUps[PAUSE_SCREEN_DATA.unk_21A].tiles.slot;
         count = (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] & 7) * 0x80;
         count += (pAnim[PAUSE_SCREEN_DATA.unk_21C * 2] >> 3) * 0x1000;
         PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = (const u32*)((u32)PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer + count);
 
-        for (count = tiles.count; count > 0;)
+        for (count = nbrTiles; count > 0;)
         {
             count--;
             DMA3_COPY_16(&PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer[count * 0x100],
