@@ -25,10 +25,10 @@
 struct SramHeader {
     u32 checksum;
     u32 notChecksum;
-    u8 unk_8;
-    u8 unk_9;
-    u8 unk_A;
-    u8 unk_B;
+    u8 versionMajor; // Written as '0', never checked
+    u8 versionMinor; // Written as '1', never checked
+    u8 unk_A; // Written from gUnk_3000010 (always 0), never checked
+    u8 unk_B; // Written as 2, never checked
     u8 magic[SRAM_HEADER_MAGIC_SIZE];
     u8 unk_20[SRAM_HEADER_SIZE - 0x20];
 };
@@ -116,6 +116,7 @@ struct SramExtraData {
 
 
 extern u8 gMostRecentSaveFile;
+// Copied to the SRAM header, only ever cleared
 extern u8 gUnk_3000010;
 extern u8 gSramTestFailed;
 // Set when the game is saved (save station or debug menu), files that were never saved are shown as empty

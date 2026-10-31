@@ -5722,8 +5722,8 @@ void NewFileIntroInSr388Init(void)
     gBg1XPosition = gBg3XPosition + 392;
     gBg1YPosition = gBg2YPosition - 96;
 
-    gUnk_3001234 = 560;
-    gUnk_3001236 = -40;
+    gUnusedBgXPosition = 560;
+    gUnusedBgYPosition = -40;
 
     WRITE_16(REG_BG0HOFS, -8);
     WRITE_16(REG_BG0VOFS, 0);

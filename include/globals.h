@@ -97,6 +97,7 @@ extern s8 gIsLoadingFile;
 // Cleared when gameplay (re)starts (new game, file loaded, demo, continue), set after the first room is loaded;
 // while clear, loading a room also resets Samus, the sprites and the HUD
 extern bools8 gGameplayInitialized;
+// Cleared on soft reset, never read in the final game
 extern u8 gUnk_3000b8f;
 // Debug: during no-clip (SUB_GAME_MODE_NO_CLIP), START toggles a free camera
 extern u8 gNoClipCameraUnlocked;
@@ -120,8 +121,9 @@ extern u16 gBg2YPosition;
 extern u16 gBg3XPosition;
 extern u16 gBg3YPosition;
 
-extern u16 gUnk_3001234;
-extern u16 gUnk_3001236;
+// Follow the BG positions, only written (560, -40) by the in-SR388 intro setup, never read in the final game
+extern u16 gUnusedBgXPosition;
+extern u16 gUnusedBgYPosition;
 
 extern u8 gSpritesetNumber;
 

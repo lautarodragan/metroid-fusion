@@ -128,10 +128,10 @@ void WriteLanguageDataToSram(u8 copy)
 }
 
 /**
- * @brief e14 | 18 | Writes 0x7FF0-0x7FFF to SRAM (unused, the game doesn't store anything there)
+ * @brief e14 | 18 | Writes the last 16 bytes (0x7FF0-0x7FFF) to SRAM (unused, the game doesn't store anything there)
  *
  */
-void unk_e14(void)
+void WriteSramTail_Unused(void)
 {
     SramWriteChecked((u8*)EWRAM_SRAM + 0x7ff0, (u8*)SRAM_BASE + 0x7ff0, 0x10);
 }

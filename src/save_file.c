@@ -64,8 +64,8 @@ void Sram_WriteHeader(void)
 
     pHeader = EWRAM_SRAM_HEADER;
 
-    pHeader->unk_8 = '0';
-    pHeader->unk_9 = '1';
+    pHeader->versionMajor = '0';
+    pHeader->versionMinor = '1';
     pHeader->unk_A = gUnk_3000010;
     pHeader->unk_B = 2;
 
@@ -1275,7 +1275,7 @@ void Sram_ResetForDemo(void)
     gDisableMusicFlag = FALSE;
     gSkipDoorTransition = FALSE;
     gPauseScreenFlag = 0;
-    gUnk_3000b85 = 0;
+    gPauseScreenStage = 0;
     gDisablePauseFlag = FALSE;
     gSamusDoorPositionOffset = 0;
     gDebugFlag = FALSE;
@@ -1310,7 +1310,7 @@ void Sram_CheckLoadSaveFile(void)
     gDisableMusicFlag = FALSE;
     gSkipDoorTransition = FALSE;
     gPauseScreenFlag = 0;
-    gUnk_3000b85 = 0;
+    gPauseScreenStage = 0;
     gDisablePauseFlag = FALSE;
     gSamusDoorPositionOffset = 0;
     gDebugFlag = FALSE;

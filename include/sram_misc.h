@@ -15,7 +15,7 @@ void ReadMostRecentFileToEwram(void);
 void ReadSramHeaderToEwram(void);
 void WriteMostRecentSaveFileDataToSram(void);
 void WriteLanguageDataToSram(u8 copy);
-void unk_e14(void);
+void WriteSramTail_Unused(void);
 void WriteDemoInputsToSram(void);
 
 #endif /* SRAM_MISC_H */

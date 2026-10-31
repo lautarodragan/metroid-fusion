@@ -193,7 +193,7 @@ u8 EventCheckPlayCutsceneDuringTransition(u8 dstRoom)
                 {
                     EventSet(gEventCounter + 1);
                     gPreviousNavigationConversation = -2;
-                    gUnk_3000b85 = 0;
+                    gPauseScreenStage = 0;
                 }
 
                 if (sMonologueEvents[i].soundEventAtStart != SOUND_EVENT_FIRST_CONVERSATION_STARTED)
