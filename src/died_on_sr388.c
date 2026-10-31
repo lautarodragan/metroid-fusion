@@ -356,7 +356,7 @@ void DiedOnSr388CollisionProcessFallingBsl(struct SpecialCutsceneOam* pOam)
  *
  * @param pOam Special cutscene OAM pointer
  */
-void unk_979d0(struct SpecialCutsceneOam* pOam)
+void DiedOnSr388DestroyOamWhenAnimEnded(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
 
@@ -435,7 +435,7 @@ u8 DiedOnSr388CollisionSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 de
     {
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sBslCrashingType3Oam;
-        INTRO_DATA.oam[slot].pFunction = unk_979d0;
+        INTRO_DATA.oam[slot].pFunction = DiedOnSr388DestroyOamWhenAnimEnded;
     }
 
     return slot;
@@ -517,7 +517,7 @@ u8 DiedOnSr388CollisionGetPositionAndSlotOfOamByType(u8 type, s16* pXPosition, s
  * @brief 97dcc | 4 | Empty function
  *
  */
-void unk_97dcc(void)
+void DiedOnSr388_Empty(void)
 {
     return;
 }

@@ -23645,7 +23645,7 @@ const struct FrameData sEndingSamusViewRadarViewOam_Idle[3] = {
 };
 // FrameData array (type 30 of the ending dialogue), followed by the OAM frames of the BSL
 // crashing cutscene
-const struct FrameData sEndingUnk_633f24[6] = {
+const struct FrameData sEndingDialogueType30Oam[6] = {
     { sOamFrame_633090, 3 },
     { sOamFrame_6331e4, 1 },
     FRAME_DATA_TERMINATOR,

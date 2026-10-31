@@ -21,11 +21,11 @@
 void SpecialCutsceneLoadingVblank(void); // For V-blank callback
 u8 SpecialCutsceneGetRandomNumber(void);
 
-void unk_93884(void);
+void IntroSamusInShipVblank(void);
 void IntroShipAlertAndDraftingVblank(void);
 u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch);
 void IntroSetupBigNumberOam(u8 type, s16 xPosition, s16 yPosition, s16 delay);
-void unk_9397c(struct SpecialCutsceneOam* pOam);
+void IntroOam_Empty(struct SpecialCutsceneOam* pOam);
 u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch);
 void IntroSpaceViewVblank(void);
 void Dma3Transfer_Unused2(void* src, void* dst, u16 size, u16 count);
@@ -34,7 +34,7 @@ void Dma3Transfer_Unused2(void* src, void* dst, u16 size, u16 count);
  * @brief 9209c | 1a0 | Setup for the Samus in ship cutscene (unused)
  *
  */
-void unk_9209c(void)
+void IntroSamusInShipInit(void)
 {
     u16 i;
     u16* pEva;
@@ -94,7 +94,7 @@ void unk_9209c(void)
 
     WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG1 | DCNT_OBJ);
 
-    CallbackSetVBlank(unk_93884);
+    CallbackSetVBlank(IntroSamusInShipVblank);
 }
 
  /**
@@ -657,7 +657,7 @@ boolu32 IntroSamusShipCrashing(void)
  * @brief 92d0c | 148 | Handles the background shaking while Samus is in the ship
  *
  */
-void unk_92d0c(struct SpecialCutsceneOam* pOam)
+void IntroProcessSamusInShipShaking(struct SpecialCutsceneOam* pOam)
 {
     u8 rng1;
     u8 rng2;
@@ -1094,11 +1094,11 @@ void IntroProcessAsteroidsPopUp(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 93300 | 34 | To document
+ * @brief 93300 | 34 | Shows a big number once its delay ended
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_93300(struct SpecialCutsceneOam* pOam)
+void IntroProcessDelayedBigNumber(struct SpecialCutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
@@ -1113,11 +1113,11 @@ void unk_93300(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 93334 | 48 | To document
+ * @brief 93334 | 48 | Plays a sound on the first frame of an animation, then destroys the OAM once the animation ended
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_93334(struct SpecialCutsceneOam* pOam)
+void IntroProcessShipAlertAnimationWithSound(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
 
@@ -1196,7 +1196,7 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     if (type == 1)
     {
         INTRO_DATA.oam[slot].exists = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_92d0c;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSamusInShipShaking;
     }
     else if (type == 10)
     {
@@ -1250,12 +1250,12 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     else if (type == 20)
     {
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd00;
-        INTRO_DATA.oam[slot].pFunction = unk_9397c;
+        INTRO_DATA.oam[slot].pFunction = IntroOam_Empty;
     }
     else if (type == 21)
     {
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd48;
-        INTRO_DATA.oam[slot].pFunction = unk_9397c;
+        INTRO_DATA.oam[slot].pFunction = IntroOam_Empty;
     }
     else if (type == 22)
     {
@@ -1265,7 +1265,7 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     else if (type == 23)
     {
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65be00;
-        INTRO_DATA.oam[slot].pFunction = unk_93334;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessShipAlertAnimationWithSound;
     }
     else if (type == 24)
     {
@@ -1277,7 +1277,7 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     {
         INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c0d0;
-        INTRO_DATA.oam[slot].pFunction = unk_93300;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessDelayedBigNumber;
     }
     else if (type == 26)
     {
@@ -1327,7 +1327,7 @@ void IntroSetupBigNumberOam(u8 type, s16 xPosition, s16 yPosition, s16 delay)
  * @brief 93884 | 7c | V-blank for the Samus in ship cutscene
  *
  */
-void unk_93884(void)
+void IntroSamusInShipVblank(void)
 {
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
 
@@ -1362,7 +1362,7 @@ void IntroShipAlertAndDraftingVblank(void)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9397c(struct SpecialCutsceneOam* pOam)
+void IntroOam_Empty(struct SpecialCutsceneOam* pOam)
 {
     return;
 }
@@ -1974,7 +1974,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void IntroProcessSamusSHipEntering(struct SpecialCutsceneOam* pOam)
+void IntroProcessSamusShipEntering(struct SpecialCutsceneOam* pOam)
 {
     s32 rotation;
     s32 cos;
@@ -2333,7 +2333,7 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
         INTRO_DATA.oam[slot].priority = 1;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_DOUBLE_SIZED;
         INTRO_DATA.oam[slot].pOam = sIntroSamusShipEnteringOam;
-        INTRO_DATA.oam[slot].pFunction = IntroProcessSamusSHipEntering;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSamusShipEntering;
     }
     else if (type == 4)
     {
@@ -2423,7 +2423,7 @@ void IntroSpaceViewVblank(void)
  * @brief 94e80 | 4 | Empty function
  *
  */
-void unk_94e80(void)
+void Intro_Empty(void)
 {
     return;
 }

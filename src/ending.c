@@ -64,12 +64,12 @@ static boolu32 (*sEndingImageFunctionPointers[3]) (void) = {
 
 // Not wrapped in do { } while (0): the extra loop level changes register allocation
 #define ENDING_LOAD_TEXT_OAM(data, count)                              \
-    ENDING_DATA.unk_9B = (count) + 6;                                  \
+    ENDING_DATA.oamCount = (count) + 6;                                  \
     for (i = 0; i < (count); i++)                                      \
     {                                                                  \
-        ENDING_DATA.unk_124[i + 6] = (data)[i].unk_0;                  \
-        ENDING_DATA.unk_142[i + 6] = (data)[i].unk_1;                  \
-        ENDING_DATA.unk_160[i + 6] = (data)[i].unk_2;                  \
+        ENDING_DATA.letterStates[i + 6] = (data)[i].state;                  \
+        ENDING_DATA.letterSpawnDelays[i + 6] = (data)[i].spawnDelay;                  \
+        ENDING_DATA.letterTimers[i + 6] = (data)[i].timer;                  \
         ENDING_DATA.oamXPositions[i + 6] = (data)[i].xPosition;        \
         ENDING_DATA.oamYPositions[i + 6] = (data)[i].yPosition;        \
         ENDING_DATA.oamFramePointers[i + 6] = (data)[i].pFrame;        \
@@ -153,9 +153,9 @@ void EndingImageLoadTextOam(u32 line)
 
 #define ENDING_DISPLAY_LINE(data)                                      \
 do {                                                                   \
-    ENDING_DATA.unk_124[line] = (data)[line].unk_0;                    \
-    ENDING_DATA.unk_142[line] = (data)[line].unk_1;                    \
-    ENDING_DATA.unk_160[line] = (data)[line].unk_2;                    \
+    ENDING_DATA.letterStates[line] = (data)[line].state;                    \
+    ENDING_DATA.letterSpawnDelays[line] = (data)[line].spawnDelay;                    \
+    ENDING_DATA.letterTimers[line] = (data)[line].timer;                    \
     ENDING_DATA.oamXPositions[line] = (data)[line].xPosition;          \
     ENDING_DATA.oamYPositions[line] = (data)[line].yPosition;          \
     ENDING_DATA.oamFramePointers[line] = (data)[line].pFrame;          \
@@ -193,10 +193,10 @@ void EndingImageDisplayLinePermanently(u32 line)
             break;
     }
 
-    for (i = 0; i < ENDING_DATA.unk_9B - 6; i++)
-        ENDING_DATA.unk_124[i + 6] = 0;
+    for (i = 0; i < ENDING_DATA.oamCount - 6; i++)
+        ENDING_DATA.letterStates[i + 6] = 0;
 
-    ENDING_DATA.unk_9B = 6;
+    ENDING_DATA.oamCount = 6;
 }
 
 /**
@@ -210,7 +210,7 @@ boolu32 CreditsHandler(void)
 
     finished = FALSE;
 
-    ENDING_DATA.unk_0 = 0;
+    ENDING_DATA.creditLineTilemapUpdate = 0;
     gNextOamSlot = 0;
 
     switch (gSubGameMode1)
@@ -260,10 +260,10 @@ void EndingInitFunctionsVBlank(void)
  */
 void CreditsVBlank(void)
 {
-    if (ENDING_DATA.unk_0)
+    if (ENDING_DATA.creditLineTilemapUpdate)
     {
-        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_1, VRAM_BASE + ENDING_DATA.unk_8C, 32);
-        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_2, VRAM_BASE + ENDING_DATA.unk_90, 32);
+        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_1, VRAM_BASE + ENDING_DATA.creditLineTilemapOffset_1, 32);
+        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_2, VRAM_BASE + ENDING_DATA.creditLineTilemapOffset_2, 32);
     }
 
     WRITE_16(REG_BLDY, gWrittenToBldy);
@@ -291,10 +291,10 @@ void EndingImageVBlank(void)
 {
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / 4);
 
-    if (ENDING_DATA.unk_0)
+    if (ENDING_DATA.creditLineTilemapUpdate)
     {
-        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_1, VRAM_BASE + ENDING_DATA.unk_8C, 32);
-        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_1, VRAM_BASE + ENDING_DATA.unk_90, 32);
+        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_1, VRAM_BASE + ENDING_DATA.creditLineTilemapOffset_1, 32);
+        DMA3_COPY_16(ENDING_DATA.creditLineTilemap_1, VRAM_BASE + ENDING_DATA.creditLineTilemapOffset_2, 32);
     }
     
     WRITE_16(REG_BLDY, gWrittenToBldy);
@@ -311,7 +311,7 @@ void EndingSamusPosingHBlankCode(void)
     u16 index;
 
     index = MOD_AND(READ_16(REG_VCOUNT) + ENDING_DATA.currentCreditLine, 128);
-    WRITE_16(REG_BG0HOFS, ENDING_DATA.unk_A4[index]);
+    WRITE_16(REG_BG0HOFS, ENDING_DATA.samusPosingBg0Offsets[index]);
 }
 
 /**
@@ -371,13 +371,13 @@ void CreditsInit(void)
     WRITE_16(REG_BG3HOFS, 0);
     WRITE_16(REG_BG3VOFS, 0);
     
-    ENDING_DATA.unk_8 = 128;
+    ENDING_DATA.scrollAccumulator = 128;
     
     minutes = gInGameTimer.hours * 60 + gInGameTimer.minutes;
     if (minutes < 120)
-        ENDING_DATA.unk_99 = 2;
+        ENDING_DATA.clearTimeRank = 2;
     else if (minutes < 240)
-        ENDING_DATA.unk_99 = 1;
+        ENDING_DATA.clearTimeRank = 1;
     
     energyTanks = (gEquipment.maxEnergy - 99) / 100;
     if (energyTanks < 0)
@@ -417,11 +417,11 @@ boolu32 CreditsProcess(void)
     switch (ENDING_DATA.stage)
     {
         case 0:
-            if (ENDING_DATA.unk_8 > 127)
+            if (ENDING_DATA.scrollAccumulator > 127)
             {
-                ENDING_DATA.unk_8 = MOD_AND(ENDING_DATA.unk_8, 128);
+                ENDING_DATA.scrollAccumulator = MOD_AND(ENDING_DATA.scrollAccumulator, 128);
                 
-                if (ENDING_DATA.unk_2 == ENDING_DATA.unk_4)
+                if (ENDING_DATA.unk_2 == ENDING_DATA.lineRow)
                 {
                     lineHeight = CreditsDisplayLine(ENDING_DATA.currentCreditLine);
                     
@@ -431,29 +431,29 @@ boolu32 CreditsProcess(void)
                     }
                     else
                     {
-                        temp_r3 = ENDING_DATA.unk_4 * 0x40;
+                        temp_r3 = ENDING_DATA.lineRow * 0x40;
                         var_r0 = temp_r3 + 0x500;
                         
                         if (var_r0 > 0x7FF)
                             var_r0 = MOD_AND(var_r0, 0x800);
                         
-                        ENDING_DATA.unk_8C = var_r0 + 0x8000;
+                        ENDING_DATA.creditLineTilemapOffset_1 = var_r0 + 0x8000;
                         var_r0 = temp_r3 + 0x540;
                         
                         if (var_r0 > 0x7FF)
                             var_r0 = MOD_AND(var_r0, 0x800);
                         
-                        ENDING_DATA.unk_90 = var_r0 + 0x8000;
-                        ENDING_DATA.unk_4 += lineHeight;
+                        ENDING_DATA.creditLineTilemapOffset_2 = var_r0 + 0x8000;
+                        ENDING_DATA.lineRow += lineHeight;
                         ENDING_DATA.currentCreditLine++;
-                        ENDING_DATA.unk_0++;
+                        ENDING_DATA.creditLineTilemapUpdate++;
                     }
                 }
                 
                 ENDING_DATA.unk_2++;
             }
             
-            ENDING_DATA.unk_8 += 9;
+            ENDING_DATA.scrollAccumulator += 9;
             gBg0YPosition += 9;
             break;
         
@@ -494,7 +494,7 @@ boolu32 CreditsProcess(void)
             break;
         
         case 3:
-            if (sEndingSamusPosingFunctionPointers[ENDING_DATA.unk_98]())
+            if (sEndingSamusPosingFunctionPointers[ENDING_DATA.subStage]())
                 ENDING_DATA.stage++;
 
             gBg2YPosition += 4;
@@ -510,12 +510,12 @@ boolu32 CreditsProcess(void)
             gWrittenToBldy = 0;
             ENDING_DATA.timer = 0;
             ENDING_DATA.unk_97 = 0;
-            ENDING_DATA.unk_98 = 0;
+            ENDING_DATA.subStage = 0;
             ENDING_DATA.stage++;
             break;
         
         case 6:
-            if (sEndingImageFunctionPointers[ENDING_DATA.unk_98]())
+            if (sEndingImageFunctionPointers[ENDING_DATA.subStage]())
                 ENDING_DATA.stage++;
             break;
         
@@ -729,18 +729,18 @@ boolu32 EndingSamusPosingInit(void)
 
     gBg0YPosition = 0;
 
-    DMA3_COPY_16(sEndingSamusPosingSineTable, ENDING_DATA.unk_A4, 64);
+    DMA3_COPY_16(sEndingSamusPosingSineTable, ENDING_DATA.samusPosingBg0Offsets, 64);
 
     ENDING_DATA.unk_2 = 0;
-    ENDING_DATA.unk_4 = 0;
+    ENDING_DATA.lineRow = 0;
     ENDING_DATA.currentCreditLine = 0;
-    ENDING_DATA.unk_98++;
+    ENDING_DATA.subStage++;
     
     CallbackSetVBlank(EndingSamusPosingVBlank);
 
-    DMA3_COPY_16(EndingSamusPosingHBlankCode, &ENDING_DATA.unk_270, 32);
+    DMA3_COPY_16(EndingSamusPosingHBlankCode, &ENDING_DATA.hBlankCode, 32);
 
-    CallbackSetHBlank(ENDING_DATA.unk_270 + 1);
+    CallbackSetHBlank(ENDING_DATA.hBlankCode + 1);
 
     return FALSE;
 }
@@ -762,7 +762,7 @@ boolu32 EndingFadeIn(void)
     else
     {
         WRITE_16(REG_BLDCNT, 0);
-        ENDING_DATA.unk_98++;
+        ENDING_DATA.subStage++;
         ENDING_DATA.unk_97 = 0;
     }
     
@@ -784,9 +784,9 @@ boolu32 EndingSamusPosing(void)
     switch (ENDING_DATA.timer++)
     {
         case 0:
-            index = ENDING_DATA.unk_98 - 2;
+            index = ENDING_DATA.subStage - 2;
             
-            if (ENDING_DATA.unk_98 & 1)
+            if (ENDING_DATA.subStage & 1)
                 offset = 0x8000;
             else 
                 offset = 0xA800;
@@ -795,9 +795,9 @@ boolu32 EndingSamusPosing(void)
             break;
         
         case CONVERT_SECONDS(1.f / 60):
-            index = ENDING_DATA.unk_98 - 2;
+            index = ENDING_DATA.subStage - 2;
 
-            if (ENDING_DATA.unk_98 & 1)
+            if (ENDING_DATA.subStage & 1)
                 offset = 0x9000;
             else 
                 offset = 0xB800;
@@ -806,9 +806,9 @@ boolu32 EndingSamusPosing(void)
             break;
         
         case CONVERT_SECONDS(1.f / 30):
-            index = ENDING_DATA.unk_98 - 2;
+            index = ENDING_DATA.subStage - 2;
 
-            if (ENDING_DATA.unk_98 & 1)
+            if (ENDING_DATA.subStage & 1)
                 offset = 0xF800;
             else 
                 offset = 0xF000;
@@ -825,7 +825,7 @@ boolu32 EndingSamusPosing(void)
             temp2 = BLDALPHA_MAX_VALUE;
             WRITE_16(temp1, temp2);
             
-            if (ENDING_DATA.unk_98 & 1)
+            if (ENDING_DATA.subStage & 1)
                 WRITE_16(REG_BLDCNT, BLDCNT_BG1_FIRST_TARGET_PIXEL | BLDCNT_ALPHA_BLENDING_EFFECT | 
                     BLDCNT_BG0_SECOND_TARGET_PIXEL | BLDCNT_BG2_SECOND_TARGET_PIXEL);
             else
@@ -839,7 +839,7 @@ boolu32 EndingSamusPosing(void)
         case CONVERT_SECONDS(1 + 2.f / 3):
             WRITE_16(REG_BLDCNT, 0);
             
-            if (ENDING_DATA.unk_98 & 1) 
+            if (ENDING_DATA.subStage & 1) 
             {
                 WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG2 | DCNT_OBJ);
                 WRITE_16(REG_BG0CNT, CREATE_BGCNT(2, 31, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
@@ -855,7 +855,7 @@ boolu32 EndingSamusPosing(void)
             ENDING_DATA.unk_2 = 0;
             ENDING_DATA.timer = 0;
             ENDING_DATA.unk_97 = 0;
-            ENDING_DATA.unk_98++;
+            ENDING_DATA.subStage++;
             break;
     }
     
@@ -906,21 +906,21 @@ boolu32 EndingSamusPosingTransforming(void)
             
             WRITE_16(REG_BLDCNT, BLDCNT_BG0_FIRST_TARGET_PIXEL | BLDCNT_ALPHA_BLENDING_EFFECT | 
                 BLDCNT_BG2_SECOND_TARGET_PIXEL | BLDCNT_OBJ_SECOND_TARGET_PIXEL);
-            ENDING_DATA.unk_9B = 1;
-            ENDING_DATA.unk_9D = 1;
-            ENDING_DATA.unk_A0 = (u16*)&sOamFrame_749c80;
+            ENDING_DATA.oamCount = 1;
+            ENDING_DATA.samusOamPriority = 1;
+            ENDING_DATA.pSamusOamFrame = (u16*)&sOamFrame_749c80;
             ENDING_DATA.unk_2 = 1;
             break;
 
         case CONVERT_SECONDS(1 + 2.f / 3):
             WRITE_16(REG_DISPCNT, DCNT_BG2 | DCNT_OBJ);
             WRITE_16(REG_BLDCNT, 0);
-            ENDING_DATA.unk_9D = 0;
+            ENDING_DATA.samusOamPriority = 0;
             ENDING_DATA.unk_2 = 0;
             break;
 
         case CONVERT_SECONDS(1 + 41.f / 60):
-            if (ENDING_DATA.unk_99)
+            if (ENDING_DATA.clearTimeRank)
             {
                 LZ77UncompVram(sTilemap_753E80, VRAM_BASE + 0xF800);
                 WRITE_16(REG_BG0CNT, CREATE_BGCNT(0, 31, BGCNT_HIGH_PRIORITY, BGCNT_SIZE_256x256));
@@ -929,7 +929,7 @@ boolu32 EndingSamusPosingTransforming(void)
 
         //case CONVERT_SECONDS(1 + 5.f / 6): // No match
         case CONVERT_SECONDS(11.f / 6):
-            if (ENDING_DATA.unk_99)
+            if (ENDING_DATA.clearTimeRank)
             {
                 WRITE_16(REG_IME, 0);
                 WRITE_16(REG_DISPSTAT, READ_16(REG_DISPSTAT) | DSTAT_IF_HBLANK);
@@ -940,75 +940,75 @@ boolu32 EndingSamusPosingTransforming(void)
             break;
 
         case CONVERT_SECONDS(2 + 1.f / 3):
-            if (ENDING_DATA.unk_99)
+            if (ENDING_DATA.clearTimeRank)
             {
                 WRITE_16(REG_WIN0H, 0);
                 WRITE_16(REG_WIN0V, 0);
                 WRITE_16(REG_WININ, 0);
                 WRITE_16(REG_WINOUT, WIN0_BG1 | WIN0_BG2 | WIN0_COLOR_EFFECT | WIN1_BG0 | WIN1_BG1 | WIN1_COLOR_EFFECT);
                 WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG2 | DCNT_OBJ | DCNT_WIN0 | DCNT_WINOBJ);
-                ENDING_DATA.unk_9C = 2;
+                ENDING_DATA.samusOamObjMode = 2;
             }
             break;
 
         case CONVERT_SECONDS(2 + 21.f / 60):
-            if (ENDING_DATA.unk_99 == 1)
+            if (ENDING_DATA.clearTimeRank == 1)
             {
                 LZ77UncompVram(sPreResultsSamusWithoutHelmetBgGfx1, VRAM_BASE + 0x8000);
             }
-            else if (ENDING_DATA.unk_99)
+            else if (ENDING_DATA.clearTimeRank)
             {
                 LZ77UncompVram(sPreResultsSamusSuitlessBgGfx1, VRAM_BASE + 0x8000);
             }
             break;
         
         case CONVERT_SECONDS(2 + 22.f / 60):
-            if (ENDING_DATA.unk_99 == 1)
+            if (ENDING_DATA.clearTimeRank == 1)
             {
                 LZ77UncompVram(sPreResultsSamusWithoutHelmetBgGfx2, VRAM_BASE + 0x9000);
             }
-            else if (ENDING_DATA.unk_99)
+            else if (ENDING_DATA.clearTimeRank)
             {
                 LZ77UncompVram(sPreResultsSamusSuitlessBgGfx2, VRAM_BASE + 0x9000);
             }
             break;
 
         case CONVERT_SECONDS(2 + 23.f / 60):
-            if (ENDING_DATA.unk_99 == 1)
+            if (ENDING_DATA.clearTimeRank == 1)
             {
                 LZ77UncompVram(sTilemap_75E990, VRAM_BASE + 0xF000);
             }
-            else if (ENDING_DATA.unk_99) 
+            else if (ENDING_DATA.clearTimeRank) 
             {
                 LZ77UncompVram(sTilemap_75EB94, VRAM_BASE + 0xF000);
             }
             break;
 
         case CONVERT_SECONDS(2 + 24.f / 60):
-            if (ENDING_DATA.unk_99 == 1)
+            if (ENDING_DATA.clearTimeRank == 1)
             {
                 DMA3_COPY_16(sPreResultsSamusWithoutHelmetBgPal, PALRAM_BASE + 6 * PAL_ROW_SIZE, 10 * PAL_ROW);
             }
-            else if (ENDING_DATA.unk_99)
+            else if (ENDING_DATA.clearTimeRank)
             {
                 DMA3_COPY_16(sPreResultsSamusSuitlessBgPal, PALRAM_BASE + 6 * PAL_ROW_SIZE, 10 * PAL_ROW);
             }
             break;
         
         case CONVERT_SECONDS(2 + 5.f / 6):
-            if (ENDING_DATA.unk_99 == 1) 
+            if (ENDING_DATA.clearTimeRank == 1) 
             {
-                ENDING_DATA.unk_A0 = (u16*)sOamFrame_749d18;
+                ENDING_DATA.pSamusOamFrame = (u16*)sOamFrame_749d18;
             } 
-            else if (ENDING_DATA.unk_99)
+            else if (ENDING_DATA.clearTimeRank)
             {
-                ENDING_DATA.unk_A0 = (u16*)sOamFrame_749d3e;
+                ENDING_DATA.pSamusOamFrame = (u16*)sOamFrame_749d3e;
                 WRITE_16(REG_BG1HOFS, 4);
             }
             break;
 
         case CONVERT_SECONDS(3 + 2.f / 3):
-            if (ENDING_DATA.unk_99)
+            if (ENDING_DATA.clearTimeRank)
             {
                 gWrittenToBldalpha_Eva = BLDALPHA_MAX_VALUE;
                 gWrittenToBldalpha_Evb = 0;
@@ -1027,11 +1027,11 @@ boolu32 EndingSamusPosingTransforming(void)
             break;
         
         case CONVERT_SECONDS(4 + 1.f / 2):
-            if (ENDING_DATA.unk_99)
+            if (ENDING_DATA.clearTimeRank)
             {
                 WRITE_16(REG_DISPCNT, DCNT_BG1 | DCNT_BG2);
                 WRITE_16(REG_BLDCNT, 0);
-                ENDING_DATA.unk_9B = 0;
+                ENDING_DATA.oamCount = 0;
                 ENDING_DATA.unk_2 = 0;
                 ENDING_DATA.unk_96 = 0;
             }
@@ -1061,9 +1061,9 @@ boolu32 EndingSamusPosingTransforming(void)
     dst = (u16*)&gOamData;
     nextSlot = 0;
 
-    if (ENDING_DATA.unk_9B)
+    if (ENDING_DATA.oamCount)
     {
-        src = ENDING_DATA.unk_A0;
+        src = ENDING_DATA.pSamusOamFrame;
         part = *src++;
         nextSlot = (u8)part;
         
@@ -1073,7 +1073,7 @@ boolu32 EndingSamusPosingTransforming(void)
             *dst++ = part;
 
             gOamData[currSlot].split.y = part + 0x4C;
-            gOamData[currSlot].split.objMode = ENDING_DATA.unk_9C;
+            gOamData[currSlot].split.objMode = ENDING_DATA.samusOamObjMode;
 
             part = *src++;
             *dst++ = part;
@@ -1082,7 +1082,7 @@ boolu32 EndingSamusPosingTransforming(void)
 
             *dst = *src++;
             
-            gOamData[currSlot].split.priority = ENDING_DATA.unk_9D;
+            gOamData[currSlot].split.priority = ENDING_DATA.samusOamPriority;
 
             dst += 2;
         }
@@ -1118,14 +1118,14 @@ boolu32 EndingImageInit(void)
     {
         ending = 3;
 
-        if (ENDING_DATA.unk_99 == 2)
+        if (ENDING_DATA.clearTimeRank == 2)
         {
             ending = 4;
         }
     }
     else
     {
-        ending = ENDING_DATA.unk_99;
+        ending = ENDING_DATA.clearTimeRank;
     }
 
     switch (ending)
@@ -1225,11 +1225,11 @@ boolu32 EndingImageInit(void)
     WRITE_16(REG_BG3HOFS, 0);
     WRITE_16(REG_BG3VOFS, 0);
 
-    ENDING_DATA.unk_8 = 128;
+    ENDING_DATA.scrollAccumulator = 128;
     ENDING_DATA.unk_2 = 0;
-    ENDING_DATA.unk_4 = 0;
+    ENDING_DATA.lineRow = 0;
     ENDING_DATA.currentCreditLine = 0;
-    ENDING_DATA.unk_98++;
+    ENDING_DATA.subStage++;
 
     value = 31;
     for (i = 31; i >= 0; i--)
@@ -1327,18 +1327,18 @@ boolu32 EndingImage(void)
     
     if (ENDING_DATA.unk_2 == 1) 
     {
-        if (ENDING_DATA.unk_8 > 127) 
+        if (ENDING_DATA.scrollAccumulator > 127) 
         {
-            ENDING_DATA.unk_8 = MOD_AND(ENDING_DATA.unk_8, 128);
-            ENDING_DATA.unk_8C = ((u16)-64 - ENDING_DATA.unk_4 * 64);
-            ENDING_DATA.unk_90 = ((u16)-128 - ENDING_DATA.unk_4 * 64);
-            ENDING_DATA.unk_4 = MOD_AND(ENDING_DATA.unk_4 + 1, 32);
-            ENDING_DATA.unk_0++;
+            ENDING_DATA.scrollAccumulator = MOD_AND(ENDING_DATA.scrollAccumulator, 128);
+            ENDING_DATA.creditLineTilemapOffset_1 = ((u16)-64 - ENDING_DATA.lineRow * 64);
+            ENDING_DATA.creditLineTilemapOffset_2 = ((u16)-128 - ENDING_DATA.lineRow * 64);
+            ENDING_DATA.lineRow = MOD_AND(ENDING_DATA.lineRow + 1, 32);
+            ENDING_DATA.creditLineTilemapUpdate++;
         }
 
         gBg0YPosition -= 6;
         gBg1YPosition -= 6;
-        ENDING_DATA.unk_8 += 6;
+        ENDING_DATA.scrollAccumulator += 6;
         
         if (!gBg0YPosition || (gBg0YPosition & 0x8000))
         {
@@ -1349,7 +1349,7 @@ boolu32 EndingImage(void)
     
     if (ENDING_DATA.unk_97 == 1) 
     {
-        for (currSlot = 6; currSlot < ENDING_DATA.unk_9B; currSlot++)
+        for (currSlot = 6; currSlot < ENDING_DATA.oamCount; currSlot++)
             EndingImageUpdateLettersSpawnDelay(currSlot);
     }
 
@@ -1363,31 +1363,31 @@ boolu32 EndingImage(void)
 
         EMPTY_DO_WHILE
         
-        for (i = 0; i < ENDING_DATA.unk_9B; i++) 
+        for (i = 0; i < ENDING_DATA.oamCount; i++) 
         {
-            if (ENDING_DATA.unk_124[i] <= 1)
+            if (ENDING_DATA.letterStates[i] <= 1)
                 continue;
             
-            if (ENDING_DATA.unk_160[i] <= 63)
-                ENDING_DATA.unk_160[i]++;
+            if (ENDING_DATA.letterTimers[i] <= 63)
+                ENDING_DATA.letterTimers[i]++;
                 
             palette = 0;
             
             if (i > 5) 
             {                    
-                if (ENDING_DATA.unk_160[i] < 4)
+                if (ENDING_DATA.letterTimers[i] < 4)
                     palette = 3;
-                else if (ENDING_DATA.unk_160[i] < 8)
+                else if (ENDING_DATA.letterTimers[i] < 8)
                     palette = 2;
-                else if (ENDING_DATA.unk_160[i] < 12)
+                else if (ENDING_DATA.letterTimers[i] < 12)
                     palette = 1;
             } 
             else if (i == 5) 
             {
-                if (ENDING_DATA.unk_160[i] > 63)
-                    ENDING_DATA.unk_160[i] = palette;
+                if (ENDING_DATA.letterTimers[i] > 63)
+                    ENDING_DATA.letterTimers[i] = palette;
                     
-                switch (ENDING_DATA.unk_160[i] / 8)
+                switch (ENDING_DATA.letterTimers[i] / 8)
                 {
                     case 0:
                     case 7:

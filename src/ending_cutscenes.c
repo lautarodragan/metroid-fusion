@@ -25,7 +25,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
 void EndingBslCrashingVblank(void);
 void EndingShipFrontViewVblank(void);
 u8 EndingGetPositionAndSlotOfOamByType(u8 type, s16* pXPosition, s16* pYPosition);
-void unk_95e20(struct SpecialCutsceneOam* pOam);
+void EndingOam_Empty(struct SpecialCutsceneOam* pOam);
 u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch);
 void EndingMonologueVblank(void);
 void EndingConversationAndAnimalsVblank(void);
@@ -535,11 +535,11 @@ void EndingProcessFallingBsl(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 9579c | 30 | To document
+ * @brief 9579c | 30 | Destroys a special cutscene OAM once its animation ended
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9579c(struct SpecialCutsceneOam* pOam)
+void EndingBslCrashingDestroyOamWhenAnimEnded(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
 
@@ -753,7 +753,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
     {
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sBslCrashingType3Oam;
-        INTRO_DATA.oam[slot].pFunction = unk_9579c;
+        INTRO_DATA.oam[slot].pFunction = EndingBslCrashingDestroyOamWhenAnimEnded;
     }
     else if (type == 4)
     {
@@ -773,7 +773,7 @@ u8 EndingBslCrashingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 desce
         INTRO_DATA.oam[slot].objMode = 1;
         INTRO_DATA.oam[slot].priority = 3;
         INTRO_DATA.oam[slot].pOam = sEndingFrontFacingShipOam;
-        INTRO_DATA.oam[slot].pFunction = unk_95e20;
+        INTRO_DATA.oam[slot].pFunction = EndingOam_Empty;
     }
     else if (type == 11)
     {
@@ -870,7 +870,7 @@ u8 EndingGetPositionAndSlotOfOamByType(u8 type, s16* pXPosition, s16* pYPosition
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_95e20(struct SpecialCutsceneOam* pOam)
+void EndingOam_Empty(struct SpecialCutsceneOam* pOam)
 {
     return;
 }
@@ -1442,11 +1442,11 @@ void EndingProcessMonologueCursor(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 969e0 | 28 | To document
+ * @brief 969e0 | 28 | Holds a special cutscene OAM on the last frame of its animation
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_969e0(struct SpecialCutsceneOam* pOam)
+void EndingProcessHoldLastAnimFrame(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
 
@@ -1503,11 +1503,11 @@ void EndingProcessSamusViewRadarView(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 96a70 | 9c | To document
+ * @brief 96a70 | 9c | Handles the opening and closing animations of the ending dialogue type 5 OAM
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_96a70(struct SpecialCutsceneOam* pOam)
+void EndingProcessDialogueType5(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
 

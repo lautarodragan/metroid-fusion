@@ -251,7 +251,7 @@ void EndingProcessAnimalsScrolling(struct SpecialCutsceneOam* pOam)
  *
  * @param pOam Special cutscene OAM pointer
  */
-void unk_96f00(struct SpecialCutsceneOam* pOam)
+void EndingDestroyOam(struct SpecialCutsceneOam* pOam)
 {
     pOam->type = 0;
 }
@@ -308,7 +308,7 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     {
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sEndingDialogueType2Oam;
-        INTRO_DATA.oam[slot].pFunction = unk_969e0;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessHoldLastAnimFrame;
     }
     else if (type == 3)
     {
@@ -326,7 +326,7 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     {
         INTRO_DATA.oam[slot].priority = 2;
         INTRO_DATA.oam[slot].pOam = sEndingDialogueType5Oam_Opening;
-        INTRO_DATA.oam[slot].pFunction = unk_96a70;
+        INTRO_DATA.oam[slot].pFunction = EndingProcessDialogueType5;
     }
     else if (type == 6)
     {
@@ -360,14 +360,14 @@ u8 EndingDialogueSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     {
         SoundPlay(SOUND_12D);
         INTRO_DATA.oam[slot].priority = 1;
-        INTRO_DATA.oam[slot].pOam = sEndingUnk_633f24;
-        INTRO_DATA.oam[slot].pFunction = unk_97418;
+        INTRO_DATA.oam[slot].pOam = sEndingDialogueType30Oam;
+        INTRO_DATA.oam[slot].pFunction = EndingDialogueOam_Empty;
     }
     else if (type == UCHAR_MAX)
     {
         INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sEndingDialogueType5Oam_Opening;
-        INTRO_DATA.oam[slot].pFunction = unk_96f00;
+        INTRO_DATA.oam[slot].pFunction = EndingDestroyOam;
     }
 
     return slot;
@@ -446,7 +446,7 @@ u8 EndingGetPositionAndSlotOfOamByType_2(u8 type, s16* pXPosition, s16* pYPositi
  *
  * @param pOam Special cutscene OAM pointer
  */
-void unk_97418(struct SpecialCutsceneOam* pOam)
+void EndingDialogueOam_Empty(struct SpecialCutsceneOam* pOam)
 {
     return;
 }
