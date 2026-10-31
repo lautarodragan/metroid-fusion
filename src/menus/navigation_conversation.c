@@ -152,31 +152,32 @@ void NavigationConversationProcessText(void)
         switch (character)
         {
             case 15:
-                // FIXME: Fake match. "+ type - type" keeps *pText inside a u16 (HImode) expression, so GCSE
-                // replaces the load with the value loaded before the switch. A plain "value = *pText" is a
-                // zero_extend:SI of the load, a different GCSE expression that isn't available here, so it
-                // gets reloaded (an extra ldrh). Comparing *pText directly reuses the value but allocates
-                // registers differently
-                value = (u16)(*pText + type - type);
-                if (value == 0xFF00)
+                if (*pText == 0xFF00)
                 {
                     PAUSE_SCREEN_DATA.unk_1C = 1;
                     PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 3;
                     result = 2;
                 }
-                else if (value == 0xFE00)
+                else if (*pText == 0xFE00)
                 {
-                    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = value;
+                    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0xFE00;
                     result = 1;
                 }
-                else if (value == 0xFD00 || value == 0xFC00)
+                else if (*pText == 0xFD00)
                 {
-                    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = value;
+                    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0xFD00;
                     PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 3;
                     PAUSE_SCREEN_DATA.unk_1A = TRUE;
                     result = 2;
                 }
-                else if (value == 0xFB00)
+                else if (*pText == 0xFC00)
+                {
+                    NAV_TEXT_TIMER(PAUSE_SCREEN_DATA.unk_18) = 0xFC00;
+                    PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 3;
+                    PAUSE_SCREEN_DATA.unk_1A = TRUE;
+                    result = 2;
+                }
+                else if (*pText == 0xFB00)
                 {
                     PAUSE_SCREEN_DATA.unk_1C = 2;
                     PAUSE_SCREEN_DATA.oam[PAUSE_SCREEN_DATA.unk_19].oamId = 3;

@@ -914,7 +914,6 @@ u8 FileSelectSetupOam(u8 type, s16 xPosition, s16 yPosition, u8 unk)
 {
     s8 i;
     u32 zero;
-    u8 oamType;
 
     for (i = FILE_SELECT_OAM_COUNT - 1; i >= 0; i--)
     {
@@ -1032,28 +1031,35 @@ u8 FileSelectSetupOam(u8 type, s16 xPosition, s16 yPosition, u8 unk)
         FILE_SELECT_DATA.oam[i].pOam = sFileSelectFilePanelOam2;
         FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
     }
-    else
+    else if (type == 20)
     {
-        // Reading the type through a copy here is needed to match
-        oamType = type;
-        if (oamType == 20 || type == 21 || type == 22)
-        {
-            FILE_SELECT_DATA.oam[i].priority = 3;
-            FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740b98;
-            FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
-        }
-        else if (type == 23)
-        {
-            SoundPlay(SOUND_1FC);
-            FILE_SELECT_DATA.oam[i].priority = 1;
-            FILE_SELECT_DATA.oam[i].pOam = sFileSelectFilePanelOam1;
-            FILE_SELECT_DATA.oam[i].pHandler = unk_a039c;
-        }
-        else if (type == 24)
-        {
-            FILE_SELECT_DATA.oam[i].pOam = sFileSelectCursorOam1;
-            FILE_SELECT_DATA.oam[i].pHandler = unk_a0424;
-        }
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740b98;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+    }
+    else if (type == 21)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740b98;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+    }
+    else if (type == 22)
+    {
+        FILE_SELECT_DATA.oam[i].priority = 3;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectOam_740b98;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0518;
+    }
+    else if (type == 23)
+    {
+        SoundPlay(SOUND_1FC);
+        FILE_SELECT_DATA.oam[i].priority = 1;
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectFilePanelOam1;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a039c;
+    }
+    else if (type == 24)
+    {
+        FILE_SELECT_DATA.oam[i].pOam = sFileSelectCursorOam1;
+        FILE_SELECT_DATA.oam[i].pHandler = unk_a0424;
     }
 
     return i;

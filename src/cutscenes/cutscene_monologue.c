@@ -154,8 +154,6 @@ void CutsceneMonologueProcessText(void)
     else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFD00)
     {
         DMA3_FILL_32(0, VRAM_BASE + 0x8000, 0x4800);
-        // The text pointer is read again from memory after the clear
-        asm volatile("" ::: "memory");
 
         CUTSCENE_MONOLOGUE_DATA.fadeLine = 0;
         CUTSCENE_MONOLOGUE_DATA.fadeColumn = 0;

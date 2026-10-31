@@ -104,6 +104,6 @@ struct CutsceneMonologueData {
 // Same IWRAM byte as CUTSCENE_UNK_3001238, through its linker symbol
 extern u8 gUnk_3001238;
 
-#define CUTSCENE_MONOLOGUE_DATA (*(struct CutsceneMonologueData*)&gNonGameplayRam)
+#define CUTSCENE_MONOLOGUE_DATA gNonGameplayRam.cutsceneMonologue
 
 #endif /* CUTSCENE_DATA_STRUCT_H */
