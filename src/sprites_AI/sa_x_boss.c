@@ -532,7 +532,7 @@ void SaXBossRunningInit(void)
     gCurrentSprite.work3 = 0;
     gCurrentSprite.hitboxTop = -(BLOCK_SIZE * 2 - QUARTER_BLOCK_SIZE / 2);
 
-    if (!unk_15dd4())
+    if (!SaXCheckShootOrTurnTowardsSamus())
         SaXSetPose(SA_X_POSE_RUNNING);
 }
 

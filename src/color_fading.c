@@ -1251,16 +1251,16 @@ bools32 ColorFadingUpdate_DoorTransition(void)
             break;
 
         case 4:
-            gUnk_300144f = 0;
+            gSamusDoorExitVelocityLock = 0;
 
             for (i = 0; i < MAX_AMOUNT_OF_HATCHES; i++)
             {
                 if (gLastDoorUsed == gHatchDoorIds[i])
                 {
                     if (gHatchData[i].facingRight)
-                        gUnk_300144f |= 8 | 0x80;
+                        gSamusDoorExitVelocityLock |= 8 | 0x80;
                     else
-                        gUnk_300144f |= 8 | 0x40;
+                        gSamusDoorExitVelocityLock |= 8 | 0x40;
 
                     break;
                 }

@@ -382,11 +382,11 @@ void SaXSeeAndLocateSamus(void)
 }
 
 /**
- * @brief 15dd4 | b4 | To document
+ * @brief 15dd4 | b4 | Checks if the SA-X should start shooting a beam at samus (samus in front) or turn around to chase her (samus behind)
  * 
  * @return u8 bool, pose changed
  */
-u8 unk_15dd4(void)
+u8 SaXCheckShootOrTurnTowardsSamus(void)
 {
     u32 nslr;
 
@@ -467,11 +467,11 @@ u8 unk_15dd4(void)
 }
 
 /**
- * @brief 15e88 | cc | To document
+ * @brief 15e88 | cc | Checks if the SA-X should start chasing samus (samus in Y range or SA-X hit), either running or turning around towards her
  * 
  * @return u8 bool, pose changed
  */
-u8 unk_15e88(void)
+u8 SaXCheckStartChasing(void)
 {
     u8 prevPose;
 
@@ -537,11 +537,11 @@ u8 unk_15e88(void)
 }
 
 /**
- * @brief 15f54 | 108 | To document
+ * @brief 15f54 | 108 | Same as SaXCheckStartChasing, but also turns around (without chasing) when samus is behind in X range
  * 
  * @return u8 bool, pose changed
  */
-u8 unk_15f54(void)
+u8 SaXCheckStartChasingOrTurnAround(void)
 {
     u8 prevPose;
 
@@ -619,10 +619,10 @@ u8 unk_15f54(void)
 }
 
 /**
- * @brief 1605c | 1c0 | To document
+ * @brief 1605c | 1c0 | Checks the terrain in front of the SA-X while on the ground, and makes it fall, jump over an obstacle (work2 = jump type) or morph into a tunnel
  * 
  */
-void unk_1605c(void)
+void SaXCheckFallJumpOrMorph(void)
 {
     gCurrentSprite.work2 = 0;
     SpriteUtilAlignYPositionOnSlopeAtOrigin();
@@ -1003,10 +1003,10 @@ void SaXWalkingInit(void)
  */
 void SaXWalking(void)
 {
-    if (unk_15f54())
+    if (SaXCheckStartChasingOrTurnAround())
         return;
 
-    unk_1605c();
+    SaXCheckFallJumpOrMorph();
 
     if (gCurrentSprite.pose != 0x2)
         return;
@@ -1086,7 +1086,7 @@ void SaXRunningInit(void)
     gCurrentSprite.work3 = 0;
     gCurrentSprite.hitboxTop = -(BLOCK_SIZE * 2 - PIXEL_SIZE * 2);
 
-    if (!unk_15dd4())
+    if (!SaXCheckShootOrTurnTowardsSamus())
         SaXSetPose(SA_X_POSE_RUNNING);
 }
 
@@ -1096,10 +1096,10 @@ void SaXRunningInit(void)
  */
 void SaXRunning(void)
 {
-    if (unk_15dd4())
+    if (SaXCheckShootOrTurnTowardsSamus())
         return;
 
-    unk_1605c();
+    SaXCheckFallJumpOrMorph();
 
     if (gCurrentSprite.pose != 0x18)
         return;

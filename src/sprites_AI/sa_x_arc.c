@@ -515,7 +515,7 @@ void SaXArcOpeningDoor(void)
  */
 void SaXArcWalking(void)
 {
-    if (unk_15e88())
+    if (SaXCheckStartChasing())
         return;
 
     SaXArcCheckCollisionWalking();
@@ -635,7 +635,7 @@ void SaXArcTurningAroundAfterHearingWeapon(void)
  */
 void SaXArcRunning(void)
 {
-    if (unk_15dd4())
+    if (SaXCheckShootOrTurnTowardsSamus())
         return;
 
     SaXArcCheckCollisionRunning();

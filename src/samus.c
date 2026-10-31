@@ -224,33 +224,33 @@ void SamusUpdateCollisionData(void)
     gSamusCollisionData.touchingTopBlock = FALSE;
     gSamusCollisionData.unk_E = FALSE;
 
-    gUnk_3004d8c = 0;
+    gSamusSkipCollisionAbove = 0;
 
     if (gSamusData.xPosition > gPreviousXPosition)
     {
         gSamusCollisionData.horizontalMovingDirection = KEY_RIGHT;
-        gSamusCollisionData.unk_4 = 1;
-        gSamusCollisionData.unk_5 = 0;
-        gSamusCollisionData.unk_6 = -ONE_SUB_PIXEL;
+        gSamusCollisionData.forwardSide = 1;
+        gSamusCollisionData.backwardSide = 0;
+        gSamusCollisionData.forwardWallAlignOffset = -ONE_SUB_PIXEL;
     }
     else if (gSamusData.xPosition < gPreviousXPosition)
     {
         gSamusCollisionData.horizontalMovingDirection = KEY_LEFT;
-        gSamusCollisionData.unk_4 = 0;
-        gSamusCollisionData.unk_5 = 1;
-        gSamusCollisionData.unk_6 = BLOCK_SIZE;
+        gSamusCollisionData.forwardSide = 0;
+        gSamusCollisionData.backwardSide = 1;
+        gSamusCollisionData.forwardWallAlignOffset = BLOCK_SIZE;
     }
     else if (gSamusData.direction & KEY_RIGHT)
     {
-        gSamusCollisionData.unk_4 = 1;
-        gSamusCollisionData.unk_5 = 0;
-        gSamusCollisionData.unk_6 = -ONE_SUB_PIXEL;
+        gSamusCollisionData.forwardSide = 1;
+        gSamusCollisionData.backwardSide = 0;
+        gSamusCollisionData.forwardWallAlignOffset = -ONE_SUB_PIXEL;
     }
     else
     {
-        gSamusCollisionData.unk_4 = 0;
-        gSamusCollisionData.unk_5 = 1;
-        gSamusCollisionData.unk_6 = BLOCK_SIZE;
+        gSamusCollisionData.forwardSide = 0;
+        gSamusCollisionData.backwardSide = 1;
+        gSamusCollisionData.forwardWallAlignOffset = BLOCK_SIZE;
     }
 
     if (gSamusData.yPosition > gPreviousYPosition)
@@ -376,7 +376,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             if (currentEffect == GROUND_EFFECT_WET_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_WALKING_ON_WET_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
 
                 if (offset == 0)
                     SoundPlay(SOUND_66);
@@ -386,7 +386,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             else if (currentEffect == GROUND_EFFECT_DUSTY_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_WALKING_ON_DUSTY_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
 
                 if (offset == 0)
                     SoundPlay(SOUND_68);
@@ -396,7 +396,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             else if (currentEffect == GROUND_EFFECT_VERY_DUSTY_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_WALKING_ON_VERY_DUSTY_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
 
                 if (offset == 0)
                     SoundPlay(SOUND_68);
@@ -404,7 +404,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
                     SoundPlay(SOUND_69);
             }
 
-            if (gSamusEnvironmentalEffects[offset].unk_6 == 0)
+            if (gSamusEnvironmentalEffects[offset].effectStarted == 0)
                 return;
 
             gSamusEnvironmentalEffects[offset].xPosition = xPosition;
@@ -417,15 +417,15 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             if (currentEffect == GROUND_EFFECT_WET_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_SKIDDING_ON_WET_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
             }
             else if (currentEffect == GROUND_EFFECT_DUSTY_GROUND || currentEffect == GROUND_EFFECT_VERY_DUSTY_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_SKIDDING_ON_DUSTY_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
             }
 
-            if (gSamusEnvironmentalEffects[offset].unk_6 == 0)
+            if (gSamusEnvironmentalEffects[offset].effectStarted == 0)
                 return;
 
             gSamusEnvironmentalEffects[offset].xPosition = gSamusData.xPosition;
@@ -438,13 +438,13 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             if (currentEffect == GROUND_EFFECT_WET_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_LANDING_ON_WET_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
                 SoundPlay(SOUND_78);
             }
             else if (currentEffect == GROUND_EFFECT_BUBBLY_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_LANDING_ON_BUBBLY_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
 
                 if (gSamusPhysics.slowed == TRUE)
                     SoundPlay(SOUND_7B);
@@ -452,13 +452,13 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             else if (currentEffect == GROUND_EFFECT_DUSTY_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_LANDING_ON_DUSTY_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
                 SoundPlay(SOUND_79);
             }
             else if (currentEffect == GROUND_EFFECT_VERY_DUSTY_GROUND)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_LANDING_ON_VERY_DUSTY_GROUND;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
                 SoundPlay(SOUND_7A);
             }
             else if (gSamusPhysics.slowed == TRUE)
@@ -474,7 +474,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
                 SoundPlay(SOUND_74);
             }
 
-            if (gSamusEnvironmentalEffects[offset].unk_6 == 0)
+            if (gSamusEnvironmentalEffects[offset].effectStarted == 0)
                 return;
 
             gSamusEnvironmentalEffects[offset].xPosition = gSamusData.xPosition;
@@ -492,7 +492,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
                 if (currentEffect != HAZARD_WATER && previousEffect == HAZARD_WATER)
                 {
                     gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_JUMPING_IN_OR_OUT_OF_WATER;
-                    gSamusEnvironmentalEffects[offset].unk_6++;
+                    gSamusEnvironmentalEffects[offset].effectStarted++;
                 }
             }
             else
@@ -500,11 +500,11 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
                 if (currentEffect == HAZARD_WATER && previousEffect != HAZARD_WATER)
                 {
                     gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_JUMPING_IN_OR_OUT_OF_WATER;
-                    gSamusEnvironmentalEffects[offset].unk_6++;
+                    gSamusEnvironmentalEffects[offset].effectStarted++;
                 }
             }
 
-            if (gSamusEnvironmentalEffects[offset].unk_6 == 0)
+            if (gSamusEnvironmentalEffects[offset].effectStarted == 0)
                 return;
 
             gSamusEnvironmentalEffects[offset].xPosition = gSamusData.xPosition;
@@ -536,7 +536,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
                 if (currentEffect != HAZARD_WATER && previousEffect == HAZARD_WATER)
                 {
                     gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_WALKING_IN_OR_OUT_OF_WATER;
-                    gSamusEnvironmentalEffects[offset].unk_6++;
+                    gSamusEnvironmentalEffects[offset].effectStarted++;
                 }
             }
             else
@@ -544,11 +544,11 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
                 if (currentEffect == HAZARD_WATER && previousEffect != HAZARD_WATER)
                 {
                     gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_WALKING_IN_OR_OUT_OF_WATER;
-                    gSamusEnvironmentalEffects[offset].unk_6++;
+                    gSamusEnvironmentalEffects[offset].effectStarted++;
                 }
             }
 
-            if (gSamusEnvironmentalEffects[offset].unk_6 == 0)
+            if (gSamusEnvironmentalEffects[offset].effectStarted == 0)
                 return;
 
             gSamusEnvironmentalEffects[offset].xPosition = gSamusData.xPosition;
@@ -574,7 +574,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             if (gSamusData.standingStatus != STANDING_MID_AIR || gSamusData.pose == SPOSE_HANGING_FROM_VERTICAL_LADDER)
             {
                 gSamusEnvironmentalEffects[offset].effect = ENV_EFFECT_BREATHING_BUBBLES;
-                gSamusEnvironmentalEffects[offset].unk_6++;
+                gSamusEnvironmentalEffects[offset].effectStarted++;
                 gSamusEnvironmentalEffects[0].timer1 = 0;
 
                 // Position the bubbles a bit above Samus
@@ -591,7 +591,7 @@ void SamusCheckSetNewEnvironmentEffect(u32 offset, u32 request)
             break;
     }
 
-    if (gSamusEnvironmentalEffects[offset].unk_6 != 0)
+    if (gSamusEnvironmentalEffects[offset].effectStarted != 0)
         gSamusEnvironmentalEffects[offset].currentAnimationFrame = 0;
 }
 
@@ -607,8 +607,8 @@ void SamusUpdateEnvironmentEffect(void)
     const struct FrameData* pOam;
     u8 effect;
     
-    gSamusEnvironmentalEffects[0].unk_6 = 0;
-    gSamusEnvironmentalEffects[1].unk_6 = 0;
+    gSamusEnvironmentalEffects[0].effectStarted = 0;
+    gSamusEnvironmentalEffects[1].effectStarted = 0;
 
     switch (gSamusData.pose)
     {
@@ -1637,11 +1637,11 @@ u32 SamusUpdate(void)
         APPLY_DELTA_TIME_DEC(gSamusAnimationInfo.shinesparkTimer);
     }
 
-    if (gUnk_300144f != 0)
+    if (gSamusDoorExitVelocityLock != 0)
     {
-        APPLY_DELTA_TIME_DEC(gUnk_300144f);
-        if (MOD_AND(gUnk_300144f, CONVERT_SECONDS(.25f + 1.f / 60)) == 0)
-            gUnk_300144f = 0;
+        APPLY_DELTA_TIME_DEC(gSamusDoorExitVelocityLock);
+        if (MOD_AND(gSamusDoorExitVelocityLock, CONVERT_SECONDS(.25f + 1.f / 60)) == 0)
+            gSamusDoorExitVelocityLock = 0;
     }
 
     if (gPoseLock != 0)
@@ -1698,13 +1698,13 @@ u32 SamusUpdate(void)
         }
     }
 
-    // Some form of velocity cancel?
-    if (gUnk_300144f & 0x80)
+    // Prevent going back into the door that was just exited
+    if (gSamusDoorExitVelocityLock & 0x80)
     {
         if (gSamusData.xVelocity < 0)
             gSamusData.xVelocity = 0;
     }
-    else if (gUnk_300144f != 0)
+    else if (gSamusDoorExitVelocityLock != 0)
     {
         if (gSamusData.xVelocity > 0)
             gSamusData.xVelocity = 0;
@@ -4750,12 +4750,12 @@ void SamusSetPose(u8 pose)
             SamusSetKnockbackPose();
             break;
 
-        case SPOSE_F8:
-            unk_99a0();
+        case SPOSE_LOCKED_MID_AIR_REQUEST:
+            SamusSetLockedMidAirPose();
             break;
 
-        case SPOSE_F7:
-            unk_99d8();
+        case SPOSE_STANDING_PREVENT_MOVEMENT_REQUEST:
+            SamusSetStandingPreventMovementPose();
             break;
 
         case SPOSE_FC:
@@ -5270,10 +5270,10 @@ void SamusSetKnockbackPose(void)
 }
 
 /**
- * @brief 99a0 | 28 | To document
+ * @brief 99a0 | 28 | Sets Samus in the mid-air pose with the pose locked (used when the recovering suit effect ends)
  * 
  */
-void unk_99a0(void)
+void SamusSetLockedMidAirPose(void)
 {
     gSamusData.pose = SPOSE_MID_AIR;
     gSamusData.armCannonDirection = ACD_FORWARD;
@@ -5286,10 +5286,10 @@ void unk_99a0(void)
 }
 
 /**
- * @brief 99d8 | 64 | To document
+ * @brief 99d8 | 64 | Sets Samus standing (or in morph ball) with movement prevented for ~9 seconds if on the ground, otherwise restores the previous data (requested pose is never used)
  * 
  */
-void unk_99d8(void)
+void SamusSetStandingPreventMovementPose(void)
 {
     if (gSamusData.standingStatus == STANDING_GROUND)
     {
@@ -5502,9 +5502,9 @@ void SamusUpdateVelocityPosition(void)
 {
     s16 velocity;
 
-    gSamusCollisionData.collisionType = sSamusCollisionData[gSamusData.pose][1];
-    gSamusCollisionData.unk_A = sSamusCollisionData[gSamusData.pose][2];
-    gSamusCollisionData.unk_B = sSamusCollisionData[gSamusData.pose][3];
+    gSamusCollisionData.collisionType = sSamusCollisionData[gSamusData.pose][SCDF_COLLISION_TYPE];
+    gSamusCollisionData.aboveCollisionType = sSamusCollisionData[gSamusData.pose][SCDF_ABOVE_COLLISION_TYPE];
+    gSamusCollisionData.secondaryCollisionType = sSamusCollisionData[gSamusData.pose][SCDF_SECONDARY_COLLISION_TYPE];
 
     velocity = 0;
 
@@ -5659,7 +5659,7 @@ void SamusCheckCollisions(void)
     u32 blockSideFar;
     s32 clipdata;
 
-    gSamusCollisionData.standingStatus = sSamusCollisionData[gSamusData.pose][4];
+    gSamusCollisionData.standingStatus = sSamusCollisionData[gSamusData.pose][SCDF_STANDING_STATUS];
 
     if (gSamusCollisionData.standingStatus == STANDING_NOT_IN_CONTROL)
     {
@@ -5699,7 +5699,7 @@ void SamusCheckCollisions(void)
         {
             newPose = SamusCheckWalkingSidesCollision();
             if (newPose == SPOSE_NONE)
-                newPose = unk_b3c8();
+                newPose = SamusCheckWalkingOffLedge();
         }
     }
     else if (gSamusCollisionData.standingStatus == STANDING_GROUND)
@@ -5937,14 +5937,14 @@ u32 SamusCheckCollisionAtPosition(u16 xPosition, u16 yPosition, u16* pNextX, u16
 }
 
 /**
- * @brief a670 | 148 | To document
+ * @brief a670 | 148 | Checks for a wall on the forward side of Samus (at the top, one block below the top, and at the specified Y offset)
  * 
  * @param collisionType Collision type
  * @param pNextX Result X position
  * @param hitbox Y hitbox
  * @return u32 Collision flags
  */
-u32 unk_a670(u8 collisionType, u16* pNextX, s16 hitbox)
+u32 SamusCheckCollisionOnForwardSide(u8 collisionType, u16* pNextX, s16 hitbox)
 {
     u32 result;
     u16 xPosition;
@@ -5952,7 +5952,7 @@ u32 unk_a670(u8 collisionType, u16* pNextX, s16 hitbox)
     s32 clipdata;
 
     result = SCD_NONE;
-    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][gSamusCollisionData.unk_4];
+    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][gSamusCollisionData.forwardSide];
     yPosition = gSamusData.yPosition + sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_TOP];
 
     clipdata = ClipdataProcessForSamus(yPosition, xPosition);
@@ -6023,7 +6023,7 @@ u32 unk_a670(u8 collisionType, u16* pNextX, s16 hitbox)
     if (result != SCD_NONE)
     {
         *pNextX = (xPosition & BLOCK_POSITION_FLAG) -
-            sSamusCollisionOffsets[collisionType][gSamusCollisionData.unk_4] + gSamusCollisionData.unk_6;
+            sSamusCollisionOffsets[collisionType][gSamusCollisionData.forwardSide] + gSamusCollisionData.forwardWallAlignOffset;
     }
 
     return result;
@@ -6087,14 +6087,14 @@ u32 SamusCheckCollisionAbove(u8 collisionType, u16 yHitbox, u8 param_3)
 }
 
 /**
- * @brief a8fc | 100 | To document
+ * @brief a8fc | 100 | Checks for solid or pass-through-bottom blocks at the left edge, right edge and (for wide hitboxes) center of Samus at the Y position, unused
  * 
  * @param collisionType Collision type
  * @param yPosition Y position
- * @param param_3 To document
+ * @param pPassThroughFlags Collision flags of the points that are pass-through-bottom blocks
  * @return u32 Collision flags
  */
-u32 unk_a8fc(u8 collisionType, u16 yPosition, u16* param_3)
+u32 SamusCheckCollisionAtY_Unused(u8 collisionType, u16 yPosition, u16* pPassThroughFlags)
 {
     u32 result;
     u16 flags;
@@ -6143,7 +6143,7 @@ u32 unk_a8fc(u8 collisionType, u16 yPosition, u16* param_3)
         }
     }
 
-    *param_3 = flags;
+    *pPassThroughFlags = flags;
     return result;
 }
 
@@ -6159,8 +6159,8 @@ u8 SamusCheckWalkingSidesCollision(void)
     u8 collisionType_;
     u8 collisionType;
     u16 var_0;
-    u32 unk_4;
-    u32 unk_5;
+    u32 forwardSide;
+    u32 backwardSide;
     u32 result;
     u16 yPosition;
     u16 xPosition;
@@ -6170,20 +6170,20 @@ u8 SamusCheckWalkingSidesCollision(void)
     hdMoving = gSamusCollisionData.horizontalMovingDirection;
     collisionType = gSamusCollisionData.collisionType;
     collisionType_ = collisionType;
-    unk_4 = gSamusCollisionData.unk_4;
-    unk_5 = gSamusCollisionData.unk_5;
+    forwardSide = gSamusCollisionData.forwardSide;
+    backwardSide = gSamusCollisionData.backwardSide;
 
     if (gSamusData.slopeType == SLOPE_NONE)
     {
         if (gSamusData.standingStatus == STANDING_ENEMY)
         {
             hitbox = 0;
-            result = unk_a670(collisionType, &nextX, hitbox);
+            result = SamusCheckCollisionOnForwardSide(collisionType, &nextX, hitbox);
         }
         else
         {
             hitbox = -(BLOCK_SIZE - PIXEL_SIZE / 2);
-            result = unk_a670(collisionType, &nextX, hitbox);
+            result = SamusCheckCollisionOnForwardSide(collisionType, &nextX, hitbox);
         }
 
         if (result != SCD_NONE)
@@ -6194,10 +6194,10 @@ u8 SamusCheckWalkingSidesCollision(void)
         }
         else
         {
-            collisionType_ = gSamusCollisionData.unk_B;
+            collisionType_ = gSamusCollisionData.secondaryCollisionType;
         }
 
-        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_4];
+        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
         yPosition = gSamusData.yPosition;
         result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
 
@@ -6209,13 +6209,13 @@ u8 SamusCheckWalkingSidesCollision(void)
             return SPOSE_NONE;
         }
 
-        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][unk_4];
+        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][forwardSide];
         yPosition += ONE_SUB_PIXEL;
         result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
 
         if (var_0 == 0)
         {
-            xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_5];
+            xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
             result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
 
             if (result != SLOPE_NONE)
@@ -6226,7 +6226,7 @@ u8 SamusCheckWalkingSidesCollision(void)
                 return SPOSE_NONE;
             }
 
-            xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][unk_5];
+            xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][backwardSide];
             SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
 
             if (var_0 == 0)
@@ -6251,7 +6251,7 @@ u8 SamusCheckWalkingSidesCollision(void)
 
                 if (var_0 & 0x10)
                 {
-                    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][unk_5];
+                    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType_][backwardSide];
                     SamusCheckCollisionAtPosition(xPosition, gSamusData.yPosition - ONE_SUB_PIXEL, &nextX, &nextY, &var_0);
 
                     if (var_0 == 0 || var_0 & 0x10)
@@ -6266,7 +6266,7 @@ u8 SamusCheckWalkingSidesCollision(void)
 
     if (gSamusData.slopeType & hdMoving)
     {
-        result = unk_a670(collisionType, &nextX, -(BLOCK_SIZE - PIXEL_SIZE / 2));
+        result = SamusCheckCollisionOnForwardSide(collisionType, &nextX, -(BLOCK_SIZE - PIXEL_SIZE / 2));
 
         if (result != SCD_NONE)
         {
@@ -6275,7 +6275,7 @@ u8 SamusCheckWalkingSidesCollision(void)
             gSamusCollisionData.touchingSideBlock++;
         }
 
-        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_4];
+        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
         yPosition = gSamusData.yPosition;
         result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
         gSamusData.slopeType = result;
@@ -6309,7 +6309,7 @@ u8 SamusCheckWalkingSidesCollision(void)
         return SPOSE_NONE;
     }
 
-    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_5];
+    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
     yPosition = gSamusData.yPosition;
     result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
 
@@ -6353,7 +6353,7 @@ u8 SamusCheckWalkingSidesCollision(void)
 u8 SamusCheckStandingOnGroundCollision(void)
 {
     u8 collisionType;
-    u8 unk_A;
+    u8 aboveCollisionType;
     u32 result;
     u16 xPosition;
     u16 yPosition;
@@ -6363,19 +6363,19 @@ u8 SamusCheckStandingOnGroundCollision(void)
     u16 oldY;
 
     collisionType = gSamusCollisionData.collisionType;
-    unk_A = gSamusCollisionData.unk_A;
+    aboveCollisionType = gSamusCollisionData.aboveCollisionType;
 
-    result = SamusCheckCollisionAbove(unk_A, sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_TOP], TRUE);
+    result = SamusCheckCollisionAbove(aboveCollisionType, sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_TOP], TRUE);
 
     if (result == SCD_TOP_LEFT_MOST || result == (SCD_TOP_LEFT_MOST | SCD_TOP_LEFT_MIDDLE))
     {
-        xPosition = gSamusData.xPosition + sSamusCollisionOffsetsAbove[unk_A][0];
-        gSamusData.xPosition = (xPosition & BLOCK_POSITION_FLAG) - sSamusCollisionOffsetsAbove[unk_A][0] + BLOCK_SIZE;
+        xPosition = gSamusData.xPosition + sSamusCollisionOffsetsAbove[aboveCollisionType][0];
+        gSamusData.xPosition = (xPosition & BLOCK_POSITION_FLAG) - sSamusCollisionOffsetsAbove[aboveCollisionType][0] + BLOCK_SIZE;
     }
     else if (result == SCD_TOP_RIGHT_MOST || result == (SCD_TOP_RIGHT_MOST | SCD_TOP_RIGHT_MIDDLE))
     {
-        xPosition = gSamusData.xPosition + sSamusCollisionOffsetsAbove[unk_A][3];
-        gSamusData.xPosition = (xPosition & BLOCK_POSITION_FLAG) - sSamusCollisionOffsetsAbove[unk_A][3] - ONE_SUB_PIXEL;
+        xPosition = gSamusData.xPosition + sSamusCollisionOffsetsAbove[aboveCollisionType][3];
+        gSamusData.xPosition = (xPosition & BLOCK_POSITION_FLAG) - sSamusCollisionOffsetsAbove[aboveCollisionType][3] - ONE_SUB_PIXEL;
     }
 
     xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_LEFT];
@@ -6458,10 +6458,10 @@ u8 SamusCheckStandingOnGroundCollision(void)
  */
 u8 SamusCheckLandingCollision(void)
 {
-    s16 unk_6;
+    s16 forwardWallAlignOffset;
     u8 collisionType;
-    u8 unk_5;
-    u8 unk_4;
+    u8 backwardSide;
+    u8 forwardSide;
     u32 result;
     u16 xPosition;
     u16 yPosition;
@@ -6470,13 +6470,13 @@ u8 SamusCheckLandingCollision(void)
     u16 var_0;
 
     collisionType = gSamusCollisionData.collisionType;
-    unk_4 = gSamusCollisionData.unk_4;
-    unk_5 = gSamusCollisionData.unk_5;
-    unk_6 = gSamusCollisionData.unk_6;
+    forwardSide = gSamusCollisionData.forwardSide;
+    backwardSide = gSamusCollisionData.backwardSide;
+    forwardWallAlignOffset = gSamusCollisionData.forwardWallAlignOffset;
 
     if (gSamusCollisionData.horizontalMovingDirection != 0)
     {
-        result = unk_a670(collisionType, &nextX, -(QUARTER_BLOCK_SIZE + PIXEL_SIZE + PIXEL_SIZE / 2));
+        result = SamusCheckCollisionOnForwardSide(collisionType, &nextX, -(QUARTER_BLOCK_SIZE + PIXEL_SIZE + PIXEL_SIZE / 2));
 
         if (result != SCD_NONE)
         {
@@ -6489,7 +6489,7 @@ u8 SamusCheckLandingCollision(void)
     if (gSamusData.standingStatus == STANDING_ENEMY)
         return SPOSE_NONE;
 
-    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_4];
+    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
     yPosition = gSamusData.yPosition;
 
     result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
@@ -6501,7 +6501,7 @@ u8 SamusCheckLandingCollision(void)
             gSamusData.slopeType = result;
             gSamusData.yPosition = nextY;
 
-            xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_5];
+            xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
             yPosition = gSamusData.yPosition;
 
             result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
@@ -6531,7 +6531,7 @@ u8 SamusCheckLandingCollision(void)
         
         if (var_0 != 0x10)
         {
-            gSamusData.xPosition = unk_6 + (nextX - sSamusCollisionOffsets[collisionType][unk_4]);
+            gSamusData.xPosition = forwardWallAlignOffset + (nextX - sSamusCollisionOffsets[collisionType][forwardSide]);
 
             xPosition = gSamusData.xPosition;
             result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
@@ -6554,7 +6554,7 @@ u8 SamusCheckLandingCollision(void)
         }
     }
 
-    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_5];
+    xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][backwardSide];
     yPosition = gSamusData.yPosition;
     result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
 
@@ -6608,9 +6608,9 @@ u8 SamusCheckLandingCollision(void)
 u8 SamusCheckJumpingCollision(void)
 {
     u8 collisionType;
-    u8 unk_5;
-    u8 unk_4;
-    u8 unk_A;
+    u8 backwardSide;
+    u8 forwardSide;
+    u8 aboveCollisionType;
     u32 result;
     u16 xPosition;
     u16 yPosition;
@@ -6620,12 +6620,12 @@ u8 SamusCheckJumpingCollision(void)
     u16 otherX;
 
     collisionType = gSamusCollisionData.collisionType;
-    unk_A = gSamusCollisionData.unk_A;
-    unk_4 = gSamusCollisionData.unk_4;
+    aboveCollisionType = gSamusCollisionData.aboveCollisionType;
+    forwardSide = gSamusCollisionData.forwardSide;
 
-    if (gUnk_3004d8c == 0)
+    if (gSamusSkipCollisionAbove == 0)
     {
-        result = SamusCheckCollisionAbove(unk_A, sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_TOP], FALSE);
+        result = SamusCheckCollisionAbove(aboveCollisionType, sSamusCollisionOffsets[collisionType][SAMUS_HITBOX_TOP], FALSE);
 
         if (result != SCD_NONE)
         {
@@ -6651,7 +6651,7 @@ u8 SamusCheckJumpingCollision(void)
 
     if (gSamusCollisionData.horizontalMovingDirection != 0)
     {
-        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][unk_4];
+        xPosition = gSamusData.xPosition + sSamusCollisionOffsets[collisionType][forwardSide];
         yPosition = gSamusData.yPosition;
         result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
 
@@ -6664,7 +6664,7 @@ u8 SamusCheckJumpingCollision(void)
                 return SPOSE_LANDING_REQUEST;
             }
 
-            otherX = (nextX - sSamusCollisionOffsets[collisionType][unk_4]) + gSamusCollisionData.unk_6;
+            otherX = (nextX - sSamusCollisionOffsets[collisionType][forwardSide]) + gSamusCollisionData.forwardWallAlignOffset;
             xPosition = gSamusData.xPosition;
             result = SamusCheckCollisionAtPosition(xPosition, yPosition, &nextX, &nextY, &var_0);
             if (result != SLOPE_NONE)
@@ -6676,7 +6676,7 @@ u8 SamusCheckJumpingCollision(void)
             }
         }
 
-        result = unk_a670(collisionType, &nextX, 0);
+        result = SamusCheckCollisionOnForwardSide(collisionType, &nextX, 0);
         if (result != SCD_NONE)
         {
             gSamusData.xPosition = nextX;
@@ -6692,11 +6692,11 @@ u8 SamusCheckJumpingCollision(void)
 }
 
 /**
- * @brief b3c8 | b0 | To document
+ * @brief b3c8 | b0 | Checks if Samus walked off a ledge (no ground below her center after crossing the middle of a block)
  * 
  * @return u8 New pose
  */
-u8 unk_b3c8(void)
+u8 SamusCheckWalkingOffLedge(void)
 {
     u32 result;
     u16 xPosition;
@@ -6791,7 +6791,7 @@ void SamusUpdateGraphics(u8 direction)
         gPreviousPositionCounter -= 0x80;
 
     if (gPreviousPositionCounter >= ARRAY_SIZE(gPrevious64Positions[0]))
-        *(u8 *)0x0300144E = TRUE;
+        gPrevious64PositionsFilled = TRUE;
 
     pose = gSamusData.pose;
     acd = gSamusData.armCannonDirection;
@@ -7341,13 +7341,13 @@ void SamusUpdateDrawDistanceAndStandingStatus(void)
     u8 offset;
     u8 standing;
 
-    offset = sSamusCollisionData[gSamusData.pose][0];
+    offset = sSamusCollisionData[gSamusData.pose][SCDF_HITBOX];
     gSamusData.drawDistanceLeft = sSamusDrawDistanceOffsets[offset][0];
     gSamusData.drawDistanceTop = sSamusDrawDistanceOffsets[offset][1];
     gSamusData.drawDistanceRight = sSamusDrawDistanceOffsets[offset][2];
     gSamusData.drawDistanceBottom = sSamusDrawDistanceOffsets[offset][3];
 
-    standing = sSamusCollisionData[gSamusData.pose][4];
+    standing = sSamusCollisionData[gSamusData.pose][SCDF_STANDING_STATUS];
 
     if (standing == STANDING_MID_AIR)
     {
@@ -7515,7 +7515,7 @@ void SamusInit(void)
         }
 
         gPreviousPositionCounter = 0;
-        gUnk_300144e = 0;
+        gPrevious64PositionsFilled = 0;
         gSaXData = *(struct SaXData *)sSamusGenericData_Empty;
         gPoseLock = 0;
         gSamusPhysics = *(struct SamusPhysics *)sSamusGenericData_Empty;
@@ -7709,7 +7709,7 @@ void SamusDraw(void)
     {
         ppc = (s16)(gPreviousPositionCounter - gSamusEcho.position * 4 - 3);
 
-        if (gUnk_300144e != 0 || ppc >= 0)
+        if (gPrevious64PositionsFilled != 0 || ppc >= 0)
         {
             FAKE_MATCH_SELF_ASSIGN(gSamusGraphicsInfo.unk_26);
 

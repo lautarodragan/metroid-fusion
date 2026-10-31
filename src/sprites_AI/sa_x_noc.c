@@ -447,7 +447,7 @@ void SaXNocWalkingToLayPowerBomb(void)
         return;
     }
 
-    if (unk_15e88())
+    if (SaXCheckStartChasing())
         return;
 
     SaXNocCheckCollisionWalkingToLayPowerBomb();
@@ -545,7 +545,7 @@ void SaXNocLayingPowerBomb(void)
  */
 void SaXNocWalking(void)
 {
-    if (unk_15e88())
+    if (SaXCheckStartChasing())
         return;
 
     SaXNocCheckCollisionWalking();
@@ -565,7 +565,7 @@ void SaXNocWalking(void)
  */
 void SaXNocRunning(void)
 {
-    if (unk_15dd4())
+    if (SaXCheckShootOrTurnTowardsSamus())
         return;
 
     SaXNocCheckCollisionRunning();

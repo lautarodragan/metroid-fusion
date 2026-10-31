@@ -214,8 +214,8 @@ SECTIONS {
         . = 0x0000134a; gDisableDrawingSamusAndScrollingFlag = .;
         . = 0x0000134c; gPrevious64Positions = .;
         . = 0x0000144c; gPreviousPositionCounter = .;
-        . = 0x0000144e; gUnk_300144e = .;
-        . = 0x0000144f; gUnk_300144f = .;
+        . = 0x0000144e; gPrevious64PositionsFilled = .;
+        . = 0x0000144f; gSamusDoorExitVelocityLock = .;
         . = 0x00001450; gButtonAssignments = .;
         . = 0x00001458; gSaXData = .;
         . = 0x0000147c; gSaXElevatorData = .;
@@ -253,7 +253,7 @@ SECTIONS {
         . = 0x00004d1c; gNotPressingUp = .;
         . = 0x00004d28; gSamusPalette = .;
         . = 0x00004d88; gSamusPaletteLength = .;
-        . = 0x00004d8c; gUnk_3004d8c = .;
+        . = 0x00004d8c; gSamusSkipCollisionAbove = .;
         . = 0x00004d90; gSaXPalette = .;
         . = 0x00004dd4; gWrittenToWin1H = .;
         . = 0x00004dd6; gWrittenToWin1V = .;

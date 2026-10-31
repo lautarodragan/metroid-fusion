@@ -547,7 +547,7 @@ void SaXTro2WaitingInDoorEnd(void)
  */
 void SaXTro2Walking(void)
 {
-    if (unk_15e88())
+    if (SaXCheckStartChasing())
         return;
 
     SaXTro2CheckCollisionWalking();
@@ -600,7 +600,7 @@ void SaXTro2StoppedAtDoor(void)
 {
     u32 nslr;
 
-    if (unk_15e88())
+    if (SaXCheckStartChasing())
         return;
 
     if (gCurrentRoom == 59 && !(gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT))
@@ -687,7 +687,7 @@ void SaXTro2TurningAfterHearingWeapon(void)
  */
 void SaXTro2Running(void)
 {
-    if (unk_15dd4())
+    if (SaXCheckShootOrTurnTowardsSamus())
         return;
 
     SaXTro2CheckCollisionRunning();

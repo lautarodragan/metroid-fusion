@@ -8,10 +8,10 @@
 
 void SaXSetDirection(void);
 void SaXSeeAndLocateSamus(void);
-u8 unk_15dd4(void);
-u8 unk_15e88(void);
-u8 unk_15f54(void);
-void unk_1605c(void);
+u8 SaXCheckShootOrTurnTowardsSamus(void);
+u8 SaXCheckStartChasing(void);
+u8 SaXCheckStartChasingOrTurnAround(void);
+void SaXCheckFallJumpOrMorph(void);
 void SaXInit(void);
 void SaXElevatorInit(void);
 void SaXFallingInit(void);
