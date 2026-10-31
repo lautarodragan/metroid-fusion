@@ -72,7 +72,7 @@ void CutsceneBslExplodingInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9c92c);
+    CallbackSetVBlank(CutsceneBslExplodingLoadingVblank);
 
     WRITE_16(REG_DISPCNT, 0);
 
@@ -102,9 +102,9 @@ void CutsceneBslExplodingInit(void)
     CutsceneBslExplodingSetupOam(1, 0, 0, FALSE);
     CutsceneBslExplodingSetupOam(20, 112, 88, FALSE);
 
-    CUTSCENE_DATA.unk_A = 0;
-    CUTSCENE_DATA.unk_C = 0;
-    DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.unk_C * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    CUTSCENE_DATA.paletteUpdate = 0;
+    CUTSCENE_DATA.paletteFrame = 0;
+    DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.paletteFrame * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
     CutsceneDrawAllOam();
     CallbackSetVBlank(CutsceneBslExplodingVblank);
@@ -189,26 +189,26 @@ boolu32 CutsceneBslExplodingProcess(void)
             break;
 
         case 5:
-            if (CUTSCENE_DATA.unk_C < 15)
+            if (CUTSCENE_DATA.paletteFrame < 15)
             {
                 if (CUTSCENE_DATA.timer == 4)
                 {
                     CUTSCENE_DATA.timer = 0;
-                    CUTSCENE_DATA.unk_A = 1;
-                    CUTSCENE_DATA.unk_C++;
+                    CUTSCENE_DATA.paletteUpdate = 1;
+                    CUTSCENE_DATA.paletteFrame++;
 
-                    if (CUTSCENE_DATA.unk_C == 1)
+                    if (CUTSCENE_DATA.paletteFrame == 1)
                     {
                         CutsceneBslExplodingSetupOam(22, 120, 96, FALSE);
                         CutsceneBslExplodingSetupOam(22, 95, 80, FALSE);
                         CutsceneBslExplodingSetupOam(22, 140, 105, FALSE);
                     }
-                    else if (CUTSCENE_DATA.unk_C == 2)
+                    else if (CUTSCENE_DATA.paletteFrame == 2)
                     {
                         CutsceneBslExplodingSetupOam(22, 120, 84, FALSE);
                         CutsceneBslExplodingSetupOam(22, 145, 85, FALSE);
                     }
-                    else if (CUTSCENE_DATA.unk_C == 3)
+                    else if (CUTSCENE_DATA.paletteFrame == 3)
                     {
                         CutsceneBslExplodingSetupOam(22, 96, 106, FALSE);
                     }
@@ -277,7 +277,7 @@ void CutsceneBslExplodingProcessBslFar(struct CutsceneOam* pOam)
 
     if (pOam->stage == 0)
     {
-        if (CUTSCENE_DATA.subStage == 5 && CUTSCENE_DATA.unk_C == 5)
+        if (CUTSCENE_DATA.subStage == 5 && CUTSCENE_DATA.paletteFrame == 5)
         {
             pOam->animationDurationCounter = 0;
             pOam->currentAnimationFrame = 0;
@@ -365,7 +365,7 @@ u8 CutsceneBslExplodingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 de
     {
         CUTSCENE_DATA.oam[slot].priority = 2;
         CUTSCENE_DATA.oam[slot].pOam = sCutsceneBslExplodingOam_680ffc;
-        CUTSCENE_DATA.oam[slot].pFunction = unk_9db70;
+        CUTSCENE_DATA.oam[slot].pFunction = CutsceneOam_Empty;
     }
     else if (type == 21)
     {
@@ -426,10 +426,10 @@ void CutsceneBslExplodingVblank(void)
     WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
     WRITE_16(REG_BLDY, gWrittenToBldy);
 
-    if (CUTSCENE_DATA.unk_A == 1)
+    if (CUTSCENE_DATA.paletteUpdate == 1)
     {
-        CUTSCENE_DATA.unk_A = 0;
-        DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.unk_C * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+        CUTSCENE_DATA.paletteUpdate = 0;
+        DMA3_COPY_32(&sCutsceneBslSpaceBgFadePal[CUTSCENE_DATA.paletteFrame * PAL_ROW], PALRAM_BASE + 9 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     }
 }
 
@@ -437,7 +437,7 @@ void CutsceneBslExplodingVblank(void)
  * @brief 9c92c | c | Loading V-blank code for the BSL exploding cutscene
  *
  */
-void unk_9c92c(void)
+void CutsceneBslExplodingLoadingVblank(void)
 {
     UpdateAudio();
 }

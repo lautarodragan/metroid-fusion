@@ -353,7 +353,7 @@ void AgbMain(void)
                 break;
 
             case GAME_MODE_UNKNOWN:
-                if (unk_87920())
+                if (SpecialCutsceneHandler())
                 {
                     if (gSubGameMode2 != 0)
                         gMainGameMode = GAME_MODE_DEBUG;

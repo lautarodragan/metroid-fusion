@@ -43,11 +43,12 @@ struct CutsceneData {
     u16 stage;                      // 0x0
     u8 unk_2[6];
     u16 timer;                      // 0x8
-    s16 unk_A;                      // 0xA
-    s16 unk_C;                      // 0xC
+    s16 paletteUpdate;              // 0xA, the V-blank copies frame paletteFrame of the BG fade palette when set to 1
+    s16 paletteFrame;               // 0xC
     s16 unk_E;                      // 0xE
+    // CutsceneComputeCircleWindow (unused) uses 0xA as the radius, 0xC and 0xE as the X and Y position of the circle
     u8 subStage;                    // 0x10
-    u8 unk_11;                      // 0x11
+    u8 animatedPaletteTimer;        // 0x11
     u8 activeOamCount;              // 0x12
     u8 unk_13[5];
     struct CutsceneOam oam[16];     // 0x18
@@ -64,7 +65,7 @@ struct CutsceneMonologueOam {
     u8 exists;                      // 0x5
     u8 currentAnimationFrame;       // 0x6
     u8 animationDurationCounter;    // 0x7
-    u8 unk_8;                       // 0x8
+    u8 timer;                       // 0x8
     u8 stage;                       // 0x9
     u8 objMode;                     // 0xA
     u8 priority;                    // 0xB
@@ -88,8 +89,8 @@ struct CutsceneMonologueData {
     u16 timer;                      // 0x10
     u16 bg2YPosition;               // 0x12
     u16 bg1YPosition;               // 0x14
-    u8 unk_16;                      // 0x16
-    u8 unk_17;                      // 0x17
+    u8 fadeTimer;                   // 0x16, delay between the screen fade steps
+    u8 textUpdateState;             // 0x17, 1: draw the next character, 100: idle
     u8 indent;                      // 0x18
     u8 unk_19[3];
     u8 tilesFadeStage[9][CUTSCENE_MONOLOGUE_LINE_LENGTH];  // 0x1C
@@ -98,11 +99,12 @@ struct CutsceneMonologueData {
 };
 
 #define CUTSCENE_DATA (*(struct CutsceneData*)&gNonGameplayRam)
-// IWRAM byte (no symbol yet), likely flags used when drawing affine cutscene OAM
-#define CUTSCENE_UNK_3001238 (*(u8*)0x03001238)
+// Next free OAM affine matrix (0-31, bits 3-4 go in the xFlip/yFlip bits of the OAM entry), reset after drawing.
+// Accessed through its literal address in CutsceneDrawAllOam (needed to match)
+#define NEXT_OAM_MATRIX_SLOT_RAW (*(u8*)0x03001238)
 
-// Same IWRAM byte as CUTSCENE_UNK_3001238, through its linker symbol
-extern u8 gUnk_3001238;
+// Same IWRAM byte as NEXT_OAM_MATRIX_SLOT_RAW, through its linker symbol
+extern u8 gNextOamMatrixSlot;
 
 #define CUTSCENE_MONOLOGUE_DATA gNonGameplayRam.cutsceneMonologue
 

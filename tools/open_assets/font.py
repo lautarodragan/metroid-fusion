@@ -331,8 +331,8 @@ def text_tilemap(rows: dict[int, int], cols: range, pal: int, blank: int,
 
 # Cutscene monologue (SpecialCutsceneProcessMonologue): line L (0-8) is drawn
 # into tiles L * 64 + col (top half) and L * 64 + 32 + col (bottom half),
-# col < 28, character base 0, map sIntroTilemap_662804, palette rows 12-15
-# (sIntroPal_663820). Each tile fades in: the code decrements the palette
+# col < 28, character base 0, map sMonologueTextTilemap, palette rows 12-15
+# (sMonologueTextPal). Each tile fades in: the code decrements the palette
 # number of its map entry three times, so entries start at row 15 (faint)
 # and end at row 12 (full).
 MONOLOGUE_PAL_ROWS = 4
@@ -355,14 +355,14 @@ def monologue_palette() -> bytes:
 # EndingProcessAdamText): two lines at VRAM 0xD000 (tile 0x280 of character
 # base 2) and 0xD800, 32 tiles per row, shown by BG0 with the map
 # sIntroSamusShipFlyingTextTilemap (VRAM 0xE000) and palette row 15
-# (sPal_598a8c, and row 15 of the scene palettes loaded whole).
+# (sIntroSubtitlePal, and row 15 of the scene palettes loaded whole).
 SUBTITLE_FIRST_TILE = 0x280
 SUBTITLE_PAL = 15
 SUBTITLE_BLANK = 0x2FF              # last tile of the second line, never reached
 SUBTITLE_TOP_ROW = 15
 # (palette, its row that lands in BG palette row 15)
 SUBTITLE_PALETTES = (
-    ("sPal_598a8c", 0),                 # loaded alone into row 15
+    ("sIntroSubtitlePal", 0),                 # loaded alone into row 15
     ("sIntroBslSpaceBgPal", 7),         # loaded into rows 8-15
     ("sSr388SpaceAndSurfacePal", 15), ("sPal_5a8e44", 15), ("sIntroMetroidVaccineBgPal", 15),
     ("sIntroSamusNervousSystemBgPal", 15), ("sIntroSamusFoundPal", 15),
@@ -567,8 +567,8 @@ def apply_text(rom: bytearray, regions: list[Region], layout, widths: list[int])
     notes.append(f"text: {n} strings")
 
     # text layers: monologue tilemap + palette
-    put_lz(rom, region("sIntroTilemap_662804"), monologue_tilemap())
-    pal = region("sIntroPal_663820")
+    put_lz(rom, region("sMonologueTextTilemap"), monologue_tilemap())
+    pal = region("sMonologueTextPal")
     put(pal, monologue_palette()[:pal.size])
     put_lz(rom, region("sIntroSamusShipFlyingTextTilemap"), subtitle_tilemap())
     for symbol, row in SUBTITLE_PALETTES:

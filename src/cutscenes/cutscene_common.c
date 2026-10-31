@@ -28,19 +28,19 @@ void CutsceneMonologueFadeIn(void)
 
     if (gWrittenToBldy > 11)
     {
-        CUTSCENE_MONOLOGUE_DATA.unk_16++;
-        if (CUTSCENE_MONOLOGUE_DATA.unk_16 == 3)
+        CUTSCENE_MONOLOGUE_DATA.fadeTimer++;
+        if (CUTSCENE_MONOLOGUE_DATA.fadeTimer == 3)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_16 = 0;
+            CUTSCENE_MONOLOGUE_DATA.fadeTimer = 0;
             gWrittenToBldy--;
         }
     }
     else if (gWrittenToBldy > 6)
     {
-        CUTSCENE_MONOLOGUE_DATA.unk_16++;
-        if (CUTSCENE_MONOLOGUE_DATA.unk_16 == 2)
+        CUTSCENE_MONOLOGUE_DATA.fadeTimer++;
+        if (CUTSCENE_MONOLOGUE_DATA.fadeTimer == 2)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_16 = 0;
+            CUTSCENE_MONOLOGUE_DATA.fadeTimer = 0;
             gWrittenToBldy--;
         }
     }
@@ -64,19 +64,19 @@ void CutsceneMonologueFadeOut(void)
 
     if (gWrittenToBldy < 6)
     {
-        CUTSCENE_MONOLOGUE_DATA.unk_16++;
-        if (CUTSCENE_MONOLOGUE_DATA.unk_16 == 3)
+        CUTSCENE_MONOLOGUE_DATA.fadeTimer++;
+        if (CUTSCENE_MONOLOGUE_DATA.fadeTimer == 3)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_16 = 0;
+            CUTSCENE_MONOLOGUE_DATA.fadeTimer = 0;
             gWrittenToBldy++;
         }
     }
     else if (gWrittenToBldy < 11)
     {
-        CUTSCENE_MONOLOGUE_DATA.unk_16++;
-        if (CUTSCENE_MONOLOGUE_DATA.unk_16 == 2)
+        CUTSCENE_MONOLOGUE_DATA.fadeTimer++;
+        if (CUTSCENE_MONOLOGUE_DATA.fadeTimer == 2)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_16 = 0;
+            CUTSCENE_MONOLOGUE_DATA.fadeTimer = 0;
             gWrittenToBldy++;
         }
     }
@@ -112,7 +112,7 @@ void CutsceneMonologueDrawAllOam(void)
     for (i = 0; i < ARRAY_SIZE(CUTSCENE_MONOLOGUE_DATA.oam); i++)
     {
         if (CUTSCENE_MONOLOGUE_DATA.oam[i].exists)
-            CutsceneMnologueDrawOam(&CUTSCENE_MONOLOGUE_DATA.oam[i]);
+            CutsceneMonologueDrawOam(&CUTSCENE_MONOLOGUE_DATA.oam[i]);
     }
 
     ResetFreeOam();
@@ -124,7 +124,7 @@ void CutsceneMonologueDrawAllOam(void)
  *
  * @param pOam Cutscene monologue OAM data pointer
  */
-void CutsceneMnologueDrawOam(struct CutsceneMonologueOam* pOam)
+void CutsceneMonologueDrawOam(struct CutsceneMonologueOam* pOam)
 {
     u16* dst;
     const u16* src;
@@ -170,7 +170,7 @@ void CutsceneMnologueDrawOam(struct CutsceneMonologueOam* pOam)
         if (pOam->xFlip == TRUE)
         {
             gOamData[slot].split.xFlip ^= TRUE;
-            xOffset = part2 + sCutsceneOamTileWidths[gOamData[slot].split.shape][gOamData[slot].split.size] * 8;
+            xOffset = part2 + sCutsceneMonologueOamXFlipOffsets[gOamData[slot].split.shape][gOamData[slot].split.size] * 8;
             x = MOD_AND((u16)pOam->xPosition - xOffset, 512);
             y = MOD_AND(part1 + (u16)pOam->yPosition, 256);
         }
@@ -215,16 +215,17 @@ void CutsceneMonologueResetOam(u8 slot)
  * @brief 9d09c | 4 | Empty function
  *
  */
-void unk_9d09c(void)
+void CutsceneMonologueOam_Empty(void)
 {
     return;
 }
 
 /**
- * @brief 9d0a0 | 124 | Computes the window values of a circle (into the EWRAM buffer)
+ * @brief 9d0a0 | 124 | Computes the window values of a circle (into the EWRAM buffer), unused
+ * Uses paletteUpdate as the radius and paletteFrame/unk_E as the position of the circle
  *
  */
-void unk_9d0a0(void)
+void CutsceneComputeCircleWindow(void)
 {
     const s16* src;
     u16* dst;
@@ -237,13 +238,13 @@ void unk_9d0a0(void)
 
     DMA3_COPY_32(EWRAM_BASE + 0x1000, EWRAM_BASE + 0x2000, 0x150 / sizeof(u32));
 
-    top = CUTSCENE_DATA.unk_E - CUTSCENE_DATA.unk_A;
-    bottom = CUTSCENE_DATA.unk_E + CUTSCENE_DATA.unk_A;
+    top = CUTSCENE_DATA.unk_E - CUTSCENE_DATA.paletteUpdate;
+    bottom = CUTSCENE_DATA.unk_E + CUTSCENE_DATA.paletteUpdate;
 
     if (top < 0)
     {
         subSlice = -top;
-        if (subSlice > CUTSCENE_DATA.unk_A * 2)
+        if (subSlice > CUTSCENE_DATA.paletteUpdate * 2)
             top = SCREEN_SIZE_Y + 1;
         else
             top = 0;
@@ -256,7 +257,7 @@ void unk_9d0a0(void)
     if (bottom > SCREEN_SIZE_Y - 1)
         bottom = SCREEN_SIZE_Y;
 
-    src = sHaze_PowerBomb_WindowValuesPointers[CUTSCENE_DATA.unk_A];
+    src = sHaze_PowerBomb_WindowValuesPointers[CUTSCENE_DATA.paletteUpdate];
     dst = EWRAM_BASE + 0x1000;
 
     for (i = 0; i < top; i++)
@@ -264,8 +265,8 @@ void unk_9d0a0(void)
 
     for (; i <= bottom; subSlice++, i++)
     {
-        left = CUTSCENE_DATA.unk_C + src[subSlice * 2 + 1];
-        right = CUTSCENE_DATA.unk_C + src[subSlice * 2 + 0];
+        left = CUTSCENE_DATA.paletteFrame + src[subSlice * 2 + 1];
+        right = CUTSCENE_DATA.paletteFrame + src[subSlice * 2 + 0];
 
         if (left < 0)
             left = 0;
@@ -283,7 +284,7 @@ void unk_9d0a0(void)
  * @brief 9d1c4 | 20 | H-blank code for the circle window effect
  *
  */
-void unk_9d1c4(void)
+void CutsceneCircleWindowHblank(void)
 {
     s16 line;
 
@@ -393,7 +394,7 @@ void CutsceneDrawAllOam(void)
 
     ResetFreeOam();
     gNextOamSlot = 0;
-    CUTSCENE_UNK_3001238 = 0;
+    NEXT_OAM_MATRIX_SLOT_RAW = 0;
 }
 
 /**
@@ -552,11 +553,11 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
             gOamData[slot].split.x = MOD_AND(x + xPosition - BLOCK_SIZE, 512);
             gOamData[slot].split.affineMode = 1;
 
-            if (gUnk_3001238 & 0x10)
+            if (gNextOamMatrixSlot & 0x10)
                 gOamData[slot].split.yFlip = TRUE;
-            if (gUnk_3001238 & 0x8)
+            if (gNextOamMatrixSlot & 0x8)
                 gOamData[slot].split.xFlip = TRUE;
-            gOamData[slot].split.matrixNum = gUnk_3001238 & 7;
+            gOamData[slot].split.matrixNum = gNextOamMatrixSlot & 7;
 
             gOamData[slot].split.priority = pOam->priority;
             gOamData[slot].split.paletteNum += pOam->paletteOffset;
@@ -566,12 +567,12 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
             dst++;
         }
 
-        matrixSlot = gUnk_3001238 * 4;
+        matrixSlot = gNextOamMatrixSlot * 4;
         gOamData[matrixSlot + 0].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 1].all.affineParam = FixedMultiplication(SIN(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 2].all.affineParam = FixedMultiplication(-SIN(pOam->rotation), FixedInverse(yScaling));
         gOamData[matrixSlot + 3].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(yScaling));
-        gUnk_3001238++;
+        gNextOamMatrixSlot++;
     }
     else if (drawMode == 3)
     {
@@ -643,11 +644,11 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
             gOamData[slot].split.x = MOD_AND(x + xPosition - BLOCK_SIZE, 512);
             gOamData[slot].split.affineMode = 3;
 
-            if (gUnk_3001238 & 0x10)
+            if (gNextOamMatrixSlot & 0x10)
                 gOamData[slot].split.yFlip = TRUE;
-            if (gUnk_3001238 & 0x8)
+            if (gNextOamMatrixSlot & 0x8)
                 gOamData[slot].split.xFlip = TRUE;
-            gOamData[slot].split.matrixNum = gUnk_3001238 & 7;
+            gOamData[slot].split.matrixNum = gNextOamMatrixSlot & 7;
 
             gOamData[slot].split.priority = pOam->priority;
             gOamData[slot].split.paletteNum += pOam->paletteOffset;
@@ -657,12 +658,12 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
             dst++;
         }
 
-        matrixSlot = gUnk_3001238 * 4;
+        matrixSlot = gNextOamMatrixSlot * 4;
         gOamData[matrixSlot + 0].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 1].all.affineParam = FixedMultiplication(SIN(pOam->rotation), FixedInverse(xScaling));
         gOamData[matrixSlot + 2].all.affineParam = FixedMultiplication(-SIN(pOam->rotation), FixedInverse(yScaling));
         gOamData[matrixSlot + 3].all.affineParam = FixedMultiplication(COS(pOam->rotation), FixedInverse(yScaling));
-        gUnk_3001238++;
+        gNextOamMatrixSlot++;
     }
 
     gNextOamSlot += partCount;
@@ -674,7 +675,7 @@ void CutsceneDrawOam(struct CutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9db70(struct CutsceneOam* pOam)
+void CutsceneOam_Empty(struct CutsceneOam* pOam)
 {
     return;
 }

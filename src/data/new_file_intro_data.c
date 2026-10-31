@@ -536,7 +536,7 @@ static const u16 sOamFrame_597eac[OAM_DATA_SIZE(3)] = {
     OAM_ENTRY(-32, -32, OAM_DIMS_64x64, OAM_NO_FLIP, 16, 1, 0),
 };
 
-const struct FrameData sOam_597ec0[2] = {
+const struct FrameData sIntroParticleOam_0[2] = {
     [0] = {
         .pFrame = sOamFrame_597708,
         .timer = 4
@@ -544,7 +544,7 @@ const struct FrameData sOam_597ec0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597ed0[2] = {
+const struct FrameData sIntroParticleOam_1[2] = {
     [0] = {
         .pFrame = sOamFrame_597710,
         .timer = 4
@@ -552,7 +552,7 @@ const struct FrameData sOam_597ed0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597ee0[2] = {
+const struct FrameData sIntroParticleOam_2[2] = {
     [0] = {
         .pFrame = sOamFrame_597718,
         .timer = 4
@@ -560,7 +560,7 @@ const struct FrameData sOam_597ee0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597ef0[2] = {
+const struct FrameData sIntroParticleOam_3[2] = {
     [0] = {
         .pFrame = sOamFrame_597720,
         .timer = 4
@@ -608,7 +608,7 @@ const struct FrameData sOam_597f40[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597f50[7] = {
+const struct FrameData sIntroSamusShipFlyingOam[7] = {
     [0] = {
             .pFrame = sOamFrame_597e5a,
             .timer = 1
@@ -656,7 +656,7 @@ const struct FrameData sOam_597f88[5] = {
     [4] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fb0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_3[2] = {
     [0] = {
             .pFrame = sOamFrame_5977a4,
             .timer = 4
@@ -664,7 +664,7 @@ const struct FrameData sOam_597fb0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fc0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_2[2] = {
     [0] = {
             .pFrame = sOamFrame_5977b2,
             .timer = 4
@@ -672,7 +672,7 @@ const struct FrameData sOam_597fc0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fd0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_1[2] = {
     [0] = {
             .pFrame = sOamFrame_5977d8,
             .timer = 4
@@ -680,7 +680,7 @@ const struct FrameData sOam_597fd0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_597fe0[2] = {
+const struct FrameData sIntroSidewaysBslShipOam_0[2] = {
     [0] = {
             .pFrame = sOamFrame_5977f2,
             .timer = 4
@@ -793,7 +793,7 @@ const u16 sIntroSamusHelmetCloseupPal[4 * PAL_ROW] = INCBIN_U16("data/new_file_i
 
 const u32 sIntroSamusShipFlyingTextTilemap[125] = INCBIN_U32("data/new_file_intro/samus_ship_flying_text.tm.lz");
 
-const u16 sPal_598a8c[1 * PAL_ROW] = INCBIN_U16("data/new_file_intro/598a8c.pal");
+const u16 sIntroSubtitlePal[1 * PAL_ROW] = INCBIN_U16("data/new_file_intro/598a8c.pal");
 const u16 sIntroSamusCloseupGrayscalePal[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_helmet_closeup_grayscale.pal");
 
 const u16 sSr388SpaceAndSurfacePal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/sr388_space_and_surface.pal");
@@ -1032,7 +1032,7 @@ static const u16 sOamFrame_59a096[OAM_DATA_SIZE(1)] = {
     OAM_ENTRY(0, -8, OAM_DIMS_8x8, OAM_NO_FLIP, 798, 6, 0),
 };
 
-const struct FrameData sOam_59a0a0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_0[2] = {
     [0] = {
             .pFrame = sOamFrame_599d08,
             .timer = 4
@@ -1040,7 +1040,7 @@ const struct FrameData sOam_59a0a0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0b0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_1[2] = {
     [0] = {
             .pFrame = sOamFrame_599d10,
             .timer = 4
@@ -1048,7 +1048,7 @@ const struct FrameData sOam_59a0b0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0c0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_2[2] = {
     [0] = {
             .pFrame = sOamFrame_599d18,
             .timer = 4
@@ -1056,7 +1056,7 @@ const struct FrameData sOam_59a0c0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0d0[2] = {
+const struct FrameData sIntroSr388PreviewAsteroidOam_3[2] = {
     [0] = {
             .pFrame = sOamFrame_599d20,
             .timer = 4
@@ -1064,7 +1064,7 @@ const struct FrameData sOam_59a0d0[2] = {
     [1] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a0e0[2] = {
+const struct FrameData sIntroSr388PreviewSunReflectionOam[2] = {
     [0] = {
             .pFrame = sOamFrame_599d28,
             .timer = 4
@@ -1132,7 +1132,7 @@ const struct FrameData sOam_59a100[13] = {
     [12] = FRAME_DATA_TERMINATOR
 };
 
-const struct FrameData sOam_59a168[2] = {
+const struct FrameData sIntroSr388PreviewRocksOam[2] = {
     [0] = {
             .pFrame = sOamFrame_599eca,
             .timer = 4
@@ -4240,7 +4240,8 @@ const u32 sTilemap_5a9044[135] = INCBIN_U32("data/new_file_intro/5a9044.tm.lz");
 const u16 sPal_5a9260[15 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5a9260.pal");
 const u16 sPal_5a9440[15 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5a9440.pal");
 
-const u16 sArray_5a9620[30] = {
+// Palette animation of the Samus nervous system cutscene: C_16_2_8(palette frame, duration)
+const u16 sIntroNervousSystemPalAnimation[30] = {
 	C_16_2_8(0, 36),
 	C_16_2_8(1, 12),
 	C_16_2_8(2, 12),
@@ -15885,18 +15886,18 @@ const u32 sIntroSamusNervousSystemBg3Tilemap[369] = INCBIN_U32("data/new_file_in
 const u32 sIntroSamusNervousSystemBg2Tilemap[63] = INCBIN_U32("data/new_file_intro/samus_nervous_system_bg2.tm.lz");
 const u32 sIntroSamusNervousSystemBg1Tilemap[68] = INCBIN_U32("data/new_file_intro/samus_nervous_system_bg1.tm.lz");
 
-const u16 sPal_5bf838[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf838.pal");
-const u16 sPal_5bf8b8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf8b8.pal");
-const u16 sPal_5bf938[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf938.pal");
-const u16 sPal_5bf9b8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf9b8.pal");
-const u16 sPal_5bfa38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfa38.pal");
-const u16 sPal_5bfab8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfab8.pal");
-const u16 sPal_5bfb38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfb38.pal");
-const u16 sPal_5bfbb8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfbb8.pal");
-const u16 sPal_5bfc38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfc38.pal");
-const u16 sPal_5bfcb8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfcb8.pal");
-const u16 sPal_5bfd38[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfd38.pal");
-const u16 sPal_5bfdb8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfdb8.pal");
+const u16 sIntroNervousSystemPal_0[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf838.pal");
+const u16 sIntroNervousSystemPal_1[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf8b8.pal");
+const u16 sIntroNervousSystemPal_2[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf938.pal");
+const u16 sIntroNervousSystemPal_3[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bf9b8.pal");
+const u16 sIntroNervousSystemPal_4[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfa38.pal");
+const u16 sIntroNervousSystemPal_5[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfab8.pal");
+const u16 sIntroNervousSystemPal_6[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfb38.pal");
+const u16 sIntroNervousSystemPal_7[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfbb8.pal");
+const u16 sIntroNervousSystemPal_8[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfc38.pal");
+const u16 sIntroNervousSystemPal_9[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfcb8.pal");
+const u16 sIntroNervousSystemPal_10[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfd38.pal");
+const u16 sIntroNervousSystemPal_11[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/5bfdb8.pal");
 
 const u32 sIntroVariaSuitCoveredInXParasitesGfx[4230] = INCBIN_U32("data/new_file_intro/suit_covered_in_parasites.gfx.lz");
 const u32 sIntroHazmatTeamGfx[4915] = INCBIN_U32("data/new_file_intro/hazmat_team.gfx.lz");
@@ -15918,7 +15919,7 @@ const u16 sIntroSamusRebornBgPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro
 const u32 sIntroSamusRebornBgTopTilemap[551] = INCBIN_U32("data/new_file_intro/samus_reborn_bg_top.tm.lz");
 const u32 sIntroSamusRebornBgBottomTilemap[368] = INCBIN_U32("data/new_file_intro/samus_reborn_bg_bottom.tm.lz");
 
-// Samus cured cutscene: BG palette rows 5-14 for each step of the fade (sPalPointers_79c314)
+// Samus cured cutscene: BG palette rows 5-14 for each step of the fade (sIntroSamusCuredBgFadePalPointers)
 const u16 sIntroSamusCuredBgFadePal_0[10 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_bg_fade_0.pal");
 const u16 sIntroSamusCuredBgFadePal_1[10 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_bg_fade_1.pal");
 const u16 sIntroSamusCuredBgFadePal_3[10 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_bg_fade_3.pal");
@@ -21128,7 +21129,7 @@ const u32 sIntroArrivingAtBslSpaceMapTilemap[368] = INCBIN_U32("data/new_file_in
 const u32 sIntroSamusMonologueBgTilemap[368] = INCBIN_U32("data/new_file_intro/samus_monologue_bg.tm.lz");
 const u32 sIntroTilemap_5f65d8[238] = INCBIN_U32("data/new_file_intro/5f65d8.tm.lz");
 
-// Samus cured cutscene: BG palette rows 0-3 for each step of the fade (sPalPointers_79c354)
+// Samus cured cutscene: BG palette rows 0-3 for each step of the fade (sIntroSamusCuredFadePalPointers)
 const u16 sIntroSamusCuredFadePal_0[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_fade_0.pal");
 const u16 sIntroSamusCuredFadePal_1[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_fade_1.pal");
 const u16 sIntroSamusCuredFadePal_2[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/samus_cured_fade_2.pal");
@@ -22623,7 +22624,8 @@ const u32 sIntroSamusSittingTilemap[417] = INCBIN_U32("data/new_file_intro/samus
 
 const u32 sTitleScreenSpaceBackgroundGfx[3270] = INCBIN_U32("data/menus/title_screen/space_background.gfx.lz");
 
-const u16 sPal_609020[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/609020.pal");
+// Only 8 rows, but loaded as 16 rows (the next 8 rows come from the following data)
+const u16 sIntroSpaceBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/609020.pal");
 const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW] = INCBIN_U16("data/menus/title_screen/space_background.pal");
 
 const u32 sTitleScreenSpaceBackgroundTilemap[418] = INCBIN_U32("data/menus/title_screen/space_background.tm.lz");
@@ -22934,7 +22936,7 @@ const u32 sIntroBslSpaceBgGfx[4421] = INCBIN_U32("data/new_file_intro/bsl_space_
 const u32 sIntroSpaceObjGfx[2852] = INCBIN_U32("data/new_file_intro/space_obj.gfx.lz");
 
 const u16 sIntroBslSpaceBgPal[8 * PAL_ROW] = INCBIN_U16("data/new_file_intro/bsl_space_bg.pal");
-const u16 sPal_612f48[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/612f48.pal");
+const u16 sIntroSpaceObjPal[16 * PAL_ROW] = INCBIN_U16("data/new_file_intro/612f48.pal");
 
 const u32 sNextPageArrowGfx[8] = INCBIN_U32("data/new_file_intro/next_page_arrow.gfx");
 
@@ -23645,7 +23647,7 @@ const struct FrameData sEndingSamusViewRadarViewOam_Idle[3] = {
 };
 // FrameData array (type 30 of the ending dialogue), followed by the OAM frames of the BSL
 // crashing cutscene
-const struct FrameData sEndingUnk_633f24[6] = {
+const struct FrameData sEndingDialogueType30Oam[6] = {
     { sOamFrame_633090, 3 },
     { sOamFrame_6331e4, 1 },
     FRAME_DATA_TERMINATOR,
@@ -23930,7 +23932,7 @@ const u32 sEndingShipFrontViewBg2Tilemap[199] = INCBIN_U32("data/ending/ship_fro
 const u32 sEndingShipFrontViewBg3Tilemap[387] = INCBIN_U32("data/ending/ship_front_view_bg3.tm.lz");
 const u32 sBslCrashingBg3Tilemap[368] = INCBIN_U32("data/ending/bsl_crashing_bg3.tm.lz");
 
-// Width and height of each OAM shape and size in tiles (see sOamXFlipOffsets)
+// Width and height of each OAM shape and size in tiles (see sOamXFlipOffsets, sCutsceneMonologueOamXFlipOffsets)
 const u8 sCutsceneOamXFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_x_flip_offsets.bin");
 const u8 sCutsceneOamYFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_y_flip_offsets.bin");
 
@@ -24451,14 +24453,14 @@ const u8 sElevatorMonologueBgGfx_65c468[] = INCBIN_U8("data/cutscenes/elevator_m
 const u8 sCutsceneMonologueCursorGfx[] = INCBIN_U8("data/cutscenes/monologue/cursor.gfx.lz");
 const u8 sElevatorMonologueObjGfx_65fc24[] = INCBIN_U8("data/cutscenes/elevator_monologue/obj_65fc24.gfx.lz");
 
-const u32 sIntroTilemap_662804[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
+const u32 sMonologueTextTilemap[318] = INCBIN_U32("data/new_file_intro/662804.tm.lz");
 
 const u8 sElevatorMonologueBgTilemap_662cfc[] = INCBIN_U8("data/cutscenes/elevator_monologue/bg_662cfc.tm.lz");
 const u32 sCutsceneElevatorMonologueBg1Tilemap[66] = INCBIN_U32("data/cutscenes/elevator_monologue/bg1.tm.lz");
-// The monologue inits copy 16 rows from here, the last 4 rows come from sIntroPal_663820
+// The monologue inits copy 16 rows from here, the last 4 rows come from sMonologueTextPal
 const u16 sCutsceneMonologueBgPal[12 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/bg.pal");
 
-const u16 sIntroPal_663820[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820.pal");
+const u16 sMonologueTextPal[4 * PAL_ROW] = INCBIN_U16("data/new_file_intro/663820.pal");
 
 const u16 sCutsceneMonologueCursorPal[1 * PAL_ROW] = INCBIN_U16("data/cutscenes/monologue/cursor.pal");
 // Elevator monologue palettes, then the OAM frames of the FrameData arrays below
@@ -24847,7 +24849,7 @@ const u16 sCutsceneRestrictedLabDetachingObjRow3CyclePal[16 * PAL_ROW] = INCBIN_
 const u32 sCutsceneBslSpaceTilemap_681a1c[418] = INCBIN_U32("data/cutscenes/bsl_space/681a1c.tm.lz");
 const u32 sCutsceneBslSpaceTilemap_6820a4[318] = INCBIN_U32("data/cutscenes/bsl_space/6820a4.tm.lz");
 const u16 sCutsceneBslSpaceBgPal[16 * PAL_ROW] = INCBIN_U16("data/cutscenes/bsl_space/bg.pal");
-// Width in tiles of an OAM sprite, by [shape][size]
-const u8 sCutsceneOamTileWidths[3][4] = INCBIN_U8("data/cutscenes/oam_tile_widths.bin");
+// Width in tiles of an OAM sprite, by [shape][size] (same content as sCutsceneOamXFlipOffsets)
+const u8 sCutsceneMonologueOamXFlipOffsets[3][4] = INCBIN_U8("data/cutscenes/oam_tile_widths.bin");
 const u32 sCutsceneBslExplodingBg2Tilemap[277] = INCBIN_U32("data/cutscenes/bsl_exploding/bg2.tm.lz");
 const u32 sCutsceneBslExplodingBg3Tilemap[236] = INCBIN_U32("data/cutscenes/bsl_exploding/bg3.tm.lz");

@@ -3,21 +3,21 @@
 
 #include "types.h"
 
-extern const struct FrameData sOam_597ec0[2];
-extern const struct FrameData sOam_597ed0[2];
-extern const struct FrameData sOam_597ee0[2];
-extern const struct FrameData sOam_597ef0[2];
+extern const struct FrameData sIntroParticleOam_0[2];
+extern const struct FrameData sIntroParticleOam_1[2];
+extern const struct FrameData sIntroParticleOam_2[2];
+extern const struct FrameData sIntroParticleOam_3[2];
 extern const struct FrameData sOam_597f00[2];
 extern const struct FrameData sOam_597f10[2];
 extern const struct FrameData sOam_597f20[2];
 extern const struct FrameData sOam_597f30[2];
 extern const struct FrameData sOam_597f40[2];
-extern const struct FrameData sOam_597f50[7];
+extern const struct FrameData sIntroSamusShipFlyingOam[7];
 extern const struct FrameData sOam_597f88[5];
-extern const struct FrameData sOam_597fb0[2];
-extern const struct FrameData sOam_597fc0[2];
-extern const struct FrameData sOam_597fd0[2];
-extern const struct FrameData sOam_597fe0[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_3[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_2[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_1[2];
+extern const struct FrameData sIntroSidewaysBslShipOam_0[2];
 extern const struct FrameData sOam_597ff0[2];
 extern const struct FrameData sOam_598000[12];
 extern const struct FrameData sOam_598060[5];
@@ -32,7 +32,7 @@ extern const u16 sIntroSamusHelmetCloseupPal[4 * PAL_ROW];
 
 extern const u32 sIntroSamusShipFlyingTextTilemap[125];
 
-extern const u16 sPal_598a8c[1 * PAL_ROW];
+extern const u16 sIntroSubtitlePal[1 * PAL_ROW];
 extern const u16 sIntroSamusCloseupGrayscalePal[4 * PAL_ROW];
 
 extern const u16 sSr388SpaceAndSurfacePal[16 * PAL_ROW];
@@ -41,14 +41,14 @@ extern const u32 sIntroSr388SurfaceTilemap[551];
 extern const u32 sIntroSr388SpaceBgTilemap[265];
 extern const u32 sIntroSr388PlanetTilemap[199];
 
-extern const struct FrameData sOam_59a0a0[2];
-extern const struct FrameData sOam_59a0b0[2];
-extern const struct FrameData sOam_59a0c0[2];
-extern const struct FrameData sOam_59a0d0[2];
-extern const struct FrameData sOam_59a0e0[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_0[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_1[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_2[2];
+extern const struct FrameData sIntroSr388PreviewAsteroidOam_3[2];
+extern const struct FrameData sIntroSr388PreviewSunReflectionOam[2];
 extern const struct FrameData sOam_59a0f0[2];
 extern const struct FrameData sOam_59a100[13];
-extern const struct FrameData sOam_59a168[2];
+extern const struct FrameData sIntroSr388PreviewRocksOam[2];
 extern const struct FrameData sOam_59a178[8];
 
 extern const u32 sIntroSr388SpaceAndSurfaceObjGfx[3538];
@@ -108,7 +108,7 @@ extern const u32 sTilemap_5a9044[135];
 extern const u16 sPal_5a9260[15 * PAL_ROW];
 extern const u16 sPal_5a9440[15 * PAL_ROW];
 
-extern const u16 sArray_5a9620[30];
+extern const u16 sIntroNervousSystemPalAnimation[30];
 
 extern const u32 sIntroMetroidVaccineObjGfx[1485];
 
@@ -156,18 +156,18 @@ extern const u32 sIntroSamusNervousSystemBg3Tilemap[369];
 extern const u32 sIntroSamusNervousSystemBg2Tilemap[63];
 extern const u32 sIntroSamusNervousSystemBg1Tilemap[68];
 
-extern const u16 sPal_5bf838[4 * PAL_ROW];
-extern const u16 sPal_5bf8b8[4 * PAL_ROW];
-extern const u16 sPal_5bf938[4 * PAL_ROW];
-extern const u16 sPal_5bf9b8[4 * PAL_ROW];
-extern const u16 sPal_5bfa38[4 * PAL_ROW];
-extern const u16 sPal_5bfab8[4 * PAL_ROW];
-extern const u16 sPal_5bfb38[4 * PAL_ROW];
-extern const u16 sPal_5bfbb8[4 * PAL_ROW];
-extern const u16 sPal_5bfc38[4 * PAL_ROW];
-extern const u16 sPal_5bfcb8[4 * PAL_ROW];
-extern const u16 sPal_5bfd38[4 * PAL_ROW];
-extern const u16 sPal_5bfdb8[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_0[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_1[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_2[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_3[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_4[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_5[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_6[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_7[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_8[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_9[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_10[4 * PAL_ROW];
+extern const u16 sIntroNervousSystemPal_11[4 * PAL_ROW];
 
 extern const u32 sIntroVariaSuitCoveredInXParasitesGfx[4230];
 extern const u32 sIntroHazmatTeamGfx[4915];
@@ -334,7 +334,7 @@ extern const u32 sIntroSamusSittingTilemap[417];
 
 extern const u32 sTitleScreenSpaceBackgroundGfx[3270];
 
-extern const u16 sPal_609020[8 * PAL_ROW];
+extern const u16 sIntroSpaceBgPal[8 * PAL_ROW];
 extern const u16 sTitleScreenSpaceBackgroundPal[8 * PAL_ROW];
 
 extern const u32 sTitleScreenSpaceBackgroundTilemap[418];
@@ -346,7 +346,7 @@ extern const u32 sIntroBslSpaceBgGfx[4421];
 extern const u32 sIntroSpaceObjGfx[2852];
 extern const u16 sIntroBslSpaceBgPal[8 * PAL_ROW];
 
-extern const u16 sPal_612f48[16 * PAL_ROW];
+extern const u16 sIntroSpaceObjPal[16 * PAL_ROW];
 
 extern const u32 sNextPageArrowGfx[8];
 
@@ -419,9 +419,9 @@ extern const u32 sIntroSamusHelmetCloseupBgGfx3[812];
 extern const u32 sIntroSamusHelmetCloseupBgGfx4[844];
 extern const u32 sIntroSamusHelmetCloseupBgGfx5[403];
 
-extern const u32 sIntroTilemap_662804[318];
+extern const u32 sMonologueTextTilemap[318];
 
-extern const u16 sIntroPal_663820[4 * PAL_ROW];
+extern const u16 sMonologueTextPal[4 * PAL_ROW];
 
 extern const u16 sIntroSamusCuredBgFadePal_0[10 * PAL_ROW];
 extern const u16 sIntroSamusCuredBgFadePal_1[10 * PAL_ROW];

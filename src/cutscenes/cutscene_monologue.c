@@ -7,6 +7,8 @@
 #include "oam.h"
 #include "text.h"
 
+#include "constants/text.h"
+
 #include "data/cutscenes_data.h"
 #include "data/haze_data.h"
 
@@ -19,17 +21,17 @@
  */
 void CutsceneMonologueProcessCursor(struct CutsceneMonologueOam* pOam)
 {
-    if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFF00)
+    if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_TERMINATOR)
     {
         pOam->type = 0;
         pOam->exists = FALSE;
     }
-    else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFE00)
+    else if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEW_LINE)
     {
         pOam->xPosition = CUTSCENE_MONOLOGUE_DATA.currentColumn * 8 + (CUTSCENE_MONOLOGUE_DATA.indent + 12);
         pOam->yPosition = CUTSCENE_MONOLOGUE_DATA.currentLine * 8 + 12;
     }
-    else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFD00)
+    else if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEW_PAGE)
     {
         pOam->pOam = sCutsceneMonologueCursorHiddenOam;
         pOam->xPosition = 290;
@@ -37,7 +39,7 @@ void CutsceneMonologueProcessCursor(struct CutsceneMonologueOam* pOam)
         pOam->currentAnimationFrame = 0;
         pOam->stage = 0;
     }
-    else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFC00)
+    else if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEXT_PAGE_ARROW)
     {
         if (pOam->stage == 0)
         {
@@ -92,17 +94,17 @@ boolu32 CutsceneMonologueProcessSpecialTextCharacters(void)
     else
         CUTSCENE_MONOLOGUE_DATA.timer++;
 
-    if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFF00)
+    if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_TERMINATOR)
     {
         CUTSCENE_MONOLOGUE_DATA.timer = 0;
-        CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+        CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
         ended = TRUE;
     }
-    else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFC00)
+    else if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEXT_PAGE_ARROW)
     {
         if (gChangedInput & KEY_A)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 1;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 1;
             CUTSCENE_MONOLOGUE_DATA.timer = 0;
         }
         else
@@ -110,17 +112,17 @@ boolu32 CutsceneMonologueProcessSpecialTextCharacters(void)
             CUTSCENE_MONOLOGUE_DATA.timer = 0;
         }
     }
-    else if ((*CUTSCENE_MONOLOGUE_DATA.pText & 0xFF00) == 0xE100)
+    else if ((*CUTSCENE_MONOLOGUE_DATA.pText & CHAR_MASK) == CHAR_DELAY)
     {
-        if ((*CUTSCENE_MONOLOGUE_DATA.pText & 0xFF) <= CUTSCENE_MONOLOGUE_DATA.timer)
+        if (LOW_BYTE(*CUTSCENE_MONOLOGUE_DATA.pText) <= CUTSCENE_MONOLOGUE_DATA.timer)
         {
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 1;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 1;
             CUTSCENE_MONOLOGUE_DATA.timer = 0;
         }
     }
     else if (CUTSCENE_MONOLOGUE_DATA.timer > 2)
     {
-        CUTSCENE_MONOLOGUE_DATA.unk_17 = 1;
+        CUTSCENE_MONOLOGUE_DATA.textUpdateState = 1;
         CUTSCENE_MONOLOGUE_DATA.timer = 0;
     }
 
@@ -137,11 +139,11 @@ void CutsceneMonologueProcessText(void)
     u32* dst;
     u32 width;
 
-    if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFF00)
+    if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_TERMINATOR)
     {
         return;
     }
-    else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFE00)
+    else if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEW_LINE)
     {
         for (i = CUTSCENE_MONOLOGUE_DATA.currentColumn + 1; i < CUTSCENE_MONOLOGUE_LINE_LENGTH; i++)
             CUTSCENE_MONOLOGUE_DATA.tilesFadeStage[CUTSCENE_MONOLOGUE_DATA.currentLine / 2][i] |= 0xFF;
@@ -151,7 +153,7 @@ void CutsceneMonologueProcessText(void)
         CUTSCENE_MONOLOGUE_DATA.pText++;
         CUTSCENE_MONOLOGUE_DATA.indent = 0;
     }
-    else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFD00)
+    else if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEW_PAGE)
     {
         DMA3_FILL_32(0, VRAM_BASE + 0x8000, 0x4800);
 
@@ -166,7 +168,7 @@ void CutsceneMonologueProcessText(void)
         DMA3_FILL_32(0, CUTSCENE_MONOLOGUE_DATA.tilesFadeTimer, sizeof(CUTSCENE_MONOLOGUE_DATA.tilesFadeTimer));
         DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x200);
     }
-    else if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFC00 || (*CUTSCENE_MONOLOGUE_DATA.pText & 0xFF00) == 0xE100)
+    else if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEXT_PAGE_ARROW || (*CUTSCENE_MONOLOGUE_DATA.pText & CHAR_MASK) == CHAR_DELAY)
     {
         CUTSCENE_MONOLOGUE_DATA.pText++;
     }
@@ -201,7 +203,7 @@ void CutsceneMonologueProcessText(void)
  * @brief 9cc4c | 134 | Updates the fading in of the text tiles of a monologue cutscene
  *
  */
-void unk_9cc4c(void)
+void CutsceneMonologueUpdateTextTilesFade(void)
 {
     u16 line;
     u16 column;
@@ -218,7 +220,7 @@ void unk_9cc4c(void)
     line = CUTSCENE_MONOLOGUE_DATA.fadeLine / 2;
     while (line <= CUTSCENE_MONOLOGUE_DATA.currentLine / 2)
     {
-        if (*CUTSCENE_MONOLOGUE_DATA.pText == 0xFC00)
+        if (*CUTSCENE_MONOLOGUE_DATA.pText == CHAR_NEXT_PAGE_ARROW)
         {
             if (CUTSCENE_MONOLOGUE_DATA.currentColumn < CUTSCENE_MONOLOGUE_LINE_LENGTH)
                 end = CUTSCENE_MONOLOGUE_DATA.currentColumn + 1;

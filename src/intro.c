@@ -18,14 +18,14 @@
 #include "data/sprite_data.h"
 #include "data/audio.h"
 
-void unk_99940(void); // For V-blank callback
+void SpecialCutsceneLoadingVblank(void); // For V-blank callback
 u8 SpecialCutsceneGetRandomNumber(void);
 
-void unk_93884(void);
+void IntroSamusInShipVblank(void);
 void IntroShipAlertAndDraftingVblank(void);
 u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch);
 void IntroSetupBigNumberOam(u8 type, s16 xPosition, s16 yPosition, s16 delay);
-void unk_9397c(struct SpecialCutsceneOam* pOam);
+void IntroOam_Empty(struct SpecialCutsceneOam* pOam);
 u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch);
 void IntroSpaceViewVblank(void);
 void Dma3Transfer_Unused2(void* src, void* dst, u16 size, u16 count);
@@ -34,7 +34,7 @@ void Dma3Transfer_Unused2(void* src, void* dst, u16 size, u16 count);
  * @brief 9209c | 1a0 | Setup for the Samus in ship cutscene (unused)
  *
  */
-void unk_9209c(void)
+void IntroSamusInShipInit(void)
 {
     u16 i;
     u16* pEva;
@@ -45,7 +45,7 @@ void unk_9209c(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
@@ -94,7 +94,7 @@ void unk_9209c(void)
 
     WRITE_16(REG_DISPCNT, DCNT_BG0 | DCNT_BG1 | DCNT_OBJ);
 
-    CallbackSetVBlank(unk_93884);
+    CallbackSetVBlank(IntroSamusInShipVblank);
 }
 
  /**
@@ -254,7 +254,7 @@ void IntroShipAlertInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
@@ -410,18 +410,18 @@ void IntroSamusDriftingOutInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
     LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
-    DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sTitleScreenSpaceBackgroundGfx, VRAM_BASE);
     LZ77UncompVram(sTitleScreenSpaceBackgroundTilemap, VRAM_BASE + 0xF800);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sPal_609020, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 
     WRITE_16(REG_BG0HOFS, 0);
@@ -505,7 +505,7 @@ boolu32 IntroSamusDriftingOutProcess(void)
                 INTRO_DATA.timer = 0;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
             {
                 xPosition = SpecialCutsceneGetRandomNumber();
                 yPosition = SpecialCutsceneGetRandomNumber();
@@ -520,7 +520,7 @@ boolu32 IntroSamusDriftingOutProcess(void)
             if (INTRO_DATA.timer == CONVERT_SECONDS(2.f + 1.f / 3))
                 PlayMusic(MUSIC_PRE_TITLE_END, 15);
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
             {
                 xPosition = SpecialCutsceneGetRandomNumber();
                 yPosition = SpecialCutsceneGetRandomNumber();
@@ -532,7 +532,7 @@ boolu32 IntroSamusDriftingOutProcess(void)
             break;
 
         case 3:
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
             {
                 xPosition = SpecialCutsceneGetRandomNumber();
                 yPosition = SpecialCutsceneGetRandomNumber();
@@ -657,7 +657,7 @@ boolu32 IntroSamusShipCrashing(void)
  * @brief 92d0c | 148 | Handles the background shaking while Samus is in the ship
  *
  */
-void unk_92d0c(struct SpecialCutsceneOam* pOam)
+void IntroProcessSamusInShipShaking(struct SpecialCutsceneOam* pOam)
 {
     u8 rng1;
     u8 rng2;
@@ -930,7 +930,7 @@ void IntroProcessDriftingShip(struct SpecialCutsceneOam* pOam)
         if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 }
@@ -1052,13 +1052,13 @@ void IntroProcessDepthParticle(struct SpecialCutsceneOam* pOam)
             if ((u16)(x + 128) > 256 || (s16)y > 168 || (s16)y < -8)
             {
                 pOam->type = 0;
-                pOam->unk_18_0 = 0;
+                pOam->exists = 0;
             }
         }
         else
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 
@@ -1094,18 +1094,18 @@ void IntroProcessAsteroidsPopUp(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 93300 | 34 | To document
+ * @brief 93300 | 34 | Shows a big number once its delay ended
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_93300(struct SpecialCutsceneOam* pOam)
+void IntroProcessDelayedBigNumber(struct SpecialCutsceneOam* pOam)
 {
     if (pOam->stage == 0)
     {
         pOam->unk_A++;
         if (pOam->unk_A == pOam->unk_8)
         {
-            pOam->unk_18_0 = 1;
+            pOam->exists = 1;
             pOam->stage = 1;
             SoundPlay(SOUND_1F1);
         }
@@ -1113,11 +1113,11 @@ void unk_93300(struct SpecialCutsceneOam* pOam)
 }
 
  /**
- * @brief 93334 | 48 | To document
+ * @brief 93334 | 48 | Plays a sound on the first frame of an animation, then destroys the OAM once the animation ended
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_93334(struct SpecialCutsceneOam* pOam)
+void IntroProcessShipAlertAnimationWithSound(struct SpecialCutsceneOam* pOam)
 {
     const struct FrameData* frame;
 
@@ -1128,7 +1128,7 @@ void unk_93334(struct SpecialCutsceneOam* pOam)
     if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
     {
         pOam->type = 0;
-        pOam->unk_18_0 = 0;
+        pOam->exists = 0;
     }
 }
 
@@ -1144,7 +1144,7 @@ void IntroOamProcessBigChangingNumber(struct SpecialCutsceneOam* pOam)
         pOam->unk_A++;
         if (pOam->unk_A == pOam->unk_8)
         {
-            pOam->unk_18_0 = 1;
+            pOam->exists = 1;
             pOam->stage = 1;
         }
     }
@@ -1191,12 +1191,12 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     INTRO_DATA.oam[slot].xPosition = xPosition;
     INTRO_DATA.oam[slot].yPosition = yPosition;
     INTRO_DATA.oam[slot].type = type;
-    INTRO_DATA.oam[slot].unk_18_0 = 1;
+    INTRO_DATA.oam[slot].exists = 1;
 
     if (type == 1)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
-        INTRO_DATA.oam[slot].pFunction = unk_92d0c;
+        INTRO_DATA.oam[slot].exists = 0;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSamusInShipShaking;
     }
     else if (type == 10)
     {
@@ -1209,7 +1209,7 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     }
     else if (type == 11)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSpawning;
     }
@@ -1250,12 +1250,12 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     else if (type == 20)
     {
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd00;
-        INTRO_DATA.oam[slot].pFunction = unk_9397c;
+        INTRO_DATA.oam[slot].pFunction = IntroOam_Empty;
     }
     else if (type == 21)
     {
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65bd48;
-        INTRO_DATA.oam[slot].pFunction = unk_9397c;
+        INTRO_DATA.oam[slot].pFunction = IntroOam_Empty;
     }
     else if (type == 22)
     {
@@ -1265,41 +1265,41 @@ u8 IntroSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearch)
     else if (type == 23)
     {
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertOam_65be00;
-        INTRO_DATA.oam[slot].pFunction = unk_93334;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessShipAlertAnimationWithSound;
     }
     else if (type == 24)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65bf10;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 25)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c0d0;
-        INTRO_DATA.oam[slot].pFunction = unk_93300;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessDelayedBigNumber;
     }
     else if (type == 26)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c128;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 27)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c180;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 28)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c1d8;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
     else if (type == 29)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroShipAlertBigNumberOam_65c230;
         INTRO_DATA.oam[slot].pFunction = IntroOamProcessBigChangingNumber;
     }
@@ -1327,7 +1327,7 @@ void IntroSetupBigNumberOam(u8 type, s16 xPosition, s16 yPosition, s16 delay)
  * @brief 93884 | 7c | V-blank for the Samus in ship cutscene
  *
  */
-void unk_93884(void)
+void IntroSamusInShipVblank(void)
 {
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
 
@@ -1362,7 +1362,7 @@ void IntroShipAlertAndDraftingVblank(void)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void unk_9397c(struct SpecialCutsceneOam* pOam)
+void IntroOam_Empty(struct SpecialCutsceneOam* pOam)
 {
     return;
 }
@@ -1380,7 +1380,7 @@ void IntroSpaceViewInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DoSoundAction(0x1000000);
     StopAllMusicAndSounds();
@@ -1388,7 +1388,7 @@ void IntroSpaceViewInit(void)
     DMA3_FILL_32(0, &gNonGameplayRam, sizeof(gNonGameplayRam));
 
     LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
-    DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sIntroBslSpaceBgGfx, VRAM_BASE);
 
@@ -1470,7 +1470,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 1;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 64 && INTRO_DATA.unk_215 < 14)
+            if (SpecialCutsceneGetRandomNumber() < 64 && INTRO_DATA.activeOamCount < 14)
                 IntroSpaceViewSetupOam(5, SpecialCutsceneGetRandomNumber(), SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1485,7 +1485,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 2;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 12)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 12)
                 IntroSpaceViewSetupOam(5, 0, SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1499,7 +1499,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 3;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 12)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 12)
                 IntroSpaceViewSetupOam(5, 0, SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1517,7 +1517,7 @@ boolu32 IntroSpaceViewPartProcess(void)
                 INTRO_DATA.subStage = 5;
             }
 
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 12)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 12)
                 IntroSpaceViewSetupOam(5, 0, SpecialCutsceneGetRandomNumber(), TRUE);
 
             SpecialCutsceneProcessOam();
@@ -1625,19 +1625,19 @@ void IntroFlyingViewInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99940);
+    CallbackSetVBlank(SpecialCutsceneLoadingVblank);
 
     DMA3_FILL_32(0, &INTRO_DATA.oam, sizeof(INTRO_DATA.oam));
 
     LZ77UncompVram(sIntroSpaceObjGfx, VRAM_OBJ);
-    DMA3_COPY_32(sPal_612f48, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceObjPal, PALRAM_OBJ, 16 * PAL_ROW_SIZE / sizeof(u32));
 
     LZ77UncompVram(sTitleScreenSpaceBackgroundGfx, VRAM_BASE);
     LZ77UncompVram(sTitleScreenSpaceBackgroundTilemap, VRAM_BASE + 0xF800);
     LZ77UncompVram(sIntroSamusShipFlyingTextTilemap, VRAM_BASE + 0xE000);
 
-    DMA3_COPY_32(sPal_609020, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
-    DMA3_COPY_32(sPal_598a8c, PALRAM_BASE + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSpaceBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sIntroSubtitlePal, PALRAM_BASE + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 
     WRITE_16(REG_BG0HOFS, 0);
@@ -1711,7 +1711,7 @@ boolu32 IntroFlyingViewProcess(void)
             break;
 
         case 1:
-            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.unk_215 < 10)
+            if (SpecialCutsceneGetRandomNumber() < 128 && INTRO_DATA.activeOamCount < 10)
                 IntroSpaceViewSetupOam(16, SpecialCutsceneGetRandomNumber(), SpecialCutsceneGetRandomNumber(), FALSE);
 
             if (INTRO_DATA.timer == CONVERT_SECONDS(5.f))
@@ -1935,7 +1935,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
     {
         pOam->currentAnimationFrame += pOam->xPosition - pOam->unk_4;
 
-        status = pOam->unk_1A_4;
+        status = pOam->paletteOffset;
         if (status == 0)
         {
             if (pOam->currentAnimationFrame >= 8)
@@ -1948,7 +1948,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
                 if (pOam->animationDurationCounter == 32)
                 {
                     pOam->animationDurationCounter = 0;
-                    pOam->unk_1A_4 = 1;
+                    pOam->paletteOffset = 1;
                 }
             }
         }
@@ -1962,7 +1962,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
                 if (pOam->animationDurationCounter == 32)
                 {
                     pOam->animationDurationCounter = 0;
-                    pOam->unk_1A_4 = 10;
+                    pOam->paletteOffset = 10;
                 }
             }
         }
@@ -1974,7 +1974,7 @@ void IntroProcessBslShipSideways(struct SpecialCutsceneOam* pOam)
  *
  * @param pOam Cutscene OAM data pointer
  */
-void IntroProcessSamusSHipEntering(struct SpecialCutsceneOam* pOam)
+void IntroProcessSamusShipEntering(struct SpecialCutsceneOam* pOam)
 {
     s32 rotation;
     s32 cos;
@@ -2045,7 +2045,7 @@ void IntroProcessSamusSHipEntering(struct SpecialCutsceneOam* pOam)
         if (pOam->timer == 0)
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 
@@ -2072,7 +2072,7 @@ void IntroProcessSplashText(struct SpecialCutsceneOam* pOam)
     if (frame[0].timer == pOam->animationDurationCounter && frame[1].timer == 0)
     {
         pOam->type = 0;
-        pOam->unk_18_0 = 0;
+        pOam->exists = 0;
     }
 }
 
@@ -2119,7 +2119,7 @@ void IntroProcessSpaceViewParticle(struct SpecialCutsceneOam* pOam)
     if (pOam->xPosition >= SCREEN_SIZE_X || pOam->yPosition >= SCREEN_SIZE_Y)
     {
         pOam->type = 0;
-        pOam->unk_18_0 = 0;
+        pOam->exists = 0;
     }
 }
 
@@ -2261,13 +2261,13 @@ void IntroProcessIdleDepthParticle(struct SpecialCutsceneOam* pOam)
             if ((u16)(x + 128) > 256 || (s16)y > 168 || (s16)y < -8)
             {
                 pOam->type = 0;
-                pOam->unk_18_0 = 0;
+                pOam->exists = 0;
             }
         }
         else
         {
             pOam->type = 0;
-            pOam->unk_18_0 = 0;
+            pOam->exists = 0;
         }
     }
 
@@ -2315,16 +2315,16 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     INTRO_DATA.oam[slot].xPosition = xPosition;
     INTRO_DATA.oam[slot].yPosition = yPosition;
     INTRO_DATA.oam[slot].type = type;
-    INTRO_DATA.oam[slot].unk_18_0 = 1;
+    INTRO_DATA.oam[slot].exists = 1;
 
     if (type == 1)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessSpaceViewScrolling;
     }
     else if (type == 2)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSideways;
     }
     else if (type == 3)
@@ -2333,7 +2333,7 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
         INTRO_DATA.oam[slot].priority = 1;
         INTRO_DATA.oam[slot].affineMode = OAM_AFFINE_MODE_DOUBLE_SIZED;
         INTRO_DATA.oam[slot].pOam = sIntroSamusShipEnteringOam;
-        INTRO_DATA.oam[slot].pFunction = IntroProcessSamusSHipEntering;
+        INTRO_DATA.oam[slot].pFunction = IntroProcessSamusShipEntering;
     }
     else if (type == 4)
     {
@@ -2358,7 +2358,7 @@ u8 IntroSpaceViewSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendi
     }
     else if (type == 11)
     {
-        INTRO_DATA.oam[slot].unk_18_0 = 0;
+        INTRO_DATA.oam[slot].exists = 0;
         INTRO_DATA.oam[slot].pOam = sIntroSamusShipBackviewOam;
         INTRO_DATA.oam[slot].pFunction = IntroProcessBslShipSpawning_2;
     }
@@ -2423,7 +2423,7 @@ void IntroSpaceViewVblank(void)
  * @brief 94e80 | 4 | Empty function
  *
  */
-void unk_94e80(void)
+void Intro_Empty(void)
 {
     return;
 }

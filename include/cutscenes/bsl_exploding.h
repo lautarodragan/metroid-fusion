@@ -14,6 +14,6 @@ void CutsceneBslExplodingProcessExplosions(struct CutsceneOam* pOam);
 u8 CutsceneBslExplodingSetupOam(u8 type, s16 xPosition, s16 yPosition, boolu8 descendingSearchOrder);
 u8 CutsceneBslExplodingGetOamInfoByType(u8 type, s16* pXPosition, s16* pYPosition, s16* pScaling);
 void CutsceneBslExplodingVblank(void);
-void unk_9c92c(void);
+void CutsceneBslExplodingLoadingVblank(void);
 
 #endif /* BSL_EXPLODING_H */

@@ -66,7 +66,7 @@ void CutsceneInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_99af8);
+    CallbackSetVBlank(CutsceneLoadingVblank);
 
     WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_BRIGHTNESS_DECREASE_EFFECT);
     gWrittenToBldy = BLDY_MAX_VALUE;
@@ -114,7 +114,7 @@ void CutsceneVblank(void)
  * @brief 99af8 | c | V-blank for the cutscenes while they're loading
  *
  */
-void unk_99af8(void)
+void CutsceneLoadingVblank(void)
 {
     UpdateAudio();
 }
@@ -247,7 +247,7 @@ void CutsceneElevatorMonologueInit(boolu8 reverseScrolling)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9a31c);
+    CallbackSetVBlank(CutsceneElevatorMonologueLoadingVblank);
 
     WRITE_16(REG_DISPCNT, 0);
 
@@ -258,7 +258,7 @@ void CutsceneElevatorMonologueInit(boolu8 reverseScrolling)
 
     LZ77UncompVram(sElevatorMonologueBgGfxPointers[gCurrentCutscene - 1], VRAM_BASE);
     LZ77UncompVram(sElevatorMonologueBgTilemapPointers[gCurrentCutscene - 1], VRAM_BASE + 0xD000);
-    LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
+    LZ77UncompWram(sMonologueTextTilemap, EWRAM_BASE);
     LZ77UncompVram(sCutsceneElevatorMonologueBg1Tilemap, VRAM_BASE + 0xD800);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x800 / sizeof(u32));
 
@@ -300,14 +300,14 @@ boolu32 CutsceneElevatorMonologueProcess(void)
 
     ended = CutsceneMonologueProcessSpecialTextCharacters();
 
-    switch (CUTSCENE_MONOLOGUE_DATA.unk_17)
+    switch (CUTSCENE_MONOLOGUE_DATA.textUpdateState)
     {
         case 0:
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
             break;
 
         case 1:
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
             CutsceneMonologueProcessText();
             break;
     }
@@ -357,14 +357,14 @@ u8 CutsceneElevatorMonologueSetupOam(u8 type, s16 xPosition, s16 yPosition)
     {
         CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 3;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sElevatorMonologueOam[gCurrentCutscene - 1][0];
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = (CutsceneMonologueOamFunc_T)unk_9d09c;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = (CutsceneMonologueOamFunc_T)CutsceneMonologueOam_Empty;
     }
     else if (type == 3)
     {
         CUTSCENE_MONOLOGUE_DATA.oam[slot].objMode = 2;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 3;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sElevatorMonologueOam[gCurrentCutscene - 1][0];
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = (CutsceneMonologueOamFunc_T)unk_9d09c;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = (CutsceneMonologueOamFunc_T)CutsceneMonologueOam_Empty;
     }
     else if (type == 4)
     {
@@ -376,7 +376,7 @@ u8 CutsceneElevatorMonologueSetupOam(u8 type, s16 xPosition, s16 yPosition)
     {
         CUTSCENE_MONOLOGUE_DATA.oam[slot].priority = 3;
         CUTSCENE_MONOLOGUE_DATA.oam[slot].pOam = sElevatorMonologueOam[gCurrentCutscene - 1][1];
-        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = unk_9a1a8;
+        CUTSCENE_MONOLOGUE_DATA.oam[slot].pFunction = CutsceneProcessElevatorScrollingReversed;
     }
 
     return slot;
@@ -417,16 +417,16 @@ void CutsceneProcessElevatorScrolling(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 10)
         {
             pOam->stage = 2;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva++;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition -= 3) & 0xFFFF);
@@ -436,16 +436,16 @@ void CutsceneProcessElevatorScrolling(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 4)
         {
             pOam->stage = 1;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva--;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition -= 3) & 0xFFFF);
@@ -457,7 +457,7 @@ void CutsceneProcessElevatorScrolling(struct CutsceneMonologueOam* pOam)
  *
  * @param pOam Cutscene monologue OAM pointer
  */
-void unk_9a1a8(struct CutsceneMonologueOam* pOam)
+void CutsceneProcessElevatorScrollingReversed(struct CutsceneMonologueOam* pOam)
 {
     pOam->yPosition -= 2;
 
@@ -487,16 +487,16 @@ void unk_9a1a8(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 10)
         {
             pOam->stage = 2;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva++;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition += 3) & 0xFFFF);
@@ -506,16 +506,16 @@ void unk_9a1a8(struct CutsceneMonologueOam* pOam)
         if (gWrittenToBldalpha_Eva == 4)
         {
             pOam->stage = 1;
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
         }
-        else if (pOam->unk_8 > 3)
+        else if (pOam->timer > 3)
         {
-            pOam->unk_8 = 0;
+            pOam->timer = 0;
             gWrittenToBldalpha_Eva--;
         }
         else
         {
-            pOam->unk_8++;
+            pOam->timer++;
         }
 
         WRITE_16(REG_BG1VOFS, (CUTSCENE_MONOLOGUE_DATA.bg1YPosition += 3) & 0xFFFF);
@@ -530,7 +530,7 @@ void CutsceneElevatorMonologueVblank(void)
 {
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
 
-    unk_9cc4c();
+    CutsceneMonologueUpdateTextTilesFade();
 
     WRITE_16(REG_BLDALPHA, C_16_2_8(gWrittenToBldalpha_Evb, gWrittenToBldalpha_Eva));
     WRITE_16(REG_BLDY, gWrittenToBldy);
@@ -540,7 +540,7 @@ void CutsceneElevatorMonologueVblank(void)
  * @brief 9a31c | c | V-blank for the elevator monologue cutscenes while they're loading
  *
  */
-void unk_9a31c(void)
+void CutsceneElevatorMonologueLoadingVblank(void)
 {
     UpdateAudio();
 }
@@ -600,14 +600,14 @@ void CutsceneInternalMonologueInit(u8 unused)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9a63c);
+    CallbackSetVBlank(CutsceneInternalMonologueLoadingVblank);
 
     WRITE_16(REG_DISPCNT, 0);
 
     LZ77UncompVram(sCutsceneMonologueCursorGfx, VRAM_BASE + 0x17C00);
     DMA3_COPY_32(sCutsceneMonologueCursorPal, PALRAM_OBJ + 15 * PAL_ROW_SIZE, PAL_ROW_SIZE / sizeof(u32));
 
-    LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
+    LZ77UncompWram(sMonologueTextTilemap, EWRAM_BASE);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x800 / sizeof(u32));
 
     DMA3_COPY_32(sCutsceneMonologueBgPal, PALRAM_BASE, 16 * PAL_ROW_SIZE / sizeof(u32));
@@ -639,14 +639,14 @@ boolu32 CutsceneInternalMonologueProcess(void)
 
     ended = CutsceneMonologueProcessSpecialTextCharacters();
 
-    switch (CUTSCENE_MONOLOGUE_DATA.unk_17)
+    switch (CUTSCENE_MONOLOGUE_DATA.textUpdateState)
     {
         case 0:
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
             break;
 
         case 1:
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
             CutsceneMonologueProcessText();
             break;
     }
@@ -705,7 +705,7 @@ void CutsceneInternalMonologueVblank(void)
 {
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
 
-    unk_9cc4c();
+    CutsceneMonologueUpdateTextTilesFade();
 
     WRITE_16(REG_BLDY, gWrittenToBldy);
 }
@@ -714,7 +714,7 @@ void CutsceneInternalMonologueVblank(void)
  * @brief 9a63c | c | V-blank for the internal monologue cutscenes while they're loading
  *
  */
-void unk_9a63c(void)
+void CutsceneInternalMonologueLoadingVblank(void)
 {
     UpdateAudio();
 }
@@ -774,7 +774,7 @@ void CutsceneFederationMonologueInit(u8 unused)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9a99c);
+    CallbackSetVBlank(CutsceneFederationMonologueLoadingVblank);
 
     WRITE_16(REG_DISPCNT, 0);
 
@@ -783,11 +783,11 @@ void CutsceneFederationMonologueInit(u8 unused)
 
     LZ77UncompVram(sCutsceneFederationMonologueBg2Gfx, VRAM_BASE);
     LZ77UncompVram(sCutsceneFederationMonologueBg2Tilemap, VRAM_BASE + 0xD000);
-    LZ77UncompWram(sIntroTilemap_662804, EWRAM_BASE);
+    LZ77UncompWram(sMonologueTextTilemap, EWRAM_BASE);
     DMA3_COPY_32(EWRAM_BASE, VRAM_BASE + 0xC800, 0x800 / sizeof(u32));
 
     DMA3_COPY_32(sCutsceneFederationMonologueBgPal, PALRAM_BASE, 12 * PAL_ROW_SIZE / sizeof(u32));
-    DMA3_COPY_32(sIntroPal_663820, PALRAM_BASE + 12 * PAL_ROW_SIZE, 4 * PAL_ROW_SIZE / sizeof(u32));
+    DMA3_COPY_32(sMonologueTextPal, PALRAM_BASE + 12 * PAL_ROW_SIZE, 4 * PAL_ROW_SIZE / sizeof(u32));
     WRITE_16(PALRAM_BASE, 0);
 
     WRITE_16(REG_BG0VOFS, 4);

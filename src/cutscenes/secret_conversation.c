@@ -26,14 +26,14 @@ boolu32 CutsceneFederationMonologueProcess(void)
 
     ended = CutsceneMonologueProcessSpecialTextCharacters();
 
-    switch (CUTSCENE_MONOLOGUE_DATA.unk_17)
+    switch (CUTSCENE_MONOLOGUE_DATA.textUpdateState)
     {
         case 0:
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
             break;
 
         case 1:
-            CUTSCENE_MONOLOGUE_DATA.unk_17 = 100;
+            CUTSCENE_MONOLOGUE_DATA.textUpdateState = 100;
             CutsceneMonologueProcessText();
             break;
     }
@@ -91,7 +91,7 @@ u8 CutsceneFederationMonologueSetupOam(u8 type, u16 xPosition, u16 yPosition)
 void CutsceneFederationMonologueVblank(void)
 {
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
-    unk_9cc4c();
+    CutsceneMonologueUpdateTextTilesFade();
     WRITE_16(REG_BLDY, gWrittenToBldy);
 }
 
@@ -99,7 +99,7 @@ void CutsceneFederationMonologueVblank(void)
  * @brief 9a99c | c | Loading V-blank code for the federation monologue cutscene
  *
  */
-void unk_9a99c(void)
+void CutsceneFederationMonologueLoadingVblank(void)
 {
     UpdateAudio();
 }
@@ -159,7 +159,7 @@ void CutsceneSecretConversationInit(void)
     WRITE_16(REG_IE, READ_16(REG_IE) & ~IF_HBLANK);
     WRITE_16(REG_IME, TRUE);
 
-    CallbackSetVBlank(unk_9ae0c);
+    CallbackSetVBlank(CutsceneSecretConversationLoadingVblank);
 
     WRITE_16(REG_DISPCNT, 0);
 
@@ -258,7 +258,7 @@ u8 CutsceneSecretConversationSetupOam(u8 type, u16 xPosition, u16 yPosition)
     if (type == 1)
     {
         CUTSCENE_DATA.oam[i].pOam = sCutsceneSecretConversationOam_6793b0;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9db70;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneOam_Empty;
     }
     else if (type == 2)
     {
@@ -268,7 +268,7 @@ u8 CutsceneSecretConversationSetupOam(u8 type, u16 xPosition, u16 yPosition)
     else if (type == 3)
     {
         CUTSCENE_DATA.oam[i].pOam = sCutsceneSecretConversationOam_6793a0;
-        CUTSCENE_DATA.oam[i].pFunction = unk_9db70;
+        CUTSCENE_DATA.oam[i].pFunction = CutsceneOam_Empty;
     }
     else if (type == 4)
     {
@@ -344,8 +344,8 @@ void CutsceneSecretConversationVblank(void)
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / sizeof(u32));
     WRITE_16(REG_BLDY, gWrittenToBldy);
 
-    CUTSCENE_DATA.unk_11++;
-    switch (CUTSCENE_DATA.unk_11)
+    CUTSCENE_DATA.animatedPaletteTimer++;
+    switch (CUTSCENE_DATA.animatedPaletteTimer)
     {
         case 7:
             DMA3_COPY_32(sCutsceneSecretConversationAnimatedPal1, PALRAM_BASE + 0x1E0, 8);
@@ -361,7 +361,7 @@ void CutsceneSecretConversationVblank(void)
 
         case 28:
             DMA3_COPY_32(sCutsceneSecretConversationAnimatedPal0, PALRAM_BASE + 0x1E0, 8);
-            CUTSCENE_DATA.unk_11 = 0;
+            CUTSCENE_DATA.animatedPaletteTimer = 0;
             break;
     }
 }
@@ -370,7 +370,7 @@ void CutsceneSecretConversationVblank(void)
  * @brief 9ae0c | c | Loading V-blank code for the secret conversation cutscene
  *
  */
-void unk_9ae0c(void)
+void CutsceneSecretConversationLoadingVblank(void)
 {
     UpdateAudio();
 }

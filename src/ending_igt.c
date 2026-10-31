@@ -99,10 +99,10 @@ void EndingDrawIgtAndCompletionPercentage(void)
  */
 void EndingImageUpdateLettersSpawnDelay(u32 slot)
 {
-    if (ENDING_DATA.unk_124[slot] != 0 && ENDING_DATA.unk_142[slot] != 0)
+    if (ENDING_DATA.letterStates[slot] != 0 && ENDING_DATA.letterSpawnDelays[slot] != 0)
     {
-        ENDING_DATA.unk_142[slot]--;
-        if (ENDING_DATA.unk_142[slot] == 0)
-            ENDING_DATA.unk_124[slot]++;
+        ENDING_DATA.letterSpawnDelays[slot]--;
+        if (ENDING_DATA.letterSpawnDelays[slot] == 0)
+            ENDING_DATA.letterStates[slot]++;
     }
 }
