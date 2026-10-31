@@ -15,6 +15,11 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define YAMEBA_SIZE work0 // 0 (small, can absorb X) to 3, increased when spawning from X
+#define YAMEBA_X_MOVEMENT_IDX work3 // Idle
+#define YAMEBA_Y_MOVEMENT_IDX work4 // Idle
+#define YAMEBA_MOVEMENT_STAGE workX // Chasing, incremented (mod 4) when changing X direction, offsets the target
+
 /**
  * @brief 20578 | a4 | Handles a yameba turning into an X
  * 
@@ -24,7 +29,7 @@ void YamebaTurningIntoX(void)
     if (gCurrentSprite.status & SPRITE_STATUS_ROTATION_SCALING_SINGLE)
         gCurrentSprite.status &= ~SPRITE_STATUS_ROTATION_SCALING_SINGLE;
 
-    switch (gCurrentSprite.work0)
+    switch (gCurrentSprite.YAMEBA_SIZE)
     {
         case 2:
             SpriteSpawnNewXParasite(PSPRITE_X_PARASITE, gCurrentSprite.spriteId, 0, gCurrentSprite.primarySpriteRamSlot,
@@ -52,21 +57,21 @@ void YamebaInit(void)
     {
         properties = gCurrentSprite.spritesetSlotAndProperties - 0x20;
         if (properties < 0x30)
-            gCurrentSprite.work0 = 1;
+            gCurrentSprite.YAMEBA_SIZE = 1;
         else
-            gCurrentSprite.work0 = 0;
+            gCurrentSprite.YAMEBA_SIZE = 0;
 
         gCurrentSprite.pose = SPRITE_POSE_IDLE_INIT;
         gCurrentSprite.yPosition -= HALF_BLOCK_SIZE;
     }
     else
     {
-        gCurrentSprite.work0++;
+        gCurrentSprite.YAMEBA_SIZE++;
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
         gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
     }
 
-    if (gCurrentSprite.work0 == 0)
+    if (gCurrentSprite.YAMEBA_SIZE == 0)
     {
         gCurrentSprite.status |= SPRITE_STATUS_IGNORE_PROJECTILES;
         gCurrentSprite.drawOrder = 12;
@@ -83,7 +88,7 @@ void YamebaInit(void)
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
     gCurrentSprite.rotation = 0;
 
-    switch (gCurrentSprite.work0)
+    switch (gCurrentSprite.YAMEBA_SIZE)
     {
         case 0:
             gCurrentSprite.properties |= SP_CAN_ABSORB_X;
@@ -172,12 +177,12 @@ void YamebaIdleInit(void)
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
 
-    if (gCurrentSprite.work0 == 0)
+    if (gCurrentSprite.YAMEBA_SIZE == 0)
     {
         rng = gSpriteRandomNumber * 4;
 
-        gCurrentSprite.work3 = rng;
-        gCurrentSprite.work4 = rng;
+        gCurrentSprite.YAMEBA_X_MOVEMENT_IDX = rng;
+        gCurrentSprite.YAMEBA_Y_MOVEMENT_IDX = rng;
     }
     else
     {
@@ -195,9 +200,9 @@ void YamebaIdle(void)
     s16 yMovement;
     s16 xMovement;
 
-    if (gCurrentSprite.work0 == 0)
+    if (gCurrentSprite.YAMEBA_SIZE == 0)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.YAMEBA_Y_MOVEMENT_IDX;
         yMovement = sYamebaIdleYMovement[offset];
 
         if (yMovement == SHORT_MAX)
@@ -207,10 +212,10 @@ void YamebaIdle(void)
         }
 
         offset++;
-        gCurrentSprite.work4 = offset;
+        gCurrentSprite.YAMEBA_Y_MOVEMENT_IDX = offset;
         gCurrentSprite.yPosition += yMovement;
 
-        offset = gCurrentSprite.work3;
+        offset = gCurrentSprite.YAMEBA_X_MOVEMENT_IDX;
         xMovement = sYamebaIdleXMovement[offset];
 
         if (xMovement == SHORT_MAX)
@@ -220,7 +225,7 @@ void YamebaIdle(void)
         }
 
         offset++;
-        gCurrentSprite.work3 = offset;
+        gCurrentSprite.YAMEBA_X_MOVEMENT_IDX = offset;
         gCurrentSprite.xPosition += xMovement;
     }
     else
@@ -236,12 +241,12 @@ void YamebaIdle(void)
  */
 void YamebaChasingSamusInit(void)
 {
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
 
-    gCurrentSprite.workX = 0;
+    gCurrentSprite.YAMEBA_MOVEMENT_STAGE = 0;
     gCurrentSprite.pose = 0x18;
 
     SpriteUtilMakeSpriteFaceSamusDirection();
@@ -281,7 +286,7 @@ void YamebaChasingSamus(void)
         if (gSpriteData[i].spriteId != PSPRITE_YAMEBA)
             continue;
 
-        if (gSpriteData[i].work0 == 0)
+        if (gSpriteData[i].YAMEBA_SIZE == 0)
             continue;
 
         otherY = gSpriteData[i].yPosition;
@@ -320,14 +325,14 @@ void YamebaChasingSamus(void)
 
     if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_COLLIDING)
     {
-        gCurrentSprite.work2 = 0;
-        gCurrentSprite.work3 = 1;
-        gCurrentSprite.work1 = 0;
-        gCurrentSprite.work4 = 1;
+        gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+        gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+        gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
         return;
     }
 
-    if (gCurrentSprite.work0 == 3)
+    if (gCurrentSprite.YAMEBA_SIZE == 3)
     {
         otherY = gSamusData.yPosition - (BLOCK_SIZE * 2 + EIGHTH_BLOCK_SIZE);
         otherX = gSamusData.xPosition - BLOCK_SIZE;
@@ -342,126 +347,126 @@ void YamebaChasingSamus(void)
 
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > otherX - PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work3 < velocityCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < velocityCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
-                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.work3, 4);
+                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.work2, 4);
+                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
-                gCurrentSprite.workX++;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+                gCurrentSprite.YAMEBA_MOVEMENT_STAGE++;
 
-                if (gCurrentSprite.workX > 3)
-                    gCurrentSprite.workX = 0;
+                if (gCurrentSprite.YAMEBA_MOVEMENT_STAGE > 3)
+                    gCurrentSprite.YAMEBA_MOVEMENT_STAGE = 0;
             }
         }
     }
     else
     {
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < otherX + PIXEL_SIZE)
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work3 < velocityCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < velocityCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
-                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.work3, 4);
+                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.work2, 4);
+                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
-                gCurrentSprite.workX++;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+                gCurrentSprite.YAMEBA_MOVEMENT_STAGE++;
 
-                if (gCurrentSprite.workX > 3)
-                    gCurrentSprite.workX = 0;
+                if (gCurrentSprite.YAMEBA_MOVEMENT_STAGE > 3)
+                    gCurrentSprite.YAMEBA_MOVEMENT_STAGE = 0;
             }
         }
     }
 
     if (gCurrentSprite.status & SPRITE_STATUS_SAMUS_DETECTED)
     {
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > otherY - PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work4 < velocityCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < velocityCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
-                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.work4, 4);
+                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.work1, 4);
+                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_SAMUS_DETECTED;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
     else
     {
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < otherY + PIXEL_SIZE)
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
-                if (gCurrentSprite.work4 < velocityCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < velocityCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
-                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.work4, 4);
+                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.work1, 4);
+                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_SAMUS_DETECTED;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
