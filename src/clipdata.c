@@ -442,7 +442,7 @@ u32 ClipdataConvertToCollision(struct CollisionData* pCollision)
             result = tmp - result * 6;
             clipdata = FALSE;
 
-            if (gHatchData[result].unk_1_0 == 2)
+            if (gHatchData[result].state == 2)
                 clipdata = TRUE;
         }
         else

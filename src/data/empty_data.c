@@ -31,7 +31,7 @@ const struct HatchData sHatchData_Empty = {
     .lockType = HATCH_LOCK_GRAY,
     .state = 0,
     .locked = FALSE,
-    .unk_1_3 = 0,
+    .animationTimer = 0,
     .xPosition = 0,
     .yPosition = 0
 };

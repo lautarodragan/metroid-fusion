@@ -563,18 +563,18 @@ void BgClipUpdateHatches(void)
             else
                 SoundPlay(SOUND_FB);
 
-            FAKE_MATCH_BLOCK(gHatchData[i].unk_1_3 = 0);
+            FAKE_MATCH_BLOCK(gHatchData[i].animationTimer = 0);
             gHatchData[i].currentAnimation++;
         }
         else
         {
-            if (gHatchData[i].unk_1_3 < 2)
+            if (gHatchData[i].animationTimer < 2)
             {
-                gHatchData[i].unk_1_3++;
+                gHatchData[i].animationTimer++;
             }
             else
             {
-                gHatchData[i].unk_1_3 = 0;
+                gHatchData[i].animationTimer = 0;
                 BgClipUpdateHatchAnimation(i);
 
                 gHatchData[i].currentAnimation++;

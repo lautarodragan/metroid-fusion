@@ -153,8 +153,8 @@ void SetupSoundTransfer(void)
 {
     u32 buffer;
     u16 samplesPerFrame;
-    u16 unk_1;
-    u32 unk_2;
+    u16 blocksPerFrame;
+    u32 framesPerBuffer;
 
     WRITE_32(REG_DMA1_CNT, C_32_2_16((DMA_ENABLE | DMA_32BIT | DMA_DEST_FIXED), sizeof(u32)));
     WRITE_32(REG_DMA2_CNT, C_32_2_16((DMA_ENABLE | DMA_32BIT | DMA_DEST_FIXED), sizeof(u32)));
@@ -169,13 +169,14 @@ void SetupSoundTransfer(void)
     samplesPerFrame = sPcmSamplesPerVBlankTable[gMusicInfo.freqIndex];
     gMusicInfo.samplesPerFrame = samplesPerFrame;
 
-    unk_1 = samplesPerFrame / 16;
-    gMusicInfo.blocksPerFrame = unk_1; // samplesPerFrame / 16
-    unk_2 = 96 / gMusicInfo.blocksPerFrame;
-    gMusicInfo.framesPerBuffer = unk_2;  // PCM_DMA_BUF_SIZE / samplesPerFrame, number of frames to process sample?
-    gMusicInfo.blocksPerBuffer = unk_2 * unk_1;  // 96
+    blocksPerFrame = samplesPerFrame / 16;
+    gMusicInfo.blocksPerFrame = blocksPerFrame;
+    framesPerBuffer = 96 / gMusicInfo.blocksPerFrame;
+    gMusicInfo.framesPerBuffer = framesPerBuffer;
+    gMusicInfo.blocksPerBuffer = framesPerBuffer * blocksPerFrame; // 96
     gMusicInfo.dmaBlock = gMusicInfo.blocksPerBuffer - 1; // 95
-    gMusicInfo.mixBlock = unk_1 * 2; // (samplesPerFrame / 16) * 2
+    // Mix two frames ahead of the DMA
+    gMusicInfo.mixBlock = blocksPerFrame * 2;
 
     // First half of raw sound data goes into FIFO A, second half into FIF0 B
     WRITE_32(REG_DMA1_SRC, (u32)&gMusicInfo.soundRawData[0]);

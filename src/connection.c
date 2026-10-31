@@ -85,7 +85,7 @@ u32 ConnectionCheckEnterDoor(u16 yPosition, u16 xPosition)
 
             for (i = 0; i < ARRAY_SIZE(gHatchData); i++)
             {
-                gHatchData[i].unk_1_3 = 0;
+                gHatchData[i].animationTimer = 0;
 
                 if (!gHatchData[i].exists)
                     continue;
