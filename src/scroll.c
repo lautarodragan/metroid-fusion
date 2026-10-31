@@ -626,7 +626,7 @@ void ScrollProcessGeneral(void)
 
     if (gDisableScrolling == 0)
     {
-        if (gUnk_3000064 != 0 && gSubGameMode1 == 6)
+        if (gNoClipCameraUnlocked != 0 && gSubGameMode1 == SUB_GAME_MODE_NO_CLIP)
             ScrollNoClipUnlockedCamera(&coords);
         else if (gCurrentRoomEntry.scrollsFlag == 3)
             ScrollProcess(&coords);
@@ -954,7 +954,7 @@ void ScrollUpdateEffectAndHazePosition(struct RawCoordsX* coords)
     s32 position;
     s32 waterOffset;
 
-    gWaterMovement.unk_1++;
+    gWaterMovement.loopTimer++;
     bg0Set = FALSE;
 
     if (gCurrentRoomEntry.bg0Prop & BG_PROP_RLE_COMPRESSED)
@@ -971,19 +971,19 @@ void ScrollUpdateEffectAndHazePosition(struct RawCoordsX* coords)
         if (gCurrentRoomEntry.effectY != USHORT_MAX)
         {
             gBg0XPosition = gBg1XPosition;
-            position = gWaterMovement.unk_8 + gCurrentRoomEntry.effectY;
+            position = gWaterMovement.drainOffset + gCurrentRoomEntry.effectY;
             position = DIV_SHIFT(position, 4) - DIV_SHIFT(gBg1YPosition, 4);
             waterOffset = 0;
 
             if (gWaterMovement.moving == 1)
             {
-                if (gWaterMovement.unk_1 >= sWaterLoopCounterArray[gWaterMovement.stage][1] && gPreventMovementTimer == 0)
+                if (gWaterMovement.loopTimer >= sWaterLoopCounterArray[gWaterMovement.stage][1] && gPreventMovementTimer == 0)
                 {
                     gWaterMovement.stage++;
                     if (gWaterMovement.stage > 7)
                         gWaterMovement.stage = 0;
 
-                    gWaterMovement.unk_1 = 0;
+                    gWaterMovement.loopTimer = 0;
                 }
 
                 waterOffset = sWaterLoopCounterArray[gWaterMovement.stage][0];
@@ -994,18 +994,18 @@ void ScrollUpdateEffectAndHazePosition(struct RawCoordsX* coords)
 
             if (position < 0)
             {
-                if ((gIoRegisters.unk_10 & 0xC000) && (gIoRegisters.bg0Cnt & 0xC000))
+                if ((gIoRegisters.currentBg0Cnt & 0xC000) && (gIoRegisters.bg0Cnt & 0xC000))
                 {
-                    gIoRegisters.unk_10 &= ~0xC000;
-                    WRITE_16(REG_BG0CNT, gIoRegisters.unk_10);
+                    gIoRegisters.currentBg0Cnt &= ~0xC000;
+                    WRITE_16(REG_BG0CNT, gIoRegisters.currentBg0Cnt);
                 }
             }
             else
             {
-                if (!(gIoRegisters.unk_10 & 0xC000) && (gIoRegisters.bg0Cnt & 0xC000))
+                if (!(gIoRegisters.currentBg0Cnt & 0xC000) && (gIoRegisters.bg0Cnt & 0xC000))
                 {
-                    gIoRegisters.unk_10 |= (gIoRegisters.bg0Cnt & 0xC000);
-                    WRITE_16(REG_BG0CNT, READ_16(REG_BG0CNT) | gIoRegisters.unk_10);
+                    gIoRegisters.currentBg0Cnt |= (gIoRegisters.bg0Cnt & 0xC000);
+                    WRITE_16(REG_BG0CNT, READ_16(REG_BG0CNT) | gIoRegisters.currentBg0Cnt);
                 }
             }
 
@@ -1081,7 +1081,7 @@ void ScrollUpdateEffectAndHazePosition(struct RawCoordsX* coords)
     }
     else
     {
-        position = gWaterMovement.yOffset + gCurrentRoomEntry.effectY + gWaterMovement.unk_8;
+        position = gWaterMovement.yOffset + gCurrentRoomEntry.effectY + gWaterMovement.drainOffset;
         if (position < 0)
             position = 0;
     
@@ -1352,143 +1352,143 @@ void ScrollNightmareShadow(void)
     s32 tmp;
     s32 xOffset;
 
-    if (gUnk_3004e30.unk_0 > 4 && gScreenShakeX.timer < 8)
+    if (gBg0ObjectMovement.stage > 4 && gScreenShakeX.timer < 8)
         ScreenShakeStartHorizontal(CONVERT_SECONDS(.5f), 0);
 
-    gUnk_3004e30.unk_6++;
+    gBg0ObjectMovement.timer++;
 
-    switch (gUnk_3004e30.unk_0)
+    switch (gBg0ObjectMovement.stage)
     {
         case 0:
             gBg0XPosition = sNightmareShadowPositions[1][0];
             gBg0YPosition = sNightmareShadowPositions[1][1];
-            gUnk_3004e30.unk_4 = 0;
-            gUnk_3004e30.unk_3 = 0;
-            gUnk_3004e30.unk_1 = 0;
-            gUnk_3004e30.unk_2 = 0;
-            gUnk_3004e30.unk_6 = 0;
+            gBg0ObjectMovement.positionIndex = 0;
+            gBg0ObjectMovement.passCount = 0;
+            gBg0ObjectMovement.previousPass = 0;
+            gBg0ObjectMovement.keepPassing = 0;
+            gBg0ObjectMovement.timer = 0;
 
             if (gEventCounter == EVENT_ICE_MISSILE_DATA_DOWNLOADED)
             {
-                gUnk_3004e30.unk_0 = 1;
-                gUnk_3004e30.unk_6 = CONVERT_SECONDS(5);
+                gBg0ObjectMovement.stage = 1;
+                gBg0ObjectMovement.timer = CONVERT_SECONDS(5);
             }
             else if (gEventCounter > EVENT_ICE_MISSILE_DATA_DOWNLOADED)
             {
-                gUnk_3004e30.unk_2 = 1;
-                gUnk_3004e30.unk_0 = 2;
-                gUnk_3004e30.unk_6 = CONVERT_SECONDS(4);
+                gBg0ObjectMovement.keepPassing = 1;
+                gBg0ObjectMovement.stage = 2;
+                gBg0ObjectMovement.timer = CONVERT_SECONDS(4);
             }
             else
             {
-                gUnk_3004e30.unk_0 = 4;
+                gBg0ObjectMovement.stage = 4;
             }
             break;
         
         case 1:
-            if (gUnk_3004e30.unk_3 > 1)
+            if (gBg0ObjectMovement.passCount > 1)
             {
-                gUnk_3004e30.unk_0 = 4;
+                gBg0ObjectMovement.stage = 4;
                 gBg0XPosition = sNightmareShadowPositions[1][0];
                 gBg0YPosition = sNightmareShadowPositions[1][1];
             }
-            else if (gUnk_3004e30.unk_6 > CONVERT_SECONDS(6))
+            else if (gBg0ObjectMovement.timer > CONVERT_SECONDS(6))
             {
-                gUnk_3004e30.unk_0 = 3;
-                gUnk_3004e30.unk_6 = 0;
-                gUnk_3004e30.unk_5 = 0;
-                gUnk_3004e30.unk_3++;
+                gBg0ObjectMovement.stage = 3;
+                gBg0ObjectMovement.timer = 0;
+                gBg0ObjectMovement.yVelocityOffset = 0;
+                gBg0ObjectMovement.passCount++;
             }
             break;
         
         case 2:
-            if (gUnk_3004e30.unk_6 > CONVERT_SECONDS(6))
+            if (gBg0ObjectMovement.timer > CONVERT_SECONDS(6))
             {
-                gUnk_3004e30.unk_0 = 3;
-                gUnk_3004e30.unk_6 = 0;
-                gUnk_3004e30.unk_5 = 0;
-                gUnk_3004e30.unk_3++;
+                gBg0ObjectMovement.stage = 3;
+                gBg0ObjectMovement.timer = 0;
+                gBg0ObjectMovement.yVelocityOffset = 0;
+                gBg0ObjectMovement.passCount++;
             }
             break;
         
         case 3:
-            if (gUnk_3004e30.unk_1 == 5)
+            if (gBg0ObjectMovement.previousPass == 5)
             {
-                gUnk_3004e30.unk_0 = 6;
+                gBg0ObjectMovement.stage = 6;
             }
-            else if (gUnk_3004e30.unk_1 == 6)
+            else if (gBg0ObjectMovement.previousPass == 6)
             {
-                gUnk_3004e30.unk_0 = 5;
+                gBg0ObjectMovement.stage = 5;
             }
             else
             {
                 if (gSamusData.direction == KEY_RIGHT)
-                    gUnk_3004e30.unk_0 = 5;
+                    gBg0ObjectMovement.stage = 5;
                 else
-                    gUnk_3004e30.unk_0 = 6;
+                    gBg0ObjectMovement.stage = 6;
             }
 
             tmp = MOD_AND(gFrameCounter8Bit + (gFrameCounter16Bit >> 3), ARRAY_SIZE(sNightmareShadowYVelocityOffsets));
-            gUnk_3004e30.unk_5 = sNightmareShadowYVelocityOffsets[tmp];
+            gBg0ObjectMovement.yVelocityOffset = sNightmareShadowYVelocityOffsets[tmp];
 
-            if (gUnk_3004e30.unk_0 == 5)
-                gUnk_3004e30.unk_4 = 1;
-            else if (gUnk_3004e30.unk_0 == 6)
-                gUnk_3004e30.unk_4 = 2;
+            if (gBg0ObjectMovement.stage == 5)
+                gBg0ObjectMovement.positionIndex = 1;
+            else if (gBg0ObjectMovement.stage == 6)
+                gBg0ObjectMovement.positionIndex = 2;
             else
-                gUnk_3004e30.unk_4 = 0;
+                gBg0ObjectMovement.positionIndex = 0;
 
-            gBg0XPosition = sNightmareShadowPositions[gUnk_3004e30.unk_4][0];
-            gBg0YPosition = sNightmareShadowPositions[gUnk_3004e30.unk_4][1];
+            gBg0XPosition = sNightmareShadowPositions[gBg0ObjectMovement.positionIndex][0];
+            gBg0YPosition = sNightmareShadowPositions[gBg0ObjectMovement.positionIndex][1];
             SoundPlay(SOUND_NIGHTMARE_SHADOW_MOVING);
-            gUnk_3004e30.unk_6 = 0;
+            gBg0ObjectMovement.timer = 0;
             break;
         
         case 5:
-            xOffset = gUnk_3004e30.unk_6;
+            xOffset = gBg0ObjectMovement.timer;
             if (xOffset > BLOCK_TO_SUB_PIXEL(.625f))
                 xOffset = BLOCK_TO_SUB_PIXEL(.625f);
 
             gBg0XPosition -= xOffset;
-            tmp = (((sNightmareShadowPositions[gUnk_3004e30.unk_4][0] - gBg0XPosition) >> 8) + 2) * 3;
-            gBg0YPosition += gUnk_3004e30.unk_5 + tmp;
+            tmp = (((sNightmareShadowPositions[gBg0ObjectMovement.positionIndex][0] - gBg0XPosition) >> 8) + 2) * 3;
+            gBg0YPosition += gBg0ObjectMovement.yVelocityOffset + tmp;
 
             if (gBg0XPosition < BLOCK_TO_SUB_PIXEL(16))
             {
-                if (gUnk_3004e30.unk_1 != 0)
-                    gUnk_3004e30.unk_1 = 0;
+                if (gBg0ObjectMovement.previousPass != 0)
+                    gBg0ObjectMovement.previousPass = 0;
                 else
-                    gUnk_3004e30.unk_1 = gUnk_3004e30.unk_0;
+                    gBg0ObjectMovement.previousPass = gBg0ObjectMovement.stage;
 
-                gUnk_3004e30.unk_6 = 0;
-                gUnk_3004e30.unk_0 = gUnk_3004e30.unk_2 != 0 ? 2 : 1;
+                gBg0ObjectMovement.timer = 0;
+                gBg0ObjectMovement.stage = gBg0ObjectMovement.keepPassing != 0 ? 2 : 1;
             }
             break;
 
         case 6:
-            xOffset = gUnk_3004e30.unk_6;
+            xOffset = gBg0ObjectMovement.timer;
             if (xOffset > BLOCK_TO_SUB_PIXEL(.625f))
                 xOffset = BLOCK_TO_SUB_PIXEL(.625f);
 
             gBg0XPosition += xOffset;
-            tmp = (((gBg0XPosition - sNightmareShadowPositions[gUnk_3004e30.unk_4][0]) >> 8) + 2) * 3;
-            gBg0YPosition += gUnk_3004e30.unk_5 + tmp;
+            tmp = (((gBg0XPosition - sNightmareShadowPositions[gBg0ObjectMovement.positionIndex][0]) >> 8) + 2) * 3;
+            gBg0YPosition += gBg0ObjectMovement.yVelocityOffset + tmp;
 
             if (gBg0XPosition > BLOCK_TO_SUB_PIXEL(41))
             {
-                if (gUnk_3004e30.unk_1 != 0)
-                    gUnk_3004e30.unk_1 = 0;
+                if (gBg0ObjectMovement.previousPass != 0)
+                    gBg0ObjectMovement.previousPass = 0;
                 else
-                    gUnk_3004e30.unk_1 = gUnk_3004e30.unk_0;
+                    gBg0ObjectMovement.previousPass = gBg0ObjectMovement.stage;
 
-                gUnk_3004e30.unk_6 = 0;
-                gUnk_3004e30.unk_0 = gUnk_3004e30.unk_2 != 0 ? 2 : 1;
+                gBg0ObjectMovement.timer = 0;
+                gBg0ObjectMovement.stage = gBg0ObjectMovement.keepPassing != 0 ? 2 : 1;
             }
             break;
 
         case 7:
             if (gChangedInput & KEY_SELECT)
-                gUnk_3004e30.unk_0 = gUnk_3004e30.unk_2 != 0 ? 2 : 1;
+                gBg0ObjectMovement.stage = gBg0ObjectMovement.keepPassing != 0 ? 2 : 1;
             break;
     }
 }
@@ -1501,17 +1501,17 @@ void ScrollSr388Planet(void)
 {
     s32 xOffset;
 
-    gUnk_3004e30.unk_6++;
+    gBg0ObjectMovement.timer++;
 
-    switch (gUnk_3004e30.unk_0)
+    switch (gBg0ObjectMovement.stage)
     {
         case 0:
             gEffectYPosition = 0;
-            gUnk_3004e30.unk_4 = 0;
-            gUnk_3004e30.unk_2 = 0;
-            gUnk_3004e30.unk_6 = 0;
-            gUnk_3004e30.unk_1 = 0;
-            gUnk_3004e30.unk_0 = 1;
+            gBg0ObjectMovement.positionIndex = 0;
+            gBg0ObjectMovement.keepPassing = 0;
+            gBg0ObjectMovement.timer = 0;
+            gBg0ObjectMovement.previousPass = 0;
+            gBg0ObjectMovement.stage = 1;
 
             gBg0YPosition = BLOCK_TO_SUB_PIXEL(2);
             gBg0XPosition = BLOCK_TO_SUB_PIXEL(28);
@@ -1520,8 +1520,8 @@ void ScrollSr388Planet(void)
         case 1:
             if (gDisableDrawingSamusAndScrollingFlag)
             {
-                gUnk_3004e30.unk_0 = 2;
-                gUnk_3004e30.unk_6 = 0;
+                gBg0ObjectMovement.stage = 2;
+                gBg0ObjectMovement.timer = 0;
             }
             break;
 
@@ -1535,7 +1535,7 @@ void ScrollSr388Planet(void)
             gBg0XPosition -= xOffset;
 
             if (gBg0XPosition <= BLOCK_TO_SUB_PIXEL(20))
-                gUnk_3004e30.unk_0 = 3;
+                gBg0ObjectMovement.stage = 3;
             break;
     }
 }

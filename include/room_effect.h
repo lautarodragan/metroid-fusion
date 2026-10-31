@@ -5,7 +5,7 @@
 
 void RoomEffectSetTransparency(void);
 u32 RoomEffectGetBgSizeFlag(u8 bgProp);
-u32 unk_62cb4(void);
+u32 RoomEffectGetBg0DispcntMask(void);
 
 bools32 RoomEffectCheckRoomIsDim(void);
 bools32 RoomEffectCheckMainElevatorIsActive(void);

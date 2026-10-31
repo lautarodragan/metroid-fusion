@@ -5,9 +5,9 @@ MEMORY {
 }
 
 gNumMusicPlayers = 8;
-gUnk_Audio0x64 = 0x64;
-gUnk_Audio0x193F600 = 0x193F600;
-gUnk_Audio0x50 = 0x50;
+gAudioMaxScanlines = 0x64;
+gAudioInitSoundAction = 0x193F600;
+gAudioDecreasedMusicVolume = 0x50;
 
 SECTIONS {
     ewram (NOLOAD) : ALIGN(4) {
@@ -63,7 +63,7 @@ SECTIONS {
         . = 0x00000043; gCurrentHazeValue = .;
         . = 0x00000044; gEffectYPosition = .;
         . = 0x00000046; gDoorUnlockTimer = .;
-        . = 0x00000047; gUnk_3000047 = .;
+        . = 0x00000047; gTimedHatchLockState = .;
         . = 0x00000048; gCurrentNavigationRoom = .;
         . = 0x00000049; gLastElevatorUsed = .;
         . = 0x0000004a; gCurrentEventBasedEffect = .;
@@ -72,14 +72,14 @@ SECTIONS {
         . = 0x0000004d; gFlashingSectorNumber = .;
         . = 0x0000004e; gScreenShakeXOffset = .;
         . = 0x0000004f; gScreenShakeYOffset = .;
-        . = 0x00000050; gUnk_3000050 = .;
+        . = 0x00000050; gScreenShakeExemptBgs = .;
         . = 0x00000052; gSpritesetNumber = .;
         . = 0x00000053; gCurrentClipdataAffectingAction = .;
         . = 0x00000054; gSpritesetEntryUsed = .;
         . = 0x00000058; gUseAlternateAnimatedTilesetFlags = .;
         . = 0x00000060; gSoundEventCounter = .;
         . = 0x00000062; gPreviousSoundEvent = .;
-        . = 0x00000064; gUnk_3000064 = .;
+        . = 0x00000064; gNoClipCameraUnlocked = .;
         . = 0x00000068; gHazeInfo = .;
         . = 0x00000070; gIoRegisters = .;
         . = 0x00000084; gBackgroundsData = .;
@@ -161,14 +161,14 @@ SECTIONS {
         . = 0x00000b8d; gMostRecentSaveFile = .;
         . = 0x00000b8e; gSramTestFailed = .;
         . = 0x00000b8f; gUnk_3000b8f = .;
-        . = 0x00000b90; gUnk_3000b90 = .;
+        . = 0x00000b90; gHasSaved = .;
         . = 0x00000b94; gSaveFilesInfo = .;
         . = 0x00000bd0; gBootDebugOptions = .;
         . = 0x00000bdc; gCurrentCutscene = .;
         . = 0x00000bde; gMainGameMode = .;
         . = 0x00000be0; gSubGameMode1 = .;
         . = 0x00000be2; gSubGameMode2 = .;
-        . = 0x00000be3; gUnk_3000be3 = .;
+        . = 0x00000be3; gGameplayInitialized = .;
         . = 0x00000be4; gClearedEveryFrame = .;
         . = 0x00000be5; gFrameCounter8Bit = .;
         . = 0x00000be6; gVBlankRequestFlag = .;
@@ -225,7 +225,7 @@ SECTIONS {
         . = 0x000019cc; gVCountCallback = .;
         . = 0x000019d0; gMusicInfo = .;
 
-        . = 0x0000343c; gUnk_300343c = .;
+        . = 0x0000343c; gPsgSoundsByChannel = .;
         . = 0x00003464; gPsgSounds = .;
         . = 0x00003504; gSoundChannelBackup = .;
         . = 0x00003654; gSoundCodeAPointer = .;
@@ -268,16 +268,16 @@ SECTIONS {
         . = 0x00004e18; gBg3Movement = .;
         . = 0x00004e20; gBg0Movement = .;
         . = 0x00004e28; gTilesetTransparentColor = .;
-        . = 0x00004e30; gUnk_3004e30 = .;
+        . = 0x00004e30; gBg0ObjectMovement = .;
         . = 0x00004e38; gSamusDoorPositionOffset = .;
-        . = 0x00004e3a; gUnk_3004e3a = .;
+        . = 0x00004e3a; gStopAnimatedPaletteAfterCycle = .;
         . = 0x00004e3b; gLockedHatches = .;
         . = 0x00004e3c; gDestinationRoom = .;
         . = 0x00004e3e; gBg3CntDuringDoorTransition = .;
         . = 0x00004e40; gBg1CntDuringDoorTransition = .;
-        . = 0x00004e42; gUnk_3004e42 = .;
-        . = 0x00004e44; gUnk_3004e44 = .;
-        . = 0x00004e48; gUnk_3004e48 = .;
+        . = 0x00004e42; gNightmareGravityEffect = .;
+        . = 0x00004e44; gTransparencyPulse = .;
+        . = 0x00004e48; gBlockReveal = .;
         . = 0x00004e4c; gWaterMovement = .;
         . = 0x00004e58; gColorFading = .;
         . = 0x00004e60; gBrokenReformBlocks = .;
@@ -299,8 +299,8 @@ SECTIONS {
         . = 0x000053dc; gTankAnimations = .;
         . = 0x000053e8; gCurrentRoomScrollDataPointer = .;
         . = 0x000053ec; gHazeLoops = .;
-        . = 0x000053f8; gUnk_30053f8 = .;
-        . = 0x000053f9; gUnk_30053f9 = .;
+        . = 0x000053f8; gHazeWaveOffset = .;
+        . = 0x000053f9; gHazeWaveOffsetOutside = .;
         . = 0x000053fc; gHazeProcessCodePointer = .;
         . = 0x00005400; gMaintainedInput = .;
         . = 0x00005404; gSpecialCutsceneRandomSeed = .;

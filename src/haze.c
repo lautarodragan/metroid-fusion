@@ -107,11 +107,11 @@ u8 HazeGetAtmosphericStabilizerValue(void)
     s32 i;
     u8 hazeValue;
 
-    for (i = 0; i < ARRAY_SIZE(sHaze_3e3758[0]); i++)
+    for (i = 0; i < ARRAY_SIZE(sHaze_AtmosphericStabilizerValues[0]); i++)
     {
-        hazeValue = sHaze_3e3758[i][1];
+        hazeValue = sHaze_AtmosphericStabilizerValues[i][1];
         
-        if (gEventCounter <= sHaze_3e3758[i][0])
+        if (gEventCounter <= sHaze_AtmosphericStabilizerValues[i][0])
             break;
     }
     
@@ -130,8 +130,8 @@ void HazeTransferAndDeactivate(void)
     {
         DMA_SET(0, gHazeValues, gHazeInfo.pAffected, C_32_2_16(DMA_ENABLE | DMA_DEST_RELOAD, gHazeInfo.size / 2));
 
-        buffer = sHaze_3c94cc[0];
-        buffer = sHaze_3c94cc[0];
+        buffer = sHaze_DummyRead[0];
+        buffer = sHaze_DummyRead[0];
 
         DMA_SET(0, gHazeValues, gHazeInfo.pAffected, C_32_2_16(DMA_DEST_RELOAD, gHazeInfo.size / 2));
 
@@ -140,10 +140,10 @@ void HazeTransferAndDeactivate(void)
 }
 
 /**
- * @brief 6ee8c | 7c | To document
+ * @brief 6ee8c | 7c | Transfers the haze effect, deactivates it and resets the haze value
  * 
 */
-void unk_6ee8c(void)
+void HazeTransferAndReset(void)
 {
     vu8 buffer;
 
@@ -151,8 +151,8 @@ void unk_6ee8c(void)
     {
         DMA_SET(0, gHazeValues, gHazeInfo.pAffected, C_32_2_16(DMA_ENABLE | DMA_DEST_RELOAD, gHazeInfo.size / 2));
 
-        buffer = sHaze_3c94cc[0];
-        buffer = sHaze_3c94cc[0];
+        buffer = sHaze_DummyRead[0];
+        buffer = sHaze_DummyRead[0];
 
         DMA_SET(0, gHazeValues, gHazeInfo.pAffected, C_32_2_16(DMA_DEST_RELOAD, gHazeInfo.size / 2));
 
@@ -183,7 +183,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 2;
-            gHazeInfo.unk_4 = 0x140;
+            gHazeInfo.bufferSize = 0x140;
             gHazeInfo.pAffected = PALRAM_BASE;
             break;
 
@@ -194,7 +194,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 2;
-            gHazeInfo.unk_4 = 0x140;
+            gHazeInfo.bufferSize = 0x140;
             gHazeInfo.pAffected = REG_BG3HOFS;
             break;
 
@@ -205,7 +205,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 2;
-            gHazeInfo.unk_4 = 0x140;
+            gHazeInfo.bufferSize = 0x140;
             gHazeInfo.pAffected = REG_BG3HOFS;
             break;
 
@@ -216,7 +216,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 2;
-            gHazeInfo.unk_4 = 0x140;
+            gHazeInfo.bufferSize = 0x140;
             gHazeInfo.pAffected = REG_BG0HOFS;
             break;
  
@@ -227,7 +227,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 2;
-            gHazeInfo.unk_4 = 0x140;
+            gHazeInfo.bufferSize = 0x140;
             gHazeInfo.pAffected = REG_BG3HOFS;
             break;
 
@@ -238,7 +238,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 8;
-            gHazeInfo.unk_4 = 0x500;
+            gHazeInfo.bufferSize = 0x500;
             gHazeInfo.pAffected = REG_BG2HOFS;
             break;
 
@@ -249,7 +249,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 12;
-            gHazeInfo.unk_4 = 0x780;
+            gHazeInfo.bufferSize = 0x780;
             gHazeInfo.pAffected = REG_BG1HOFS;
             break;
 
@@ -282,7 +282,7 @@ void HazeSetupCode(u8 hazeValue)
             gHazeInfo.enabled = TRUE;
             
             gHazeInfo.size = 2;
-            gHazeInfo.unk_4 = 0x140;
+            gHazeInfo.bufferSize = 0x140;
             gHazeInfo.pAffected = REG_WIN1H;
 
             if (gHazeInfo.enabled)
@@ -319,8 +319,8 @@ void HazeResetLoops(void)
         gHazeLoops[2] = sHazeLoop_Empty;
     }
 
-    gUnk_30053f8 = 0;
-    gUnk_30053f9 = 0;
+    gHazeWaveOffset = 0;
+    gHazeWaveOffsetOutside = 0;
 }
 
 /**
@@ -459,7 +459,7 @@ bools32 HazeProcess(void)
         case HAZE_VALUE_POWER_BOMB_RETRACTING:
             if (gHazeProcessCodePointer())
             {
-                gIoRegisters.unk_10 = gIoRegisters.bg0Cnt;
+                gIoRegisters.currentBg0Cnt = gIoRegisters.bg0Cnt;
                 gCurrentPowerBomb.animationState = PB_STATE_ENDING;
                 gCurrentPowerBomb.stage = 0;
 
@@ -485,7 +485,7 @@ bools32 HazeProcess(void)
 
         case 13:
         case 14:
-            unk_6fdd0();
+            Haze_BothAxes();
             break;
     }
 
@@ -515,22 +515,22 @@ void Haze_Bg3(void)
     FAKE_MATCH_BLOCK(dst = gPreviousHazeValues);
     i = 0;
     
-    gHazeLoops[2].unk_3 = 0;
-    gHazeLoops[1].unk_3 = 0;
+    gHazeLoops[2].value = 0;
+    gHazeLoops[1].value = 0;
     
     src = sHaze_Bg3_StrongEffect;
     mask = 0xF;
     
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
     gHazeLoops[0].timer++;
 
     if (gHazeLoops[0].timer > 5)
     {
-        gHazeLoops[0].unk_3 = 1;
+        gHazeLoops[0].value = 1;
         gHazeLoops[0].timer = 0;
     }
 
-    gUnk_30053f8 += gHazeLoops[0].unk_3;
+    gHazeWaveOffset += gHazeLoops[0].value;
 
     position = SUB_PIXEL_TO_PIXEL(gEffectYPosition) - SUB_PIXEL_TO_PIXEL(gBg1YPosition) - 1;
 
@@ -543,7 +543,7 @@ void Haze_Bg3(void)
 
     while (i < SCREEN_SIZE_Y)
     {
-        ptr = &gUnk_30053f8;
+        ptr = &gHazeWaveOffset;
         FAKE_MATCH_BLOCK(position = (gBackgroundPositions.bg[3].y + i + *ptr) & mask);
         dst[i] = src[position] + gBackgroundPositions.bg[3].x;
         i++;
@@ -570,34 +570,34 @@ void Haze_Bg3StrongWeak(void)
     dst = gPreviousHazeValues;
 
     i = 0;
-    gHazeLoops[2].unk_3 = 0;
+    gHazeLoops[2].value = 0;
 
     src1 = sHaze_Bg3_StrongEffect;
     mask1 = 0xF;
 
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
     gHazeLoops[0].timer++;
 
     if (gHazeLoops[0].timer > 5)
     {
-        gHazeLoops[0].unk_3 = 1;
+        gHazeLoops[0].value = 1;
         gHazeLoops[0].timer = 0;
     }
 
     src2 = sHaze_Bg3_WeakOutside;
     mask2 = ARRAY_SIZE(sHaze_Bg3_WeakOutside) - 1;
 
-    gHazeLoops[1].unk_3 = 0;
+    gHazeLoops[1].value = 0;
     gHazeLoops[1].timer++;
 
     if (gHazeLoops[1].timer > 11)
     {
-        gHazeLoops[1].unk_3 = 1;
+        gHazeLoops[1].value = 1;
         gHazeLoops[1].timer = 0;
     }
 
-    gUnk_30053f8 += gHazeLoops[0].unk_3;
-    gUnk_30053f9 += gHazeLoops[1].unk_3;
+    gHazeWaveOffset += gHazeLoops[0].value;
+    gHazeWaveOffsetOutside += gHazeLoops[1].value;
 
     position = SUB_PIXEL_TO_PIXEL(gEffectYPosition) - SUB_PIXEL_TO_PIXEL(gBg1YPosition) - 1;
 
@@ -605,14 +605,14 @@ void Haze_Bg3StrongWeak(void)
 
     for (i = 0; i < position; i++)
     {
-        ptr1 = &gUnk_30053f9;
+        ptr1 = &gHazeWaveOffsetOutside;
         offset = (gBackgroundPositions.bg[3].y + i + *ptr1) & mask2;
         dst[i] = src2[offset] + gBackgroundPositions.bg[3].x;
     }
 
     while (i < SCREEN_SIZE_Y)
     {
-        ptr2 = &gUnk_30053f8;
+        ptr2 = &gHazeWaveOffset;
         offset = (gBackgroundPositions.bg[3].y + i + *ptr2) & mask1;
         dst[i] = src1[offset] + gBackgroundPositions.bg[3].x;
         i++;
@@ -632,22 +632,22 @@ void Haze_Bg3NoneWeak(void)
 
     i = 0;
 
-    gHazeLoops[2].unk_3 = 0;
-    gHazeLoops[1].unk_3 = 0;
+    gHazeLoops[2].value = 0;
+    gHazeLoops[1].value = 0;
 
     src = sHaze_Bg_WeakOutside;
     mask = ARRAY_SIZE(sHaze_Bg_WeakOutside) - 1;
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
 
     gHazeLoops[0].timer++;
     if (gHazeLoops[0].timer > 5)
     {
-        gHazeLoops[0].unk_3 = 1;
+        gHazeLoops[0].value = 1;
         gHazeLoops[0].timer = 0;
     }
 
-    gUnk_30053f8 += gHazeLoops[0].unk_3;
-    ptr = &gUnk_30053f8;
+    gHazeWaveOffset += gHazeLoops[0].value;
+    ptr = &gHazeWaveOffset;
 
     for (; i < SCREEN_SIZE_Y; i++)
     {
@@ -668,34 +668,34 @@ void Haze_Bg3Bg2StrongWeakMedium(void)
 
     i = 0;
 
-    gHazeLoops[1].unk_3 = 0;
+    gHazeLoops[1].value = 0;
 
     src = sHaze_Bg_WeakOutside;
     mask = ARRAY_SIZE(sHaze_Bg_WeakOutside) - 1;
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
 
     gHazeLoops[0].timer++;
     if (gHazeLoops[0].timer > 5)
     {
-        gHazeLoops[0].unk_3 = 1;
+        gHazeLoops[0].value = 1;
         gHazeLoops[0].timer = 0;
     }
 
-    gUnk_30053f8 += gHazeLoops[0].unk_3;
+    gHazeWaveOffset += gHazeLoops[0].value;
     dst = gPreviousHazeValues;
 
     for (; i < SCREEN_SIZE_Y; i++)
     {
-        *dst++ = src[(gBackgroundPositions.bg[2].y + i + gUnk_30053f8) & mask] + gBackgroundPositions.bg[2].x;
+        *dst++ = src[(gBackgroundPositions.bg[2].y + i + gHazeWaveOffset) & mask] + gBackgroundPositions.bg[2].x;
         *dst++ = gBackgroundPositions.bg[2].y;
 
-        *dst++ = src[(gBackgroundPositions.bg[3].y + i + gUnk_30053f8) & mask] + gBackgroundPositions.bg[3].x;
+        *dst++ = src[(gBackgroundPositions.bg[3].y + i + gHazeWaveOffset) & mask] + gBackgroundPositions.bg[3].x;
         *dst++ = gBackgroundPositions.bg[3].y;
     }
 }
 
 /**
- * @brief 6f8a0 | ac | To document
+ * @brief 6f8a0 | ac | Updates the haze effect (BG0, intensity ramps up once the event based effect started)
  * 
 */
 void Haze_Bg0(void)
@@ -707,7 +707,7 @@ void Haze_Bg0(void)
 
     i = 0;
 
-    gHazeLoops[1].unk_3 = 0;
+    gHazeLoops[1].value = 0;
 
     if (gEventBasedEffectInfo.stage > 1)
     {
@@ -716,33 +716,33 @@ void Haze_Bg0(void)
         {
             gHazeLoops[2].timer = 0;
 
-            if (gHazeLoops[2].unk_3 + 1 < 0xEu)
-                gHazeLoops[2].unk_3++;
+            if (gHazeLoops[2].value + 1 < 0xEu)
+                gHazeLoops[2].value++;
         }
     }
     else
     {
         gHazeLoops[2].timer = 0;
-        gHazeLoops[2].unk_3 = 0;
+        gHazeLoops[2].value = 0;
     }
 
-    src = sHaze_3e3518[gHazeLoops[2].unk_3];
-    mask = ARRAY_SIZE(sHaze_3e3518[0]) - 1;
+    src = sHaze_Bg0[gHazeLoops[2].value];
+    mask = ARRAY_SIZE(sHaze_Bg0[0]) - 1;
     
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
     gHazeLoops[0].timer++;
-    if (gHazeLoops[0].timer >= (gHazeLoops[2].unk_3 + 6) / 2)
+    if (gHazeLoops[0].timer >= (gHazeLoops[2].value + 6) / 2)
     {
-        gHazeLoops[0].unk_3 = 1;
+        gHazeLoops[0].value = 1;
         gHazeLoops[0].timer = 0;
     }
 
-    gUnk_30053f8 += gHazeLoops[0].unk_3;
+    gHazeWaveOffset += gHazeLoops[0].value;
     dst = gPreviousHazeValues;
 
     for (i = 0; i < SCREEN_SIZE_Y; i++)
     {
-        *dst++ = src[((gBackgroundPositions.bg[0].y + i + gUnk_30053f8) & mask)] + gBackgroundPositions.bg[0].x;
+        *dst++ = src[((gBackgroundPositions.bg[0].y + i + gHazeWaveOffset) & mask)] + gBackgroundPositions.bg[0].x;
     }
 }
 
@@ -762,13 +762,13 @@ void Haze_Bg3Bg2Bg1(void)
     i = 0;
     gHazeLoops[2].timer++;
 
-    if (gUnk_3004e42 == 1)
+    if (gNightmareGravityEffect == 1)
     {
         if (gHazeLoops[2].timer > 15)
         {
             gHazeLoops[2].timer = 0;
-            if (gHazeLoops[2].unk_3 < 4)
-                gHazeLoops[2].unk_3++;
+            if (gHazeLoops[2].value < 4)
+                gHazeLoops[2].value++;
         }
     }
     else
@@ -776,28 +776,28 @@ void Haze_Bg3Bg2Bg1(void)
         if (gHazeLoops[2].timer > 15)
         {
             gHazeLoops[2].timer = 0;
-            if (gHazeLoops[2].unk_3 > 0)
-                gHazeLoops[2].unk_3--;
+            if (gHazeLoops[2].value > 0)
+                gHazeLoops[2].value--;
         }
     }
 
-    src = sHaze_Bg3Bg2Bg1[gHazeLoops[2].unk_3];
+    src = sHaze_Bg3Bg2Bg1[gHazeLoops[2].value];
     mask = ARRAY_SIZE(sHaze_Bg3Bg2Bg1[0]) - 1;
 
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
     gHazeLoops[0].timer++;
     if (gHazeLoops[0].timer > 7)
     {
-        gHazeLoops[0].unk_3 = 1;
+        gHazeLoops[0].value = 1;
         gHazeLoops[0].timer = 0;
     }
 
-    gUnk_30053f8 -= gHazeLoops[0].unk_3;
+    gHazeWaveOffset -= gHazeLoops[0].value;
     dst = gPreviousHazeValues;
 
     for (i = 0; i < SCREEN_SIZE_Y; i++)
     {
-        ptr = &gUnk_30053f8;
+        ptr = &gHazeWaveOffset;
 
         tmp = gBackgroundPositions.bg[1].y + i + *ptr;
         tmp = src[tmp & mask] + gBackgroundPositions.bg[1].x;
@@ -960,10 +960,10 @@ bools32 Haze_PowerBombRetracting(void)
 }
 
 /**
- * @brief 6fca8 | 98 | To document
+ * @brief 6fca8 | 98 | Calculates a gradient that darkens the transparent color of the tileset towards the bottom of the screen (unused)
  * 
 */
-void unk_6fca8(void)
+void HazeCalculateTransparentColorGradient(void)
 {
     s32 i;
     u16* dst;
@@ -977,28 +977,28 @@ void unk_6fca8(void)
 
     gTilesetTransparentColor.unk_4 = gTilesetTransparentColor.transparentColor;
 
-    if (gTilesetTransparentColor.transparentColor == gTilesetTransparentColor.unk_2)
+    if (gTilesetTransparentColor.transparentColor == gTilesetTransparentColor.gradientBaseColor)
         return;
 
-    gTilesetTransparentColor.unk_2 = gTilesetTransparentColor.transparentColor;
+    gTilesetTransparentColor.gradientBaseColor = gTilesetTransparentColor.transparentColor;
 
     for (i = 0, dst = gPreviousHazeValues; i < SCREEN_SIZE_Y; i++)
     {
         fade = i >> 2;
 
-        tmp = RED(gTilesetTransparentColor.unk_2) - fade;
+        tmp = RED(gTilesetTransparentColor.gradientBaseColor) - fade;
         red = tmp;
         if (red < 0)
             red = 0;
 
         fadeGreen = fade << 5;
         // Written this way to produce matching ASM
-        green = ((GREEN(gTilesetTransparentColor.unk_2) << 5) - fadeGreen) & ~(COLOR_MASK | (COLOR_MASK << 10));
+        green = ((GREEN(gTilesetTransparentColor.gradientBaseColor) << 5) - fadeGreen) & ~(COLOR_MASK | (COLOR_MASK << 10));
         if (green < 0)
             green = 0;
 
         fadeBlue = fade << 10;
-        blue = (BLUE(gTilesetTransparentColor.unk_2) << 10) - fadeBlue;
+        blue = (BLUE(gTilesetTransparentColor.gradientBaseColor) << 10) - fadeBlue;
         if (blue < 0)
             blue = 0;
 
@@ -1007,7 +1007,7 @@ void unk_6fca8(void)
 }
 
 /**
- * @brief 6fd40 | 90 | To document
+ * @brief 6fd40 | 90 | Updates a haze effect whose intensity ramps up over time (BG3, values not offset by the BG position, unused)
  * 
 */
 void Haze_Bg3Y(void)
@@ -1016,39 +1016,40 @@ void Haze_Bg3Y(void)
     s32 i;
     u8 offset;
 
-    gHazeLoops[1].unk_3 = 0;
+    gHazeLoops[1].value = 0;
 
     gHazeLoops[2].timer++;
-    if (gHazeLoops[2].timer > 3 && gHazeLoops[2].unk_3 < 0x40)
+    if (gHazeLoops[2].timer > 3 && gHazeLoops[2].value < 0x40)
     {
-        gHazeLoops[2].unk_3++;
+        gHazeLoops[2].value++;
         gHazeLoops[2].timer = 0;
     }
 
-    src = sHaze_Bg3Y[gHazeLoops[2].unk_3];
+    src = sHaze_Bg3Y[gHazeLoops[2].value];
     
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
     gHazeLoops[0].timer++;
     if (gHazeLoops[0].timer > 3)
     {
-        gHazeLoops[0].unk_3++;
+        gHazeLoops[0].value++;
         gHazeLoops[0].timer = 0;
     }
 
-    gUnk_30053f8 += gHazeLoops[0].unk_3;
+    gHazeWaveOffset += gHazeLoops[0].value;
 
     for (i = 0; i < SCREEN_SIZE_Y; i++)
     {
-        offset = gUnk_30053f8;
+        offset = gHazeWaveOffset;
         gPreviousHazeValues[i] = src[MOD_AND(gBackgroundPositions.bg[3].y + i + offset, ARRAY_SIZE(sHaze_Bg3Y[0]))];
     }
 }
 
 /**
- * @brief 6fdd0 | f8 | To document
+ * @brief 6fdd0 | f8 | Updates the haze values 13 and 14: horizontal and vertical waves (values not offset by the BG
+ * position; HazeSetupCode never enables these effects, so the values are never transferred)
  * 
 */
-void unk_6fdd0(void)
+void Haze_BothAxes(void)
 {
     s32 i;
     u16* dst;
@@ -1058,29 +1059,29 @@ void unk_6fdd0(void)
     s32 y;
 
     i = 0;
-    gHazeLoops[2].unk_3 = 0;
-    gHazeLoops[1].unk_3 = 0;
+    gHazeLoops[2].value = 0;
+    gHazeLoops[1].value = 0;
 
     dst = gPreviousHazeValues;
-    src1 = sHaze_3c9da0;
-    src2 = sHaze_3c9dc0;
+    src1 = sHaze_BothAxes_Y;
+    src2 = sHaze_BothAxes_X;
 
-    gHazeLoops[0].unk_3 = 0;
+    gHazeLoops[0].value = 0;
 
     gHazeLoops[0].timer++;
     if (gHazeLoops[0].timer > 3)
     {
-        gHazeLoops->unk_3 = 1;
+        gHazeLoops->value = 1;
         gHazeLoops->timer = 0;
     }
 
-    gUnk_30053f8 += gHazeLoops[0].unk_3;
+    gHazeWaveOffset += gHazeLoops[0].value;
 
     if (gCurrentRoomEntry.visualEffect == 0xD || gCurrentRoomEntry.visualEffect == 0xF)
     {
         for (; i < SCREEN_SIZE_Y; i++)
         {
-            offset = gUnk_30053f8;
+            offset = gHazeWaveOffset;
             y = gBackgroundPositions.bg[3].y + i + offset;
             dst[i * 2] = src2[y & 0xF];
             dst[i * 2 + 1] = src1[y & 0x1F];
@@ -1090,7 +1091,7 @@ void unk_6fdd0(void)
     {
         for (; i < SCREEN_SIZE_Y; i++)
         {
-            offset = gUnk_30053f8;
+            offset = gHazeWaveOffset;
             y = gBackgroundPositions.bg[3].y + i + offset;
             dst[i * 2] = src2[y & 0xF];
             dst[i * 2 + 1] = src1[y & 0x1F];

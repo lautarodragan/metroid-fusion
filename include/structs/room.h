@@ -10,8 +10,9 @@
 
 struct TilesetTransparentColor {
     u16 transparentColor;
-    u16 unk_2;
-    u16 unk_4;
+    // Color the gradient of HazeCalculateTransparentColorGradient was computed for
+    u16 gradientBaseColor;
+    u16 unk_4; // Written, never read
 };
 
 extern struct TilesetTransparentColor gTilesetTransparentColor;
@@ -74,7 +75,7 @@ struct HorizontalTilemap {
     u8 tileCount;
     u16 blockX;
     u16 blockY;
-    u16 unk_6[56]; // ((SCREEN_SIZE_Y / PIXEL_PER_BLOCK) + 4) * 4
+    u16 tiles[56]; // ((SCREEN_SIZE_Y / PIXEL_PER_BLOCK) + 4) * 4
 };
 
 extern struct HorizontalTilemap gHorizontalTilemap[3];
@@ -83,7 +84,7 @@ struct VerticalTilemap {
     u8 tileCount;
     u16 blockX;
     u16 blockY;
-    u16 unk_6[76]; // ((SCREEN_SIZE_X / PIXEL_PER_BLOCK) + 4) * 4
+    u16 tiles[76]; // ((SCREEN_SIZE_X / PIXEL_PER_BLOCK) + 4) * 4
 };
 
 extern struct VerticalTilemap gVerticalTilemap[3];
@@ -136,26 +137,30 @@ extern u16 gDecompBg3Map[2048];
 extern u8 gSpritesetEntryUsed;
 extern u8 gScrollCounter;
 
-// Used for Nightmare shadow and SR388
-struct Unk_3004e30 {
-    u8 unk_0; // stage?
-    u8 unk_1;
-    u8 unk_2; // flag?
-    u8 unk_3; // count?
-    u8 unk_4; // direction? (index to movement table)
-    s8 unk_5; // Y speed offset?
-    u16 unk_6; // timer?
+// Movement of an object drawn on BG0: Nightmare's shadow (ScrollNightmareShadow) and SR388 (ScrollSr388Planet)
+struct Bg0ObjectMovement {
+    u8 stage;
+    // Stage of the previous pass (5 = to the left, 6 = to the right), 0 after two passes
+    u8 previousPass;
+    // Keep passing forever (the shadow stops after two passes the first time)
+    u8 keepPassing;
+    u8 passCount;
+    // Index in sNightmareShadowPositions
+    u8 positionIndex;
+    s8 yVelocityOffset;
+    u16 timer;
 };
 
-extern struct Unk_3004e30 gUnk_3004e30;
+extern struct Bg0ObjectMovement gBg0ObjectMovement;
 
 struct WaterMovement {
     u8 moving;
-    u8 unk_1;
+    u8 loopTimer;
     u8 stage;
     s16 yOffset;
     u16 unk_6;
-    s16 unk_8;
+    // How much the water was drained (electrified water event)
+    s16 drainOffset;
 };
 
 extern struct WaterMovement gWaterMovement;

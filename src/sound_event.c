@@ -481,7 +481,7 @@ void SoundEventUpdateMusic(u8 triggerType)
                 break;
 
             PlayMusic(MUSIC_OPERATIONS_DECK_ELEVATOR_OFFLINE_AMBIENCE, 2);
-            unk_38a8(MUSIC_OPERATIONS_DECK_ELEVATOR_OFFLINE_SOUND, 0);
+            PlayInterruptingMusic(MUSIC_OPERATIONS_DECK_ELEVATOR_OFFLINE_SOUND, 0);
             updateSoundEvent = TRUE;
             break;
 
@@ -491,7 +491,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (gCurrentRoom == 35)
             {
-                unk_372c(0x1E, MUSIC_MAIN_DECK_LIVELY, 0x2);
+                FadeMusicThenPlay(0x1E, MUSIC_MAIN_DECK_LIVELY, 0x2);
                 updateSoundEvent = TRUE;
             }
             break;
@@ -521,7 +521,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (gCurrentRoom == 14)
             {
-                unk_372c(0x1E, MUSIC_MAIN_DECK_LIVELY, 0x2);
+                FadeMusicThenPlay(0x1E, MUSIC_MAIN_DECK_LIVELY, 0x2);
                 updateSoundEvent = TRUE;
             }
             break;
@@ -531,7 +531,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_SA_X_ELEVATOR_CUTSCENE_STARTED:
-            unk_36c4();
+            StopMusic();
             SoundStop(0xFC);
             updateSoundEvent = TRUE;
             break;
@@ -668,7 +668,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (gCurrentRoom == 29)
             {
-                unk_3778(0x1E, 0x12C, 0x4);
+                PlayMusicWithFadeIn(0x1E, 0x12C, 0x4);
                 updateSoundEvent = TRUE;
             }
             break;
@@ -750,7 +750,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_ENTERED_SA_X_TRO_1_ROOM:
-            unk_372c(0x1E, MUSIC_SA_X_APPEARANCE, 0x8);
+            FadeMusicThenPlay(0x1E, MUSIC_SA_X_APPEARANCE, 0x8);
             updateSoundEvent = TRUE;
             break;
 
@@ -959,7 +959,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (gCurrentRoom != 23)
             {
-                unk_372c(0x14, MUSIC_SECTOR_3, 0x0);
+                FadeMusicThenPlay(0x14, MUSIC_SECTOR_3, 0x0);
                 updateSoundEvent = TRUE;
             }
             break;
@@ -974,7 +974,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_LEAVING_PYR1_FEDERATION_CONVERSATION_ENDED:
-            unk_372c(0x78, MUSIC_MAIN_DECK_AMBIENCE, 0xB);
+            FadeMusicThenPlay(0x78, MUSIC_MAIN_DECK_AMBIENCE, 0xB);
             SoundPlay(SOUND_FC);
             updateSoundEvent = TRUE;
             break;
@@ -999,7 +999,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_SA_X_NOC_ENTERED_ROOM:
-            unk_372c(0xA, MUSIC_SA_X_APPEARANCE, 0x8);
+            FadeMusicThenPlay(0xA, MUSIC_SA_X_APPEARANCE, 0x8);
             updateSoundEvent = TRUE;
             break;
 
@@ -1110,7 +1110,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (updateSoundEvent)
             {
-                unk_3cd4(0x2CF);
+                PlayPersistentSound(0x2CF);
             }
             break;
 
@@ -1118,7 +1118,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             if (gCurrentNavigationRoom != NAV_ROOM_SECTOR_5_ROOM_2)
                 break;
 
-            unk_3cfc();
+            StopPersistentSound();
             updateSoundEvent = TRUE;
             break;
 
@@ -1194,7 +1194,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_87:
-            unk_372c(0x1E, MUSIC_MAIN_DECK_AMBIENCE, 0x0);
+            FadeMusicThenPlay(0x1E, MUSIC_MAIN_DECK_AMBIENCE, 0x0);
             updateSoundEvent = TRUE + 1;
             gSoundEventCounter = SOUND_EVENT_84;
             break;
@@ -1238,7 +1238,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_SA_X_ARC_ENTERED_ROOM:
-            unk_372c(0xA, MUSIC_SA_X_APPEARANCE, 0x8);
+            FadeMusicThenPlay(0xA, MUSIC_SA_X_APPEARANCE, 0x8);
             updateSoundEvent = TRUE;
             break;
 
@@ -1262,7 +1262,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_ELEVATOR_POWER_OUTAGE:
-            unk_372c(0x60, MUSIC_AFTER_EVENT, 0xB);
+            FadeMusicThenPlay(0x60, MUSIC_AFTER_EVENT, 0xB);
             updateSoundEvent = TRUE;
             break;
 
@@ -1272,7 +1272,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (gCurrentRoom == 31)
             {
-                unk_372c(0x1E, MUSIC_SILENCE_2, 0xB);
+                FadeMusicThenPlay(0x1E, MUSIC_SILENCE_2, 0xB);
                 updateSoundEvent = TRUE;
             }
             break;
@@ -1349,7 +1349,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (gDestinationRoom == 54)
             {
-                unk_372c(0x1E, MUSIC_AFTER_EVENT, 0xA);
+                FadeMusicThenPlay(0x1E, MUSIC_AFTER_EVENT, 0xA);
                 gSoundEventCounter = SOUND_EVENT_AUXILIARY_POWER_MESSAGE_STARTED;
                 updateSoundEvent = TRUE + 1;
             }
@@ -1367,7 +1367,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_AUXILIARY_POWER_MESSAGE_STARTED:
-            unk_36c4();
+            StopMusic();
             updateSoundEvent = TRUE;
             break;
 
@@ -1638,7 +1638,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             break;
 
         case SOUND_EVENT_RESTRICTED_LAB_NO_ENTRY_ALARM:
-            unk_3cd4(0x2C8);
+            PlayPersistentSound(0x2C8);
             updateSoundEvent = TRUE;
             break;
 
@@ -1661,7 +1661,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             }
 
             if (updateSoundEvent)
-                unk_3cfc();
+                StopPersistentSound();
             break;
 
         case SOUND_EVENT_WAVE_BEAM_ABILITY_RECOVERED:
@@ -1674,7 +1674,7 @@ void SoundEventUpdateMusic(u8 triggerType)
 
             if (gCurrentRoom != 16)
             {
-                unk_3cd4(0x2C8);
+                PlayPersistentSound(0x2C8);
                 updateSoundEvent = TRUE;
             }
             break;
@@ -1686,7 +1686,7 @@ void SoundEventUpdateMusic(u8 triggerType)
             if (type == SEVENT_UPDATE_LEAVING_ROOM && gDestinationRoom == 78)
             {
                 FadeMusic(CONVERT_SECONDS(2.f/3));
-                unk_3cfc();
+                StopPersistentSound();
                 break;
             }
             else if (type == SEVENT_UPDATE_ENTERING_ROOM && gCurrentRoom == 78)
@@ -1716,12 +1716,12 @@ void SoundEventUpdateMusic(u8 triggerType)
             }
 
             if (updateSoundEvent)
-                unk_3cd4(0x2C9);
+                PlayPersistentSound(0x2C9);
             break;
 
         case SOUND_EVENT_ESCAPED_RESTRICTED_LAB:
             FadeMusic(CONVERT_SECONDS(10));
-            unk_3cfc();
+            StopPersistentSound();
             updateSoundEvent = TRUE;
             break;
 
@@ -1883,7 +1883,7 @@ void CheckUpdateMusicDuringRoomLoad(void)
     {
         SoundPlay(MUSIC_NONE);
     }
-    else if (!gUnk_3000be3)
+    else if (!gGameplayInitialized)
     {
         if (gDemoState)
             return;
@@ -1892,10 +1892,10 @@ void CheckUpdateMusicDuringRoomLoad(void)
 
         if (gIsLoadingFile)
         {
-            unk_3ac4();
+            RestartMusic();
 
             if (gSamusData.pose == SPOSE_LOADING_SAVE)
-                unk_38a8(17, 0);
+                PlayInterruptingMusic(17, 0);
         }
         else
         {

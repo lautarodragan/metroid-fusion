@@ -6,7 +6,7 @@
 void HazeSetBackgroundEffect(void);
 u8 HazeGetAtmosphericStabilizerValue(void);
 void HazeTransferAndDeactivate(void);
-void unk_6ee8c(void);
+void HazeTransferAndReset(void);
 void HazeSetupCode(u8 hazeValue);
 void HazeResetLoops(void);
 void HazeCalculateGradient(void);
@@ -19,8 +19,8 @@ void Haze_Bg0(void);
 void Haze_Bg3Bg2Bg1(void);
 bools32 Haze_PowerBombExpanding(void);
 bools32 Haze_PowerBombRetracting(void);
-void unk_6fca8(void);
+void HazeCalculateTransparentColorGradient(void);
 void Haze_Bg3Y(void);
-void unk_6fdd0(void);
+void Haze_BothAxes(void);
 
 #endif /* HAZE_H */

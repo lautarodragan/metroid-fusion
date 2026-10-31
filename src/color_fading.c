@@ -546,7 +546,7 @@ void ColorFadingStart(u8 type)
     gColorFading.type = type;
     gColorFading.stage = 0;
     gColorFading.fadeTimer = 0;
-    gColorFading.unk_3 = 0;
+    gColorFading.timer = 0;
     gColorFading.status = 0;
 }
 
@@ -563,7 +563,7 @@ void ColorFadingStartDefault(void)
 
     DmaTransfer(3, gDecompBg3Map, VRAM_BASE + 0x3000, 0x1000, 16);
 
-    WRITE_16(REG_BG0CNT, gIoRegisters.unk_10);
+    WRITE_16(REG_BG0CNT, gIoRegisters.currentBg0Cnt);
     WRITE_16(REG_BG3CNT, gIoRegisters.bg3Cnt);
 
     if (gHazeInfo.enabled)
@@ -572,7 +572,7 @@ void ColorFadingStartDefault(void)
     WRITE_16(REG_BLDCNT, gIoRegisters.bldcnt);
     WRITE_16(REG_DISPCNT, gIoRegisters.dispcnt);
 
-    if (gUnk_3000047 == 1)
+    if (gTimedHatchLockState == 1)
         RoomEffectCheckLockHatchesWithTimer();
 }
 
@@ -590,7 +590,7 @@ void ColorFadingStartDoorTransition(void)
     if (gPauseScreenFlag == 6)
     {
         gIoRegisters.bg0Cnt = READ_16(REG_BG0CNT);
-        gIoRegisters.unk_10 = READ_16(REG_BG0CNT);
+        gIoRegisters.currentBg0Cnt = READ_16(REG_BG0CNT);
         gIoRegisters.bg1Cnt = READ_16(REG_BG1CNT);
         gIoRegisters.bg2Cnt = READ_16(REG_BG2CNT);
         gIoRegisters.bg3Cnt = READ_16(REG_BG3CNT);
@@ -660,7 +660,7 @@ void ColorFadingGradients(s32 delay)
  */
 void ColorFadingFinishDoorFade(void)
 {
-    unk_6ee8c();
+    HazeTransferAndReset();
     
     WRITE_16(PALRAM_BASE, COLOR_BLACK);
     WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~(DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_BG3));
@@ -766,8 +766,8 @@ s32 ColorFadingProcess(void)
 
     result = 0;
 
-    if (gColorFading.unk_3 != UCHAR_MAX)
-        gColorFading.unk_3++;
+    if (gColorFading.timer != UCHAR_MAX)
+        gColorFading.timer++;
 
     switch (gColorFading.type)
     {
@@ -897,7 +897,7 @@ bools32 ColorFadingProcess_DoorTransition(void)
             break;
 
         case 2:
-            unk_6ee8c();
+            HazeTransferAndReset();
             WRITE_16(PALRAM_BASE, COLOR_BLACK);
             DMA3_COPY_16(sCommonTilesPal + 1 * PAL_ROW_SIZE, PALRAM_BASE + 1 * PAL_ROW_SIZE, PAL_ROW);
             WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~(DCNT_BG2 | DCNT_BG3 | DCNT_WIN1));
@@ -931,7 +931,7 @@ bools32 ColorFadingProcess_DoorTransition(void)
             gWrittenToDispcnt = READ_16(REG_DISPCNT) | DCNT_BG3;
             gWrittenToDispcnt &= ~DCNT_BG0;
             gColorFading.stage = 4;
-            gColorFading.unk_3 = 0;
+            gColorFading.timer = 0;
             done = FALSE;
             break;
 
@@ -953,7 +953,7 @@ bools32 ColorFadingProcess_DoorTransition(void)
             else
             {
                 WRITE_16(REG_DISPCNT, READ_16(REG_DISPCNT) & ~DCNT_BG1);
-                gColorFading.unk_3 = 0;
+                gColorFading.timer = 0;
                 gColorFading.stage = 5;
             }
             break;
@@ -1020,17 +1020,17 @@ bools32 ColorFadingProcess_LabEscape(void)
     {
         case 0:
             ColorFadingStartDoorTransition();
-            gColorFading.unk_3 = 0;
+            gColorFading.timer = 0;
             gColorFading.stage++;
             break;
 
         case 1:
-            if (gColorFading.unk_3 > 0x1E)
+            if (gColorFading.timer > 0x1E)
             {
                 if (gAnimatedPaletteAndTileset.animatedPalette != 0)
                     gAnimatedPaletteAndTileset.animatedPalette = 0;
 
-                gColorFading.unk_3 = 0;
+                gColorFading.timer = 0;
                 gColorFading.stage++;
             }
             break;
@@ -1089,7 +1089,7 @@ bools32 ColorFadingProcess_EscapeFailed(void)
             break;
 
         case 2:
-            unk_6ee8c();
+            HazeTransferAndReset();
             WRITE_16(PALRAM_BASE, COLOR_WHITE);
             done = TRUE;
             break;
@@ -1118,7 +1118,7 @@ bools32 ColorFadingProcess_FinalEscape(void)
             break;
 
         case 1:
-            unk_6ee8c();
+            HazeTransferAndReset();
             FadeMusic(CONVERT_SECONDS(1.75f));
             gPauseScreenFlag = 0;
             gCurrentCutscene = 0x80;
@@ -1156,7 +1156,7 @@ bools32 ColorFadingProcess_DemoEnd(void)
             break;
 
         case 2:
-            unk_6ee8c();
+            HazeTransferAndReset();
             WRITE_16(PALRAM_BASE, COLOR_BLACK);
             done = TRUE;
             break;
@@ -1177,8 +1177,8 @@ bools32 ColorFadingUpdate_DoorTransition(void)
 
     done = FALSE;
 
-    if (gColorFading.unk_3 != UCHAR_MAX)
-        gColorFading.unk_3++;
+    if (gColorFading.timer != UCHAR_MAX)
+        gColorFading.timer++;
 
     switch (gColorFading.stage)
     {
@@ -1190,7 +1190,7 @@ bools32 ColorFadingUpdate_DoorTransition(void)
             i = BLOCK_TO_SUB_PIXEL(gDoorPositionStart.y);
             gDoorPositionStart.y = BLOCK_TO_SUB_PIXEL(4) - DIV_SHIFT(i - gBg1YPosition, 4);
             
-            if (gUnk_3000047 == 1)
+            if (gTimedHatchLockState == 1)
                 RoomEffectCheckLockHatchesWithTimer();
 
             gColorFading.stage++;
@@ -1208,7 +1208,7 @@ bools32 ColorFadingUpdate_DoorTransition(void)
             else
             {
                 gColorFading.stage++;
-                gColorFading.unk_3 = 0;
+                gColorFading.timer = 0;
             }
             break;
 
@@ -1230,7 +1230,7 @@ bools32 ColorFadingUpdate_DoorTransition(void)
             else
             {
                 DmaTransfer(3, gDecompBg3Map, VRAM_BASE + 0x3000, 0x1000, 16);
-                WRITE_16(REG_BG0CNT, gIoRegisters.unk_10);
+                WRITE_16(REG_BG0CNT, gIoRegisters.currentBg0Cnt);
                 WRITE_16(REG_BG3CNT, gIoRegisters.bg3Cnt);
                 gBackgroundPositions.doorTransition.y = gBackgroundPositions.bg[3].y;
                 gBackgroundPositions.doorTransition.x = gBackgroundPositions.bg[3].x;
@@ -1240,7 +1240,7 @@ bools32 ColorFadingUpdate_DoorTransition(void)
                 
                 WRITE_16(REG_BLDCNT, gIoRegisters.bldcnt);
                 WRITE_16(REG_DISPCNT, gIoRegisters.dispcnt);
-                gColorFading.unk_3 = 0;
+                gColorFading.timer = 0;
                 gColorFading.stage++;
             }
             break;
@@ -1300,7 +1300,7 @@ void ColorFadingApplyMonochrome(void)
             if (gCurrentHazeValue != 0)
             {
                 gCurrentHazeValue = 0;
-                unk_6ee8c();
+                HazeTransferAndReset();
             }
         }
         else if (gMonochromeFading == MONOCHROME_FADING_WHITE)

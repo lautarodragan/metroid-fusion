@@ -44,7 +44,7 @@ void GoldSciserDoorLock(void)
             if (!gDebugFlag)
                 gCurrentSprite.status |= SPRITE_STATUS_NOT_DRAWN;
 
-            gUnk_3000047 = 1;
+            gTimedHatchLockState = 1;
             break;
 
         case 2:
@@ -86,7 +86,7 @@ void GoldZebesianDoorLock(void)
             if (!gDebugFlag)
                 gCurrentSprite.status |= SPRITE_STATUS_NOT_DRAWN;
 
-            gUnk_3000047 = 1;
+            gTimedHatchLockState = 1;
 
             break;
 

@@ -356,7 +356,7 @@ const void* const sSaveDataSramBackupPointers[3] = {
     SRAM_BASE + 0x200 + sizeof(struct SaveFile) * 5
 };
 
-const void* const sUnk_a5270[2] = {
+const void* const sLanguageDataSramPointers[2] = {
     SRAM_BASE + 0x7040,
     SRAM_BASE + 0x7080
 };

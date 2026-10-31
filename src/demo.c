@@ -154,7 +154,7 @@ void DemoEnd(void)
         DMA3_COPY_16(gDemoInputs, EWRAM_BASE + 0x3F800, ARRAY_SIZE(gDemoInputs));
         DMA3_COPY_16(gDemoInputDurations, EWRAM_BASE + 0x3FA00, ARRAY_SIZE(gDemoInputDurations));
 
-        unk_e2c();
+        WriteDemoInputsToSram();
         gDemoState = DEMO_STATE_NONE;
         return;
     }

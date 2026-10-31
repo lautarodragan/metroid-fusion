@@ -31,10 +31,10 @@ void EraseSram(void)
 }
 
 /**
- * @brief c98 | 40 | To document
+ * @brief c98 | 40 | Writes the SRAM header to SRAM, and copies it to the second backup (0x7100) and writes it
  *
  */
-void unk_c98(void)
+void WriteSramHeaderToSram(void)
 {
     SramWriteChecked((u8*)EWRAM_SRAM, (u8*)SRAM_BASE, 0x80);
     DMA3_COPY_16(EWRAM_SRAM, EWRAM_SRAM + 0x7100, 0x40);
@@ -42,25 +42,25 @@ void unk_c98(void)
 }
 
 /**
- * @brief cd8 | 18 | To document
+ * @brief cd8 | 18 | Writes the backup of the SRAM header to SRAM
  *
  */
-void unk_cd8(void)
+void WriteSramHeaderBackupToSram(void)
 {
     SramWriteChecked((u8*)EWRAM_SRAM + SRAM_HEADER_SIZE, (u8*)SRAM_BASE + SRAM_HEADER_SIZE, SRAM_HEADER_SIZE);
 }
 
 /**
- * @brief cf0 | 18 | To document
+ * @brief cf0 | 18 | Writes the second backup of the SRAM header (0x7100) to SRAM
  *
  */
-void unk_cf0(void)
+void WriteSramHeaderBackup2ToSram(void)
 {
     SramWriteChecked((u8*)EWRAM_SRAM + 0x7100, (u8*)SRAM_BASE + 0x7100, 0x80);
 }
 
 /**
- * @brief d08 | 2c | To document
+ * @brief d08 | 2c | Writes the most recent save file to SRAM
  *
  */
 void WriteMostRecentFileToSram(void)
@@ -70,7 +70,7 @@ void WriteMostRecentFileToSram(void)
 }
 
 /**
- * @brief d34 | 2c | To document
+ * @brief d34 | 2c | Writes the backup of the most recent save file to SRAM
  *
  */
 void WriteMostRecentFileBackupToSram(void)
@@ -80,7 +80,7 @@ void WriteMostRecentFileBackupToSram(void)
 }
 
 /**
- * @brief d60 | 1c | To document
+ * @brief d60 | 1c | Reads all the save files (and the data after them) from SRAM to EWRAM
  *
  */
 void ReadAllFilesToEwram(void)
@@ -89,7 +89,7 @@ void ReadAllFilesToEwram(void)
 }
 
 /**
- * @brief d7c | 2c | To document
+ * @brief d7c | 2c | Reads the most recent save file from SRAM to EWRAM
  *
  */
 void ReadMostRecentFileToEwram(void)
@@ -99,7 +99,7 @@ void ReadMostRecentFileToEwram(void)
 }
 
 /**
- * @brief da8 | 2c | To document
+ * @brief da8 | 2c | Reads the SRAM header, its backup and its second backup from SRAM to EWRAM
  *
  */
 void ReadSramHeaderToEwram(void)
@@ -109,25 +109,26 @@ void ReadSramHeaderToEwram(void)
 }
 
 /**
- * @brief dd4 | 18 | To document
+ * @brief dd4 | 18 | Writes the most recent save file data (0x7000) to SRAM
  *
  */
-void unk_dd4(void)
+void WriteMostRecentSaveFileDataToSram(void)
 {
     SramWriteChecked((u8*)EWRAM_SRAM + 0x7000, (u8*)SRAM_BASE + 0x7000, 0x40);
 }
 
 /**
- * @brief dec | 28 | To document
+ * @brief dec | 28 | Writes a copy of the language data to SRAM
  *
+ * @param copy Copy (0 = main, 1 = backup)
  */
-void unk_dec(u8 param0)
+void WriteLanguageDataToSram(u8 copy)
 {
-    SramWriteChecked((u8*)sUnk_582280[param0], (u8*)sUnk_a5270[param0], 0x40);
+    SramWriteChecked((u8*)sLanguageDataEwramPointers[copy], (u8*)sLanguageDataSramPointers[copy], 0x40);
 }
 
 /**
- * @brief e14 | 18 | To document
+ * @brief e14 | 18 | Writes 0x7FF0-0x7FFF to SRAM (unused, the game doesn't store anything there)
  *
  */
 void unk_e14(void)
@@ -136,10 +137,10 @@ void unk_e14(void)
 }
 
 /**
- * @brief e2c | 1c | To document
+ * @brief e2c | 1c | Writes the recorded demo inputs and durations (0x7800) to SRAM
  *
  */
-void unk_e2c(void)
+void WriteDemoInputsToSram(void)
 {
     SramWriteChecked((u8*)EWRAM_SRAM + 0x7800, (u8*)SRAM_BASE + 0x7800, 0x400);
 }

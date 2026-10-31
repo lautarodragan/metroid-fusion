@@ -25,7 +25,7 @@ extern const struct Bg0Movement sBg0Movement_Empty;
 
 extern const struct Bg3Movement sBg3Movement_Empty;
 
-extern const struct Unk_3004e30 sUnk_3c88dc;
+extern const struct Bg0ObjectMovement sBg0ObjectMovement_Empty;
 
 extern const struct WaterMovement sWaterMovement_Empty;
 

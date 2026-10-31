@@ -146,13 +146,13 @@ void MessageBannerPopUp(void)
             gCurrentSprite.status &= ~SPRITE_STATUS_NOT_DRAWN;
             if (roomSlot == 0)
             {
-                unk_38a8(MUSIC_ITEM_JINGLE, 0);
+                PlayInterruptingMusic(MUSIC_ITEM_JINGLE, 0);
             }
             else if (roomSlot == 5 || roomSlot == 6 || roomSlot == 7 || roomSlot == 8 || roomSlot == 9)
             {
                 if (roomSlot == 7)
                     PlayMusic(MUSIC_AFTER_EVENT, 10);
-                unk_38a8(MUSIC_OBJECTIVE_COMPLETE, 0);
+                PlayInterruptingMusic(MUSIC_OBJECTIVE_COMPLETE, 0);
             }
             else if (!(roomSlot == 5 || roomSlot == 6 || roomSlot == 7 || roomSlot == 8
                 || roomSlot == 9 || roomSlot == 10 || roomSlot == 11 || roomSlot == 12))

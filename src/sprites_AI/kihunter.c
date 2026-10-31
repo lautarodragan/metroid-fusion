@@ -1217,7 +1217,7 @@ void KihunterHiveInit(void)
         gCurrentSprite.primarySpriteRamSlot, gCurrentSprite.yPosition + BLOCK_TO_SUB_PIXEL(1.5f),
         gCurrentSprite.xPosition + BLOCK_TO_SUB_PIXEL(0.5f), 0);
 
-    unk_2894(SOUND_KIHUNTER_HIVE_BUZZING);
+    SoundPlayOrResume(SOUND_KIHUNTER_HIVE_BUZZING);
 }
 
 void KihunterHiveSpawnKihunter(void)

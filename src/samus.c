@@ -1590,7 +1590,7 @@ u32 SamusHazardDamage(void)
                 break;
 
             case CONVERT_SECONDS(.8f + 1.f / 30):
-                unk_3b78(SOUND_SAMUS_HURT);
+                SoundPlayOnFreeTrack(SOUND_SAMUS_HURT);
                 gSamusEnvironmentalEffects[1].timer2 = 0;
         }
 
@@ -5193,7 +5193,7 @@ void SamusSetHurtPose(void)
         else
             gSamusData.xVelocity = HURT_X_VELOCITY;
 
-        unk_3b78(SOUND_SAMUS_HURT);
+        SoundPlayOnFreeTrack(SOUND_SAMUS_HURT);
     }
     else
     {
@@ -7329,7 +7329,7 @@ void SamusCheckPlayLowHealthSound(void)
 
     // Play sound about every quarter of a second
     if (MOD_AND(gFrameCounter8Bit, CONVERT_SECONDS(.25f + 1.f / 60)) == 0)
-        unk_3b78(SOUND_LOW_HEALTH);
+        SoundPlayOnFreeTrack(SOUND_LOW_HEALTH);
 }
 
 /**
@@ -7521,7 +7521,7 @@ void SamusInit(void)
         gSamusPhysics = *(struct SamusPhysics *)sSamusGenericData_Empty;
     }
 
-    if (gUnk_3000be3 || gIsLoadingFile)
+    if (gGameplayInitialized || gIsLoadingFile)
         return;
 
     gEquipment = sEquipment_Empty;

@@ -34,7 +34,7 @@ u32 InGameHandler(void)
     switch (gSubGameMode1)
     {
         case 0:
-            if (gUnk_3000be3 == 0)
+            if (gGameplayInitialized == 0)
                 ResetDemoInputAndDuration();
 
             if (gDemoState == DEMO_STATE_PLAYING)
@@ -98,7 +98,7 @@ u32 InGameHandler(void)
             }
 
             InGameTimerUpdate();
-            unk_659a0();
+            RoomUpdateMiscEffects();
             break;
 
         case SUB_GAME_MODE_LOADING_ROOM:
@@ -121,12 +121,12 @@ u32 InGameHandler(void)
             SamusUpdatePhysics();
             SamusDraw();
             SamusCallUpdateGraphics();
-            unk_659a0();
+            RoomUpdateMiscEffects();
             break;
 
         case SUB_GAME_MODE_NO_CLIP:
             UpdateFreeMovement_Debug();
-            unk_659a0();
+            RoomUpdateMiscEffects();
             break;
     }
 
@@ -282,7 +282,7 @@ void VBlankCodeInGameLoad(void)
         if (!(gVBlankRequestFlag & 1))
         {
             buffer = 0;
-            DMA3_COPY_16(EWRAM_BASE + 0x24A00, EWRAM_BASE + 0x24000, gHazeInfo.unk_4 / 2);
+            DMA3_COPY_16(EWRAM_BASE + 0x24A00, EWRAM_BASE + 0x24000, gHazeInfo.bufferSize / 2);
             SET_BACKDROP_COLOR(gBackdropColor);
         }
 
@@ -315,10 +315,11 @@ void VBlankCodeInGameLoad(void)
 }
 
 /**
- * @brief e26c | 7c | To document
+ * @brief e26c | 7c | Transfers the OAM, Samus' graphics (without palette) and the background positions,
+ * called directly while loading a room (same as the in game load v-blank without haze and blending)
  * 
  */
-void unk_e26c(void)
+void InGameTransferGraphicsAndBgPositions(void)
 {
     DMA3_COPY_32(gOamData, OAM_BASE, OAM_SIZE / 4);
 
@@ -363,7 +364,7 @@ void VBlankCodeInGame(void)
         if (!(gVBlankRequestFlag & 1))
         {
             buffer = 0;
-            DMA3_COPY_16(EWRAM_BASE + 0x24A00, EWRAM_BASE + 0x24000, gHazeInfo.unk_4 / 2);
+            DMA3_COPY_16(EWRAM_BASE + 0x24A00, EWRAM_BASE + 0x24000, gHazeInfo.bufferSize / 2);
             SET_BACKDROP_COLOR(gBackdropColor);
         }
 
@@ -415,7 +416,7 @@ void InitAndLoadGenerics(void)
 
     CallbackSetVBlank(VBlankInGame_Empty);
 
-    if (gUnk_3000be3 == 0)
+    if (gGameplayInitialized == 0)
     {
         ClearGfxRam();
         HudGenericLoadCommonSpriteGfx();
@@ -423,7 +424,7 @@ void InitAndLoadGenerics(void)
 
     gWrittenToBldy = BLDY_MAX_VALUE;
 
-    if (gPauseScreenFlag != 0 || gUnk_3000be3 == 0 || gCurrentCutscene != 0)
+    if (gPauseScreenFlag != 0 || gGameplayInitialized == 0 || gCurrentCutscene != 0)
     {
         WRITE_16(REG_BLDCNT, BLDCNT_SCREEN_FIRST_TARGET | BLDCNT_ALPHA_BLENDING_EFFECT | BLDCNT_BRIGHTNESS_INCREASE_EFFECT);
 
@@ -469,7 +470,7 @@ void InitAndLoadGenerics(void)
             break;
     }
 
-    if (gPauseScreenFlag == 0 && gUnk_3000be3 != 0)
+    if (gPauseScreenFlag == 0 && gGameplayInitialized != 0)
     {
         SamusUpdatePhysics();
         SamusUpdateCollisionData();
@@ -479,7 +480,7 @@ void InitAndLoadGenerics(void)
 
     DMA3_COPY_16(gSamusPalette, PALRAM_OBJ, gSamusPaletteLength / 2);
 
-    unk_e26c();
+    InGameTransferGraphicsAndBgPositions();
 
     for (;;)
     {
@@ -504,10 +505,10 @@ void InitAndLoadGenerics(void)
     ColorFadingTransferPaletteOnTransition();
     CheckUpdateMusicDuringRoomLoad();
 
-    if (gUnk_3000be3 == 0)
+    if (gGameplayInitialized == 0)
     {
         SpriteUpdate();
-        gUnk_3000be3 = 1;
+        gGameplayInitialized = 1;
         gPreventMovementTimer = 0;
     }
 
@@ -547,11 +548,11 @@ void UpdateFreeMovement_Debug(void)
     if (gChangedInput & KEY_SELECT)
     {
         gSubGameMode1 = SUB_GAME_MODE_PLAYING;
-        gUnk_3000064 = FALSE;
+        gNoClipCameraUnlocked = FALSE;
     }
 
     if (gChangedInput & KEY_START)
-        gUnk_3000064 ^= TRUE;
+        gNoClipCameraUnlocked ^= TRUE;
 
     if (gButtonInput & KEY_RIGHT)
         xMovement = QUARTER_BLOCK_SIZE - PIXEL_SIZE;

@@ -20,55 +20,56 @@
 #include "structs/samus.h"
 
 /**
- * @brief 68974 | 7c | To document
+ * @brief 68974 | 7c | Updates the hidden block reveal (unused): backs up the BG1 tilemap, reveals the
+ * hidden blocks one row per frame, and restores BG1 when the stage is set to 0x80
  * 
  */
-void unk_68974(void)
+void ClipdataUpdateBlockReveal(void)
 {
-    if (gUnk_3004e48[0] == 0)
+    if (gBlockReveal[0] == 0)
         return;
     
-    switch (gUnk_3004e48[0])
+    switch (gBlockReveal[0])
     {
         case 1:
             DmaTransfer(3, VRAM_BASE + 0x1000, EWRAM_BASE + 0x20000, 0x1000, 16);
-            gUnk_3004e48[1] = 0;
-            gUnk_3004e48[0]++;
+            gBlockReveal[1] = 0;
+            gBlockReveal[0]++;
 
         case 2:
-            if (unk_689f0())
-                gUnk_3004e48[0]++;
+            if (ClipdataRevealBlocksRow())
+                gBlockReveal[0]++;
 
         default:
-            if (gUnk_3004e48[0] == 0x80)
+            if (gBlockReveal[0] == 0x80)
             {
                 DmaTransfer(3, EWRAM_BASE + 0x20000, VRAM_BASE + 0x1000, 0x1000, 16);
-                gUnk_3004e48[0] = 0;
-                gUnk_3004e48[1] = 0;
+                gBlockReveal[0] = 0;
+                gBlockReveal[1] = 0;
             }
     }
 }
 
 /**
- * @brief 689f0 | 100 | To document
+ * @brief 689f0 | 100 | Reveals the hidden breakable blocks on the next row of the screen (in BG1)
  * 
- * @return s32 bool, to document
+ * @return s32 bool, all the rows are revealed
  */
-s32 unk_689f0(void)
+s32 ClipdataRevealBlocksRow(void)
 {
     s32 yPosition;
     s32 xPosition;
     s32 i;
     s32 clipdata;
 
-    if (gUnk_3004e48[1] == 12)
+    if (gBlockReveal[1] == 12)
         return TRUE;
 
     yPosition = SUB_PIXEL_TO_BLOCK(gBg1YPosition);
     xPosition = SUB_PIXEL_TO_BLOCK(gBg1XPosition);
 
     yPosition--;
-    yPosition += gUnk_3004e48[1];
+    yPosition += gBlockReveal[1];
     xPosition--;
 
     for (i = 0; i <= 16; i++, xPosition++)
@@ -115,7 +116,7 @@ s32 unk_689f0(void)
         BgClipSetBg1TilemapValue(clipdata, yPosition, xPosition);
     }
 
-    gUnk_3004e48[1]++;
+    gBlockReveal[1]++;
 
     return FALSE;
 }
@@ -441,7 +442,7 @@ u32 ClipdataConvertToCollision(struct CollisionData* pCollision)
             result = tmp - result * 6;
             clipdata = FALSE;
 
-            if (gHatchData[result].unk_1_0 == 2)
+            if (gHatchData[result].state == 2)
                 clipdata = TRUE;
         }
         else

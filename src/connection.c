@@ -85,7 +85,7 @@ u32 ConnectionCheckEnterDoor(u16 yPosition, u16 xPosition)
 
             for (i = 0; i < ARRAY_SIZE(gHatchData); i++)
             {
-                gHatchData[i].unk_1_3 = 0;
+                gHatchData[i].animationTimer = 0;
 
                 if (!gHatchData[i].exists)
                     continue;
@@ -267,11 +267,11 @@ u32 ConnectionFindEventBasedDoor(u8 srcDoor)
 }
 
 /**
- * @brief 6956c | 48 | Unused function (related to make solid blocks)
+ * @brief 6956c | 48 | Sets the clipdata of every make solid block (unused)
  * 
  * @param value Clipdata value
  */
-void unk_6956c(u16 value)
+void ConnectionSetMakeSolidBlocksClipdata(u16 value)
 {
     u16* pMSB;
     s32 i;

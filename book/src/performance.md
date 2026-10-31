@@ -271,7 +271,7 @@ compares them at every logic-frame boundary:
 Things that legitimately depend on timing, already in the original:
 
 - **The sound mixer follows real time.** The interrupt of the sound DMA
-  (DMA 2) advances the playback position (`gMusicInfo.unk_10`) as the samples
+  (DMA 2) advances the playback position (`gMusicInfo.dmaBlock`) as the samples
   are played, and `UpdateMusic` mixes as many samples as were played since it
   last ran. After a lag frame
   the original mixes more samples at once, which moves every channel's sample

@@ -347,7 +347,7 @@ void BeamCoreXFlee(void)
     {
         EventCheckAdvance(EVENT_SA_X_DEFEATED);
         gCurrentSprite.status = 0;
-        unk_372c(60, MUSIC_OPERATIONS_DECK, 10);
+        FadeMusicThenPlay(60, MUSIC_OPERATIONS_DECK, 10);
     }
 }
 

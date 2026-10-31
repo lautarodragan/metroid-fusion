@@ -94,9 +94,12 @@ extern u16 gFrameCounter16Bit;
 extern s8 gPauseScreenFlag;
 extern u8 gCurrentCutscene;
 extern s8 gIsLoadingFile;
-extern bools8 gUnk_3000be3;
+// Cleared when gameplay (re)starts (new game, file loaded, demo, continue), set after the first room is loaded;
+// while clear, loading a room also resets Samus, the sprites and the HUD
+extern bools8 gGameplayInitialized;
 extern u8 gUnk_3000b8f;
-extern u8 gUnk_3000064;
+// Debug: during no-clip (SUB_GAME_MODE_NO_CLIP), START toggles a free camera
+extern u8 gNoClipCameraUnlocked;
 
 extern u8 gCurrentEventBasedEffect;
 extern u8 gQueuedEventBasedEffect;
@@ -208,7 +211,8 @@ struct IoRegisters {
     u16 bg1Cnt;
     u16 bg2Cnt;
     u16 bg3Cnt;
-    u16 unk_10;
+    // BG0CNT currently in use, bg0Cnt is the room's default (the screen size bits get cleared when the water surface is above the screen)
+    u16 currentBg0Cnt;
 };
 
 extern struct IoRegisters gIoRegisters;
@@ -279,16 +283,20 @@ enum SubGameMode {
 };
 
 
-extern u16 gUnk_3000050;
-extern u8 gUnk_3004e42;
+// Backgrounds (DCNT_BG* flags) that don't move with the screen shake
+extern u16 gScreenShakeExemptBgs;
+// Set while Samus has been slowed by Nightmare's gravity for a second, cleared a second after it ends
+extern u8 gNightmareGravityEffect;
 
-struct Unk_3004e44 {
-    u8 unk_0_L:4;
-    u8 unk_0_H:4;
-    u8 unk_1;
+// Slowly oscillates the blending coefficients (by 0, 1, 2, 1, 0, -1, -2, -1 every 20 frames) in rooms with
+// BG_PROP_DISABLE_TRANSPARENCY, see RoomUpdateTransparencyPulse
+struct TransparencyPulse {
+    u8 enabled:4;
+    u8 phase:4;
+    u8 timer;
 };
 
-extern struct Unk_3004e44 gUnk_3004e44;
+extern struct TransparencyPulse gTransparencyPulse;
 
 struct EventBasedEffectInfo {
     u16 stage;

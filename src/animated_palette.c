@@ -45,7 +45,7 @@ void AnimatedPaletteUpdate(void)
 
                 if (CURR_ANIM_PAL_DATA.numberOfStates <= gAnimatedPaletteTiming.row1)
                 {
-                    if (gUnk_3004e3a != 0)
+                    if (gStopAnimatedPaletteAfterCycle != 0)
                         update = 1;
 
                     gAnimatedPaletteTiming.row1 = 0;
@@ -63,7 +63,7 @@ void AnimatedPaletteUpdate(void)
 
                 if (CURR_ANIM_PAL_DATA.numberOfStates <= gAnimatedPaletteTiming.row1)
                 {
-                    if (gUnk_3004e3a != 0)
+                    if (gStopAnimatedPaletteAfterCycle != 0)
                         update = 1;
 
                     newRow = CURR_ANIM_PAL_DATA.numberOfStates - 1;
@@ -115,7 +115,7 @@ void AnimatedPaletteCheckDisableOnTransition(void)
 {
     gAnimatedPaletteTiming = sAnimatedPaletteTiming_Empty;
     gHatchFlashAnimation = sAnimatedPaletteTiming_Empty;
-    gUnk_3004e3a = 0;
+    gStopAnimatedPaletteAfterCycle = 0;
     
     if (AnimatedPaletteCheckDisabledFromEvent() == TRUE)
         gAnimatedPaletteAndTileset.animatedPalette = 0;

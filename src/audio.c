@@ -8,24 +8,24 @@
 
 #include "constants/audio_engine.h"
 
-static void unk_1960(struct TrackVariables* pVariables);
-static void unk_1988(struct TrackVariables* pVariables);
-static void unk_19ac(struct TrackVariables* pVariables);
-static void unk_1a3c(struct TrackVariables* pVariables, s16 param_2);
-static void unk_1acc(struct TrackVariables* pVariables);
-static void unk_1ae8(struct TrackVariables* pVariables);
-static void unk_1b4c(struct TrackVariables* pVariables);
-static void unk_1b58(struct TrackVariables* pVariables);
-static void unk_1b9c(struct TrackData* pTrack, struct TrackVariables* pVariables);
-static void unk_1cac(struct TrackData* pTrack, struct TrackVariables* pVariables);
-static void unk_1d00(struct TrackData* pTrack, struct TrackVariables* pVariables);
-static void unk_1d50(struct TrackData* pTrack, struct TrackVariables* pVariables);
-static void unk_1da0(struct PsgSoundData* pSound, struct TrackVariables* pVariables, u32 param_3);
+static void TrackUpdateChannelsGateTime(struct TrackVariables* pVariables);
+static void TrackUpdatePsgGateTime(struct TrackVariables* pVariables);
+static void TrackApplyLfoToChannels(struct TrackVariables* pVariables);
+static void TrackApplyLfoToPsg(struct TrackVariables* pVariables, s16 param_2);
+static void TrackRequestChannelsVolumeUpdate(struct TrackVariables* pVariables);
+static void TrackUpdateChannelsFrequency(struct TrackVariables* pVariables);
+static void TrackRequestPsgVolumeUpdate(struct TrackVariables* pVariables);
+static void TrackUpdatePsgFrequency(struct TrackVariables* pVariables);
+static void TrackNoteOnDirectSound(struct TrackData* pTrack, struct TrackVariables* pVariables);
+static void TrackNoteOnDirectSoundCrossFading(struct TrackData* pTrack, struct TrackVariables* pVariables);
+static void TrackNoteOnPsg(struct TrackData* pTrack, struct TrackVariables* pVariables);
+static void TrackNoteOnPsgCrossFading(struct TrackData* pTrack, struct TrackVariables* pVariables);
+static void PsgNoteOn(struct PsgSoundData* pSound, struct TrackVariables* pVariables, u32 param_3);
 
-static u16 GetNoteDelay(struct TrackVariables* pVariables, u8 param_2, u8 param_3);
+static u16 GetPsgFrequency(struct TrackVariables* pVariables, u8 param_2, u8 param_3);
 
 /**
- * @brief e48 | 394 | To document
+ * @brief e48 | 394 | Mixes the direct sound channels into the PCM buffer (envelopes, volumes, sound code)
  * 
  */
 void UpdateMusic(void)
@@ -49,7 +49,7 @@ void UpdateMusic(void)
     u32 tmp2;
     u32 tmp3;
 
-    var_0 = tmp3 = gMusicInfo.unk_9;
+    var_0 = tmp3 = gMusicInfo.maxScanlines;
     if (var_0 != 0)
     {
         vcount = READ_8(REG_VCOUNT);
@@ -58,60 +58,60 @@ void UpdateMusic(void)
 
         tmp3 = vcount;
         var_0 = vcount;
-        tmp3 = gMusicInfo.unk_9;
+        tmp3 = gMusicInfo.maxScanlines;
         var_0 += tmp3;
     }
 
-    var_8 = gMusicInfo.unk_10;
-    var_4 = gMusicInfo.unk_11 * 16;
-    var_7 = ((gMusicInfo.unk_C << 1) + var_8) - 1;
-    if (var_7 >= gMusicInfo.unk_E)
-        var_7 -= gMusicInfo.unk_E;
+    var_8 = gMusicInfo.dmaBlock;
+    var_4 = gMusicInfo.mixBlock * 16;
+    var_7 = ((gMusicInfo.blocksPerFrame << 1) + var_8) - 1;
+    if (var_7 >= gMusicInfo.blocksPerBuffer)
+        var_7 -= gMusicInfo.blocksPerBuffer;
 
     var_3 = 0;
-    if (var_8 <= var_7 && var_7 <= gMusicInfo.unk_11)
+    if (var_8 <= var_7 && var_7 <= gMusicInfo.mixBlock)
     {
-        var_4 = (var_7 - gMusicInfo.unk_C + 1) * 16;
-        var_6 = gMusicInfo.unk_C;
-        if (var_7 + 1 == gMusicInfo.unk_E)
-            gMusicInfo.unk_11 = 0;
+        var_4 = (var_7 - gMusicInfo.blocksPerFrame + 1) * 16;
+        var_6 = gMusicInfo.blocksPerFrame;
+        if (var_7 + 1 == gMusicInfo.blocksPerBuffer)
+            gMusicInfo.mixBlock = 0;
         else
-            gMusicInfo.unk_11 = var_7 + 1;
+            gMusicInfo.mixBlock = var_7 + 1;
     }
-    else if (gMusicInfo.unk_11 <= var_8 && var_8 <= var_7)
+    else if (gMusicInfo.mixBlock <= var_8 && var_8 <= var_7)
     {
-        var_4 = (var_7 - gMusicInfo.unk_C + 1) * 16;
-        var_6 = gMusicInfo.unk_C;
-        if (var_7 + 1 == gMusicInfo.unk_E)
-            gMusicInfo.unk_11 = 0;
+        var_4 = (var_7 - gMusicInfo.blocksPerFrame + 1) * 16;
+        var_6 = gMusicInfo.blocksPerFrame;
+        if (var_7 + 1 == gMusicInfo.blocksPerBuffer)
+            gMusicInfo.mixBlock = 0;
         else
-            gMusicInfo.unk_11 = var_7 + 1;
+            gMusicInfo.mixBlock = var_7 + 1;
     }
-    else if (var_7 <= gMusicInfo.unk_11 && gMusicInfo.unk_11 <= var_8)
+    else if (var_7 <= gMusicInfo.mixBlock && gMusicInfo.mixBlock <= var_8)
     {
         var_4 = 0;
         var_6 = var_7 + 1;
-        gMusicInfo.unk_11 = var_6;
+        gMusicInfo.mixBlock = var_6;
     }
-    else if (gMusicInfo.unk_11 < var_7)
+    else if (gMusicInfo.mixBlock < var_7)
     {
-        var_6 = (var_7 - gMusicInfo.unk_11) + 1;
-        if (var_7 + 1 == gMusicInfo.unk_E)
-            gMusicInfo.unk_11 = 0;
+        var_6 = (var_7 - gMusicInfo.mixBlock) + 1;
+        if (var_7 + 1 == gMusicInfo.blocksPerBuffer)
+            gMusicInfo.mixBlock = 0;
         else
-            gMusicInfo.unk_11 = var_7 + 1;
+            gMusicInfo.mixBlock = var_7 + 1;
     }
-    else if (gMusicInfo.unk_11 > var_7)
+    else if (gMusicInfo.mixBlock > var_7)
     {
-        var_6 = gMusicInfo.unk_E - gMusicInfo.unk_11;
+        var_6 = gMusicInfo.blocksPerBuffer - gMusicInfo.mixBlock;
         var_3 = var_7 + 1;
-        gMusicInfo.unk_11 = var_3;
+        gMusicInfo.mixBlock = var_3;
     }
     else
     {
         var_4 = 0;
         var_6 = var_7 + 1;
-        gMusicInfo.unk_11 = var_6;
+        gMusicInfo.mixBlock = var_6;
     }
 
 
@@ -141,49 +141,49 @@ void UpdateMusic(void)
         }
 
         pChannel = &gMusicInfo.soundChannels[i];
-        if (pChannel->unk_0 == 0)
+        if (pChannel->status == 0)
             continue;
 
         gMusicInfo.currentSoundChannel++;
         pVariables = pChannel->pVariables;
 
-        while (pChannel->unk_13 != 0)
+        while (pChannel->flags != 0)
         {
-            if (pChannel->unk_13 & 0x2)
+            if (pChannel->flags & 0x2)
             {
-                if (pChannel->unk_1 == 0x20)
+                if (pChannel->type == 0x20)
                     pChannel->unk_18 = pChannel->pSample[3] << 14;
                 else
                     pChannel->unk_18 = 0;
 
-                pChannel->unk_10 = 0;
-                pChannel->unk_13 &= ~0x2;
-                pChannel->unk_13 |= 0x10;
+                pChannel->envelopeVolume = 0;
+                pChannel->flags &= ~0x2;
+                pChannel->flags |= 0x10;
             }
-            else if (pChannel->unk_13 & 0x4)
+            else if (pChannel->flags & 0x4)
             {
-                pChannel->unk_13 &= ~0x4;
+                pChannel->flags &= ~0x4;
             }
-            else if (pChannel->unk_13 & 0x10)
+            else if (pChannel->flags & 0x10)
             {
-                if (pVariables->unk_0 & 0x80)
+                if (pVariables->flags & 0x80)
                 {
-                    pVariables->unk_6 = pChannel->unk_3;
-                    unk_491c(pVariables);
+                    pVariables->pan = pChannel->pan;
+                    TrackUpdateVolume(pVariables);
                 }
 
-                pChannel->unk_4 = (pVariables->unk_8 * (pChannel->unk_F + 1)) >> 7;
-                pChannel->unk_5 = (pVariables->unk_9 * (pChannel->unk_F + 1)) >> 7;
+                pChannel->rightVolume = (pVariables->rightVolume * (pChannel->velocity + 1)) >> 7;
+                pChannel->leftVolume = (pVariables->leftVolume * (pChannel->velocity + 1)) >> 7;
 
-                pChannel->unk_13 &= ~0x10;
+                pChannel->flags &= ~0x10;
             }
         }
 
-        var_1 = pChannel->unk_10;
-        var_5 = pChannel->unk_0 & 0xF;
+        var_1 = pChannel->envelopeVolume;
+        var_5 = pChannel->status & 0xF;
         if (var_5 == 0xA)
         {
-            pChannel->unk_0 = 0;
+            pChannel->status = 0;
             continue;
         }
         
@@ -206,7 +206,7 @@ void UpdateMusic(void)
 
                 lbl_1:
                 var_1 = 0;
-                pChannel->unk_0 = 2;
+                pChannel->status = 2;
 
                 lbl_2:
                 var_1 += pChannel->envelope.attack;
@@ -219,12 +219,12 @@ void UpdateMusic(void)
                 if (tmp2 != 0)
                 {
                     var_1 = UCHAR_MAX;
-                    pChannel->unk_0 = 3;
+                    pChannel->status = 3;
                 }
                 else
                 {
                     var_1 = var_8;
-                    pChannel->unk_0 = 4;
+                    pChannel->status = 4;
                     break;
                 }
 
@@ -235,38 +235,38 @@ void UpdateMusic(void)
                 if (var_8 != 0)
                 {
                     var_1 = var_8;
-                    pChannel->unk_0 = 4;
+                    pChannel->status = 4;
                     break;
                 }
 
             case 5:
-                pChannel->unk_0 = 6;
+                pChannel->status = 6;
 
             case 6:
                 if ((var_1 = (var_1 * pChannel->envelope.release) >> 8) > 0)
                     break;
 
-                pChannel->unk_0 = 0;
-                if (pChannel->unk_C != 0 && pChannel->unk_D != 0)
-                    pChannel->unk_0 = 8;
+                pChannel->status = 0;
+                if (pChannel->echoVolume != 0 && pChannel->echoLength != 0)
+                    pChannel->status = 8;
                 else
-                    unk_1e14(pChannel);
+                    SoundChannelUnlink(pChannel);
                 continue;
 
             case 8:
-                pChannel->unk_D--;
-                if (pChannel->unk_D == 0)
+                pChannel->echoLength--;
+                if (pChannel->echoLength == 0)
                 {
-                    pChannel->unk_0 = 0;
-                    unk_1e14(pChannel);
+                    pChannel->status = 0;
+                    SoundChannelUnlink(pChannel);
                 }
                 break;
         }
 
-        pChannel->unk_10 = var_1;
+        pChannel->envelopeVolume = var_1;
         var_2 = (var_1 * (gMusicInfo.volume + 1)) >> 4;
-        pChannel->unk_11 = var_2 * pChannel->unk_4 >> 8;
-        pChannel->unk_12 = var_2 * pChannel->unk_5 >> 8;
+        pChannel->envelopeVolumeRight = var_2 * pChannel->rightVolume >> 8;
+        pChannel->envelopeVolumeLeft = var_2 * pChannel->leftVolume >> 8;
 
         tmp = gMusicInfo.musicRawData;
         gSoundCodeAPointer(pChannel, tmp, (var_6 + var_3) * 4);
@@ -283,7 +283,7 @@ void UpdateMusic(void)
 }
 
 /**
- * @brief 11dc | 3f8 | To document
+ * @brief 11dc | 3f8 | Updates the PSG channels (envelopes, volumes, registers)
  * 
  */
 void UpdatePsgSounds(void)
@@ -302,21 +302,21 @@ void UpdatePsgSounds(void)
     {
         pSound = &gPsgSounds[i];
 
-        if (pSound->unk_0 == 0)
+        if (pSound->status == 0)
             continue;
 
-        while (pSound->unk_F)
+        while (pSound->flags)
         {
-            if (pSound->unk_F & 0x2)
+            if (pSound->flags & 0x2)
             {
                 pVariables = pSound->pVariables;
 
-                pSound->unk_A = pVariables->unk_F;
-                pSound->unk_B = pVariables->volume;
-                pSound->unk_D = pVariables->unk_C;
-                pSound->unk_E = pVariables->unk_D;
-                pSound->unk_1D = pVariables->unk_36;
-                pSound->unk_1E = pVariables->unk_37;
+                pSound->velocity = pVariables->velocity;
+                pSound->volume = pVariables->volume;
+                pSound->echoVolume = pVariables->echoVolume;
+                pSound->echoLength = pVariables->echoLength;
+                pSound->length = pVariables->length;
+                pSound->sweep = pVariables->sweep;
                 
                 pSound->pSample = pVariables->pSample1;
                 pSound->envelope.attack = pVariables->envelope1.attack;
@@ -324,43 +324,43 @@ void UpdatePsgSounds(void)
                 pSound->envelope.sustain = pVariables->envelope1.sustain;
                 pSound->envelope.release = pVariables->envelope1.release;
 
-                pSound->unk_1F = pVariables->modulationType;
+                pSound->modulationType = pVariables->modulationType;
 
-                pSound->unk_F &= ~0x2;
-                pSound->unk_F |= 0x10;
+                pSound->flags &= ~0x2;
+                pSound->flags |= 0x10;
                 continue;
             }
 
-            if (pSound->unk_F & 0x4)
+            if (pSound->flags & 0x4)
             {
-                pSound->unk_14 = pSound->maybe_noteDelay;
+                pSound->regFrequency = pSound->frequency;
 
-                unk_4b10(pSound);
+                PsgWriteRegisters(pSound);
 
-                pSound->unk_F &= ~0x4;
+                pSound->flags &= ~0x4;
                 continue;
             }
 
-            if (pSound->unk_F & 0x10)
+            if (pSound->flags & 0x10)
             {
-                if (pSound->pVariables->unk_6 != pSound->unk_C)
+                if (pSound->pVariables->pan != pSound->pan)
                 {
-                    pSound->pVariables->unk_6 = pSound->unk_C;
-                    unk_491c(pSound->pVariables);
+                    pSound->pVariables->pan = pSound->pan;
+                    TrackUpdateVolume(pSound->pVariables);
                 }
 
-                pSound->unk_2 = (pSound->pVariables->unk_8 * (pSound->unk_A + 1)) >> 7;
-                pSound->unk_3 = (pSound->pVariables->unk_9 * (pSound->unk_A + 1)) >> 7;
+                pSound->rightVolume = (pSound->pVariables->rightVolume * (pSound->velocity + 1)) >> 7;
+                pSound->leftVolume = (pSound->pVariables->leftVolume * (pSound->velocity + 1)) >> 7;
 
-                pSound->unk_1A = (pSound->unk_2 + pSound->unk_3) >> 4;
-                pSound->unk_1B = (pSound->unk_1A * pSound->envelope.sustain + 0xF) >> 4;
+                pSound->envelopeGoal = (pSound->rightVolume + pSound->leftVolume) >> 4;
+                pSound->sustainGoal = (pSound->envelopeGoal * pSound->envelope.sustain + 0xF) >> 4;
 
                 ptr = (u8*)(REG_SOUNDCNT_L + 1);
                 control = READ_8(ptr) & ~(0x11 << i);
 
-                if (pSound->unk_2 >= pSound->unk_3)
+                if (pSound->rightVolume >= pSound->leftVolume)
                 {
-                    if ((pSound->unk_2 >> 1) > pSound->unk_3)
+                    if ((pSound->rightVolume >> 1) > pSound->leftVolume)
                     {
                         *ptr = control | (1 << i);
                     }
@@ -371,7 +371,7 @@ void UpdatePsgSounds(void)
                 }
                 else
                 {
-                    if ((pSound->unk_3 >> 1) > pSound->unk_2)
+                    if ((pSound->leftVolume >> 1) > pSound->rightVolume)
                     {
                         *ptr = control | (16 << i);
                     }
@@ -381,26 +381,26 @@ void UpdatePsgSounds(void)
                     }
                 }
 
-                pSound->unk_12 = 0;
-                pSound->unk_14 |= 0x8000;
+                pSound->regEnvelope = 0;
+                pSound->regFrequency |= 0x8000;
 
                 var_0 = TRUE;
 
-                pSound->unk_F &= ~0x10;
+                pSound->flags &= ~0x10;
                 continue;
             }
 
-            if (pSound->unk_F & 0x20)
+            if (pSound->flags & 0x20)
             {
-                pSound->unk_14 = pSound->maybe_noteDelay | 0x8000;
+                pSound->regFrequency = pSound->frequency | 0x8000;
 
-                unk_4b10(pSound);
+                PsgWriteRegisters(pSound);
 
-                pSound->unk_F &= ~0x20;
+                pSound->flags &= ~0x20;
             }
         }
 
-        control = pSound->unk_0 & 0xF;
+        control = pSound->status & 0xF;
 
         if (control == 0xA)
         {
@@ -412,22 +412,22 @@ void UpdatePsgSounds(void)
         {
             if (i == 0)
             {
-                pSound->unk_10 = pSound->unk_1E;
+                pSound->regSweep = pSound->sweep;
             }
             else if (i == 2)
             {
-                pSound->unk_10 = 0x80;
+                pSound->regSweep = 0x80;
             }
 
             if (i < 2)
-                pSound->unk_11 = (u8)(u32)pSound->pSample;
+                pSound->regLengthDuty = (u8)(u32)pSound->pSample;
             else
-                pSound->unk_11 = 0;
+                pSound->regLengthDuty = 0;
 
             tmp = 0;
-            pSound->unk_14 = pSound->maybe_noteDelay | tmp | 0x8000;
+            pSound->regFrequency = pSound->frequency | tmp | 0x8000;
 
-            if (pSound->unk_1D != 0)
+            if (pSound->length != 0)
             {
                 goto lbl_pre_case_9;
             }
@@ -449,25 +449,25 @@ void UpdatePsgSounds(void)
             }
         }
 
-        if (pSound->unk_18 == 0)
+        if (pSound->envelopeCounter == 0)
         {
-            switch (pSound->unk_0 & 0xF)
+            switch (pSound->status & 0xF)
             {
                 case 2:
                     goto lbl_case_2;
 
                     lbl_pre_case_2:
-                    pSound->unk_19 = 0;
+                    pSound->envelopeVolume = 0;
                     if (i == 2)
-                        pSound->unk_12 = 0;
+                        pSound->regEnvelope = 0;
                     else
-                        pSound->unk_12 = pSound->envelope.attack + 8;
+                        pSound->regEnvelope = pSound->envelope.attack + 8;
 
-                    pSound->unk_0 = 2;
-                    unk_4b10(pSound);
+                    pSound->status = 2;
+                    PsgWriteRegisters(pSound);
 
                     lbl_case_2:
-                    if (++pSound->unk_19 >= pSound->unk_1A)
+                    if (++pSound->envelopeVolume >= pSound->envelopeGoal)
                     {
                         lbl_3:
                         if (pSound->envelope.decay == 0)
@@ -483,11 +483,11 @@ void UpdatePsgSounds(void)
                     {
                         if (i == 2)
                         {
-                            pSound->unk_12 = 0;
+                            pSound->regEnvelope = 0;
                             var_0 = TRUE;
                         }
     
-                        pSound->unk_18 = pSound->envelope.attack;
+                        pSound->envelopeCounter = pSound->envelope.attack;
                         break;
                     }
                     
@@ -496,66 +496,66 @@ void UpdatePsgSounds(void)
                     goto lbl_case_3;
                     
                     lbl_2:
-                    pSound->unk_19 = pSound->unk_1A;
+                    pSound->envelopeVolume = pSound->envelopeGoal;
                     if (i == 2)
                     {
-                        pSound->unk_12 = 0;
+                        pSound->regEnvelope = 0;
                     }
                     else
                     {
-                        pSound->unk_12 = pSound->envelope.decay;
-                        pSound->unk_14 = pSound->maybe_noteDelay | 0x8000;
+                        pSound->regEnvelope = pSound->envelope.decay;
+                        pSound->regFrequency = pSound->frequency | 0x8000;
                     }
 
-                    pSound->unk_0 = 3;
+                    pSound->status = 3;
                     var_0 = TRUE;
 
                     lbl_case_3:
-                    if (--pSound->unk_19 > pSound->unk_1B)
+                    if (--pSound->envelopeVolume > pSound->sustainGoal)
                     {
                         if (i == 2)
                         {
-                            pSound->unk_12 = 0;
+                            pSound->regEnvelope = 0;
                             var_0 = TRUE;
                         }
 
-                        pSound->unk_18 = pSound->envelope.decay;
+                        pSound->envelopeCounter = pSound->envelope.decay;
                         break;
                     }
 
                     lbl_1:
-                    pSound->unk_19 = pSound->unk_1B;
+                    pSound->envelopeVolume = pSound->sustainGoal;
 
                     if (i == 2)
                     {
-                        pSound->unk_12 = 0;
+                        pSound->regEnvelope = 0;
                     }
                     else
                     {
-                        pSound->unk_12 = 0;
-                        pSound->unk_14 = pSound->maybe_noteDelay | 0x8000;
+                        pSound->regEnvelope = 0;
+                        pSound->regFrequency = pSound->frequency | 0x8000;
                     }
                     
-                    pSound->unk_0 = 4;
+                    pSound->status = 4;
                     var_0 = TRUE;
 
                 case 4:
-                    pSound->unk_19 = pSound->unk_1B;
+                    pSound->envelopeVolume = pSound->sustainGoal;
                     
-                    if ((pSound->unk_0 & 0xF) == 4)
-                        pSound->unk_18 = 1;
+                    if ((pSound->status & 0xF) == 4)
+                        pSound->envelopeCounter = 1;
                     break;
 
                 case 5:
-                    if (pSound->envelope.release != 0 && pSound->unk_1D == 0)
+                    if (pSound->envelope.release != 0 && pSound->length == 0)
                     {
                         if (i != 2)
                         {
-                            pSound->unk_12 = pSound->envelope.release;
-                            pSound->unk_14 = pSound->maybe_noteDelay | 0x8000;
+                            pSound->regEnvelope = pSound->envelope.release;
+                            pSound->regFrequency = pSound->frequency | 0x8000;
                         }
 
-                        pSound->unk_0 = 6;
+                        pSound->status = 6;
                         var_0 = TRUE;
                     }
                     else
@@ -564,38 +564,38 @@ void UpdatePsgSounds(void)
                     }
 
                 case 6:
-                    pSound->unk_19--;
-                    if (pSound->unk_19 > 0)
+                    pSound->envelopeVolume--;
+                    if (pSound->envelopeVolume > 0)
                     {
                         if (i == 2)
                         {
-                            pSound->unk_12 = 0;
+                            pSound->regEnvelope = 0;
                             var_0 = TRUE;
                         }
 
-                        pSound->unk_18 = pSound->envelope.release;
+                        pSound->envelopeCounter = pSound->envelope.release;
                         break;
                     }
 
                     lbl_0:
-                    pSound->unk_0 = 0;
+                    pSound->status = 0;
 
-                    if (pSound->unk_D != 0 && pSound->unk_E != 0)
+                    if (pSound->echoVolume != 0 && pSound->echoLength != 0)
                     {
-                        pSound->unk_19 = (pSound->unk_1A * pSound->unk_D + 0xFF) >> 8;
-                        pSound->unk_18 = pSound->unk_E;
+                        pSound->envelopeVolume = (pSound->envelopeGoal * pSound->echoVolume + 0xFF) >> 8;
+                        pSound->envelopeCounter = pSound->echoLength;
 
                         if (i == 2)
                         {
-                            pSound->unk_12 = sCgb3Vol[pSound->unk_19];
+                            pSound->regEnvelope = sCgb3Vol[pSound->envelopeVolume];
                         }
                         else
                         {
-                            pSound->unk_12 = 0;
-                            pSound->unk_14 = pSound->maybe_noteDelay | 0x8000;
+                            pSound->regEnvelope = 0;
+                            pSound->regFrequency = pSound->frequency | 0x8000;
                         }
 
-                        pSound->unk_0 = 8;
+                        pSound->status = 8;
                         var_0 = TRUE;
                     }
                     else
@@ -606,10 +606,10 @@ void UpdatePsgSounds(void)
                     break;
 
                 case 8:
-                    if (pSound->unk_18 == 0)
+                    if (pSound->envelopeCounter == 0)
                     {
                         ClearRegistersForPsg(pSound, i);
-                        pSound->unk_0 = 0;
+                        pSound->status = 0;
                     }
                     continue;
 
@@ -617,19 +617,19 @@ void UpdatePsgSounds(void)
                     goto lbl_case_9;
 
                     lbl_pre_case_9:
-                    pSound->unk_11 |= pSound->unk_1D;
-                    pSound->unk_12 = 0;
-                    pSound->unk_19 = pSound->unk_1B;
-                    pSound->unk_14 |= 0x4000;
-                    pSound->unk_0 = 9;
+                    pSound->regLengthDuty |= pSound->length;
+                    pSound->regEnvelope = 0;
+                    pSound->envelopeVolume = pSound->sustainGoal;
+                    pSound->regFrequency |= 0x4000;
+                    pSound->status = 9;
 
                     var_0 = TRUE;
 
                     lbl_case_9:
-                    pSound->unk_18 = UCHAR_MAX;
+                    pSound->envelopeCounter = UCHAR_MAX;
                     if (var_0)
                     {
-                        pSound->unk_14 |= 0x4000;
+                        pSound->regFrequency |= 0x4000;
                     }
                     break;
             }
@@ -638,17 +638,17 @@ void UpdatePsgSounds(void)
         if (var_0)
         {
             var_0 = FALSE;
-            control = (u8)pSound->unk_19;
+            control = (u8)pSound->envelopeVolume;
 
             if (i == 2)
-                pSound->unk_12 = sCgb3Vol[control];
+                pSound->regEnvelope = sCgb3Vol[control];
             else
-                pSound->unk_12 |= control << 4;
+                pSound->regEnvelope |= control << 4;
 
-            unk_4b10(pSound);
+            PsgWriteRegisters(pSound);
         }
 
-        pSound->unk_18--;
+        pSound->envelopeCounter--;
     }
 }
 
@@ -681,33 +681,33 @@ void UpdateTrack(struct TrackData* pTrack)
         if (pTrack->flags & 0xF8)
         {
             if (pTrack->flags & 0x98)
-                unk_2a40(pTrack);
+                UpdateTrackFadeOut(pTrack);
             else
-                unk_2ba4(pTrack);
+                UpdateTrackFadeIn(pTrack);
         }
 
         if (pTrack->flags & 0x2)
         {
-            var_1 = unk_475c(pTrack);
+            var_1 = TrackUpdateTempoCounter(pTrack);
             while (var_1 != 0)
             {
                 for (i = 0, pVariables = pTrack->pVariables; i < pTrack->amountOfTracks; i++, pVariables++)
                 {
-                    if (pVariables->unk_0 == 0)
+                    if (pVariables->flags == 0)
                         continue;
 
                     if (pVariables->pChannel != NULL)
-                        unk_1960(pVariables);
+                        TrackUpdateChannelsGateTime(pVariables);
 
                     if (pVariables->pSoundPsg != NULL)
-                        unk_1988(pVariables);
+                        TrackUpdatePsgGateTime(pVariables);
 
                     if (pVariables->delay != 0)
                     {
                         pVariables->delay--;
-                        if (pVariables->unk_15 != 0)
+                        if (pVariables->lfoDelayCounter != 0)
                         {
-                            pVariables->unk_15--;
+                            pVariables->lfoDelayCounter--;
                         }
                         else
                         {
@@ -715,35 +715,35 @@ void UpdateTrack(struct TrackData* pTrack)
                             {
                                 if (pVariables->pChannel != NULL)
                                 {
-                                    if (pVariables->pChannel->unk_0 != 0)
+                                    if (pVariables->pChannel->status != 0)
                                     {
-                                        pVariables->unk_16 += pVariables->lfoSpeed;
-                                        if ((s8)(pVariables->unk_16 - 0x40) < 0)
-                                            var_2 = pVariables->unk_16;
+                                        pVariables->lfoCounter += pVariables->lfoSpeed;
+                                        if ((s8)(pVariables->lfoCounter - 0x40) < 0)
+                                            var_2 = pVariables->lfoCounter;
                                         else
-                                            var_2 = 0x80 - (u8)pVariables->unk_16;
+                                            var_2 = 0x80 - (u8)pVariables->lfoCounter;
 
-                                        if (var_2 != (s8)pVariables->unk_13)
+                                        if (var_2 != (s8)pVariables->modulation)
                                         {
-                                            pVariables->unk_13 = (var_2 * (pVariables->modulationDepth + 1)) >> 7;
-                                            unk_19ac(pVariables);
+                                            pVariables->modulation = (var_2 * (pVariables->modulationDepth + 1)) >> 7;
+                                            TrackApplyLfoToChannels(pVariables);
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    if (pVariables->pSoundPsg != NULL && pVariables->pSoundPsg->unk_0 != 0)
+                                    if (pVariables->pSoundPsg != NULL && pVariables->pSoundPsg->status != 0)
                                     {
-                                        pVariables->unk_16 += pVariables->lfoSpeed;
-                                        if ((s8)(pVariables->unk_16 - 0x40) < 0)
-                                            var_2 = pVariables->unk_16;
+                                        pVariables->lfoCounter += pVariables->lfoSpeed;
+                                        if ((s8)(pVariables->lfoCounter - 0x40) < 0)
+                                            var_2 = pVariables->lfoCounter;
                                         else
-                                            var_2 = 0x80 - (u8)pVariables->unk_16;
+                                            var_2 = 0x80 - (u8)pVariables->lfoCounter;
 
-                                        if (var_2 != (s8)pVariables->unk_13)
+                                        if (var_2 != (s8)pVariables->modulation)
                                         {
-                                            pVariables->unk_13 = (var_2 * (pVariables->modulationDepth + 1)) >> 7;
-                                            unk_1a3c(pVariables, var_2);
+                                            pVariables->modulation = (var_2 * (pVariables->modulationDepth + 1)) >> 7;
+                                            TrackApplyLfoToPsg(pVariables, var_2);
                                         }
                                     }
                                 }
@@ -755,65 +755,65 @@ void UpdateTrack(struct TrackData* pTrack)
                     {
                         var_0 = *pVariables->pRawData;
                         if ((s8)var_0 >= 0)
-                            var_0 = pVariables->unk_3;
+                            var_0 = pVariables->runningStatus;
                         else if (var_0 > 0xBC)
                         {
-                            pVariables->unk_3 = var_0;
+                            pVariables->runningStatus = var_0;
                             pVariables->pRawData++;
                         }
 
                         if (var_0 > 0xCE)
                         {
-                            pVariables->unk_0 |= 0x2;
-                            pVariables->unk_E = sClockTable[var_0 - 0xCF];
+                            pVariables->flags |= 0x2;
+                            pVariables->gateTime = sClockTable[var_0 - 0xCF];
 
                             var_0 = *pVariables->pRawData;
 
-                            if (pVariables->unk_14 != 0)
-                                pVariables->unk_15 = pVariables->unk_14;
+                            if (pVariables->lfoDelay != 0)
+                                pVariables->lfoDelayCounter = pVariables->lfoDelay;
 
                             if ((s8)var_0 >= 0)
                             {
-                                pVariables->unk_1 = var_0;
+                                pVariables->key = var_0;
                                 pVariables->pRawData++;
 
                                 var_0 = *pVariables->pRawData;
                                 if ((s8)var_0 >= 0)
                                 {
-                                    pVariables->unk_F = var_0;
+                                    pVariables->velocity = var_0;
                                     pVariables->pRawData++;
                                 
                                     var_0 = *pVariables->pRawData;
                                 }
                             }
 
-                            if ((pVariables->unk_0 & 0xF0) > 0x3F)
-                                unk_481c(pVariables);
+                            if ((pVariables->flags & 0xF0) > 0x3F)
+                                TrackLoadVoiceForKey(pVariables);
 
-                            pVariables->unk_13 = 0;
-                            unk_48c0(pVariables);
-                            unk_491c(pVariables);
+                            pVariables->modulation = 0;
+                            TrackUpdatePitch(pVariables);
+                            TrackUpdateVolume(pVariables);
 
                             if (pTrack->flags & 0xC0)
                             {
                                 if (pVariables->channel & 7)
-                                    unk_1d50(pTrack, pVariables);
+                                    TrackNoteOnPsgCrossFading(pTrack, pVariables);
                                 else
-                                    unk_1cac(pTrack, pVariables);
+                                    TrackNoteOnDirectSoundCrossFading(pTrack, pVariables);
                             }
                             else
                             {
                                 if (pVariables->channel & 7)
-                                    unk_1d00(pTrack, pVariables);
+                                    TrackNoteOnPsg(pTrack, pVariables);
                                 else
-                                    unk_1b9c(pTrack, pVariables);
+                                    TrackNoteOnDirectSound(pTrack, pVariables);
                             }
                         }
                         else if (var_0 > 0xB0)
                         {
                             if (var_0 == TEMPO)
                             {
-                                unk_477c(pTrack, pVariables);
+                                AudioCommand_Tempo(pTrack, pVariables);
                             }
                             else if (var_0 == VOICE)
                             {
@@ -826,7 +826,7 @@ void UpdateTrack(struct TrackData* pTrack)
                             }
                             else if (var_0 == 0xB6)
                             {
-                                unk_1f04(pTrack, pVariables);
+                                AudioCommand_FineRestoreMusic(pTrack, pVariables);
                                 break;
                             }
                             else
@@ -843,28 +843,28 @@ void UpdateTrack(struct TrackData* pTrack)
                     }
 
 
-                    if (pVariables->unk_0 & 4)
+                    if (pVariables->flags & 4)
                     {
-                        unk_491c(pVariables);
+                        TrackUpdateVolume(pVariables);
                         if (pVariables->pChannel != NULL)
-                            unk_1acc(pVariables);
+                            TrackRequestChannelsVolumeUpdate(pVariables);
 
                         if (pVariables->pSoundPsg != NULL)
-                            unk_1b4c(pVariables);
+                            TrackRequestPsgVolumeUpdate(pVariables);
 
-                        pVariables->unk_0 &= ~4;
+                        pVariables->flags &= ~4;
                     }
 
-                    if (pVariables->unk_0 & 8)
+                    if (pVariables->flags & 8)
                     {
-                        unk_48c0(pVariables);
+                        TrackUpdatePitch(pVariables);
                         if (pVariables->pChannel != NULL)
-                            unk_1ae8(pVariables);
+                            TrackUpdateChannelsFrequency(pVariables);
 
                         if (pVariables->pSoundPsg != NULL)
-                            unk_1b58(pVariables);
+                            TrackUpdatePsgFrequency(pVariables);
 
-                        pVariables->unk_0 &= ~8;
+                        pVariables->flags &= ~8;
                     }
                 }
                 
@@ -888,60 +888,60 @@ void UpdateTrack(struct TrackData* pTrack)
     else if (pTrack->queueFlags & 0x2)
     {
         if (tmp & 0x80)
-            unk_39cc(tmp & 0x80);
+            RestoreInterruptedMusic(tmp & 0x80);
 
         pTrack->queueFlags = 0;
     }
 }
 
 /**
- * @brief 1960 | 28 | To document
+ * @brief 1960 | 28 | Decrements the gate time of the sound channels of a track, and releases the notes that ended
  * 
  * @param pVariables Track variables pointer
  */
-static void unk_1960(struct TrackVariables* pVariables)
+static void TrackUpdateChannelsGateTime(struct TrackVariables* pVariables)
 {
     struct SoundChannel* pChannel;
 
     for (pChannel = pVariables->pChannel; pChannel != NULL; pChannel = pChannel->pChannel2)
     {
-        if (pChannel->unk_E != 0)
+        if (pChannel->gateTime != 0)
         {
-            if (--pChannel->unk_E == 0)
+            if (--pChannel->gateTime == 0)
             {
-                pChannel->unk_0 = 5;
+                pChannel->status = 5;
             }
         }
     }
 }
 
 /**
- * @brief 1988 | 24 | To document
+ * @brief 1988 | 24 | Decrements the gate time of the PSG channel of a track, and releases the note if it ended
  * 
  * @param pVariables Track variables pointer
  */
-static void unk_1988(struct TrackVariables* pVariables)
+static void TrackUpdatePsgGateTime(struct TrackVariables* pVariables)
 {
     struct PsgSoundData* pSound;
 
     pSound = pVariables->pSoundPsg;
 
-    if (pVariables->unk_E != 0)
+    if (pVariables->gateTime != 0)
     {
-        if (--pVariables->unk_E == 0)
+        if (--pVariables->gateTime == 0)
         {
-            pSound->unk_0 = 5;
-            pSound->unk_18 = 0;
+            pSound->status = 5;
+            pSound->envelopeCounter = 0;
         }
     }
 }
 
 /**
- * @brief 19ac | 90 | To document
+ * @brief 19ac | 90 | Applies the LFO (vibrato, tremolo or pan) to the sound channels of a track
  * 
  * @param pVariables Track variables pointer
  */
-static void unk_19ac(struct TrackVariables* pVariables)
+static void TrackApplyLfoToChannels(struct TrackVariables* pVariables)
 {
     struct SoundChannel* pChannel;
     s32 frequency;
@@ -953,46 +953,46 @@ static void unk_19ac(struct TrackVariables* pVariables)
     {
         case 1:
         case 2:
-            unk_491c(pVariables);
+            TrackUpdateVolume(pVariables);
             for (; pChannel != NULL; pChannel = pChannel->pChannel2)
-                pChannel->unk_13 |= 0x10;
+                pChannel->flags |= 0x10;
             break;
         
         case 0:
-            unk_48c0(pVariables);
+            TrackUpdatePitch(pVariables);
 
-            if (pChannel->unk_1 != 0 && pChannel->unk_1 != 0x20)
+            if (pChannel->type != 0 && pChannel->type != 0x20)
                 break;
 
             for (; pChannel != NULL; pChannel = pChannel->pChannel2)
             {
-                midiKey = pVariables->unk_17 + pChannel->unk_7;
+                midiKey = pVariables->keyOffset + pChannel->midiKey;
 
                 if (midiKey >= 0x80)
                     midiKey = 0x7F;
                 else if (midiKey < 0)
                     midiKey = 0;
 
-                frequency = MidiKey2Freq(pVariables->pSample1, midiKey, pVariables->unk_18);
-                pChannel->unk_1C = frequency;
+                frequency = MidiKey2Freq(pVariables->pSample1, midiKey, pVariables->pitchOffset);
+                pChannel->frequency = frequency;
 
                 if (frequency == gMusicInfo.sampleRate)
                     frequency = 0x4000;
                 else
                     frequency = CallGetNoteFrequency(frequency, gMusicInfo.pitch);
 
-                pChannel->unk_1C = frequency;
+                pChannel->frequency = frequency;
             }
     }
 }
 
 /**
- * @brief 1a3c | 90 | To document
+ * @brief 1a3c | 90 | Applies the LFO (vibrato, tremolo or pan) to the PSG channel of a track
  * 
  * @param pVariables Track variables pointer
- * @param param_2 To document
+ * @param param_2 LFO value
  */
-static void unk_1a3c(struct TrackVariables* pVariables, s16 param_2)
+static void TrackApplyLfoToPsg(struct TrackVariables* pVariables, s16 param_2)
 {
     struct PsgSoundData* pSound;
     s16 var_0;
@@ -1001,50 +1001,50 @@ static void unk_1a3c(struct TrackVariables* pVariables, s16 param_2)
 
     if (pVariables->modulationType == 1)
     {
-        unk_491c(pVariables);
-        pSound->unk_12 = ((u8)pSound->unk_19 + (s32)pVariables->unk_13 / sUnk_a53f5[param_2]) * 16;
-        pSound->unk_F |= 0x20;
+        TrackUpdateVolume(pVariables);
+        pSound->regEnvelope = ((u8)pSound->envelopeVolume + (s32)pVariables->modulation / sPsgVolumeLfoDivisors[param_2]) * 16;
+        pSound->flags |= 0x20;
     }
     else if (pVariables->modulationType == 0)
     {
-        unk_48c0(pVariables);
+        TrackUpdatePitch(pVariables);
 
-        var_0 = pVariables->unk_17 + pVariables->pSoundPsg->unk_1C;
+        var_0 = pVariables->keyOffset + pVariables->pSoundPsg->midiKey;
 
         if (var_0 >= 0x80)
             var_0 = 0x7F;
         else if (var_0 < 0)
             var_0 = 0;
 
-        pSound->maybe_noteDelay = GetNoteDelay(pVariables, var_0, pVariables->unk_18);
-        pSound->unk_F |= 0x4;
+        pSound->frequency = GetPsgFrequency(pVariables, var_0, pVariables->pitchOffset);
+        pSound->flags |= 0x4;
     }
     else if (pVariables->modulationType == 2)
     {
-        unk_491c(pVariables);
-        pSound->unk_F |= 0x10;
+        TrackUpdateVolume(pVariables);
+        pSound->flags |= 0x10;
     }
 }
 
 /**
- * @brief 1acc | 1c | To document
+ * @brief 1acc | 1c | Requests a volume update of the sound channels of a track
  * 
  * @param pVariables Track variables pointer
  */
-static void unk_1acc(struct TrackVariables* pVariables)
+static void TrackRequestChannelsVolumeUpdate(struct TrackVariables* pVariables)
 {
     struct SoundChannel* pChannel;
 
     for (pChannel = pVariables->pChannel; pChannel != NULL; pChannel = pChannel->pChannel2)
-        pChannel->unk_13 |= 0x10;
+        pChannel->flags |= 0x10;
 }
 
 /**
- * @brief 1ae8 | 64 | To document
+ * @brief 1ae8 | 64 | Updates the frequency of the sound channels of a track
  * 
  * @param pVariables Track variables pointer
  */
-static void unk_1ae8(struct TrackVariables* pVariables)
+static void TrackUpdateChannelsFrequency(struct TrackVariables* pVariables)
 {
     struct SoundChannel* pChannel;
     s32 frequency;
@@ -1052,63 +1052,63 @@ static void unk_1ae8(struct TrackVariables* pVariables)
 
     for (pChannel = pVariables->pChannel; pChannel != NULL; pChannel = pChannel->pChannel2)
     {
-        midiKey = pVariables->unk_17 + pChannel->unk_7;
+        midiKey = pVariables->keyOffset + pChannel->midiKey;
 
         if (midiKey >= 0x80)
             midiKey = 0x7F;
         else if (midiKey < 0)
             midiKey = 0;
 
-        frequency = MidiKey2Freq(pChannel->pSample, midiKey, pVariables->unk_18);
-        pChannel->unk_1C = frequency;
+        frequency = MidiKey2Freq(pChannel->pSample, midiKey, pVariables->pitchOffset);
+        pChannel->frequency = frequency;
 
         if (frequency == gMusicInfo.sampleRate)
             frequency = 0x4000;
         else
             frequency = CallGetNoteFrequency(frequency, gMusicInfo.pitch);
 
-        pChannel->unk_1C = frequency;
-        pChannel->unk_13 |= 4;
+        pChannel->frequency = frequency;
+        pChannel->flags |= 4;
     }
 }
 
 /**
- * @brief 1b4c | c | To document
+ * @brief 1b4c | c | Requests a volume update of the PSG channel of a track
  * 
  * @param pVariables Track variables pointer
  */
-static void unk_1b4c(struct TrackVariables* pVariables)
+static void TrackRequestPsgVolumeUpdate(struct TrackVariables* pVariables)
 {
-    pVariables->pSoundPsg->unk_F |= 0x10;
+    pVariables->pSoundPsg->flags |= 0x10;
 }
 
 /**
- * @brief 1b58 | 44 | To document
+ * @brief 1b58 | 44 | Updates the frequency of the PSG channel of a track
  * 
  * @param pVariables Track variables pointer
  */
-static void unk_1b58(struct TrackVariables* pVariables)
+static void TrackUpdatePsgFrequency(struct TrackVariables* pVariables)
 {
     s16 var_0;
 
-    var_0 = pVariables->unk_17 + pVariables->pSoundPsg->unk_1C;
+    var_0 = pVariables->keyOffset + pVariables->pSoundPsg->midiKey;
 
     if (var_0 >= 0x80)
         var_0 = 0x7F;
     else if (var_0 < 0)
         var_0 = 0;
 
-    pVariables->pSoundPsg->maybe_noteDelay = GetNoteDelay(pVariables, var_0, pVariables->unk_18);
-    pVariables->pSoundPsg->unk_F |= 0x4;
+    pVariables->pSoundPsg->frequency = GetPsgFrequency(pVariables, var_0, pVariables->pitchOffset);
+    pVariables->pSoundPsg->flags |= 0x4;
 }
 
 /**
- * @brief 1b9c | 110 | To document
+ * @brief 1b9c | 110 | Starts a note on a direct sound channel (a free one, or the one with the lowest priority)
  * 
  * @param pTrack Track data pointer
  * @param pVariables Track variables pointer
  */
-static void unk_1b9c(struct TrackData* pTrack, struct TrackVariables* pVariables)
+static void TrackNoteOnDirectSound(struct TrackData* pTrack, struct TrackVariables* pVariables)
 {
     u8 var_0;
     u8 var_1;
@@ -1119,10 +1119,10 @@ static void unk_1b9c(struct TrackData* pTrack, struct TrackVariables* pVariables
     struct SoundChannel* pChannel;
     struct TrackVariables* pVariables2;
 
-    if (pTrack->unk_3 + pVariables->priority > UCHAR_MAX)
+    if (pTrack->soundPriority + pVariables->priority > UCHAR_MAX)
         var_0 = UCHAR_MAX;
     else
-        var_0 = pTrack->unk_3 + pVariables->priority;
+        var_0 = pTrack->soundPriority + pVariables->priority;
 
     var_2 = var_0;
     pVariables2 = pVariables;
@@ -1131,15 +1131,15 @@ static void unk_1b9c(struct TrackData* pTrack, struct TrackVariables* pVariables
 
     for (i = 0; i < gMusicInfo.maxSoundChannels; i++)
     {
-        if (gMusicInfo.soundChannels[i].unk_0 == 0)
+        if (gMusicInfo.soundChannels[i].status == 0)
         {
             pChannel = &gMusicInfo.soundChannels[i];
             goto end;
-            //unk_4998(pChannel, pVariables, var_0);
+            //SoundChannelNoteOn(pChannel, pVariables, var_0);
             //return;
         }
         
-        if (gMusicInfo.soundChannels[i].unk_0 == 5 || gMusicInfo.soundChannels[i].unk_0 == 6 || gMusicInfo.soundChannels[i].unk_0 == 8)
+        if (gMusicInfo.soundChannels[i].status == 5 || gMusicInfo.soundChannels[i].status == 6 || gMusicInfo.soundChannels[i].status == 8)
         {
             if (!var_1)
             {
@@ -1163,8 +1163,8 @@ static void unk_1b9c(struct TrackData* pTrack, struct TrackVariables* pVariables
         {
             if (var_4 || !var_1)
             {
-                if (gMusicInfo.soundChannels[i].unk_2 >= var_2 &&
-                    (gMusicInfo.soundChannels[i].unk_2 > var_2 ||
+                if (gMusicInfo.soundChannels[i].priority >= var_2 &&
+                    (gMusicInfo.soundChannels[i].priority > var_2 ||
                     (gMusicInfo.soundChannels[i].pVariables <= pVariables2 &&
                     gMusicInfo.soundChannels[i].pVariables < pVariables2)))
                 {
@@ -1180,7 +1180,7 @@ static void unk_1b9c(struct TrackData* pTrack, struct TrackVariables* pVariables
 
         if (var_3)
         {
-            var_2 = gMusicInfo.soundChannels[i].unk_2;
+            var_2 = gMusicInfo.soundChannels[i].priority;
             pVariables2 = gMusicInfo.soundChannels[i].pVariables;
             pChannel = &gMusicInfo.soundChannels[i];
         }
@@ -1189,125 +1189,125 @@ static void unk_1b9c(struct TrackData* pTrack, struct TrackVariables* pVariables
     if (pChannel != NULL)
     {
         end:
-        unk_4998(pChannel, pVariables, var_0);
+        SoundChannelNoteOn(pChannel, pVariables, var_0);
     }
 }
 
 /**
- * @brief 1cac | 54 | To document
+ * @brief 1cac | 54 | Starts a note on a direct sound channel during a cross fade, limited to the channels the track has
  * 
  * @param pTrack Track data pointer
  * @param pVariables Track variables pointer
  */
-static void unk_1cac(struct TrackData* pTrack, struct TrackVariables* pVariables)
+static void TrackNoteOnDirectSoundCrossFading(struct TrackData* pTrack, struct TrackVariables* pVariables)
 {
     if (pTrack->flags & 0x80)
     {
-        if (++pTrack->unk_23 <= pTrack->maxSoundChannels)
-            unk_1b9c(pTrack, pVariables);
+        if (++pTrack->crossFadeNoteCount <= pTrack->maxSoundChannels)
+            TrackNoteOnDirectSound(pTrack, pVariables);
     }
     else if (pTrack->flags & 0x40)
     {
-        if (++pTrack->unk_23 <= pTrack->maxSoundChannels)
-            unk_1b9c(pTrack, pVariables);
+        if (++pTrack->crossFadeNoteCount <= pTrack->maxSoundChannels)
+            TrackNoteOnDirectSound(pTrack, pVariables);
     }
 }
 
 /**
- * @brief 1d00 | 50 | To document
+ * @brief 1d00 | 50 | Starts a note on the PSG channel of a track if its priority allows it
  * 
  * @param pTrack Track data pointer
  * @param pVariables Track variables pointer
  */
-static void unk_1d00(struct TrackData* pTrack, struct TrackVariables* pVariables)
+static void TrackNoteOnPsg(struct TrackData* pTrack, struct TrackVariables* pVariables)
 {
     u8 var_0;
     struct PsgSoundData* pSound;
 
-    if (pTrack->unk_3 + pVariables->priority > UCHAR_MAX)
+    if (pTrack->soundPriority + pVariables->priority > UCHAR_MAX)
         var_0 = UCHAR_MAX;
     else
-        var_0 = pTrack->unk_3 + pVariables->priority;
+        var_0 = pTrack->soundPriority + pVariables->priority;
 
-    pSound = &gUnk_300343c[pVariables->channel & 7];
-    if (pSound->unk_0 == 0 ||
-        (var_0 >= pSound->unk_16 &&
-        (var_0 != pSound->unk_16 ||
+    pSound = &gPsgSoundsByChannel[pVariables->channel & 7];
+    if (pSound->status == 0 ||
+        (var_0 >= pSound->priority &&
+        (var_0 != pSound->priority ||
         pVariables <= pSound->pVariables)))
     {
-        unk_1da0(pSound, pVariables, var_0);
+        PsgNoteOn(pSound, pVariables, var_0);
     }
 }
 
 /**
- * @brief 1d50 | 50 | To document
+ * @brief 1d50 | 50 | Starts a note on the PSG channel of a track if its priority allows it (during a cross fade, identical)
  * 
  * @param pTrack Track data pointer
  * @param pVariables Track variables pointer
  */
-static void unk_1d50(struct TrackData* pTrack, struct TrackVariables* pVariables)
+static void TrackNoteOnPsgCrossFading(struct TrackData* pTrack, struct TrackVariables* pVariables)
 {
     u8 var_0;
     struct PsgSoundData* pSound;
 
-    if (pTrack->unk_3 + pVariables->priority > UCHAR_MAX)
+    if (pTrack->soundPriority + pVariables->priority > UCHAR_MAX)
         var_0 = UCHAR_MAX;
     else
-        var_0 = pTrack->unk_3 + pVariables->priority;
+        var_0 = pTrack->soundPriority + pVariables->priority;
 
-    pSound = &gUnk_300343c[pVariables->channel & 7];
-    if (pSound->unk_0 == 0 ||
-        (var_0 >= pSound->unk_16 &&
-        (var_0 != pSound->unk_16 ||
+    pSound = &gPsgSoundsByChannel[pVariables->channel & 7];
+    if (pSound->status == 0 ||
+        (var_0 >= pSound->priority &&
+        (var_0 != pSound->priority ||
         pVariables <= pSound->pVariables)))
     {
-        unk_1da0(pSound, pVariables, var_0);
+        PsgNoteOn(pSound, pVariables, var_0);
     }
 }
 
 /**
- * @brief 1da0 | 74 | To document
+ * @brief 1da0 | 74 | Starts a note on a PSG channel
  * 
  * @param pSound PSG sound pointer
  * @param pVariables Track variables pointer
- * @param param_3 To document
+ * @param param_3 Priority
  */
-static void unk_1da0(struct PsgSoundData* pSound, struct TrackVariables* pVariables, u32 param_3)
+static void PsgNoteOn(struct PsgSoundData* pSound, struct TrackVariables* pVariables, u32 param_3)
 {
     s16 var_0;
     s16 tmp;
 
-    pSound->unk_16 = param_3;
-    pSound->unk_1 = pVariables->channel;
-    pSound->unk_C = pVariables->unk_6;
-    pSound->unk_17 = pVariables->unk_1;
+    pSound->priority = param_3;
+    pSound->type = pVariables->channel;
+    pSound->pan = pVariables->pan;
+    pSound->key = pVariables->key;
 
-    if ((pVariables->unk_0 & 0xF0) == 0x80)
-        pSound->unk_1C = pVariables->unk_35;
+    if ((pVariables->flags & 0xF0) == 0x80)
+        pSound->midiKey = pVariables->drumKey;
     else
-        pSound->unk_1C = pVariables->unk_1;
+        pSound->midiKey = pVariables->key;
 
-    var_0 = pVariables->unk_17 + pSound->unk_1C;
+    var_0 = pVariables->keyOffset + pSound->midiKey;
 
     if (var_0 >= 0x80)
         var_0 = 0x7F;
     else if (var_0 < 0)
         var_0 = 0;
 
-    pSound->maybe_noteDelay = GetNoteDelay(pVariables, var_0, pVariables->unk_18);
+    pSound->frequency = GetPsgFrequency(pVariables, var_0, pVariables->pitchOffset);
     pSound->pVariables->pSoundPsg = NULL;
     pSound->pVariables = pVariables;
-    pSound->unk_F |= 2;
-    pSound->unk_0 = 1;
+    pSound->flags |= 2;
+    pSound->status = 1;
     pVariables->pSoundPsg = pSound;
 }
 
 /**
- * @brief 1e14 | 34 | To document
+ * @brief 1e14 | 34 | Removes a sound channel from the channel list of its track
  * 
  * @param pChannel Sound channel pointer
  */
-void unk_1e14(volatile struct SoundChannel* pChannel)
+void SoundChannelUnlink(volatile struct SoundChannel* pChannel)
 {
     // Linked list?
     if (pChannel->pVariables != NULL)
@@ -1325,27 +1325,27 @@ void unk_1e14(volatile struct SoundChannel* pChannel)
 }
 
 /**
- * @brief 1e48 | 6c | Gets the delay for a note (probably)
+ * @brief 1e48 | 6c | Gets the value of the frequency register of a PSG channel for a key
  * 
  * @param pVariables Track variables pointer
- * @param param_2 Note?
- * @param param_3 To document
- * @return u16 Delay
+ * @param param_2 MIDI key
+ * @param param_3 Fine pitch (in 1/256 semitone)
+ * @return u16 Frequency register value
  */
-static u16 GetNoteDelay(struct TrackVariables* pVariables, u8 param_2, u8 param_3)
+static u16 GetPsgFrequency(struct TrackVariables* pVariables, u8 param_2, u8 param_3)
 {
     u16 delay;
     u16 temp;
 
     if ((pVariables->channel & 7) < 4)
     {
-        delay = sUnk_a5278[param_2];
+        delay = sPsgFrequencyTable[param_2];
         if (param_3 != 0)
         {
             if (param_2 + 1 > 0x7F)
                 param_2 = 0x7F;
 
-            temp = (sUnk_a5278[param_2 + 1] - delay) * (param_3 + 1) >> 8;
+            temp = (sPsgFrequencyTable[param_2 + 1] - delay) * (param_3 + 1) >> 8;
             delay += temp;
         }
     }
@@ -1372,7 +1372,7 @@ void AudioCommand_Fine(struct TrackData* pTrack, struct TrackVariables* pVariabl
     {
         for (pChannel = pVariables->pChannel; pChannel != NULL; pChannel = pNext)
         {
-            pChannel->unk_0 = 10;
+            pChannel->status = 10;
             pChannel->pVariables = NULL;
             pNext = pChannel->pChannel2;
             pChannel->pChannel2 = NULL;
@@ -1381,7 +1381,7 @@ void AudioCommand_Fine(struct TrackData* pTrack, struct TrackVariables* pVariabl
     }
 
     if (pVariables->pSoundPsg != NULL)
-        pVariables->pSoundPsg->unk_0 = 10;
+        pVariables->pSoundPsg->status = 10;
 
     if (++pTrack->currentTrack == pTrack->amountOfTracks)
     {
@@ -1390,16 +1390,16 @@ void AudioCommand_Fine(struct TrackData* pTrack, struct TrackVariables* pVariabl
         pTrack->currentTrack = 0;
     }
 
-    pVariables->unk_0 = 0;
+    pVariables->flags = 0;
 }
 
 /**
- * @brief 1f04 | 5c | To document
+ * @brief 1f04 | 5c | Processes the end command 0xB6: same as FINE, and restores the interrupted music once every track ended
  * 
  * @param pTrack Track data pointer
  * @param pVariables Track variables pointer
  */
-void unk_1f04(struct TrackData* pTrack, struct TrackVariables* pVariables)
+void AudioCommand_FineRestoreMusic(struct TrackData* pTrack, struct TrackVariables* pVariables)
 {
     struct SoundChannel* pChannel;
     struct SoundChannel* pNext;
@@ -1408,7 +1408,7 @@ void unk_1f04(struct TrackData* pTrack, struct TrackVariables* pVariables)
     {
         for (pChannel = pVariables->pChannel; pChannel != NULL; pChannel = pNext)
         {
-            pChannel->unk_0 = 10;
+            pChannel->status = 10;
             pChannel->pVariables = NULL;
             pNext = pChannel->pChannel2;
             pChannel->pChannel2 = NULL;
@@ -1417,7 +1417,7 @@ void unk_1f04(struct TrackData* pTrack, struct TrackVariables* pVariables)
     }
 
     if (pVariables->pSoundPsg != NULL)
-        pVariables->pSoundPsg->unk_0 = 10;
+        pVariables->pSoundPsg->status = 10;
 
     if (++pTrack->currentTrack == pTrack->amountOfTracks)
     {
@@ -1427,7 +1427,7 @@ void unk_1f04(struct TrackData* pTrack, struct TrackVariables* pVariables)
         pTrack->queueFlags |= 0x2;
     }
 
-    pVariables->unk_0 = 0;
+    pVariables->flags = 0;
 }
 
 /**
@@ -1505,7 +1505,7 @@ void AudioCommand_KeyShift(struct TrackVariables* pVariables)
 {
     pVariables->pRawData++;
     pVariables->keyShift = *pVariables->pRawData;
-    pVariables->unk_0 |= 0x8;
+    pVariables->flags |= 0x8;
     pVariables->pRawData++;
 }
 
@@ -1527,20 +1527,20 @@ void AudioCommand_Voice(struct TrackData* pTrack, struct TrackVariables* pVariab
     {
         if (pVariables->channel == 0x80)
         {
-            pVariables->unk_0 |= 0x80;
+            pVariables->flags |= 0x80;
             pVariables->pSample2 = pVoice->pSample;
         }
         else if (pVariables->channel == 0x40)
         {
-            pVariables->unk_0 |= 0x40;
+            pVariables->flags |= 0x40;
             pVariables->pSample2 = pVoice->pSample;
             pVariables->envelope2 = pVoice->envelope;
         }
     }
     else
     {
-        pVariables->unk_0 &= 0xF;
-        pVariables->unk_36 = pVoice->unk_2;
+        pVariables->flags &= 0xF;
+        pVariables->length = pVoice->length;
 
         channel = pVariables->channel & 7;
 
@@ -1550,10 +1550,10 @@ void AudioCommand_Voice(struct TrackData* pTrack, struct TrackVariables* pVariab
         }
         else if (channel < 3)
         {
-            if (!(pVoice->unk_3 & 0x80) && pVoice->unk_3 & 0x70)
-                pVariables->unk_37 = pVoice->unk_3;
+            if (!(pVoice->panSweep & 0x80) && pVoice->panSweep & 0x70)
+                pVariables->sweep = pVoice->panSweep;
             else
-                pVariables->unk_37 = 8;
+                pVariables->sweep = 8;
 
             pVariables->pSample1 = (u32*)((u32)pVoice->pSample << 0x1E >> 0x18);
         }
@@ -1580,7 +1580,7 @@ void AudioCommand_Voice(struct TrackData* pTrack, struct TrackVariables* pVariab
 void AudioCommand_Volume(struct TrackVariables* pVariables)
 {
     pVariables->volume = *pVariables->pRawData;
-    pVariables->unk_0 |= 0x4;
+    pVariables->flags |= 0x4;
     pVariables->pRawData++;
 }
 
@@ -1591,8 +1591,8 @@ void AudioCommand_Volume(struct TrackVariables* pVariables)
  */
 void AudioCommand_PanPot(struct TrackVariables* pVariables)
 {
-    pVariables->unk_6 = *pVariables->pRawData;
-    pVariables->unk_0 |= 0x4;
+    pVariables->pan = *pVariables->pRawData;
+    pVariables->flags |= 0x4;
     pVariables->pRawData++;
 }
 
@@ -1604,7 +1604,7 @@ void AudioCommand_PanPot(struct TrackVariables* pVariables)
 void AudioCommand_PitchBend(struct TrackVariables* pVariables)
 {
     pVariables->pitchBend = *pVariables->pRawData - C_V;
-    pVariables->unk_0 |= 0x8;
+    pVariables->flags |= 0x8;
     pVariables->pRawData++;
 }
 
@@ -1616,7 +1616,7 @@ void AudioCommand_PitchBend(struct TrackVariables* pVariables)
 void AudioCommand_BendRange(struct TrackVariables* pVariables)
 {
     pVariables->bendRange = *pVariables->pRawData;
-    pVariables->unk_0 |= 0x8;
+    pVariables->flags |= 0x8;
     pVariables->pRawData++;
 }
 
@@ -1641,8 +1641,8 @@ void AudioCommand_LfoDelay(struct TrackVariables* pVariables)
     u8 param;
 
     param = *pVariables->pRawData;
-    pVariables->unk_14 = param;
-    pVariables->unk_15 = param;
+    pVariables->lfoDelay = param;
+    pVariables->lfoDelayCounter = param;
     pVariables->pRawData++;
 }
 
@@ -1676,7 +1676,7 @@ void AudioCommand_ModulationType(struct TrackVariables* pVariables)
 void AudioCommand_Tune(struct TrackVariables* pVariables)
 {
     pVariables->tune = *pVariables->pRawData - C_V;
-    pVariables->unk_0 |= 0x8;
+    pVariables->flags |= 0x8;
     pVariables->pRawData++;
 }
 
@@ -1690,14 +1690,14 @@ void AudioCommand_ExtendCommand(struct TrackVariables* pVariables)
     if (*pVariables->pRawData == xIECV)
     {
         pVariables->pRawData++;
-        pVariables->unk_C = *pVariables->pRawData;
+        pVariables->echoVolume = *pVariables->pRawData;
         pVariables->pRawData++;
     }
 
     if (*pVariables->pRawData == xIECL)
     {
         pVariables->pRawData++;
-        pVariables->unk_D = *pVariables->pRawData;
+        pVariables->echoLength = *pVariables->pRawData;
         pVariables->pRawData++;
     }
 }
@@ -1716,31 +1716,31 @@ void AudioCommand_EndOfTie(struct TrackVariables* pVariables)
     if ((s8)*pVariables->pRawData >= 0)
     {
         param = *pVariables->pRawData;
-        pVariables->unk_1 = param;
+        pVariables->key = param;
         pVariables->pRawData++;
     }
     else
     {
-        param = pVariables->unk_1;
+        param = pVariables->key;
     }
     
     if (pVariables->pChannel)
     {
         for (pChannel = pVariables->pChannel; pChannel != NULL; pChannel = pChannel->pChannel2)
         {
-            if ((u8)(pChannel->unk_0 - 1) < 4 && pChannel->unk_6 == param)
+            if ((u8)(pChannel->status - 1) < 4 && pChannel->key == param)
             {
-                pChannel->unk_0 = 5;
+                pChannel->status = 5;
                 break;
             }
         }
     }
 
     pSound = pVariables->pSoundPsg;
-    if (pSound != NULL && pSound->unk_17 == param)
+    if (pSound != NULL && pSound->key == param)
     {
-        pSound->unk_0 = 5;
-        pVariables->pSoundPsg->unk_18 = 0;
+        pSound->status = 5;
+        pVariables->pSoundPsg->envelopeCounter = 0;
     }
 }
 

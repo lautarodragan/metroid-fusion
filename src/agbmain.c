@@ -216,7 +216,7 @@ void AgbMain(void)
                         case 1:
                             gMainGameMode = GAME_MODE_IN_GAME;
                             gPauseScreenFlag = 0;
-                            gUnk_3000be3 = 0;
+                            gGameplayInitialized = 0;
                             break;
 
                         case 2:
@@ -301,7 +301,7 @@ void AgbMain(void)
                         gPauseScreenFlag = 1;
                     }
 
-                    gUnk_3000be3 = 0;
+                    gGameplayInitialized = 0;
                     gCurrentCutscene = 0;
                     gSubGameMode1 = 0;
                 }
@@ -337,7 +337,7 @@ void AgbMain(void)
                 if (InGameHandler())
                 {
                     gPauseScreenFlag = 0;
-                    gUnk_3000be3 = 0;
+                    gGameplayInitialized = 0;
                     gSubGameMode1 = 0;
 
                     if (gDemoState == DEMO_STATE_NONE)

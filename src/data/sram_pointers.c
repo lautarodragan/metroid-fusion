@@ -16,13 +16,13 @@ const void* const sSaveDataEwramBackupPointers[3] = {
     EWRAM_SRAM + 0x200 + sizeof(struct SaveFile) * 5
 };
 
-const void* const sUnk_582274[3] = {
+const void* const sWorldDataEwramPointers[3] = {
     EWRAM_SRAM + 0x500 + sizeof(struct SaveFile) * 0,
     EWRAM_SRAM + 0x500 + sizeof(struct SaveFile) * 2,
     EWRAM_SRAM + 0x500 + sizeof(struct SaveFile) * 4
 };
 
-const void* const sUnk_582280[2] = {
+const void* const sLanguageDataEwramPointers[2] = {
     EWRAM_SRAM + 0x7040,
     EWRAM_SRAM + 0x7080
 };

@@ -4,11 +4,11 @@
 #include "constants/audio.h"
 #include "structs/audio.h"
 
-extern const u16 sUnk_a5278[128];
+extern const u16 sPsgFrequencyTable[128];
 extern const u8 sClockTable[49];
 extern const u8 sNoiseTable[60];
 extern const u8 sCgb3Vol[16];
-extern const u8 sUnk_a53f5[19];
+extern const u8 sPsgVolumeLfoDivisors[19];
 
 extern const u32 sNativeSampleRate[SOUND_MODE_FREQ_END];
 extern const u32 sMusicPitchData[SOUND_MODE_FREQ_END];

@@ -11,7 +11,8 @@ struct HatchData {
     u8 lockType:3;
     u8 state:2;
     u8 locked:1;
-    u8 unk_1_3:5;
+    // Frames since the last animation step (steps every 3 frames)
+    u8 animationTimer:5;
     u8 xPosition;
     u8 yPosition;
 };

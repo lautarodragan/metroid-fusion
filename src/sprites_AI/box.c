@@ -936,7 +936,7 @@ void BoxCrouchingForFinalJump(void)
     if (SpriteUtilHasSubSprite1AnimationNearlyEnded())
     {
         gCurrentSprite.pose = BOX_POSE_FINAL_JUMP_INIT;
-        unk_36c4();
+        StopMusic();
     }
 }
 

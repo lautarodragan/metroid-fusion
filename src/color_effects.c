@@ -492,11 +492,11 @@ bools32 ColorEffectUpdateBgCrossFade(boolu8 startPal3, s8 speed)
         i = 1;
     }
 
-    gColorFading.unk_3++;
+    gColorFading.timer++;
 
-    if (gColorFading.unk_3 >= step)
+    if (gColorFading.timer >= step)
     {
-        gColorFading.unk_3 = 0;
+        gColorFading.timer = 0;
 
         gColorFading.fadeTimer += i;
         if (gColorFading.fadeTimer > COLOR_RANGE)

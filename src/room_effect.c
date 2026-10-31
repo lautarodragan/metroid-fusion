@@ -48,7 +48,7 @@ void RoomEffectSetTransparency(void)
     {
         if (gQueuedEventBasedEffect == EVENT_EFFECT_NONE)
         {
-            coef = unk_62cb4();
+            coef = RoomEffectGetBg0DispcntMask();
             if (coef != 0)
             {
                 dcnt = DCNT_BG0 | gIoRegisters.dispcnt;
@@ -278,12 +278,12 @@ void RoomEffectSetTransparency(void)
     WRITE_16(REG_BLDALPHA, C_16_2_8(gIoRegisters.bldalpha_evb, gIoRegisters.bldalpha_eva));
 
     gWrittenToBldalpha = 0;
-    gUnk_3004e44.unk_0_L = 0;
-    gUnk_3004e44.unk_0_H = 0;
-    gUnk_3004e44.unk_1 = 0;
+    gTransparencyPulse.enabled = 0;
+    gTransparencyPulse.phase = 0;
+    gTransparencyPulse.timer = 0;
 
     if (gCurrentRoomEntry.bg0Prop == BG_PROP_DISABLE_TRANSPARENCY)
-        gUnk_3004e44.unk_0_L = 1;
+        gTransparencyPulse.enabled = 1;
 
     if (gColorFading.type == COLOR_FADING_WINDOW)
     {
@@ -335,7 +335,7 @@ void RoomEffectSetTransparency(void)
     WRITE_16(REG_BG2CNT, bgCnt[2]);
 
     gIoRegisters.bg0Cnt = bgCnt[0];
-    gIoRegisters.unk_10 = bgCnt[0];
+    gIoRegisters.currentBg0Cnt = bgCnt[0];
     gIoRegisters.bg1Cnt = bgCnt[1];
     gIoRegisters.bg2Cnt = bgCnt[2];
     gIoRegisters.bg3Cnt = bgCnt[3];
@@ -360,7 +360,7 @@ void RoomEffectSetTransparency(void)
         gIoRegisters.bldcnt &= ~BLDCNT_BG0_FIRST_TARGET_PIXEL;
 
     dispcnt = DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_BG3 | DCNT_OBJ | DCNT_WIN1;
-    coef = unk_62cb4();
+    coef = RoomEffectGetBg0DispcntMask();
     if (coef)
         dispcnt &= coef;
 
@@ -412,11 +412,11 @@ u32 RoomEffectGetBgSizeFlag(u8 bgProp)
 }
 
 /**
- * @brief 62cb4 | 44 | To document
+ * @brief 62cb4 | 44 | Gets the DISPCNT mask that shows or hides BG0 based on the BG0 property of the room
  *
- * @return u32
+ * @return u32 DISPCNT mask (0 if the BG0 property doesn't control BG0's visibility)
  */
-u32 unk_62cb4(void)
+u32 RoomEffectGetBg0DispcntMask(void)
 {
     u32 dispcnt;
 
@@ -523,9 +523,11 @@ bools32 RoomEffectCheckRoomIsDark(void)
 }
 
 /**
- * @brief 62df0 | 218 | To document
+ * @brief 62df0 | 218 | Steps a fade of the blending coefficients (does nothing while BLDALPHA is written by
+ * something else or during a power bomb)
  *
- * @return s32 bool
+ * @param arg0 Fade type (5 and 6 go back to the default transparency, 7 is used by Nightmare's gravity effect)
+ * @return s32 bool, fade ended
  */
 bools32 RoomEffectFade(u8 arg0)
 {
@@ -666,7 +668,7 @@ bools32 RoomEffectFade(u8 arg0)
             break;
 
         case 7:
-            if (gUnk_3004e42 != 0)
+            if (gNightmareGravityEffect != 0)
             {
                 pIR = &gIoRegisters;
                 pDT = &gDefaultTransparency;
@@ -697,10 +699,10 @@ bools32 RoomEffectFade(u8 arg0)
 }
 
 /**
- * @brief 63008 | 68 | To document
+ * @brief 63008 | 68 | Draws the last frame of a hatch animation, then sets the state of the hatch
  *
  * @param hatch Hatch to lock
- * @param arg1 To document
+ * @param arg1 2 = draw the opening animation, otherwise the closing one
  * @param newState New state for the hatch
  */
 void RoomEffectStartHatchLockAnimation(u8 hatch, u8 arg1, u8 newState)
@@ -1035,7 +1037,7 @@ void RoomEffectSetupCurrentEventBased(void)
             break;
 
         case EVENT_EFFECT_POWER_OUTAGE_MISSILES:
-            gUnk_3004e44.unk_0_L = 0;
+            gTransparencyPulse.enabled = 0;
 
         case EVENT_EFFECT_POWER_OUTAGE_YAKUZA:
             gIoRegisters.bldalpha_evb = 0x10;
@@ -1076,7 +1078,7 @@ void RoomEffectSetupCurrentEventBased(void)
             break;
 
         case EVENT_EFFECT_NIGHTMARE_ROOM:
-            gUnk_3004e42 = 0;
+            gNightmareGravityEffect = 0;
             gIoRegisters.bldalpha_eva = 0;
             WRITE_16(REG_BLDALPHA, C_16_2_8(gIoRegisters.bldalpha_evb, gIoRegisters.bldalpha_eva));
             gWrittenToBldalpha = 0;
@@ -1084,7 +1086,7 @@ void RoomEffectSetupCurrentEventBased(void)
 
         case EVENT_EFFECT_OMEGA_METROID_ROOM:
             RoomEffectProcessOmegaMetroidRoom();
-            gUnk_3000050 = 0x900;
+            gScreenShakeExemptBgs = DCNT_BG0 | DCNT_BG3;
             break;
     }
 
@@ -1092,7 +1094,7 @@ void RoomEffectSetupCurrentEventBased(void)
 }
 
 /**
- * @brief 6368c | 28 | To document
+ * @brief 6368c | 28 | Starts the event based effect if it is the current one
  *
  * @param effect Event based effect
  */
@@ -1223,7 +1225,7 @@ void RoomEffectProcessEventBased(void)
             if (gEventBasedEffectInfo.stage == 0)
             {
                 RoomEffectFade(1);
-                gUnk_3004e3a = 1;
+                gStopAnimatedPaletteAfterCycle = 1;
                 action = 1;
             }
             else if (gEventBasedEffectInfo.stage == 1)
@@ -1261,12 +1263,12 @@ void RoomEffectProcessEventBased(void)
             }
             else if (gEventBasedEffectInfo.stage == 1)
             {
-                if (++gWaterMovement.unk_8 > 0x27F)
+                if (++gWaterMovement.drainOffset > 0x27F)
                 {
                     SoundStop(SOUND_11E);
                     gWaterLowered = 1;
-                    gUnk_3004e3a = 1;
-                    gWaterMovement.unk_8 = 0x280;
+                    gStopAnimatedPaletteAfterCycle = 1;
+                    gWaterMovement.drainOffset = 0x280;
                     action = 2;
                 }
 
@@ -1366,7 +1368,7 @@ void RoomEffectProcessEventBased(void)
 
                 if (RoomEffectFade(5) != 0)
                 {
-                    gUnk_3004e44.unk_0_L = 1;
+                    gTransparencyPulse.enabled = 1;
                     action = 3;
                 }
             }
@@ -1395,7 +1397,7 @@ void RoomEffectProcessEventBased(void)
             break;
 
         case EVENT_EFFECT_BOX2_ROOM:
-            gUnk_3004e3a = 1;
+            gStopAnimatedPaletteAfterCycle = 1;
             action = 3;
             break;
 
@@ -1430,11 +1432,11 @@ void RoomEffectProcessEventBased(void)
         case EVENT_EFFECT_NIGHTMARE_ROOM:
             if (gSamusPhysics.slowed == 0x80)
             {
-                if (gUnk_3004e42 == 0)
+                if (gNightmareGravityEffect == 0)
                 {
                     if (gEventBasedEffectInfo.timer > CONVERT_SECONDS(1))
                     {
-                        gUnk_3004e42 = 1;
+                        gNightmareGravityEffect = 1;
                         gEventBasedEffectInfo.timer = 0;
                     }
                 }
@@ -1443,11 +1445,11 @@ void RoomEffectProcessEventBased(void)
                     gEventBasedEffectInfo.timer = 0;
                 }
             }
-            else if (gUnk_3004e42 != 0)
+            else if (gNightmareGravityEffect != 0)
             {
                 if (gEventBasedEffectInfo.timer > CONVERT_SECONDS(1))
                 {
-                    gUnk_3004e42 = 0;
+                    gNightmareGravityEffect = 0;
                     gEventBasedEffectInfo.timer = 0;
                 }
             }
@@ -1456,7 +1458,7 @@ void RoomEffectProcessEventBased(void)
                 gEventBasedEffectInfo.timer = 0;
             }
 
-            frames = gUnk_3004e42 == 1 ? 0x1F : 0xF;
+            frames = gNightmareGravityEffect == 1 ? 0x1F : 0xF;
             if (MOD_AND(gFrameCounter8Bit, frames + 1) == 0)
                 RoomEffectFade(7);
 
@@ -1591,13 +1593,13 @@ bools32 RoomEffectCheckHatchLockEvents(void)
 }
 
 /**
- * @brief 63de8 | 18 | To document
+ * @brief 63de8 | 18 | Locks every hatch with a timer (requested by a gold X spawner door lock)
  *
  */
 void RoomEffectCheckLockHatchesWithTimer(void)
 {
     RoomEffectLockHatchesWithTimer((1 << MAX_AMOUNT_OF_HATCHES) - 1);
-    gUnk_3000047 = 2;
+    gTimedHatchLockState = 2;
 }
 
 /**
@@ -2019,7 +2021,7 @@ bools32 RoomEffectRecoveringSuitCutscene(void)
 }
 
 /**
- * @brief 64470 | 50 | To document
+ * @brief 64470 | 50 | Calculates the two distances of the suit flash effect between two positions
  *
  * @return u16 Distance 1 in high byte, distance 2 in low byte
  */

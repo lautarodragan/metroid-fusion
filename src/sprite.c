@@ -864,7 +864,7 @@ void SpriteLoadAllData(void)
     if (gPauseScreenFlag != 0)
         return;
 
-    if (gUnk_3000be3 == 0 && !gIsLoadingFile)
+    if (gGameplayInitialized == 0 && !gIsLoadingFile)
     {
         // Reset sprite global data
         gAtmosphericStabilizersOnline = 0;

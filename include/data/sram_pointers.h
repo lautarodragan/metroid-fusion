@@ -5,7 +5,7 @@
 
 extern const void* const sSaveDataEwramPointers[3];
 extern const void* const sSaveDataEwramBackupPointers[3];
-extern const void* const sUnk_582274[3];
-extern const void* const sUnk_582280[2];
+extern const void* const sWorldDataEwramPointers[3];
+extern const void* const sLanguageDataEwramPointers[2];
 
 #endif /* SRAM_POINTERS_H */

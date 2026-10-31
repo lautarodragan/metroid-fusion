@@ -8,7 +8,8 @@ typedef u32 (*HazeFunc_T)(void);
 
 struct Haze {
     void* pAffected;
-    u16 unk_4;
+    // Size in bytes of the haze values of a frame (copied from gPreviousHazeValues to gHazeValues)
+    u16 bufferSize;
     u8 size;
     u8 enabled:7;
     u8 active:1;
@@ -17,7 +18,8 @@ struct Haze {
 struct HazeLoop {
     s16 timer;
     u8 unk_2;
-    u8 unk_3;
+    // Loops 0 and 1: how much the wave offset advances this frame, loop 2: intensity (row of the haze table)
+    u8 value;
 };
 
 #ifdef USE_EWRAM_SYMBOLS
@@ -32,8 +34,10 @@ extern u8 gCurrentHazeValue;
 extern struct Haze gHazeInfo;
 
 extern struct HazeLoop gHazeLoops[3];
-extern u8 gUnk_30053f8;
-extern u8 gUnk_30053f9;
+// Scrolling offset of the haze wave (inside the effect for Haze_Bg3StrongWeak)
+extern u8 gHazeWaveOffset;
+// Scrolling offset of the weak haze wave outside the effect (Haze_Bg3StrongWeak)
+extern u8 gHazeWaveOffsetOutside;
 extern HazeFunc_T gHazeProcessCodePointer;
 
 #endif /* HAZE_STRUCTS_H */

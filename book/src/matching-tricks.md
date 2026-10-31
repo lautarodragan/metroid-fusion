@@ -55,11 +55,11 @@ code looked like.
 | `ProjectileBringSpriteToPowerBombCenter` | `src/projectile.c` | `FAKE_MATCH_INC_DEC` |
 | `HudGenericResetHudData` | `src/hud_generic.c` | `FAKE_MATCH_DEAD_STORE` |
 | `SpriteUtilMoveRidleyFireball` | `src/sprite_util.c` | `FAKE_MATCH_COPY` |
-| `unk_7fdb0` | `src/save_file.c` | `FAKE_MATCH_PIN_REG` |
+| `Sram_VerifyFile` | `src/save_file.c` | `FAKE_MATCH_PIN_REG` |
 
 Notes on what has been tried:
 
-- `unk_7fdb0`: the original copies `magicResult` to `r0` before the addition
+- `Sram_VerifyFile`: the original copies `magicResult` to `r0` before the addition
   (`add r0, r7, #0; add r5, r5, r0`); a plain `checksumResult += magicResult`
   adds `r7` directly. Casts, other types and a separate result variable don't
   produce the copy.

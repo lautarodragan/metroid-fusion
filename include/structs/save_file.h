@@ -40,10 +40,10 @@ struct SaveCamera {
 
 struct SaveMusicInfo {
     u16 musicTrack;
-    u16 unk_1E;
-    u8 unk_20;
+    u16 secondMusicTrack;
+    u8 usingSecondMusicTrack;
     u8 priority;
-    u16 unk_2;
+    u16 persistentSound;
 };
 
 struct SaveFile {
@@ -51,7 +51,7 @@ struct SaveFile {
     u32 checksum;
     u32 notChecksum;
     struct GameCompletion gameCompletion;
-    u8 unk_1C;
+    u8 hasSaved;
     u8 currentArea;
     u8 currentRoom;
     u8 lastDoorUsed;
@@ -63,7 +63,7 @@ struct SaveFile {
     u8 minimapY;
     u16 soundEventCounter;
     u16 previousSoundEvent;
-    u8 unk_2A;
+    u8 flashingSectorNumber;
     u8 securityHatchLevelBackup;
     struct SaveCamera camera;
     u16 bg0XPosition;
@@ -118,7 +118,8 @@ struct SramExtraData {
 extern u8 gMostRecentSaveFile;
 extern u8 gUnk_3000010;
 extern u8 gSramTestFailed;
-extern u8 gUnk_3000b90;
+// Set when the game is saved (save station or debug menu), files that were never saved are shown as empty
+extern u8 gHasSaved;
 extern u8 gNavigationTargetLocation;
 extern u8 gFlashingSectorNumber;
 

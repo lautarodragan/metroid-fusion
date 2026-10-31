@@ -349,7 +349,7 @@ void SaXTro1(void)
             SaXWalkingToDoor();
             
             if (gCurrentSprite.status == 0)
-                unk_372c(0xC8, 3, 8);
+                FadeMusicThenPlay(0xC8, 3, 8);
             break;
 
         case 0x3:

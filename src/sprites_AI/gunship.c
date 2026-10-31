@@ -81,7 +81,7 @@ void GunshipInit(void)
     gCurrentSprite.work1 = 0;
     gCurrentSprite.work2 = 0;
 
-    if (!gIsLoadingFile && !gUnk_3000be3 && !gDebugFlag)
+    if (!gIsLoadingFile && !gGameplayInitialized && !gDebugFlag)
     {
         gCurrentSprite.pose = 0x18;
         

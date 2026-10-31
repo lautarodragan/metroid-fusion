@@ -55,6 +55,7 @@ extern u16 gSoundEventCounter;
 extern u16 gPreviousSoundEvent;
 
 extern s8 gDoorUnlockTimer;
-extern s8 gUnk_3000047;
+// Hatches locked by a gold X spawner door lock: 0 = none, 1 = lock with a timer at the end of the transition, 2 = locked
+extern s8 gTimedHatchLockState;
 
 #endif /* EVENT_STRUCTS_H */

@@ -46,7 +46,7 @@ extern const struct Door* sAreaDoorPointers[AREA_END];
 void Sram_ReadAll(void)
 {
     Sram_ReadHeader();
-    unk_7fb84();
+    Sram_ReadAndVerifyFiles();
     SramRead_MostRecentSaveFile();
     SramRead_Language();
 }
@@ -88,7 +88,7 @@ void Sram_WriteHeader(void)
     pHeader->checksum = checksum;
     pHeader->notChecksum = ~checksum;
 
-    unk_c98();
+    WriteSramHeaderToSram();
 }
 
 /**
@@ -125,31 +125,31 @@ void Sram_ReadHeader(void)
             {
                 DMA3_COPY_16(EWRAM_SRAM_HEADER_BACKUP, EWRAM_SRAM_HEADER, SRAM_HEADER_SIZE / 2);
                 corrupted = FALSE;
-                unk_c98();
+                WriteSramHeaderToSram();
             }
         }
         else
         {
             DMA3_COPY_16(EWRAM_SRAM_HEADER_BACKUP_2, EWRAM_SRAM_HEADER, SRAM_HEADER_SIZE / 2);
             corrupted = FALSE;
-            unk_c98();
+            WriteSramHeaderToSram();
 
             if (backupCorrupted)
             {
                 DMA3_COPY_16(EWRAM_SRAM_HEADER, EWRAM_SRAM_HEADER_BACKUP, SRAM_HEADER_SIZE / 2);
-                unk_cd8();
+                WriteSramHeaderBackupToSram();
             }
         }
     }
     else
     {
         DMA3_COPY_16(EWRAM_SRAM_HEADER, EWRAM_SRAM_HEADER_BACKUP, SRAM_HEADER_SIZE / 2);
-        unk_cd8();
+        WriteSramHeaderBackupToSram();
 
         if (backup2Corrupted)
         {
             DMA3_COPY_16(EWRAM_SRAM_HEADER, EWRAM_SRAM_HEADER_BACKUP_2, SRAM_HEADER_SIZE / 2);
-            unk_cf0();
+            WriteSramHeaderBackup2ToSram();
         }
     }
 
@@ -389,7 +389,7 @@ void Sram_QuickSave(u8 stage)
     {
         case 0:
             gDisableSoftReset = TRUE;
-            gUnk_3000b90 = TRUE;
+            gHasSaved = TRUE;
             WriteMostRecentFileBackupToSram();
             return;
 
@@ -424,10 +424,10 @@ void SramWrite_ToEwram(void)
     struct SaveMusicInfo musicInfo;
 
     musicInfo.musicTrack = gMusicInfo.musicTrack;
-    musicInfo.unk_1E = gMusicInfo.unk_1E;
-    musicInfo.unk_20 = gMusicInfo.unk_20;
+    musicInfo.secondMusicTrack = gMusicInfo.secondMusicTrack;
+    musicInfo.usingSecondMusicTrack = gMusicInfo.usingSecondMusicTrack;
     musicInfo.priority = gMusicInfo.priority;
-    musicInfo.unk_2 = gMusicInfo.unk_2;
+    musicInfo.persistentSound = gMusicInfo.persistentSound;
 
     pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
 
@@ -436,7 +436,7 @@ void SramWrite_ToEwram(void)
     pFile->notChecksum = UINT_MAX;
 
     pFile->gameCompletion = gGameCompletion;
-    pFile->unk_1C = gUnk_3000b90;
+    pFile->hasSaved = gHasSaved;
 
     pFile->currentArea = gCurrentArea;
     pFile->currentRoom = gCurrentRoom;
@@ -449,7 +449,7 @@ void SramWrite_ToEwram(void)
     pFile->minimapY = gMinimapY;
     pFile->soundEventCounter = gSoundEventCounter;
     pFile->previousSoundEvent = gPreviousSoundEvent;
-    pFile->unk_2A = gFlashingSectorNumber;
+    pFile->flashingSectorNumber = gFlashingSectorNumber;
     pFile->securityHatchLevelBackup = gSecurityHatchLevelBackup;
 
     pFile->camera = *(struct SaveCamera*)&gCamera;
@@ -523,7 +523,7 @@ void SramRead_FromEwram(void)
     pFile = SAVE_FILE_POINTER(gMostRecentSaveFile);
 
     gGameCompletion = pFile->gameCompletion;
-    gUnk_3000b90 = pFile->unk_1C;
+    gHasSaved = pFile->hasSaved;
 
     gCurrentArea = pFile->currentArea;
     gCurrentRoom = pFile->currentRoom;
@@ -536,7 +536,7 @@ void SramRead_FromEwram(void)
     gMinimapY = pFile->minimapY;
     gSoundEventCounter = pFile->soundEventCounter;
     gPreviousSoundEvent = pFile->previousSoundEvent;
-    gFlashingSectorNumber = pFile->unk_2A;
+    gFlashingSectorNumber = pFile->flashingSectorNumber;
     gSecurityHatchLevelBackup = pFile->securityHatchLevelBackup;
 
     *(struct SaveCamera*)&gCamera = pFile->camera;
@@ -578,10 +578,10 @@ void SramRead_FromEwram(void)
 
     musicInfo = pFile->musicInfo;
     gMusicInfo.musicTrack = musicInfo.musicTrack;
-    gMusicInfo.unk_1E = musicInfo.unk_1E;
-    gMusicInfo.unk_20 = musicInfo.unk_20;
+    gMusicInfo.secondMusicTrack = musicInfo.secondMusicTrack;
+    gMusicInfo.usingSecondMusicTrack = musicInfo.usingSecondMusicTrack;
     gMusicInfo.priority = musicInfo.priority;
-    gMusicInfo.unk_2 = musicInfo.unk_2;
+    gMusicInfo.persistentSound = musicInfo.persistentSound;
 }
 
 /**
@@ -654,7 +654,7 @@ void Sram_BackupCurrentFile_Unused(void)
  * @brief 7fb84 | 18c | Reads and verifies all the save files
  * 
  */
-void unk_7fb84(void)
+void Sram_ReadAndVerifyFiles(void)
 {
     struct SaveFileInfo emptyInfo;
     s32 i;
@@ -673,7 +673,7 @@ void unk_7fb84(void)
     for (i = 0; i < ARRAY_SIZE(gSaveFilesInfo); i++)
     {
         gMostRecentSaveFile = i;
-        unk_7fd10();
+        Sram_CheckFileCorruption();
 
         flag = gSaveFilesInfo[gMostRecentSaveFile].corruptionFlag;
         if (flag == 0)
@@ -715,13 +715,13 @@ void unk_7fb84(void)
  * @brief 7fd10 | a0 | Checks the corruption state of the current save file
  * 
  */
-void unk_7fd10(void)
+void Sram_CheckFileCorruption(void)
 {
     s32 result;
     s32 backupResult;
 
-    result = unk_7fdb0(FALSE);
-    backupResult = unk_7fdb0(TRUE);
+    result = Sram_VerifyFile(FALSE);
+    backupResult = Sram_VerifyFile(TRUE);
 
     if (result == 0)
     {
@@ -749,7 +749,7 @@ void unk_7fd10(void)
  * @param useBackup Use backup
  * @return s32 Error count (checksum error + magic error)
  */
-s32 unk_7fdb0(u8 useBackup)
+s32 Sram_VerifyFile(u8 useBackup)
 {
     s32 checksumResult;
     s32 magicResult;
@@ -847,7 +847,7 @@ void SramWrite_WorldData(void)
     u32 size;
     s32 area;
 
-    pWorldData = (u8*)sUnk_582274[gMostRecentSaveFile];
+    pWorldData = (u8*)sWorldDataEwramPointers[gMostRecentSaveFile];
 
     DmaTransfer(3, gVisitedMinimapTiles, pWorldData, WORLD_DATA_MINIMAP_SIZE, 16);
     offset = WORLD_DATA_MINIMAP_SIZE;
@@ -903,7 +903,7 @@ void SramRead_WorldData(void)
     u32 size;
     s32 area;
 
-    pWorldData = (u8*)sUnk_582274[gMostRecentSaveFile];
+    pWorldData = (u8*)sWorldDataEwramPointers[gMostRecentSaveFile];
 
     DmaTransfer(3, pWorldData, gVisitedMinimapTiles, WORLD_DATA_MINIMAP_SIZE, 16);
     BitFill(3, USHORT_MAX, gNeverReformBlocks, 0x1B00, 16);
@@ -986,7 +986,7 @@ void SramWrite_MostRecentSaveFile(void)
     pData->checksum = checksum;
     pData->notChecksum = USHORT_MAX - checksum;
 
-    unk_dd4();
+    WriteMostRecentSaveFileDataToSram();
 }
 
 /**
@@ -1091,7 +1091,7 @@ void SramWrite_Language(void)
     pData->checksum = checksum;
     pData->notChecksum = USHORT_MAX - checksum;
 
-    unk_dec(0);
+    WriteLanguageDataToSram(0);
 }
 
 /**
@@ -1108,9 +1108,9 @@ void SramRead_Language(void)
     s32 i;
     s32 j;
 
-    for (i = 0; i < ARRAY_SIZE(sUnk_582280); i++)
+    for (i = 0; i < ARRAY_SIZE(sLanguageDataEwramPointers); i++)
     {
-        pData = (struct SramExtraData*)sUnk_582280[i];
+        pData = (struct SramExtraData*)sLanguageDataEwramPointers[i];
         src = (u16*)pData;
 
         error = pData->id != 0x1F;
@@ -1155,8 +1155,8 @@ void SramRead_Language(void)
             if (!error)
             {
                 // Main copy is valid, update the backup
-                DMA3_COPY_16(sUnk_582280[0], sUnk_582280[1], SRAM_EXTRA_DATA_SIZE / 2);
-                unk_dec(1);
+                DMA3_COPY_16(sLanguageDataEwramPointers[0], sLanguageDataEwramPointers[1], SRAM_EXTRA_DATA_SIZE / 2);
+                WriteLanguageDataToSram(1);
                 break;
             }
         }
@@ -1165,16 +1165,16 @@ void SramRead_Language(void)
             if (!error)
             {
                 // Backup is valid, restore the main copy
-                DMA3_COPY_16(sUnk_582280[1], sUnk_582280[0], SRAM_EXTRA_DATA_SIZE / 2);
-                unk_dec(0);
+                DMA3_COPY_16(sLanguageDataEwramPointers[1], sLanguageDataEwramPointers[0], SRAM_EXTRA_DATA_SIZE / 2);
+                WriteLanguageDataToSram(0);
                 break;
             }
 
             // Both are invalid, clear both
-            DMA3_FILL_16(0, sUnk_582280[0], SRAM_EXTRA_DATA_SIZE);
-            unk_dec(0);
-            DMA3_FILL_16(0, sUnk_582280[1], SRAM_EXTRA_DATA_SIZE);
-            unk_dec(1);
+            DMA3_FILL_16(0, sLanguageDataEwramPointers[0], SRAM_EXTRA_DATA_SIZE);
+            WriteLanguageDataToSram(0);
+            DMA3_FILL_16(0, sLanguageDataEwramPointers[1], SRAM_EXTRA_DATA_SIZE);
+            WriteLanguageDataToSram(1);
         }
     }
 
@@ -1268,7 +1268,7 @@ void Sram_ResetForDemo(void)
     gNavigationTargetLocation = 0;
     gFlashingSectorNumber = 0;
     gIsLoadingFile = FALSE;
-    gUnk_3000be3 = FALSE;
+    gGameplayInitialized = FALSE;
     gMonochromeFading = 0;
     gDisableSoftReset = FALSE;
     gMaxInGameTimeFlag = TRUE;
@@ -1303,7 +1303,7 @@ void Sram_CheckLoadSaveFile(void)
         SramLoad_CurrentSave();
     }
 
-    gUnk_3000be3 = FALSE;
+    gGameplayInitialized = FALSE;
     gMonochromeFading = 0;
     gDisableSoftReset = FALSE;
     gMaxInGameTimeFlag = FALSE;
@@ -1417,7 +1417,7 @@ void Sram_WriteFileInfo(void)
             gSaveFilesInfo[i].weaponsStatus = pFile->equipment.weaponsStatus;
             gSaveFilesInfo[i].igtHours = pFile->inGameTimer.hours;
             gSaveFilesInfo[i].igtMinutes = pFile->inGameTimer.minutes;
-            gSaveFilesInfo[i].unk_F = pFile->unk_1C;
+            gSaveFilesInfo[i].unk_F = pFile->hasSaved;
             gSaveFilesInfo[i].unk_10 = pFile->gameCompletion.completedGame;
             gSaveFilesInfo[i].unk_11 = pFile->gameCompletion.introPlayed;
         }

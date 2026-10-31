@@ -5,8 +5,8 @@
 
 #include "structs/clipdata.h"
 
-void unk_68974(void);
-s32 unk_689f0(void);
+void ClipdataUpdateBlockReveal(void);
+s32 ClipdataRevealBlocksRow(void);
 void ClipdataSetupCode(void);
 u32 ClipdataProcessForSamus(u16 yPosition, u16 xPosition);
 u32 ClipdataProcess(u16 yPosition, u16 xPosition);

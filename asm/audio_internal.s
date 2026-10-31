@@ -248,8 +248,8 @@ _08004756:
 	pop {r0}
 	bx r0
 
-	thumb_func_start unk_475c
-unk_475c: @ 0x0800475C
+	thumb_func_start TrackUpdateTempoCounter
+TrackUpdateTempoCounter: @ 0x0800475C
 	adds r3, r0, #0
 	ldr r0, [r3, #0xc]
 	lsls r1, r0, #0x10
@@ -269,8 +269,8 @@ _08004776:
 	bx lr
 	.align 2, 0
 
-	thumb_func_start unk_477c
-unk_477c: @ 0x0800477C
+	thumb_func_start AudioCommand_Tempo
+AudioCommand_Tempo: @ 0x0800477C
 	ldr r2, [r1, #0x24]
 	ldrb r3, [r2, #1]
 	adds r2, #2
@@ -357,8 +357,8 @@ _08004810: .4byte sMusicTrackDataRom
 _08004814: .4byte gMusicInfo
 _08004818: .4byte 0x00000008
 
-	thumb_func_start unk_481c
-unk_481c: @ 0x0800481C
+	thumb_func_start TrackLoadVoiceForKey
+TrackLoadVoiceForKey: @ 0x0800481C
 	push {r4, r5, lr}
 	ldr r1, [r0, #0x40]
 	ldrb r2, [r0, #1]
@@ -451,8 +451,8 @@ _080048B6:
 	pop {r0}
 	bx r0
 
-	thumb_func_start unk_48c0
-unk_48c0: @ 0x080048C0
+	thumb_func_start TrackUpdatePitch
+TrackUpdatePitch: @ 0x080048C0
 	movs r1, #0x19
 	ldrsb r1, [r0, r1]
 	cmp r1, #0
@@ -502,8 +502,8 @@ _08004912:
 	bx lr
 	.align 2, 0
 
-	thumb_func_start unk_491c
-unk_491c: @ 0x0800491C
+	thumb_func_start TrackUpdateVolume
+TrackUpdateVolume: @ 0x0800491C
 	push {r4}
 	ldr r1, [r0, #4]
 	lsls r2, r1, #0x18
@@ -572,8 +572,8 @@ _08004980:
 	pop {r4}
 	bx lr
 
-	thumb_func_start unk_4998
-unk_4998: @ 0x08004998
+	thumb_func_start SoundChannelNoteOn
+SoundChannelNoteOn: @ 0x08004998
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	adds r5, r1, #0
@@ -582,7 +582,7 @@ unk_4998: @ 0x08004998
 	movs r2, #2
 	orrs r1, r2
 	strb r1, [r4, #0x13]
-	bl unk_1e14
+	bl SoundChannelUnlink
 	ldr r0, [r5, #0x48]
 	cmp r0, #0
 	beq _080049B4
@@ -781,8 +781,8 @@ UploadSampleToWaveRam: @ 0x08004ADC
 _08004B08: .4byte 0x04000070
 _08004B0C: .4byte 0x04000090
 
-	thumb_func_start unk_4b10
-unk_4b10: @ 0x08004B10
+	thumb_func_start PsgWriteRegisters
+PsgWriteRegisters: @ 0x08004B10
 	push {r4, r5}
 	ldr r4, [r0, #0x10]
 	ldrh r5, [r0, #0x14]
