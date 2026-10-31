@@ -27,7 +27,7 @@ extern const struct FrameData sTitleScreenOam_597418[3];
 extern const struct FrameData sTitleScreenOam_597430[3];
 extern const struct FrameData sTitleScreenOam_597448[3];
 extern const struct FrameData sTitleScreenOam_PressStart[2];
-extern const struct FrameData sTitleScreenOam_597470[3];
+extern const struct FrameData sTitleScreenOam_PressStartSelected[3];
 extern const struct FrameData sTitleScreenOam_597488[2];
 extern const struct FrameData sTitleScreenOam_597498[3];
 extern const struct FrameData sTitleScreenOam_5974b0[2];

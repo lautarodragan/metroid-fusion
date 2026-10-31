@@ -399,7 +399,7 @@ void TitleScreenProcessPressStart(struct TitleScreenObject* pObject)
     {
         pObject->currentAnimationFrame = 0;
         pObject->animationDurationCounter = 0;
-        pObject->pOam = sTitleScreenOam_597470;
+        pObject->pOam = sTitleScreenOam_PressStartSelected;
         pObject->action = 1;
     }
 }

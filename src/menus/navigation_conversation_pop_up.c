@@ -125,7 +125,7 @@ void NavigationConversationInitPopUp(void)
     else
         PAUSE_SCREEN_DATA.pNavConvPopUpGraphicsPointer = EWRAM_BASE;
 
-    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].unk_12_0 == 8)
+    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].frameWidth == 8)
     {
         tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].tiles;
         for (count = tiles.count; count > 0;)
@@ -135,7 +135,7 @@ void NavigationConversationInitPopUp(void)
                 VRAM_OBJ + 0x4300 + count * 0x400 + sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].tiles.slot * 0x400, 0x80);
         }
     }
-    else if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].unk_12_0 == 4)
+    else if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].frameWidth == 4)
     {
         tiles = sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].tiles;
         for (count = tiles.count; count > 0;)
@@ -210,7 +210,7 @@ void NavigationConversationUpdateXParasitePopUp(void)
 
     NavigationConversationUpdatePopUpPaletteCycle();
 
-    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].unk_12_0 == 8)
+    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].frameWidth == 8)
     {
         pAnim = sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].pAnimation;
         if (PAUSE_SCREEN_DATA.popUpAnimationTimer < pAnim[PAUSE_SCREEN_DATA.popUpAnimationFrame * 2 + 1])
@@ -241,7 +241,7 @@ void NavigationConversationUpdateXParasitePopUp(void)
                 VRAM_OBJ + 0x4300 + count * 0x400 + slot * 0x400, 0x80);
         }
     }
-    else if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].unk_12_0 == 4)
+    else if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].frameWidth == 4)
     {
         pAnim = sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].pAnimation;
         if (PAUSE_SCREEN_DATA.popUpAnimationTimer < pAnim[PAUSE_SCREEN_DATA.popUpAnimationFrame * 2 + 1])
@@ -306,11 +306,11 @@ void NavigationConversationUpdatePopUpPaletteCycle(void)
 {
     const u16* pPalette;
 
-    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].unk_10 == 0)
+    if (sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].cyclePaletteDelay == 0)
         return;
 
     PAUSE_SCREEN_DATA.popUpCyclePaletteTimer++;
-    if (PAUSE_SCREEN_DATA.popUpCyclePaletteTimer < sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].unk_10)
+    if (PAUSE_SCREEN_DATA.popUpCyclePaletteTimer < sNavConversationPopUps[PAUSE_SCREEN_DATA.popUpId].cyclePaletteDelay)
         return;
 
     PAUSE_SCREEN_DATA.popUpCyclePaletteTimer = 0;
