@@ -357,6 +357,7 @@ SECTIONS {
         src/samus.o(.text);
         src/demo_input.o(.text);
         src/sa_x.o(.text);
+        src/sa_x_elevator.o(.text);
         src/in_game.o(.text);
         src/sprite.o(.text);
         src/sprite_util.o(.text);
