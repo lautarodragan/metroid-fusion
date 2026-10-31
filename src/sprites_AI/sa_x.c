@@ -21,6 +21,10 @@
 
 #ifdef BUGFIX
 #include "data/samus/samus_animation_pointers.h"
+#else // !BUGFIX
+// Incorrectly declared here to produce matching code in SaXSeeAndLocateSamus
+extern const u8 sSamusCollisionData[SPOSE_END][6];
+#endif // BUGFIX
 
 #define SA_X_LANDED work0 // Falling/mid-air, waits for the landing pose to end
 #define SA_X_TIMER work1
@@ -34,10 +38,6 @@
 #define SA_X_BEAM_MOVEMENT_IDX work4
 
 #define LAB_EXPLOSION_ALTERNATE work2 // Toggled every explosion cycle, alternates the frames the explosions spawn on
-#else // !BUGFIX
-// Incorrectly declared here to produce matching code in SaXSeeAndLocateSamus
-extern const u8 sSamusCollisionData[SPOSE_END][6];
-#endif // BUGFIX
 
 /**
  * @brief 157cc | 30 | Sets the direction of the SA-X
