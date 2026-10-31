@@ -16,9 +16,14 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define GEEMER_ON_WALL work0 // Crawling on a wall (vertically)
+#define GEEMER_TIMER work1 // Frames without input (it only hides before 2 seconds), then the hiding delay
+#define GEEMER_LIGHT_SLOT work2 // Ram slot of the flashing light
+#define GEEMER_Y_SPEED_IDX work4
+
 void GeemerCheckCollisions(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.GEEMER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition, gCurrentSprite.xPosition);
@@ -36,7 +41,7 @@ void GeemerCheckCollisions(void)
 
 void GeemerSetHitbox(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.GEEMER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
         {
@@ -78,7 +83,7 @@ void GeemerSetHitbox(void)
 
 void GeemerSetCrawlingGraphics(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.GEEMER_ON_WALL)
         gCurrentSprite.pOam = sGeemerOam_CrawlingVertical;
     else
         gCurrentSprite.pOam = sGeemerOam_CrawlingHorizontal;
@@ -89,7 +94,7 @@ void GeemerSetCrawlingGraphics(void)
 
 void GeemerSetIdleGraphics(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.GEEMER_ON_WALL)
         gCurrentSprite.pOam = sGeemerOam_IdleVertical;
     else
         gCurrentSprite.pOam = sGeemerOam_IdleHorizontal;
@@ -103,16 +108,16 @@ void GeemerCheckShouldHide(void)
     if (!(gCurrentSprite.properties & SP_CAN_ABSORB_X))
     {
         if (gChangedInput != KEY_NONE)
-            gCurrentSprite.work1 = 0;
+            gCurrentSprite.GEEMER_TIMER = 0;
 
-        if (gCurrentSprite.work1 <= 120)
+        if (gCurrentSprite.GEEMER_TIMER <= 120)
         {
             if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_TO_SUB_PIXEL(5), BLOCK_TO_SUB_PIXEL(5)) !=
                 NSLR_OUT_OF_RANGE)
             {
                 gCurrentSprite.pose = 0x42;
 
-                if (gCurrentSprite.work0)
+                if (gCurrentSprite.GEEMER_ON_WALL)
                 {
                     gCurrentSprite.pOam = sGeemerOam_HidingVertical;
                     gCurrentSprite.hitboxTop = PIXEL_TO_SUB_PIXEL(-10);
@@ -127,7 +132,7 @@ void GeemerCheckShouldHide(void)
 
                 gCurrentSprite.animationDurationCounter = 0;
                 gCurrentSprite.currentAnimationFrame = 0;
-                gCurrentSprite.work1 = 10;
+                gCurrentSprite.GEEMER_TIMER = 10;
 
                 SoundPlayNotAlreadyPlaying(SOUND_GEEMER_HIDE);
             }
@@ -137,7 +142,7 @@ void GeemerCheckShouldHide(void)
 
 void GeemerDelayBeforeHiding(void)
 {
-    if (--gCurrentSprite.work1 == 0)
+    if (--gCurrentSprite.GEEMER_TIMER == 0)
         gCurrentSprite.pose = 0x44;
 }
 
@@ -152,15 +157,15 @@ void GeemerHiding(void)
     else
     {
         if (gChangedInput != KEY_NONE)
-            gCurrentSprite.work1 = 0;
+            gCurrentSprite.GEEMER_TIMER = 0;
         else
-            gCurrentSprite.work1++;
+            gCurrentSprite.GEEMER_TIMER++;
 
-        if (gCurrentSprite.work1 > 120)
+        if (gCurrentSprite.GEEMER_TIMER > 120)
         {
             gCurrentSprite.pose = 0x46;
 
-            if (gCurrentSprite.work0)
+            if (gCurrentSprite.GEEMER_ON_WALL)
                 gCurrentSprite.pOam = sGeemerOam_UncoveringVertical;
             else
                 gCurrentSprite.pOam = sGeemerOam_UncoveringHorizontal;
@@ -185,7 +190,7 @@ void GeemerUncovering(void)
 
 void GeemerTurningIntoX(void)
 {
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.GEEMER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             gCurrentSprite.xPosition -= PIXEL_TO_SUB_PIXEL(8);
@@ -228,7 +233,7 @@ void GeemerInit(void)
             if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
             {
                 // On floor
-                gCurrentSprite.work0 = FALSE;
+                gCurrentSprite.GEEMER_ON_WALL = FALSE;
             }
             else
             {
@@ -238,7 +243,7 @@ void GeemerInit(void)
                 if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                 {
                     // On ceiling
-                    gCurrentSprite.work0 = FALSE;
+                    gCurrentSprite.GEEMER_ON_WALL = FALSE;
                     gCurrentSprite.status |= SPRITE_STATUS_Y_FLIP;
                     gCurrentSprite.yPosition -= BLOCK_SIZE;
                 }
@@ -250,7 +255,7 @@ void GeemerInit(void)
                     if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                     {
                         // on left wall
-                        gCurrentSprite.work0 = TRUE;
+                        gCurrentSprite.GEEMER_ON_WALL = TRUE;
                         gCurrentSprite.yPosition -= HALF_BLOCK_SIZE;
                         gCurrentSprite.xPosition -= HALF_BLOCK_SIZE;
                     }
@@ -262,7 +267,7 @@ void GeemerInit(void)
                         if (gPreviousCollisionCheck & COLLISION_FLAGS_UNKNOWN_F0)
                         {
                             // on right wall
-                            gCurrentSprite.work0 = TRUE;
+                            gCurrentSprite.GEEMER_ON_WALL = TRUE;
                             gCurrentSprite.status |= SPRITE_STATUS_X_FLIP;
                             gCurrentSprite.yPosition -= HALF_BLOCK_SIZE;
                             gCurrentSprite.xPosition += HALF_BLOCK_SIZE;
@@ -276,7 +281,7 @@ void GeemerInit(void)
                     }
                 }
             }
-            if (gCurrentSprite.work0)
+            if (gCurrentSprite.GEEMER_ON_WALL)
             {
                 if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
                 {
@@ -313,13 +318,13 @@ void GeemerInit(void)
                 return;
             }
 
-            gCurrentSprite.work2 = flashingLightSlot;
+            gCurrentSprite.GEEMER_LIGHT_SLOT = flashingLightSlot;
         }
 
         GeemerSetCrawlingGraphics();
         GeemerSetHitbox();
         gCurrentSprite.samusCollision = SSC_HURTS_SAMUS;
-        gCurrentSprite.work1 = 0;
+        gCurrentSprite.GEEMER_TIMER = 0;
         gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
     }
 }
@@ -344,7 +349,7 @@ void GeemerCrawling(void)
     }
     else
     {
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.GEEMER_ON_WALL)
         {
             if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             {
@@ -369,7 +374,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.yPosition += PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].yPosition += PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].yPosition += PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -394,7 +399,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.yPosition -= PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].yPosition -= PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].yPosition -= PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -422,7 +427,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.yPosition += PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].yPosition += PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].yPosition += PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -447,7 +452,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.yPosition -= PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].yPosition -= PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].yPosition -= PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -478,7 +483,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.xPosition += PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].xPosition += PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].xPosition += PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -503,7 +508,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.xPosition -= PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].xPosition -= PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].xPosition -= PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -531,7 +536,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.xPosition += PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].xPosition += PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].xPosition += PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -556,7 +561,7 @@ void GeemerCrawling(void)
                         else
                         {
                             gCurrentSprite.xPosition -= PIXEL_TO_SUB_PIXEL(.25f);
-                            gSpriteData[gCurrentSprite.work2].xPosition -= PIXEL_TO_SUB_PIXEL(.25f);
+                            gSpriteData[gCurrentSprite.GEEMER_LIGHT_SLOT].xPosition -= PIXEL_TO_SUB_PIXEL(.25f);
                         }
                     }
                 }
@@ -599,7 +604,7 @@ void GeemerIdle(void)
 void GeemerFallingInit(void)
 {
     gCurrentSprite.pose = SPRITE_POSE_FALLING;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.GEEMER_Y_SPEED_IDX = 0;
     GeemerSetHitbox();
     GeemerSetIdleGraphics();
 }
@@ -618,7 +623,7 @@ void GeemerFalling(void)
     yCollisionPoint = gCurrentSprite.yPosition;
     xCollisionPoint = gCurrentSprite.xPosition;
 
-    if (gCurrentSprite.work0)
+    if (gCurrentSprite.GEEMER_ON_WALL)
     {
         if (gCurrentSprite.status & SPRITE_STATUS_X_FLIP)
             xCollisionPoint -= PIXEL_SIZE;
@@ -637,11 +642,11 @@ void GeemerFalling(void)
     {
         gCurrentSprite.yPosition = blockTop;
 
-        if (gCurrentSprite.work0)
+        if (gCurrentSprite.GEEMER_ON_WALL)
             onWall++;
 
         gCurrentSprite.status &= ~SPRITE_STATUS_Y_FLIP;
-        gCurrentSprite.work0 = 0;
+        gCurrentSprite.GEEMER_ON_WALL = 0;
         GeemerSetHitbox();
 
         if (onWall)
@@ -661,7 +666,7 @@ void GeemerFalling(void)
         {
             gCurrentSprite.pose = 8;
             GeemerSetIdleGraphics();
-            flashingLightSlot = gCurrentSprite.work2;
+            flashingLightSlot = gCurrentSprite.GEEMER_LIGHT_SLOT;
             gSpriteData[flashingLightSlot].yPosition = gCurrentSprite.yPosition - PIXEL_TO_SUB_PIXEL(9);
             gSpriteData[flashingLightSlot].xPosition = gCurrentSprite.xPosition;
             gSpriteData[flashingLightSlot].hitboxTop = PIXEL_TO_SUB_PIXEL(-3);
@@ -672,7 +677,7 @@ void GeemerFalling(void)
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.GEEMER_Y_SPEED_IDX;
         movement = sSpritesFallingSpeed[offset];
 
         if (movement == SHORT_MAX)
@@ -683,7 +688,7 @@ void GeemerFalling(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.GEEMER_Y_SPEED_IDX = offset;
             gCurrentSprite.yPosition += movement;
         }
     }
@@ -790,7 +795,7 @@ void GeemerFlashingLight(void)
         gCurrentSprite.samusCollision = SSC_NONE;
         gCurrentSprite.pose = 2;
 
-        if (gSpriteData[geemerSlot].work0)
+        if (gSpriteData[geemerSlot].GEEMER_ON_WALL)
         {
             if (gSpriteData[geemerSlot].status & SPRITE_STATUS_X_FLIP)
             {
