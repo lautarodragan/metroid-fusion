@@ -27,6 +27,13 @@
 #define ZAZABI_EYE_DRAW_ORDER 12
 #define ZAZABI_DRAW_ORDER_EATING_SAMUS 4
 
+#define ZAZABI_TIMER work1
+#define ZAZABI_JUMP_MOVES_X work2 // Set when Samus is far enough for the jump to move horizontally
+#define ZAZABI_SMALL_JUMPS_LEFT work3 // Jumps with the mouth closed before a jump with the mouth opened (0)
+#define ZAZABI_Y_SPEED_IDX work4
+#define ZAZABI_MOSAIC_IDX workY // Spawning from X and dying, also the explosion timer and the core X graphics part loaded
+#define ZAZABI_EXPLODING workX // Dying, set during the explosions before the mosaic
+
 enum ZazabiPose {
     ZAZABI_POSE_CRAWLING_INIT = 0x1,
     ZAZABI_POSE_CRAWLING = 0x2,
@@ -301,11 +308,11 @@ u8 ZazabiXMovement(u16 movement)
 void ZazabiSpawningFromX(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
-    gCurrentSprite.workY--;
+    gCurrentSprite.ZAZABI_MOSAIC_IDX--;
 
-    if (gCurrentSprite.workY != 0)
+    if (gCurrentSprite.ZAZABI_MOSAIC_IDX != 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.ZAZABI_MOSAIC_IDX];
     }
     else
     {
@@ -335,7 +342,7 @@ void ZazabiInit(void)
     gCurrentSprite.hitboxRight = HALF_BLOCK_SIZE;
 
     gCurrentSprite.drawOrder = ZAZABI_EYE_DRAW_ORDER;
-    gCurrentSprite.work3 = 0;
+    gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT = 0;
     gCurrentSprite.roomSlot = ZAZABI_PART_EYE;
 
     gCurrentSprite.health = GET_PSPRITE_HEALTH(gCurrentSprite.spriteId);
@@ -478,22 +485,22 @@ void ZazabiIdleInit(void)
     if (gSubSpriteData1.health == 40 || gSubSpriteData1.health == 0)
     {
         gSubSpriteData1.pMultiOam = sZazabiMultiOam_Idle1;
-        gCurrentSprite.work1 = 1;
+        gCurrentSprite.ZAZABI_TIMER = 1;
     }
     else if (gSubSpriteData1.health == 60)
     {
         gSubSpriteData1.pMultiOam = sZazabiMultiOam_Idle2;
-        gCurrentSprite.work1 = 1;
+        gCurrentSprite.ZAZABI_TIMER = 1;
     }
     else if (gSubSpriteData1.health == 80)
     {
         gSubSpriteData1.pMultiOam = sZazabiMultiOam_Idle3;
-        gCurrentSprite.work1 = 2;
+        gCurrentSprite.ZAZABI_TIMER = 2;
     }
     else
     {
         gSubSpriteData1.pMultiOam = sZazabiMultiOam_Idle4;
-        gCurrentSprite.work1 = 3;
+        gCurrentSprite.ZAZABI_TIMER = 3;
     }
 
     gSubSpriteData1.animationDurationCounter = 0;
@@ -513,9 +520,9 @@ void ZazabiIdle(void)
 {
     if (SpriteUtilHasSubSprite1AnimationNearlyEnded())
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.ZAZABI_TIMER--;
 
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.ZAZABI_TIMER == 0)
             gCurrentSprite.pose = ZAZABI_POSE_CRAWLING_INIT;
     }
 }
@@ -541,9 +548,9 @@ void ZazabiCrawlingInit(void)
     gCurrentSprite.pose = ZAZABI_POSE_CRAWLING;
 
     if (gSubSpriteData1.health == 40)
-        gCurrentSprite.work1 = 60 + gSpriteRandomNumber * 8;
+        gCurrentSprite.ZAZABI_TIMER = 60 + gSpriteRandomNumber * 8;
     else
-        gCurrentSprite.work1 = 60 * 2;
+        gCurrentSprite.ZAZABI_TIMER = 60 * 2;
 }
 
 /**
@@ -583,9 +590,9 @@ void ZazabiCrawling(void)
     if (ZazabiXMovement(movement))
         gCurrentSprite.status ^= SPRITE_STATUS_FACING_RIGHT;
 
-    if (gCurrentSprite.work1 != 0)
+    if (gCurrentSprite.ZAZABI_TIMER != 0)
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.ZAZABI_TIMER--;
         return;
     }
 
@@ -594,18 +601,18 @@ void ZazabiCrawling(void)
         if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_SIZE * 8, BLOCK_SIZE * 6) != NSLR_OUT_OF_RANGE)
         {
             gCurrentSprite.pose = ZAZABI_POSE_JUMP_WARNING_INIT;
-            gCurrentSprite.work3 = 0;
+            gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT = 0;
         }
     }
     else
     {
         gCurrentSprite.pose = ZAZABI_POSE_JUMP_WARNING_INIT;
-        gCurrentSprite.work3 = gSpriteRandomNumber / 4;
+        gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT = gSpriteRandomNumber / 4;
 
         if (gSubSpriteData1.health == 60)
-            gCurrentSprite.work3 += 2;
+            gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT += 2;
         else if (gSubSpriteData1.health == 80)
-            gCurrentSprite.work3 += 1;
+            gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT += 1;
     }
 }
 
@@ -660,16 +667,16 @@ void ZazabiJumpingInit(void)
     gSubSpriteData1.currentAnimationFrame = 0;
 
     gCurrentSprite.pose = ZAZABI_POSE_JUMPING;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.ZAZABI_Y_SPEED_IDX = 0;
 
     SpriteUtilMakeSpriteFaceSamusDirection();
 
     if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_SIZE * 8, BLOCK_SIZE * 2) != NSLR_OUT_OF_RANGE)
-        gCurrentSprite.work2 = FALSE;
+        gCurrentSprite.ZAZABI_JUMP_MOVES_X = FALSE;
     else
-        gCurrentSprite.work2 = TRUE;
+        gCurrentSprite.ZAZABI_JUMP_MOVES_X = TRUE;
 
-    if (!gCurrentSprite.work2)
+    if (!gCurrentSprite.ZAZABI_JUMP_MOVES_X)
     {
         if (gSubSpriteData1.health == 40)
             gSubSpriteData1.pMultiOam = sZazabiMultiOam_JumpingSmall1;
@@ -722,9 +729,9 @@ void ZazabiJumping(void)
     u8 offset;
     s16 movement;
 
-    if (gCurrentSprite.work3 == 0)
+    if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.ZAZABI_Y_SPEED_IDX;
         movement = sZazabiJumpingSpeedMouthOpened[offset];
 
         if (movement == SHORT_MAX)
@@ -733,16 +740,16 @@ void ZazabiJumping(void)
         }
         else
         {
-            gCurrentSprite.work4++;
+            gCurrentSprite.ZAZABI_Y_SPEED_IDX++;
             gSubSpriteData1.yPosition += movement;
         }
 
-        if (gCurrentSprite.work2 != 0)
+        if (gCurrentSprite.ZAZABI_JUMP_MOVES_X != 0)
             ZazabiXMovement(PIXEL_SIZE);
     }
     else
     {
-        offset = gCurrentSprite.work4;
+        offset = gCurrentSprite.ZAZABI_Y_SPEED_IDX;
 
         if (gSubSpriteData1.health == 80)
             movement = sZazabiJumpingSpeed3[offset];
@@ -758,11 +765,11 @@ void ZazabiJumping(void)
         else
         {
             offset++;
-            gCurrentSprite.work4 = offset;
+            gCurrentSprite.ZAZABI_Y_SPEED_IDX = offset;
             gSubSpriteData1.yPosition += movement;
         }
 
-        if (gCurrentSprite.work2 != 0)
+        if (gCurrentSprite.ZAZABI_JUMP_MOVES_X != 0)
             ZazabiXMovement(PIXEL_SIZE * 2);
         else
             ZazabiXMovement(PIXEL_SIZE / 2);
@@ -775,25 +782,25 @@ void ZazabiJumping(void)
  */
 void ZazabiFallingInit(void)
 {
-    if (gCurrentSprite.work3 == 0)
+    if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
         SoundPlay(SOUND_ZAZABI_OPEN_MOUTH);
 
     gSubSpriteData1.animationDurationCounter = 0;
     gSubSpriteData1.currentAnimationFrame = 0;
 
     gCurrentSprite.pose = ZAZABI_POSE_FALLING;
-    gCurrentSprite.work4 = 0;
+    gCurrentSprite.ZAZABI_Y_SPEED_IDX = 0;
 
     if (gSubSpriteData1.health == 40)
-        gCurrentSprite.work1 = 10 * 1;
+        gCurrentSprite.ZAZABI_TIMER = 10 * 1;
     else if (gSubSpriteData1.health == 60)
-        gCurrentSprite.work1 = 10 * 2;
+        gCurrentSprite.ZAZABI_TIMER = 10 * 2;
     else if (gSubSpriteData1.health == 80)
-        gCurrentSprite.work1 = 10 * 4;
+        gCurrentSprite.ZAZABI_TIMER = 10 * 4;
     else
-        gCurrentSprite.work1 = 10 * 6;
+        gCurrentSprite.ZAZABI_TIMER = 10 * 6;
 
-    if (!gCurrentSprite.work2)
+    if (!gCurrentSprite.ZAZABI_JUMP_MOVES_X)
     {
         if (gSubSpriteData1.health == 40)
         {
@@ -801,21 +808,21 @@ void ZazabiFallingInit(void)
         }
         else if (gSubSpriteData1.health == 60)
         {
-            if (gCurrentSprite.work3 == 0)
+            if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
                 gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingSlowMouthOpened2;
             else
                 gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingSlow2;
         }
         else if (gSubSpriteData1.health == 80)
         {
-            if (gCurrentSprite.work3 == 0)
+            if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
                 gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingSlowMouthOpened3;
             else
                 gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingSlow3;
         }
         else
         {
-            if (gCurrentSprite.work3 == 0)
+            if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
                 gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingSlowMouthOpened4;
             else
                 gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingSlow4;
@@ -832,7 +839,7 @@ void ZazabiFallingInit(void)
         }
         else if (gSubSpriteData1.health == 60)
         {
-            if (gCurrentSprite.work3 == 0)
+            if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
             {
                 if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
                     gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingMouthOpenedRight2;
@@ -849,7 +856,7 @@ void ZazabiFallingInit(void)
         }
         else if (gSubSpriteData1.health == 80)
         {
-            if (gCurrentSprite.work3 == 0)
+            if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
             {
                 if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
                     gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingMouthOpenedRight3;
@@ -866,7 +873,7 @@ void ZazabiFallingInit(void)
         }
         else
         {
-            if (gCurrentSprite.work3 == 0)
+            if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
             {
                 if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
                     gSubSpriteData1.pMultiOam = sZazabiMultiOam_FallingMouthOpenedRight4;
@@ -894,15 +901,15 @@ void ZazabiFalling(void)
     s16 movement;
     u32 blockTop;
 
-    if (gCurrentSprite.work3 == 0)
+    if (gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT == 0)
     {
-        if (gCurrentSprite.work1 != 0)
+        if (gCurrentSprite.ZAZABI_TIMER != 0)
         {
-            gCurrentSprite.work1--;
+            gCurrentSprite.ZAZABI_TIMER--;
         }
         else
         {
-            offset = gCurrentSprite.work4;
+            offset = gCurrentSprite.ZAZABI_Y_SPEED_IDX;
             movement = sZazabiFallingSpeedMouthOpened[offset];
 
             if (movement == SHORT_MAX)
@@ -913,12 +920,12 @@ void ZazabiFalling(void)
             else
             {
                 offset++;
-                gCurrentSprite.work4 = offset;
+                gCurrentSprite.ZAZABI_Y_SPEED_IDX = offset;
                 gSubSpriteData1.yPosition += movement;
             }
         }
 
-        if (gCurrentSprite.work2 != 0)
+        if (gCurrentSprite.ZAZABI_JUMP_MOVES_X != 0)
         {
             if (gSubSpriteData1.currentAnimationFrame < 5)
             {
@@ -971,7 +978,7 @@ void ZazabiFalling(void)
         return;
     }
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.ZAZABI_Y_SPEED_IDX;
     movement = sZazabiFallingSpeed[offset];
 
     if (movement == SHORT_MAX)
@@ -982,11 +989,11 @@ void ZazabiFalling(void)
     else
     {
         offset++;
-        gCurrentSprite.work4 = offset;
+        gCurrentSprite.ZAZABI_Y_SPEED_IDX = offset;
         gSubSpriteData1.yPosition += movement;
     }
 
-    if (gCurrentSprite.work2 != 0)
+    if (gCurrentSprite.ZAZABI_JUMP_MOVES_X != 0)
     {
         ZazabiXMovement(PIXEL_SIZE * 2);
 
@@ -1031,7 +1038,7 @@ void ZazabiFalling(void)
     {
         gSubSpriteData1.yPosition = blockTop - BLOCK_SIZE * 5;
         gCurrentSprite.pose = ZAZABI_POSE_LANDING_INIT;
-        gCurrentSprite.work3--;
+        gCurrentSprite.ZAZABI_SMALL_JUMPS_LEFT--;
 
         ParticleSet(gSubSpriteData1.yPosition + BLOCK_SIZE * 5 + QUARTER_BLOCK_SIZE,
             gSubSpriteData1.xPosition - (HALF_BLOCK_SIZE - PIXEL_SIZE), PE_SMOKE);
@@ -1135,7 +1142,7 @@ void ZazabiEatingSamus1Init(void)
     gSubSpriteData1.currentAnimationFrame = 0;
 
     gCurrentSprite.pose = ZAZABI_POSE_EATING_SAMUS_1;
-    gCurrentSprite.work1 = 60;
+    gCurrentSprite.ZAZABI_TIMER = 60;
 }
 
 /**
@@ -1154,9 +1161,9 @@ void ZazabiEatingSamus1(void)
     }
     else
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.ZAZABI_TIMER--;
 
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.ZAZABI_TIMER == 0)
         {
             gCurrentSprite.pose = ZAZABI_POSE_EATING_SAMUS_2_INIT;
             SoundPlay(SOUND_ZAZABI_SWALLOW_SAMUS);
@@ -1216,7 +1223,7 @@ void ZazabiEatingSamus3Init(void)
     gSubSpriteData1.currentAnimationFrame = 0;
 
     gCurrentSprite.pose = ZAZABI_POSE_EATING_SAMUS_3;
-    gCurrentSprite.work1 = 60;
+    gCurrentSprite.ZAZABI_TIMER = 60;
 }
 
 /**
@@ -1239,9 +1246,9 @@ void ZazabiEatingSamus3(void)
     }
     else
     {
-        gCurrentSprite.work1--;
+        gCurrentSprite.ZAZABI_TIMER--;
 
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.ZAZABI_TIMER == 0)
         {
             gCurrentSprite.pose = ZAZABI_POSE_EATING_SAMUS_4_INIT;
             SoundPlay(SOUND_ZAZABI_SWALLOW_SAMUS);
@@ -1412,8 +1419,8 @@ void ZazabiDyingInit(void)
     gCurrentSprite.health = 1;
     gCurrentSprite.invincibilityStunFlashTimer = 0;
     gCurrentSprite.paletteRow = 0;
-    gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
-    gCurrentSprite.workX = 1;
+    gCurrentSprite.ZAZABI_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
+    gCurrentSprite.ZAZABI_EXPLODING = 1;
 
     ParticleSet(gCurrentSprite.yPosition, gCurrentSprite.xPosition, PE_EXPLOSION_7);
     SoundPlayOnUnusedMusicTrack(SOUND_ZAZABI_DYING);
@@ -1428,15 +1435,15 @@ void ZazabiDying(void)
     u16 spriteY;
     u16 spriteX;
 
-    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
-    gCurrentSprite.workY--;
+    gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.ZAZABI_MOSAIC_IDX];
+    gCurrentSprite.ZAZABI_MOSAIC_IDX--;
 
     spriteY = gSubSpriteData1.yPosition + ZAZABI_HEIGHT + HALF_BLOCK_SIZE;
     spriteX = gSubSpriteData1.xPosition;
 
-    if (gCurrentSprite.workX != 0)
+    if (gCurrentSprite.ZAZABI_EXPLODING != 0)
     {
-        switch (gCurrentSprite.workY)
+        switch (gCurrentSprite.ZAZABI_MOSAIC_IDX)
         {
             case 40:
                 ParticleSet(spriteY - BLOCK_SIZE, spriteX, PE_EXPLOSION_5);
@@ -1456,15 +1463,15 @@ void ZazabiDying(void)
                 break;
 
             case 0:
-                gCurrentSprite.workX = 0;
-                gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+                gCurrentSprite.ZAZABI_EXPLODING = 0;
+                gCurrentSprite.ZAZABI_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
                 break;
         }
 
         return;
     }
 
-    switch (gCurrentSprite.workY)
+    switch (gCurrentSprite.ZAZABI_MOSAIC_IDX)
     {
         case 40:
             ParticleSet(spriteY - BLOCK_SIZE * 3, spriteX - BLOCK_SIZE, PE_EXPLOSION_6);
@@ -1492,11 +1499,11 @@ void ZazabiDying(void)
             break;
     }
 
-    if (gCurrentSprite.workY < sizeof(sHiJumpCoreXGfx) / 512)
+    if (gCurrentSprite.ZAZABI_MOSAIC_IDX < sizeof(sHiJumpCoreXGfx) / 512)
     {
-        SpriteLoadGfx(gCoreXFormationSpriteId, 0, gCurrentSprite.workY);
+        SpriteLoadGfx(gCoreXFormationSpriteId, 0, gCurrentSprite.ZAZABI_MOSAIC_IDX);
     }
-    else if (gCurrentSprite.workY == sizeof(sHiJumpCoreXGfx) / 512)
+    else if (gCurrentSprite.ZAZABI_MOSAIC_IDX == sizeof(sHiJumpCoreXGfx) / 512)
     {
         SpriteLoadPal(gCoreXFormationSpriteId, 0, ARRAY_SIZE(sHiJumpCoreXPal) / 16);
     }
@@ -1669,7 +1676,7 @@ void ZazabiPartDefault(void)
             if (gCurrentSprite.roomSlot != ZAZABI_PART_MOUTH_FRONT)
                 break;
 
-            if (gSpriteData[ramSlot].work3 != 0)
+            if (gSpriteData[ramSlot].ZAZABI_SMALL_JUMPS_LEFT != 0)
                 break;
 
             if (gSubSpriteData1.health == 40)
