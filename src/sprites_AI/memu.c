@@ -15,6 +15,10 @@
 #include "structs/samus.h"
 #include "structs/sprite.h"
 
+#define MEMU_X_MOVEMENT_IDX work3 // Idle
+#define MEMU_Y_MOVEMENT_IDX work4 // Idle
+#define MEMU_UNUSED workX // Set to a random value when starting to chase Samus, never read
+
 void MemuInit(void)
 {
     SpriteUtilTrySetAbsorbXFlag();
@@ -58,8 +62,8 @@ void MemuIdleInit(void)
 
     gCurrentSprite.pose = SPRITE_POSE_IDLE;
     offset = gSpriteRandomNumber * 4;
-    gCurrentSprite.work3 = offset;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.MEMU_X_MOVEMENT_IDX = offset;
+    gCurrentSprite.MEMU_Y_MOVEMENT_IDX = offset;
 }
 
 void MemuIdle(void)
@@ -70,7 +74,7 @@ void MemuIdle(void)
     if (gCurrentSprite.status & SPRITE_STATUS_HIDDEN)
         return;
 
-    offset = gCurrentSprite.work4;
+    offset = gCurrentSprite.MEMU_Y_MOVEMENT_IDX;
     movement = sMemuIdleYSpeed[offset];
     if (movement == SHORT_MAX)
     {
@@ -79,11 +83,11 @@ void MemuIdle(void)
     }
 
     offset++;
-    gCurrentSprite.work4 = offset;
+    gCurrentSprite.MEMU_Y_MOVEMENT_IDX = offset;
     gCurrentSprite.yPosition += movement;
 
-    offset = gCurrentSprite.work3;
-    movement = sMemuIdleXSpeed[gCurrentSprite.work3];
+    offset = gCurrentSprite.MEMU_X_MOVEMENT_IDX;
+    movement = sMemuIdleXSpeed[gCurrentSprite.MEMU_X_MOVEMENT_IDX];
     if (movement == SHORT_MAX)
     {
         movement = sMemuIdleXSpeed[0];
@@ -91,7 +95,7 @@ void MemuIdle(void)
     }
 
     offset++;
-    gCurrentSprite.work3 = offset;
+    gCurrentSprite.MEMU_X_MOVEMENT_IDX = offset;
     gCurrentSprite.xPosition += movement;
 
     if (SpriteUtilCheckSamusNearSpriteLeftRight(BLOCK_TO_SUB_PIXEL(8.0f), BLOCK_TO_SUB_PIXEL(8.0f)) !=
@@ -101,11 +105,11 @@ void MemuIdle(void)
 
 void MemuChasingSamusInit(void)
 {
-    gCurrentSprite.work2 = 0;
-    gCurrentSprite.work3 = 1;
-    gCurrentSprite.work1 = 0;
-    gCurrentSprite.work4 = 1;
-    gCurrentSprite.workX = gSpriteRandomNumber & 3; // Unused
+    gCurrentSprite.SPRITE_X_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_X_SPEED_INC = 1;
+    gCurrentSprite.SPRITE_Y_SPEED_DEC = 0;
+    gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
+    gCurrentSprite.MEMU_UNUSED = gSpriteRandomNumber & 3;
     gCurrentSprite.pose = 0x18;
     gCurrentSprite.scaling = 12;
     gCurrentSprite.pOam = sMemuOam_ChasingTarget;
@@ -205,64 +209,64 @@ void MemuChasingSamus(void)
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)
     {
         // Move right
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition > targetX - BLOCK_TO_SUB_PIXEL(0.0625f))
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < speedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.work3, 4);
+                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.work2, 4);
+                gCurrentSprite.xPosition += DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
             }
         }
     }
     else
     {
         // Move left
-        if (gCurrentSprite.work2 == 0)
+        if (gCurrentSprite.SPRITE_X_SPEED_DEC == 0)
         {
             if (gCurrentSprite.xPosition < targetX + BLOCK_TO_SUB_PIXEL(0.0625f))
             {
-                gCurrentSprite.work2 = gCurrentSprite.work3;
+                gCurrentSprite.SPRITE_X_SPEED_DEC = gCurrentSprite.SPRITE_X_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work3 < speedCap)
-                    gCurrentSprite.work3++;
+                if (gCurrentSprite.SPRITE_X_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_X_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.work3, 4);
+                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work2 != 0)
+            if (--gCurrentSprite.SPRITE_X_SPEED_DEC != 0)
             {
-                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.work2, 4);
+                gCurrentSprite.xPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_X_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_RIGHT;
-                gCurrentSprite.work3 = 1;
+                gCurrentSprite.SPRITE_X_SPEED_INC = 1;
             }
         }
     }
@@ -270,64 +274,64 @@ void MemuChasingSamus(void)
     if (gCurrentSprite.status & SPRITE_STATUS_FACING_DOWN)
     {
         // Move down
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition > targetY - BLOCK_TO_SUB_PIXEL(0.0625f))
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < speedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.work4, 4);
+                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.work1, 4);
+                gCurrentSprite.yPosition += DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status &= ~SPRITE_STATUS_FACING_DOWN;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
     else
     {
         // Move up
-        if (gCurrentSprite.work1 == 0)
+        if (gCurrentSprite.SPRITE_Y_SPEED_DEC == 0)
         {
             if (gCurrentSprite.yPosition < targetY + BLOCK_TO_SUB_PIXEL(0.0625f))
             {
-                gCurrentSprite.work1 = gCurrentSprite.work4;
+                gCurrentSprite.SPRITE_Y_SPEED_DEC = gCurrentSprite.SPRITE_Y_SPEED_INC;
             }
             else
             {
                 // Increase speed if below cap
-                if (gCurrentSprite.work4 < speedCap)
-                    gCurrentSprite.work4++;
+                if (gCurrentSprite.SPRITE_Y_SPEED_INC < speedCap)
+                    gCurrentSprite.SPRITE_Y_SPEED_INC++;
 
                 // Apply speed
-                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.work4, 4);
+                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_INC, 4);
             }
         }
         else
         {
-            if (--gCurrentSprite.work1 != 0)
+            if (--gCurrentSprite.SPRITE_Y_SPEED_DEC != 0)
             {
-                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.work1, 4);
+                gCurrentSprite.yPosition -= DIV_SHIFT(gCurrentSprite.SPRITE_Y_SPEED_DEC, 4);
             }
             else
             {
                 gCurrentSprite.status |= SPRITE_STATUS_FACING_DOWN;
-                gCurrentSprite.work4 = 1;
+                gCurrentSprite.SPRITE_Y_SPEED_INC = 1;
             }
         }
     }
