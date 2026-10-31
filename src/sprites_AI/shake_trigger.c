@@ -318,11 +318,9 @@ void PreBoxCeilingDebris(void)
                 var_3 += 8;
 
             y = gCurrentSprite.yPosition;
-            // Needed to produce matching ASM
-            y++; y--;
             x = gCurrentSprite.xPosition;
             gCurrentSprite.xPosition += BLOCK_TO_SUB_PIXEL(0.0625f);
-            SpriteUtilCheckCollisionAtPosition(y + BLOCK_SIZE * 2, gCurrentSprite.xPosition);
+            SpriteUtilCheckCollisionAtPosition(gCurrentSprite.yPosition + BLOCK_SIZE * 2, gCurrentSprite.xPosition);
             if (gPreviousCollisionCheck != COLLISION_AIR)
             {
                 gCurrentSprite.status = 0;
