@@ -420,7 +420,7 @@ void YardInit(void)
     {
         gCurrentSprite.status &= ~SPRITE_STATUS_ROTATION_SCALING_SINGLE;
         gCurrentSprite.pose = SPRITE_POSE_SPAWNING_FROM_X;
-        gCurrentSprite.workY = X_PARASITE_MOSAIC_MAX_INDEX;
+        gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX = X_PARASITE_MOSAIC_MAX_INDEX;
         if (!gCurrentSprite.work0 && !(gCurrentSprite.status & SPRITE_STATUS_Y_FLIP))
         {
             if (gCurrentSprite.status & SPRITE_STATUS_FACING_RIGHT)

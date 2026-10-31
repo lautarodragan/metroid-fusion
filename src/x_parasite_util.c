@@ -1213,9 +1213,9 @@ void SpriteSpawningFromX(void)
 {
     gCurrentSprite.ignoreSamusCollisionTimer = 1;
 
-    if (--gCurrentSprite.workY > 0)
+    if (--gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX > 0)
     {
-        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.workY];
+        gWrittenToMosaic_H = sXParasiteMosaicValues[gCurrentSprite.SPRITE_X_SPAWN_MOSAIC_IDX];
     }
     else
     {

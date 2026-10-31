@@ -82,6 +82,9 @@ struct SpriteData {
 #define SPRITE_Y_SPEED_DEC work1
 #define SPRITE_Y_SPEED_INC work4
 
+// Index in sXParasiteMosaicValues while spawning from an X (SPRITE_POSE_SPAWNING_FROM_X, see SpriteSpawningFromX)
+#define SPRITE_X_SPAWN_MOSAIC_IDX workY
+
 struct SubSpriteData {
     const struct MultiSpriteData* pMultiOam;
     u16 currentAnimationFrame;
